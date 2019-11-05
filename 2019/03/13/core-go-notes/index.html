@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>《Go 语言核心 36 讲》笔记 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Go">
+    <meta name="description" content="摘自 Go 语言核心 36 讲 | 极客时间">
+<meta name="keywords" content="Go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Go 语言核心 36 讲》笔记">
+<meta property="og:url" content="https://abelsu7.top/2019/03/13/core-go-notes/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自 Go 语言核心 36 讲 | 极客时间">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/03/13/core-go-notes/jikeshijian.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/13/core-go-notes/cover.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/13/core-go-notes/gopath-and-workspace.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/13/core-go-notes/source-file-type.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/13/core-go-notes/golang.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/13/core-go-notes/var-init.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/13/core-go-notes/var-same-name.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/13/core-go-notes/type-assertion.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/13/core-go-notes/type-alias.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/13/core-go-notes/array-and-slice.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/13/core-go-notes/array-and-slice.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/13/core-go-notes/high-level-func-and-clojure.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/13/core-go-notes/go-routine-mpg.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.057Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Go 语言核心 36 讲》笔记">
+<meta name="twitter:description" content="摘自 Go 语言核心 36 讲 | 极客时间">
+<meta name="twitter:image" content="https://abelsu7.top/2019/03/13/core-go-notes/jikeshijian.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">《Go 语言核心 36 讲》笔记</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">《Go 语言核心 36 讲》笔记</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-03-13T06:52:43.000Z" itemprop="datePublished" class="page-time">
+  2019-03-13
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-工作区和-GOPATH"><span class="post-toc-text">1. 工作区和 GOPATH</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-源码文件的分类"><span class="post-toc-text">2. 源码文件的分类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-命令源码文件"><span class="post-toc-text">2.1 命令源码文件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-接收命令行参数"><span class="post-toc-text">1. 接收命令行参数</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-自定义参数使用说明"><span class="post-toc-text">2. 自定义参数使用说明</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-库源码文件"><span class="post-toc-text">2.2 库源码文件</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-变量"><span class="post-toc-text">3. 变量</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-定义变量的三种方式"><span class="post-toc-text">3.1 定义变量的三种方式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-旧变量的重声明"><span class="post-toc-text">3.2 旧变量的重声明</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-3-Go-语言基础类型大全"><span class="post-toc-text">3.3 Go 语言基础类型大全</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-4-代码块中变量的作用域"><span class="post-toc-text">3.4 代码块中变量的作用域</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-5-判断一个变量的类型"><span class="post-toc-text">3.5 判断一个变量的类型</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-数组和切片"><span class="post-toc-text">4. 数组和切片</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-container-包中的容器"><span class="post-toc-text">5. container 包中的容器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-1-List-链表"><span class="post-toc-text">5.1 List 链表</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-2-Ring-环"><span class="post-toc-text">5.2 Ring 环</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-3-Heap-堆"><span class="post-toc-text">5.3 Heap 堆</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-字典"><span class="post-toc-text">6. 字典</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-通道"><span class="post-toc-text">7. 通道</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8-函数"><span class="post-toc-text">8. 函数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#8-1-高阶函数"><span class="post-toc-text">8.1 高阶函数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#8-2-接受其他函数作为参数传入"><span class="post-toc-text">8.2 接受其他函数作为参数传入</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#8-3-把其他函数作为结果返回"><span class="post-toc-text">8.3 把其他函数作为结果返回</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#8-4-闭包"><span class="post-toc-text">8.4 闭包</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#8-5-传入参数时区分值类型和引用类型"><span class="post-toc-text">8.5 传入参数时区分值类型和引用类型</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#9-结构体"><span class="post-toc-text">9. 结构体</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#10-接口"><span class="post-toc-text">10. 接口</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#11-Go-语句及其执行规则"><span class="post-toc-text">11. Go 语句及其执行规则</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#11-1-进程与线程"><span class="post-toc-text">11.1 进程与线程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#11-2-调度器"><span class="post-toc-text">11.2 调度器</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#11-3-让主协程等待其他协程"><span class="post-toc-text">11.3 让主协程等待其他协程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#11-4-让多个协程按照既定的顺序运行"><span class="post-toc-text">11.4 让多个协程按照既定的顺序运行</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#12-流程控制语句"><span class="post-toc-text">12. 流程控制语句</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#13-错误处理"><span class="post-toc-text">13. 错误处理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#13-1-使用-errors-的示例"><span class="post-toc-text">13.1 使用 errors 的示例</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#13-2-判断错误的具体类型"><span class="post-toc-text">13.2 判断错误的具体类型</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#14-异常处理"><span class="post-toc-text">14. 异常处理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#14-1-panic"><span class="post-toc-text">14.1 panic</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#14-2-recover"><span class="post-toc-text">14.2 recover</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#14-3-defer"><span class="post-toc-text">14.3 defer</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-core-go-notes"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">《Go 语言核心 36 讲》笔记</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-03-13 14:52:43" datetime="2019-03-13T06:52:43.000Z"  itemprop="datePublished">2019-03-13</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>摘自 <img src="/2019/03/13/core-go-notes/jikeshijian.png" width="16"><a href="https://time.geekbang.org/column/intro/112" target="_blank" rel="noopener">Go 语言核心 36 讲 | 极客时间</a></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/13/core-go-notes/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><h3 id="1-工作区和-GOPATH"><a href="#1-工作区和-GOPATH" class="headerlink" title="1. 工作区和 GOPATH"></a>1. 工作区和 GOPATH</h3><blockquote>
+<p><strong>问题</strong>：你知道设置<code>GOPATH</code>有什么意义吗？</p>
+</blockquote>
+<p>可以把<code>GOPATH</code>简单理解成 <strong>Go 语言的工作目录</strong>，它的值是一个目录的路径，也<strong>可以是多个目录路径</strong>，每个目录都代表 Go 语言的一个<strong>工作区（workspace）</strong>。</p>
+<p>我们需要利用这些工作区，来放置 Go 语言的<strong>源码文件（source file）</strong>，以及安装后的<strong>归档文件（archieve file，以</strong><code>.a</code><strong>为扩展名的文件）</strong>和<strong>可执行文件（executable file）</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/13/core-go-notes/gopath-and-workspace.png" alt="GOPATH 和工作区" title>
+                </div>
+                <div class="image-caption">GOPATH 和工作区</div>
+            </figure>
+<h3 id="2-源码文件的分类"><a href="#2-源码文件的分类" class="headerlink" title="2. 源码文件的分类"></a>2. 源码文件的分类</h3><p><strong>Go 语言</strong>中的<strong>源码文件</strong>可分为三种：</p>
+<ol>
+<li><strong>命令源码文件</strong></li>
+<li><strong>库源码文件</strong></li>
+<li><strong>测试源码文件</strong></li>
+</ol>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/13/core-go-notes/source-file-type.png" alt="三种源码文件的区别" title>
+                </div>
+                <div class="image-caption">三种源码文件的区别</div>
+            </figure>
+<h4 id="2-1-命令源码文件"><a href="#2-1-命令源码文件" class="headerlink" title="2.1 命令源码文件"></a>2.1 命令源码文件</h4><blockquote>
+<p><strong>问题</strong>：命令源码文件的用途是什么，怎样编写它？</p>
+</blockquote>
+<p><strong>命令源码文件</strong>是<strong>程序的运行入口</strong>，是每个可独立运行的程序必须拥有的。我们可以通过<strong>构建</strong><code>go build</code>或<strong>安装</strong><code>go install</code>，生成与其对应的<strong>可执行文件</strong>，后者一般会<strong>与该命令源码文件的直接父目录同名</strong>。</p>
+<p>如果一个源码文件<strong>声明属于</strong><code>main</code><strong>包</strong>，并且包含一个<strong>无参数声明</strong>且<strong>无结果声明</strong>的<code>main</code><strong>函数</strong>，那么它就是<strong>命令源码文件</strong>：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    fmt.Println(&quot;Hello, Golang!&quot;)
+}
+</code></pre>
+<blockquote>
+<p>对于一个<strong>独立的程序</strong>来说，<strong>命令源码文件永远只会也只能有一个</strong>。如果有<strong>与命令源码文件同包的源码文件</strong>，那么它们也应该<strong>声明属于</strong><code>main</code><strong>包</strong></p>
+</blockquote>
+<h5 id="1-接收命令行参数"><a href="#1-接收命令行参数" class="headerlink" title="1. 接收命令行参数"></a>1. 接收命令行参数</h5><p><strong>Go 语言标准库</strong>中的<code>flag</code><strong>包</strong>专门用于<strong>接收和解析命令参数</strong>，可使用如下语句：</p>
+<pre><code class="lang-go">flag.StringVar(&amp;name, &quot;name&quot;, &quot;everyone&quot;, &quot;The greeting object.&quot;)
+// 或
+var name = flag.String(&quot;name&quot;, &quot;everyone&quot;, &quot;The greeting object.&quot;)
+</code></pre>
+<p>函数<code>flag.stringVar</code>接受 <strong>4 个参数</strong>：</p>
+<ul>
+<li><code>&amp;name</code>：用于<strong>存储该命令参数值的地址</strong></li>
+<li><code>&quot;name&quot;</code>：指定<strong>该命令参数的名称</strong></li>
+<li><code>&quot;everyone&quot;</code>：指定在为追加该命令参数时的<strong>默认值</strong></li>
+<li><code>&quot;The greeting object.&quot;</code>：该命令参数的<strong>简短说明</strong>，<strong>打印命令说明</strong>时会用到</li>
+</ul>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;flag&quot;
+    &quot;fmt&quot;
+)
+
+var name string
+
+func init() {
+    flag.StringVar(&amp;name, &quot;name&quot;, &quot;everyone&quot;, &quot;The greeting object&quot;)
+}
+
+func main() {
+    flag.Parse() // 解析命令参数，并把它们的值赋给相应的变量
+    fmt.Printf(&quot;Hello, %s!\n&quot;, name)
+}
+</code></pre>
+<p>将上述代码保存为<code>demo1.go</code>，运行以下命令：</p>
+<pre><code class="lang-go">go run demo1.go -name=&quot;abelsu7&quot;
+
+------
+Hello, abelsu7!
+</code></pre>
+<p><strong>查看参数说明</strong>：</p>
+<pre><code class="lang-go">go run demo1.go --help
+
+------
+Usage of C:\Users\abel1\AppData\Local\Temp\go-build617189518\b001\exe\demo1.exe:
+  -name string
+        The greeting object (default &quot;everyone&quot;)
+exit status 2
+</code></pre>
+<h5 id="2-自定义参数使用说明"><a href="#2-自定义参数使用说明" class="headerlink" title="2. 自定义参数使用说明"></a>2. 自定义参数使用说明</h5><p>有多种方式，最简单的就是<strong>对变量</strong><code>flag.Usage</code><strong>重新赋值</strong>。<code>flag.Usage</code>的类型是<code>func()</code>，<strong>无参数声明</strong>也<strong>无结果声明</strong>。</p>
+<p>在<code>flag.Parse()</code>之前加入如下语句：</p>
+<pre><code class="lang-go">flag.Usage = func() {
+    fmt.Fprintf(os.Stderr, &quot;Usage of %s:\n&quot;, &quot;question&quot;)
+    flag.PrintDefaults()
+}
+</code></pre>
+<p>这样调用<code>go run demo1.go --help</code>后就会输出：</p>
+<pre><code class="lang-go">Usage of question:
+  -name string
+        The greeting object (default &quot;everyone&quot;)
+exit status 2
+</code></pre>
+<p>再深入来看，当我们<strong>调用</strong><code>flag</code><strong>包中的一些函数时</strong>（比如<code>stringVar</code>、<code>Parse</code>等），实际上是在<strong>调用</strong><code>flag.CommandLine</code><strong>变量的对应方法</strong>。</p>
+<p><code>flag.CommandLine</code>相当于<strong>默认情况</strong>下的<strong>命令参数容器</strong>，所以，通过<strong>对</strong><code>flag.CommandLine</code><strong>重新赋值</strong>，就可以更深层次的<strong>定制当前命令源码文件的参数使用说明</strong>。</p>
+<p>将程序修改为：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;flag&quot;
+    &quot;fmt&quot;
+    &quot;os&quot;
+)
+
+var name string
+
+func init() {
+    flag.CommandLine = flag.NewFlagSet(&quot;&quot;, flag.ExitOnError)
+    flag.CommandLine.Usage = func() {
+        fmt.Fprintf(os.Stderr, &quot;Usage of %s:\n&quot;, &quot;question&quot;)
+        flag.PrintDefaults()
+    }
+    flag.StringVar(&amp;name, &quot;name&quot;, &quot;everyone&quot;, &quot;The greeting object&quot;)
+}
+
+func main() {
+    //flag.Usage = func() {
+    //    fmt.Fprintf(os.Stderr, &quot;Usage of %s:\n&quot;, &quot;question&quot;)
+    //    flag.PrintDefaults()
+    //}
+    flag.Parse()
+    fmt.Printf(&quot;Hello, %s!\n&quot;, name)
+}
+
+------
+&gt; go run demo1.go --help
+
+Usage of question:
+  -name string
+        The greeting object (default &quot;everyone&quot;)
+exit status 2
+</code></pre>
+<p>就会得到一样的输出。而当我们把<code>flag.CommandLine</code>赋值的那条语句改为：</p>
+<pre><code class="lang-go">flag.CommandLine = flag.NewFlagSet(&quot;&quot;, flag.PanicOnError)
+</code></pre>
+<p>再次运行得到：</p>
+<pre><code class="lang-go">&gt; go run demo1.go --help
+
+Usage of question:
+  -name string
+        The greeting object (default &quot;everyone&quot;)
+panic: flag: help requested
+
+goroutine 1 [running]:
+flag.(*FlagSet).Parse(0xc000084060, 0xc0000443f0, 0x1, 0x1, 0x4, 0x4d0ab5)
+        C:/Go/src/flag/flag.go:938 +0x107
+flag.Parse()
+        C:/Go/src/flag/flag.go:953 +0x76
+main.main()
+        C:/Users/abel1/go/src/github.com/abelsu7/hello/demo1.go:25 +0x2d
+exit status 2
+</code></pre>
+<ul>
+<li><code>flag.ExitOnError</code>：告诉<strong>命令参数容器</strong>，当<strong>命令后跟</strong><code>--help</code>或者<strong>参数设置不正确</strong>的时候，在打印命令参数使用说明以后，<strong>以</strong><code>exit status 2</code><strong>结束当前程序</strong></li>
+<li><code>flag.PanicOnError</code>：区别在于<strong>最后会抛出运行时恐慌</strong><code>panic</code></li>
+</ul>
+<p>另外，还可以<strong>创建一个私有的命令参数容器</strong>，这样就<strong>不会影响到全局变量</strong><code>flag.CommandLine</code>：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;flag&quot;
+    &quot;fmt&quot;
+    &quot;os&quot;
+)
+
+var name string
+var cmdLine = flag.NewFlagSet(&quot;question&quot;, flag.ExitOnError)
+
+func init() {
+    cmdLine.StringVar(&amp;name, &quot;name&quot;, &quot;everyone&quot;, &quot;The greeting object&quot;)
+}
+
+func main() {
+    cmdLine.Parse(os.Args[1:])
+    fmt.Printf(&quot;Hello, %s!\n&quot;, name)
+}
+
+------
+&gt; go run demo1.go --help
+
+Usage of question:
+  -name string
+        The greeting object (default &quot;everyone&quot;)
+exit status 2
+</code></pre>
+<blockquote>
+<p><strong>关于</strong><code>flag</code><strong>包的更多用法</strong>可以参考 <img src="/2019/03/13/core-go-notes/golang.svg"><a href="https://golang.google.cn/pkg/flag/" target="_blank" rel="noopener">Package flag | golang.google.cn</a></p>
+</blockquote>
+<h4 id="2-2-库源码文件"><a href="#2-2-库源码文件" class="headerlink" title="2.2 库源码文件"></a>2.2 库源码文件</h4><p><strong>库源码文件</strong>是<strong>不能被直接运行的源码文件</strong>，它<strong>仅用于存放程序实体</strong>，这些程序实体<strong>可以被其他代码使用</strong>。</p>
+<blockquote>
+<p>在 Go 语言中，<strong>程序实体</strong>是<strong>变量、常量、函数、结构体和接口的统称</strong></p>
+</blockquote>
+<p><strong>程序实体的名字</strong>被统称为<strong>标识符</strong>，它可以是任何 Unicode 编码可以表示的<strong>字母字符、数字</strong>以及<strong>下划线</strong><code>_</code>，但其<strong>首字母不能是数字</strong>。</p>
+<p>首先新建一个<code>_03_demo</code>的包，在该路径下<strong>创建命令源码文件</strong><code>demo4.go</code>：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;flag&quot;
+)
+
+var name string
+
+func init() {
+    flag.StringVar(&amp;name, &quot;name&quot;, &quot;everyone&quot;, &quot;The greeting object.&quot;)
+}
+
+func main() {
+    flag.Parse()
+    hello(name)
+}
+</code></pre>
+<p>然后在<strong>相同路径</strong>下，新建<code>demo4_lib.go</code>：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func hello(name string) {
+    fmt.Printf(&quot;Hello, %s!\n&quot;, name)
+}
+</code></pre>
+<p>在<code>{project_path}/_03_demo/</code>路径下，使用以下命令运行程序：</p>
+<pre><code class="lang-go">&gt; go run demo4.go demo4_lib.go
+Hello, every one!
+// 或者
+&gt; go build
+&gt; _03_demo.exe
+Hello, every one!
+</code></pre>
+<p><strong><em>代码包声明的基本规则</em></strong></p>
+<ol>
+<li><strong>同目录</strong>下的<strong>源码文件的代码包</strong><code>package</code><strong>声明语句要一致</strong>。如果<strong>目录中有命令源码文件</strong>，那么其他种类的源码文件也应该<strong>声明属于</strong><code>main</code>**包，这样才能成功构建和运行</li>
+<li>源码文件声明的<strong>代码包的名称可以与其所在的目录的名称不同</strong>。在针对代码包进行构建<code>go build</code>时，<strong>生成的结果文件的主名称与其父目录的名称一致</strong></li>
+<li><strong>源码文件所在的目录</strong>相对于<code>src</code>目录的<strong>相对路径</strong>，就是它的<strong>代码包导入路径</strong>，而实际使用其<strong>程序实体</strong>时给定的<strong>限定符</strong>要<strong>与它声明所属的代码包名称对应</strong></li>
+<li><strong>名称的首字母为大写</strong>的<strong>程序实体</strong>才可以<strong>被当前包外的代码引用</strong>，这样就很自然的把程序实体的访问权限划分为<strong>包级私有</strong>的和<strong>公开的</strong></li>
+<li>还可以通过<strong>创建</strong><code>internal</code><strong>代码包</strong>让一些程序实体<strong>仅仅能被当前模块中的其他代码引用</strong>。具体规则是，<code>internal</code><strong>代码包中声明的公开程序实体</strong>仅能被该代码包的<strong>直接父包及其子包</strong>中的代码引用。当然，引用前需要先导入<code>internal</code>包。对于其他代码包，导入都是非法的，无法通过编译</li>
+</ol>
+<h3 id="3-变量"><a href="#3-变量" class="headerlink" title="3. 变量"></a>3. 变量</h3><p><strong>Go 语言</strong>中的<strong>程序实体</strong>包括<strong>变量、常量、函数、结构体和接口</strong>。</p>
+<blockquote>
+<p><strong>Go 语言是静态类型的编程语言</strong>，所以在声明变量或常量时，需要<strong>指定它们的类型</strong>，或者<strong>给予足够的信息</strong>，这样才能<strong>让 Go 语言推导出变量的类型</strong></p>
+</blockquote>
+<h4 id="3-1-定义变量的三种方式"><a href="#3-1-定义变量的三种方式" class="headerlink" title="3.1 定义变量的三种方式"></a>3.1 定义变量的三种方式</h4><pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    var s1 int = 42 // 显式定义，可读性最强
+    var s2 = 42 // 编译器自动推导变量类型
+    s3 := 42 // 自动推导类型 + 赋值
+    fmt.Println(s1, s2, s3)
+}
+
+-------------
+42 42 42
+</code></pre>
+<ol>
+<li>如果一个变量很重要，建议使用第一种<strong>显式声明类型</strong>的方式来定义，比如<strong>全局变量</strong>的定义就比较偏好第一种定义方式</li>
+<li>如果要使用一个不那么重要的<strong>局部变量</strong>，就可以使用第三种，比如<strong>循环下标变量</strong></li>
+<li><strong>关键字</strong><code>var</code>无法直接写进<strong>循环条件的初始化语句中</strong></li>
+</ol>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/13/core-go-notes/var-init.png" alt="变量的多种声明方式" title>
+                </div>
+                <div class="image-caption">变量的多种声明方式</div>
+            </figure>
+<blockquote>
+<p><strong>问题</strong>：Go 语言的<strong>类型推断</strong>可以带来哪些好处？</p>
+</blockquote>
+<p>除了写代码时可以<strong>省略变量类型</strong>之外，真正的好处体现在<strong>代码重构</strong>。</p>
+<p>例如下面的代码：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;flag&quot;
+    &quot;fmt&quot;
+)
+
+func main() {
+    var name = getTheFlag()
+    flag.Parse()
+    fmt.Printf(&quot;Hello, %v!\n&quot;, *name)
+}
+
+func getTheFlag() *string {
+    return flag.String(&quot;name&quot;, &quot;everyone&quot;, &quot;The greeting object.&quot;)
+}
+</code></pre>
+<p>这样一来，我们可以<strong>随意改变</strong><code>getTheFlag</code><strong>函数的内部实现</strong>，及其<strong>返回结果的类型</strong>，而<strong>不用修改</strong><code>main</code><strong>函数中的任何代码</strong>，这个命令源码文件依然可以通过编译，并成功构建、运行。</p>
+<p>通过这种<strong>类型推断</strong>，可以初步体验动态类型编程语言所带来的一部分优势，即<strong>以程序的可维护性和运行效率换来程序灵活性的明显提升</strong>。</p>
+<blockquote>
+<p>事实上，<strong>Go 语言是静态类型的</strong>，所以一旦在初始化变量时确定了它的类型，之后就不可能再改变。<strong>这种类型的确定是在编译器完成的</strong>，因此<strong>不会对程序的运行效率产生任何影响</strong></p>
+</blockquote>
+<h4 id="3-2-旧变量的重声明"><a href="#3-2-旧变量的重声明" class="headerlink" title="3.2 旧变量的重声明"></a>3.2 旧变量的重声明</h4><pre><code class="lang-go">var err error
+n, err := io.WriteString(os.Stdout, &quot;Hello, everyone!\n&quot;)
+</code></pre>
+<p>这里使用<strong>短变量声明</strong>对<strong>新变量</strong><code>n</code>和<strong>旧变量</strong><code>err</code>进行了<strong>声明并赋值</strong>，同时也是<strong>对旧变量</strong><code>err</code><strong>的重声明</strong>。</p>
+<h4 id="3-3-Go-语言基础类型大全"><a href="#3-3-Go-语言基础类型大全" class="headerlink" title="3.3 Go 语言基础类型大全"></a>3.3 Go 语言基础类型大全</h4><pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    // 有符号整数，可以表示正负
+    var a int8 = 1 // 1 字节
+    var b int16 = 2 // 2 字节
+    var c int32 = 3 // 4 字节
+    var d int64 = 4 // 8 字节
+    fmt.Println(a, b, c, d)
+
+    // 无符号整数，只能表示非负数
+    var ua uint8 = 1
+    var ub uint16 = 2
+    var uc uint32 = 3
+    var ud uint64 = 4
+    fmt.Println(ua, ub, uc, ud)
+
+    // int 类型，在32位机器上占4个字节，在64位机器上占8个字节
+    var e int = 5
+    var ue uint = 5
+    fmt.Println(e, ue)
+
+    // bool 类型
+    var f bool = true
+    fmt.Println(f)
+
+    // 字节类型
+    var j byte = &#39;a&#39;
+    fmt.Println(j)
+
+    // 字符串类型
+    var g string = &quot;abcdefg&quot;
+    fmt.Println(g)
+
+    // 浮点数
+    var h float32 = 3.14
+    var i float64 = 3.141592653
+    fmt.Println(h, i)
+}
+
+-------------
+1 2 3 4
+1 2 3 4
+5 5
+true
+abcdefg
+3.14 3.141592653
+97
+</code></pre>
+<h4 id="3-4-代码块中变量的作用域"><a href="#3-4-代码块中变量的作用域" class="headerlink" title="3.4 代码块中变量的作用域"></a>3.4 代码块中变量的作用域</h4><p><img src="/2019/03/13/core-go-notes/var-same-name.png" alt="不同情况下的变量重名"></p>
+<h4 id="3-5-判断一个变量的类型"><a href="#3-5-判断一个变量的类型" class="headerlink" title="3.5 判断一个变量的类型"></a>3.5 判断一个变量的类型</h4><p>以下面的代码为例：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+var container = []string{&quot;zero&quot;, &quot;one&quot;, &quot;two&quot;}
+
+func main() {
+    container := map[int]string{0: &quot;zero&quot;, 1: &quot;one&quot;, 2: &quot;two&quot;}
+    fmt.Printf(&quot;The element is %q.\n&quot;, container[1])
+}
+</code></pre>
+<p>要想在打印其中元素之前，<strong>正确判断变量</strong><code>container</code><strong>的类型</strong>，则可以使用<strong>「类型断言」</strong>表达式<code>x.(T)</code>：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+var container = []string{&quot;zero&quot;, &quot;one&quot;, &quot;two&quot;}
+
+func main() {
+    container := map[int]string{0: &quot;zero&quot;, 1: &quot;one&quot;, 2: &quot;two&quot;}
+    value, ok := interface{}(container).(map[int]string)
+    if ok {
+        fmt.Println(value[1])
+    }
+    fmt.Printf(&quot;The element is %q.\n&quot;, container[1])
+}
+
+------
+one
+The element is &quot;one&quot;.
+
+Process finished with exit code 0
+</code></pre>
+<p>需要注意的是，在<strong>类型断言表达式</strong><code>x.(T)</code>中，<code>x</code>代表<strong>要被判断类型的值</strong>，这个值当下的类型必须是<strong>接口类型</strong>，所以当<code>container</code>变量类型不是任何的接口类型时，就需要<strong>先把它转成某个接口类型的值</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/13/core-go-notes/type-assertion.png" alt="类型断言表达式" title>
+                </div>
+                <div class="image-caption">类型断言表达式</div>
+            </figure>
+<blockquote>
+<p><strong>问题</strong>：类型转换规则中有哪些值得注意的地方？</p>
+</blockquote>
+<p>在<strong>类型转换表达式</strong><code>T(x)</code>中，<code>x</code>可以是一个<strong>变量</strong>，也可以是一个代表值的<strong>字面量</strong>（例如<code>1.23</code>和<code>struct{}</code>），还可以是一个<strong>表达式</strong>。</p>
+<p>如果是表达式，那么该<strong>表达式的结果只能是一个值，而不能是多个值</strong>。如果从源类型到目标<strong>类型的转换是不合法的</strong>，就会引发一个<strong>编译错误</strong>。</p>
+<ol>
+<li>对于<strong>整数类型值、整数常量</strong>之间的<strong>类型转换</strong>，原则上<strong>只要源值在目标类型的可表示范围内</strong>就是<strong>合法的</strong></li>
+<li>虽然直接把一个整数值转换成一个<code>string</code>类型是可行的，但<strong>如果被转换的整数值不是一个有效的 Unicode 代码点</strong>，则结果会是<code>�</code></li>
+</ol>
+<blockquote>
+<p><strong>问题</strong>：什么是别名类型？什么是潜在类型？</p>
+</blockquote>
+<p>可以用<strong>关键字</strong><code>type</code>声明自定义的各种类型。其中有一种<strong>「别名类型」</strong>，可以像下面一样声明：</p>
+<pre><code class="lang-go">type MyString = string
+</code></pre>
+<p><strong>别名类型与其源类型除了名称不同，其他是完全相同的</strong>。例如 <strong>Go 语言内建的基本类型中</strong>就存在<strong>两个别名类型</strong>：<code>byte</code>是<code>uint8</code>的别名类型，<code>rune</code>是<code>uint32</code>的别名类型。</p>
+<p>而下面没有<code>=</code>的语法被称为<strong>对类型的再定义</strong>：</p>
+<pre><code class="lang-go">type MyString2 string // MyString2 是一个新的类型
+</code></pre>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/13/core-go-notes/type-alias.png" alt="别名类型、类型再定义、潜在类型" title>
+                </div>
+                <div class="image-caption">别名类型、类型再定义、潜在类型</div>
+            </figure>
+<p>对于这里的类型再定义来说，<code>string</code>可以被称为<code>MyString2</code>的<strong>潜在类型</strong>：即某个类型在<strong>本质上是哪个类型</strong>，或者<strong>是哪个类型的集合</strong>。</p>
+<ul>
+<li>如果<strong>两个值潜在类型相同，却属于不同类型</strong>，则它们之间是<strong>可以进行类型转换</strong>的。例如<code>MyString2</code>与<code>string</code>类型的值，就可以互相转换</li>
+<li>但对于<strong>集合类型</strong><code>[]MyString2</code>与<code>[]string</code>来说，<strong>这样做是不合法的</strong>，因为它们的<strong>潜在类型不同</strong>，分别是<code>MyString2</code>和<code>string</code></li>
+</ul>
+<blockquote>
+<p>另外，<strong>即使两个类型的潜在类型相同，它们的值之间也不能进行判等或比较</strong>，它们的变量之间也不能赋值</p>
+</blockquote>
+<h3 id="4-数组和切片"><a href="#4-数组和切片" class="headerlink" title="4. 数组和切片"></a>4. 数组和切片</h3><p>Go 语言的<strong>数组（array）</strong>和<strong>切片（slice）</strong>类型：</p>
+<ul>
+<li><strong>相同点</strong>：都属于<strong>集合类</strong>的类型，并且，它们的值都可以用来<strong>存储某一种类型的值</strong></li>
+<li><strong>不同点</strong>：<strong>数组</strong>的<strong>长度是固定的</strong>，而<strong>切片</strong>是<strong>可变长的</strong></li>
+</ul>
+<p><strong>数组的长度在声明它时就必须给定</strong>，并且<strong>之后不会再改变</strong>。可以说，<strong>数组的长度是其类型的一部分</strong>。例如，<code>[1]string</code>和<code>[2]string</code>就是两个不同的数组类型。</p>
+<p>而<strong>切片的类型字面量中只有元素的类型，没有长度</strong>。切片的长度可以自动的随着其中元素数量的增长而增长，但不会随之减少。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/13/core-go-notes/array-and-slice.png" alt="数组与切片" title>
+                </div>
+                <div class="image-caption">数组与切片</div>
+            </figure>
+<p>可以<strong>把切片看作是对数组的一层简单的封装</strong>，因为每个切片都会有一个<strong>底层数组</strong>，而切片也可以被看作是<strong>对数组的某个连续片段的引用</strong>。</p>
+<ul>
+<li>Go 语言的<strong>切片类型</strong>属于<strong>引用类型</strong>，同属引用类型的还有：<strong>字典类型、通道类型、函数类型</strong>等</li>
+<li>Go 语言的<strong>数组类型</strong>则属于<strong>值类型</strong>，同属值类型的还有：<strong>基础数据类型、结构体类型</strong></li>
+</ul>
+<blockquote>
+<p>Go 语言中不存在所谓的“传值还是传引用”的问题。只要看被传递的值的类型就可判断：<strong>如果是引用类型，则可看作“传引用”。如果是值类型，则可看作“传值”</strong>。从传递成本的角度看，引用类型的值往往比值类型的值低很多</p>
+</blockquote>
+<p>来看一个例子：</p>
+<pre><code class="lang-go">s3 := []int{1, 2, 3, 4, 5, 6, 7, 8}
+s4 := s3[3:6]
+fmt.Printf(&quot;The length of s4: %d\n&quot;, len(s4))
+fmt.Printf(&quot;The capacity of s4: %d\n&quot;, cap(s4))
+fmt.Printf(&quot;The value of s4: %d\n&quot;, s4)
+
+------
+The length of s4: 3
+The capacity of s4: 5
+The value of s4: [4 5 6]
+</code></pre>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/13/core-go-notes/array-and-slice.png" alt="切片与数组的关系" title>
+                </div>
+                <div class="image-caption">切片与数组的关系</div>
+            </figure>
+<ol>
+<li>切片表达式中的方括号<code>s3[3:6]</code>可看作<code>[3,6)</code>，这里的<code>3</code>被称为<strong>起始索引</strong>，<code>6</code>被称为<strong>结束索引</strong></li>
+<li><strong>切片代表的窗口是无法向左扩展的</strong>，但可以<strong>向右扩展，直至其底层数组的末尾</strong></li>
+<li>一个<strong>切片的容量</strong>，可以被看作是<strong>透过这个窗口最多可以看到的底层数组中的元素个数</strong></li>
+<li>切片表达式<code>s4[0:cap(s4)]</code>的结果值即为<strong>把切片的窗口向右扩展到最大</strong></li>
+</ol>
+<blockquote>
+<p><strong>问题</strong>：怎样估算切片容量的增长？</p>
+</blockquote>
+<p>一旦一个切片无法容纳更多的元素，<strong>Go 语言就会生成一个容量更大的切片</strong>（一般情况下<strong>容量扩为 2 倍</strong>），并将原切片的元素和新元素一并<strong>拷贝到新切片中</strong>。</p>
+<p>但是，当原切片的长度<code>&gt;=1024</code>时候，Go 语言将会以原容量的<code>1.25</code>倍作为新容量的基准，新容量基准会被调整（不断与<code>1.25</code>相乘），直到<strong>结果不低于新长度</strong>。</p>
+<p>另外，<strong>如果我们一次追加的元素过多，以至于新长度比原容量的 2 倍还要大，那么新容量就会以新长度为基准</strong>。最终的新容量在很多时候都要比新容量基准更大一些。</p>
+<blockquote>
+<p>更多细节可以查看<code>runtime</code>包中<code>slice.go</code>文件里的<code>growslice</code>及相关函数的具体实现</p>
+</blockquote>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    // 示例1。
+    s6 := make([]int, 0)
+    fmt.Printf(&quot;The capacity of s6: %d\n&quot;, cap(s6))
+    for i := 1; i &lt;= 5; i++ {
+        s6 = append(s6, i)
+        fmt.Printf(&quot;s6(%d): len: %d, cap: %d\n&quot;, i, len(s6), cap(s6))
+    }
+    fmt.Println()
+
+    // 示例2。
+    s7 := make([]int, 1024)
+    fmt.Printf(&quot;The capacity of s7: %d\n&quot;, cap(s7))
+    s7e1 := append(s7, make([]int, 200)...)
+    fmt.Printf(&quot;s7e1: len: %d, cap: %d\n&quot;, len(s7e1), cap(s7e1))
+    s7e2 := append(s7, make([]int, 400)...)
+    fmt.Printf(&quot;s7e2: len: %d, cap: %d\n&quot;, len(s7e2), cap(s7e2))
+    s7e3 := append(s7, make([]int, 600)...)
+    fmt.Printf(&quot;s7e3: len: %d, cap: %d\n&quot;, len(s7e3), cap(s7e3))
+    fmt.Println()
+
+    // 示例3。
+    s8 := make([]int, 10)
+    fmt.Printf(&quot;The capacity of s8: %d\n&quot;, cap(s8))
+    s8a := append(s8, make([]int, 11)...)
+    fmt.Printf(&quot;s8a: len: %d, cap: %d\n&quot;, len(s8a), cap(s8a))
+    s8b := append(s8a, make([]int, 23)...)
+    fmt.Printf(&quot;s8b: len: %d, cap: %d\n&quot;, len(s8b), cap(s8b))
+    s8c := append(s8b, make([]int, 45)...)
+    fmt.Printf(&quot;s8c: len: %d, cap: %d\n&quot;, len(s8c), cap(s8c))
+}
+
+------
+The capacity of s6: 0
+s6(1): len: 1, cap: 1
+s6(2): len: 2, cap: 2
+s6(3): len: 3, cap: 4
+s6(4): len: 4, cap: 4
+s6(5): len: 5, cap: 8
+
+The capacity of s7: 1024
+s7e1: len: 1224, cap: 1280
+s7e2: len: 1424, cap: 1696
+s7e3: len: 1624, cap: 2048
+
+The capacity of s8: 10
+s8a: len: 21, cap: 22
+s8b: len: 44, cap: 44
+s8c: len: 89, cap: 96
+
+Process finished with exit code 0
+</code></pre>
+<blockquote>
+<p><strong>问题</strong>：切片的底层数组什么时候会被替换？</p>
+</blockquote>
+<p>确切地说，<strong>一个切片的底层数组永远也不会被替换</strong>。虽然在<strong>扩容的时候</strong> Go 语言也会生成新的底层数组，但<strong>同时也生成了新的切片</strong>。它只是把新的切片作为了新底层数组的窗口，而<strong>没有对原切片及其底层数组做任何改动</strong>。</p>
+<p>在<strong>无需扩容时</strong>，<code>append</code>函数返回的是<strong>指向原底层数组的新切片</strong>。而在<strong>需要扩容时</strong>，<code>append</code>函数返回的是<strong>指向新底层数组的新切片</strong>。</p>
+<h3 id="5-container-包中的容器"><a href="#5-container-包中的容器" class="headerlink" title="5. container 包中的容器"></a>5. container 包中的容器</h3><h4 id="5-1-List-链表"><a href="#5-1-List-链表" class="headerlink" title="5.1 List 链表"></a>5.1 List 链表</h4><p><strong>Go 语言的链表</strong>实现在<strong>标准库</strong><code>container/list</code><strong>中</strong>，有<strong>两个公开的程序实体</strong>：<code>List</code>和<code>Element</code>，<code>List</code>实现了一个<strong>双向链表</strong>，而<code>Element</code>则代表了<strong>链表中元素的结构</strong>。</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;container/list&quot;
+    &quot;fmt&quot;
+)
+
+func main() {
+    link := list.New()
+
+    // 循环插入到头部
+    for i := 0; i &lt;= 10; i++ {
+        link.PushBack(i)
+    }
+
+    // 遍历链表
+    for p := link.Front(); p != link.Back(); p = p.Next() {
+        fmt.Println(&quot;Number&quot;, p.Value)
+    }
+
+}
+
+------
+Number 0
+Number 1
+Number 2
+Number 3
+Number 4
+Number 5
+Number 6
+Number 7
+Number 8
+Number 9
+
+Process finished with exit code 0
+</code></pre>
+<blockquote>
+<p><strong>参考</strong>：</p>
+<ol>
+<li><a href="https://blog.csdn.net/preyta/article/details/80056069" target="_blank" rel="noopener">Go标准库学习笔记-双向链表 (container/list) | CSDN</a></li>
+<li><a href="https://my.oschina.net/90design/blog/1813377" target="_blank" rel="noopener">Golang标准库深入 - 双向链表（container/list）| 开源中国</a></li>
+</ol>
+</blockquote>
+<h4 id="5-2-Ring-环"><a href="#5-2-Ring-环" class="headerlink" title="5.2 Ring 环"></a>5.2 Ring 环</h4><p>标准库<code>contianer/ring</code>包中的<code>Ring</code>类型实现的是一个循环链表，也就是我们俗称的环。其实<code>List</code>在内部就是一个循环链表，它的根元素永远不会持有任何实际的元素值，而该元素的存在就是为了连接这个循环链表的首尾两端。</p>
+<ol>
+<li><code>List</code>可以作为<code>Queue</code>和<code>Stack</code>的基础数据结构</li>
+<li><code>Ring</code>可以用来保存固定数量的元素，例如保存最近 100 万条日志，用户最近 10 次操作等</li>
+<li><code>Heap</code>可以用来排序，可用于构造优先级队列</li>
+</ol>
+<pre><code class="lang-go">package main;
+
+import (
+    &quot;container/ring&quot;
+    &quot;fmt&quot;
+)
+
+func printRing(r *ring.Ring) {
+    r.Do(func(v interface{}) {
+        fmt.Print(v.(int), &quot; &quot;)
+    })
+    fmt.Println()
+}
+
+func main() {
+    //创建环形链表
+    r := ring.New(5)
+    //循环赋值
+    for i := 0; i &lt; 5; i++ {
+        r.Value = i
+        //取得下一个元素
+        r = r.Next()
+    }
+    printRing(r)
+    //环的长度
+    fmt.Println(r.Len())
+
+    //移动环的指针
+    r.Move(2)
+
+    //从当前指针删除n个元素
+    r.Unlink(2)
+    printRing(r)
+
+    //连接两个环
+    r2 := ring.New(3)
+    for i := 0; i &lt; 3; i++ {
+        r2.Value = i + 10
+        //取得下一个元素
+        r2 = r2.Next()
+    }
+    printRing(r2)
+    r.Link(r2)
+    printRing(r)
+}
+
+------
+0 1 2 3 4 
+5
+0 3 4 
+10 11 12 
+0 10 11 12 3 4 
+
+Process finished with exit code 0
+</code></pre>
+<h4 id="5-3-Heap-堆"><a href="#5-3-Heap-堆" class="headerlink" title="5.3 Heap 堆"></a>5.3 Heap 堆</h4><pre><code class="lang-go">package main
+
+import (
+    &quot;container/heap&quot;
+    &quot;fmt&quot;
+)
+
+type IntHeap []int
+
+//我们自定义一个堆需要实现5个接口
+//Len(),Less(),Swap()这是继承自sort.Interface
+//Push()和Pop()是堆自已的接口
+
+//返回长度
+func (h *IntHeap) Len() int {
+    return len(*h)
+}
+
+//比较大小(实现最小堆)
+func (h *IntHeap) Less(i, j int) bool {
+    return (*h)[i] &lt; (*h)[j]
+}
+
+//交换值
+func (h *IntHeap) Swap(i, j int) {
+    (*h)[i], (*h)[j] = (*h)[j], (*h)[i]
+}
+
+//压入数据
+func (h *IntHeap) Push(x interface{}) {
+    //将数据追加到h中
+    *h = append(*h, x.(int))
+}
+
+//弹出数据
+func (h *IntHeap) Pop() interface{} {
+    old := *h
+    n := len(old)
+    x := old[n-1]
+    //让h指向新的slice
+    *h = old[0 : n-1]
+    //返回最后一个元素
+    return x
+}
+
+//打印堆
+func (h *IntHeap) PrintHeap() {
+    //元素的索引号
+    i := 0
+    //层级的元素个数
+    levelCount := 1
+    for i+1 &lt;= h.Len() {
+        fmt.Println((*h)[i : i+levelCount])
+        i += levelCount
+        if (i + levelCount*2) &lt;= h.Len() {
+            levelCount *= 2
+        } else {
+            levelCount = h.Len() - i
+        }
+    }
+}
+
+func main() {
+    a := IntHeap{6, 2, 3, 1, 5, 4}
+    //初始化堆
+    heap.Init(&amp;a)
+    a.PrintHeap()
+    //弹出数据，保证每次操作都是规范的堆结构
+    fmt.Println(heap.Pop(&amp;a))
+    a.PrintHeap()
+    fmt.Println(heap.Pop(&amp;a))
+    a.PrintHeap()
+    heap.Push(&amp;a, 0)
+    heap.Push(&amp;a, 8)
+    a.PrintHeap()
+}
+
+------
+[1]
+[2 3]
+[6 5 4]
+1
+[2]
+[4 3]
+[6 5]
+2
+[3]
+[4 5]
+[6]
+[0]
+[3 5]
+[6 4 8]
+
+Process finished with exit code 0
+</code></pre>
+<blockquote>
+<p><strong>参考</strong>：</p>
+<ol>
+<li><a href="https://my.oschina.net/evilunix/blog/388379?utm_campaign=studygolang.com&amp;utm_medium=studygolang.com&amp;utm_source=studygolang.com" target="_blank" rel="noopener">golang 标准库 container/ring 及 container/heap | 开源中国</a></li>
+<li><a href="https://www.cnblogs.com/jkko123/p/6879487.html" target="_blank" rel="noopener">go语言中container容器数据结构heap、list、ring | 博客园</a></li>
+</ol>
+</blockquote>
+<h3 id="6-字典"><a href="#6-字典" class="headerlink" title="6. 字典"></a>6. 字典</h3><p>Go 语言中的<strong>字典（map）</strong>用来<strong>存储键值对的集合</strong>，它其实是一个哈希表（Hash Table）的特定实现。Go 语言字典的键类型不可以是函数类型、字典类型和切片类型，键类型的值必须支持判等操作。</p>
+<h3 id="7-通道"><a href="#7-通道" class="headerlink" title="7. 通道"></a>7. 通道</h3><p>Go 语言的<strong>通道（channel）类型</strong>的值本身就是<strong>并发安全</strong>的，这也是 Go 语言自带的、唯一一个可以满足并发安全性的类型。</p>
+<blockquote>
+<p><strong>略</strong></p>
+</blockquote>
+<h3 id="8-函数"><a href="#8-函数" class="headerlink" title="8. 函数"></a>8. 函数</h3><p>在 Go 语言中，<strong>函数是一等（first class）公民</strong>，<strong>函数类型</strong>也是<strong>一等数据类型</strong>。也就是说，<strong>函数本身也可以化身为普通的值</strong>，在其他函数间<strong>传递、赋予变量</strong>、做<strong>类型判断</strong>和<strong>转换</strong>等：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+type Printer func(contents string) (n int, err error)
+
+func printToStd(contents string) (byteNum int, err error) {
+    return fmt.Println(contents)
+}
+
+func main() {
+    var p Printer
+    p = printToStd
+    p(&quot;something&quot;)
+}
+
+------
+something
+
+Process finished with exit code 0
+</code></pre>
+<blockquote>
+<p><strong>函数签名</strong>其实就是<strong>函数的参数列表和结果列表的统称</strong>，它定义了可用来鉴别不同函数的那些特征，同时也定义了我们与函数交互的方式</p>
+</blockquote>
+<p>只要两个函数的<strong>参数列表</strong>和<strong>结果列表中的元素顺序及其类型</strong>是<strong>一致的</strong>，就可以说它们是<strong>实现了同一个函数类型</strong>的函数。</p>
+<p>因此，在上面的代码中，<strong>函数</strong><code>printToStd</code>是<strong>函数类型</strong><code>Printer</code>的一个<strong>具体实现</strong>。</p>
+<h4 id="8-1-高阶函数"><a href="#8-1-高阶函数" class="headerlink" title="8.1 高阶函数"></a>8.1 高阶函数</h4><p>只要满足下面的任意一个条件，就可以说这个函数是一个<strong>高阶函数</strong>：</p>
+<ol>
+<li>接受<strong>其他函数</strong>作为<strong>参数传入</strong></li>
+<li>把<strong>其他函数</strong>作为<strong>结果返回</strong></li>
+</ol>
+<h4 id="8-2-接受其他函数作为参数传入"><a href="#8-2-接受其他函数作为参数传入" class="headerlink" title="8.2 接受其他函数作为参数传入"></a>8.2 接受其他函数作为参数传入</h4><p>首先声明一个<code>operate</code>函数类型：</p>
+<pre><code class="lang-go">type operate func(x, y int) int
+</code></pre>
+<blockquote>
+<p>注意：<strong>函数类型</strong>属于<strong>引用类型</strong>，它的值可以为<code>nil</code></p>
+</blockquote>
+<p>然后编写<code>calculate</code>函数：</p>
+<pre><code class="lang-go">func calculate(x int, y int, op operate) (int, error) {
+    if op == nil {
+        return 0, errors.New(&quot;invalid operation&quot;)
+    }
+    return op(x, y), nil
+}
+</code></pre>
+<p>完整代码如下：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;errors&quot;
+    &quot;fmt&quot;
+)
+
+type operate func(x, y int) int
+
+func sum(x, y int) int {
+    return x + y
+}
+
+func calculate(x int, y int, op operate) (int, error) {
+    if op == nil {
+        return 0, errors.New(&quot;invalid operation&quot;)
+    }
+    return op(x, y), nil
+}
+
+func main() {
+    sumResult, _ := calculate(4, 5, sum)
+    fmt.Println(sumResult)
+}
+
+------
+9
+
+Process finished with exit code 0
+</code></pre>
+<h4 id="8-3-把其他函数作为结果返回"><a href="#8-3-把其他函数作为结果返回" class="headerlink" title="8.3 把其他函数作为结果返回"></a>8.3 把其他函数作为结果返回</h4><pre><code class="lang-go">package main
+
+import (
+    &quot;errors&quot;
+    &quot;fmt&quot;
+)
+
+type operate func(x, y int) int
+
+// 方案 1
+func calculate(x int, y int, op operate) (int, error) {
+    if op == nil {
+        return 0, errors.New(&quot;invalid operation&quot;)
+    }
+    return op(x, y), nil
+}
+
+// 方案 2
+type calculateFunc func(x int, y int) (int, error)
+
+func genCalculator(op operate) calculateFunc {
+    return func(x int, y int) (int, error) {
+        if op == nil {
+            return 0, errors.New(&quot;invalid operation&quot;)
+        }
+        return op(x, y), nil
+    }
+}
+
+func main() {
+    // 方案 1
+    x, y := 12, 23
+    op := func(x, y int) int {
+        return x + y
+    }
+    result, err := calculate(x, y, op)
+    fmt.Printf(&quot;The result: %d (error: %v)\n&quot;,
+        result, err)
+    result, err = calculate(x, y, nil)
+    fmt.Printf(&quot;The result: %d (error: %v)\n&quot;,
+        result, err)
+
+    // 方案 2
+    x, y = 56, 78
+    add := genCalculator(op)
+    result, err = add(x, y)
+    fmt.Printf(&quot;The result: %d (error: %v)\n&quot;,
+        result, err)
+}
+
+------
+The result: 35 (error: &lt;nil&gt;)
+The result: 0 (error: invalid operation)
+The result: 134 (error: &lt;nil&gt;)
+
+Process finished with exit code 0
+</code></pre>
+<h4 id="8-4-闭包"><a href="#8-4-闭包" class="headerlink" title="8.4 闭包"></a>8.4 闭包</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/13/core-go-notes/high-level-func-and-clojure.png" alt="高阶函数与闭包" title>
+                </div>
+                <div class="image-caption">高阶函数与闭包</div>
+            </figure>
+<h4 id="8-5-传入参数时区分值类型和引用类型"><a href="#8-5-传入参数时区分值类型和引用类型" class="headerlink" title="8.5 传入参数时区分值类型和引用类型"></a>8.5 传入参数时区分值类型和引用类型</h4><pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    array1 := [3]string{&quot;a&quot;, &quot;b&quot;, &quot;c&quot;}
+    fmt.Printf(&quot;The array: %v\n&quot;, array1)
+    array2 := modifyArray(array1)
+    fmt.Printf(&quot;The modified array: %v\n&quot;, array2)
+    fmt.Printf(&quot;The original array: %v\n&quot;, array1)
+}
+
+func modifyArray(a [3]string) [3]string {
+    a[1] = &quot;x&quot;
+    return a
+}
+
+------
+The array: [a b c]
+The modified array: [a x c]
+The original array: [a b c]
+
+Process finished with exit code 0
+</code></pre>
+<ul>
+<li><strong>所有传给函数的参数值都会被复制</strong>，函数在其内部使用的并不是参数值的原值，而是它的副本</li>
+<li>由于<strong>数组</strong>是<strong>值类型</strong>，所以每一次复制都会<strong>拷贝它</strong>，以及<strong>它的所有元素值</strong></li>
+<li>对于<strong>引用类型</strong>，比如：<strong>切片、字典、通道</strong>，想下面代码中那样复制它们的值，只会拷贝它们本身而已，并不会拷贝底层数据，即只发生<strong>“浅拷贝”</strong></li>
+</ul>
+<h3 id="9-结构体"><a href="#9-结构体" class="headerlink" title="9. 结构体"></a>9. 结构体</h3><h3 id="10-接口"><a href="#10-接口" class="headerlink" title="10. 接口"></a>10. 接口</h3><p>在 Go 语言的语境中，当我们谈论“接口”的时候，一定是指<strong>接口类型</strong>，因为<strong>接口类型与其他数据类型不同</strong>，是<strong>没法被实例化的</strong>。</p>
+<p>具体来讲，就是说我们既<strong>不能通过调用</strong><code>new</code><strong>或</strong><code>make</code><strong>函数创建出一个接口类型的值</strong>，也<strong>无法用字面量来表示一个接口类型的值</strong>。</p>
+<p>对于任何数据类型，<strong>只要它的方法集合中完全包含了一个接口的全部特征</strong>（即实现了全部方法），那么<strong>它就是这个接口的实现类型</strong>。</p>
+<h3 id="11-Go-语句及其执行规则"><a href="#11-Go-语句及其执行规则" class="headerlink" title="11. Go 语句及其执行规则"></a>11. Go 语句及其执行规则</h3><p><code>goroutine</code>代表着<strong>并发编程模型</strong>中的<strong>用户级线程</strong>。</p>
+<h4 id="11-1-进程与线程"><a href="#11-1-进程与线程" class="headerlink" title="11.1 进程与线程"></a>11.1 进程与线程</h4><p><strong>进程</strong>，描述的是<strong>程序的执行过程</strong>，是运行着的程序代表，也是<strong>资源分配的基本单位</strong>。</p>
+<p><strong>线程</strong>，总是在<strong>进程之内</strong>，可以被视为<strong>进程中运行着的控制流</strong>，是<strong>调度的基本单位</strong>。</p>
+<ol>
+<li><strong>一个进程至少会包含一个线程</strong>。如果一个进程只包含了<strong>一个线程</strong>，那么它里面的所有代码都只会被<strong>串行的执行</strong>。每个进程的<strong>第一个线程</strong>都会随着该进程的启动而被创建，被称为其所属进程的<strong>主线程</strong></li>
+<li>相应的，如果<strong>一个进程中包含了多个线程</strong>，那么其中的代码就可以被<strong>并发的执行</strong>。除了主线程之外，其他的线程都是由进程中已存在的线程创建出来的</li>
+</ol>
+<blockquote>
+<p><strong>Go 语言</strong>的<strong>运行时（runtime）系统</strong>会帮助我们<strong>自动的创建和销毁系统级的线程</strong>，而<strong>用户级的线程</strong>需要用户<strong>自己手动创建和销毁</strong></p>
+</blockquote>
+<h4 id="11-2-调度器"><a href="#11-2-调度器" class="headerlink" title="11.2 调度器"></a>11.2 调度器</h4><p>Go 语言不但有独特的<strong>并发编程模型</strong>，以及<strong>用户级线程</strong><code>goroutine</code>，还有提供了一个用于<strong>调度</strong><code>goroutine</code>、<strong>对接系统级线程</strong>的<strong>调度器</strong>。这个调度器是 Go 语言 runtime 的重要组成部分，它主要负责<strong>统筹调配</strong> Go 并发编程模型中的三个主要元素：<strong>G（goroutine）、P（processor）、M（machine）</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/13/core-go-notes/go-routine-mpg.png" alt="M、P、G 之间的关系" title>
+                </div>
+                <div class="image-caption">M、P、G 之间的关系</div>
+            </figure>
+<p>例如以下代码：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
+
+func main() {
+    for i := 0; i &lt; 10; i++ {
+        time.Sleep(time.Millisecond)
+        go func() {
+            fmt.Println(i)
+        }()
+    }
+    time.Sleep(time.Second)
+}
+
+------
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+Process finished with exit code 0
+</code></pre>
+<h4 id="11-3-让主协程等待其他协程"><a href="#11-3-让主协程等待其他协程" class="headerlink" title="11.3 让主协程等待其他协程"></a>11.3 让主协程等待其他协程</h4><p>先创建一个通道，长度与我们要手动启用的<code>goroutine</code>数量一致。在每个协程即将运行完毕时，都要向通道发送一个值。</p>
+<p>需要注意的是，在通道声明<code>sign := make(chan struct{}, num)</code>中，通道的类型为<code>struct{}</code>，其中的类型字面量<code>struct</code>有些类似于空接口类型<code>interface{}</code>，它代表了<strong>既不包含任何字段也不拥有任何方法的空结构体类型</strong>。而它<strong>类型值的表示法只有一个</strong>，那就是<code>struct{}{}</code>。并且，它<strong>占用的内存空间是</strong><code>0</code><strong>字节</strong>。</p>
+<blockquote>
+<p>确切的说，<code>struct{}{}</code>这个值<strong>在整个 Go 程序中永远都只会存在一份</strong>。虽然我们可以无数次的使用这个值字面量，但用到的却都是<strong>同一个值</strong></p>
+</blockquote>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    //&quot;time&quot;
+)
+
+func main() {
+    num := 10
+    sign := make(chan struct{}, num)
+
+    for i := 0; i &lt; num; i++ {
+        go func() {
+            fmt.Println(i)
+            sign &lt;- struct{}{}
+        }()
+    }
+
+    // 办法 1
+    //time.Sleep(time.Millisecond * 500)
+
+    // 办法 2
+    for j := 0; j &lt; num; j++ {
+        &lt;-sign
+    }
+}
+
+------
+// 结果不唯一
+10
+6
+3
+10
+8
+10
+10
+10
+10
+10
+
+Process finished with exit code 0
+</code></pre>
+<blockquote>
+<p>使用<code>sync.WaitGroup</code>会比使用通道更加优雅，之后再来看</p>
+</blockquote>
+<h4 id="11-4-让多个协程按照既定的顺序运行"><a href="#11-4-让多个协程按照既定的顺序运行" class="headerlink" title="11.4 让多个协程按照既定的顺序运行"></a>11.4 让多个协程按照既定的顺序运行</h4><pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;sync/atomic&quot;
+    &quot;time&quot;
+)
+
+func main() {
+    var count uint32
+    trigger := func(i uint32, fn func()) {
+        for {
+            if n := atomic.LoadUint32(&amp;count); n == i {
+                fn()
+                atomic.AddUint32(&amp;count, 1)
+                break
+            }
+            time.Sleep(time.Nanosecond)
+        }
+    }
+    for i := uint32(0); i &lt; 10; i++ {
+        go func(i uint32) {
+            fn := func() {
+                fmt.Println(i)
+            }
+            trigger(i, fn)
+        }(i)
+    }
+    trigger(10, func() {
+        fmt.Println(&quot;End in main goroutine&quot;)
+    })
+}
+
+------
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+End in main goroutine
+
+Process finished with exit code 0
+</code></pre>
+<h3 id="12-流程控制语句"><a href="#12-流程控制语句" class="headerlink" title="12. 流程控制语句"></a>12. 流程控制语句</h3><blockquote>
+<p>略</p>
+</blockquote>
+<h3 id="13-错误处理"><a href="#13-错误处理" class="headerlink" title="13. 错误处理"></a>13. 错误处理</h3><h4 id="13-1-使用-errors-的示例"><a href="#13-1-使用-errors-的示例" class="headerlink" title="13.1 使用 errors 的示例"></a>13.1 使用 errors 的示例</h4><pre><code class="lang-go">package main
+
+import (
+    &quot;errors&quot;
+    &quot;fmt&quot;
+)
+
+func echo(request string) (response string, err error) {
+    if request == &quot;&quot; {
+        err = errors.New(&quot;empty request&quot;)
+        return
+    }
+    response = fmt.Sprintf(&quot;echo: %s&quot;, request)
+    return
+}
+
+func main() {
+    for _, req := range []string{&quot;&quot;, &quot;hello!&quot;} {
+        fmt.Printf(&quot;request: %s\n&quot;, req)
+        resp, err := echo(req)
+        if err != nil {
+            fmt.Printf(&quot;error: %s\n&quot;, err)
+        }
+        fmt.Printf(&quot;response: %s\n&quot;, resp)
+    }
+}
+
+------
+request: 
+error: empty request
+response: 
+request: hello!
+response: echo: hello!
+
+Process finished with exit code 0
+</code></pre>
+<h4 id="13-2-判断错误的具体类型"><a href="#13-2-判断错误的具体类型" class="headerlink" title="13.2 判断错误的具体类型"></a>13.2 判断错误的具体类型</h4><pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;os&quot;
+    &quot;os/exec&quot;
+    &quot;runtime&quot;
+)
+
+// underlyingError 会返回已知的操作系统相关错误的潜在错误值。
+func underlyingError(err error) error {
+    switch err := err.(type) {
+    case *os.PathError:
+        return err.Err
+    case *os.LinkError:
+        return err.Err
+    case *os.SyscallError:
+        return err.Err
+    case *exec.Error:
+        return err.Err
+    }
+    return err
+}
+
+func main() {
+    // 示例1。
+    r, w, err := os.Pipe()
+    if err != nil {
+        fmt.Printf(&quot;unexpected error: %s\n&quot;, err)
+        return
+    }
+    // 人为制造 *os.PathError 类型的错误。
+    r.Close()
+    _, err = w.Write([]byte(&quot;hi&quot;))
+    uError := underlyingError(err)
+    fmt.Printf(&quot;underlying error: %s (type: %T)\n&quot;,
+        uError, uError)
+    fmt.Println()
+
+    // 示例2。
+    paths := []string{
+        os.Args[0],           // 当前的源码文件或可执行文件。
+        &quot;/it/must/not/exist&quot;, // 肯定不存在的目录。
+        os.DevNull,           // 肯定存在的目录。
+    }
+    printError := func(i int, err error) {
+        if err == nil {
+            fmt.Println(&quot;nil error&quot;)
+            return
+        }
+        err = underlyingError(err)
+        switch err {
+        case os.ErrClosed:
+            fmt.Printf(&quot;error(closed)[%d]: %s\n&quot;, i, err)
+        case os.ErrInvalid:
+            fmt.Printf(&quot;error(invalid)[%d]: %s\n&quot;, i, err)
+        case os.ErrPermission:
+            fmt.Printf(&quot;error(permission)[%d]: %s\n&quot;, i, err)
+        }
+    }
+    var f *os.File
+    var index int
+    {
+        index = 0
+        f, err = os.Open(paths[index])
+        if err != nil {
+            fmt.Printf(&quot;unexpected error: %s\n&quot;, err)
+            return
+        }
+        // 人为制造潜在错误为 os.ErrClosed 的错误。
+        f.Close()
+        _, err = f.Read([]byte{})
+        printError(index, err)
+    }
+    {
+        index = 1
+        // 人为制造 os.ErrInvalid 错误。
+        f, _ = os.Open(paths[index])
+        _, err = f.Stat()
+        printError(index, err)
+    }
+    {
+        index = 2
+        // 人为制造潜在错误为 os.ErrPermission 的错误。
+        _, err = exec.LookPath(paths[index])
+        printError(index, err)
+    }
+    if f != nil {
+        f.Close()
+    }
+    fmt.Println()
+
+    // 示例3。
+    paths2 := []string{
+        runtime.GOROOT(),     // 当前环境下的Go语言根目录。
+        &quot;/it/must/not/exist&quot;, // 肯定不存在的目录。
+        os.DevNull,           // 肯定存在的目录。
+    }
+    printError2 := func(i int, err error) {
+        if err == nil {
+            fmt.Println(&quot;nil error&quot;)
+            return
+        }
+        err = underlyingError(err)
+        if os.IsExist(err) {
+            fmt.Printf(&quot;error(exist)[%d]: %s\n&quot;, i, err)
+        } else if os.IsNotExist(err) {
+            fmt.Printf(&quot;error(not exist)[%d]: %s\n&quot;, i, err)
+        } else if os.IsPermission(err) {
+            fmt.Printf(&quot;error(permission)[%d]: %s\n&quot;, i, err)
+        } else {
+            fmt.Printf(&quot;error(other)[%d]: %s\n&quot;, i, err)
+        }
+    }
+    {
+        index = 0
+        err = os.Mkdir(paths2[index], 0700)
+        printError2(index, err)
+    }
+    {
+        index = 1
+        f, err = os.Open(paths[index])
+        printError2(index, err)
+    }
+    {
+        index = 2
+        _, err = exec.LookPath(paths[index])
+        printError2(index, err)
+    }
+    if f != nil {
+        f.Close()
+    }
+}
+
+------
+underlying error: The pipe is being closed. (type: syscall.Errno)
+
+error(closed)[0]: file already closed
+error(invalid)[1]: invalid argument
+nil error
+
+error(exist)[0]: Cannot create a file when that file already exists.
+error(not exist)[1]: The system cannot find the path specified.
+nil error
+
+Process finished with exit code 0
+</code></pre>
+<h3 id="14-异常处理"><a href="#14-异常处理" class="headerlink" title="14. 异常处理"></a>14. 异常处理</h3><h4 id="14-1-panic"><a href="#14-1-panic" class="headerlink" title="14.1 panic"></a>14.1 panic</h4><p>一个<code>panic</code>的示例如下（在<strong>运行时</strong>抛出）：</p>
+<pre><code class="lang-go">panic: runtime error: index out of range
+
+goroutine 1 [running]:
+main.main()
+ /Users/haolin/GeekTime/Golang_Puzzlers/src/puzzlers/article19/q0/demo47.go:5 +0x3d
+exit status 2
+</code></pre>
+<blockquote>
+<p><strong>问题</strong>：从<code>panic</code>被引发到程序终止运行的大致过程是什么？</p>
+</blockquote>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+)
+
+func main() {
+    fmt.Println(&quot;Enter function main.&quot;)
+    caller1()
+    fmt.Println(&quot;Exit function main.&quot;)
+}
+
+func caller1() {
+    fmt.Println(&quot;Enter function caller1.&quot;)
+    caller2()
+    fmt.Println(&quot;Exit function caller1.&quot;)
+}
+
+func caller2() {
+    fmt.Println(&quot;Enter function caller2.&quot;)
+    s1 := []int{0, 1, 2, 3, 4}
+    e5 := s1[5]
+    _ = e5
+    fmt.Println(&quot;Exit function caller2.&quot;)
+}
+
+------
+Enter function main.
+Enter function caller1.
+Enter function caller2.
+panic: runtime error: index out of range
+
+goroutine 1 [running]:
+main.caller2()
+    C:/Users/abel1/go/src/github.com/abelsu7/hello/main.go:22 +0x69
+main.caller1()
+    C:/Users/abel1/go/src/github.com/abelsu7/hello/main.go:15 +0x6d
+main.main()
+    C:/Users/abel1/go/src/github.com/abelsu7/hello/main.go:9 +0x6d
+
+Process finished with exit code 2
+</code></pre>
+<ol>
+<li>当某个函数中的某行代码有意或无意<strong>引发了一个</strong><code>panic</code>，这时，<strong>初始的</strong><code>panic</code><strong>详情会被建立起来</strong>，并且<strong>该程序的控制权</strong>会立即从此行代码<strong>转移至调用栈的上一级函数</strong>，而<strong>此行代码所属函数的执行</strong>随即<strong>终止</strong>。</li>
+<li>紧接着，控制权并不会有任何停留，它又会<strong>立即转移至再上一级的调用代码处理</strong>，如此一级一级沿着调用栈的反方向传播至顶端，就是我们编写的<strong>最外层函数</strong>。</li>
+<li>最后，<strong>控制权</strong>被 Go 语言<strong>运行时系统收回</strong>，<strong>程序崩溃并终止运行</strong>，承载程序这次运行的进程也随之死亡并消失。与此同时，在控制权传播的过程中，<code>panic</code>详情会被<strong>逐渐积累和完善</strong>，并会<strong>在程序终止之前打印出来</strong>。</li>
+</ol>
+<h4 id="14-2-recover"><a href="#14-2-recover" class="headerlink" title="14.2 recover"></a>14.2 recover</h4><h4 id="14-3-defer"><a href="#14-3-defer" class="headerlink" title="14.3 defer"></a>14.3 defer</h4><h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://time.geekbang.org/column/intro/112" target="_blank" rel="noopener">Go 语言核心 36 讲 | 极客时间</a></li>
+<li><a href="https://github.com/hyper0x/go_command_tutorial" target="_blank" rel="noopener">Go 命令教程 | Github</a></li>
+<li><a href="https://blog.csdn.net/preyta/article/details/80056069" target="_blank" rel="noopener">Go 标准库学习笔记-双向链表 (container/list) | CSDN</a></li>
+<li><a href="https://my.oschina.net/90design/blog/1813377" target="_blank" rel="noopener">Golang 标准库深入 - 双向链表（container/list）| 开源中国</a></li>
+<li><a href="https://my.oschina.net/evilunix/blog/388379?utm_campaign=studygolang.com&amp;utm_medium=studygolang.com&amp;utm_source=studygolang.com" target="_blank" rel="noopener">golang 标准库 container/ring 及 container/heap | 开源中国</a></li>
+<li><a href="https://www.cnblogs.com/jkko123/p/6879487.html" target="_blank" rel="noopener">go语言中container容器数据结构heap、list、ring | 博客园</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/">使用 Gogs 自建 Git 服务</a></li><li><a href="https://abelsu7.top/2019/10/31/go-gin-swagger/">在 Gin 中使用 swaggo 自动生成 RESTful API 文档</a></li><li><a href="https://abelsu7.top/2019/10/24/go-build-compress-using-upx/">使用 upx 压缩 go build 打包的可执行文件</a></li><li><a href="https://abelsu7.top/2019/10/24/go-cross-compile/">Go 程序的交叉编译、选择性编译</a></li><li><a href="chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li><li><a href="www.chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.057Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/03/13/core-go-notes/" target="_blank" rel="external">https://abelsu7.top/2019/03/13/core-go-notes/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/13/core-go-notes/&title=《《Go 语言核心 36 讲》笔记》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/13/core-go-notes/&title=《《Go 语言核心 36 讲》笔记》 — Keep Coding&source=
+摘自 Go 语言核心 36 讲 | 极客时间
+
+
+                
+                    
+             ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/13/core-go-notes/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《Go 语言核心 36 讲》笔记》 — Keep Coding&url=https://abelsu7.top/2019/03/13/core-go-notes/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/13/core-go-notes/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/03/14/docker-quick-guides/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Docker 实践简明指南</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/03/13/go-testing-demo/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Go 语言测试框架 testing 快速体验</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/13/core-go-notes/&title=《《Go 语言核心 36 讲》笔记》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/13/core-go-notes/&title=《《Go 语言核心 36 讲》笔记》 — Keep Coding&source=
+摘自 Go 语言核心 36 讲 | 极客时间
+
+
+                
+                    
+             ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/13/core-go-notes/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《Go 语言核心 36 讲》笔记》 — Keep Coding&url=https://abelsu7.top/2019/03/13/core-go-notes/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/13/core-go-notes/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACHElEQVR42u3aS27DMAwFQN//0u42QBLjkXQDWBqvjECVNV0Q4uc44ud8ea7XvK9//9tvuyVfGT0YGBiPZZyXT29Nzqv+/pWKgYGxASMJoNU114fLA/f1GgwMDIzkPQ/B+S8YGBgY84Cbh9HrK11ylcTAwMDIE9Q8HPeO/qNcHAMD44GMvOr++/d/6W9gYGA8inEWn7yINjlW+VQYGBhLM/LP9JqO8+mIwvAHBgbG0ozqSESvuDYZCyuEbAwMjKUZkzA6Cdnz5gQGBsY+jGr6Wr60xVfD6j4YGBhrM6ols+pAWA82GrPAwMBYjlFNYvOBieovveQWAwNjZ0YCy9m9gJ4HfQwMjLUZvetach2sNimrLYEPMyMYGBhLM/Jxh2olbw5LmhYYGBg7MHrvybGqQxtVEgYGxg6MXs0qL+L3GgyTU2FgYKzNmBTx8wZnksSW50QwMDCWZkyS0t6YRT7+lSTSH8ptGBgYyzGSeFX9cHWfybeO+ecxMDAeyJgfsbfbDWktBgbGNoz82jcf+Uq+VWhzYmBgbMCoXvtyXp4Sj6pqGBgYizImoxK9IloerAv/OAwMjKUZd3UJexfEyW5NDAYGxmMZeZDN1+fjYrcNXmBgYGzAmITR693KJf7WaTEwMDDyIYnJOMVopAMDAwMjDqz3psGFII6BgbEBI28G9IJmr9yfjGhgYGDswOiljr0mYq+Ull89MTAwlmP8AUxtapgHsHD8AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

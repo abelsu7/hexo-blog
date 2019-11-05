@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>5 分钟 Docker 笔记 2：镜像 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="读书,容器,Docker">
+    <meta name="description" content="镜像内部结构、构建镜像、镜像命名、Registry                                                                                               《每天5分钟玩转Docker容器技术》">
+<meta name="keywords" content="读书,容器,Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5 分钟 Docker 笔记 2：镜像">
+<meta property="og:url" content="https://abelsu7.top/2018/11/05/docker-5mins-notes-2/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="镜像内部结构、构建镜像、镜像命名、Registry                                                                                               《每天5分钟玩转Docker容器技术》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2018/11/05/docker-5mins-notes-2/cover.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/11/05/docker-5mins-notes-2/linux-os.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/11/05/docker-5mins-notes-2/debian-and-busybox.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/11/05/docker-5mins-notes-2/docker-layer.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/11/05/docker-5mins-notes-2/writable.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.128Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="5 分钟 Docker 笔记 2：镜像">
+<meta name="twitter:description" content="镜像内部结构、构建镜像、镜像命名、Registry                                                                                               《每天5分钟玩转Docker容器技术》">
+<meta name="twitter:image" content="https://abelsu7.top/2018/11/05/docker-5mins-notes-2/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">5 分钟 Docker 笔记 2：镜像</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">5 分钟 Docker 笔记 2：镜像</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-11-05T08:32:57.000Z" itemprop="datePublished" class="page-time">
+  2018-11-05
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Docker/">Docker</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#第-3-章-Docker-镜像"><span class="post-toc-text">第 3 章 Docker 镜像</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-1-镜像的内部结构"><span class="post-toc-text">3.1 镜像的内部结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-1-最小的镜像-hello-world"><span class="post-toc-text">3.1.1 最小的镜像 hello-world</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-2-base-镜像"><span class="post-toc-text">3.1.2 base 镜像</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#rootfs"><span class="post-toc-text">rootfs</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#base-镜像提供最小安装的-Linux-发行版"><span class="post-toc-text">base 镜像提供最小安装的 Linux 发行版</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#支持运行多种-Linux-OS"><span class="post-toc-text">支持运行多种 Linux OS</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-3-镜像的分层结构"><span class="post-toc-text">3.1.3 镜像的分层结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#可写的容器层"><span class="post-toc-text">可写的容器层</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Copy-on-Write"><span class="post-toc-text">Copy-on-Write</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-2-构建镜像"><span class="post-toc-text">3.2 构建镜像</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-1-docker-commit"><span class="post-toc-text">3.2.1 docker commit</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-2-Dockerfile"><span class="post-toc-text">3.2.2 Dockerfile</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#第一个-Dockerfile"><span class="post-toc-text">第一个 Dockerfile</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#查看镜像分层结构"><span class="post-toc-text">查看镜像分层结构</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#镜像的缓存特性"><span class="post-toc-text">镜像的缓存特性</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#调试-Dockerfile"><span class="post-toc-text">调试 Dockerfile</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Dockerfile-常用指令"><span class="post-toc-text">Dockerfile 常用指令</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#RUN-vs-CMD-vs-ENTRYPOINT"><span class="post-toc-text">RUN vs CMD vs ENTRYPOINT</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-3-镜像命名"><span class="post-toc-text">3.3 镜像命名</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-4-镜像仓库-Registry"><span class="post-toc-text">3.4 镜像仓库 Registry</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-4-1-使用公共-Registry：Docker-Hub"><span class="post-toc-text">3.4.1 使用公共 Registry：Docker Hub</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-4-2-搭建本地-Registry"><span class="post-toc-text">3.4.2 搭建本地 Registry</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-5-Docker-镜像小结"><span class="post-toc-text">3.5 Docker 镜像小结</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-docker-5mins-notes-2"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">5 分钟 Docker 笔记 2：镜像</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-11-05 16:32:57" datetime="2018-11-05T08:32:57.000Z"  itemprop="datePublished">2018-11-05</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Docker/">Docker</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>镜像内部结构、构建镜像、镜像命名、Registry</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/05/docker-5mins-notes-2/cover.jpg" alt="《每天5分钟玩转Docker容器技术》" title>
+                </div>
+                <div class="image-caption">《每天5分钟玩转Docker容器技术》</div>
+            </figure>
+<a id="more"></a>
+<h2 id="第-3-章-Docker-镜像"><a href="#第-3-章-Docker-镜像" class="headerlink" title="第 3 章 Docker 镜像"></a>第 3 章 Docker 镜像</h2><h3 id="3-1-镜像的内部结构"><a href="#3-1-镜像的内部结构" class="headerlink" title="3.1 镜像的内部结构"></a>3.1 镜像的内部结构</h3><h4 id="3-1-1-最小的镜像-hello-world"><a href="#3-1-1-最小的镜像-hello-world" class="headerlink" title="3.1.1 最小的镜像 hello-world"></a>3.1.1 最小的镜像 hello-world</h4><pre class="command-line" data-user="root" data-host="ubuntu" data-output="4-5">
+<code class="language-bash">docker pull hello-world
+docker images
+docker run hello-world
+Hello from Docker!
+This message shows that your installation appears to be working correctly.</code>
+</pre>
+
+<p><code>hello-world</code> 的 <strong>Dockerfile</strong> 内容如下：</p>
+<pre><code class="lang-docker">FROM scratch
+COPY hello /
+CMD [&quot;/hello&quot;]
+</code></pre>
+<ol>
+<li><code>FROM scratch</code>：此镜像是从白手起家，从 0 开始构建</li>
+<li><code>COPY hello /</code>：将文件 <code>hello</code> 复制到镜像的根目录</li>
+<li><code>CMD [&quot;/hello&quot;]</code>：容器启动时，执行 <code>/hello</code></li>
+</ol>
+<blockquote>
+<p><code>hello-world</code> 虽然是一个完整的镜像，但它并没有什么实际用途。通常来说，<strong>我们希望镜像能提供一个基本的操作系统环境，用户可以根据需要安装和配置软件</strong>。这样的镜像我们称作 <strong>base 镜像</strong>。</p>
+</blockquote>
+<h4 id="3-1-2-base-镜像"><a href="#3-1-2-base-镜像" class="headerlink" title="3.1.2 base 镜像"></a>3.1.2 base 镜像</h4><p><strong>base 镜像</strong>有两层含义：</p>
+<ul>
+<li>不依赖其他镜像，从 <code>scratch</code> 构建</li>
+<li>其他镜像可在其基础上进行扩展</li>
+</ul>
+<p>所以，能称作 base 镜像的通常都是<strong>各种 Linux 发行版的 Docker 镜像</strong>，比如 Ubuntu, Debian, CentOS 等。</p>
+<p>使用 <code>docker pull centos</code>命令下载 <code>centos</code> 镜像并查看其镜像信息，发现大小仅为 <code>200 MB</code>，为什么会这么小？</p>
+<p><strong>Linux 操作系统</strong>由<strong>内核空间</strong>和<strong>用户空间</strong>组成，如下图所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/05/docker-5mins-notes-2/linux-os.jpg" alt="Linux 的内核空间与用户空间" title>
+                </div>
+                <div class="image-caption">Linux 的内核空间与用户空间</div>
+            </figure>
+<h5 id="rootfs"><a href="#rootfs" class="headerlink" title="rootfs"></a>rootfs</h5><p><strong>内核空间</strong>是 <strong>Kernel</strong>，Linux <strong>刚启动时</strong>会加载 <strong>bootfs 文件系统</strong>，之后 bootfs 会被卸载掉。</p>
+<p><strong>用户空间</strong>的文件系统是 <strong>rootfs</strong>，包含我们熟悉的 <code>/dev</code>, <code>/proc</code>, <code>/bin</code> 等目录。</p>
+<p>对于 base 镜像而言，<strong>底层直接用 Host 的 kernel</strong>，自己只需提供 rootfs。</p>
+<p>而对于一个精简的 OS，rootfs 可以很小，只需要包括<strong>最基本的命令、工具和程序库</strong>就可以了。</p>
+<h5 id="base-镜像提供最小安装的-Linux-发行版"><a href="#base-镜像提供最小安装的-Linux-发行版" class="headerlink" title="base 镜像提供最小安装的 Linux 发行版"></a>base 镜像提供最小安装的 Linux 发行版</h5><p>CentOS 镜像的 Dockerfile 文件内容如下：</p>
+<pre><code class="lang-docker">FROM scratch
+ADD centos-7-docker.tar.xz /
+CMD [&quot;/bin/bash&quot;]
+</code></pre>
+<p>第二行 <code>ADD</code> 指令添加到镜像的 tar 包就是 <strong>CentOS 7 的 rootfs</strong>。在制作镜像时，这个 tar 包会自动解压到 <code>/</code> 目录下，生成 <code>/dev</code>, <code>/porc</code>, <code>/bin</code> 等目录。</p>
+<h5 id="支持运行多种-Linux-OS"><a href="#支持运行多种-Linux-OS" class="headerlink" title="支持运行多种 Linux OS"></a>支持运行多种 Linux OS</h5><p>不同 Linux 发行版的区别主要就是 <strong>rootfs</strong>。</p>
+<p>比如 Ubuntu 14.04 使用 <code>upstart</code> 管理服务，<code>apt</code> 管理软件包；而 CentOS 7 使用 <code>systemd</code> 和 <code>yum</code>。这些都是用户空间上的区别，Linux kernel 差别不大。</p>
+<p>所以 Docker 可以同时支持多种 Linux 镜像，模拟出多种操作系统环境。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/05/docker-5mins-notes-2/debian-and-busybox.jpg" alt="Debian 和 BusyBox 容器共用 Host Kernel" title>
+                </div>
+                <div class="image-caption">Debian 和 BusyBox 容器共用 Host Kernel</div>
+            </figure>
+<p>上图 Debian 和 BusyBox（一种嵌入式 Linux）<strong>上层提供各自的 rootfs，底层共用 Docker Host 的 kernel</strong>。</p>
+<p>需要说明的是：</p>
+<ol>
+<li>base 镜像只是用户空间与发行版一致，<strong>Kernel 版本与发行版是不同的</strong>。</li>
+<li>容器<strong>只能使用 Host 的 Kernel</strong>，并且不能修改。</li>
+</ol>
+<h4 id="3-1-3-镜像的分层结构"><a href="#3-1-3-镜像的分层结构" class="headerlink" title="3.1.3 镜像的分层结构"></a>3.1.3 镜像的分层结构</h4><p>Docker 支持<strong>通过扩展现有镜像，创建新的镜像</strong>。</p>
+<p>实际上，<strong>Docker Hub 中 99% 的镜像都是通过在 base 镜像中安装和配置需要的软件构建出来的</strong>。例如我们现在构建一个新的镜像，Dockerfile 如下：</p>
+<pre><code class="lang-docker">FROM debian
+RUN apt-get install emacs
+RUN apt-get install apache2
+CMD [&quot;/bin/bash&quot;]
+</code></pre>
+<p>构建过程如下图所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/05/docker-5mins-notes-2/docker-layer.jpg" alt="构建过程示意" title>
+                </div>
+                <div class="image-caption">构建过程示意</div>
+            </figure>
+<p>可以看到，<strong>新镜像是从 base 镜像一层一层叠加生成的</strong>。每安装一个软件，就在现有镜像的基础上增加一层。</p>
+<p>Docker 镜像采用这种分层结构最大的好处就是 <strong>共享资源</strong>。</p>
+<blockquote>
+<p>比如：有多个镜像都从相同的 base 镜像构建而来，那么 Docker Host 只需在磁盘上保存一份 base 镜像；同时内存中也只需加载一份 base 镜像，就可以为所有容器服务了。而且镜像的每一层都可以被共享，我们将在后面更深入地讨论这个特性。</p>
+</blockquote>
+<p>如果多个容器共享一份基础镜像，当某个容器修改了基础镜像的内容，比如 <code>/etc</code> 目录下的文件时，<strong><em>修改会被限制在单个容器内</em></strong>，这就是容器的 <strong>Copy-on-Write</strong> 特性。</p>
+<h5 id="可写的容器层"><a href="#可写的容器层" class="headerlink" title="可写的容器层"></a>可写的容器层</h5><p>当容器启动时，一个<strong>新的可写层</strong>会被<strong>加载到镜像的顶部</strong>。这一层通常被称作<strong>容器层</strong>，容器层之下的都叫<strong>镜像层</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/05/docker-5mins-notes-2/writable.jpg" alt="可写的容器层会被加载到镜像顶部" title>
+                </div>
+                <div class="image-caption">可写的容器层会被加载到镜像顶部</div>
+            </figure>
+<p><strong>所有对容器的改动</strong>——无论是添加、删除还是修改文件，都<strong>只会发生在容器层中</strong>。</p>
+<p>并且，<strong>只有容器层是可写的</strong>，容器层下面的<strong>所有镜像层都是只读的</strong>。</p>
+<p>镜像层数量可能会很多，所有镜像层会联合在一起组成一个统一的文件系统。在容器层中，用户看到的是一个叠加之后的文件系统。</p>
+<ul>
+<li><strong>添加文件</strong>：在容器中创建文件时，<strong>新文件被添加到容器层中</strong>。</li>
+<li><strong>读取文件</strong>：在容器中读取某个文件时，Docker 会<strong>从上往下</strong>依次在各镜像层中查找此文件。一旦找到，打开并读入内存。</li>
+<li><strong>修改文件</strong>：在容器中修改已存在的文件时，Docker 会从上往下依次在各镜像层中查找此文件。一旦找到，<strong>立即将其复制到容器层，然后修改之</strong>。</li>
+<li><strong>删除文件</strong>：在容器中删除文件时，Docker 也是从上往下依次在镜像层中查找此文件。找到后，会<strong>在容器层中记录下此删除操作</strong>。</li>
+</ul>
+<h5 id="Copy-on-Write"><a href="#Copy-on-Write" class="headerlink" title="Copy-on-Write"></a>Copy-on-Write</h5><p>只有当需要修改时才复制一份数据，这种特性被称作 <strong>Copy-on-Write</strong>。可见，容器层保存的是<strong>镜像变化的部分</strong>，不会对镜像本身进行任何修改。</p>
+<p>这样就解释了之前的问题：<strong><em>容器层记录对镜像的修改，所有镜像层都是只读的，不会被容器修改</em></strong>。所以<strong>镜像可以被多个容器共享</strong>。</p>
+<h3 id="3-2-构建镜像"><a href="#3-2-构建镜像" class="headerlink" title="3.2 构建镜像"></a>3.2 构建镜像</h3><p>对于 Docker 用户来说，最好的情况是不需要自己创建镜像。使用现成镜像的好处除了省去自己做镜像的工作量外，更重要的是可以利用前人的经验。</p>
+<p>当然，某些情况下我们也不得不自己构建镜像，比如：</p>
+<ul>
+<li>找不到现成的镜像，比如自己开发的应用程序</li>
+<li>需要在镜像中加入特定的功能，比如官方镜像几乎都不提供 <code>ssh</code></li>
+</ul>
+<p>Docker 提供了两种<strong>构建镜像</strong>的方法：</p>
+<ol>
+<li><strong>docker commit</strong> 命令</li>
+<li><strong>Dockerfile</strong> 构建文件</li>
+</ol>
+<h4 id="3-2-1-docker-commit"><a href="#3-2-1-docker-commit" class="headerlink" title="3.2.1 docker commit"></a>3.2.1 docker commit</h4><p>docker commit 命令是创建新镜像最直观的方法，其过程包含三个步骤：</p>
+<ul>
+<li>运行容器</li>
+<li>修改容器</li>
+<li>将容器保存为新的镜像</li>
+</ul>
+<p>(1) <strong>运行容器</strong></p>
+<pre><code class="lang-bash">docker run -it ubuntu
+</code></pre>
+<p>(2) <strong>安装 vi</strong></p>
+<pre class="command-line" data-user="root" data-host="1abe6e7341ca" data-output="2,4-8">
+<code class="language-bash">vim
+bash: vim: command not found
+apt-get install vim
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following additional packages will be installed:
+  file libexpat1 libgpm2 libmagic-mgc libmagic1 libmpdec2 libpython3.6...</code>
+</pre>
+
+<p>(3) <strong>保存为新镜像</strong></p>
+<p>在新窗口中查看当前运行的容器：</p>
+<pre class="command-line" data-user="root" data-host="ubuntu" data-output="2-3">
+<code class="language-bash">docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+1abe6e7341ca        ubuntu              "/bin/bash"         8 minutes ago       Up 8 minutes                            laughing_leavitt</code>
+</pre>
+
+<p><code>laughing_leavitt</code> 是 Docker 为我们的容器随机分配的名字。</p>
+<p>执行 <code>docker commit</code> 命令将容器保存为镜像：</p>
+<pre class="command-line" data-user="root" data-host="ubuntu" data-output="2">
+<code class="language-bash">docker commit laughing_leavitt ubuntu-with-vi
+sha256:9d2fac08719de640df6a923bd6c1dc82d73817d29e9c287d024b6cd2a7235683</code>
+</pre>
+
+<p>查看新镜像 <code>ubuntu-with-vi</code> 的属性：</p>
+<pre class="command-line" data-user="root" data-host="ubuntu" data-output="2-4">
+<code class="language-bash">docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE
+ubuntu-with-vi      latest              9d2fac08719d        About a minute ago   169MB
+ubuntu              latest              ea4c82dcd15a        2 weeks ago          85.8MB</code>
+</pre>
+
+<p>从 SIZE 属性看到镜像因为安装了软件而变大了。从新镜像启动容器，验证 <code>vi</code> 已经可以使用：</p>
+<pre class="command-line" data-user="root" data-host="f48bc1339340" data-output="2">
+<code class="language-bash">which vim
+/usr/bin/vim</code>
+</pre>
+
+<p>以上演示了如何通过 <code>docker commit</code> 创建新镜像。然而，<strong>Docker 并不建议用户通过这种方式构建镜像</strong>。原因如下：</p>
+<ul>
+<li>这是一种<strong>手工创建</strong>镜像的方式，<strong>容易出错，效率低且可重复性弱</strong>。</li>
+<li>更重要的是，<strong>使用者并不知道镜像是如何创建出来的</strong>，里面是否有恶意程序。也就是说<strong>无法对镜像进行审计，存在安全隐患</strong>。</li>
+</ul>
+<h4 id="3-2-2-Dockerfile"><a href="#3-2-2-Dockerfile" class="headerlink" title="3.2.2 Dockerfile"></a>3.2.2 Dockerfile</h4><p><strong>Dockerfile</strong> 是一个<strong>文本文件</strong>，记录了<strong>镜像构建的所有步骤</strong>。</p>
+<h5 id="第一个-Dockerfile"><a href="#第一个-Dockerfile" class="headerlink" title="第一个 Dockerfile"></a>第一个 Dockerfile</h5><p>用 Dockerfile 创建上节的 <code>ubuntu-with-vi</code>，其内容为：</p>
+<pre><code class="lang-docker">FROM ubuntu
+RUN apt-get update &amp;&amp; apt-get install -y vim
+</code></pre>
+<p>下面运行 <code>docker build</code> 命令构建镜像，并分析其细节：</p>
+<pre class="command-line" data-user="root" data-host="ubuntu" data-output="2,4,6-15">
+<code class="language-bash">pwd                            (1)
+/root  
+ls                             (2)   
+Dockerfile   
+docker build -t ubuntu-with-vi-dockerfile .            (3)   
+Sending build context to Docker daemon 32.26 kB        (4)   
+Step 1 : FROM ubuntu           (5)   
+ ---> f753707788c5   
+Step 2 : RUN apt-get update && apt-get install -y vim  (6)   
+ ---> Running in 9f4d4166f7e3  (7)   
+......   
+Setting up vim (2:7.4.1689-3ubuntu1.1) ...   
+ ---> 35ca89798937             (8)    
+Removing intermediate container 9f4d4166f7e3           (9)   
+Successfully built 35ca89798937                        (10)</code>
+</pre>
+
+<p>(1) 当前目录为 <code>/root</code>。</p>
+<p>(2) Dockerfile 准备就绪。</p>
+<p>(3) 运行 <code>docker build</code> 命令，<code>-t</code> 命名新镜像，末尾的 <code>.</code> 表明 <strong>build context</strong> 为当前目录。Docker 默认会从 build context 中查找 Dockerfile 文件，也可以通过 <code>-f</code> 参数指定 Dockerfile 的位置。</p>
+<p>(4) 从这步开始就是镜像真正的构建过程。首先 <strong>Docker 将 build context 中的所有文件发送给 Docker daemon</strong>。build context 为镜像构建提供所需要的文件或目录。</p>
+<p><strong>Dockerfile 中的</strong> <code>ADD</code>、<code>COPY</code> <strong>等命令可以将 build context 中的文件添加到镜像</strong>。此例中，build context 为当前目录 <code>/root</code>，该目录下的所有文件和子目录都会被发送给 Docker daemon。</p>
+<blockquote>
+<p>注意不要将多余的文件放到 build context 中，特别不要把 <code>/</code>、<code>/usr</code> 等目录作为 build context，否则构建过程会相当缓慢甚至失败。</p>
+</blockquote>
+<p>(5) Step 1：执行 <code>FROM</code>，将 Ubuntu 作为 base 镜像。</p>
+<p>(6) Step 2：执行 <code>RUN</code>，安装 vi，具体步骤为 (7) (8) (9)。</p>
+<p>(7) 启动 ID 为 <code>9f4d4166f7e3</code> 的临时容器，在容器中通过 <code>apt-get</code> 安装 vim。</p>
+<p>(8) 安装成功后，将容器保存为镜像，其 ID 为 <code>35ca89798937</code>。<strong>这一步底层使用的是类似</strong> <code>docker commit</code> <strong>的命令</strong>。</p>
+<p>(9) 删除临时容器 <code>9f4d4166f7e3</code>。</p>
+<p>(10) 镜像构建成功。</p>
+<h5 id="查看镜像分层结构"><a href="#查看镜像分层结构" class="headerlink" title="查看镜像分层结构"></a>查看镜像分层结构</h5><p><code>docker history</code>会显示<strong>镜像的构建历史</strong>，也就是 Dockerfile 的执行过程。</p>
+<h5 id="镜像的缓存特性"><a href="#镜像的缓存特性" class="headerlink" title="镜像的缓存特性"></a>镜像的缓存特性</h5><p>Docker 会<strong>缓存已有镜像的镜像层</strong>，构建新镜像时，<strong>如果某镜像层已经存在，就直接使用，无需重新创建</strong>。</p>
+<h5 id="调试-Dockerfile"><a href="#调试-Dockerfile" class="headerlink" title="调试 Dockerfile"></a>调试 Dockerfile</h5><p>如果 <strong>Dockerfile</strong> 由于某种原因<strong>执行到某个指令失败了</strong>，我们也将能够<strong>得到前一个指令成功执行构建出的镜像</strong>，这对调试 Dockerfile 非常有帮助。可以通过<code>docker run -it</code>启动镜像的一个容器，手动执行目标命令，查看错误信息。</p>
+<h5 id="Dockerfile-常用指令"><a href="#Dockerfile-常用指令" class="headerlink" title="Dockerfile 常用指令"></a>Dockerfile 常用指令</h5><ul>
+<li><strong>FROM</strong>：指定 base 镜像</li>
+<li><strong>MAINTAINER</strong>：设置镜像的作者，可以是任意字符串</li>
+<li><strong>COPY</strong>：将文件从 build context 复制到镜像，支持<code>COPY src dest</code>或<code>COPY [&quot;src&quot;, &quot;dest&quot;]</code></li>
+<li><strong>ADD</strong>：与 COPY 类似，从 build context 复制文件到镜像。不同的是，如果 src 是归档文件（tar、zip、tgz、xz 等），那么文件会被自动解压到 dest。</li>
+<li><strong>ENV</strong>：设置环境变量，可以被后面的指令使用。例如：</li>
+</ul>
+<pre><code class="lang-docker">ENV MY_VERSION 1.3
+RUN apt-get install -y mypackage=$MY_VERSION
+...
+</code></pre>
+<ul>
+<li><strong>EXPOSE</strong>：指定容器中的进程会监听某个端口，Docker 可以将该端口暴露出来。</li>
+<li><strong>VOLUME</strong>：将文件或目录声明为 volume</li>
+<li><strong>WORKDIR</strong>：设置镜像中的当前工作目录</li>
+<li><strong>RUN</strong>：在容器中运行指定的命令</li>
+<li><strong>CMD</strong>：容器启动时运行指定的命令。Dockerfile 中可以有多个 CMD 命令，但只有最后一个生效。CMD 可以被<code>docker run</code>之后的参数替换。</li>
+<li><strong>ENTRYPOINT</strong>：设置容器启动时运行的命令。<strong>CMD</strong> 或<code>docker run</code>之后的参数会被当做参数传递给 <strong>ENTRYPOINT</strong>。</li>
+</ul>
+<p>下面是一个较为全面的 Dockerfile：</p>
+<pre><code class="lang-docker"># my dockerfile
+FROM busybox
+MAINTAINER abelsu7@gmail.com
+WORKDIR /testdir
+RUN touch tmpfile1
+COPY [&quot;tmpfile2&quot;, &quot;.&quot;]
+ADD [&quot;bunch.tar.gz&quot;, &quot;.&quot;]
+ENV WELCOME &quot;You are in my container, welcome!&quot;
+</code></pre>
+<p>运行容器，验证镜像内容：</p>
+<pre><code class="lang-bash">&gt; docker run -it my-image
+/testdir &gt; ls
+bunch    tmpfile1    tmpfile2
+/testdit &gt; echo $WELCOME
+You are in my container, welcome!
+</code></pre>
+<h5 id="RUN-vs-CMD-vs-ENTRYPOINT"><a href="#RUN-vs-CMD-vs-ENTRYPOINT" class="headerlink" title="RUN vs CMD vs ENTRYPOINT"></a>RUN vs CMD vs ENTRYPOINT</h5><p>这三个 Dockerfile 指令看上去很类似，但也有不同之处。简单来说：</p>
+<ol>
+<li><strong>RUN 执行命令并创建新的镜像层</strong>，经常用于<strong>安装软件包</strong>。</li>
+<li><strong>CMD 设置容器启动后默认执行的命令及其参数</strong>，但 CMD 能够被<code>docker run</code>后面跟的命令行参数替换。</li>
+<li><strong>ENTRYPOINT 配置容器启动时运行的命令</strong></li>
+</ol>
+<p><strong>Shell 和 Exec 格式</strong></p>
+<p>可以用两种方式指定 RUN、CMD 和 ENTRYPOINT 要运行的命令：<strong>Shell 格式</strong>和 <strong>Exec 格式</strong>。</p>
+<p>Shell 格式：</p>
+<pre><code class="lang-docker">&lt;instruction&gt; &lt;command&gt;
+
+RUN apt-get install python3
+CMD echo &quot;Hello World&quot;
+ENTRYPOINT echo &quot;Hello World&quot;
+</code></pre>
+<p>当指令执行时，shell 格式底层会调用<code>/bin/sh -c &lt;command&gt;</code>。</p>
+<p>Exec 格式：</p>
+<pre><code class="lang-docker">&lt;instruction&gt; [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;, ...]
+
+RUN [&quot;apt-get&quot;, &quot;install&quot;, &quot;python3&quot;]
+CMD [&quot;/bin/echo&quot;, &quot;Hello world&quot;]
+ENTRYPOINT [&quot;/bin/ehco&quot;, &quot;Hello world&quot;]
+</code></pre>
+<p>当指令执行时，会直接调用<code>&lt;command&gt;</code>，不会被 Shell 解析。</p>
+<blockquote>
+<p><strong>CMD 和 ENTRYPOINT 推荐使用 Exec 格式</strong>，因为<strong>指令可读性更强，更容易理解</strong>。RUN 则两种格式都可以。</p>
+</blockquote>
+<p><strong>RUN</strong></p>
+<p><strong>RUN 指令</strong>通常用于<strong>安装应用和软件包</strong>。</p>
+<p><strong>RUN 在当前镜像的顶部执行命令，并创建新的镜像层</strong>。Dockerfile 中常常包含多个 RUN 指令。</p>
+<blockquote>
+<p><strong>注意</strong>：<code>apt-get update</code>和<code>apt-get install</code>被放在一个 RUN 指令中执行，这样能够保证每次安装的是最新的包。如果<code>apt-get install</code>在单独的 RUN 中执行，则会使用<code>apt-get update</code>创建的镜像层，而这一层可能是很久之前缓存的。</p>
+</blockquote>
+<p><strong>CMD</strong></p>
+<p><strong>CMD 指令</strong>允许用户<strong>指定容器默认执行的命令</strong>。</p>
+<p>此命令会在<strong>容器启动</strong>且<code>docker run</code><strong>没有指定其他命令时运行</strong>。</p>
+<ol>
+<li>如果<code>docker run</code><strong>指定了其他命令</strong>，则 <strong>CMD 指定的默认命令将被忽略</strong></li>
+<li>如果 Dockerfile 中有多个 CMD 指令，<strong>只有最后一个 CMD 有效</strong></li>
+</ol>
+<p><strong>ENTRYPOINT</strong></p>
+<p><strong>ENTRYPOINT 指令</strong>可让<strong>容器以应用程序或服务的形式运行</strong>。</p>
+<p>ENTRYPOINT 看上去与 CMD 很像，它们都可以指定要执行的命令及其参数。不同的地方在于 <strong>ENTRYPOINT 不会被忽略，一定会被执行，即使运行 docker run 时指定了其他命令</strong>。</p>
+<p><strong>ENTRYPOINT 的 Exec 格式</strong>用于<strong>设置要执行的命令及其参数</strong>，同时<strong>可通过 CMD 提供额外的参数</strong>。</p>
+<p>例如下面的 Dockerfile 片段：</p>
+<pre><code class="lang-docker">ENTRYPOINT [&quot;/bin/echo&quot;, &quot;Hello&quot;]
+CMD [&quot;world&quot;]
+</code></pre>
+<p>当容器通过<code>docker run -it [image]</code>启动时，输出为：<code>Hello world</code>。</p>
+<p>当容器通过<code>docker run -it [image] CloudMan</code>启动时，输出为：<code>Hello CloudMan</code></p>
+<blockquote>
+<p><strong>ENTRYPOINT</strong> 的 <strong>Shell 格式</strong>会<strong>忽略任何 CMD 或</strong><code>docker run</code><strong>提供的参数</strong>。</p>
+</blockquote>
+<p><strong>最佳实践</strong></p>
+<ol>
+<li>使用 <strong>RUN 指令安装应用和软件包，构建镜像</strong>。</li>
+<li>如果 Docker 镜像的用途是<strong>运行应用程序或服务</strong>，例如运行一个 MySQL 实例，则应该<strong>优先使用 Exec 格式的 ENTRYPOINT 指令</strong>。CMD 可为 ENTRYPOINT 提供额外的默认参数，同时利用<code>docker run</code>命令行替换默认参数。</li>
+<li>如果想为容器设置<strong>默认的启动命令</strong>，可使用 <strong>CMD 指令</strong>。用户可在<code>docker run</code>命令行中替换此默认命令。</li>
+</ol>
+<h3 id="3-3-镜像命名"><a href="#3-3-镜像命名" class="headerlink" title="3.3 镜像命名"></a>3.3 镜像命名</h3><p>一个特定镜像的名字由两部分组成：repository 和 tag：</p>
+<pre><code class="lang-docker">[image name] = [repository]:[tag]
+</code></pre>
+<p>如果执行<code>docker build</code>时没有指定 tag，则会使用默认值 latest，其效果相当于：</p>
+<pre><code class="lang-docker">docker build -t ubuntu-with-vi:latest
+</code></pre>
+<h3 id="3-4-镜像仓库-Registry"><a href="#3-4-镜像仓库-Registry" class="headerlink" title="3.4 镜像仓库 Registry"></a>3.4 镜像仓库 Registry</h3><h4 id="3-4-1-使用公共-Registry：Docker-Hub"><a href="#3-4-1-使用公共-Registry：Docker-Hub" class="headerlink" title="3.4.1 使用公共 Registry：Docker Hub"></a>3.4.1 使用公共 Registry：Docker Hub</h4><p><strong>Docker Hub</strong> 是 Docker 公司维护的<strong>公共 Registry</strong>。用户可以将自己的镜像保存到 Docker Hub 免费的 repository 中。如果不希望别人访问自己的镜像，也可以购买私有 repository。</p>
+<blockquote>
+<p>除了 Docker Hub，quay.io 是另一个公共 Registry，提供与 Docker Hub 类似的服务。</p>
+</blockquote>
+<p><strong>通过 Docker Hub 存取镜像</strong>的步骤如下：</p>
+<ol>
+<li>首先在 Docker Hub 上<strong>注册账号</strong></li>
+<li>在 Docker Host 上登录：<code>docker login -u [username]</code></li>
+<li><strong>修改镜像的 repository 使之与 Docker Hub 账号匹配</strong>。Docker Hub 为了区分不同用户的同名镜像，镜像的 registry 中要包含用户名，完整格式为：<code>[username]/xxx:tag</code>。通过<code>docker tag</code>命令重命名镜像：<code>docker tag httpd cloudman6/httpd:v1</code></li>
+<li><strong>通过</strong><code>docker push</code><strong>将镜像上传到 Docker Hub</strong>：<code>docker push cloudman6/httpd:v1</code>。省略 tag 部分即可上传同一 repository 中的所有镜像</li>
+<li>登录 <a href="https://hub.docker.com" target="_blank" rel="noopener">https://hub.docker.com</a>，在 Public Repository 中就可以看到上传的镜像</li>
+<li>在其他 Docker Host 上可通过<code>docker pull</code>命令下载使用该镜像</li>
+</ol>
+<h4 id="3-4-2-搭建本地-Registry"><a href="#3-4-2-搭建本地-Registry" class="headerlink" title="3.4.2 搭建本地 Registry"></a>3.4.2 搭建本地 Registry</h4><p>Docker Hub 虽然非常方便，但还是有些限制：</p>
+<ol>
+<li>需要互联网连接，而且下载上传速度较慢</li>
+<li>上传到 Docker Hub 的镜像任何人都能够访问。虽然可以使用私有 repository，但不是免费的</li>
+<li>安全原因使得很多组织不允许将镜像放到外网</li>
+</ol>
+<p>解决方案就是<strong>搭建本地的 Registry</strong>。</p>
+<p>Docker 已经将 Registry 开源了，同时在 Docker Hub 上也有官方的镜像 Registry。</p>
+<p>1) 启动 registry 容器：</p>
+<pre><code class="lang-docker">docker run -d -p 5000:5000 -v /myregistry:/var/lib/registry registry:2
+</code></pre>
+<p>2) 通过<code>docker tag</code>重命名镜像，使之与 registry 匹配：</p>
+<pre><code class="lang-docker">docker tag cloudman6/httpd:v1 registry.example.net:5000/cloudman6:httpd:v1
+</code></pre>
+<blockquote>
+<p>只有 Docker Hub 上的镜像可以省略<code>[registry-host]:[port]</code></p>
+</blockquote>
+<p>3) 通过<code>docker push</code>上传镜像：</p>
+<pre><code class="lang-docker">docker push registry.example.net:5000/cloudman6/httpd:v1
+</code></pre>
+<p>4) 现在就可以通过<code>docker pull</code>从本地 registry 下载镜像了：</p>
+<pre><code class="lang-docker">docker pull registry.example.net:5000/cloudman6/httpd:v1
+</code></pre>
+<p>本地 registry 也支持认证、HTTPS 安全传输等特性，具体可参考<a href="https://docs.docker.com/registry/configuration/" target="_blank" rel="noopener">官方文档</a>。</p>
+<h3 id="3-5-Docker-镜像小结"><a href="#3-5-Docker-镜像小结" class="headerlink" title="3.5 Docker 镜像小结"></a>3.5 Docker 镜像小结</h3><p>镜像的常用操作子命令如下：</p>
+<ul>
+<li><strong>images</strong>：显示镜像列表</li>
+<li><strong>history</strong>：显示镜像构建历史</li>
+<li><strong>commit</strong>：从容器创建新镜像</li>
+<li><strong>build</strong>：从 Dockerfile 构建镜像</li>
+<li><strong>tag</strong>：给镜像打 tag</li>
+<li><strong>pull</strong>：从 registry 下载镜像</li>
+<li><strong>push</strong>：将镜像上传到 registry </li>
+<li><strong>rmi</strong>：删除 Docker Host 中的镜像</li>
+<li><strong>search</strong>：搜索 Docker Hub 中的镜像</li>
+</ul>
+<blockquote>
+<p><strong>参考文章</strong></p>
+<ol>
+<li><a href="https://mp.weixin.qq.com/s/OVE0LUHeH9vRSIgikS7jCQ" target="_blank" rel="noopener">《每天5分钟玩转 Docker 容器技术》教程目录 | CloudMan</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/09/25/micro-service-orchestration-and-container-schedule/">微服务编排与容器调度</a></li><li><a href="https://abelsu7.top/2019/09/18/micro-service-notes/">微服务学习资料汇总</a></li><li><a href="https://abelsu7.top/2019/03/19/recent-review/">近期复习合集</a></li><li><a href="https://abelsu7.top/2019/03/18/understanding-linux-kernel/">Linux 内核笔记 1：绪论</a></li><li><a href="http://www.hui-wang.info/2018/02/04/%E5%BD%B1%E5%93%8D%E5%8A%9B/">影响力</a></li><li><a href="http://www.hui-wang.info/2017/11/25/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E%EF%BC%9A%E4%B8%8D%E8%83%BD%E5%86%8D%E5%87%91%E4%BA%86/">数学之美：不能再凑了</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.128Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/11/05/docker-5mins-notes-2/" target="_blank" rel="external">https://abelsu7.top/2018/11/05/docker-5mins-notes-2/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/容器/">容器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书/">读书</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/11/05/docker-5mins-notes-2/&title=《5 分钟 Docker 笔记 2：镜像》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/11/05/docker-5mins-notes-2/&title=《5 分钟 Docker 笔记 2：镜像》 — Keep Coding&source=
+镜像内部结构、构建镜像、镜像命名、Registry
+
+
+                
+                    
+          ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/11/05/docker-5mins-notes-2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《5 分钟 Docker 笔记 2：镜像》 — Keep Coding&url=https://abelsu7.top/2018/11/05/docker-5mins-notes-2/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/11/05/docker-5mins-notes-2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/11/14/centos7-ssh/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">CentOS 7 安装配置 SSH 并允许 root 登录</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/10/31/math-analysis/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">数值分析笔记 1：基础概念</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/11/05/docker-5mins-notes-2/&title=《5 分钟 Docker 笔记 2：镜像》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/11/05/docker-5mins-notes-2/&title=《5 分钟 Docker 笔记 2：镜像》 — Keep Coding&source=
+镜像内部结构、构建镜像、镜像命名、Registry
+
+
+                
+                    
+          ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/11/05/docker-5mins-notes-2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《5 分钟 Docker 笔记 2：镜像》 — Keep Coding&url=https://abelsu7.top/2018/11/05/docker-5mins-notes-2/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/11/05/docker-5mins-notes-2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLUlEQVR42u3aQW7DMAwF0dz/0u62i9qaT6otRI9WhePEeipAU6Q+Hzyum0Hu/37l7tPn69uGDBkyjmVcj4Pfc/fLZCE2PFeGDBkvYJBJPN9T+1b/F2TIkCGDPIz8Dgm4MmTIkLGLwbeg/Ar5VIYMGTJ4QNybCP7DXlyGDBkHMnjV/e///pX+hgwZMo5iXOFIgyAPjldjyJAhYzaDB7i06ZjGyQ5bhgwZsxkkUPINZC1kkwC9uCJDhozRDF6O5wV9fnii80T0P5EhQ8YgRu14RDrF50d20kQZMmTMZvCmYL9klpbheJooQ4aM2YzalrJzkIIsSrHBIEOGjNGM53DJy1619me6lIvlkCFDxlDGroDLt6NpmzPoxMqQIWMco1/cT5O5WiFvMUMZMmS8gMEPT/BwzFM6niDGZ0ZkyJAxiFFrcPKtb39RFhgZMmSMZnQK+nzqfIubNg9kyJDxBkY6ic5BDb4oZHF/eG/IkCFjKKN25KJTmOs3MhcLJ0OGjKEMUt7ipTEeItOiGzpsIUOGjNGMdOrpITCyZPwUW7GRKUOGjMMZPMtKEzte6Cf3t94bMmTIOJBxhSMNu530kR/XkCFDxmxGP9h1NrGdTW8RI0OGjGMZPMjWHlxLGdNvyZAh4w2MXYEvbUmmb4BFD1aGDBky8CY2TRD7xTsZMmTI4I3JWtsg3XOjFqYMGTLGMTrNAF7o5+GbLLEMGTLew0jzrpRRK6XVjovJkCFjHOMLFIAD8XvEGt0AAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

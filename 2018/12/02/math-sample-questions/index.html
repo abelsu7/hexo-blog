@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>数值分析笔记 8：例题整理 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="读书,数值分析">
+    <meta name="description" content="数值分析例题整理">
+<meta name="keywords" content="读书,数值分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数值分析笔记 8：例题整理">
+<meta property="og:url" content="https://abelsu7.top/2018/12/02/math-sample-questions/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="数值分析例题整理">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2018/12/02/math-sample-questions/math-cover.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.529Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数值分析笔记 8：例题整理">
+<meta name="twitter:description" content="数值分析例题整理">
+<meta name="twitter:image" content="https://abelsu7.top/2018/12/02/math-sample-questions/math-cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">数值分析笔记 8：例题整理</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">数值分析笔记 8：例题整理</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-12-02T13:24:19.000Z" itemprop="datePublished" class="page-time">
+  2018-12-02
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/数学/">数学</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-误差与范数"><span class="post-toc-text">1. 误差与范数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-1-误差的定义"><span class="post-toc-text">1.1 误差的定义</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-2-应取几位有效数字"><span class="post-toc-text">1.2 应取几位有效数字</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-3-相对误差允许范围"><span class="post-toc-text">1.3 相对误差允许范围</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-4-算术运算的误差估计"><span class="post-toc-text">1.4 算术运算的误差估计</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-5-数值稳定性-1"><span class="post-toc-text">1.5 数值稳定性-1</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-6-数值稳定性-2"><span class="post-toc-text">1.6 数值稳定性-2</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-7-函数序列的一致收敛性"><span class="post-toc-text">1.7 函数序列的一致收敛性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-8-向量范数"><span class="post-toc-text">1.8 向量范数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-9-矩阵范数"><span class="post-toc-text">1.9 矩阵范数</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-函数插值方法"><span class="post-toc-text">2. 函数插值方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-多项式插值定理"><span class="post-toc-text">2.1 多项式插值定理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-2-求过给定样点的插值多项式"><span class="post-toc-text">2.2 求过给定样点的插值多项式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-3-Lagrange-线性插值-二次插值"><span class="post-toc-text">2.3 $Lagrange$ 线性插值/二次插值</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-4-插值基函数的性质"><span class="post-toc-text">2.4 插值基函数的性质</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-5-三次-Hermite-带导插值-1"><span class="post-toc-text">2.5 三次 $Hermite$ 带导插值-1</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-6-三次-Hermite-带导插值-2"><span class="post-toc-text">2.6 三次 $Hermite$ 带导插值-2</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-曲线拟合-连续函数逼近"><span class="post-toc-text">3. 曲线拟合/连续函数逼近</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-1-线性拟合"><span class="post-toc-text">3.1 线性拟合</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-2-二次拟合"><span class="post-toc-text">3.2 二次拟合</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-3-指数模型的线性化拟合"><span class="post-toc-text">3.3 指数模型的线性化拟合</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-4-双曲线模型的线性化拟合"><span class="post-toc-text">3.4 双曲线模型的线性化拟合</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-5-超定方程组的近似解"><span class="post-toc-text">3.5 超定方程组的近似解</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-6-法方程的矩阵形式-1"><span class="post-toc-text">3.6 法方程的矩阵形式-1</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-7-法方程的矩阵形式-2"><span class="post-toc-text">3.7 法方程的矩阵形式-2</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-方程组数值解法——直接法"><span class="post-toc-text">5. 方程组数值解法——直接法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-1-顺序-Gauss-消去法"><span class="post-toc-text">5.1 顺序 $Gauss$ 消去法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-2-列主元-Gauss-消去法"><span class="post-toc-text">5.2 列主元 $Gauss$ 消去法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-3-直接三角分解法"><span class="post-toc-text">5.3 直接三角分解法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-方程组数值解法——迭代法"><span class="post-toc-text">6. 方程组数值解法——迭代法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-1-Jacobi-迭代法-Gauss-Seidel-迭代法-1"><span class="post-toc-text">6.1 $Jacobi$ 迭代法/$Gauss$-$Seidel$ 迭代法-1</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-2-Jacobi-迭代法-Gauss-Seidel-迭代法-2"><span class="post-toc-text">6.2 $Jacobi$ 迭代法/$Gauss$-$Seidel$ 迭代法-2</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-3-迭代法收敛性-1"><span class="post-toc-text">6.3 迭代法收敛性-1</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-4-迭代法收敛性-2"><span class="post-toc-text">6.4 迭代法收敛性-2</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-5-严格对角占优矩阵"><span class="post-toc-text">6.5 严格对角占优矩阵</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-6-收敛速度问题"><span class="post-toc-text">6.6 收敛速度问题</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-非线性方程组的数值解法"><span class="post-toc-text">7. 非线性方程组的数值解法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-1-二分法"><span class="post-toc-text">7.1 二分法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-2-不动点迭代法"><span class="post-toc-text">7.2 不动点迭代法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-3-收敛性基本定理-1"><span class="post-toc-text">7.3 收敛性基本定理-1</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-4-收敛性基本定理-2"><span class="post-toc-text">7.4 收敛性基本定理-2</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-5-局部收敛定理"><span class="post-toc-text">7.5 局部收敛定理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-6-收敛速度与收敛阶"><span class="post-toc-text">7.6 收敛速度与收敛阶</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-7-Newton-迭代法"><span class="post-toc-text">7.7 $Newton$ 迭代法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-8-非线性方程组的-Newton-迭代法"><span class="post-toc-text">7.8 非线性方程组的 $Newton$ 迭代法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-矩阵特征值计算"><span class="post-toc-text">8. 矩阵特征值计算</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8-1-计算模最大特征值-lambda-1-的乘幂法"><span class="post-toc-text">8.1 计算模最大特征值 $\lambda_1$ 的乘幂法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8-2-计算模最小特征值-lambda-n-的反幂法"><span class="post-toc-text">8.2 计算模最小特征值 $\lambda_n$ 的反幂法</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-math-sample-questions"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">数值分析笔记 8：例题整理</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-12-02 21:24:19" datetime="2018-12-02T13:24:19.000Z"  itemprop="datePublished">2018-12-02</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/数学/">数学</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>数值分析例题整理</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/12/02/math-sample-questions/math-cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#1-误差与范数">1. 误差与范数</a><ul>
+<li><a href="#1-1-误差的定义">1.1 误差的定义</a></li>
+<li><a href="#1-2-应取几位有效数字">1.2 应取几位有效数字</a></li>
+<li><a href="#1-3-相对误差允许范围">1.3 相对误差允许范围</a></li>
+<li><a href="#1-4-算术运算的误差估计">1.4 算术运算的误差估计</a></li>
+<li><a href="#1-5-数值稳定性-1">1.5 数值稳定性-1</a></li>
+<li><a href="#1-6-数值稳定性-2">1.6 数值稳定性-2</a></li>
+<li><a href="#1-7-函数序列的一致收敛性">1.7 函数序列的一致收敛性</a></li>
+<li><a href="#1-8-向量范数">1.8 向量范数</a></li>
+<li><a href="#1-9-矩阵范数">1.9 矩阵范数</a></li>
+</ul>
+</li>
+<li><a href="#2-函数插值方法">2. 函数插值方法</a><ul>
+<li><a href="#2-1-多项式插值定理">2.1 多项式插值定理</a></li>
+<li><a href="#2-2-求过给定样点的插值多项式">2.2 求过给定样点的插值多项式</a></li>
+<li><a href="#2-3-Lagrange-线性插值-二次插值">2.3 $Lagrange$ 线性插值/二次插值</a></li>
+<li><a href="#2-4-插值基函数的性质">2.4 插值基函数的性质</a></li>
+<li><a href="#2-5-三次-Hermite-带导插值-1">2.5 三次 $Hermite$ 带导插值-1</a></li>
+<li><a href="#2-6-三次-Hermite-带导插值-2">2.6 三次 $Hermite$ 带导插值-2</a></li>
+</ul>
+</li>
+<li><a href="#3-曲线拟合-连续函数逼近">3. 曲线拟合/连续函数逼近</a><ul>
+<li><a href="#3-1-线性拟合">3.1 线性拟合</a></li>
+<li><a href="#3-2-二次拟合">3.2 二次拟合</a></li>
+<li><a href="#3-3-指数模型的线性化拟合">3.3 指数模型的线性化拟合</a></li>
+<li><a href="#3-4-双曲线模型的线性化拟合">3.4 双曲线模型的线性化拟合</a></li>
+<li><a href="#3-5-超定方程组的近似解">3.5 超定方程组的近似解</a></li>
+<li><a href="#3-6-法方程的矩阵形式-1">3.6 法方程的矩阵形式-1</a></li>
+<li><a href="#3-7-法方程的矩阵形式-2">3.7 法方程的矩阵形式-2</a></li>
+</ul>
+</li>
+<li><a href="#5-方程组数值解法——直接法">5. 方程组数值解法——直接法</a><ul>
+<li><a href="#5-1-顺序-Gauss-消去法">5.1 顺序 $Gauss$ 消去法</a></li>
+<li><a href="#5-2-列主元-Gauss-消去法">5.2 列主元 $Gauss$ 消去法</a></li>
+<li><a href="#5-3-直接三角分解法">5.3 直接三角分解法</a></li>
+</ul>
+</li>
+<li><a href="#6-方程组数值解法——迭代法">6. 方程组数值解法——迭代法</a><ul>
+<li><a href="#6-1-Jacobi-迭代法-Gauss-Seidel-迭代法-1">6.1 $Jacobi$ 迭代法/$Gauss$-$Seidel$ 迭代法-1</a></li>
+<li><a href="#6-2-Jacobi-迭代法-Gauss-Seidel-迭代法-2">6.2 $Jacobi$ 迭代法/$Gauss$-$Seidel$ 迭代法-2</a></li>
+<li><a href="#6-3-迭代法收敛性-1">6.3 迭代法收敛性-1</a></li>
+<li><a href="#6-4-迭代法收敛性-2">6.4 迭代法收敛性-2</a></li>
+<li><a href="#6-5-严格对角占优矩阵">6.5 严格对角占优矩阵</a></li>
+<li><a href="#6-6-收敛速度问题">6.6 收敛速度问题</a></li>
+</ul>
+</li>
+<li><a href="#7-非线性方程组的数值解法">7. 非线性方程组的数值解法</a><ul>
+<li><a href="#7-1-二分法">7.1 二分法</a></li>
+<li><a href="#7-2-不动点迭代法">7.2 不动点迭代法</a></li>
+<li><a href="#7-3-收敛性基本定理-1">7.3 收敛性基本定理-1</a></li>
+<li><a href="#7-4-收敛性基本定理-2">7.4 收敛性基本定理-2</a></li>
+<li><a href="#7-5-局部收敛定理">7.5 局部收敛定理</a></li>
+<li><a href="#7-6-收敛速度与收敛阶">7.6 收敛速度与收敛阶</a></li>
+<li><a href="#7-7-Newton-迭代法">7.7 $Newton$ 迭代法</a></li>
+<li><a href="#7-8-非线性方程组的-Newton-迭代法">7.8 非线性方程组的 $Newton$ 迭代法</a></li>
+</ul>
+</li>
+<li><a href="#8-矩阵特征值计算">8. 矩阵特征值计算</a><ul>
+<li><a href="#8-1-计算模最大特征值-lambda-1-的乘幂法">8.1 计算模最大特征值 $\lambda_1$ 的乘幂法</a></li>
+<li><a href="#8-2-计算模最小特征值-lambda-n-的反幂法">8.2 计算模最小特征值 $\lambda_n$ 的反幂法</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="1-误差与范数"><a href="#1-误差与范数" class="headerlink" title="1. 误差与范数"></a>1. 误差与范数</h2><h3 id="1-1-误差的定义"><a href="#1-1-误差的定义" class="headerlink" title="1.1 误差的定义"></a>1.1 误差的定义</h3><p><strong>证明</strong>：设 $x$ 的非零近似值 <script type="math/tex">x^*</script> 记为规格化形式 <script type="math/tex">x^* = \pm 10^k \times 0.a_1a_2\cdots a_n</script>，其中 $k$ 为整数，$a_1,a_2,\cdots a_n \in \{ 0,1,\cdots,9; \ a \ne 0 \}$，则</p>
+<p>1.如果 <script type="math/tex">x^*</script> 有 $n$ 位有效数字，则</p>
+<script type="math/tex; mode=display">
+|e_r(x^*)| = \frac{|x-x^*|}{|x^*|} \leqslant \frac{1}{2a_1} \times 10^{1-n}</script><p>2.如果 </p>
+<script type="math/tex; mode=display">
+|e_r(x^*)| = \frac{|x-x^*|}{|x^*|} \leqslant \frac{1}{2(a_1+1)} \times 10^{1-n}</script><p>则 $x^*$ 至少有 $n$ 位有效数字。</p>
+<h3 id="1-2-应取几位有效数字"><a href="#1-2-应取几位有效数字" class="headerlink" title="1.2 应取几位有效数字"></a>1.2 应取几位有效数字</h3><p>要使 $\sqrt{20}$ 的近似值的相对误差不超过 $0.1\%$，问用计算器计算时，应取几位有效数字？</p>
+<h3 id="1-3-相对误差允许范围"><a href="#1-3-相对误差允许范围" class="headerlink" title="1.3 相对误差允许范围"></a>1.3 相对误差允许范围</h3><p>计算球体积 $V=\displaystyle{\frac{4}{3}} \pi r^3$ 时，为使 $V$ 的相对误差不超过 $0.3\%$，求半径 $r$ 的相对误差允许范围。</p>
+<h3 id="1-4-算术运算的误差估计"><a href="#1-4-算术运算的误差估计" class="headerlink" title="1.4 算术运算的误差估计"></a>1.4 算术运算的误差估计</h3><p>设 $t=1.21$，$\mu = 3.65$，$\upsilon = 9.81$ 均准确到小数点后两位，试估计下列计算的相对误差：$x=t \mu + \upsilon$。</p>
+<h3 id="1-5-数值稳定性-1"><a href="#1-5-数值稳定性-1" class="headerlink" title="1.5 数值稳定性-1"></a>1.5 数值稳定性-1</h3><p>分析递推公式</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+y_0 = 28 \\
+y_n = y_{n-1} - \displaystyle{\frac{1}{100}}\sqrt{783}
+\end{cases}\quad (n=1,2,\cdots)</script><p>的数值稳定性，设实际计算时，取 $\sqrt{783} \approx 27.982$ 进行近似计算。</p>
+<h3 id="1-6-数值稳定性-2"><a href="#1-6-数值稳定性-2" class="headerlink" title="1.6 数值稳定性-2"></a>1.6 数值稳定性-2</h3><p>试导出计算 $I_n = \displaystyle{\int_{0}^{1}}x^ne^x\mathrm{d}x \ (n=0,1,2,\cdots)$ 的递推公式，并讨论其数值稳定性。</p>
+<h3 id="1-7-函数序列的一致收敛性"><a href="#1-7-函数序列的一致收敛性" class="headerlink" title="1.7 函数序列的一致收敛性"></a>1.7 函数序列的一致收敛性</h3><p>证明函数序列 $f_n(x) = \displaystyle{\frac{x}{1+n^2x^2}}$ 在 $[0,1]$ 上一致收敛于 $0$，即 $\lim \limits_{n \to \infty} f_n(x) = 0$。</p>
+<h3 id="1-8-向量范数"><a href="#1-8-向量范数" class="headerlink" title="1.8 向量范数"></a>1.8 向量范数</h3><p>设 $\pmb{x} = (2,-4,3)^T$，求 <script type="math/tex">\left \| \pmb{x} \right \|_1</script>、<script type="math/tex">\left \| \pmb{x} \right \|_\infty</script>、<script type="math/tex">\left \| \pmb{x} \right \|_2</script>。</p>
+<h3 id="1-9-矩阵范数"><a href="#1-9-矩阵范数" class="headerlink" title="1.9 矩阵范数"></a>1.9 矩阵范数</h3><p>设 <script type="math/tex">\pmb{A}=\begin{bmatrix}1 &-2 \\-3 &4 \end{bmatrix}</script>，求 <script type="math/tex">\left \| \pmb{A} \right \|_F</script>、<script type="math/tex">\left \| \pmb{A} \right \|_1</script>、<script type="math/tex">\left \| \pmb{A} \right \|_\infty</script>、<script type="math/tex">\left \| \pmb{A} \right \|_2</script>。</p>
+<h2 id="2-函数插值方法"><a href="#2-函数插值方法" class="headerlink" title="2. 函数插值方法"></a>2. 函数插值方法</h2><h3 id="2-1-多项式插值定理"><a href="#2-1-多项式插值定理" class="headerlink" title="2.1 多项式插值定理"></a>2.1 多项式插值定理</h3><p><strong>证明</strong>：设已知 $[a,b]$ 上的函数 $f$ 在 $n+1$ 个互异节点 $x_i \in [a,b]$ 上的值 $f_i=f(x_i) \ (i=0,1,\cdots,n)$，则存在唯一的次数 $\leqslant n$ 的多项式 $p_n(x) \in \pmb{P}_n$ 满足：</p>
+<script type="math/tex; mode=display">
+p_n(x) = f_i \quad (i=0,1,\cdots,n)</script><h3 id="2-2-求过给定样点的插值多项式"><a href="#2-2-求过给定样点的插值多项式" class="headerlink" title="2.2 求过给定样点的插值多项式"></a>2.2 求过给定样点的插值多项式</h3><p>求过三个样点 $A(0,1)$，$B(1,2)$，$C(2,3)$ 的插值多项式。</p>
+<h3 id="2-3-Lagrange-线性插值-二次插值"><a href="#2-3-Lagrange-线性插值-二次插值" class="headerlink" title="2.3 $Lagrange$ 线性插值/二次插值"></a>2.3 $Lagrange$ 线性插值/二次插值</h3><p>设已知 $f(x) = e^{-x}$ 的四个函数值如下表所示：</p>
+<script type="math/tex; mode=display">
+\begin{array}{c|cccc}
+x & \quad 0 & 1 & 2 &3 \\
+\hline
+e^{-x} & \quad 1 & 0.3679 & 0.1353 &0.0498 \\
+\end{array}</script><p>试用 $Lagrange$ 公式的线性插值求 $e^{-1.4}$ 的近似值，用二次插值求 $e^{-2.1}$ 的近似值。</p>
+<h3 id="2-4-插值基函数的性质"><a href="#2-4-插值基函数的性质" class="headerlink" title="2.4 插值基函数的性质"></a>2.4 插值基函数的性质</h3><p><strong>证明</strong>：由 $n+1$ 个互异节点 $x_i \in [a,b]$ 构成的 $n+1$ 个插值基函数 $l_i(x) \ (i=0,1,\cdots,n)$ 具有性质：</p>
+<script type="math/tex; mode=display">
+\sum \limits_{i=0}^n l_i(x)=1, \ \forall x \in [a,b]</script><h3 id="2-5-三次-Hermite-带导插值-1"><a href="#2-5-三次-Hermite-带导插值-1" class="headerlink" title="2.5 三次 $Hermite$ 带导插值-1"></a>2.5 三次 $Hermite$ 带导插值-1</h3><p>对函数 $f(x) = \ln (x)$，给定：</p>
+<script type="math/tex; mode=display">
+f(1)=0, \ f(2)=0.693147, \ f{}'(1)=1, \ f{}'(2)=0.5</script><p>试用三次 $Hermite$ 插值多项式 $H_3(x)$ 计算 $f(1.5)$ 的近似值并估计误差。</p>
+<h3 id="2-6-三次-Hermite-带导插值-2"><a href="#2-6-三次-Hermite-带导插值-2" class="headerlink" title="2.6 三次 $Hermite$ 带导插值-2"></a>2.6 三次 $Hermite$ 带导插值-2</h3><p>试用多种解法求一个次数 $\leqslant 3$ 的插值多项式 $H_3(x)$，满足插值条件：</p>
+<script type="math/tex; mode=display">
+H_3(-1) = -1, \ H_3(0) = H{}'_3(0) = 0, \ H_3(1) = 1</script><h2 id="3-曲线拟合-连续函数逼近"><a href="#3-曲线拟合-连续函数逼近" class="headerlink" title="3. 曲线拟合/连续函数逼近"></a>3. 曲线拟合/连续函数逼近</h2><h3 id="3-1-线性拟合"><a href="#3-1-线性拟合" class="headerlink" title="3.1 线性拟合"></a>3.1 线性拟合</h3><p>已知实验数据如下：</p>
+<script type="math/tex; mode=display">
+\begin{array}{c|ccccc}
+\hline
+x & \ 1 & 3 & 4 & 6 & 7 \\
+\hline
+f & \ -2.1 & -0.9 & -0.6 &0.6 & 0.9 \\
+\hline
+\end{array}</script><p>试求其拟合曲线。</p>
+<h3 id="3-2-二次拟合"><a href="#3-2-二次拟合" class="headerlink" title="3.2 二次拟合"></a>3.2 二次拟合</h3><p>设已知实验数据如下表：</p>
+<script type="math/tex; mode=display">
+\begin{array}{c|ccccc}
+\hline
+x & \ -2 & -1 & 0 & 1 & 2 \\
+\hline
+f & \ 0 & 1 & 2 & 1 & 0 \\
+\hline
+\end{array}</script><p>试求其二次多项式拟合模型：</p>
+<script type="math/tex; mode=display">
+(1) \ s(x) = a_0 + a_1x + a_2x^2; \quad (2) \ s(x) = a_0 + a_1x^2</script><h3 id="3-3-指数模型的线性化拟合"><a href="#3-3-指数模型的线性化拟合" class="headerlink" title="3.3 指数模型的线性化拟合"></a>3.3 指数模型的线性化拟合</h3><p>已知离散数据如下（权 $\rho \equiv  1$）：</p>
+<script type="math/tex; mode=display">
+\begin{array}{c|ccccc}
+\hline
+x_j & \ 1.00 & 1.25 & 1.50 & 1.75 & 2.00 \\
+\hline
+f(x_j) & \ 5.10 & 5.79 & 6.53 & 7.45 & 8.46 \\
+\hline
+\end{array}</script><p>求形如 $s(x) = ae^{bx}$ 的拟合曲线。</p>
+<h3 id="3-4-双曲线模型的线性化拟合"><a href="#3-4-双曲线模型的线性化拟合" class="headerlink" title="3.4 双曲线模型的线性化拟合"></a>3.4 双曲线模型的线性化拟合</h3><p>已知离散数据如下（权 $\rho \equiv  1$）：</p>
+<script type="math/tex; mode=display">
+\begin{array}{c|cccc}
+\hline
+x_j & \ 1 & 2 & 3 & 4 \\
+\hline
+f(x_j) & \ 1.95 & 3.05 & 3.55 & 3.85 \\
+\hline
+\end{array}</script><p>求形如 $s(x) = \displaystyle{\frac{x}{ax+b}}$ 的拟合曲线。</p>
+<h3 id="3-5-超定方程组的近似解"><a href="#3-5-超定方程组的近似解" class="headerlink" title="3.5 超定方程组的近似解"></a>3.5 超定方程组的近似解</h3><p>求下列超定方程组的近似解：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+x_1 - x_2 = 1 \\
+-x_1 + x_2 = 2 \\
+2x_1 - 2x_2 = 3 \\
+-3x_1 + x_2 = 4
+\end{cases}</script><h3 id="3-6-法方程的矩阵形式-1"><a href="#3-6-法方程的矩阵形式-1" class="headerlink" title="3.6 法方程的矩阵形式-1"></a>3.6 法方程的矩阵形式-1</h3><p>已知实验数据如下：</p>
+<script type="math/tex; mode=display">
+\begin{array}{c|ccccc}
+\hline
+x & \ 1 & 3 & 4 & 6 & 7 \\
+\hline
+y & \ -2.1 & -0.9 & -0.6 & 0.6 & 0.9 \\
+\hline
+\end{array}</script><p>以法方程的矩阵形式求解。</p>
+<h3 id="3-7-法方程的矩阵形式-2"><a href="#3-7-法方程的矩阵形式-2" class="headerlink" title="3.7 法方程的矩阵形式-2"></a>3.7 法方程的矩阵形式-2</h3><p>已知实验数据如下：</p>
+<script type="math/tex; mode=display">
+\begin{array}{c|cccc}
+\hline
+x & \ 1 & 2 & 3 & 4 \\
+\hline
+f & \ 4 & 10 & 18 & 26 \\
+\hline
+\end{array}</script><p>按最小二乘拟合求形如 $s(x)=ax+bx^2$ 的经验公式。</p>
+<h2 id="5-方程组数值解法——直接法"><a href="#5-方程组数值解法——直接法" class="headerlink" title="5. 方程组数值解法——直接法"></a>5. 方程组数值解法——直接法</h2><h3 id="5-1-顺序-Gauss-消去法"><a href="#5-1-顺序-Gauss-消去法" class="headerlink" title="5.1 顺序 $Gauss$ 消去法"></a>5.1 顺序 $Gauss$ 消去法</h3><p>用顺序 $Gauss$ 消去法（消去过程加回代过程）解方程组：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+x_1 + 2x_2 + x_3 = 0 \\
+2x_1 + 2x_2 + 3x_3 = 3 \\
+x_1 + 3x_2 = -2
+\end{cases}</script><h3 id="5-2-列主元-Gauss-消去法"><a href="#5-2-列主元-Gauss-消去法" class="headerlink" title="5.2 列主元 $Gauss$ 消去法"></a>5.2 列主元 $Gauss$ 消去法</h3><p>用列主元 $Gauss$ 消去法解方程组，并求系数矩阵行列式值 $\det \pmb{A}$：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+-3x_1 + 2x_2 + 6x_3 = 4 \\
+10 x_1 - 7 x_2 = 7 \\
+5x_1 - x_2 + 5 x_3 = 6
+\end{cases}</script><h3 id="5-3-直接三角分解法"><a href="#5-3-直接三角分解法" class="headerlink" title="5.3 直接三角分解法"></a>5.3 直接三角分解法</h3><p>用直接三角分解法解方程组：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+2 & -3 & -2 \\
+-1 & 2 & -2 \\
+3 & -1 & 4
+\end{bmatrix}
+\begin{bmatrix}
+x_1 \\
+x_2 \\
+x_3
+\end{bmatrix}=
+\begin{bmatrix}
+0 \\
+-1 \\
+7  
+\end{bmatrix}</script><h2 id="6-方程组数值解法——迭代法"><a href="#6-方程组数值解法——迭代法" class="headerlink" title="6. 方程组数值解法——迭代法"></a>6. 方程组数值解法——迭代法</h2><h3 id="6-1-Jacobi-迭代法-Gauss-Seidel-迭代法-1"><a href="#6-1-Jacobi-迭代法-Gauss-Seidel-迭代法-1" class="headerlink" title="6.1 $Jacobi$ 迭代法/$Gauss$-$Seidel$ 迭代法-1"></a>6.1 $Jacobi$ 迭代法/$Gauss$-$Seidel$ 迭代法-1</h3><p>已知方程组:</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+8x_1 - 3x_2 + 2x_3 = 20 \\
+4x_1 + 11x_2 - x_3 = 33 \\
+2x_1 + x_2 + 4x_3 = 12
+\end{cases}</script><p>分别用</p>
+<ol>
+<li>$Jacobi$ 迭代法</li>
+<li>$Gauss$-$Seidel$ 迭代法</li>
+</ol>
+<p>以 $\pmb{x}^{(0)}=(0,0,0)^T$ 为初始向量，计算其前三个迭代值，并与精确解 $\pmb{x}^*=(3,2,1)^T$ 比较。</p>
+<h3 id="6-2-Jacobi-迭代法-Gauss-Seidel-迭代法-2"><a href="#6-2-Jacobi-迭代法-Gauss-Seidel-迭代法-2" class="headerlink" title="6.2 $Jacobi$ 迭代法/$Gauss$-$Seidel$ 迭代法-2"></a>6.2 $Jacobi$ 迭代法/$Gauss$-$Seidel$ 迭代法-2</h3><p>用 $Jacobi$ 迭代法和 $Gauss$-$Seidel$ 迭代法求解方程组 $\pmb{A}\pmb{x}=\pmb{b}$，其中：</p>
+<script type="math/tex; mode=display">
+\pmb{A}=\begin{bmatrix}
+4 & 1 & -1 \\
+2 & 5 & 2 \\
+1 & 1 & 3
+\end{bmatrix},\quad
+\pmb{b}=\begin{bmatrix}
+5 \\
+-4 \\
+3
+\end{bmatrix}</script><p>取 $\pmb{x}^{(0)} = (1,-1,1)^T$，$\varepsilon = \displaystyle{\frac{1}{2}} \times 10^{-6}$。</p>
+<h3 id="6-3-迭代法收敛性-1"><a href="#6-3-迭代法收敛性-1" class="headerlink" title="6.3 迭代法收敛性-1"></a>6.3 迭代法收敛性-1</h3><p>已知方程组：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+1 &2 \\
+0.3 &1
+\end{bmatrix}
+\begin{bmatrix}
+x_1 \\
+x_2
+\end{bmatrix} = 
+\begin{bmatrix}
+1 \\
+2
+\end{bmatrix}</script><p>使用 $J$ 法和 $GS$ 法求解此方程的收敛性。</p>
+<h3 id="6-4-迭代法收敛性-2"><a href="#6-4-迭代法收敛性-2" class="headerlink" title="6.4 迭代法收敛性-2"></a>6.4 迭代法收敛性-2</h3><p>试证明解下列方程组：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+1 &2 &-2 \\
+1 &1 &1 \\
+2 &2 &1 
+\end{bmatrix}
+\begin{bmatrix}
+x_1 \\
+x_2 \\
+x_3
+\end{bmatrix}=
+\begin{bmatrix}
+b_1 \\
+b_2 \\
+b_3
+\end{bmatrix}</script><p>的 $J$ 法收敛；而 $GS$ 法发散。</p>
+<h3 id="6-5-严格对角占优矩阵"><a href="#6-5-严格对角占优矩阵" class="headerlink" title="6.5 严格对角占优矩阵"></a>6.5 严格对角占优矩阵</h3><p>设方程组：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+\ \ x_1 - 8x_2 \qquad \ = -7 \\
+\ \ x_1 \qquad \ - 9x_3 = -8 \\
+9x_1 - \ \ x_2 - x_3 \ = 7
+\end{cases}</script><p>试写出解此方程组的收敛的 $J$ 迭代公式和 $GS$ 迭代公式。</p>
+<h3 id="6-6-收敛速度问题"><a href="#6-6-收敛速度问题" class="headerlink" title="6.6 收敛速度问题"></a>6.6 收敛速度问题</h3><p>设方程组 $\pmb{A}\pmb{x}=\pmb{b}$，其中 <script type="math/tex">\pmb{A} = \begin{bmatrix}3&2\\1&2\end{bmatrix}</script>，<script type="math/tex">\pmb{b}=\begin{bmatrix}3\\-1\end{bmatrix}</script>，用下列迭代公式求解：</p>
+<script type="math/tex; mode=display">
+\pmb{x}^{(k+1)} = \pmb{x}^{(k)} + \alpha ( \pmb{A}\pmb{x}^{(k)} - \pmb{b} ) \quad (k=0,1,\cdots)</script><ol>
+<li>试找出使迭代收敛的实数 $\alpha$ 的取值范围；</li>
+<li>试求出使迭代收敛最快的 $\alpha$ 值。</li>
+</ol>
+<h2 id="7-非线性方程组的数值解法"><a href="#7-非线性方程组的数值解法" class="headerlink" title="7. 非线性方程组的数值解法"></a>7. 非线性方程组的数值解法</h2><h3 id="7-1-二分法"><a href="#7-1-二分法" class="headerlink" title="7.1 二分法"></a>7.1 二分法</h3><p>设方程 $f(x) = e^x + 10x -2 = 0$，试：</p>
+<ol>
+<li>证明它在 $(0,1)$ 内有且只有一个实根 $x^*$；</li>
+<li>用二分法求这个实根 $x^*$；</li>
+<li>若要求 $|x^* - x_n| &lt; 10^{-6}$，问需二分区间 $[0,1]$ 多少次？</li>
+</ol>
+<h3 id="7-2-不动点迭代法"><a href="#7-2-不动点迭代法" class="headerlink" title="7.2 不动点迭代法"></a>7.2 不动点迭代法</h3><p>用不动点迭代法求方程 $x^3 + 4x^2 - 10=0$ 在 $[1,2]$ 内的一个实根。</p>
+<h3 id="7-3-收敛性基本定理-1"><a href="#7-3-收敛性基本定理-1" class="headerlink" title="7.3 收敛性基本定理-1"></a>7.3 收敛性基本定理-1</h3><p><strong>证明</strong>：设迭代函数 $\varphi \in C[a,b]$ 满足条件：</p>
+<ol>
+<li><strong>映内性</strong>：当 $a \leqslant x \leqslant b$ 时，有 $a \leqslant \varphi(x) \leqslant b$；</li>
+<li><strong>压缩性</strong>：存在常数 $0 &lt; L &lt; 1$，$L$ 称为<strong>压缩系数</strong>，使得</li>
+</ol>
+<script type="math/tex; mode=display">
+|\varphi(x) - \varphi(\tilde{x})| \leqslant L|x - \tilde{x}|, \quad \forall x,\tilde{x} \in [a,b]</script><p>则可得：</p>
+<ol>
+<li>函数 $\varphi$ 在 $[a,b]$ 上存在唯一的不动点 $x^*$；</li>
+<li>对任意初值 $x_0 \in [a,b]$，迭代公式 $x_{k+1}=\varphi(x_k)$ 收敛于 <script type="math/tex">x^*</script>，即 <script type="math/tex">\lim \limits_{k \to \infty} x_k = x^*</script>；</li>
+<li>迭代值有误差估计式：</li>
+</ol>
+<script type="math/tex; mode=display">
+|x^* - x_k| \leqslant \frac{L}{1-L}|x_k - x_{k-1}|, \\
+|x^* - x_k| \leqslant \frac{L^k}{1-L}|x_1 - x_0|.</script><h3 id="7-4-收敛性基本定理-2"><a href="#7-4-收敛性基本定理-2" class="headerlink" title="7.4 收敛性基本定理-2"></a>7.4 收敛性基本定理-2</h3><p>用不动点迭代法求解方程：</p>
+<script type="math/tex; mode=display">
+x - \ln x = 2 \quad (x > 1)</script><p>要求相对误差 $\Delta &lt; 10^{-8}$。</p>
+<h3 id="7-5-局部收敛定理"><a href="#7-5-局部收敛定理" class="headerlink" title="7.5 局部收敛定理"></a>7.5 局部收敛定理</h3><p>对迭代函数 $\varphi(x) = x + \lambda(x^2 - 5)$，试找出使迭代公式 $x_{k+1} = \varphi(x_k) \ (k=0,1,\cdots)$ 局部收敛于 $x^*=\sqrt{5}$ 的 $\lambda$ 的取值范围。</p>
+<h3 id="7-6-收敛速度与收敛阶"><a href="#7-6-收敛速度与收敛阶" class="headerlink" title="7.6 收敛速度与收敛阶"></a>7.6 收敛速度与收敛阶</h3><p>为使下列形式的迭代公式：</p>
+<script type="math/tex; mode=display">
+x_{k+1} = px_k + q\frac{a}{x^2} + \frac{a^2}{x_k^5} \quad (k=0,1,\cdots)</script><p>所产生的序列 $\{x_k\}$ 收敛于 $\sqrt[3]{a}$，并且有尽可能高的收敛阶，试确定其中常数 $p$，$q$，$r$。</p>
+<h3 id="7-7-Newton-迭代法"><a href="#7-7-Newton-迭代法" class="headerlink" title="7.7 $Newton$ 迭代法"></a>7.7 $Newton$ 迭代法</h3><p>用 $Newton$ 迭代法求下列方程的近似根：</p>
+<script type="math/tex; mode=display">
+xe^x - 1 = 0</script><h3 id="7-8-非线性方程组的-Newton-迭代法"><a href="#7-8-非线性方程组的-Newton-迭代法" class="headerlink" title="7.8 非线性方程组的 $Newton$ 迭代法"></a>7.8 非线性方程组的 $Newton$ 迭代法</h3><p>用 $Newton$ 迭代法解非线性方程组：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+4x_1^2 + x_2^2 - 4 = 0 \\
+x_1 + x_2 - \sin(x_1 - x_2) = 0
+\end{cases}</script><h2 id="8-矩阵特征值计算"><a href="#8-矩阵特征值计算" class="headerlink" title="8. 矩阵特征值计算"></a>8. 矩阵特征值计算</h2><h3 id="8-1-计算模最大特征值-lambda-1-的乘幂法"><a href="#8-1-计算模最大特征值-lambda-1-的乘幂法" class="headerlink" title="8.1 计算模最大特征值 $\lambda_1$ 的乘幂法"></a>8.1 计算模最大特征值 $\lambda_1$ 的乘幂法</h3><p>用乘幂法求矩阵 $\pmb{A}$ 的特征值和特征向量，其中：</p>
+<script type="math/tex; mode=display">
+\pmb{A} = \begin{bmatrix}
+2 &3 &2 \\
+10 &3 &4 \\
+3 &6 &1
+\end{bmatrix}.</script><h3 id="8-2-计算模最小特征值-lambda-n-的反幂法"><a href="#8-2-计算模最小特征值-lambda-n-的反幂法" class="headerlink" title="8.2 计算模最小特征值 $\lambda_n$ 的反幂法"></a>8.2 计算模最小特征值 $\lambda_n$ 的反幂法</h3><p>用反幂法求矩阵 $\pmb{A}$ 的特征值和特征向量，其中：</p>
+<script type="math/tex; mode=display">
+\pmb{A} = \begin{bmatrix}
+2 &10 &3 \\
+3 &3 &6 \\
+2 &4 &1
+\end{bmatrix}.</script><div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/03/18/understanding-linux-kernel/">Linux 内核笔记 1：绪论</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-6/">Java 笔记 6：异常、断言和日志</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-5/">Java 笔记 5：集合</a></li><li><a href="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/">5 分钟 Docker 笔记 5：存储</a></li><li><a href="http://www.hui-wang.info/2018/02/04/%E5%BD%B1%E5%93%8D%E5%8A%9B/">影响力</a></li><li><a href="http://www.hui-wang.info/2017/11/25/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E%EF%BC%9A%E4%B8%8D%E8%83%BD%E5%86%8D%E5%87%91%E4%BA%86/">数学之美：不能再凑了</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.529Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/12/02/math-sample-questions/" target="_blank" rel="external">https://abelsu7.top/2018/12/02/math-sample-questions/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数值分析/">数值分析</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书/">读书</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/12/02/math-sample-questions/&title=《数值分析笔记 8：例题整理》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/12/02/math-sample-questions/&title=《数值分析笔记 8：例题整理》 — Keep Coding&source=
+数值分析例题整理
+
+
+                
+                    
+                    
+      ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/12/02/math-sample-questions/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数值分析笔记 8：例题整理》 — Keep Coding&url=https://abelsu7.top/2018/12/02/math-sample-questions/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/12/02/math-sample-questions/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/12/05/extract-wechat-cover/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">获取微信公众号文章封面图片</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/11/27/math-analysis-7/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">数值分析笔记 7：矩阵特征值计算</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/12/02/math-sample-questions/&title=《数值分析笔记 8：例题整理》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/12/02/math-sample-questions/&title=《数值分析笔记 8：例题整理》 — Keep Coding&source=
+数值分析例题整理
+
+
+                
+                    
+                    
+      ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/12/02/math-sample-questions/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数值分析笔记 8：例题整理》 — Keep Coding&url=https://abelsu7.top/2018/12/02/math-sample-questions/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/12/02/math-sample-questions/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLklEQVR42u3azW6DQAxFYd7/pVOp6o5Cz7VDpdhnVhEJEz4W1vjnOPB6fa/zlfM6f3ve4bzb1V1vXjJkyPhYxut2XT3EFexqzxTDn02GDBl7GHw7EhzJK0jD9B/PLEOGDBlvfaz0ugwZMmT0Ay45upE0uHZ8lCFDxh4GD508vPLraUCXIUPGNkbaGPjPzw/2N2TIkPEhjFe4agnn/dGw8zw/O8iQIWM0g/8BH5KohVHeLr3cR4YMGSsZJGl8oojGX6sMGTI2MPh2tWYkHxd7sLMhQ4aMD2f0g28N8NyLkCFDxlRGrXDPD3/p+EUtYZYhQ8ZURjrikLY5O0W04MXJkCFjNKMzAFEb5+qU/oMWpgwZMoYySDLZH54gk11pai1DhozZjFrBi5f4eRM0bV7KkCFjD+P+L2uHNp7cpokxGguTIUPGGkZt5IsnunwFJBkyZAxl1P6mH+v44BdKqmXIkLGAcYDVb0+mLYQg+MqQIWM0ozZaWksya78MQr8MGTKGMvpFedKY7NyFvpUhQ8YCRjowwdsDvM3Aw/0v38qQIWM0g5e0auE1TYzJ7y/vkiFDxlBGp6FYC7h8OIO8UBkyZGxg8MWLaGmA5m3O2suVIUPGDAYJsjy57RwQWyFVhgwZCxjpgAUJjsdbV3FyRIYMGcsYaauS1/z4GFnQyJQhQ8Z6Bi+f8RJbbXZChgwZexgkHe00CVJ8nNzKkCFjNKNfy+IHwc4BMW08yJAhYwTjC5+bqHayntVCAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+<!-- <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script> -->
+<!-- <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script> -->
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

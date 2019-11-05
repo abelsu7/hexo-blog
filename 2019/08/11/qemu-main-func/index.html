@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>QEMU 1.2.0 入口 main() 函数调用流程分析 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="KVM,虚拟化,QEMU">
+    <meta name="description" content="QEMU 源码vl.c中的main()函数调用流程分析，基于1.2.0版本">
+<meta name="keywords" content="KVM,虚拟化,QEMU">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QEMU 1.2.0 入口 main() 函数调用流程分析">
+<meta property="og:url" content="https://abelsu7.top/2019/08/11/qemu-main-func/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="QEMU 源码vl.c中的main()函数调用流程分析，基于1.2.0版本">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/08/11/qemu-main-func/cover.png">
+<meta property="og:image" content="https://abelsu7.top/2019/08/11/qemu-main-func/qemu_create_kvm.png">
+<meta property="og:image" content="https://abelsu7.top/2019/08/11/qemu-main-func/qemu-main-func.png">
+<meta property="og:image" content="https://abelsu7.top/2019/08/11/qemu-main-func/main-function.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.618Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="QEMU 1.2.0 入口 main() 函数调用流程分析">
+<meta name="twitter:description" content="QEMU 源码vl.c中的main()函数调用流程分析，基于1.2.0版本">
+<meta name="twitter:image" content="https://abelsu7.top/2019/08/11/qemu-main-func/cover.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">QEMU 1.2.0 入口 main() 函数调用流程分析</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">QEMU 1.2.0 入口 main() 函数调用流程分析</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-08-11T07:10:31.000Z" itemprop="datePublished" class="page-time">
+  2019-08-11
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/KVM/">KVM</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-main-函数的关键点"><span class="post-toc-text">1. main() 函数的关键点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-main-函数调用流程图"><span class="post-toc-text">2. main() 函数调用流程图</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-pstack-打印堆栈"><span class="post-toc-text">3. pstack 打印堆栈</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-qemu-main-func"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">QEMU 1.2.0 入口 main() 函数调用流程分析</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-08-11 15:10:31" datetime="2019-08-11T07:10:31.000Z"  itemprop="datePublished">2019-08-11</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/KVM/">KVM</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>QEMU 源码<code>vl.c</code>中的<code>main()</code>函数调用流程分析，基于<code>1.2.0</code>版本</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/08/11/qemu-main-func/cover.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#1-main-函数的关键点">1. main() 函数的关键点</a></li>
+<li><a href="#2-main-函数调用流程图">2. main() 函数调用流程图</a></li>
+<li><a href="#3-pstack-打印堆栈">3. pstack 打印堆栈</a></li>
+</ul>
+<h2 id="1-main-函数的关键点"><a href="#1-main-函数的关键点" class="headerlink" title="1. main() 函数的关键点"></a>1. main() 函数的关键点</h2><p>KVM 虚拟化由用户空间的 QEMU 和内核中的 KVM 模块配合完成，QEMU 通过<code>ioctl()</code>向<code>/dev/kvm</code>发送指令字，对虚拟机进行操作。配合流程如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/08/11/qemu-main-func/qemu_create_kvm.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>QEMU 的入口<code>main()</code>函数位于<code>vl.c</code>中，重点关注以下几点：</p>
+<ol>
+<li>何处创建 KVM 虚拟机并获取 fd？</li>
+<li>虚拟机 CPU、内存在何处进行初始化？</li>
+<li>vCPU 子线程在何处创建，如何运行？</li>
+<li>热迁移的 handlers 在何处注册？</li>
+<li>主线程如何监听事件？</li>
+</ol>
+<h2 id="2-main-函数调用流程图"><a href="#2-main-函数调用流程图" class="headerlink" title="2. main() 函数调用流程图"></a>2. main() 函数调用流程图</h2><p>在以上几点做了详细的调用流程展开，其他函数不再深入，部分函数省略，整个<code>main()</code>函数的处理逻辑如下图所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/08/11/qemu-main-func/qemu-main-func.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<pre><code class="lang-c">int main()
+ ├─ atexit(qemu_run_exit_notifiers)          // 注册 QEMU 的退出处理函数
+ ├─ module_call_init(MODULE_INIT_QOM)        // 初始化 QOM
+ ├─ runstate_init()
+ ├─ init_clocks()                            // 初始化时钟源
+ ├─ module_call_init(MODULE_INIT_MACHINE)
+ ├─ switch(popt-&gt;index) case QEMU_OPTION_XXX // 解析 QEMU 参数
+ ├─ socket_init()
+ ├─ os_daemonize()
+ ├─ configure_accelerator()                  // 启用 KVM 加速支持
+ |   └─ kvm_init()                           // 【1】创建 KVM 虚拟机并获取对应的 fd
+ |       ├─ kvm_ioctl(KVM_GET_API_VERSION)   // 检查 KVM API 版本
+ |       ├─ kvm_ioctl(KVM_CREATE_VM)         // 创建虚拟机，并获取 vmfd
+ |       ├─ kvm_arch_init()
+ |       └─ memory_listener_register(&amp;kvm_memory_listener) // 注册 kvm_memory_listener
+ |
+ ├─ qemu_init_cpu_loop()                     // 初始化 vCPU 线程竞争的锁
+ ├─ qemu_init_main_loop()
+ |   └─ main_loop_init()
+ |
+ ├─ qemu_spice_init()                        // 初始化 SPICE
+ ├─ cpu_exec_init_all()                      // 【2】初始化虚拟机的地址空间，主要是 QEMU 侧的内存布局
+ |   ├─ memory_map_init()                    // 初始化 MemoryRegion 及其对应的 FlatView
+ |   |   ├─ memory_region_init()             // 初始化 system_memory/io 这两个全局 MemoryRegion
+ |   |   ├─ set_system_memory_map()          // address_space_memory-&gt;root = system_memory
+ |   |   |   └─ memory_region_update_topology()      // 为 MemoryRegion 生成 FlatView
+ |   |   |       └─ address_space_update_topology()  // as-&gt;current_map = new_view
+ |   |   |           ├─ generate_memory_topology()   // 将 MemoryRegion 的拓扑结构渲染为 FlatRange 数组
+ |   |   |           |   ├─ flatview_init(&amp;view)
+ |   |   |           |   ├─ render_memory_region(&amp;view, mr, ...) // 根据 mr 生成 view
+ |   |   |           |   └─ flatview_simplify(&amp;view) // 合并相邻的 FlatRange
+ |   |   |           |
+ |   |   |           ├─ address_space_update_topology_pass()
+ |   |   |           |   └─ kvm_region_add()        // region_add 对应的回调实现
+ |   |   |           |       └─ kvm_set_phys_mem()  // 根据传入的 section 填充 KVMSlot
+ |   |   |           |           └─ kvm_set_user_memory_region() // 将 QEMU 侧的内存布局注册到 KVM 中
+ |   |   |           |               └─ kvm_ioctl(KVM_SET_USER_MEMORY_REGION)
+ |   |   |           |
+ |   |   |           └─ address_space_update_ioeventfds()   
+ |   |   |
+ |   |   └─ memory_listener_register() // 注册 core_memory_listener、io_memory_listener
+ |   |       └─ listener_add_address_space()
+ |   |
+ |   └─ io_mem_init()                  // 初始化 I/O MemoryRegion
+ |       └─ memory_region_init_io()    // ram/rom/unassigned/notdirty/subpage-ram/watch
+ |           └─ memory_region_init()
+ | 
+ ├─ bdrv_init_with_whitelist()
+ ├─ blk_mig_init()
+ |   └─ register_savevm_live(&quot;block&quot;, &amp;savevm_block_handlers, ...) // 注册块设备热迁移的处理函数
+ |                             
+ ├─ register_savevm_live(&quot;ram&quot;, &amp;savevm_ram_handlers, ...)         // 注册内存热迁移的处理函数
+ ├─ select_vgahw(vga_model) // 选择 VGA 显卡设备，std/cirrus/vmware/xenfb/qxl/none
+ ├─ select_watchdog(watchdog)
+ ├─ qdev_machine_init()
+ ├─ machine-&gt;init()         // QEMU 1.2.0 默认的 QEMUMachine 为 pc_machine_v1_2
+ |   └─ pc_init_pci()
+ |       └─ pc_init1()
+ |           ├─ pc_cpus_init(cpu_model) // 【3】CPU 初始化，根据 smp_cpus 参数创建对应数量的 vCPU 子线程
+ |           |   └─ pc_new_cpu(cpu_model)
+ |           |       └─ cpu_x86_init(cpu_model)
+ |           |           └─ x86_cpu_realize()
+ |           |               └─ qemu_init_vcpu()
+ |           |                   └─ qemu_kvm_start_vcpu()
+ |           |                       └─ qemu_thread_create() // 顺序创建 vCPU 子线程，失败会阻塞
+ |           |                           └─ qemu_kvm_cpu_thread_fn()
+ |           |                               ├─ kvm_init_vcpu()
+ |           |                               |   ├─ kvm_ioctl(KVM_CREATE_VCPU) // 获取 vCPU 对应的 fd
+ |           |                               |   └─ kvm_arch_init_vcpu()
+ |           |                               |
+ |           |                               ├─ qemu_kvm_init_cpu_signals()
+ |           |                               ├─ kvm_cpu_exec()
+ |           |                               |   └─ kvm_vcpu_ioctl(KVM_RUN) // 运行 vCPU
+ |           |                               |       └─ kvm_arch_vcpu_ioctl_run() // 进入内核，由 KVM 处理
+ |           |                               |           └─ __vcpu_run()           
+ |           |                               |               └─ vcpu_enter_guest()
+ |           |                               |                   └─ kvm_mmu_reload()
+ |           |                               |                       └─ kvm_mmu_load() // spin_lock(&amp;vcpu-&gt;kvm-&gt;mmu_lock)
+ |           |                               |  
+ |           |                               └─ qemu_kvm_wait_io_event()
+ |           |
+ |           ├─ kvmclock_create()
+ |           ├─ pc_memory_init() // 【4】内存初始化，从 QEMU 进程的地址空间中进行实际的内存分配
+ |           |   ├─ memory_region_init_ram() // 创建 pc.ram, pc.rom 并分配内存
+ |           |   |   ├─ memory_region_init()
+ |           |   |   └─ qemu_ram_alloc()
+ |           |   |       └─ qemu_ram_alloc_from_ptr()
+ |           |   |
+ |           |   ├─ vmstate_register_ram_global() // 将 MR 的 name 写入 RAMBlock 的 idstr
+ |           |   |   └─ vmstate_register_ram()
+ |           |   |       └─ qemu_ram_set_idstr()
+ |           |   |
+ |           |   ├─ memory_region_init_alias()    // 初始化 ram_below_4g, ram_above_4g
+ |           |   └─ memory_region_add_subregion() // 在 system_memory 中添加 subregions
+ |           |       └─ memory_region_add_subregion_common()
+ |           |           └─ memory_region_update_topology() // 为 MemoryRegion 生成 FlatView
+ |           |               └─ address_space_update_topology() // as-&gt;current_map = new_view   
+ |           |                   ├─ generate_memory_topology()  // 将 MemoryRegion 的拓扑结构渲染为 FlatRange 数组
+ |           |                   |   ├─ flatview_init(&amp;view)
+ |           |                   |   ├─ render_memory_region(&amp;view, mr, ...) // 根据 mr 生成 view
+ |           |                   |   └─ flatview_simplify(&amp;view) // 合并相邻的 FlatRange
+ |           |                   |
+ |           |                   ├─ address_space_update_topology_pass()
+ |           |                   |   └─ kvm_region_add()        // region_add 对应的回调实现
+ |           |                   |       └─ kvm_set_phys_mem()  // 根据传入的 section 填充 KVMSlot
+ |           |                   |           └─ kvm_set_user_memory_region() // 将 QEMU 侧的内存布局注册到 KVM 中
+ |           |                   |               └─ kvm_ioctl(KVM_SET_USER_MEMORY_REGION)
+ |           |                   |
+ |           |                   └─ address_space_update_ioeventfds()  
+ |           |
+ |           ├─ i440fx_init()
+ |           ├─ ioapic_init(gsi_state)
+ |           ├─ pc_vga_init()
+ |           ├─ pc_basic_device_init()
+ |           ├─ pci_piix3_ide_init()
+ |           ├─ audio_init()
+ |           ├─ pc_cmos_init()
+ |           └─ pc_pci_device_init()
+ | 
+ ├─ cpu_synchronize_all_post_init()
+ ├─ set_numa_modes()   // 设置 NUMA
+ ├─ vnc_display_init() // 初始化 VNC
+ ├─ qemu_spice_display_init()
+ ├─ qemu_run_machine_init_done_notifiers()
+ ├─ os_setup_post()
+ ├─ resume_all_vcpus()
+ ├─ main_loop() // 【5】主线程开启循环，监听事件
+ |   └─ main_loop_wait()
+ |       └─ os_host_main_loop_wait()
+ |           └─ select()
+ |   
+ ├─ bdrv_close_all()
+ ├─ pause_all_vcpus()
+ ├─ net_cleanup()
+ └─ res_free()
+</code></pre>
+<p>大致流程如下图所示（图源自网络），对应 VMX 模式下 root 和 non-root 模式的概念：</p>
+<ul>
+<li>左边蓝色部分即为<strong>根模式</strong>下的 <strong>Ring 3</strong>，即为用户空间中的 <strong>QEMU</strong>，通过循环调用<code>ioctl(KVM_RUN)</code>进入内核运行 vCPU，并处理 I/O 请求</li>
+<li>中间橙色部分即为<strong>根模式</strong>下的 <strong>Ring 0</strong>，即为内核空间中的 <strong>KVM</strong>，通过<code>VM-Entry</code>进入非根模式，运行 Guest OS，并处理<code>VM-Exit</code>。如果能在内核处理，则处理后再次通过<code>VM-Entry</code>进入 Guest OS；如果不能处理（例如 I/O 请求），则退出到用户空间，由 QEMU 进行处理</li>
+<li>右边紫色部分即为<strong>非根模式</strong>，<strong>Guest OS</strong> 运行在非根模式下的 <strong>Ring 0</strong>，所有的敏感指令都被重新定义，以便产生相应的 EXIT_REASON 交给 KVM 处理。<strong>Guest OS 中的进程</strong>则运行在非根模式下的 <strong>Ring 3</strong></li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/08/11/qemu-main-func/main-function.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h2 id="3-pstack-打印堆栈"><a href="#3-pstack-打印堆栈" class="headerlink" title="3. pstack 打印堆栈"></a>3. pstack 打印堆栈</h2><p>通过<code>virsh</code>启动一台 32 核 CPU 的虚拟机，使用<code>pstack</code>打印堆栈验证一下：</p>
+<pre><code class="lang-bash">&gt; pstack $(pidof qemu-system-x86_64)
+
+...(省略重复的堆栈)
+Thread 6 (Thread 0x7fdcd4dfa700 (LWP 37340)):
+#0  0x00007fdd46002307 in ioctl () from /lib64/libc.so.6
+#1  0x00000000005e4bcb in kvm_vcpu_ioctl ()
+#2  0x00000000005e57d8 in kvm_cpu_exec ()
+#3  0x00000000005a2601 in qemu_kvm_cpu_thread_fn ()
+#4  0x00007fdd462d8893 in start_thread () from /lib64/libpthread.so.0
+#5  0x00007fdd46009bfd in clone () from /lib64/libc.so.6
+Thread 5 (Thread 0x7fdcbbfff700 (LWP 37341)):
+#0  0x00007fdd46002307 in ioctl () from /lib64/libc.so.6
+#1  0x00000000005e4bcb in kvm_vcpu_ioctl ()
+#2  0x00000000005e57d8 in kvm_cpu_exec ()
+#3  0x00000000005a2601 in qemu_kvm_cpu_thread_fn ()
+#4  0x00007fdd462d8893 in start_thread () from /lib64/libpthread.so.0
+#5  0x00007fdd46009bfd in clone () from /lib64/libc.so.6
+Thread 4 (Thread 0x7fdcbb5fe700 (LWP 37342)):
+#0  0x00007fdd46002307 in ioctl () from /lib64/libc.so.6
+#1  0x00000000005e4bcb in kvm_vcpu_ioctl ()
+#2  0x00000000005e57d8 in kvm_cpu_exec ()
+#3  0x00000000005a2601 in qemu_kvm_cpu_thread_fn ()
+#4  0x00007fdd462d8893 in start_thread () from /lib64/libpthread.so.0
+#5  0x00007fdd46009bfd in clone () from /lib64/libc.so.6
+Thread 3 (Thread 0x7fdcbabfd700 (LWP 37343)):
+#0  0x00007fdd46002307 in ioctl () from /lib64/libc.so.6
+#1  0x00000000005e4bcb in kvm_vcpu_ioctl ()
+#2  0x00000000005e57d8 in kvm_cpu_exec ()
+#3  0x00000000005a2601 in qemu_kvm_cpu_thread_fn ()
+#4  0x00007fdd462d8893 in start_thread () from /lib64/libpthread.so.0
+#5  0x00007fdd46009bfd in clone () from /lib64/libc.so.6
+Thread 2 (Thread 0x7fc4a73fd700 (LWP 37451)):
+#0  0x00007fdd462dc115 in pthread_cond_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
+#1  0x0000000000568781 in qemu_cond_wait ()
+#2  0x00000000005952c3 in vnc_worker_thread_loop ()
+#3  0x0000000000595778 in vnc_worker_thread ()
+#4  0x00007fdd462d8893 in start_thread () from /lib64/libpthread.so.0
+#5  0x00007fdd46009bfd in clone () from /lib64/libc.so.6
+Thread 1 (Thread 0x7fdd47cce700 (LWP 37247)):
+#0  0x00007fdd460029f3 in select () from /lib64/libc.so.6
+#1  0x000000000053b325 in main_loop_wait ()
+#2  0x0000000000536ef4 in main ()
+</code></pre>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/09/02/virtio-in-kvm/">半虚拟化 I/O 框架 virtio</a></li><li><a href="https://abelsu7.top/2019/08/26/compile-kvm-module/">单独编译 KVM 内核模块</a></li><li><a href="https://abelsu7.top/2019/08/11/kvm-api-overview/">Kernel 2.6.32 中的 KVM API 概述</a></li><li><a href="https://abelsu7.top/2019/07/07/qemu-nbd/">使用 qemu-nbd 挂载虚拟机镜像</a></li><li><a href="http://www.borgor.cn/2017-10-23/16f315c1.html">迁移 VMware 虚拟机到 KVM</a></li><li><a href="https://zsnmwy.net/47278.html">微星B350M 虚拟化开启 AMD-V</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.618Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/08/11/qemu-main-func/" target="_blank" rel="external">https://abelsu7.top/2019/08/11/qemu-main-func/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/KVM/">KVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QEMU/">QEMU</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/虚拟化/">虚拟化</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/08/11/qemu-main-func/&title=《QEMU 1.2.0 入口 main() 函数调用流程分析》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/08/11/qemu-main-func/&title=《QEMU 1.2.0 入口 main() 函数调用流程分析》 — Keep Coding&source=
+QEMU 源码vl.c中的main()函数调用流程分析，基于1.2.0版本
+
+
+                
+                   ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/08/11/qemu-main-func/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《QEMU 1.2.0 入口 main() 函数调用流程分析》 — Keep Coding&url=https://abelsu7.top/2019/08/11/qemu-main-func/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/08/11/qemu-main-func/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/08/11/kvm-api-overview/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Kernel 2.6.32 中的 KVM API 概述</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/07/28/2019-autumn-offer/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">2020 届互联网秋季校园招聘汇总 (2019年秋)</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/08/11/qemu-main-func/&title=《QEMU 1.2.0 入口 main() 函数调用流程分析》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/08/11/qemu-main-func/&title=《QEMU 1.2.0 入口 main() 函数调用流程分析》 — Keep Coding&source=
+QEMU 源码vl.c中的main()函数调用流程分析，基于1.2.0版本
+
+
+                
+                   ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/08/11/qemu-main-func/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《QEMU 1.2.0 入口 main() 函数调用流程分析》 — Keep Coding&url=https://abelsu7.top/2019/08/11/qemu-main-func/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/08/11/qemu-main-func/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACK0lEQVR42u3aQW7DMAxE0dz/0u0BAtt/SLmoqJ+VETiOXhYTkdTng18/X6+r98k990/+vmfZS4YMGdsy+FKurq8W1/kh+NpkyJBxDuMqwe6v0zvv3289QYYMGTJuA5SEI9kgypAhQ0af0YGR55BvkSFDxskMXkzywOVhSmDLanEZMmRsyOBd97+/fmW+IUOGjK0YtbKzVtB2xpkPq5IhQ8ZoRmeEyZFrC+PLUlaGDBlDGaQgbLXAwl+UF6uX/xsyZMgYykiPQXSOiK0tbmXIkHEOg2/m7t9PA7c2vJQhQ8ZpjFpTvr9N7BxBe5jEypAh4wBGLS7T0pQf4Ah+aBkyZAxlkGhLQ5mEYwpAgwEZMmSMZsTHGvBS+JELDotnsDJkyNicQeJy7ZAgDeV0ICpDhozZjDQQawcpyHVa1sqQIWM2oxaX/ZK1tpWUIUPGyQzeXEsXXVt62tqTIUPGbAYvSnnU8hiNj1OQp8mQIWM0I13iGw39TrNPhgwZsxmkWOWHvdY23eJ5rAwZMkYzeJiuCmhePKOjaTJkyBjN4B/jAwM+EuBPC2pxGTJkDGLUYrE/vEy3hihkZciQMZTRibla6+3h2AQudIswGTJkbMuojSHTr+cbzVojT4YMGScw+BiADyY5uDacCBYhQ4aMwxh8VHBPSjeRD2wZMmTIaMQi31Dy4vaV/w0ZMmT8e0a/ccajlhfGwXBUhgwZoxn9AE2jOW2lLRtqypAhYz/GL7tjFBl8l/w5AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

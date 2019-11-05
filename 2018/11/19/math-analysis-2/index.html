@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>数值分析笔记 2：函数插值方法 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="读书,数值分析">
+    <meta name="description" content="多项式插值方法、带导插值                                                                                               《应用数值分析》">
+<meta name="keywords" content="读书,数值分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数值分析笔记 2：函数插值方法">
+<meta property="og:url" content="https://abelsu7.top/2018/11/19/math-analysis-2/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="多项式插值方法、带导插值                                                                                               《应用数值分析》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2018/11/19/math-analysis-2/math-cover.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.517Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数值分析笔记 2：函数插值方法">
+<meta name="twitter:description" content="多项式插值方法、带导插值                                                                                               《应用数值分析》">
+<meta name="twitter:image" content="https://abelsu7.top/2018/11/19/math-analysis-2/math-cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">数值分析笔记 2：函数插值方法</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">数值分析笔记 2：函数插值方法</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-11-19T12:35:20.000Z" itemprop="datePublished" class="page-time">
+  2018-11-19
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/数学/">数学</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-函数插值方法"><span class="post-toc-text">2. 函数插值方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-多项式插值的存在唯一性"><span class="post-toc-text">2.1 多项式插值的存在唯一性</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-1-插值相关定义"><span class="post-toc-text">2.1.1 插值相关定义</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-2-插值多项式"><span class="post-toc-text">2.1.2 插值多项式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-3-插值定理"><span class="post-toc-text">2.1.3 插值定理</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-2-Lagrange-插值公式"><span class="post-toc-text">2.2 $Lagrange$ 插值公式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-1-线性插值"><span class="post-toc-text">2.2.1 线性插值</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-2-二次插值"><span class="post-toc-text">2.2.2 二次插值</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-3-n-次-Lagrange-插值"><span class="post-toc-text">2.2.3 $n$ 次 $Lagrange$ 插值</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-4-余项公式"><span class="post-toc-text">2.2.4 余项公式</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-3-带导插值：-Hermite-插值公式"><span class="post-toc-text">2.3 带导插值：$Hermite$ 插值公式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-3-1-带导插值的提法"><span class="post-toc-text">2.3.1 带导插值的提法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-3-2-带导插值定理"><span class="post-toc-text">2.3.2 带导插值定理</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-3-3-Hermite-插值公式及其余项公式"><span class="post-toc-text">2.3.3 $Hermite$ 插值公式及其余项公式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-3-4-Hermite-插值的常用情形"><span class="post-toc-text">2.3.4 $Hermite$ 插值的常用情形</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-math-analysis-2"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">数值分析笔记 2：函数插值方法</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-11-19 20:35:20" datetime="2018-11-19T12:35:20.000Z"  itemprop="datePublished">2018-11-19</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/数学/">数学</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>多项式插值方法、带导插值</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/19/math-analysis-2/math-cover.jpg" alt="《应用数值分析》" title>
+                </div>
+                <div class="image-caption">《应用数值分析》</div>
+            </figure>
+<a id="more"></a>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#2-函数插值方法">2. 函数插值方法</a><ul>
+<li><a href="#2-1-多项式插值的存在唯一性">2.1 多项式插值的存在唯一性</a><ul>
+<li><a href="#2-1-1-插值相关定义">2.1.1 插值相关定义</a></li>
+<li><a href="#2-1-2-插值多项式">2.1.2 插值多项式</a></li>
+<li><a href="#2-1-3-插值定理">2.1.3 插值定理</a></li>
+</ul>
+</li>
+<li><a href="#2-2-Lagrange-插值公式">2.2 $Lagrange$ 插值公式</a><ul>
+<li><a href="#2-2-1-线性插值">2.2.1 线性插值</a></li>
+<li><a href="#2-2-2-二次插值">2.2.2 二次插值</a></li>
+<li><a href="#2-2-3-n-次-Lagrange-插值">2.2.3 $n$ 次 $Lagrange$ 插值</a></li>
+<li><a href="#2-2-4-余项公式">2.2.4 余项公式</a></li>
+</ul>
+</li>
+<li><a href="#2-3-带导插值：-Hermite-插值公式">2.3 带导插值：$Hermite$ 插值公式</a><ul>
+<li><a href="#2-3-1-带导插值的提法">2.3.1 带导插值的提法</a></li>
+<li><a href="#2-3-2-带导插值定理">2.3.2 带导插值定理</a></li>
+<li><a href="#2-3-3-Hermite-插值公式及其余项公式">2.3.3 $Hermite$ 插值公式及其余项公式</a></li>
+<li><a href="#2-3-4-Hermite-插值的常用情形">2.3.4 $Hermite$ 插值的常用情形</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-函数插值方法"><a href="#2-函数插值方法" class="headerlink" title="2. 函数插值方法"></a>2. 函数插值方法</h2><h3 id="2-1-多项式插值的存在唯一性"><a href="#2-1-多项式插值的存在唯一性" class="headerlink" title="2.1 多项式插值的存在唯一性"></a>2.1 多项式插值的存在唯一性</h3><h4 id="2-1-1-插值相关定义"><a href="#2-1-1-插值相关定义" class="headerlink" title="2.1.1 插值相关定义"></a>2.1.1 插值相关定义</h4><p>设 $f$ 是定义在 $[a,b]$ 上的<strong>实值函数</strong>，已知在 $[a,b]$ 上的 $n+1$ 个<strong>互异节点</strong> $x_i$ 及其<strong>相应函数值</strong> $f_i=f(x_i)$，要求<strong>构建近似函数 $p$</strong>，使得：</p>
+<script type="math/tex; mode=display">
+p(x_i)=f_i \quad (i=0,1,\cdots,n).</script><ul>
+<li><strong>插值条件</strong>：<strong>$p(x_i)=f_i \quad (i=0,1,\cdots,n)$</strong></li>
+<li><strong>被插函数</strong>：<strong>$f$</strong></li>
+<li><strong>插值函数</strong>：<strong>$p$</strong></li>
+<li><strong>插值节点</strong>：<strong>$x_i$</strong> </li>
+<li><strong>插值区间</strong>：<strong>$[a,b]$</strong></li>
+</ul>
+<h4 id="2-1-2-插值多项式"><a href="#2-1-2-插值多项式" class="headerlink" title="2.1.2 插值多项式"></a>2.1.2 插值多项式</h4><script type="math/tex; mode=display">
+p_n(x_i)=a_0+a_1x+\cdots+a_nx^n</script><h4 id="2-1-3-插值定理"><a href="#2-1-3-插值定理" class="headerlink" title="2.1.3 插值定理"></a>2.1.3 插值定理</h4><p>设已知 $[a,b]$ 上的函数 $f$ 在 $n+1$ 个互异节点 $x_i \in [a,b]$ 上的值 $f_i=f(x_i)(i=0,1,\cdots,n)$，则<strong>存在唯一的次数 $\leqslant n$ 的多项式 $p_n(x) \in P_n$</strong> 满足</p>
+<script type="math/tex; mode=display">
+p_n(x_i)=f_i \quad (i=0,1,\cdots,n).</script><h3 id="2-2-Lagrange-插值公式"><a href="#2-2-Lagrange-插值公式" class="headerlink" title="2.2 $Lagrange$ 插值公式"></a>2.2 $Lagrange$ 插值公式</h3><h4 id="2-2-1-线性插值"><a href="#2-2-1-线性插值" class="headerlink" title="2.2.1 线性插值"></a>2.2.1 线性插值</h4><p><strong>线性插值</strong>也称为<strong>一次插值</strong>。已知函数的两个点 $(x_0,f_0)$，$(x_1,f_1)$，必存在唯一的次数 $\leqslant 1$ 的多项式 $L_1(x)$ 满足：</p>
+<script type="math/tex; mode=display">
+L_1(x_0)=f_0， \quad L_1(x_1)=f_1</script><p>不难构造并验证所求的 $L_1(x)$ 就是</p>
+<script type="math/tex; mode=display">
+L_1(x) = \frac{x-x_1}{x_0-x_1}f_0+\frac{x-x_0}{x_1-x_0}f_1</script><p>称上述等式为<strong>线性（一次）插值多项式</strong>。记</p>
+<script type="math/tex; mode=display">
+l_0(x)=\frac{x-x_1}{x_0-x_1}, \quad l_1(x)=\frac{x-x_0}{x_1-x_0}</script><p>则称 $l_0(x)$，$l_1(x)$ 为<strong>线性插值基函数</strong>。于是，可知<strong>线性插值函数</strong>是<strong>线性插值基函数</strong> $l_0(x)$，$l_1(x)$ <strong>与函数值</strong> $f_0$，$f_1$ <strong>的线性组合</strong>。</p>
+<script type="math/tex; mode=display">
+L_1(x) = l_0(x) \cdot f_0 + l_1(x) \cdot f_1</script><h4 id="2-2-2-二次插值"><a href="#2-2-2-二次插值" class="headerlink" title="2.2.2 二次插值"></a>2.2.2 二次插值</h4><p><strong>二次插值</strong>也称为<strong>抛物线插值</strong>。已知函数的三个点 $(x_0,f_0)$，$(x_1,f_1)$，$(x_2,f_2)$，根据定理，必存在唯一的次数 $\leqslant 2$ 的插值多项式 $L_2(x)$ 满足：</p>
+<script type="math/tex; mode=display">
+L_2(x_0)=f_0,\quad L_2(x_1)=f_1,\quad L_2(x_2)=f_2</script><p>采用基函数方法，仿照线性插值，作三个二次插值基函数：</p>
+<script type="math/tex; mode=display">
+l_0(x) = \frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}, \\
+l_1(x) = \frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}, \\
+l_2(x) = \frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}.</script><p>同样，注意到它们的构造规律，并可验证它们具有下列性质：</p>
+<script type="math/tex; mode=display">
+l_0(x_0)=1,\quad l_0(x_1)=0,\quad l_0(x_2)=0 \\
+l_1(x_0)=0,\quad l_1(x_1)=1,\quad l_1(x_2)=0 \\
+l_2(x_0)=0,\quad l_2(x_1)=0,\quad l_2(x_2)=1 \\</script><p>于是，通过验证插值条件，可知所求二次插值多项式为：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+L_2(x)&=l_0(x) \cdot f_0 + l_1(x) \cdot f_1 + l_2(x) \cdot f_2 \\
+&= \sum \limits_{i=0}^2 l_i(x) \cdot f_i
+\end{aligned}</script><p>称为<strong>二次（抛物线）插值多项式</strong>。以下还可将线性插值和二次插值推广到一般情形。</p>
+<h4 id="2-2-3-n-次-Lagrange-插值"><a href="#2-2-3-n-次-Lagrange-插值" class="headerlink" title="2.2.3 $n$ 次 $Lagrange$ 插值"></a>2.2.3 $n$ 次 $Lagrange$ 插值</h4><p>已知函数的 $n+1$ 个点 $(x_i,f_i)(i=0,1,\cdots,n)$，根据定理，必存在唯一的次数 $\leqslant n$的多项式 $L_n(x)$ 满足：</p>
+<script type="math/tex; mode=display">
+L_n(x_i)=f_i \quad (i=0,1,\cdots,n).</script><p>仍仿照上述基函数方法，由 $n+1$ 个节点 $x_i(i=0,1,\cdots,n)$ 作 $n+1$ 个 $n$ 次插值基函数：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+l_i(x)&=\frac{(x-x_0)\cdots (x-x_{i-1})(x-x_{i+1})\cdots (x-x_n)}{(x_i-x_0)\cdots (x_i-x_{i-1})(x_i-x_{i+1})\cdots (x_i-x_n)} \\
+&=\prod_{\begin{subarray}{c}j=0\\ j \neq i \end{subarray}}^n \frac{x-x_j}{x_i-x_j} \qquad (i=0,1,\cdots,n).
+\end{aligned}</script><p>容易验证，它们具有下列性质：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&l_0(x_0)=1, \quad l_0(x_1)=0,\quad \cdots,\quad l_0(x_n)=0 \\
+&l_1(x_0)=1, \quad l_1(x_1)=0,\quad \cdots,\quad l_1(x_n)=0 \\
+&\quad \ \ \vdots \qquad \ \vdots \quad \qquad \vdots \qquad \ \vdots \qquad \qquad \quad \ \vdots \quad \quad \ \ \vdots \\
+&l_n(x_0)=1, \quad l_n(x_1)=0,\quad \cdots,\quad l_n(x_n)=0 \\
+\end{aligned}</script><p>或采用所谓 $Kronecker$（克罗内克尔）符号</p>
+<script type="math/tex; mode=display">
+\delta_{ij}=\begin{cases}
+1, & \text{当$ i = j $}\\
+0, & \text{当$ i \neq j $}
+\end{cases}</script><p>基函数的性质可表示为：</p>
+<script type="math/tex; mode=display">
+l_i(x_j)=\delta_{ij}=\begin{cases}
+1, & \text{当$ i = j $}\\
+0, & \text{当$ i \neq j $}
+\end{cases}</script><p>于是，所求的插值多项式为：</p>
+<script type="math/tex; mode=display">
+L_n(x)=\sum \limits_{i=0}^n l_i(x) \cdot f_i</script><p>或写成紧凑格式：</p>
+<script type="math/tex; mode=display">
+L_n(x)=\sum \limits_{i=0}^n \left( \prod_{\begin{subarray}{c}j=0\\ j \neq i \end{subarray}}^n \frac{x-x_j}{x_i-x_j} \right) \cdot f_i</script><p>这种由插值基函数 $l_i(x)$ 和函数值样本 $f_i \ (i=0,1,\cdots,n)$ 构造的插值函数，便称为 <strong>$n$ 次 $Lagrange$ 插值函数</strong>，或称为<strong>插值多项式的 $Lagrange$ 形式</strong>。</p>
+<p>理论分析中为了简化形式，常引用记号</p>
+<script type="math/tex; mode=display">
+\omega_{n+1}(x)=\prod_{j=0}^n(x-x_j)</script><p>并由对数求导法可推导出</p>
+<script type="math/tex; mode=display">
+\omega_{n+1}{}'(x_i)=\prod_{\begin{subarray}{c}j=0\\ j \neq i \end{subarray}}^n(x_i-x_j)</script><p>于是，基函数表示成</p>
+<script type="math/tex; mode=display">
+l_i(x)=\frac{\omega_{n+1}(x)}{(x-x_i)\omega{}'_{n+1}(x_i)} \quad (i=0,1,\cdots,n)</script><h4 id="2-2-4-余项公式"><a href="#2-2-4-余项公式" class="headerlink" title="2.2.4 余项公式"></a>2.2.4 余项公式</h4><p>利用插值多项式 $L_n(x)$ 作为 $f(x)$ 的近似函数，在 $[a,b]$ 上有误差（截断误差）：</p>
+<script type="math/tex; mode=display">
+R(x)=f(x)-L_n(x)</script><p>称为插值多项式的<strong>余项</strong>。其中，当 $x=x_i \ (i=0,1,\cdots,n)$ 时，$R(x_i)=0$。对余项的估计有一个理论的结果：</p>
+<p>设 $f \in C^n[a,b]$，且 $f^{(n+1)}$ 在 $(a,b)$ 内存在，则 $f$ 的 $n$ 次插值多项式 $L_n$ 对任何 $x\in[a,b]$，有插值余项</p>
+<script type="math/tex; mode=display">
+R_n(x)=f(x)-L_n(x)=\frac{1}{(n+1)!}f^{(n+1)}(\xi)\omega_{n+1}(x)</script><p>其中，$\xi \in (a,b)$ 且与 $x$ 有关，$\omega_{n+1}(x)=\prod \limits_{i=0}^n(x-x_i)$</p>
+<h3 id="2-3-带导插值：-Hermite-插值公式"><a href="#2-3-带导插值：-Hermite-插值公式" class="headerlink" title="2.3 带导插值：$Hermite$ 插值公式"></a>2.3 带导插值：$Hermite$ 插值公式</h3><h4 id="2-3-1-带导插值的提法"><a href="#2-3-1-带导插值的提法" class="headerlink" title="2.3.1 带导插值的提法"></a>2.3.1 带导插值的提法</h4><blockquote>
+<p>如果不仅已知插值节点处的函数值，而且还掌握插值节点处的导数值（1 阶甚至高阶）；或者说，<strong>不仅要求在节点处插值多项式与被插函数的值相等</strong>（插值条件），<strong>而且还要求相应阶的导数值也相等（相切）</strong>，这就是<strong>带导插值</strong>，也称 <strong>$Hermite$（埃尔米特）插值</strong>。</p>
+</blockquote>
+<p>设已知 $f$ 在 $[a,b]$ 上 $n+1$ 个互异节点 $x_i \in [a,b]$ 处的函数值 $f_i = f(x_i)$ 和 1 阶导数值 $f{}’_i = f{}’(x_i) \ (i=0,1,\cdots,n)$，或记为离散数据</p>
+<script type="math/tex; mode=display">
+(x_i,f_i,f{}'_i) \quad (i=0,1,\cdots,n), \qquad (2.3.1)</script><p>求作一个次数尽可能低的多项式 $H(x)$，满足插值条件：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+H(x_i)=f_i \\
+H{}'(x_i)=f{}'_i  
+\end{cases}\quad (i=0,1,\cdots,n)</script><p>这样的<strong>多项式 $H(x)$</strong> 就被称为 <strong>$f$ 的带导插值多项式</strong>，或称为<strong>带导插值多项式的 $Hermite$ 形式</strong>。</p>
+<h4 id="2-3-2-带导插值定理"><a href="#2-3-2-带导插值定理" class="headerlink" title="2.3.2 带导插值定理"></a>2.3.2 带导插值定理</h4><p>对已知数据 $(2.3.1)$，<strong>存在唯一的次数 $\leqslant 2n+1$ 的多项式</strong> $H_{2n+1}(x) \in P_{2n+1}$，<strong>满足插值条件</strong>：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+H_{2n+1}(x_i)=f_i \\
+H_{2n+1}{}'(x_i)=f{}'_i  
+\end{cases}\quad (i=0,1,\cdots,n)</script><h4 id="2-3-3-Hermite-插值公式及其余项公式"><a href="#2-3-3-Hermite-插值公式及其余项公式" class="headerlink" title="2.3.3 $Hermite$ 插值公式及其余项公式"></a>2.3.3 $Hermite$ 插值公式及其余项公式</h4><p><strong><em>插值基函数</em></strong></p>
+<p>仿照 $Lagrange$ 插值多项式的做法，用基函数的方法来求插值多项式 $H_{2n+1}(x)$。如果能够由已知插值节点 $x_i \ (i=0,1,\cdots,n)$ 作出 $2n+2$ 个 $2n+1$ 次插值基函数</p>
+<script type="math/tex; mode=display">
+\alpha_i(x),\ \beta_i(x) \quad (i=0,1,\cdots,n),</script><p>且它们具有下列性质：</p>
+<script type="math/tex; mode=display">
+\alpha_i(x_j)=\delta_{ij}=\begin{cases}
+1, & \text{当$i=j$} \\
+0, & \text{当$i\neq j$}  
+\end{cases}, \quad \alpha{}'_i(x_j)=0</script><script type="math/tex; mode=display">
+\beta_i(x_j) = 0, \quad \beta{}'_i(x_j)=\begin{cases}
+1, & \text{当$i=j$} \\
+0, & \text{当$i\neq j$}
+\end{cases}</script><p>则容易验证，满足插值条件的 <strong>$2n+1$ 次 $Hermite$ 插值多项式</strong>为：</p>
+<script type="math/tex; mode=display">
+H_{2n+1}(x)=\sum_{i=0}^n \left[ \alpha_i(x) \cdot f_i + \beta_i(x) \cdot f{}'_i \right]</script><p>其中<strong>插值基函数</strong>为：</p>
+<script type="math/tex; mode=display">
+\alpha_i(x)=[1-2(x-x_i)\sum_{\begin{subarray}{c}j=0\\ j \neq i \end{subarray}}^{n}\frac{1}{x_i - x_j}]l_i^2(x) \quad (i=0,1,\cdots,n)</script><script type="math/tex; mode=display">
+\beta_i(x)=(x-x_i)l_i^2(x) \quad (i=0,1,\cdots,n)</script><p><strong><em>余项公式</em></strong></p>
+<p>设函数 $f \in C^{2n+1}[a,b]$，且 $f^{(2n+2)}$ 在 $(a,b)$ 内存在，则 $f$ 的 $Hermite$ 插值多项式 $H_{2n+1}(x)$ 的<strong>余项公式</strong>为：</p>
+<script type="math/tex; mode=display">
+R(x)=f(x)-H_{2n+1}(x)=\frac{f^{(2n+2)}(\xi)}{(2n+2)!}\omega_{n+1}^2(x), \quad \forall x \in [a,b].</script><p>其中，$\xi = \xi(x) \in (a,b)$，$\omega_{n+1}(x)=\prod \limits_{i=0}^n(x-x_i)$。</p>
+<h4 id="2-3-4-Hermite-插值的常用情形"><a href="#2-3-4-Hermite-插值的常用情形" class="headerlink" title="2.3.4 $Hermite$ 插值的常用情形"></a>2.3.4 $Hermite$ 插值的常用情形</h4><p><strong>两个节点</strong> $x_0,x_1$（即 $n=1$） 的<strong>三次 $Hermite$ 插值多项式 $H_3(x)$</strong> 是应用中最基本的情形。这时，<strong>基函数</strong>为：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&\alpha_0(x)=(1+2\frac{x-x_0}{x_1-x_0})(\frac{x-x_1}{x_0-x_1})^2, \\
+&\alpha_1(x)=(1+2\frac{x-x_1}{x_0-x_1})(\frac{x-x_0}{x_1-x_0})^2, \\
+&\beta_0(x) = (x-x_0)(\frac{x-x_1}{x_0-x_1})^2, \\
+&\beta_1(x) = (x-x_1)(\frac{x-x_0}{x_1-x_0})^2,
+\end{aligned}</script><p><strong>三次 $Hermite$ 插值多项式</strong> 为：</p>
+<script type="math/tex; mode=display">
+H_3(x)=\alpha_0(x)f_0+\alpha_1(x)f_1+\beta_0(x)f{}'_0+\beta_1(x)f{}'_1,</script><p><strong>插值余项</strong>为：</p>
+<script type="math/tex; mode=display">
+R_3(x)=f(x)-H_3(x)
+=\frac{f^{(4)}(\xi)}{4!}(x-x_0)^2(x-x_1)^2, \quad \xi = \xi(x) \in (a,b)</script><div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/03/18/understanding-linux-kernel/">Linux 内核笔记 1：绪论</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-6/">Java 笔记 6：异常、断言和日志</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-5/">Java 笔记 5：集合</a></li><li><a href="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/">5 分钟 Docker 笔记 5：存储</a></li><li><a href="http://www.hui-wang.info/2018/02/04/%E5%BD%B1%E5%93%8D%E5%8A%9B/">影响力</a></li><li><a href="http://www.hui-wang.info/2017/11/25/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E%EF%BC%9A%E4%B8%8D%E8%83%BD%E5%86%8D%E5%87%91%E4%BA%86/">数学之美：不能再凑了</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.517Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/11/19/math-analysis-2/" target="_blank" rel="external">https://abelsu7.top/2018/11/19/math-analysis-2/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数值分析/">数值分析</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书/">读书</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/11/19/math-analysis-2/&title=《数值分析笔记 2：函数插值方法》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/11/19/math-analysis-2/&title=《数值分析笔记 2：函数插值方法》 — Keep Coding&source=
+多项式插值方法、带导插值
+
+
+                
+                    
+                    
+  ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/11/19/math-analysis-2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数值分析笔记 2：函数插值方法》 — Keep Coding&url=https://abelsu7.top/2018/11/19/math-analysis-2/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/11/19/math-analysis-2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/11/21/math-analysis-3/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">数值分析笔记 3：曲线拟合/连续函数逼近</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/11/14/centos7-ssh/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">CentOS 7 安装配置 SSH 并允许 root 登录</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/11/19/math-analysis-2/&title=《数值分析笔记 2：函数插值方法》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/11/19/math-analysis-2/&title=《数值分析笔记 2：函数插值方法》 — Keep Coding&source=
+多项式插值方法、带导插值
+
+
+                
+                    
+                    
+  ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/11/19/math-analysis-2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数值分析笔记 2：函数插值方法》 — Keep Coding&url=https://abelsu7.top/2018/11/19/math-analysis-2/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/11/19/math-analysis-2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACOUlEQVR42u3awU7EMAxF0f7/TxeJFRK0vc9uR9S5WY0GSHKyME7sbcNj/x4/P//+5uin5391NLYnhgwZMl7LINORz+dsfjRFqgwZMhZg8K0cBdM0EpLZyN5kyJAh4zwg8mTxriOTIUOGjHRqHnzJQciQIUPGOYMkcCTgkscyssqDd3EZMmS8kFErDHzm8+P1DRkyZPx7xl4aHJxehmu7kiFDxmzGeXtEpwmjdlnlLR0XYVeGDBnjGDxckuXTmdODQKVTGTJkDGKkz2qd5gmebsZBVoYMGcsw+GKdhC8N5efzFO/iMmTIeBUjLQDU0jsepu8qkcqQIWMeg2y983xGUsxa89kfhQEZMmSMY6QLd67E6d0zmFmGDBmjGf2nt1ppk6eDvFwhQ4aM2Qze1pAmgiT5S48paAuTIUPGUAZ/JqslgrzMmV5rZciQMZuRtn+RaydplUiLCjf0tcmQIWMQo9Z40S8q8O3KkCFjTUb6Szw1TL/hV18ZMmSsw0gLjTyxq7Vf8IvuxauhDBkyxjFqJQEejvm1+Yb/EjJkyBjKIJOmvQ2cka4uQ4aM1Ri1MNopSfYbzi6usjJkyBjE2MMRnEoYRluFTBkyZIxm1DKu2pNZh9SqcsiQIWMEI22q6DdD8HaxYB4ZMmQswOgUA9Il43hPHvhkyJAhIywP8MZWnhQW3wtlyJCxGOOuTdeSzoswLUOGjAUYvP2UB0ReWrghfZQhQ8ZoRloY4OkjSSjTgkGnUUOGDBkvZHwBavDbGf3/LcwAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+<!-- <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script> -->
+<!-- <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script> -->
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

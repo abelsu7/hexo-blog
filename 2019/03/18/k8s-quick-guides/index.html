@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Kubernetes 实践简明指南 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="容器,Docker,Kubernetes">
+    <meta name="description" content="摘自 Kubernetes 从上手到实践 | 掘金小册">
+<meta name="keywords" content="容器,Docker,Kubernetes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes 实践简明指南">
+<meta property="og:url" content="https://abelsu7.top/2019/03/18/k8s-quick-guides/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自 Kubernetes 从上手到实践 | 掘金小册">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/03/18/k8s-quick-guides/cover.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.420Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kubernetes 实践简明指南">
+<meta name="twitter:description" content="摘自 Kubernetes 从上手到实践 | 掘金小册">
+<meta name="twitter:image" content="https://abelsu7.top/2019/03/18/k8s-quick-guides/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Kubernetes 实践简明指南</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Kubernetes 实践简明指南</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-03-17T17:33:40.000Z" itemprop="datePublished" class="page-time">
+  2019-03-18
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Kubernetes/">Kubernetes</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-Kubernetes-基础概念"><span class="post-toc-text">1. Kubernetes 基础概念</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-Kubernetes-整体架构"><span class="post-toc-text">2. Kubernetes 整体架构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#C-S-架构"><span class="post-toc-text">C/S 架构</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Master"><span class="post-toc-text">Master</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-Cluster-state-store"><span class="post-toc-text">1. Cluster state store</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-API-Server"><span class="post-toc-text">2. API Server</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3-Controller-Manager"><span class="post-toc-text">3. Controller Manager</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#4-Scheduler"><span class="post-toc-text">4. Scheduler</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Node"><span class="post-toc-text">Node</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-kubelet"><span class="post-toc-text">1. kubelet</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-Container-Runtime"><span class="post-toc-text">2. Container Runtime</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3-kube-proxy"><span class="post-toc-text">3. kube-proxy</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-搭建-Kubernetes-集群"><span class="post-toc-text">3. 搭建 Kubernetes 集群</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-使用-kubectl-管理集群"><span class="post-toc-text">4. 使用 kubectl 管理集群</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#基础配置"><span class="post-toc-text">基础配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#kubectl-get"><span class="post-toc-text">kubectl get</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#kubectl-api-resources"><span class="post-toc-text">kubectl api-resources</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#kubectl-explain"><span class="post-toc-text">kubectl explain</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#kubectl-run"><span class="post-toc-text">kubectl run</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Deployment"><span class="post-toc-text">Deployment</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ReplicaSet"><span class="post-toc-text">ReplicaSet</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Service"><span class="post-toc-text">Service</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#kubectl-expose"><span class="post-toc-text">kubectl expose</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-k8s-quick-guides"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Kubernetes 实践简明指南</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-03-18 01:33:40" datetime="2019-03-17T17:33:40.000Z"  itemprop="datePublished">2019-03-18</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Kubernetes/">Kubernetes</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>摘自 <a href="https://juejin.im/book/5b9b2dc86fb9a05d0f16c8ac" target="_blank" rel="noopener">Kubernetes 从上手到实践 | 掘金小册</a></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/18/k8s-quick-guides/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><h3 id="1-Kubernetes-基础概念"><a href="#1-Kubernetes-基础概念" class="headerlink" title="1. Kubernetes 基础概念"></a>1. Kubernetes 基础概念</h3><ul>
+<li><code>Node</code>：工作<strong>节点</strong>，可以是<strong>物理机或虚拟机</strong>，当状态满足要求后达到<code>Ready</code>状态</li>
+<li><code>Deployment</code>：<strong>部署</strong>，一种对期望状态的描述</li>
+<li><code>Pod</code>：集群中<strong>可调度的最小调度单元</strong>，可包含多个容器</li>
+<li><code>Container Runtime</code>：<strong>容器运行时</strong>，这里默认为 <strong>Docker</strong></li>
+</ul>
+<h3 id="2-Kubernetes-整体架构"><a href="#2-Kubernetes-整体架构" class="headerlink" title="2. Kubernetes 整体架构"></a>2. Kubernetes 整体架构</h3><h4 id="C-S-架构"><a href="#C-S-架构" class="headerlink" title="C/S 架构"></a>C/S 架构</h4><p>从宏观上看，<strong>K8S 遵循 C/S 架构</strong>，可以用下面的图来表示：</p>
+<pre><code class="lang-bash">                               +-------------+                              
+                               |             |                              
+                               |             |               +---------------+
+                               |             |       +-----&gt; |     Node 1    |
+                               | Kubernetes  |       |       +---------------+
++-----------------+            |   Server    |       |                      
+|       CLI       |            |             |       |       +---------------+
+|    (Kubectl)    |-----------&gt;| ( Master )  |&lt;------+-----&gt; |     Node 2    |
+|                 |            |             |       |       +---------------+
++-----------------+            |             |       |       
+                               |             |       |       +---------------+
+                               |             |       +-----&gt; |     Node 3    |
+                               |             |               +---------------+
+                               +-------------+
+</code></pre>
+<h4 id="Master"><a href="#Master" class="headerlink" title="Master"></a>Master</h4><p><code>Master</code>是整个 <strong>K8S 集群的大脑</strong>，他有几个重要的功能：</p>
+<ul>
+<li><strong>接收</strong>：<strong>外部的请求</strong>和集群<strong>内部的通知反馈</strong></li>
+<li><strong>发布</strong>：对集群整体的<strong>调度和管理</strong></li>
+<li><strong>存储</strong>：存储<strong>集群</strong>所需持久化的<strong>状态信息</strong></li>
+</ul>
+<p>上述功能<strong>通过一些组件来共同完成</strong>，我们称其为<code>Control Plane</code>：</p>
+<pre><code class="lang-bash">+----------------------------------------------------------+          
+| Master                                                   |          
+|              +-------------------------+                 |          
+|     +-------&gt;|        API Server       |&lt;--------+       |          
+|     |        |                         |         |       |          
+|     v        +-------------------------+         v       |          
+|   +----------------+     ^      +--------------------+   |          
+|   |                |     |      |                    |   |          
+|   |   Scheduler    |     |      | Controller Manager |   |          
+|   |                |     |      |                    |   |          
+|   +----------------+     v      +--------------------+   |          
+| +------------------------------------------------------+ |          
+| |                                                      | |          
+| |                Cluster state store                   | |          
+| |                                                      | |          
+| +------------------------------------------------------+ |          
++----------------------------------------------------------+
+</code></pre>
+<p><code>Master</code>主要包含以下几个<strong>重要的组成部分</strong>：</p>
+<h5 id="1-Cluster-state-store"><a href="#1-Cluster-state-store" class="headerlink" title="1. Cluster state store"></a>1. Cluster state store</h5><p>用来<strong>存储集群所有需要持久化的状态</strong>，并且<strong>提供</strong><code>watch</code><strong>的功能支持</strong>，可以快速的<strong>通知各组件的变更等操作</strong>。</p>
+<p>目前 <strong>Kubernetes 的存储层选择是</strong><code>etcd</code>，所以一般情况下，我们直接<strong>以</strong><code>etcd</code><strong>来代表集群状态存储服务</strong>，即<strong>将所有状态存储到</strong><code>etcd</code><strong>实例中</strong>。</p>
+<h5 id="2-API-Server"><a href="#2-API-Server" class="headerlink" title="2. API Server"></a>2. API Server</h5><p>这是<strong>整个集群的入口</strong>，类似于人体的感官，<strong>接收外部的信号和请求</strong>，并<strong>将相应的信息写入到</strong><code>etcd</code><strong>中</strong>。</p>
+<p>为了<strong>保证安全</strong>，API Server 还<strong>提供了认证相关的功能</strong>，用于<strong>判断客户端是否有权限进行操作</strong>。API Server 支持多种认证方法，不过一般情况下，我们<strong>使用</strong><code>x509</code><strong>证书来进行认证</strong>。</p>
+<blockquote>
+<p><strong>API Server</strong> 的目标是成为一个<strong>极简的 Server</strong>，<strong>只提供</strong><code>REST</code><strong>操作</strong>，<strong>更新</strong><code>etcd</code>，并充当着<strong>集群的网关</strong>。至于<strong>其他的业务逻辑</strong>，则<strong>通过插件或者其他组件来实现</strong></p>
+</blockquote>
+<h5 id="3-Controller-Manager"><a href="#3-Controller-Manager" class="headerlink" title="3. Controller Manager"></a>3. Controller Manager</h5><p><strong>Controller Manager</strong> 大概是 K8S 集群中<strong>最繁忙的部分</strong>，它在后台<strong>运行着许多不同的控制器进程</strong>，用来<strong>调节集群的状态</strong>。</p>
+<p>当<strong>集群的配置发生改变时</strong>，控制器就会<strong>朝着预期的状态开始工作</strong>。</p>
+<h5 id="4-Scheduler"><a href="#4-Scheduler" class="headerlink" title="4. Scheduler"></a>4. Scheduler</h5><p><strong>Scheduler</strong> 是<strong>集群的调度器</strong>，它会<strong>持续关注集群中未被调度的 Pod</strong>，并根据资源可用性、节点亲和性或是其他一些限制条件，<strong>通过绑定的 API 将 Pod 调度/绑定到 Node 上</strong>。</p>
+<blockquote>
+<p>在这个过程中，<strong>调度程序</strong>一般<strong>只考虑调度开始时 Node 的状态</strong>，而<strong>不考虑在调度过程中 Node 的状态变化</strong></p>
+</blockquote>
+<h4 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h4><p>与<code>Master</code>相对应，可以将<code>Node</code>简单理解为<strong>加入集群中的机器</strong>，它有以下几个<strong>核心组件</strong>：</p>
+<pre><code class="lang-bash">+--------------------------------------------------------+       
+| +---------------------+        +---------------------+ |       
+| |      kubelet        |        |     kube-proxy      | |       
+| |                     |        |                     | |       
+| +---------------------+        +---------------------+ |       
+| +----------------------------------------------------+ |       
+| | Container Runtime (Docker)                         | |       
+| | +---------------------+    +---------------------+ | |       
+| | |Pod                  |    |Pod                  | | |       
+| | | +-----+ +-----+     |    |+-----++-----++-----+| | |       
+| | | |C1   | |C2   |     |    ||C1   ||C2   ||C3   || | |       
+| | | |     | |     |     |    ||     ||     ||     || | |       
+| | | +-----+ +-----+     |    |+-----++-----++-----+| | |       
+| | +---------------------+    +---------------------+ | |       
+| +----------------------------------------------------+ |       
++--------------------------------------------------------+
+</code></pre>
+<h5 id="1-kubelet"><a href="#1-kubelet" class="headerlink" title="1. kubelet"></a>1. kubelet</h5><p><code>Kubelet</code>实现了集群中最重要的<strong>关于 Node 和 Pod 的控制功能</strong>。</p>
+<p><strong>K8S 原生的执行模式</strong>是<strong>操作应用程序的容器</strong>，基于这种模式，可以让应用程序之间<strong>相互隔离，互不影响</strong>。</p>
+<p>此外，由于是操作容器，所以<strong>应用程序和主机之间也是相互隔离的</strong>，在任何<strong>容器运行时</strong>（比如 Docker）上都可以<strong>部署和运行</strong>。</p>
+<p><strong>K8S 将</strong><code>Pod</code><strong>作为可调度的基本单位</strong>，<code>Pod</code>可以是一组容器（也可以包含存储卷），它<strong>分离开了构建时和部署时的关注点</strong>：</p>
+<ul>
+<li><strong>构建时</strong>：重点关注<strong>某个容器是否能正确构建，如何快速构建</strong></li>
+<li><strong>部署时</strong>：关心某个应用程序的<strong>服务是否可用</strong>，是否符合预期，<strong>依赖的相关资源是否都能访问到</strong></li>
+</ul>
+<blockquote>
+<p>这种<strong>隔离的模式</strong>，可以很方便的<strong>将应用程序与底层的基础设施解耦</strong>，极大<strong>提高了集群扩/缩容、迁移的灵活性</strong></p>
+</blockquote>
+<p>之前提到<code>Master</code><strong>的</strong><code>Scheduler</code><strong>组件</strong>，它会<strong>调度未绑定的 Pod 到符合条件的 Node 上</strong>。至于<strong>最终该 Pod 是否能运行于 Node 上</strong>，则是<strong>由</strong><code>kubelet</code><strong>来决定</strong>。</p>
+<h5 id="2-Container-Runtime"><a href="#2-Container-Runtime" class="headerlink" title="2. Container Runtime"></a>2. Container Runtime</h5><p><strong>容器运行时</strong>最主要的功能是<strong>下载镜像</strong>和<strong>运行容器</strong>，<strong>最常见的实现是</strong><code>Docker</code>，目前还有其他一些实现，例如<code>rkt</code>、<code>cri-o</code>等。</p>
+<p>K8S 提供了一套通用的<strong>容器运行时接口 CRI (Container Runtime Interface)</strong>，凡是符合这套标准的容器运行时实现，都可以在 K8S 上使用。</p>
+<h5 id="3-kube-proxy"><a href="#3-kube-proxy" class="headerlink" title="3. kube-proxy"></a>3. kube-proxy</h5><p>要想访问某个服务，要么通过域名，要么通过 IP 地址。而<strong>每个 Pod 在创建后都有一个虚拟 IP</strong>，在 K8S 中有一个抽象的概念叫做<code>Service</code>。<code>kube-proxy</code>提供的便是<strong>代理的服务</strong>，让我们可以<strong>通过</strong><code>Service</code><strong>访问到 Pod</strong>。</p>
+<blockquote>
+<p>实际的工作原理是：<strong>K8S 会在每个 Node 上启动一个</strong><code>kube-proxy</code><strong>进程</strong>，通过<strong>编排</strong><code>iptables</code><strong>规则</strong>来达到上述效果</p>
+</blockquote>
+<h3 id="3-搭建-Kubernetes-集群"><a href="#3-搭建-Kubernetes-集群" class="headerlink" title="3. 搭建 Kubernetes 集群"></a>3. 搭建 Kubernetes 集群</h3><blockquote>
+<p>略。参见 <a href="https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/">使用 kubeadm 搭建 Kubernetes 集群 | 苏易北</a></p>
+</blockquote>
+<h3 id="4-使用-kubectl-管理集群"><a href="#4-使用-kubectl-管理集群" class="headerlink" title="4. 使用 kubectl 管理集群"></a>4. 使用 kubectl 管理集群</h3><p>首先在终端下执行<code>kubectl</code>：</p>
+<pre><code class="lang-bash">&gt; kubectl
+kubectl controls the Kubernetes cluster manager. 
+
+Find more information at: https://kubernetes.io/docs/reference/kubectl/overview/
+
+Basic Commands (Beginner):
+  create         Create a resource from a file or from stdin.
+  expose         Take a replication controller, service, deployment or pod and expose it as a new Kubernetes Service
+  run            Run a particular image on the cluster
+  set            Set specific features on objects
+
+Basic Commands (Intermediate):
+  explain        Documentation of resources
+  get            Display one or many resources
+  edit           Edit a resource on the server
+  delete         Delete resources by filenames, stdin, resources and names, or by resources and label selector
+
+Deploy Commands:
+  rollout        Manage the rollout of a resource
+  scale          Set a new size for a Deployment, ReplicaSet, Replication Controller, or Job
+  autoscale      Auto-scale a Deployment, ReplicaSet, or ReplicationController
+
+Cluster Management Commands:
+  certificate    Modify certificate resources.
+  cluster-info   Display cluster info
+  top            Display Resource (CPU/Memory/Storage) usage.
+  cordon         Mark node as unschedulable
+  uncordon       Mark node as schedulable
+  drain          Drain node in preparation for maintenance
+  taint          Update the taints on one or more nodes
+
+Troubleshooting and Debugging Commands:
+  describe       Show details of a specific resource or group of resources
+  logs           Print the logs for a container in a pod
+  attach         Attach to a running container
+  exec           Execute a command in a container
+  port-forward   Forward one or more local ports to a pod
+  proxy          Run a proxy to the Kubernetes API server
+  cp             Copy files and directories to and from containers.
+  auth           Inspect authorization
+
+Advanced Commands:
+  diff           Diff live version against would-be applied version
+  apply          Apply a configuration to a resource by filename or stdin
+  patch          Update field(s) of a resource using strategic merge patch
+  replace        Replace a resource by filename or stdin
+  wait           Experimental: Wait for a specific condition on one or many resources.
+  convert        Convert config files between different API versions
+
+Settings Commands:
+  label          Update the labels on a resource
+  annotate       Update the annotations on a resource
+  completion     Output shell completion code for the specified shell (bash or zsh)
+
+Other Commands:
+  api-resources  Print the supported API resources on the server
+  api-versions   Print the supported API versions on the server, in the form of &quot;group/version&quot;
+  config         Modify kubeconfig files
+  plugin         Provides utilities for interacting with plugins.
+  version        Print the client and server version information
+
+Usage:
+  kubectl [flags] [options]
+
+Use &quot;kubectl &lt;command&gt; --help&quot; for more information about a given command.
+Use &quot;kubectl options&quot; for a list of global command-line options (applies to all commands).
+</code></pre>
+<h4 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h4><p>首先来看<code>~/.kube/config</code><strong>配置文件</strong>的内容（以<code>minikube</code>为例）：</p>
+<pre><code class="lang-bash">&gt; ls $HOME/.kube/config
+/home/tao/.kube/config
+&gt; cat $HOME/.kube/config
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: /home/tao/.minikube/ca.crt
+    server: https://192.168.99.101:8443
+  name: minikube
+contexts:
+- context:
+    cluster: minikube
+    user: minikube
+  name: minikube
+current-context: minikube
+kind: Config
+preferences: {}
+users:
+- name: minikube
+  user:
+    client-certificate: /home/tao/.minikube/client.crt
+    client-key: /home/tao/.minikube/client.key
+</code></pre>
+<p>可以看出，<code>$HOME/.kube/config</code>中主要包含：</p>
+<ul>
+<li>K8S 集群的 <strong>API 地址</strong></li>
+<li>用于认证的<strong>证书地址</strong></li>
+</ul>
+<p>如果想<strong>指定配置文件路径</strong>，可以<strong>使用</strong><code>--kubeconfig</code>或者<strong>环境变量</strong><code>KUBECONFIG</code>来传递。</p>
+<p>另外如果你并<strong>不想使用配置文件</strong>的话，也可以<strong>在命令行直接传递相关参数</strong>来使用：</p>
+<pre><code class="lang-bash">&gt; kubectl --client-key=&#39;/home/tao/.minikube/client.key&#39; --client-certificate=&#39;/home/tao/.minikube/client.crt&#39; --server=&#39;https://192.168.99.101:8443&#39; get nodes
+NAME       STATUS    ROLES     AGE       VERSION
+minikube   Ready     master    2d        v1.11.3
+</code></pre>
+<h4 id="kubectl-get"><a href="#kubectl-get" class="headerlink" title="kubectl get"></a>kubectl get</h4><p>使用<code>kubectl get nodes</code>命令<strong>查看集群中的所有节点</strong>：</p>
+<pre><code class="lang-bash">&gt; kubectl get nodes
+NAME             STATUS   ROLES    AGE   VERSION
+abelsu7-ubuntu   Ready    master   20d   v1.13.3
+centos-1         Ready    &lt;none&gt;   20d   v1.13.3
+centos-2         Ready    &lt;none&gt;   20d   v1.13.3
+</code></pre>
+<p><strong>传递</strong><code>-o wide/yaml/json</code>可以得到<strong>不同格式的输出</strong>：</p>
+<pre><code class="lang-bash">&gt; kubectl get nodes -o wide
+NAME             STATUS   ROLES    AGE   VERSION   INTERNAL-IP       EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION               CONTAINER-RUNTIME
+abelsu7-ubuntu   Ready    master   20d   v1.13.3   xxx.xxx.xxx.xxx   &lt;none&gt;        Ubuntu 18.04.1 LTS      4.15.0-38-generic            docker://18.6.1
+centos-1         Ready    &lt;none&gt;   20d   v1.13.3   xxx.xxx.xxx.xxx   &lt;none&gt;        CentOS Linux 7 (Core)   3.10.0-862.14.4.el7.x86_64   docker://18.9.2
+centos-2         Ready    &lt;none&gt;   20d   v1.13.3   xxx.xxx.xxx.xxx   &lt;none&gt;        CentOS Linux 7 (Core)   3.10.0-862.14.4.el7.x86_64   docker://18.9.1
+</code></pre>
+<p>当<strong>使用</strong><code>-o json</code><strong>将内容以 JSON 格式输出时</strong>，可以<strong>配合</strong><code>jq</code><strong>进行内容提取</strong>，例如：</p>
+<pre><code class="lang-bash">&gt; kubectl get nodes -o json | jq &quot;.items[] | {name: .metadata.name} + .status.nodeInfo&quot;
+{
+  &quot;name&quot;: &quot;abelsu7-ubuntu&quot;,
+  &quot;architecture&quot;: &quot;amd64&quot;,
+  &quot;bootID&quot;: &quot;efeb7bb0-9c57-40d1-b592-47c0974db9c5&quot;,
+  &quot;containerRuntimeVersion&quot;: &quot;docker://18.6.1&quot;,
+  &quot;kernelVersion&quot;: &quot;4.15.0-38-generic&quot;,
+  &quot;kubeProxyVersion&quot;: &quot;v1.13.3&quot;,
+  &quot;kubeletVersion&quot;: &quot;v1.13.3&quot;,
+  &quot;machineID&quot;: &quot;c7eeb3f409394ad79a08c27afcc8958c&quot;,
+  &quot;operatingSystem&quot;: &quot;linux&quot;,
+  &quot;osImage&quot;: &quot;Ubuntu 18.04.1 LTS&quot;,
+  &quot;systemUUID&quot;: &quot;314AB8CC-38BC-11E6-9C43-BC0000500000&quot;
+}
+{
+  &quot;name&quot;: &quot;centos-1&quot;,
+  &quot;architecture&quot;: &quot;amd64&quot;,
+  &quot;bootID&quot;: &quot;f109d499-2dea-45e8-834a-907f78d267bc&quot;,
+  &quot;containerRuntimeVersion&quot;: &quot;docker://18.9.2&quot;,
+  &quot;kernelVersion&quot;: &quot;3.10.0-862.14.4.el7.x86_64&quot;,
+  &quot;kubeProxyVersion&quot;: &quot;v1.13.3&quot;,
+  &quot;kubeletVersion&quot;: &quot;v1.13.3&quot;,
+  &quot;machineID&quot;: &quot;b9d5ec44cf284913b48d1ca1a7662c83&quot;,
+  &quot;operatingSystem&quot;: &quot;linux&quot;,
+  &quot;osImage&quot;: &quot;CentOS Linux 7 (Core)&quot;,
+  &quot;systemUUID&quot;: &quot;E364DF48-5F20-11E6-8BF7-57717FCC0F00&quot;
+}
+{
+  &quot;name&quot;: &quot;centos-2&quot;,
+  &quot;architecture&quot;: &quot;amd64&quot;,
+  &quot;bootID&quot;: &quot;8fadfee7-e09b-4ee9-81c2-d5464f60a4c0&quot;,
+  &quot;containerRuntimeVersion&quot;: &quot;docker://18.9.1&quot;,
+  &quot;kernelVersion&quot;: &quot;3.10.0-862.14.4.el7.x86_64&quot;,
+  &quot;kubeProxyVersion&quot;: &quot;v1.13.3&quot;,
+  &quot;kubeletVersion&quot;: &quot;v1.13.3&quot;,
+  &quot;machineID&quot;: &quot;bbe91187ab474caebff29ffc64bcd487&quot;,
+  &quot;operatingSystem&quot;: &quot;linux&quot;,
+  &quot;osImage&quot;: &quot;CentOS Linux 7 (Core)&quot;,
+  &quot;systemUUID&quot;: &quot;A1C63AE4-5F04-11E6-88F2-108D9A211300&quot;
+}
+</code></pre>
+<p>此方法可以得到<code>Node</code>的<strong>基础信息</strong>。</p>
+<h4 id="kubectl-api-resources"><a href="#kubectl-api-resources" class="headerlink" title="kubectl api-resources"></a>kubectl api-resources</h4><p>可以使用<code>kubectl api-resources</code>查看<strong>服务端支持的 API 资源</strong>及其<strong>别名、描述</strong>等信息：</p>
+<pre><code class="lang-bash">&gt; kubectl api-resources
+NAME                              SHORTNAMES   APIGROUP                       NAMESPACED   KIND
+bindings                                                                      true         Binding
+componentstatuses                 cs                                          false        ComponentStatus
+configmaps                        cm                                          true         ConfigMap
+endpoints                         ep                                          true         Endpoints
+events                            ev                                          true         Event
+limitranges                       limits                                      true         LimitRange
+namespaces                        ns                                          false        Namespace
+nodes                             no                                          false        Node
+persistentvolumeclaims            pvc                                         true         PersistentVolumeClaim
+persistentvolumes                 pv                                          false        PersistentVolume
+pods                              po                                          true         Pod
+podtemplates                                                                  true         PodTemplate
+replicationcontrollers            rc                                          true         ReplicationController
+resourcequotas                    quota                                       true         ResourceQuota
+secrets                                                                       true         Secret
+serviceaccounts                   sa                                          true         ServiceAccount
+services                          svc                                         true         Service
+mutatingwebhookconfigurations                  admissionregistration.k8s.io   false        MutatingWebhookConfiguration
+validatingwebhookconfigurations                admissionregistration.k8s.io   false        ValidatingWebhookConfiguration
+customresourcedefinitions         crd,crds     apiextensions.k8s.io           false        CustomResourceDefinition
+apiservices                                    apiregistration.k8s.io         false        APIService
+controllerrevisions                            apps                           true         ControllerRevision
+daemonsets                        ds           apps                           true         DaemonSet
+deployments                       deploy       apps                           true         Deployment
+replicasets                       rs           apps                           true         ReplicaSet
+statefulsets                      sts          apps                           true         StatefulSet
+tokenreviews                                   authentication.k8s.io          false        TokenReview
+localsubjectaccessreviews                      authorization.k8s.io           true         LocalSubjectAccessReview
+selfsubjectaccessreviews                       authorization.k8s.io           false        SelfSubjectAccessReview
+selfsubjectrulesreviews                        authorization.k8s.io           false        SelfSubjectRulesReview
+subjectaccessreviews                           authorization.k8s.io           false        SubjectAccessReview
+horizontalpodautoscalers          hpa          autoscaling                    true         HorizontalPodAutoscaler
+cronjobs                          cj           batch                          true         CronJob
+jobs                                           batch                          true         Job
+certificatesigningrequests        csr          certificates.k8s.io            false        CertificateSigningRequest
+leases                                         coordination.k8s.io            true         Lease
+events                            ev           events.k8s.io                  true         Event
+daemonsets                        ds           extensions                     true         DaemonSet
+deployments                       deploy       extensions                     true         Deployment
+ingresses                         ing          extensions                     true         Ingress
+networkpolicies                   netpol       extensions                     true         NetworkPolicy
+podsecuritypolicies               psp          extensions                     false        PodSecurityPolicy
+replicasets                       rs           extensions                     true         ReplicaSet
+networkpolicies                   netpol       networking.k8s.io              true         NetworkPolicy
+poddisruptionbudgets              pdb          policy                         true         PodDisruptionBudget
+podsecuritypolicies               psp          policy                         false        PodSecurityPolicy
+clusterrolebindings                            rbac.authorization.k8s.io      false        ClusterRoleBinding
+clusterroles                                   rbac.authorization.k8s.io      false        ClusterRole
+rolebindings                                   rbac.authorization.k8s.io      true         RoleBinding
+roles                                          rbac.authorization.k8s.io      true         Role
+priorityclasses                   pc           scheduling.k8s.io              false        PriorityClass
+storageclasses                    sc           storage.k8s.io                 false        StorageClass
+volumeattachments                              storage.k8s.io                 false        VolumeAttachment
+</code></pre>
+<h4 id="kubectl-explain"><a href="#kubectl-explain" class="headerlink" title="kubectl explain"></a>kubectl explain</h4><p>可以使用<code>kubectl explain &lt;API&gt;</code>来<strong>查看 API 的相应说明</strong>：</p>
+<pre><code class="lang-bash">&gt; kubectl explain nodes
+KIND:     Node
+VERSION:  v1
+
+DESCRIPTION:
+     Node is a worker node in Kubernetes. Each node will have a unique
+     identifier in the cache (i.e. in etcd).
+
+FIELDS:
+   apiVersion    &lt;string&gt;
+     APIVersion defines the versioned schema of this representation of an
+     object. Servers should convert recognized schemas to the latest internal
+     value, and may reject unrecognized values. More info:
+     https://git.k8s.io/community/contributors/devel/api-conventions.md#resources
+
+   kind    &lt;string&gt;
+     Kind is a string value representing the REST resource this object
+     represents. Servers may infer this from the endpoint the client submits
+     requests to. Cannot be updated. In CamelCase. More info:
+     https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds
+
+   metadata    &lt;Object&gt;
+     Standard object&#39;s metadata. More info:
+     https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata
+
+   spec    &lt;Object&gt;
+     Spec defines the behavior of a node.
+     https://git.k8s.io/community/contributors/devel/api-conventions.md#spec-and-status
+
+   status    &lt;Object&gt;
+     Most recently observed status of the node. Populated by the system.
+     Read-only. More info:
+     https://git.k8s.io/community/contributors/devel/api-conventions.md#spec-and-status
+</code></pre>
+<h4 id="kubectl-run"><a href="#kubectl-run" class="headerlink" title="kubectl run"></a>kubectl run</h4><blockquote>
+<p>之前提到，<strong>Pod 是 K8s 中最小的调度单元</strong>，所以我们<strong>无法直接在 K8s 中运行一个 container</strong>，但是可以运行一个只包含一个 container 的 Pod</p>
+</blockquote>
+<p><code>kubectl run</code>的<strong>基础用法</strong>如下：</p>
+<pre><code class="lang-bash">Usage:
+  kubectl run NAME --image=image [--env=&quot;key=value&quot;] [--port=port] [--replicas=replicas] [--dry-run=bool] [--overrides=inline-json] [--command] -- [COMMAND] [args...] [options]
+</code></pre>
+<p><code>NAME</code><strong>和</strong><code>--image</code><strong>是必须项</strong>，分别代表此次<strong>部署的名字</strong>及<strong>所使用的镜像</strong>。而在实际使用时，<strong>推荐编写配置文件并通过</strong><code>kubectl create</code>进行部署。</p>
+<p>例如<strong>部署一个</strong><code>Redis</code><strong>实例</strong>：</p>
+<pre><code class="lang-bash">&gt; kubectl run redis --image=&#39;redis:alpine&#39;
+deployment.apps/redis created
+</code></pre>
+<p>可以看到<strong>已创建部署</strong><code>deployment.apps/redis created</code>。使用<code>kubectl get all</code>查看发生了什么：</p>
+<pre><code class="lang-bash">&gt; kubectl get all
+NAME                         READY     STATUS    RESTARTS   AGE
+pod/redis-7c7545cbcb-2m6rp   1/1       Running   0          30s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   32s
+
+NAME                    DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/redis   1         1         1            1           30s
+
+NAME                               DESIRED   CURRENT   READY     AGE
+replicaset.apps/redis-7c7545cbcb   1         1         1         30s
+</code></pre>
+<blockquote>
+<p>使用<code>kubectl get all</code>输出内容的格式，<code>/</code><strong>前代表类型</strong>，<code>/</code><strong>后代表名称</strong></p>
+</blockquote>
+<h4 id="Deployment"><a href="#Deployment" class="headerlink" title="Deployment"></a>Deployment</h4><p><code>Deployment</code>是一种<strong>高级别的抽象</strong>，允许我们进行<strong>扩容、滚动更新</strong>及<strong>降级</strong>等操作。我们使用<code>kubectl run redis --image=&#39;redis:alpine&#39;</code>命令便<strong>创建了一个名为</strong><code>redis</code><strong>的</strong><code>Deployment</code>，并<strong>指向了其使用的镜像为</strong><code>redis:alpine</code>。</p>
+<p>同时 K8S 会<strong>默认为其增加一些标签</strong><code>Label</code>，可以<strong>添加</strong><code>-o wide</code><strong>选项进行查看</strong>：</p>
+<pre><code class="lang-bash">&gt; kubectl get deployment.apps/redis -o wide
+NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS   IMAGES         SELECTOR
+redis     1         1         1            1           40s       redis        redis:alpine   run=redis
+
+&gt; kubectl get deploy redis -o wide
+NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS   IMAGES         SELECTOR
+redis     1         1         1            1           40s       redis        redis:alpine   run=redis
+</code></pre>
+<p>可以将这些<code>Label</code>作为<strong>选择条件</strong>使用：</p>
+<pre><code class="lang-bash">&gt; kubectl get deploy -l run=redis -o wide
+NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS   IMAGES         SELECTOR
+redis     1         1         1            1           11h       redis        redis:alpine   run=redis
+</code></pre>
+<p><code>Deployment</code><strong>的创建</strong>除了使用上述方式之外，更推荐的方式是<strong>使用</strong><code>yaml</code><strong>格式的配置文件</strong>。在配置文件中主要是<strong>声名一种预期的状态</strong>，而其他组件则负责<strong>协同调度</strong>并最终<strong>达成这种预期的状态</strong>。最后，<code>Deployment</code>会将<code>Pod</code>托管给下面将要介绍的<code>ReplicaSet</code>。</p>
+<h4 id="ReplicaSet"><a href="#ReplicaSet" class="headerlink" title="ReplicaSet"></a>ReplicaSet</h4><p><code>ReplicaSet</code>是一种<strong>较低级别的结构</strong>，<strong>允许进行扩容</strong>。</p>
+<p>之前提到了<code>Deployment</code>主要是<strong>声明一种预期的状态</strong>，并且会<strong>将</strong><code>Pod</code><strong>托管给</strong><code>ReplicaSet</code>，而<code>ReplicaSet</code>则会<strong>检查当前的</strong><code>Pod</code><strong>数量及状态是否符合预期</strong>，并尽量满足这一预期。</p>
+<p><code>ReplicaSet</code>可简写为<code>rs</code>，通过以下命令查看：</p>
+<pre><code class="lang-bash">&gt; kubectl get rs -o wide
+NAME               DESIRED   CURRENT   READY     AGE       CONTAINERS   IMAGES         SELECTOR                           
+redis-7c7545cbcb   1         1         1         11h       redis        redis:alpine   pod-template-hash=3731017676,run=redis
+</code></pre>
+<h4 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h4><p>简单来说，<code>Service</code>就是<strong>提供稳定访问入口的一组</strong><code>Pod</code>，通过<code>Service</code>可以很方便的实现<strong>服务发现</strong>和<strong>负载均衡</strong>。</p>
+<pre><code class="lang-bash">&gt; kubectl get service -o wide
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE       SELECTOR
+kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   16m        &lt;none&gt;
+</code></pre>
+<p><code>Service</code>目前有 <strong>4 种类型</strong>：</p>
+<ul>
+<li><code>ClusterIP</code>：<strong>目前 K8s 默认的</strong><code>Service</code><strong>类型</strong>，将<code>Service</code>暴露于一个<strong>仅集群内可访问的虚拟 IP 上</strong></li>
+<li><code>NodePort</code>：通过<strong>在集群内所有</strong><code>Node</code><strong>上都绑定固定端口</strong>的方式将服务暴露出来</li>
+<li><code>LoadBalancer</code>：是通过<code>Cloud Provider</code><strong>创建一个外部的负载均衡器</strong>，将服务暴露出来，并且会自动创建外部负载均衡器路由请求所需的<code>NodePort</code>或<code>ClusterIP</code></li>
+<li><code>ExternalName</code>：将服务<strong>由</strong><code>DNS CNAME</code><strong>的方式转发到指定的域名上</strong>将服务暴露出来</li>
+</ul>
+<h4 id="kubectl-expose"><a href="#kubectl-expose" class="headerlink" title="kubectl expose"></a>kubectl expose</h4><pre><code class="lang-bash">&gt; kubectl expose deploy/redis --port=6379 --protocol=TCP --target-port=6379 --name=redis-server
+service/redis-server exposed
+
+&gt; kubectl get svc -o wide
+NAME           TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE       SELECTOR
+kubernetes     ClusterIP   10.96.0.1       &lt;none&gt;        443/TCP    49m       &lt;none&gt;
+redis-server   ClusterIP   10.108.105.63   &lt;none&gt;        6379/TCP   4s        run=redis
+</code></pre>
+<p>现在<code>redis-server</code>这个<code>Service</code>使用的是默认类型<code>ClusterIP</code>，所以并不能直接从外部进行访问。需要<strong>使用</strong><code>port-forward</code><strong>的方式让它可以在集群外部访问到</strong>：</p>
+<pre><code class="lang-bash">&gt; kubectl port-forward svc/redis-server 6379:6379
+Forwarding from 127.0.0.1:6379 -&gt; 6379
+Forwarding from [::1]:6379 -&gt; 6379
+Handling connection for 6379
+</code></pre>
+<p>这样在另一个<strong>本地终端</strong>上就可以通过<code>redis-cli</code>工具进行连接：</p>
+<pre><code class="lang-bash">&gt; redis-cli -h 127.0.0.1 -p 6379
+127.0.0.1:6379&gt; ping
+PONG
+</code></pre>
+<p>当然，也可以<strong>使用</strong><code>NodePort</code><strong>方式对外暴露服务</strong>：</p>
+<pre><code class="lang-bash">&gt; kubectl expose deploy/redis --port=6379 --protocol=TCP --target-port=6379 --name=redis-server-nodeport --type=NodePort
+service/redis-server-nodeport exposed
+
+&gt; kubectl get service/redis-server-nodeport -o wide
+NAME                    TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE       SELECTOR
+redis-server-nodeport   NodePort   10.109.248.204   &lt;none&gt;        6379:31913/TCP   11s       run=redis
+</code></pre>
+<p>这样就可以<strong>通过任意</strong><code>Node</code><strong>上的</strong><code>31913</code><strong>端口</strong>访问到<code>redis</code>服务。</p>
+<p><strong><em>更新中…</em></strong></p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://juejin.im/book/5b9b2dc86fb9a05d0f16c8ac" target="_blank" rel="noopener">Kubernetes 从上手到实践 | 掘金小册</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/09/25/micro-service-orchestration-and-container-schedule/">微服务编排与容器调度</a></li><li><a href="https://abelsu7.top/2019/09/18/micro-service-notes/">微服务学习资料汇总</a></li><li><a href="https://abelsu7.top/2019/03/19/recent-review/">近期复习合集</a></li><li><a href="https://abelsu7.top/2019/03/14/docker-quick-guides/">Docker 实践简明指南</a></li><li><a href="https://zsnmwy.net/51508.html">docker build 相关疑问解惑</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.420Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/03/18/k8s-quick-guides/" target="_blank" rel="external">https://abelsu7.top/2019/03/18/k8s-quick-guides/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kubernetes/">Kubernetes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/容器/">容器</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/18/k8s-quick-guides/&title=《Kubernetes 实践简明指南》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/18/k8s-quick-guides/&title=《Kubernetes 实践简明指南》 — Keep Coding&source=
+摘自 Kubernetes 从上手到实践 | 掘金小册
+
+
+                
+                    
+        ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/18/k8s-quick-guides/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Kubernetes 实践简明指南》 — Keep Coding&url=https://abelsu7.top/2019/03/18/k8s-quick-guides/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/18/k8s-quick-guides/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/03/18/understanding-linux-kernel/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Linux 内核笔记 1：绪论</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/03/14/docker-quick-guides/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Docker 实践简明指南</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/18/k8s-quick-guides/&title=《Kubernetes 实践简明指南》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/18/k8s-quick-guides/&title=《Kubernetes 实践简明指南》 — Keep Coding&source=
+摘自 Kubernetes 从上手到实践 | 掘金小册
+
+
+                
+                    
+        ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/18/k8s-quick-guides/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Kubernetes 实践简明指南》 — Keep Coding&url=https://abelsu7.top/2019/03/18/k8s-quick-guides/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/18/k8s-quick-guides/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACK0lEQVR42u3aQW7DMAwF0dz/0u62RWFnPqkYMTVaBW4a6XlBkCJfL7yOk0W+//vJ/8/X/7V4yZAh47GM43Jdb8A3vn4FZN83L1GGDBkbMM42JuGyFljTX3tzZhkyZMjAIZWH2vSzDBkyZHwu4JIn5K8yZMiQQYpYXnDWUr2banEZMmQ8kMFv3e///JH+hgwZMh7FOMJ1nRryRJAE5eBUMmTIGM1Ir9JIckaGMFIkGsuQIUPGUEZnAKIWKHkpy1+NDBkydmCQYEeQ/es2/vr+PJEhQ8ZoBkn7aj+aJnxpqD3NcGXIkDGOQRK7WhLJv98ZMgvu6mTIkPFYRi0FrF3A1cJuccBChgwZQxl8g1oDkh+XfPP0zDJkyNiAwQMuP1CniI3v/2XIkDGa0UkQ02Ol7YRlaaIMGTIeyOBjE2m6lo5oLB62kCFDxiBGp0ytTWTxtSDDlSFDxjhGGsE6wxO1pmZryZAhYzSDBDsyLsaboDxwy5AhYzcGT/j4SAQfIFvWZpAhQ8ZQRjr0UEsT0wu+tKyVIUPGboz0ELwAThsGQdErQ4aMDRi1zdJpjs5LQSMXMmTIGMfotxV5ktcf9Thly5AhYzSj08jkvPQoaaCXIUPGDoxVpWZaiMY57D0VswwZMr6Y0Q986fPaDAjqwcqQIUNGKevkzVESymXIkCGjdtw0ZezvddqJlSFDxlAGKWI/kfyRoQoUvmXIkDGaUSsdO2ncqrEMGTJkbMD4AT3kaph7CYvGAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

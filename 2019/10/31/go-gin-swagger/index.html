@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>在 Gin 中使用 swaggo 自动生成 RESTful API 文档 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Go,Gin,RESTful,Web 开发,Swagger">
+    <meta name="description" content="swaggo: Automatically generate RESTful API documentation with Swagger 2.0 for Go.">
+<meta name="keywords" content="Go,Gin,RESTful,Web 开发,Swagger">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Gin 中使用 swaggo 自动生成 RESTful API 文档">
+<meta property="og:url" content="https://abelsu7.top/2019/10/31/go-gin-swagger/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="swaggo: Automatically generate RESTful API documentation with Swagger 2.0 for Go.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/10/31/go-gin-swagger/cover.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/10/31/go-gin-swagger/swaggo.png">
+<meta property="og:updated_time" content="2019-11-01T03:55:42.769Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在 Gin 中使用 swaggo 自动生成 RESTful API 文档">
+<meta name="twitter:description" content="swaggo: Automatically generate RESTful API documentation with Swagger 2.0 for Go.">
+<meta name="twitter:image" content="https://abelsu7.top/2019/10/31/go-gin-swagger/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">在 Gin 中使用 swaggo 自动生成 RESTful API 文档</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">在 Gin 中使用 swaggo 自动生成 RESTful API 文档</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-10-31T03:37:30.000Z" itemprop="datePublished" class="page-time">
+  2019-10-31
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-快速开始"><span class="post-toc-text">1. 快速开始</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-swag-cli"><span class="post-toc-text">2. swag cli</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Github-项目"><span class="post-toc-text">Github 项目</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Gin-amp-RESTful-API"><span class="post-toc-text">Gin &amp; RESTful API</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#swaggo-教程"><span class="post-toc-text">swaggo 教程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#doc-json-重定向至-about-blank"><span class="post-toc-text">doc.json 重定向至 about:blank</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#validator-结构字段验证"><span class="post-toc-text">validator 结构字段验证</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#binding-请求绑定"><span class="post-toc-text">binding 请求绑定</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Gin-路由冲突"><span class="post-toc-text">Gin 路由冲突</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Shell-命令获取-IP-地址"><span class="post-toc-text">Shell 命令获取 IP 地址</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-go-gin-swagger"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">在 Gin 中使用 swaggo 自动生成 RESTful API 文档</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-10-31 11:37:30" datetime="2019-10-31T03:37:30.000Z"  itemprop="datePublished">2019-10-31</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em><a href="https://github.com/swaggo/swag" target="_blank" rel="noopener">swaggo</a>: Automatically generate RESTful API documentation with <a href="https://swagger.io" target="_blank" rel="noopener">Swagger</a> 2.0 for Go.</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/10/31/go-gin-swagger/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<p><strong><em>// TODO: To be updated…</em></strong></p>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><blockquote>
+<p><strong><em>待更新</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/10/31/go-gin-swagger/swaggo.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h3 id="1-快速开始"><a href="#1-快速开始" class="headerlink" title="1. 快速开始"></a>1. 快速开始</h3><p>下载<code>swaggo</code>：</p>
+<pre><code class="lang-bash">&gt; go get -u github.com/swaggo/swag/cmd/swag
+</code></pre>
+<h3 id="2-swag-cli"><a href="#2-swag-cli" class="headerlink" title="2. swag cli"></a>2. swag cli</h3><pre><code class="lang-bash">&gt; swag init -h
+
+NAME:
+   swag init - Create docs.go
+
+USAGE:
+   swag init [command options] [arguments...]
+
+OPTIONS:
+   --generalInfo value, -g value       Go file path in which &#39;swagger general API Info&#39; is written (default: &quot;main.go&quot;)
+   --dir value, -d value               Directory you want to parse (default: &quot;./&quot;)
+   --propertyStrategy value, -p value  Property Naming Strategy like snakecase,camelcase,pascalcase (default: &quot;camelcase&quot;)
+   --output value, -o value            Output directory for all the generated files(swagger.json, swagger.yaml and doc.go) (default: &quot;./docs&quot;)
+   --parseVendor                       Parse go files in &#39;vendor&#39; folder, disabled by default
+   --parseDependency                   Parse go files in outside dependency folder, disabled by default
+</code></pre>
+<p><strong><em>// TODO: To be updated…</em></strong></p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><h4 id="Github-项目"><a href="#Github-项目" class="headerlink" title="Github 项目"></a>Github 项目</h4><blockquote>
+<ol>
+<li><a href="https://github.com/swaggo/swag" target="_blank" rel="noopener">swaggo/swag - Automatically generate RESTful API documentation with Swagger 2.0 for Go | Github</a></li>
+<li><a href="https://github.com/swaggo/gin-swagger" target="_blank" rel="noopener">swaggo/gin-swagger - gin middleware to automatically generate RESTful API documentation with Swagger 2.0 | Github</a></li>
+<li><a href="https://swagger.io" target="_blank" rel="noopener">Swagger - API Development for Everyone</a></li>
+</ol>
+</blockquote>
+<h4 id="Gin-amp-RESTful-API"><a href="#Gin-amp-RESTful-API" class="headerlink" title="Gin &amp; RESTful API"></a>Gin &amp; RESTful API</h4><blockquote>
+<ol>
+<li><a href="https://juejin.im/book/5b0778756fb9a07aa632301e" target="_blank" rel="noopener">《基于 Go 语言构建企业级的 RESTful API 服务》| 掘金小册</a></li>
+<li><a href="https://learnku.com/golang/t/24598" target="_blank" rel="noopener">教程：使用 go 的 gin 和 gorm 框架来构建 RESTful API 微服务 | LearnKu</a></li>
+<li><a href="https://medium.com/@thedevsaddam/build-restful-api-service-in-golang-using-gin-gonic-framework-85b1a6e176f3" target="_blank" rel="noopener">Build RESTful API service in golang using gin-gonic framework | Medium</a></li>
+<li><a href="https://blog.yumaojun.net/2017/10/03/restful-vs-soap/" target="_blank" rel="noopener">对比 RESTful 与 SOAP，深入理解 RESTful | 紫川秀的博客</a></li>
+<li><a href="https://blog.yumaojun.net/2017/01/06/rest-api-design/" target="_blank" rel="noopener">RESTful API 设计规范 | 紫川秀的博客</a></li>
+</ol>
+</blockquote>
+<h4 id="swaggo-教程"><a href="#swaggo-教程" class="headerlink" title="swaggo 教程"></a>swaggo 教程</h4><blockquote>
+<ol>
+<li><a href="https://blog.yumaojun.net/2017/01/05/api-design-swagger/" target="_blank" rel="noopener">如何使用 swagger 设计出漂亮的 RESTful API | 紫川秀的博客</a></li>
+<li><a href="https://razeencheng.com/post/go-swagger.html" target="_blank" rel="noopener">Go 学习笔记 (六) - 使用 swaggo 自动生成 Restful API 文档 | Razeen’s Blog</a></li>
+<li><a href="https://segmentfault.com/a/1190000013808421" target="_blank" rel="noopener">Gin 实践 连载八：为它加上 Swagger - 煎鱼 | SegmentFault</a></li>
+<li><a href="https://book.eddycjy.com/golang/gin/swagger.html" target="_blank" rel="noopener">3.8 为它加上 Swagger - 跟煎鱼学 Go | GitBook</a></li>
+</ol>
+</blockquote>
+<h4 id="doc-json-重定向至-about-blank"><a href="#doc-json-重定向至-about-blank" class="headerlink" title="doc.json 重定向至 about:blank"></a>doc.json 重定向至 about:blank</h4><blockquote>
+<ol>
+<li><a href="https://github.com/swaggo/swag/issues/194" target="_blank" rel="noopener">doc.json link redirecting to blank page #194 - swaggo/swag | Github</a></li>
+</ol>
+</blockquote>
+<h4 id="validator-结构字段验证"><a href="#validator-结构字段验证" class="headerlink" title="validator 结构字段验证"></a>validator 结构字段验证</h4><blockquote>
+<ol>
+<li><a href="https://godoc.org/gopkg.in/go-playground/validator.v9" target="_blank" rel="noopener">package validator | GoDoc</a></li>
+<li><a href="https://chai2010.gitbooks.io/advanced-go-programming-book/content/ch5-web/ch5-04-validator.html" target="_blank" rel="noopener">5.4 validator 请求校验 - Go 语言高级编程 | GitBook</a></li>
+<li><a href="https://blog.xizhibei.me/2019/01/27/golang-cgo/" target="_blank" rel="noopener">Golang 中的跨语言调用 - 习之北 | 须臾之学</a></li>
+<li><a href="https://www.cnblogs.com/zhzhlong/p/10033234.html" target="_blank" rel="noopener">结构字段验证 - validator.v9 | 博客园</a></li>
+<li><a href="https://medium.com/@thedevsaddam/an-easy-way-to-validate-go-request-c15182fd11b1" target="_blank" rel="noopener">An easy way to validate Go request | Medium.com</a></li>
+</ol>
+</blockquote>
+<h4 id="binding-请求绑定"><a href="#binding-请求绑定" class="headerlink" title="binding 请求绑定"></a>binding 请求绑定</h4><blockquote>
+<ol>
+<li><a href="https://github.com/gin-gonic/gin/issues/737" target="_blank" rel="noopener">BindJSON validation failed for a required integer field that has zero value - gin | Github</a></li>
+<li><a href="https://github.com/gin-gonic/gin/issues/690" target="_blank" rel="noopener">bug:c.BindJSON(&amp;req) - gin | Github</a></li>
+<li><a href="https://github.com/gin-gonic/gin/issues/659" target="_blank" rel="noopener">Binding JSON having fields with empty string generates validation error - gin | Github</a></li>
+<li><a href="https://github.com/gin-gonic/gin/issues/611" target="_blank" rel="noopener">Binding failed on int required field when value is 0 - gin | Github</a></li>
+<li><a href="https://github.com/gin-gonic/gin/issues/491" target="_blank" rel="noopener">Bind validation bug with int zero value - gin | Github</a></li>
+<li><a href="https://gin-gonic.com/zh-cn/docs/examples/binding-and-validation/" target="_blank" rel="noopener">模型绑定和验证 | Gin Web Framework</a></li>
+<li><a href="https://github.com/gin-gonic/gin#model-binding-and-validation" target="_blank" rel="noopener">Model binding and validation - gin-gonic/gin | Github</a></li>
+</ol>
+</blockquote>
+<h4 id="Gin-路由冲突"><a href="#Gin-路由冲突" class="headerlink" title="Gin 路由冲突"></a>Gin 路由冲突</h4><blockquote>
+<ol>
+<li><a href="https://jingwei.link/2018/10/28/gin-radix-tree-router.html" target="_blank" rel="noopener">Gin 的基数树路由局限及最佳实践 | 敬维</a></li>
+<li><a href="https://chai2010.gitbooks.io/advanced-go-programming-book/content/ch5-web/ch5-02-router.html" target="_blank" rel="noopener">5.2 router 请求路由 - 《Go 语言高级编程》| GitBook</a></li>
+</ol>
+</blockquote>
+<h4 id="Shell-命令获取-IP-地址"><a href="#Shell-命令获取-IP-地址" class="headerlink" title="Shell 命令获取 IP 地址"></a>Shell 命令获取 IP 地址</h4><blockquote>
+<ol>
+<li><a href="https://blog.csdn.net/xuedingkai/article/details/80135391" target="_blank" rel="noopener">Shell 获取 IPv4 和 IPv6 地址的命令 | CSDN</a></li>
+<li><a href="https://www.iteye.com/blog/bijian1013-2358792" target="_blank" rel="noopener">Shell 脚本中获取本机 IP 地址的三个方法 | ITeye</a></li>
+<li><a href="https://blog.csdn.net/FungLeo/article/details/76588993" target="_blank" rel="noopener">Shell 命令行获取本机 IP，grep 的练习 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/xiaoyi23000/article/details/78777608" target="_blank" rel="noopener">Linux 地址提示符和获取本机 IP Shell 命令 | CSDN</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/">使用 Gogs 自建 Git 服务</a></li><li><a href="https://abelsu7.top/2019/10/24/go-build-compress-using-upx/">使用 upx 压缩 go build 打包的可执行文件</a></li><li><a href="https://abelsu7.top/2019/10/24/go-cross-compile/">Go 程序的交叉编译、选择性编译</a></li><li><a href="https://abelsu7.top/2019/10/23/go-present-ppt/">Go 语言使用 present 展示 PPT</a></li><li><a href="chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li><li><a href="www.chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-11-01T03:55:42.769Z" itemprop="dateUpdated">2019-11-01 11:55:42</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/10/31/go-gin-swagger/" target="_blank" rel="external">https://abelsu7.top/2019/10/31/go-gin-swagger/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gin/">Gin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RESTful/">RESTful</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swagger/">Swagger</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web-开发/">Web 开发</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/10/31/go-gin-swagger/&title=《在 Gin 中使用 swaggo 自动生成 RESTful API 文档》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/10/31/go-gin-swagger/&title=《在 Gin 中使用 swaggo 自动生成 RESTful API 文档》 — Keep Coding&source=
+swaggo: Automatically generate RESTful API documentation with Swagger 2.0 fo..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/10/31/go-gin-swagger/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《在 Gin 中使用 swaggo 自动生成 RESTful API 文档》 — Keep Coding&url=https://abelsu7.top/2019/10/31/go-gin-swagger/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/10/31/go-gin-swagger/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/11/01/using-gogs-as-git-server/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">使用 Gogs 自建 Git 服务</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/10/24/go-build-compress-using-upx/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">使用 upx 压缩 go build 打包的可执行文件</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/10/31/go-gin-swagger/&title=《在 Gin 中使用 swaggo 自动生成 RESTful API 文档》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/10/31/go-gin-swagger/&title=《在 Gin 中使用 swaggo 自动生成 RESTful API 文档》 — Keep Coding&source=
+swaggo: Automatically generate RESTful API documentation with Swagger 2.0 fo..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/10/31/go-gin-swagger/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《在 Gin 中使用 swaggo 自动生成 RESTful API 文档》 — Keep Coding&url=https://abelsu7.top/2019/10/31/go-gin-swagger/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/10/31/go-gin-swagger/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACOElEQVR42u3ay47CMBBEUf7/pxlpVkhMzK1yQEPneoUgIT4sGvfjdsPr/rseXz+uo+uf73p+vb7r5CVDhoyvZdyXa72Joys5YP0O2ZsMGTKuw+BBNr1mvSEepl/sWYYMGTLCILsGdIFehgwZMrrEdf/IuJPuypAh42oMEvhIIYynnZxxci4uQ4aML2R0jYHPvH57f0OGDBn/nnEPV/dtXSkt2JUMGTJGM3hbkaesaeGsS4ZvJK+VIUPGaAYvkHEMb4imAxkyZMiYzeiOfV1YJAdNsp/DQ6EMGTKGMrphCF4US4v+JLzKkCFDRvrVXakuLbqRg6wMGTKmMtJ0McXsj2IgkgwZMkYz+G3kSPfu1iZ6ugwZMkYzyCN3xsU4uGtayJAhYyqDP4wfELtmgAwZMmSsGTyZTAv6XZOynBaRIUPGaAYJjvx9nvp24xovqoYyZMgYx+DDFulxrWsAkB/okCpDhoyhDB5Y+TVntTODPwAZMmSMZuyX0tK0Nj0gbqWyMmTIGMHoSvZ8FCMeksBt0fgfQIYMGV/OIMkkCXz88fzIiPYpQ4aM0YzgIlAgSz89uf0pQ4aMoYyu4EVCc3q45IfIPz6VIUPGaAZf+ylr2rxMxzVkyJAxm9EFWd4YSH+58veWIUPGBRgk8PEhjLSd2e3zcNhChgwZF2Z0pDSw8iGMMuDKkCHjAgxyV9qGTJ/1YoBVhgwZQxl8tJS3ELo0tWsYyJAhYzbjrFpWWtZPS//xYVGGDBkTGD/cT9E/dbLN4AAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

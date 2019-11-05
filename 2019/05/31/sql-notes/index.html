@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>SQL 必知必会 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="数据库,SQL">
+    <meta name="description" content="摘自 《SQL 必知必会》">
+<meta name="keywords" content="数据库,SQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL 必知必会">
+<meta property="og:url" content="https://abelsu7.top/2019/05/31/sql-notes/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自 《SQL 必知必会》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/05/31/sql-notes/sql.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/05/31/sql-notes/tables.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.691Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SQL 必知必会">
+<meta name="twitter:description" content="摘自 《SQL 必知必会》">
+<meta name="twitter:image" content="https://abelsu7.top/2019/05/31/sql-notes/sql.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">SQL 必知必会</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">SQL 必知必会</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-05-31T01:57:58.000Z" itemprop="datePublished" class="page-time">
+  2019-05-31
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/数据库/">数据库</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-了解-SQL"><span class="post-toc-text">1. 了解 SQL</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-1-数据库基础"><span class="post-toc-text">1.1 数据库基础</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-2-什么是-SQL"><span class="post-toc-text">1.2 什么是 SQL</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-3-注释风格"><span class="post-toc-text">1.3 注释风格</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-4-样例数据库"><span class="post-toc-text">1.4 样例数据库</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#创建数据库"><span class="post-toc-text">创建数据库</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Vendors-表"><span class="post-toc-text">Vendors 表</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Products-表"><span class="post-toc-text">Products 表</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Customers-表"><span class="post-toc-text">Customers 表</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Orders-表"><span class="post-toc-text">Orders 表</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#OrderItems-表"><span class="post-toc-text">OrderItems 表</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#添加主键和外键"><span class="post-toc-text">添加主键和外键</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#ER-图"><span class="post-toc-text">ER 图</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#插入样例数据"><span class="post-toc-text">插入样例数据</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#检查数据"><span class="post-toc-text">检查数据</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-检索数据"><span class="post-toc-text">2. 检索数据</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-SELECT"><span class="post-toc-text">2.1 SELECT</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-DISTINCT"><span class="post-toc-text">2.2 DISTINCT</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-3-LIMIT-OFFSET"><span class="post-toc-text">2.3 LIMIT/OFFSET</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-排序检索数据"><span class="post-toc-text">3. 排序检索数据</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-ORDER-BY"><span class="post-toc-text">3.1 ORDER BY</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-DESC-ASC"><span class="post-toc-text">3.2 DESC/ASC</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-过滤数据"><span class="post-toc-text">4. 过滤数据</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-1-WHERE"><span class="post-toc-text">4.1 WHERE</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-2-WHERE-子句操作符"><span class="post-toc-text">4.2 WHERE 子句操作符</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-高级数据过滤"><span class="post-toc-text">5. 高级数据过滤</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-1-AND"><span class="post-toc-text">5.1 AND</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-2-OR"><span class="post-toc-text">5.2 OR</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-3-AND-和-OR-的优先级"><span class="post-toc-text">5.3 AND 和 OR 的优先级</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-4-IN"><span class="post-toc-text">5.4 IN</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-5-NOT"><span class="post-toc-text">5.5 NOT</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-使用通配符进行过滤"><span class="post-toc-text">6. 使用通配符进行过滤</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-1-百分号（-）通配符"><span class="post-toc-text">6.1 百分号（%）通配符</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-2-下划线（-）通配符"><span class="post-toc-text">6.2 下划线（_）通配符</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-3-方括号（-）通配符"><span class="post-toc-text">6.3 方括号（[]）通配符</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-sql-notes"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">SQL 必知必会</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-05-31 09:57:58" datetime="2019-05-31T01:57:58.000Z"  itemprop="datePublished">2019-05-31</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/数据库/">数据库</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>摘自 <a href="https://book.douban.com/subject/24250054/" target="_blank" rel="noopener">《SQL 必知必会》</a></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/05/31/sql-notes/sql.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="1-了解-SQL"><a href="#1-了解-SQL" class="headerlink" title="1. 了解 SQL"></a>1. 了解 SQL</h3><h4 id="1-1-数据库基础"><a href="#1-1-数据库基础" class="headerlink" title="1.1 数据库基础"></a>1.1 数据库基础</h4><ul>
+<li><strong>数据库</strong><code>database</code>：保存有组织的数据的容器。<strong>数据库软件</strong>通常称为<strong>数据库管理系统</strong><code>DBMS</code></li>
+</ul>
+<blockquote>
+<p>数据库是<strong>通过</strong><code>DBMS</code><strong>创建和操纵的容器</strong></p>
+</blockquote>
+<ul>
+<li><strong>表</strong><code>table</code>：某种<strong>特定类型数据</strong>的<strong>结构化清单</strong></li>
+<li><strong>模式</strong><code>schema</code>：用来描述<strong>数据在表中如何存储</strong>，包含<strong>存储什么样的数据，数据如何分解，各部分信息如何命名</strong>等信息</li>
+</ul>
+<blockquote>
+<p><strong>模式</strong>可以用来<strong>描述数据库中特定的表</strong>，也可以用来<strong>描述整个数据库</strong>（和其中表的关系）</p>
+</blockquote>
+<ul>
+<li><strong>列</strong><code>column</code>：表中的一个<strong>字段</strong>。表由列组成，列存储表中的某部分信息</li>
+<li><strong>数据类型</strong><code>datatype</code>：定义了列可以存储那些数据种类</li>
+<li><strong>行</strong><code>row</code>：表中的一个<strong>记录</strong>。表中的数据是<strong>按行存储的</strong>，每条记录存储在自己的行内</li>
+</ul>
+<blockquote>
+<p>也可称为<strong>数据库记录</strong><code>record</code></p>
+</blockquote>
+<ul>
+<li><strong>主键</strong><code>primary key</code>：<strong>一列（或一组列）</strong>，其值能够<strong>唯一标识表中每一行</strong></li>
+</ul>
+<blockquote>
+<p>表中的任何列只要满足以下条件，都可以作为主键：</p>
+<ol>
+<li>任意一行的<strong>主键值唯一</strong></li>
+<li>主键列<strong>不允许</strong><code>NULL</code><strong>值</strong></li>
+<li>主键列中的值<strong>不允许修改或更新</strong></li>
+<li><strong>主键值不能重用</strong>，即被删除行的主键值不能赋给以后的新行</li>
+</ol>
+</blockquote>
+<h4 id="1-2-什么是-SQL"><a href="#1-2-什么是-SQL" class="headerlink" title="1.2 什么是 SQL"></a>1.2 什么是 SQL</h4><p><strong>SQL</strong> 即<strong>结构化查询语言</strong>（Structured Query Language）。与常见的过程式编程语言相比，SQL 更加类似于一种<strong>声明式语言</strong>。</p>
+<p><strong>标准 SQL</strong> 由 <a href="https://www.ansi.org" target="_blank" rel="noopener">ANSI</a> <strong>标准委员会</strong>管理，从而称为<code>ANSI SQL</code>。<strong>所有主要的 DBMS</strong> ，即使有自己的扩展，<strong>也都支持</strong><code>ANSI SQL</code>。</p>
+<blockquote>
+<p>各个 DBMS 关于 SQL 的实现有自己的名称，例如 Oracle 的<code>PL/SQL</code>、微软的<code>Transact-SQL</code>等</p>
+</blockquote>
+<h4 id="1-3-注释风格"><a href="#1-3-注释风格" class="headerlink" title="1.3 注释风格"></a>1.3 注释风格</h4><p>SQL 支持以下<strong>三种注释风格</strong>：</p>
+<pre><code class="lang-sql"># 注释
+SELECT *
+FROM mytable; -- 注释
+/* 注释 1
+   注释 2 */
+</code></pre>
+<h4 id="1-4-样例数据库"><a href="#1-4-样例数据库" class="headerlink" title="1.4 样例数据库"></a>1.4 样例数据库</h4><blockquote>
+<p>摘自 <a href="https://forta.com/books/0672336073/" target="_blank" rel="noopener">Sams Teach Yourself SQL in 10 Minutes (Fourth Edition) | Ben Forta</a></p>
+</blockquote>
+<h5 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h5><p>首先<strong>创建数据库</strong>：</p>
+<pre><code class="lang-sql">CREATE DATABASE sql_10mins;
+USE sql_10mins;
+</code></pre>
+<p>之后<strong>创建以下五张样例表</strong>：</p>
+<h5 id="Vendors-表"><a href="#Vendors-表" class="headerlink" title="Vendors 表"></a>Vendors 表</h5><p><code>Vendors</code>表存储<strong>供应商信息</strong>，每个供应商有<strong>唯一的</strong><code>vendor_id</code>作为<strong>主键</strong>，用于<strong>匹配产品与供应商</strong>：</p>
+<pre><code class="lang-sql">-- --------------------
+-- Create Vendors table
+-- --------------------
+CREATE TABLE Vendors
+(
+  vend_id      char(10) NOT NULL, -- 供应商 ID，主键
+  vend_name    char(50) NOT NULL, -- 供应商名
+  vend_address char(50) NULL, -- 供应商地址
+  vend_city    char(50) NULL, -- 供应商所在城市
+  vend_state   char(5)  NULL, -- 供应商所在州
+  vend_zip     char(10) NULL, -- 供应商邮编
+  vend_country char(50) NULL  -- 供应商所在国家
+);
+</code></pre>
+<h5 id="Products-表"><a href="#Products-表" class="headerlink" title="Products 表"></a>Products 表</h5><p><code>Products</code>表包含<strong>产品目录</strong>，每行一个产品。每个产品有<strong>唯一的</strong><code>prod_id</code>作为<strong>主键</strong>，并借助<code>vend_id</code>作为<strong>外键</strong>与<code>Vendors</code>表相关联：</p>
+<pre><code class="lang-sql">-- ---------------------
+-- Create Products table
+-- ---------------------
+CREATE TABLE Products
+(
+  prod_id    char(10)      NOT NULL, -- 产品 ID，主键
+  vend_id    char(10)      NOT NULL, -- 供应商 ID 外键
+  prod_name  char(255)     NOT NULL, -- 产品名
+  prod_price decimal(8, 2) NOT NULL, -- 产品价格
+  prod_desc  text          NULL -- 产品描述
+);
+</code></pre>
+<h5 id="Customers-表"><a href="#Customers-表" class="headerlink" title="Customers 表"></a>Customers 表</h5><p><code>Customers</code>表存储所有<strong>顾客信息</strong>。每个顾客有<strong>唯一的</strong><code>cust_id</code>作为<strong>主键</strong>：</p>
+<pre><code class="lang-sql">-- ----------------------
+-- Create Customers table
+-- ----------------------
+CREATE TABLE Customers
+(
+  cust_id      char(10)  NOT NULL, -- 顾客 ID，主键
+  cust_name    char(50)  NOT NULL, -- 顾客名
+  cust_address char(50)  NULL, -- 顾客地址
+  cust_city    char(50)  NULL, -- 顾客所在城市
+  cust_state   char(5)   NULL, -- 顾客所在州
+  cust_zip     char(10)  NULL, -- 顾客邮编
+  cust_country char(50)  NULL, -- 顾客所在国家
+  cust_contact char(50)  NULL, -- 顾客联系名
+  cust_email   char(255) NULL  -- 顾客邮件地址
+);
+</code></pre>
+<h5 id="Orders-表"><a href="#Orders-表" class="headerlink" title="Orders 表"></a>Orders 表</h5><p><code>Orders</code>表存储<strong>顾客订单</strong>，每个订单有<strong>唯一的编号</strong><code>order_num</code>作为<strong>主键</strong>，按<code>cust_id</code>作为<strong>外键</strong>关联到<code>Customers</code>表的相应顾客：</p>
+<pre><code class="lang-sql">-- -------------------
+-- Create Orders table
+-- -------------------
+CREATE TABLE Orders
+(
+  order_num  int      NOT NULL, -- 订单号，主键
+  order_date datetime NOT NULL, -- 订单日期
+  cust_id    char(10) NOT NULL  -- 订单顾客 ID，外键
+);
+</code></pre>
+<h5 id="OrderItems-表"><a href="#OrderItems-表" class="headerlink" title="OrderItems 表"></a>OrderItems 表</h5><p><code>OrderItems</code>表存储<strong>每个订单中的实际物品</strong>，每个订单的每个物品一行。对于<code>Orders</code>表的每一行，在<code>OrderItems</code>表中有一行或多行。</p>
+<p>每个<code>OrderItem</code>由<strong>订单号</strong><code>order_num</code><strong>加订单物品号</strong><code>order_item</code>作为唯一标识的<strong>主键</strong>，并用<code>order_num</code><strong>作为外键关联到</strong><code>Orders</code><strong>表</strong>。另外，<code>prod_id</code><strong>列也作为外键关联到</strong><code>Products</code><strong>表</strong>：</p>
+<pre><code class="lang-sql">-- -----------------------
+-- Create OrderItems table
+-- -----------------------
+CREATE TABLE OrderItems
+(
+  order_num  int           NOT NULL, -- 订单号，主键，外键
+  order_item int           NOT NULL, -- 订单物品号
+  prod_id    char(10)      NOT NULL, -- 产品 ID，外键
+  quantity   int           NOT NULL, -- 物品数量
+  item_price decimal(8, 2) NOT NULL  -- 物品价格
+);
+</code></pre>
+<h5 id="添加主键和外键"><a href="#添加主键和外键" class="headerlink" title="添加主键和外键"></a>添加主键和外键</h5><p>刚才只是创建了五张表及其各个字段，现在<strong>添加主键</strong>：</p>
+<pre><code class="lang-sql">-- -------------------
+-- Define primary keys
+-- -------------------
+ALTER TABLE Customers
+  ADD PRIMARY KEY (cust_id);
+ALTER TABLE OrderItems
+  ADD PRIMARY KEY (order_num, order_item);
+ALTER TABLE Orders
+  ADD PRIMARY KEY (order_num);
+ALTER TABLE Products
+  ADD PRIMARY KEY (prod_id);
+ALTER TABLE Vendors
+  ADD PRIMARY KEY (vend_id);
+</code></pre>
+<p>之后<strong>添加外键</strong>：</p>
+<pre><code class="lang-sql">-- -------------------
+-- Define foreign keys
+-- -------------------
+ALTER TABLE OrderItems
+  ADD CONSTRAINT FK_OrderItems_Orders FOREIGN KEY (order_num) REFERENCES Orders (order_num);
+ALTER TABLE OrderItems
+  ADD CONSTRAINT FK_OrderItems_Products FOREIGN KEY (prod_id) REFERENCES Products (prod_id);
+ALTER TABLE Orders
+  ADD CONSTRAINT FK_Orders_Customers FOREIGN KEY (cust_id) REFERENCES Customers (cust_id);
+ALTER TABLE Products
+  ADD CONSTRAINT FK_Products_Vendors FOREIGN KEY (vend_id) REFERENCES Vendors (vend_id);
+</code></pre>
+<h5 id="ER-图"><a href="#ER-图" class="headerlink" title="ER 图"></a>ER 图</h5><p>样例数据库<code>sql_10mins</code>的<strong>ER 图</strong>如下所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/05/31/sql-notes/tables.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h5 id="插入样例数据"><a href="#插入样例数据" class="headerlink" title="插入样例数据"></a>插入样例数据</h5><p><code>Customers</code>表：</p>
+<pre><code class="lang-sql">-- ------------------------
+-- Populate Customers table
+-- ------------------------
+INSERT INTO Customers(cust_id, cust_name, cust_address, cust_city, cust_state, cust_zip, cust_country, cust_contact, cust_email)
+VALUES(&#39;1000000001&#39;, &#39;Village Toys&#39;, &#39;200 Maple Lane&#39;, &#39;Detroit&#39;, &#39;MI&#39;, &#39;44444&#39;, &#39;USA&#39;, &#39;John Smith&#39;, &#39;sales@villagetoys.com&#39;);
+
+INSERT INTO Customers(cust_id, cust_name, cust_address, cust_city, cust_state, cust_zip, cust_country, cust_contact)
+VALUES(&#39;1000000002&#39;, &#39;Kids Place&#39;, &#39;333 South Lake Drive&#39;, &#39;Columbus&#39;, &#39;OH&#39;, &#39;43333&#39;, &#39;USA&#39;, &#39;Michelle Green&#39;);
+
+INSERT INTO Customers(cust_id, cust_name, cust_address, cust_city, cust_state, cust_zip, cust_country, cust_contact, cust_email)
+VALUES(&#39;1000000003&#39;, &#39;Fun4All&#39;, &#39;1 Sunny Place&#39;, &#39;Muncie&#39;, &#39;IN&#39;, &#39;42222&#39;, &#39;USA&#39;, &#39;Jim Jones&#39;, &#39;jjones@fun4all.com&#39;);
+
+INSERT INTO Customers(cust_id, cust_name, cust_address, cust_city, cust_state, cust_zip, cust_country, cust_contact, cust_email)
+VALUES(&#39;1000000004&#39;, &#39;Fun4All&#39;, &#39;829 Riverside Drive&#39;, &#39;Phoenix&#39;, &#39;AZ&#39;, &#39;88888&#39;, &#39;USA&#39;, &#39;Denise L. Stephens&#39;, &#39;dstephens@fun4all.com&#39;);
+
+INSERT INTO Customers(cust_id, cust_name, cust_address, cust_city, cust_state, cust_zip, cust_country, cust_contact)
+VALUES(&#39;1000000005&#39;, &#39;The Toy Store&#39;, &#39;4545 53rd Street&#39;, &#39;Chicago&#39;, &#39;IL&#39;, &#39;54545&#39;, &#39;USA&#39;, &#39;Kim Howard&#39;);
+</code></pre>
+<p><code>Vendors</code>表：</p>
+<pre><code class="lang-sql">-- ----------------------
+-- Populate Vendors table
+-- ----------------------
+INSERT INTO Vendors(vend_id, vend_name, vend_address, vend_city, vend_state, vend_zip, vend_country)
+VALUES(&#39;BRS01&#39;,&#39;Bears R Us&#39;,&#39;123 Main Street&#39;,&#39;Bear Town&#39;,&#39;MI&#39;,&#39;44444&#39;, &#39;USA&#39;);
+
+INSERT INTO Vendors(vend_id, vend_name, vend_address, vend_city, vend_state, vend_zip, vend_country)
+VALUES(&#39;BRE02&#39;,&#39;Bear Emporium&#39;,&#39;500 Park Street&#39;,&#39;Anytown&#39;,&#39;OH&#39;,&#39;44333&#39;, &#39;USA&#39;);
+
+INSERT INTO Vendors(vend_id, vend_name, vend_address, vend_city, vend_state, vend_zip, vend_country)
+VALUES(&#39;DLL01&#39;,&#39;Doll House Inc.&#39;,&#39;555 High Street&#39;,&#39;Dollsville&#39;,&#39;CA&#39;,&#39;99999&#39;, &#39;USA&#39;);
+
+INSERT INTO Vendors(vend_id, vend_name, vend_address, vend_city, vend_state, vend_zip, vend_country)
+VALUES(&#39;FRB01&#39;,&#39;Furball Inc.&#39;,&#39;1000 5th Avenue&#39;,&#39;New York&#39;,&#39;NY&#39;,&#39;11111&#39;, &#39;USA&#39;);
+
+INSERT INTO Vendors(vend_id, vend_name, vend_address, vend_city, vend_state, vend_zip, vend_country)
+VALUES(&#39;FNG01&#39;,&#39;Fun and Games&#39;,&#39;42 Galaxy Road&#39;,&#39;London&#39;, NULL,&#39;N16 6PS&#39;, &#39;England&#39;);
+
+INSERT INTO Vendors(vend_id, vend_name, vend_address, vend_city, vend_state, vend_zip, vend_country)
+VALUES(&#39;JTS01&#39;,&#39;Jouets et ours&#39;,&#39;1 Rue Amusement&#39;,&#39;Paris&#39;, NULL,&#39;45678&#39;, &#39;France&#39;);
+</code></pre>
+<p><code>Products</code>表：</p>
+<pre><code class="lang-sql">-- -----------------------
+-- Populate Products table
+-- -----------------------
+INSERT INTO Products (prod_id, vend_id, prod_name, prod_price, prod_desc)
+VALUES (&#39;BR01&#39;, &#39;BRS01&#39;, &#39;8 inch teddy bear&#39;, 5.99, &#39;8 inch teddy bear, comes with cap and jacket&#39;);
+
+INSERT INTO Products (prod_id, vend_id, prod_name, prod_price, prod_desc)
+VALUES (&#39;BR02&#39;, &#39;BRS01&#39;, &#39;12 inch teddy bear&#39;, 8.99, &#39;12 inch teddy bear, comes with cap and jacket&#39;);
+
+INSERT INTO Products (prod_id, vend_id, prod_name, prod_price, prod_desc)
+VALUES (&#39;BR03&#39;, &#39;BRS01&#39;, &#39;18 inch teddy bear&#39;, 11.99, &#39;18 inch teddy bear, comes with cap and jacket&#39;);
+
+INSERT INTO Products (prod_id, vend_id, prod_name, prod_price, prod_desc)
+VALUES (&#39;BNBG01&#39;, &#39;DLL01&#39;, &#39;Fish bean bag toy&#39;, 3.49, &#39;Fish bean bag toy, complete with bean bag worms with which to feed it&#39;);
+
+INSERT INTO Products (prod_id, vend_id, prod_name, prod_price, prod_desc)
+VALUES (&#39;BNBG02&#39;, &#39;DLL01&#39;, &#39;Bird bean bag toy&#39;, 3.49, &#39;Bird bean bag toy, eggs are not included&#39;);
+
+INSERT INTO Products (prod_id, vend_id, prod_name, prod_price, prod_desc)
+VALUES (&#39;BNBG03&#39;, &#39;DLL01&#39;, &#39;Rabbit bean bag toy&#39;, 3.49, &#39;Rabbit bean bag toy, comes with bean bag carrots&#39;);
+
+INSERT INTO Products (prod_id, vend_id, prod_name, prod_price, prod_desc)
+VALUES (&#39;RGAN01&#39;, &#39;DLL01&#39;, &#39;Raggedy Ann&#39;, 4.99, &#39;18 inch Raggedy Ann doll&#39;);
+
+INSERT INTO Products (prod_id, vend_id, prod_name, prod_price, prod_desc)
+VALUES (&#39;RYL01&#39;, &#39;FNG01&#39;, &#39;King doll&#39;, 9.49, &#39;12 inch king doll with royal garments and crown&#39;);
+
+INSERT INTO Products (prod_id, vend_id, prod_name, prod_price, prod_desc)
+VALUES (&#39;RYL02&#39;, &#39;FNG01&#39;, &#39;Queen doll&#39;, 9.49, &#39;12 inch queen doll with royal garments and crown&#39;);
+</code></pre>
+<p><code>Orders</code>表：</p>
+<pre><code class="lang-sql">-- ---------------------
+-- Populate Orders table
+-- ---------------------
+INSERT INTO Orders (order_num, order_date, cust_id)
+VALUES (20005, &#39;2012-05-01&#39;, &#39;1000000001&#39;);
+
+INSERT INTO Orders (order_num, order_date, cust_id)
+VALUES (20006, &#39;2012-01-12&#39;, &#39;1000000003&#39;);
+
+INSERT INTO Orders (order_num, order_date, cust_id)
+VALUES (20007, &#39;2012-01-30&#39;, &#39;1000000004&#39;);
+
+INSERT INTO Orders (order_num, order_date, cust_id)
+VALUES (20008, &#39;2012-02-03&#39;, &#39;1000000005&#39;);
+
+INSERT INTO Orders (order_num, order_date, cust_id)
+VALUES (20009, &#39;2012-02-08&#39;, &#39;1000000001&#39;);
+</code></pre>
+<p><code>OrderItems</code>表：</p>
+<pre><code class="lang-sql">-- -------------------------
+-- Populate OrderItems table
+-- -------------------------
+INSERT INTO OrderItems (order_num, order_item, prod_id, quantity, item_price)
+VALUES (20005, 1, &#39;BR01&#39;, 100, 5.49);
+
+INSERT INTO OrderItems (order_num, order_item, prod_id, quantity, item_price)
+VALUES (20005, 2, &#39;BR03&#39;, 100, 10.99);
+
+INSERT INTO OrderItems (order_num, order_item, prod_id, quantity, item_price)
+VALUES (20006, 1, &#39;BR01&#39;, 20, 5.99);
+
+INSERT INTO OrderItems (order_num, order_item, prod_id, quantity, item_price)
+VALUES (20006, 2, &#39;BR02&#39;, 10, 8.99);
+
+INSERT INTO OrderItems (order_num, order_item, prod_id, quantity, item_price)
+VALUES (20006, 3, &#39;BR03&#39;, 10, 11.99);
+
+INSERT INTO OrderItems (order_num, order_item, prod_id, quantity, item_price)
+VALUES (20007, 1, &#39;BR03&#39;, 50, 11.49);
+
+INSERT INTO OrderItems (order_num, order_item, prod_id, quantity, item_price)
+VALUES (20007, 2, &#39;BNBG01&#39;, 100, 2.99);
+
+INSERT INTO OrderItems (order_num, order_item, prod_id, quantity, item_price)
+VALUES (20007, 3, &#39;BNBG02&#39;, 100, 2.99);
+
+INSERT INTO OrderItems (order_num, order_item, prod_id, quantity, item_price)
+VALUES (20007, 4, &#39;BNBG03&#39;, 100, 2.99);
+
+INSERT INTO OrderItems (order_num, order_item, prod_id, quantity, item_price)
+VALUES (20007, 5, &#39;RGAN01&#39;, 50, 4.49);
+
+INSERT INTO OrderItems (order_num, order_item, prod_id, quantity, item_price)
+VALUES (20008, 1, &#39;RGAN01&#39;, 5, 4.99);
+
+INSERT INTO OrderItems (order_num, order_item, prod_id, quantity, item_price)
+VALUES (20008, 2, &#39;BR03&#39;, 5, 11.99);
+
+INSERT INTO OrderItems (order_num, order_item, prod_id, quantity, item_price)
+VALUES (20008, 3, &#39;BNBG01&#39;, 10, 3.49);
+
+INSERT INTO OrderItems (order_num, order_item, prod_id, quantity, item_price)
+VALUES (20008, 4, &#39;BNBG02&#39;, 10, 3.49);
+
+INSERT INTO OrderItems (order_num, order_item, prod_id, quantity, item_price)
+VALUES (20008, 5, &#39;BNBG03&#39;, 10, 3.49);
+
+INSERT INTO OrderItems (order_num, order_item, prod_id, quantity, item_price)
+VALUES (20009, 1, &#39;BNBG01&#39;, 250, 2.49);
+
+INSERT INTO OrderItems (order_num, order_item, prod_id, quantity, item_price)
+VALUES (20009, 2, &#39;BNBG02&#39;, 250, 2.49);
+
+INSERT INTO OrderItems (order_num, order_item, prod_id, quantity, item_price)
+VALUES (20009, 3, &#39;BNBG03&#39;, 250, 2.49);
+</code></pre>
+<h5 id="检查数据"><a href="#检查数据" class="headerlink" title="检查数据"></a>检查数据</h5><p><code>Vendors</code>表：</p>
+<pre><code class="lang-sql">mysql&gt; describe Vendors;
++--------------+----------+------+-----+---------+-------+
+| Field        | Type     | Null | Key | Default | Extra |
++--------------+----------+------+-----+---------+-------+
+| vend_id      | char(10) | NO   | PRI | NULL    |       |
+| vend_name    | char(50) | NO   |     | NULL    |       |
+| vend_address | char(50) | YES  |     | NULL    |       |
+| vend_city    | char(50) | YES  |     | NULL    |       |
+| vend_state   | char(5)  | YES  |     | NULL    |       |
+| vend_zip     | char(10) | YES  |     | NULL    |       |
+| vend_country | char(50) | YES  |     | NULL    |       |
++--------------+----------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql&gt; select * from Vendors;
++---------+-----------------+-----------------+------------+------------+----------+--------------+
+| vend_id | vend_name       | vend_address    | vend_city  | vend_state | vend_zip | vend_country |
++---------+-----------------+-----------------+------------+------------+----------+--------------+
+| BRE02   | Bear Emporium   | 500 Park Street | Anytown    | OH         | 44333    | USA          |
+| BRS01   | Bears R Us      | 123 Main Street | Bear Town  | MI         | 44444    | USA          |
+| DLL01   | Doll House Inc. | 555 High Street | Dollsville | CA         | 99999    | USA          |
+| FNG01   | Fun and Games   | 42 Galaxy Road  | London     | NULL       | N16 6PS  | England      |
+| FRB01   | Furball Inc.    | 1000 5th Avenue | New York   | NY         | 11111    | USA          |
+| JTS01   | Jouets et ours  | 1 Rue Amusement | Paris      | NULL       | 45678    | France       |
++---------+-----------------+-----------------+------------+------------+----------+--------------+
+6 rows in set (0.00 sec)
+</code></pre>
+<p><code>Products</code>表：</p>
+<pre><code class="lang-sql">mysql&gt; describe Products;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| prod_id    | char(10)     | NO   | PRI | NULL    |       |
+| vend_id    | char(10)     | NO   | MUL | NULL    |       |
+| prod_name  | char(255)    | NO   |     | NULL    |       |
+| prod_price | decimal(8,2) | NO   |     | NULL    |       |
+| prod_desc  | text         | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql&gt; select * from Products;
++---------+---------+---------------------+------------+-----------------------------------------------------------------------+
+| prod_id | vend_id | prod_name           | prod_price | prod_desc                                                             |
++---------+---------+---------------------+------------+-----------------------------------------------------------------------+
+| BNBG01  | DLL01   | Fish bean bag toy   |       3.49 | Fish bean bag toy, complete with bean bag worms with which to feed it |
+| BNBG02  | DLL01   | Bird bean bag toy   |       3.49 | Bird bean bag toy, eggs are not included                              |
+| BNBG03  | DLL01   | Rabbit bean bag toy |       3.49 | Rabbit bean bag toy, comes with bean bag carrots                      |
+| BR01    | BRS01   | 8 inch teddy bear   |       5.99 | 8 inch teddy bear, comes with cap and jacket                          |
+| BR02    | BRS01   | 12 inch teddy bear  |       8.99 | 12 inch teddy bear, comes with cap and jacket                         |
+| BR03    | BRS01   | 18 inch teddy bear  |      11.99 | 18 inch teddy bear, comes with cap and jacket                         |
+| RGAN01  | DLL01   | Raggedy Ann         |       4.99 | 18 inch Raggedy Ann doll                                              |
+| RYL01   | FNG01   | King doll           |       9.49 | 12 inch king doll with royal garments and crown                       |
+| RYL02   | FNG01   | Queen doll          |       9.49 | 12 inch queen doll with royal garments and crown                      |
++---------+---------+---------------------+------------+-----------------------------------------------------------------------+
+9 rows in set (0.00 sec)
+</code></pre>
+<p><code>Customers</code>表：</p>
+<pre><code class="lang-sql">mysql&gt; describe Customers;
++--------------+-----------+------+-----+---------+-------+
+| Field        | Type      | Null | Key | Default | Extra |
++--------------+-----------+------+-----+---------+-------+
+| cust_id      | char(10)  | NO   | PRI | NULL    |       |
+| cust_name    | char(50)  | NO   |     | NULL    |       |
+| cust_address | char(50)  | YES  |     | NULL    |       |
+| cust_city    | char(50)  | YES  |     | NULL    |       |
+| cust_state   | char(5)   | YES  |     | NULL    |       |
+| cust_zip     | char(10)  | YES  |     | NULL    |       |
+| cust_country | char(50)  | YES  |     | NULL    |       |
+| cust_contact | char(50)  | YES  |     | NULL    |       |
+| cust_email   | char(255) | YES  |     | NULL    |       |
++--------------+-----------+------+-----+---------+-------+
+9 rows in set (0.00 sec)
+
+mysql&gt; select * from Customers;
++------------+---------------+----------------------+-----------+------------+----------+--------------+--------------------+-----------------------+
+| cust_id    | cust_name     | cust_address         | cust_city | cust_state | cust_zip | cust_country | cust_contact       | cust_email            |
++------------+---------------+----------------------+-----------+------------+----------+--------------+--------------------+-----------------------+
+| 1000000001 | Village Toys  | 200 Maple Lane       | Detroit   | MI         | 44444    | USA          | John Smith         | sales@villagetoys.com |
+| 1000000002 | Kids Place    | 333 South Lake Drive | Columbus  | OH         | 43333    | USA          | Michelle Green     | NULL                  |
+| 1000000003 | Fun4All       | 1 Sunny Place        | Muncie    | IN         | 42222    | USA          | Jim Jones          | jjones@fun4all.com    |
+| 1000000004 | Fun4All       | 829 Riverside Drive  | Phoenix   | AZ         | 88888    | USA          | Denise L. Stephens | dstephens@fun4all.com |
+| 1000000005 | The Toy Store | 4545 53rd Street     | Chicago   | IL         | 54545    | USA          | Kim Howard         | NULL                  |
++------------+---------------+----------------------+-----------+------------+----------+--------------+--------------------+-----------------------+
+5 rows in set (0.00 sec)
+</code></pre>
+<p><code>Orders</code>表：</p>
+<pre><code class="lang-sql">mysql&gt; describe Orders;
++------------+----------+------+-----+---------+-------+
+| Field      | Type     | Null | Key | Default | Extra |
++------------+----------+------+-----+---------+-------+
+| order_num  | int(11)  | NO   | PRI | NULL    |       |
+| order_date | datetime | NO   |     | NULL    |       |
+| cust_id    | char(10) | NO   | MUL | NULL    |       |
++------------+----------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql&gt; select * from Orders;
++-----------+---------------------+------------+
+| order_num | order_date          | cust_id    |
++-----------+---------------------+------------+
+|     20005 | 2012-05-01 00:00:00 | 1000000001 |
+|     20006 | 2012-01-12 00:00:00 | 1000000003 |
+|     20007 | 2012-01-30 00:00:00 | 1000000004 |
+|     20008 | 2012-02-03 00:00:00 | 1000000005 |
+|     20009 | 2012-02-08 00:00:00 | 1000000001 |
++-----------+---------------------+------------+
+5 rows in set (0.00 sec)
+</code></pre>
+<p><code>OrderItems</code>表：</p>
+<pre><code class="lang-sql">mysql&gt; describe OrderItems;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| order_num  | int(11)      | NO   | PRI | NULL    |       |
+| order_item | int(11)      | NO   | PRI | NULL    |       |
+| prod_id    | char(10)     | NO   | MUL | NULL    |       |
+| quantity   | int(11)      | NO   |     | NULL    |       |
+| item_price | decimal(8,2) | NO   |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql&gt; select * from OrderItems;
++-----------+------------+---------+----------+------------+
+| order_num | order_item | prod_id | quantity | item_price |
++-----------+------------+---------+----------+------------+
+|     20005 |          1 | BR01    |      100 |       5.49 |
+|     20005 |          2 | BR03    |      100 |      10.99 |
+|     20006 |          1 | BR01    |       20 |       5.99 |
+|     20006 |          2 | BR02    |       10 |       8.99 |
+|     20006 |          3 | BR03    |       10 |      11.99 |
+|     20007 |          1 | BR03    |       50 |      11.49 |
+|     20007 |          2 | BNBG01  |      100 |       2.99 |
+|     20007 |          3 | BNBG02  |      100 |       2.99 |
+|     20007 |          4 | BNBG03  |      100 |       2.99 |
+|     20007 |          5 | RGAN01  |       50 |       4.49 |
+|     20008 |          1 | RGAN01  |        5 |       4.99 |
+|     20008 |          2 | BR03    |        5 |      11.99 |
+|     20008 |          3 | BNBG01  |       10 |       3.49 |
+|     20008 |          4 | BNBG02  |       10 |       3.49 |
+|     20008 |          5 | BNBG03  |       10 |       3.49 |
+|     20009 |          1 | BNBG01  |      250 |       2.49 |
+|     20009 |          2 | BNBG02  |      250 |       2.49 |
+|     20009 |          3 | BNBG03  |      250 |       2.49 |
++-----------+------------+---------+----------+------------+
+18 rows in set (0.00 sec)
+</code></pre>
+<h3 id="2-检索数据"><a href="#2-检索数据" class="headerlink" title="2. 检索数据"></a>2. 检索数据</h3><h4 id="2-1-SELECT"><a href="#2-1-SELECT" class="headerlink" title="2.1 SELECT"></a>2.1 SELECT</h4><pre><code class="lang-sql"># 检索单个列
+SELECT prod_name 
+FROM Products;
+
+# 检索多个列
+SELECT prod_id, prod_name, prod_price 
+FROM Products;
+
+# 检索所有列
+SELECT *
+FROM Products;
+</code></pre>
+<h4 id="2-2-DISTINCT"><a href="#2-2-DISTINCT" class="headerlink" title="2.2 DISTINCT"></a>2.2 DISTINCT</h4><pre><code class="lang-sql">
+mysql&gt; SELECT vend_id
+    -&gt; FROM Products;
++---------+
+| vend_id |
++---------+
+| BRS01   |
+| BRS01   |
+| BRS01   |
+| DLL01   |
+| DLL01   |
+| DLL01   |
+| DLL01   |
+| FNG01   |
+| FNG01   |
++---------+
+9 rows in set (0.00 sec)
+
+mysql&gt; SELECT DISTINCT vend_id 
+    -&gt; FROM Products;
++---------+
+| vend_id |
++---------+
+| BRS01   |
+| DLL01   |
+| FNG01   |
++---------+
+3 rows in set (0.00 sec)
+</code></pre>
+<h4 id="2-3-LIMIT-OFFSET"><a href="#2-3-LIMIT-OFFSET" class="headerlink" title="2.3 LIMIT/OFFSET"></a>2.3 LIMIT/OFFSET</h4><pre><code class="lang-sql">mysql&gt; SELECT prod_name 
+    -&gt; FROM Products;
++---------------------+
+| prod_name           |
++---------------------+
+| Fish bean bag toy   |
+| Bird bean bag toy   |
+| Rabbit bean bag toy |
+| 8 inch teddy bear   |
+| 12 inch teddy bear  |
+| 18 inch teddy bear  |
+| Raggedy Ann         |
+| King doll           |
+| Queen doll          |
++---------------------+
+
+# 返回前 5 行
+mysql&gt; SELECT prod_name
+    -&gt; FROM Products
+    -&gt; LIMIT 5;
++---------------------+
+| prod_name           |
++---------------------+
+| Fish bean bag toy   |
+| Bird bean bag toy   |
+| Rabbit bean bag toy |
+| 8 inch teddy bear   |
+| 12 inch teddy bear  |
++---------------------+
+
+# 返回从第 3 行 (1+2) 开始，不超过 4 行的数据
+mysql&gt; SELECT prod_name
+    -&gt; FROM Products
+    -&gt; LIMIT 4 OFFSET 2;
++---------------------+
+| prod_name           |
++---------------------+
+| Rabbit bean bag toy |
+| 8 inch teddy bear   |
+| 12 inch teddy bear  |
+| 18 inch teddy bear  |
++---------------------+
+
+# 返回第 3~6 行
+mysql&gt; SELECT prod_name
+    -&gt; FROM Products
+    -&gt; LIMIT 2, 4;
++---------------------+
+| prod_name           |
++---------------------+
+| Rabbit bean bag toy |
+| 8 inch teddy bear   |
+| 12 inch teddy bear  |
+| 18 inch teddy bear  |
++---------------------+
+4 rows in set (0.00 sec)
+</code></pre>
+<h3 id="3-排序检索数据"><a href="#3-排序检索数据" class="headerlink" title="3. 排序检索数据"></a>3. 排序检索数据</h3><h4 id="3-1-ORDER-BY"><a href="#3-1-ORDER-BY" class="headerlink" title="3.1 ORDER BY"></a>3.1 ORDER BY</h4><blockquote>
+<p><strong>注意</strong>：确保<code>ORDER BY</code>是<code>SELECT</code>语句中<strong>最后一条子句</strong>，否则会报错</p>
+</blockquote>
+<pre><code class="lang-sql"># 通过选择的列进行排序
+SELECT prod_name
+FROM Products
+ORDER BY prod_name;
+
+# 通过非选择列进行排序
+SELECT prod_name
+FROM Products
+ORDER BY prod_id;
+
+# 按多个列排序
+SELECT prod_id, prod_price, prod_name
+FROM Products
+ORDER BY prod_price, prod_name;
+-- 或者
+ORDER BY 2, 3;
+</code></pre>
+<h4 id="3-2-DESC-ASC"><a href="#3-2-DESC-ASC" class="headerlink" title="3.2 DESC/ASC"></a>3.2 DESC/ASC</h4><blockquote>
+<p>默认升序<code>ASC</code>，<strong>使用</strong><code>DESC</code><strong>关键字降序排序</strong></p>
+</blockquote>
+<pre><code class="lang-sql">SELECT prod_id, prod_price, prod_name
+FROM Products
+ORDER BY prod_price DESC, prod_name;
+</code></pre>
+<h3 id="4-过滤数据"><a href="#4-过滤数据" class="headerlink" title="4. 过滤数据"></a>4. 过滤数据</h3><h4 id="4-1-WHERE"><a href="#4-1-WHERE" class="headerlink" title="4.1 WHERE"></a>4.1 WHERE</h4><pre><code class="lang-sql">mysql&gt; SELECT prod_name, prod_price
+    -&gt; FROM Products
+    -&gt; WHERE prod_price = 3.49 
+    -&gt; ORDER BY prod_name;
++---------------------+------------+
+| prod_name           | prod_price |
++---------------------+------------+
+| Bird bean bag toy   |       3.49 |
+| Fish bean bag toy   |       3.49 |
+| Rabbit bean bag toy |       3.49 |
++---------------------+------------+
+</code></pre>
+<h4 id="4-2-WHERE-子句操作符"><a href="#4-2-WHERE-子句操作符" class="headerlink" title="4.2 WHERE 子句操作符"></a>4.2 WHERE 子句操作符</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">操作符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>=</code></td>
+<td style="text-align:center"><strong>等于</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;&gt;</code></td>
+<td style="text-align:center"><strong>不等于</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>!=</code></td>
+<td style="text-align:center"><strong>不等于</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;</code></td>
+<td style="text-align:center"><strong>小于</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;=</code></td>
+<td style="text-align:center"><strong>小于等于</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>!&lt;</code></td>
+<td style="text-align:center"><strong>不小于</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&gt;</code></td>
+<td style="text-align:center"><strong>大于</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&gt;=</code></td>
+<td style="text-align:center"><strong>大于等于</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>!&gt;</code></td>
+<td style="text-align:center"><strong>不大于</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>BETWEEN</code></td>
+<td style="text-align:center"><strong>在两个值之间</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>IS NULL</code></td>
+<td style="text-align:center"><strong>为 NULL 值</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<pre><code class="lang-sql"># 范围值检查
+SELECT prod_name, prod_price
+FROM Products
+WHERE prod_price BETWEEN 5 AND 10;
+
+# 空值检查
+SELECT cust_name
+FROM Customers
+WHERE cust_email IS NULL;
+</code></pre>
+<h3 id="5-高级数据过滤"><a href="#5-高级数据过滤" class="headerlink" title="5. 高级数据过滤"></a>5. 高级数据过滤</h3><h4 id="5-1-AND"><a href="#5-1-AND" class="headerlink" title="5.1 AND"></a>5.1 AND</h4><pre><code class="lang-sql">SELECT prod_id, prod_price, prod_name
+FROM Products
+WHERE vend_id = &#39;DLL01&#39;
+  AND prod_price &lt;= 4;
+</code></pre>
+<h4 id="5-2-OR"><a href="#5-2-OR" class="headerlink" title="5.2 OR"></a>5.2 OR</h4><p>事实上，许多 DBMS 在<code>OR WHERE</code>子句的<strong>第一个条件得到满足</strong>的情况下，就<strong>不再计算第二个条件</strong>了：</p>
+<pre><code class="lang-sql">SELECT prod_name, prod_price
+FROM Products
+WHERE vend_id = &#39;DLL01&#39;
+   OR vend_id = &#39;BRS01&#39;;
+</code></pre>
+<h4 id="5-3-AND-和-OR-的优先级"><a href="#5-3-AND-和-OR-的优先级" class="headerlink" title="5.3 AND 和 OR 的优先级"></a>5.3 AND 和 OR 的优先级</h4><p>在 SQL 中，<code>AND</code><strong>的优先级比</strong><code>OR</code><strong>高</strong>，因此<strong>尽量使用圆括号明确分组操作符</strong>：</p>
+<pre><code class="lang-sql">SELECT prod_name, prod_price
+FROM Products
+WHERE (vend_id = &#39;DLL01&#39; OR vend_id = &#39;BRS01&#39;)
+  AND prod_price &gt;= 10;
+</code></pre>
+<h4 id="5-4-IN"><a href="#5-4-IN" class="headerlink" title="5.4 IN"></a>5.4 IN</h4><p><code>IN</code><strong>操作符</strong>用来<strong>指定条件范围</strong>：</p>
+<pre><code class="lang-sql">SELECT prod_name, prod_price
+FROM Products
+WHERE vend_id IN (&#39;DLL01&#39;, &#39;BRS01&#39;)
+ORDER BY prod_name;
+</code></pre>
+<h4 id="5-5-NOT"><a href="#5-5-NOT" class="headerlink" title="5.5 NOT"></a>5.5 NOT</h4><p><code>NOT</code><strong>关键字</strong>用来在<code>WHERE</code>子句中<strong>否定其后条件</strong>：</p>
+<pre><code class="lang-sql">SELECT prod_name
+FROM Products
+WHERE NOT vend_id = &#39;DLL01&#39;
+ORDER BY prod_name;
+</code></pre>
+<p>这与使用<code>&lt;&gt;</code>操作符效果相同：</p>
+<pre><code class="lang-sql">SELECT prod_name
+FROM Products
+WHERE vend_id &lt;&gt; &#39;DLL01&#39;
+ORDER BY prod_name;
+</code></pre>
+<blockquote>
+<p><strong>MariaDB</strong> 支持<strong>使用</strong><code>NOT</code><strong>否定</strong><code>IN</code>、<code>BETWEEN</code>、<code>EXISTS</code><strong>子句</strong>。大多数 DBMS <strong>允许使用</strong><code>NOT</code><strong>否定任何条件</strong></p>
+</blockquote>
+<h3 id="6-使用通配符进行过滤"><a href="#6-使用通配符进行过滤" class="headerlink" title="6. 使用通配符进行过滤"></a>6. 使用通配符进行过滤</h3><blockquote>
+<p>关于<code>MySQL</code>中<strong>通配符</strong>和<strong>正则表达式</strong>的使用，参见 <a href="https://blog.csdn.net/lilom/article/details/77092744" target="_blank" rel="noopener">MySQL-通配符与正则表达式的使用 | CSDN</a></p>
+</blockquote>
+<h4 id="6-1-百分号（-）通配符"><a href="#6-1-百分号（-）通配符" class="headerlink" title="6.1 百分号（%）通配符"></a>6.1 百分号（%）通配符</h4><p>最常用的<strong>通配符</strong>是百分号<code>%</code>。在搜索串中，<code>%</code>表示<strong>任意字符出现任意次数</strong>：</p>
+<pre><code class="lang-sql">SELECT prod_id, prod_name
+FROM Products
+WHERE prod_name LIKE &#39;%bean bag%&#39;;
+</code></pre>
+<blockquote>
+<p><strong>注意</strong>：通配符<code>%</code>不会匹配<code>NULL</code></p>
+</blockquote>
+<h4 id="6-2-下划线（-）通配符"><a href="#6-2-下划线（-）通配符" class="headerlink" title="6.2 下划线（_）通配符"></a>6.2 下划线（_）通配符</h4><p><strong>下划线</strong><code>_</code><strong>只匹配单个字符</strong>，而不是多个字符：</p>
+<pre><code class="lang-sql">SELECT prod_id, prod_name
+FROM Products
+WHERE prod_name LIKE &#39;__ inch teddy bear&#39;;
+
+------
++---------+--------------------+
+| prod_id | prod_name          |
++---------+--------------------+
+| BR02    | 12 inch teddy bear |
+| BR03    | 18 inch teddy bear |
++---------+--------------------+
+</code></pre>
+<h4 id="6-3-方括号（-）通配符"><a href="#6-3-方括号（-）通配符" class="headerlink" title="6.3 方括号（[]）通配符"></a>6.3 方括号（[]）通配符</h4><blockquote>
+<p><strong>注意</strong>：仅在<code>Access</code>及<code>SQL Server</code>中有效</p>
+</blockquote>
+<p><strong>方括号通配符</strong><code>[]</code>用来指定一个<strong>字符集</strong>，它会<strong>匹配指定位置上的一个字符</strong>：</p>
+<pre><code class="lang-sql">SELECT cust_contact
+FROM Customers
+WHERE cust_contact LIKE &#39;[JM]%&#39;
+ORDER BY cust_contact;
+</code></pre>
+<p>使用<strong>前缀字符</strong><code>^</code>表示<strong>否定</strong>：</p>
+<pre><code class="lang-sql">SELECT cust_contact
+FROM Customers
+WHERE cust_contact LIKE &#39;[^JM]%&#39;
+ORDER BY cust_contact;
+</code></pre>
+<p><strong><em>更新中…</em></strong></p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://book.douban.com/subject/24250054/" target="_blank" rel="noopener">《SQL 必知必会》</a></li>
+<li><a href="https://forta.com/books/0672336073/" target="_blank" rel="noopener">Sams Teach Yourself SQL in 10 Minutes (Fourth Edition) | Ben Forta</a></li>
+<li><a href="https://blog.csdn.net/lilom/article/details/77092744" target="_blank" rel="noopener">MySQL-通配符与正则表达式的使用 | CSDN</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/06/05/gorm-notes/">Golang ORM 框架：GORM</a></li><li><a href="https://abelsu7.top/2019/04/02/leetcode-solution-golang/">Leetcode 题解 in Golang（不定期更新）</a></li><li><a href="https://abelsu7.top/2019/03/20/database-basics/">数据库系统原理笔记</a></li><li><a href="https://wiki.hushhw.cn/posts/ac7121e8.html">《数据库系统概论》学习笔记之关系数据库</a></li><li><a href="https://wiki.hushhw.cn/posts/b8222433.html">《数据库系统概论》学习笔记之绪论</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.691Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/05/31/sql-notes/" target="_blank" rel="external">https://abelsu7.top/2019/05/31/sql-notes/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL/">SQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/05/31/sql-notes/&title=《SQL 必知必会》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/05/31/sql-notes/&title=《SQL 必知必会》 — Keep Coding&source=
+摘自 《SQL 必知必会》
+
+
+                
+                    
+                    
+ ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/05/31/sql-notes/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SQL 必知必会》 — Keep Coding&url=https://abelsu7.top/2019/05/31/sql-notes/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/05/31/sql-notes/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/06/04/qemu-src-notes/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">QEMU 3.1.0 源码学习</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/05/30/kvm-in-action-2/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">《KVM 实战》笔记 2：KVM 管理工具</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/05/31/sql-notes/&title=《SQL 必知必会》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/05/31/sql-notes/&title=《SQL 必知必会》 — Keep Coding&source=
+摘自 《SQL 必知必会》
+
+
+                
+                    
+                    
+ ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/05/31/sql-notes/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SQL 必知必会》 — Keep Coding&url=https://abelsu7.top/2019/05/31/sql-notes/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/05/31/sql-notes/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABuklEQVR42u3aQW7EIAwF0Nz/0um2m6HfdqAZ6bGKaBXeZGHhD9cVj/vXWM/3Zh4euLi4Y+69HJMF1u9Zz39cERcX9yD302JPPSefY23AxcV9P3ddbtbz62dcXNxv5PaWT9ohXFzct3HzLchkm3K0V8PFxR1w84Bj3/OWfBcXF7fFvYsjf0M1No1Wx8XFPcLNC0r1x1RjkcLhLi4u7hFu3tLkB7F5+Us+zZX/Ey4u7kPcJICoRiRJSFrdAOHi4r6BO6fk251CgIKLi7uZmyxTneltYqIyh4uL+6/cXgOTbINGzQ8uLu4R7qRgTTYu+QWLKN/FxcXdwK1eoqo2SFXuukTi4uLu5vaiz8l1q174gouLe5KbHK9OWpfqZij68bi4uAe5k0OR6qWuPDb9o1fDxcXdzO2NeZOTB6y4uLjnuU89V8tc0iAV7ojh4uKOub2y1Wt1eoEsLi7uee6kgclD0mrkOm+3cHFx59y8vcmvX+SBablxwsXFPcitNkXloHNQ8qI/4+LivoC7I2wtdGy4uLgv5vb6qt4xLS4u7nlutdwkuPyQNf9YuLi4Z7iTg8/eSydXMXBxcTdzfwABOAEvYIRcHwAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

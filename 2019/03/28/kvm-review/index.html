@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>KVM 虚拟化相关知识点汇总 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Linux,KVM,虚拟化,QEMU">
+    <meta name="description" content="整理自书籍、博客、网络，更新中…">
+<meta name="keywords" content="Linux,KVM,虚拟化,QEMU">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KVM 虚拟化相关知识点汇总">
+<meta property="og:url" content="https://abelsu7.top/2019/03/28/kvm-review/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="整理自书籍、博客、网络，更新中…">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/03/28/kvm-review/cover.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/28/kvm-review/kvm-overview.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/28/kvm-review/type1-vir.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/28/kvm-review/type2-vir.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/28/kvm-review/qemu-kvm.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/28/kvm-review/kvm-arch.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/28/kvm-review/kvm-1.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/28/kvm-review/kvm-2.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/28/kvm-review/kvm-mem-vir.gif">
+<meta property="og:image" content="https://abelsu7.top/2019/03/28/kvm-review/shadow-page-table.gif">
+<meta property="og:image" content="https://abelsu7.top/2019/03/28/kvm-review/ept.gif">
+<meta property="og:image" content="https://abelsu7.top/2019/03/28/kvm-review/virtio-1.gif">
+<meta property="og:image" content="https://abelsu7.top/2019/03/28/kvm-review/virtio-2.gif">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.446Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="KVM 虚拟化相关知识点汇总">
+<meta name="twitter:description" content="整理自书籍、博客、网络，更新中…">
+<meta name="twitter:image" content="https://abelsu7.top/2019/03/28/kvm-review/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">KVM 虚拟化相关知识点汇总</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">KVM 虚拟化相关知识点汇总</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-03-28T07:39:33.000Z" itemprop="datePublished" class="page-time">
+  2019-03-28
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/KVM/">KVM</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#0-腾讯云肖光荣关于-KVM-的简述"><span class="post-toc-text">0. 腾讯云肖光荣关于 KVM 的简述</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-虚拟化基础"><span class="post-toc-text">1. 虚拟化基础</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-型虚拟化"><span class="post-toc-text">1 型虚拟化</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-型虚拟化"><span class="post-toc-text">2 型虚拟化</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#二者对比"><span class="post-toc-text">二者对比</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#QEMU-KVM"><span class="post-toc-text">QEMU-KVM</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#外设是怎么管理的"><span class="post-toc-text">外设是怎么管理的</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-KVM-原理简介"><span class="post-toc-text">2. KVM 原理简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#libvirt"><span class="post-toc-text">libvirt</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Guest-特点"><span class="post-toc-text">Guest 特点</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-KVM-整体架构"><span class="post-toc-text">3. KVM 整体架构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#概览"><span class="post-toc-text">概览</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#虚拟-CPU"><span class="post-toc-text">虚拟 CPU</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#虚拟-I-O-设备"><span class="post-toc-text">虚拟 I/O 设备</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#虚拟内存"><span class="post-toc-text">虚拟内存</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#虚拟机启动过程"><span class="post-toc-text">虚拟机启动过程</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-KVM-内存虚拟化及其实现"><span class="post-toc-text">4. KVM 内存虚拟化及其实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#客户机物理地址空间"><span class="post-toc-text">客户机物理地址空间</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#影子页表"><span class="post-toc-text">影子页表</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#EPT-页表"><span class="post-toc-text">EPT 页表</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-virtio-半虚拟化"><span class="post-toc-text">5. virtio 半虚拟化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#全虚拟化和半虚拟化"><span class="post-toc-text">全虚拟化和半虚拟化</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#针对-Linux-的抽象"><span class="post-toc-text">针对 Linux 的抽象</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#virtio-架构"><span class="post-toc-text">virtio 架构</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-镜像文件格式"><span class="post-toc-text">6. 镜像文件格式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-kvm-review"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">KVM 虚拟化相关知识点汇总</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-03-28 15:39:33" datetime="2019-03-28T07:39:33.000Z"  itemprop="datePublished">2019-03-28</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/KVM/">KVM</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>整理自书籍、博客、网络，更新中…</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/28/kvm-review/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><h3 id="0-腾讯云肖光荣关于-KVM-的简述"><a href="#0-腾讯云肖光荣关于-KVM-的简述" class="headerlink" title="0. 腾讯云肖光荣关于 KVM 的简述"></a>0. 腾讯云肖光荣关于 KVM 的简述</h3><p><strong>肖光荣</strong>：<strong>KVM</strong> 是 <strong>Kernel-based Virtual Machine</strong> 的简称，KVM 要求 CPU 支持<strong>硬件虚拟化技术</strong>（例如<code>Intel VT</code>或<code>AMD-V</code>），是 Linux 下的<strong>全虚拟化解决方案</strong>。KVM 由处于<strong>内核态</strong>的 <strong>KVM 模块</strong><code>kvm.ko</code>和<strong>用户态</strong>的 <strong>QEMU</strong> 两部分构成。<strong>内核模块</strong><code>kvm.ko</code>实现了 <strong>CPU 和内存虚拟化</strong>等决定关键性能和核心安全的功能，并向用户空间提供了使用这些功能的接口，<strong>QEMU</strong> 利用 KVM 模块提供的接口来实现<strong>设备模拟、I/O 虚拟化</strong>和<strong>网络虚拟化</strong>等。<strong>单个虚拟机</strong>是宿主机上的<strong>一个普通 QEMU 进程</strong>，虚拟机中的 <strong>CPU 核（vCPU）</strong>是 <strong>QEMU 的一个线程</strong>，<strong>VM 的物理地址空间</strong>是 <strong>QEMU 的虚拟地址空间</strong>（图 1）。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/28/kvm-review/kvm-overview.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h3 id="1-虚拟化基础"><a href="#1-虚拟化基础" class="headerlink" title="1. 虚拟化基础"></a>1. 虚拟化基础</h3><p><strong>虚拟化是云计算的基础</strong>。简单来说，<strong>虚拟化使得一台物理的服务器上可以跑多台虚拟机</strong>，虚拟机共享物理机的 CPU、内存、I/O 硬件资源，但<strong>逻辑上虚拟机之间是相互隔离的</strong>。</p>
+<ul>
+<li><code>Host</code>：<strong>宿主机</strong>，即<strong>物理机</strong></li>
+<li><code>Guest</code>：<strong>客户机</strong>，即<strong>虚拟机</strong></li>
+</ul>
+<p><code>Host</code><strong>将自己的硬件资源虚拟化</strong>，并<strong>提供给</strong><code>Guest</code><strong>使用</strong>，主要是<strong>通过</strong><code>Hypervisor</code><strong>来实现的</strong>。根据<code>Hypervisor</code>的实现方式和所处的位置，虚拟化又可以分为两种：<strong>1 型虚拟化</strong>和 <strong>2 型虚拟化</strong>。</p>
+<h4 id="1-型虚拟化"><a href="#1-型虚拟化" class="headerlink" title="1 型虚拟化"></a>1 型虚拟化</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/28/kvm-review/type1-vir.jpg" alt="1 型虚拟化" title>
+                </div>
+                <div class="image-caption">1 型虚拟化</div>
+            </figure>
+<p><code>Hypervisor</code><strong>直接安装在物理机上</strong>，<strong>多个虚拟机在</strong><code>Hypervisor</code><strong>上运行</strong>。<code>Hypervisor</code>的实现方式一般是一个<strong>特殊定制的 Linux 系统</strong>，Xen 和 VMWare ESXi 都属于这个类型。</p>
+<h4 id="2-型虚拟化"><a href="#2-型虚拟化" class="headerlink" title="2 型虚拟化"></a>2 型虚拟化</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/28/kvm-review/type2-vir.jpg" alt="2 型虚拟化" title>
+                </div>
+                <div class="image-caption">2 型虚拟化</div>
+            </figure>
+<p><strong>物理机</strong>上首先<strong>安装常规的操作系统</strong>，而<code>Hypervisor</code><strong>作为 OS 上的一个程序模块运行</strong>，并对虚拟机进行管理。KVM、VirtualBox、VMWare Workstation 都属于这个类型。</p>
+<blockquote>
+<p>由于 KVM 目前已经是 Linux 内核中的一个模块，因此也有人将其视为 1 型虚拟化</p>
+</blockquote>
+<h4 id="二者对比"><a href="#二者对比" class="headerlink" title="二者对比"></a>二者对比</h4><p>理论上讲：</p>
+<ul>
+<li><strong>1 型虚拟化</strong>一般<strong>对硬件虚拟化功能进行了特别优化</strong>，性能上比 2 型虚拟化要高</li>
+<li><strong>2 型虚拟化</strong>因为<strong>基于普通的操作系统</strong>，会比较<strong>灵活</strong>，例如<strong>支持嵌套虚拟化</strong></li>
+</ul>
+<h4 id="QEMU-KVM"><a href="#QEMU-KVM" class="headerlink" title="QEMU-KVM"></a>QEMU-KVM</h4><blockquote>
+<p>摘自 <a href="https://blog.csdn.net/CloudXli/article/details/78306546" target="_blank" rel="noopener">虚拟化技术之 KVM，搭建 KVM | CSDN</a></p>
+</blockquote>
+<ul>
+<li><strong>KVM</strong> 包含了一个<strong>内核加载模块</strong><code>kvm.ko</code>，它只会负责<strong>提供</strong><code>vCPU</code>以及<strong>对虚拟内存进行管理和调度</strong></li>
+<li><strong>QEMU-KVM</strong> 是通过修改 QEMU 代码而得出的<strong>专门用来创建和管理虚拟机的管理工具</strong>，为的是 KVM 能更好的和内核打交道</li>
+<li>VM 运行期间，<strong>QEMU 会通过</strong><code>kvm.ko</code><strong>模块提供的系统调用进入内核</strong>，由 KVM 负责将虚拟机置于特殊模式运行</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/28/kvm-review/qemu-kvm.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ul>
+<li><strong>QEMU-KVM</strong> 是 KVM 团队<strong>针对 QEMU 改善和二次开发的一套工具</strong></li>
+<li><code>/dev/kvm</code>是 <strong>KVM 内核模块提供给用户空间的一个接口</strong>，这个接口被<code>qemu-kvm</code>调用，<strong>通过</strong><code>ioctl</code><strong>系统调用</strong>就可以给用户提供一个工具，<strong>用以创建、删除、管理虚拟机</strong></li>
+<li><code>qemu-kvm</code>就是<strong>通过</strong><code>open()</code>、<code>close()</code>、<code>ioctl()</code><strong>等方法</strong>去打开、关闭和调用这个接口，从而<strong>实现与 KVM 的互动</strong></li>
+</ul>
+<pre><code class="lang-c">open(&quot;/dev/kvm&quot;)
+ioctl(KVM_CREATE_VM)
+ioctl(KVM_CREATE_VCPU)
+for (;;) {
+    ioctl(KVM_RUN)
+    switch (exit_reason) {
+        case KVM_EXIT_IO: /* ... */
+        case KVM_EXIT_HLT: /* ... */
+    }
+}
+</code></pre>
+<p><code>qemu-kvm</code><strong>通过</strong><code>/dev/kvm</code><strong>接口来调用 KVM</strong>：</p>
+<ol>
+<li>打开<code>/dev/kvm</code>设备</li>
+<li>通过<code>KVM_CREATE_VM</code><strong>创建一个虚拟机对象</strong></li>
+<li>通过<code>KVM_CREATE_VCPU</code>为虚拟机<strong>创建</strong><code>vcpu</code><strong>对象</strong></li>
+<li>通过<code>KVM_RUN</code>设置<code>vcpu</code>为<strong>运行状态</strong></li>
+</ol>
+<h4 id="外设是怎么管理的"><a href="#外设是怎么管理的" class="headerlink" title="外设是怎么管理的"></a>外设是怎么管理的</h4><p>虚拟机只有<code>vCPU</code>和<code>vMEM</code>是无法运行的，还需要外设的支持。<strong>真实的外设需要利用 Linux 系统内核进行管理</strong>，而通常来说我们使用的还是虚拟外设。<strong>VM 要和虚拟外设进行交互</strong>的话，就需要利用 <strong>QEMU 模拟的虚拟外设</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/28/kvm-review/kvm-arch.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h3 id="2-KVM-原理简介"><a href="#2-KVM-原理简介" class="headerlink" title="2. KVM 原理简介"></a>2. KVM 原理简介</h3><blockquote>
+<p>摘自 <a href="https://blog.csdn.net/u014022631/article/details/53427399" target="_blank" rel="noopener">KVM 虚拟化原理探究 - Overview | CSDN</a></p>
+</blockquote>
+<p>KVM 实现主要基于<code>Intel-V</code>或者<code>AMD-V</code>提供的虚拟化平台，利用普通的 Linux 进程运行虚拟态的指令集，模拟虚拟机监视器和 CPU。<strong>KVM 本身并不提供硬件虚拟化操作，其 I/O 操作都借助 QEMU 完成</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/28/kvm-review/kvm-1.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>KVM 全称为<code>Kernel-based Virtual Machine</code>，也就是说 <strong>KVM 是基于 Linux 内核实现的</strong>。KVM 有一个核心的<strong>内核模块</strong><code>kvm.ko</code>，它<strong>只用于管理 vCPU 和内存</strong>。</p>
+<blockquote>
+<p>作为一个<code>Hypervisor</code>，<strong>KVM 本身只关注虚拟机调度和内存管理</strong>这两个方面，<strong>I/O 外设</strong>的任务就交给了 <strong>Linux 内核</strong>和 <strong>QEMU</strong></p>
+</blockquote>
+<h4 id="libvirt"><a href="#libvirt" class="headerlink" title="libvirt"></a>libvirt</h4><p><strong>libvirt</strong> 主要包含<strong>三个模块</strong>：<strong>后台</strong><code>daemon</code><strong>程序</strong><code>libvirtd</code>、<strong>API 库</strong>以及<strong>命令行工具</strong><code>virsh</code>。</p>
+<ol>
+<li><code>libvirtd</code>：守护进程，<strong>接收并处理 API 请求</strong></li>
+<li><strong>API 库</strong>使得其他人可以开发出基于 libvirt 的虚拟机管理工具，例如<code>virt-manager</code></li>
+<li><code>virsh</code>是经常会使用到的 <strong>KVM 命令行工具</strong></li>
+</ol>
+<h4 id="Guest-特点"><a href="#Guest-特点" class="headerlink" title="Guest 特点"></a>Guest 特点</h4><ol>
+<li><code>Guest</code>作为一个<strong>普通进程</strong>运行于宿主机</li>
+<li><code>Guest</code>的 <strong>CPU（vCPU）作为进程的线程存在</strong>，并<strong>受到宿主机内核的调度</strong></li>
+<li><code>Guest</code>继承了宿主机内核的一些属性，例如<code>Huge Pages</code></li>
+<li><code>Guest</code>的<strong>磁盘 I/O</strong> 和<strong>网络 I/O</strong> 会受到宿主机设置的影响</li>
+<li><code>Guest</code>通过宿主机上的<strong>虚拟网桥</strong>与外部相连</li>
+</ol>
+<h3 id="3-KVM-整体架构"><a href="#3-KVM-整体架构" class="headerlink" title="3. KVM 整体架构"></a>3. KVM 整体架构</h3><h4 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/28/kvm-review/kvm-2.png" alt="KVM 架构示意图" title>
+                </div>
+                <div class="image-caption">KVM 架构示意图</div>
+            </figure>
+<p><strong>每一个虚拟机</strong><code>Guest</code>在<code>Host</code>上都被<strong>模拟为一个 QEMU 进程</strong>，即<code>emulation</code>进程。创建虚拟机后，使用<code>virsh</code>命令即可查看：</p>
+<pre><code class="lang-bash">&gt; virsh list --all
+ Id    Name                           State
+----------------------------------------------------
+ 1     kvm-01                         running
+
+&gt; ps aux | grep qemu
+libvirt+ 20308 15.1  7.5 5023928 595884 ?      Sl   17:29   0:10 /usr/bin/qemu-system-x86_64 -name kvm-01 -S -machine pc-i440fx-wily,accel=kvm,usb=off -m 2048 -realtime mlock=off -smp 2 qemu ....
+</code></pre>
+<p>可以看到，此虚拟机就是一个<strong>普通的 Linux 进程</strong>，有自己的<code>PID</code>，并且有四个线程。<strong>线程数量不是固定的，但是至少会有三个（vCPU、I/O、Signal）</strong>。其中有两个是<code>vCPU</code><strong>线程</strong>，一个<code>I/O</code><strong>线程</strong>，还有一个<code>Signal</code><strong>信号处理线程</strong>。</p>
+<pre><code class="lang-bash">&gt; pstree -p 20308
+
+qemu-system-x86(20308)-+-{qemu-system-x86}(20353)
+                       |-{qemu-system-x86}(20408)
+                       |-{qemu-system-x86}(20409)
+                       |-{qemu-system-x86}(20412)
+</code></pre>
+<h4 id="虚拟-CPU"><a href="#虚拟-CPU" class="headerlink" title="虚拟 CPU"></a>虚拟 CPU</h4><p><code>Guest</code>的<strong>所有用户级别的指令集</strong>，都会<strong>直接由宿主机线程执行</strong>，此线程会<strong>调用 KVM 的</strong><code>ioctl</code><strong>方式提供的接口加载</strong><code>Guest</code><strong>的指令</strong>，并在特殊的 CPU 模式下运行。这样就<strong>不需要经过 CPU 指令集的软件模拟转换</strong>，降低了虚拟化的成本，这也是 KVM 优于其他虚拟化方式的原因之一。</p>
+<p><strong>KVM 对外提供了一个虚拟设备</strong><code>/dev/kvm</code>，可以通过<code>ioctl</code>（I/O 设备带外管理接口）来对 KVM 进行操作。</p>
+<h4 id="虚拟-I-O-设备"><a href="#虚拟-I-O-设备" class="headerlink" title="虚拟 I/O 设备"></a>虚拟 I/O 设备</h4><p><code>Guest</code>虽然作为一个进程存在，但其内核的所有驱动都依然存在。只是硬件设备由 QEMU 模拟。<code>Guest</code><strong>的所有硬件操作都会由 QEMU 来接管</strong>，<strong>QEMU 负责与真实的宿主机硬件打交道</strong>。</p>
+<h4 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h4><p><code>Guest</code>的内存在<code>Host</code>上由 Emulator 提供（即 QEMU）。对于 QEMU 来说，<code>Guest</code><strong>访问的内存就是 QEMU 的虚拟地址空间</strong>。<code>Guest</code>上需要经过一次虚拟地址到物理地址的转换，转换得到的<code>Guest</code><strong>的物理地址</strong>其实也就是 <strong>QEMU 的虚拟地址</strong>。这时 QEMU 再做一次转换，<strong>将虚拟地址转换为</strong><code>Host</code><strong>的物理地址</strong>。</p>
+<h4 id="虚拟机启动过程"><a href="#虚拟机启动过程" class="headerlink" title="虚拟机启动过程"></a>虚拟机启动过程</h4><blockquote>
+<p>参见 <a href="https://blog.csdn.net/u014022631/article/details/53427399" target="_blank" rel="noopener">KVM 虚拟化原理探究 - Overview | CSDN</a></p>
+</blockquote>
+<pre><code class="lang-c">第一步，获取到kvm句柄
+kvmfd = open(&quot;/dev/kvm&quot;, O_RDWR);
+第二步，创建虚拟机，获取到虚拟机句柄。
+vmfd = ioctl(kvmfd, KVM_CREATE_VM, 0);
+第三步，为虚拟机映射内存，还有其他的PCI，信号处理的初始化。
+ioctl(kvmfd, KVM_SET_USER_MEMORY_REGION, &amp;mem);
+第四步，将虚拟机镜像映射到内存，相当于物理机的boot过程，把镜像映射到内存。
+第五步，创建vCPU，并为vCPU分配内存空间。
+ioctl(kvmfd, KVM_CREATE_VCPU, vcpuid);
+vcpu-&gt;kvm_run_mmap_size = ioctl(kvm-&gt;dev_fd, KVM_GET_VCPU_MMAP_SIZE, 0);
+第五步，创建vCPU个数的线程并运行虚拟机。
+ioctl(kvm-&gt;vcpus-&gt;vcpu_fd, KVM_RUN, 0);
+第六步，线程进入循环，并捕获虚拟机退出原因，做相应的处理。
+这里的退出并不一定是虚拟机关机，虚拟机如果遇到IO操作，访问硬件设备，缺页中断等都会退出执行，退出执行可以理解为将CPU执行上下文返回到QEMU。
+</code></pre>
+<p><strong>虚拟机的启动过程</strong>总结如下：</p>
+<ol>
+<li>创建<code>KVM</code>句柄</li>
+<li>创建<code>VM</code></li>
+<li>分配内存</li>
+<li>加载镜像到内存</li>
+<li>启动线程执行<code>KVM_RUN</code></li>
+</ol>
+<pre><code class="lang-c">open(&quot;/dev/kvm&quot;)
+ioctl(KVM_CREATE_VM)
+ioctl(KVM_CREATE_VCPU)
+for (;;) {
+     ioctl(KVM_RUN)
+     switch (exit_reason) {
+     case KVM_EXIT_IO:  /* ... */
+     case KVM_EXIT_HLT: /* ... */
+     }
+}
+</code></pre>
+<h3 id="4-KVM-内存虚拟化及其实现"><a href="#4-KVM-内存虚拟化及其实现" class="headerlink" title="4. KVM 内存虚拟化及其实现"></a>4. KVM 内存虚拟化及其实现</h3><blockquote>
+<p>摘自 <a href="https://www.ibm.com/developerworks/cn/linux/l-cn-kvm-mem/" target="_blank" rel="noopener">KVM 内存虚拟化及其实现 | IBM Developer</a></p>
+</blockquote>
+<h4 id="客户机物理地址空间"><a href="#客户机物理地址空间" class="headerlink" title="客户机物理地址空间"></a>客户机物理地址空间</h4><p>为了实现内存虚拟化，让<code>Guest</code>使用一个隔离的、从零开始且连续的内存空间，KVM 引入了一层新的地址空间，即<strong>客户机物理地址空间（Guest Physical Address，GPA）</strong>。</p>
+<p>这个地址空间并不是真正的物理地址空间，它只是<code>Host</code><strong>虚拟地址空间在</strong><code>Guest</code><strong>地址空间的一个映射</strong>。对客户机来说，客户机物理地址空间都是从零开始的连续地址空间。但对宿主机来说，客户机的物理地址空间并不一定是连续的，客户机物理地址空间有可能映射在若干个不连续的宿主机地址区间，如下图所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/28/kvm-review/kvm-mem-vir.gif" alt="客户机物理地址到宿主机虚拟地址的转换" title>
+                </div>
+                <div class="image-caption">客户机物理地址到宿主机虚拟地址的转换</div>
+            </figure>
+<p>为了将客户机物理地址转换成<strong>宿主机虚拟地址（Host Virtual Address，HVA）</strong>，KVM 用一个<code>kvm_memory_slot</code>数据结构来<strong>记录每一个地址区间的映射关系</strong>，此数据结构包含了对应此映射区间的<strong>起始客户机页帧号（Guest Frame Number，GFN）</strong>、<strong>映射的内存页数目</strong>以及<strong>起始宿主机虚拟地址</strong>，从而实现 <strong>GPA 到 HPA 的转换</strong>。</p>
+<p>实现内存虚拟化，最主要的是<strong>实现客户机虚拟地址</strong><code>GVA</code><strong>到宿主机物理地址</strong><code>HPA</code><strong>之间的转换</strong>。如果通过之前提到的两步映射的方式，<strong>客户机的每次内存访问都需要 KVM 介入</strong>，并由软件进行<strong>多次地址转换</strong>，其<strong>效率是非常低的</strong>。</p>
+<p>因此，为了<strong>提高</strong><code>GVA</code><strong>到</strong><code>HPA</code><strong>的转换效率</strong>，KVM 提供了两种实现方式来进行<code>GVA</code>到<code>HPA</code>之间的直接转换：</p>
+<ol>
+<li><strong>影子页表（Shadow Page Table）</strong>：纯软件的实现方式</li>
+<li>基于<strong>硬件对虚拟化的支持</strong></li>
+</ol>
+<h4 id="影子页表"><a href="#影子页表" class="headerlink" title="影子页表"></a>影子页表</h4><p>由于<strong>宿主机 MMU 不能直接装载客户机的页表来进行内存访问</strong>，所以当<strong>客户机访问宿主机物理内存时</strong>，需要经过<strong>多次地址转换</strong>。而通过<strong>影子页表</strong>，则可以<strong>实现客户机虚拟地址到宿主机物理地址的直接转换</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/28/kvm-review/shadow-page-table.gif" alt="GPA 到 HPA 的转换" title>
+                </div>
+                <div class="image-caption">GPA 到 HPA 的转换</div>
+            </figure>
+<p><strong>影子页表</strong>简化了地址转换过程，实现了<strong>客户机虚拟地址空间到宿主机物理地址空间的直接映射</strong>。</p>
+<blockquote>
+<p>由于<strong>客户机中每个进程都有自己的虚拟地址空间</strong>，所以 KVM 需要为客户机中的每个进程页表都维护一套相应的影子页表。在<strong>客户机访问内存</strong>时，真正被装入宿主机 MMU 的是<strong>客户机当前页表所对应的影子页表</strong></p>
+</blockquote>
+<p>在<strong>使用影子页表</strong>的情况下，<strong>客户机的大多数内存访问都可以在没有 KVM 介入的情况下正常执行</strong>，没有额外的地址转换开销，也就大大提高了客户机运行的效率。</p>
+<p>但是影子页表的引入也意味着 <strong>KVM 需要为每个客户机的每个进程页表都要维护一套相应的影子页表</strong>，这会带来<strong>较大的内存开销</strong>。此外，客户机页表和影子页表之间的同步也较为复杂。因此，<strong>Intel</strong> 的 <strong>EPT（Extent Page Table）</strong>技术和 <strong>AMD</strong> 的 <strong>NPT（Nest Page Table）</strong>技术都<strong>为内存虚拟化提供了硬件支持</strong>，在硬件层面上<strong>实现了</strong><code>GVA</code><strong>到</strong><code>HPA</code><strong>之间的转换</strong>。</p>
+<h4 id="EPT-页表"><a href="#EPT-页表" class="headerlink" title="EPT 页表"></a>EPT 页表</h4><p><strong>EPT（Extent Page Table）</strong> 技术在原有客户机页表对<code>GVA</code>到<code>GPA</code>映射的基础上，又<strong>引入了 EPT 页表来实现</strong><code>GPA</code><strong>到</strong><code>HPA</code><strong>的另一次映射</strong>，这两次地址映射都是<strong>由硬件自动完成</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/28/kvm-review/ept.gif" alt="EPT 页表转换" title>
+                </div>
+                <div class="image-caption">EPT 页表转换</div>
+            </figure>
+<p><strong>EPT 页表相对于影子页表，其实现方式大大简化</strong>。而且，由于客户机内部的缺页异常不会导致客户机退出，因此也<strong>提高了客户机性能</strong>。此外，<strong>KVM 只需为每个客户机维护一套 EPT 页表</strong>，从而大大<strong>减少了内存的额外开销</strong>。</p>
+<h3 id="5-virtio-半虚拟化"><a href="#5-virtio-半虚拟化" class="headerlink" title="5. virtio 半虚拟化"></a>5. virtio 半虚拟化</h3><h4 id="全虚拟化和半虚拟化"><a href="#全虚拟化和半虚拟化" class="headerlink" title="全虚拟化和半虚拟化"></a>全虚拟化和半虚拟化</h4><ul>
+<li><strong>全虚拟化</strong>：<code>Guest</code><strong>运行于物理机的</strong><code>Hypervisor</code><strong>之上</strong>，<code>Guest</code>操作系统并不知道它已被虚拟化，而且<strong>不需要任何更改就可以在该配置下工作</strong></li>
+<li><strong>半虚拟化</strong>：<code>Guest</code>操作系统不仅知道它运行在<code>Hypervisor</code>之上，还包含了让<code>Guest</code>操作系统更高效的过渡到<code>Hypervisor</code>的代码</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/28/kvm-review/virtio-1.gif" alt="全虚拟化和半虚拟化环境下的设备模拟" title>
+                </div>
+                <div class="image-caption">全虚拟化和半虚拟化环境下的设备模拟</div>
+            </figure>
+<p>在传统的<strong>全虚拟化环境</strong>中，<code>Hypervisor</code><strong>必须捕捉</strong><code>Guest</code><strong>的 I/O 请求</strong>，然后<strong>模拟物理硬件的行为</strong>，虽然比较灵活，但是<strong>效率较低</strong>。</p>
+<p>而在<strong>半虚拟化环境</strong>中，<code>Guest</code>知道自己运行在<code>Hypervisor</code>之上，并且<strong>包含了充当前端程序的驱动程序</strong>。<code>Hypervisor</code><strong>为特定的设备模拟实现后端驱动程序</strong>。通过前端和后端驱动程序中的<code>virtio</code>，为模拟设备提供标准化接口，从而<strong>提高了代码的跨平台重用率与运行效率</strong>。</p>
+<h4 id="针对-Linux-的抽象"><a href="#针对-Linux-的抽象" class="headerlink" title="针对 Linux 的抽象"></a>针对 Linux 的抽象</h4><p>总结来看，<code>virtio</code><strong>是对半虚拟化</strong><code>Hypervisor</code><strong>中的一组通用模拟设备的抽象</strong>。有了半虚拟化<code>Hypervisor</code>之后，<code>Guest</code>操作系统就能够实现一组通用的接口，<strong>针对不同的后端驱动程序采用特定的设备模拟</strong>。后端驱动程序不需要是通用的，因为它们<strong>只需要实现前端所需的行为</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/28/kvm-review/virtio-2.gif" alt="virtio 的驱动程序抽象" title>
+                </div>
+                <div class="image-caption">virtio 的驱动程序抽象</div>
+            </figure>
+<h4 id="virtio-架构"><a href="#virtio-架构" class="headerlink" title="virtio 架构"></a>virtio 架构</h4><p><code>virtio API</code>依赖一个简单的缓冲抽象来封装<code>Guest</code>操作系统所需要的命令和数据。在前端和后端驱动程序之外，<code>virtio</code>还定义了两个层来支持<code>Guest</code>到<code>Hypervisor</code>的通信。</p>
+<h3 id="6-镜像文件格式"><a href="#6-镜像文件格式" class="headerlink" title="6. 镜像文件格式"></a>6. 镜像文件格式</h3><ul>
+<li><a href="https://my.oschina.net/LastRitter/blog/1542075" target="_blank" rel="noopener">Qemu虚拟机QCOW2格式镜像文件的组成部分及关键算法分析 | 开源中国</a></li>
+<li><a href="https://my.oschina.net/firxiao/blog/373310" target="_blank" rel="noopener">KVM-QEMU, QCOW2, QEMU-IMG and Snapshots | 开源中国</a></li>
+<li><a href="https://blog.51cto.com/leejia/1577625" target="_blank" rel="noopener">KVM 磁盘扩容 | 51CTO</a></li>
+<li><a href="https://blog.csdn.net/weixin_37136725/article/details/78109708" target="_blank" rel="noopener">RAW（裸） 与 QCOW2（写时复制） 的区别 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/huang987246510/article/details/80838533" target="_blank" rel="noopener">QCOW2实现原理的一般性思考 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/JackLiu16/article/details/80000305" target="_blank" rel="noopener">QEMU 使用的镜像文件：qcow2 与 raw | CSDN</a></li>
+<li><a href="https://www.jianshu.com/p/d087d3a566f4" target="_blank" rel="noopener">qcow2 文件格式详解（I）| 简书</a></li>
+</ul>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://blog.csdn.net/u014022631/article/details/53427399" target="_blank" rel="noopener">【必看】KVM 虚拟化原理探究 - Overview | CSDN</a></li>
+<li>CloudMan</li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-kvm-mem/" target="_blank" rel="noopener">KVM 内存虚拟化及其实现 | IBM Developer</a></li>
+<li><a href="https://blog.csdn.net/CloudXli/article/details/78306546" target="_blank" rel="noopener">【必看】虚拟化技术之KVM，搭建KVM | CSDN</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-virtio/index.html" target="_blank" rel="noopener">Virtio：针对 Linux 的 I/O 虚拟化框架 | IBM Developer</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-pci-passthrough/" target="_blank" rel="noopener">Linux 虚拟化技术和 PCI 透传技术 | IBM Developer</a></li>
+<li><a href="https://blog.csdn.net/wuji3390/article/details/71191296" target="_blank" rel="noopener">CPU 和内存虚拟化原理 - CloudMan | CSDN</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650999000&amp;idx=3&amp;sn=134cd27992ed0dc1a113b9e4162f1828&amp;chksm=bdbef08b8ac9799d8967d3966b0a94a06a2bf0389cf4a817fcb01c03810cc9d6cc4ec9980670&amp;scene=27#wechat_redirect" target="_blank" rel="noopener">热迁移、RTC 计时与安全增强 - 腾讯云 KVM 性能优化实践经验谈 | InfoQ</a></li>
+<li><a href="https://blog.csdn.net/wangyiyungw/article/details/81069522" target="_blank" rel="noopener">qemu+kvm的IO路径分析 | CSDN</a></li>
+<li><a href="https://woshijpf.github.io/虚拟化/2018/11/21/QEMU-KVM-原理综述.html" target="_blank" rel="noopener">QEMU-KVM 原理综述 | FlyFlyPeng</a></li>
+<li><a href="https://yq.aliyun.com/articles/578724?utm_content=m_46095" target="_blank" rel="noopener">阿里云郑晓：浅谈GPU虚拟化技术（一）| 阿里云栖社区</a></li>
+<li><a href="https://yq.aliyun.com/articles/590910?spm=a2c4e.11153940.blogcont584544.16.254b683aW1muTg" target="_blank" rel="noopener">阿里云郑晓：浅谈GPU虚拟化技术（二）| 阿里云栖社区</a></li>
+<li><a href="https://yq.aliyun.com/articles/584544?spm=a2c4e.11153940.blogcont578724.55.522131ffyFTwE6" target="_blank" rel="noopener">阿里云郑晓：浅谈GPU虚拟化技术（三）| 阿里云栖社区</a></li>
+<li><a href="https://yq.aliyun.com/articles/599189?spm=a2c4e.11153940.blogcont584544.20.254b683aW1muTg" target="_blank" rel="noopener">浅谈GPU虚拟化技术（四）- GPU分片虚拟化 | 阿里云栖社区</a></li>
+<li><a href="https://yq.aliyun.com/articles/591405?spm=a2c4e.11153940.blogcont584544.19.254b683aW1muTg" target="_blank" rel="noopener">浅谈GPU虚拟化技术（五）- VDI 的用户体验</a></li>
+<li><a href="https://yq.aliyun.com/articles/670149?spm=a2c4e.11153940.blogcont590910.21.51fe2558Lpe3Dx" target="_blank" rel="noopener">一文带你领略虚拟化领域顶级技术会议 KVM Forum 2018 | 阿里云栖社区</a></li>
+<li><a href="https://blog.csdn.net/sdulibh/article/details/78982751" target="_blank" rel="noopener">【必看】KVM 虚拟化原理探究—启动过程及各部分虚拟化原理 | CSDN</a></li>
+<li><a href="https://www.cnblogs.com/dy2903/p/8275260.html" target="_blank" rel="noopener">KVM 计算虚拟化原理，偏基础 | 博客园</a></li>
+<li><a href="https://my.oschina.net/LastRitter/blog/1542075" target="_blank" rel="noopener">Qemu虚拟机QCOW2格式镜像文件的组成部分及关键算法分析 | 开源中国</a></li>
+<li><a href="https://my.oschina.net/firxiao/blog/373310" target="_blank" rel="noopener">KVM-QEMU, QCOW2, QEMU-IMG and Snapshots | 开源中国</a></li>
+<li><a href="https://blog.51cto.com/leejia/1577625" target="_blank" rel="noopener">KVM 磁盘扩容 | 51CTO</a></li>
+<li><a href="https://blog.csdn.net/weixin_37136725/article/details/78109708" target="_blank" rel="noopener">RAW（裸） 与 QCOW2（写时复制） 的区别 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/huang987246510/article/details/80838533" target="_blank" rel="noopener">QCOW2实现原理的一般性思考 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/JackLiu16/article/details/80000305" target="_blank" rel="noopener">QEMU 使用的镜像文件：qcow2 与 raw | CSDN</a></li>
+<li><a href="https://my.oschina.net/u/2407990/blog/513413" target="_blank" rel="noopener">KVM虚拟化原理 | 开源中国</a></li>
+<li><a href="https://my.oschina.net/davehe/blog/130124" target="_blank" rel="noopener">virtio基本原理(kvm半虚拟化驱动) | 开源中国</a></li>
+<li><a href="https://my.oschina.net/lenglingx/blog/410578" target="_blank" rel="noopener">qemu,kvm,qemu-kvm,xen,libvir 区别 | 开源中国</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7 安装配置 NFS</a></li><li><a href="https://abelsu7.top/2019/09/02/virtio-in-kvm/">半虚拟化 I/O 框架 virtio</a></li><li><a href="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/">Linux 系统常用监控命令</a></li><li><a href="https://abelsu7.top/2019/08/26/compile-kvm-module/">单独编译 KVM 内核模块</a></li><li><a href="http://ashin.wang/linux-basic/">Linux基础笔记</a></li><li><a href="https://wiki.hushhw.cn/posts/6fbc30d9.html">虚拟机 VMware 中安装 Ubuntu 操作系统</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.446Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/03/28/kvm-review/" target="_blank" rel="external">https://abelsu7.top/2019/03/28/kvm-review/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/KVM/">KVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QEMU/">QEMU</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/虚拟化/">虚拟化</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/28/kvm-review/&title=《KVM 虚拟化相关知识点汇总》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/28/kvm-review/&title=《KVM 虚拟化相关知识点汇总》 — Keep Coding&source=
+整理自书籍、博客、网络，更新中…
+
+
+                
+                    
+                   ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/28/kvm-review/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《KVM 虚拟化相关知识点汇总》 — Keep Coding&url=https://abelsu7.top/2019/03/28/kvm-review/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/28/kvm-review/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/04/02/leetcode-solution-golang/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Leetcode 题解 in Golang（不定期更新）</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/03/24/go-algo-and-data-structure/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Go 语言常用算法及数据结构汇总</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/28/kvm-review/&title=《KVM 虚拟化相关知识点汇总》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/28/kvm-review/&title=《KVM 虚拟化相关知识点汇总》 — Keep Coding&source=
+整理自书籍、博客、网络，更新中…
+
+
+                
+                    
+                   ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/28/kvm-review/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《KVM 虚拟化相关知识点汇总》 — Keep Coding&url=https://abelsu7.top/2019/03/28/kvm-review/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/28/kvm-review/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABwElEQVR42u3aS4rDMBAFwNz/0h6Y7eDkPbXleKC0CkmQS140/dHrFa/jd519c5ysv7+efXPxwsXFHXOPt+uMu7bD2Z7JDri4uPdz3wevHJEHweR14OLiPp/bPqzdExcX9z9y10qa9nXg4uI+h9uWLnnq0x71sloNFxd3wL0qNZl83tjfxcXFLblHufJUJqHUT8fFxb2FmwxQ1xolkzHthwPj4uLeyJ2UKMlu70cpxQ64uLi3cIs/BcfLQ96o5YqLi7uZ24aVtcImT6eKuIuLi7uZm5cxeZnUvoLkChcuLu5u7lr7Y349a1Tw4OLibua2bdM83Vk7GC4u7pO5k2tVk7ZIcTxcXNxt3Kg2ihOgdgDThkJcXNw7ue1gNUHnETTfBxcX9x7u2sWs/P9rNcuHBi4uLu5mbn65qh2sFoEpTo9wcXHv5K5dm2gHtO34FhcX97vcfOUHa49XjE9wcXE3c9uAkjxmEgTbdgkuLu4+bt6eyMuYfPjaBkpcXNw7uVcVNgkiD5rFz7i4uF/iTtKUy9oouLi4j+S2ac1kAoyLi/tdbr5RWxpNCqdRWwQXF3fAbRum7Tg2L4Ta14GLi7uB+wMyMucerJEaBQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

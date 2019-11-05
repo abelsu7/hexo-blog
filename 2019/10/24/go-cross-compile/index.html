@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Go 程序的交叉编译、选择性编译 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Go,交叉编译">
+    <meta name="description" content="在 Windows、Linux、MacOS 下交叉编译 Golang">
+<meta name="keywords" content="Go,交叉编译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go 程序的交叉编译、选择性编译">
+<meta property="og:url" content="https://abelsu7.top/2019/10/24/go-cross-compile/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="在 Windows、Linux、MacOS 下交叉编译 Golang">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/10/24/go-cross-compile/cover.png">
+<meta property="og:updated_time" content="2019-10-31T10:14:38.020Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go 程序的交叉编译、选择性编译">
+<meta name="twitter:description" content="在 Windows、Linux、MacOS 下交叉编译 Golang">
+<meta name="twitter:image" content="https://abelsu7.top/2019/10/24/go-cross-compile/cover.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Go 程序的交叉编译、选择性编译</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Go 程序的交叉编译、选择性编译</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-10-24T08:44:37.000Z" itemprop="datePublished" class="page-time">
+  2019-10-24
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-查看当前-Go-版本支持的编译平台"><span class="post-toc-text">1. 查看当前 Go 版本支持的编译平台</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-设置环境变量并交叉编译"><span class="post-toc-text">2. 设置环境变量并交叉编译</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-Windows"><span class="post-toc-text">2.1 Windows</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-Linux"><span class="post-toc-text">2.2 Linux</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-3-MacOS"><span class="post-toc-text">2.3 MacOS</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-选择性编译"><span class="post-toc-text">3. 选择性编译</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-构建标记：build-tag"><span class="post-toc-text">3.1 构建标记：build tag</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-文件后缀：-GOOS-go"><span class="post-toc-text">3.2 文件后缀：_$GOOS.go</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-示例程序"><span class="post-toc-text">4. 示例程序</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-go-cross-compile"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Go 程序的交叉编译、选择性编译</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-10-24 16:44:37" datetime="2019-10-24T08:44:37.000Z"  itemprop="datePublished">2019-10-24</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>在 Windows、Linux、MacOS 下交叉编译 Golang</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/10/24/go-cross-compile/cover.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#1-查看当前-Go-版本支持的编译平台">1. 查看当前 Go 版本支持的编译平台</a></li>
+<li><a href="#2-设置环境变量并交叉编译">2. 设置环境变量并交叉编译</a><ul>
+<li><a href="#2-1-Windows">2.1 Windows</a></li>
+<li><a href="#2-2-Linux">2.2 Linux</a></li>
+<li><a href="#2-3-MacOS">2.3 MacOS</a></li>
+</ul>
+</li>
+<li><a href="#3-选择性编译">3. 选择性编译</a><ul>
+<li><a href="#3-1-构建标记：build-tag">3.1 构建标记：build tag</a></li>
+<li><a href="#3-2-文件后缀：-GOOS-go">3.2 文件后缀：_$GOOS.go</a></li>
+</ul>
+</li>
+<li><a href="#4-示例程序">4. 示例程序</a></li>
+<li><a href="#参考文章">参考文章</a></li>
+</ul>
+<p>从<code>Golang 1.5</code>开始，<strong>交叉编译</strong>变得非常便捷：</p>
+<ul>
+<li>对于<strong>没有使用</strong><code>CGO</code><strong>的程序</strong>，只需设置<code>GOOS</code>、<code>GOARCH</code>、<code>CGO_ENABLED</code>这几个环境变量，即可直接利用编译器自带的<strong>跨平台特性</strong>实现跨平台编译</li>
+<li>对于<strong>使用</strong><code>CGO</code><strong>的程序</strong>，大部分情况下可以通过配置<code>CC</code>环境变量使用<strong>自行准备的交叉编译工具</strong>进行编译</li>
+</ul>
+<blockquote>
+<p>关于使用<code>CGO</code>情况下的交叉编译，参见 <a href="https://holmesian.org/golang-cross-compile" target="_blank" rel="noopener">交叉编译 Go 程序 | Holmesian Blog</a></p>
+</blockquote>
+<h3 id="1-查看当前-Go-版本支持的编译平台"><a href="#1-查看当前-Go-版本支持的编译平台" class="headerlink" title="1. 查看当前 Go 版本支持的编译平台"></a>1. 查看当前 Go 版本支持的编译平台</h3><pre><code class="lang-bash">&gt; go version
+go version go1.13 windows/amd64
+
+&gt; go tool dist list
+aix/ppc64
+android/386
+android/amd64
+android/arm
+android/arm64
+darwin/386   # Mac i386
+darwin/amd64 # Mac amd64
+darwin/arm
+darwin/arm64
+dragonfly/amd64
+freebsd/386
+freebsd/amd64
+freebsd/arm
+illumos/amd64
+js/wasm
+linux/386   # Linux i386 
+linux/amd64 # Linux amd64
+linux/arm
+linux/arm64
+linux/mips
+linux/mips64
+linux/mips64le
+linux/mipsle
+linux/ppc64
+linux/ppc64le
+linux/s390x
+nacl/386
+nacl/amd64p32
+nacl/arm
+netbsd/386
+netbsd/amd64
+netbsd/arm
+netbsd/arm64
+openbsd/386
+openbsd/amd64
+openbsd/arm
+openbsd/arm64
+plan9/386
+plan9/amd64
+plan9/arm
+solaris/amd64
+windows/386   # Windows i386
+windows/amd64 # Windows amd64
+windows/arm
+
+&gt; go env
+set GOHOSTARCH=amd64 # 本机的架构
+set GOHOSTOS=windows # 本机的系统
+set GOARCH=amd64     # 目标平台的架构，交叉编译时需要设置
+set GOOS=windows     # 目标平台的系统，交叉编译时需要设置
+set CGO_ENABLED=0    # 是否启用 CGO
+...
+</code></pre>
+<p>最常用的大概是<code>x86</code>和<code>amd64</code>架构：</p>
+<ul>
+<li><code>darwin/386</code>：对应 <strong>Mac x86</strong></li>
+<li><code>darwin/amd64</code>：对应 <strong>Mac amd64</strong></li>
+<li><code>linux/386</code>：对应 <strong>Linux x86</strong></li>
+<li><code>linux/amd64</code>：对应 <strong>Linux amd64</strong></li>
+<li><code>Windows/386</code>：对应 <strong>Windows x86</strong></li>
+<li><code>Windows/amd64</code>：对应 <strong>Windows amd64</strong></li>
+</ul>
+<h3 id="2-设置环境变量并交叉编译"><a href="#2-设置环境变量并交叉编译" class="headerlink" title="2. 设置环境变量并交叉编译"></a>2. 设置环境变量并交叉编译</h3><h4 id="2-1-Windows"><a href="#2-1-Windows" class="headerlink" title="2.1 Windows"></a>2.1 Windows</h4><p>在 <strong>Windows</strong> 下编译 <strong>MacOS</strong> 和 <strong>Linux</strong> 的 <strong>64 位</strong>程序：</p>
+<pre><code class="lang-bash"># For MacOS/amd64
+set CGO_ENABLED=0
+set GOOS=darwin
+set GOARCH=amd64
+go build main.go
+
+# For Linux/amd64
+set CGO_ENABLED=0
+set GOOS=linux
+set GOARCH=amd64
+go build main.go
+</code></pre>
+<h4 id="2-2-Linux"><a href="#2-2-Linux" class="headerlink" title="2.2 Linux"></a>2.2 Linux</h4><p>在 <strong>Linux</strong> 下编译 <strong>MacOS</strong> 和 <strong>Windows</strong> 的 <strong>64 位</strong>程序：</p>
+<pre><code class="lang-bash"># For MacOS/amd64
+CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build main.go
+
+# For Windows/amd64
+CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build main.go
+</code></pre>
+<h4 id="2-3-MacOS"><a href="#2-3-MacOS" class="headerlink" title="2.3 MacOS"></a>2.3 MacOS</h4><p>在 <strong>MacOS</strong> 下编译 <strong>Windows</strong> 和 <strong>Linux</strong> 的 <strong>64 位</strong>程序：</p>
+<pre><code class="lang-bash"># For Windows/amd64
+CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build main.go
+
+# For Linux/amd64
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go
+</code></pre>
+<h3 id="3-选择性编译"><a href="#3-选择性编译" class="headerlink" title="3. 选择性编译"></a>3. 选择性编译</h3><p>虽然 Golang 可以跨平台编译，但<strong>系统之间的差异性仍然存在</strong>。有些时候我们会直接调用操作系统函数，<strong>不同操作系统下的库可能会有不同的实现</strong>，比如<code>syscall</code>库。</p>
+<p>命令<code>go build</code>没有内置<code>#define</code>或者预处理器之类的处理平台相关的代码取舍，而是采用 <strong>Tag 标记</strong>和<strong>文件后缀</strong>的方式实现<strong>选择性编译</strong>。</p>
+<h4 id="3-1-构建标记：build-tag"><a href="#3-1-构建标记：build-tag" class="headerlink" title="3.1 构建标记：build tag"></a>3.1 构建标记：build tag</h4><p>为了实现<strong>根据不同的目标平台编译对应的源文件</strong>，需要在<strong>文件顶部</strong>添加<strong>构建标记</strong><code>build tag</code>：</p>
+<pre><code class="lang-go">// +build
+</code></pre>
+<p>标记遵循以下规则：</p>
+<ol>
+<li>A build tag is evaluated as the <strong>OR</strong> of <strong>space</strong>-separated options</li>
+<li>Each option evaluates as the <strong>AND</strong> of its <strong>comma</strong>-separated terms</li>
+<li>Each term is an alphanumeric word or, preceded by <strong>!</strong>, its <strong>negation</strong></li>
+</ol>
+<p>简单翻译一下：</p>
+<ol>
+<li><strong>空格</strong><code> </code>为<strong>或</strong></li>
+<li><strong>逗号</strong><code>,</code>为<strong>且</strong></li>
+<li><strong>叹号</strong><code>!</code>为<strong>非</strong></li>
+</ol>
+<p>例如：</p>
+<pre><code class="lang-go">// +build A,B !C,D
+// (A &amp;&amp; B) || ((!C) &amp;&amp; D)
+</code></pre>
+<p>再例如：</p>
+<pre><code class="lang-go">// +build !windows,386
+//此文件在非 Windows 操作系统，且为 x86 处理器时编译
+</code></pre>
+<p><strong>构建标记</strong>必须出现在<strong>文件顶部</strong>，可以有多个<code>build tag</code>，之间是<code>AND</code>的关系：</p>
+<pre><code class="lang-go">// +build linux darwin
+// +build 386
+</code></pre>
+<p>另外需要注意<code>build tag</code>和<code>package xxx</code>语句之间需要有<strong>空行分隔</strong>，也就是：</p>
+<pre><code class="lang-go">// +build linux darwin
+// +build 386
+
+package mypkg
+</code></pre>
+<h4 id="3-2-文件后缀：-GOOS-go"><a href="#3-2-文件后缀：-GOOS-go" class="headerlink" title="3.2 文件后缀：_$GOOS.go"></a>3.2 文件后缀：_$GOOS.go</h4><p>以<code>_$GOOS.go</code>为后缀的文件<strong>只在此平台上编译</strong>，其他平台上编译时就<strong>当此文件不存在</strong>，完整的后缀如：</p>
+<pre><code class="lang-go">_$GOOS_$GOARCH.go
+</code></pre>
+<p>例如：</p>
+<ul>
+<li><code>syscall_linux_amd64.go</code>：只在 <strong>Linux/amd64</strong> 下编译</li>
+<li><code>syscall_windows_386.go</code>：只在 <strong>Windows/i386</strong> 下编译</li>
+<li><code>syscall_windows.go</code>：只在 <strong>Windows</strong> 下编译</li>
+</ul>
+<h3 id="4-示例程序"><a href="#4-示例程序" class="headerlink" title="4. 示例程序"></a>4. 示例程序</h3><pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;runtime&quot;
+)
+
+func main() {
+    fmt.Printf(&quot;OS: %s\nArchitecture: %s\n&quot;, runtime.GOOS, runtime.GOARCH)
+}
+</code></pre>
+<p><strong>Windows/amd64</strong> 下为 <strong>Windows/amd64</strong> 与 <strong>Linux/amd64</strong> 编译：</p>
+<pre><code class="lang-bash"># For Windows/amd64
+&gt; go build cross.go
+
+# For Linux/amd64
+&gt; set CGO_ENABLED=0
+&gt; set GOOS=linux
+&gt; set GOARCH=amd64
+&gt; go build cross.go
+
+# Cmder
+&gt; ls -hl
+total 3.0M
+-rw-r--r-- 1 abelsu7 197609 1014K 10月 24 17:26 cross
+-rwxr-xr-x 1 abelsu7 197609  2.0M 10月 24 17:15 cross.exe*
+-rw-r--r-- 1 abelsu7 197609   140 10月 24 17:12 cross.go
+-rw-r--r-- 1 abelsu7 197609   198 10月 23 17:58 go.mod
+-rw-r--r-- 1 abelsu7 197609  1.5K 10月 23 17:57 go.sum
+-rw-r--r-- 1 abelsu7 197609  1.9K 10月 24 15:48 main.go
+</code></pre>
+<p><strong>Windows</strong> 下运行：</p>
+<pre><code class="lang-bash">&gt; .\cross.exe
+OS: windows
+Architecture: amd64
+</code></pre>
+<p><strong>WSL</strong> 下运行：</p>
+<pre><code class="lang-bash">&gt; ./cross
+OS: linux
+Architecture: amd64
+</code></pre>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://holmesian.org/golang-cross-compile" target="_blank" rel="noopener">交叉编译 Go 程序 | Holmesian Blog</a></li>
+<li><a href="https://colobu.com/2015/09/28/go-cross-compiling/" target="_blank" rel="noopener">交叉编译 Go 程序 | 鸟窝</a></li>
+<li><a href="https://blog.csdn.net/dengming0922/article/details/82217929" target="_blank" rel="noopener">Golang 交叉编译与选择性编译 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/panshiqu/article/details/53788067" target="_blank" rel="noopener">Golang 在 Mac、Linux、Windows 下如何交叉编译 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/Three_dog/article/details/94640507" target="_blank" rel="noopener">Golang 交叉编译中的那些坑 | CSDN</a></li>
+<li><a href="https://dave.cheney.net/tag/cross-compilation" target="_blank" rel="noopener">Cross compilation with Go 1,5 | Dave Cheney</a></li>
+<li><a href="https://github.com/golang/go/wiki/WindowsCrossCompiling" target="_blank" rel="noopener">Building windows go programs on linux - golang/go | Github</a></li>
+<li><a href="https://medium.com/@georgeok/cross-compile-in-go-golang-9f0d1261ee26" target="_blank" rel="noopener">Cross Compile in Go (Golang) | Medium.com</a></li>
+<li><a href="https://hackaday.com/2019/09/04/tinygo-brings-go-to-arduino/" target="_blank" rel="noopener">TinyGo Brings Go To Arduino | Hackaday</a></li>
+<li><a href="https://www.e-tinkers.com/2019/06/better-way-to-install-golang-go-on-raspberry-pi/" target="_blank" rel="noopener">Better way to install Golang (Go) on Raspberry Pi | E-Tinkers</a></li>
+<li><a href="https://golangcookbook.com/chapters/running/cross-compiling/" target="_blank" rel="noopener">Recipe: Cross Compliling | The Go Cookbook</a></li>
+<li><a href="https://segmentfault.com/a/1190000013989448" target="_blank" rel="noopener">Gin 实践 番外：Golang 交叉编译 - 煎鱼 | SegmentFault</a></li>
+<li><a href="https://segmentfault.com/a/1190000016154678" target="_blank" rel="noopener">Gin 实践 番外：请入门 Makefile - 煎鱼 | SegmentFault</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/">使用 Gogs 自建 Git 服务</a></li><li><a href="https://abelsu7.top/2019/10/31/go-gin-swagger/">在 Gin 中使用 swaggo 自动生成 RESTful API 文档</a></li><li><a href="https://abelsu7.top/2019/10/24/go-build-compress-using-upx/">使用 upx 压缩 go build 打包的可执行文件</a></li><li><a href="https://abelsu7.top/2019/10/23/go-present-ppt/">Go 语言使用 present 展示 PPT</a></li><li><a href="chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li><li><a href="www.chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-10-31T10:14:38.020Z" itemprop="dateUpdated">2019-10-31 18:14:38</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/10/24/go-cross-compile/" target="_blank" rel="external">https://abelsu7.top/2019/10/24/go-cross-compile/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/交叉编译/">交叉编译</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/10/24/go-cross-compile/&title=《Go 程序的交叉编译、选择性编译》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/10/24/go-cross-compile/&title=《Go 程序的交叉编译、选择性编译》 — Keep Coding&source=
+在 Windows、Linux、MacOS 下交叉编译 Golang
+
+
+                
+                    
+ ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/10/24/go-cross-compile/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go 程序的交叉编译、选择性编译》 — Keep Coding&url=https://abelsu7.top/2019/10/24/go-cross-compile/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/10/24/go-cross-compile/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/10/24/go-build-compress-using-upx/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">使用 upx 压缩 go build 打包的可执行文件</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/10/23/go-present-ppt/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Go 语言使用 present 展示 PPT</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/10/24/go-cross-compile/&title=《Go 程序的交叉编译、选择性编译》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/10/24/go-cross-compile/&title=《Go 程序的交叉编译、选择性编译》 — Keep Coding&source=
+在 Windows、Linux、MacOS 下交叉编译 Golang
+
+
+                
+                    
+ ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/10/24/go-cross-compile/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go 程序的交叉编译、选择性编译》 — Keep Coding&url=https://abelsu7.top/2019/10/24/go-cross-compile/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/10/24/go-cross-compile/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACIklEQVR42u3aQW7DMAwEwP7/0+61QBNnV7IDWBqdgiaxNDmwFMmfn3gdf9a7d88///918q2LFwYGxmMZx+nKj3XOS56cv/tiRwwMjA0YySHaYJoH6GTfD0/AwMDAOE3jkkPnIRsDAwPjbkYSmsdCOQYGBkZyoLygNpPq3X4Xx8DAeCAjr7p///Ut/Q0MDIxHMY5y5Wlinhq2QfbFXhgYGEsz8gCXF/rbov9Y2oeBgbEP4zzw3REix8bCPvwFAwNjacbMQfNG5rUDZB/+b2BgYGzAiEJbkDgm4fWq3TEwMPZhtK/z4NumgIMwDAyMRRltQtaW+9uQmrcWMDAwdmO0BbK2SDfzQ0RtBgwMjKUZV81c5eWz+RZp/kwMDIw1GK0yP8pMslgHcQwMjA0Y39msLeTVMyMYGBhLM/KyVzvU1V6D2yvri9QQAwNjOcZ86Gy3GfsJioWBgbEcoy3Qt7B2OCMHv+1vYGBgLMdo2wDJ4/JBjXy0og7HGBgYyzHyQ8w3IPMrbh1wMTAwNmC04W/sGtw2DJKmBQYGxj6MsQO1s2bzdcF6cgQDA+PhjKNcY63KsZQxD80YGBhrM8bCXDtA1h6lLd5hYGDswJi5aiaHyBPHmW9hYGDswJgp6LdheuwCHA1YYGBgYEzMceQDZ8lVGQMDA6NtLo6V5PKGQTSKgYGBsQEjbwaMXXrzUl3eVMDAwNiHcVUtK+88XFWAw8DA2IDxC/oIiYcAUBAbAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Java 中 String，StringBuilder，StringBuffer 三者的区别 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Java,字符串">
+    <meta name="description" content="Java中关于字符串有三个相关的类：String,StringBuilder和StringBuffer，那么这三个类之间有什么区别呢？cnblogs博主酥风对此做了整理记录，摘抄过来仅供参考。  简单来说，这三个类之间的区别主要是在两个方面：运行速度和线程安全。 运行速度首先来看运行速度，StringBuilder &amp;gt; StringBuffer &amp;gt; String 。 String最慢">
+<meta name="keywords" content="Java,字符串">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 中 String，StringBuilder，StringBuffer 三者的区别">
+<meta property="og:url" content="https://abelsu7.top/2018/07/12/java-string-builder-buffer/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="Java中关于字符串有三个相关的类：String,StringBuilder和StringBuffer，那么这三个类之间有什么区别呢？cnblogs博主酥风对此做了整理记录，摘抄过来仅供参考。  简单来说，这三个类之间的区别主要是在两个方面：运行速度和线程安全。 运行速度首先来看运行速度，StringBuilder &amp;gt; StringBuffer &amp;gt; String 。 String最慢">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.417Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 中 String，StringBuilder，StringBuffer 三者的区别">
+<meta name="twitter:description" content="Java中关于字符串有三个相关的类：String,StringBuilder和StringBuffer，那么这三个类之间有什么区别呢？cnblogs博主酥风对此做了整理记录，摘抄过来仅供参考。  简单来说，这三个类之间的区别主要是在两个方面：运行速度和线程安全。 运行速度首先来看运行速度，StringBuilder &amp;gt; StringBuffer &amp;gt; String 。 String最慢">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Java 中 String，StringBuilder，StringBuffer 三者的区别</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Java 中 String，StringBuilder，StringBuffer 三者的区别</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-07-12T06:55:08.000Z" itemprop="datePublished" class="page-time">
+  2018-07-12
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#运行速度"><span class="post-toc-text">运行速度</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#线程安全"><span class="post-toc-text">线程安全</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#总结"><span class="post-toc-text">总结</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-java-string-builder-buffer"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Java 中 String，StringBuilder，StringBuffer 三者的区别</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-07-12 14:55:08" datetime="2018-07-12T06:55:08.000Z"  itemprop="datePublished">2018-07-12</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>Java中关于字符串有三个相关的类：<strong>String</strong>,<strong>StringBuilder</strong>和<strong>StringBuffer</strong>，那么这三个类之间有什么区别呢？cnblogs博主<a href="https://www.cnblogs.com/su-feng/p/6659064.html" target="_blank" rel="noopener">酥风</a>对此做了整理记录，摘抄过来仅供参考。</p>
+</blockquote>
+<p>简单来说，这三个类之间的区别主要是在两个方面：<strong>运行速度</strong>和<strong>线程安全</strong>。</p>
+<h3 id="运行速度"><a href="#运行速度" class="headerlink" title="运行速度"></a>运行速度</h3><p>首先来看运行速度，<strong>StringBuilder</strong> &gt; <strong>StringBuffer</strong> &gt; <strong>String</strong> 。</p>
+<p>String最慢的原因在于：<strong>String为字符串常量</strong>，即String对象一旦创建之后是不可以更改的，但<strong>后两者的对象是变量</strong>，是可以更改的。以下面的一段代码为例，</p>
+<pre><code class="lang-java">String str = &quot;abc&quot;;
+System.out.println(str);
+str = str + &quot;de&quot;;
+System.out.println(str);
+</code></pre>
+<p>如果运行这段代码会发现先输出<code>abc</code>，然后又输出<code>abcde</code>，好像是<code>str</code>这个对象被更改了。但其实，这只是一种假象罢了。</p>
+<a id="more"></a>
+<p>JVM对于这几行代码是这样处理的：</p>
+<ul>
+<li>首先创建一个String对象<code>str</code>，并把<code>&quot;abc&quot;</code>赋值给<code>str</code></li>
+<li>然后在第3行中，JVM又创建了一个新的对象也名为<code>str</code></li>
+<li>然后再把原来的<code>str</code>的值和<code>&quot;de&quot;</code>加起来再赋值给新的<code>str</code></li>
+<li>原来的<code>str</code>最后被JVM的GC机制回收</li>
+</ul>
+<p>因此，<code>str</code>实际上并没有被改变，也就是前面提到的：<strong>String对象一旦创建之后就不可更改了</strong>。换言之，Java中对String对象的操作实际上是一个不断创建新的对象并且将旧的对象回收的一个过程，所以执行速度很慢。</p>
+<p>而<strong>StringBuilder和StringBuffer的对象是变量</strong>，对变量进行操作就是直接对该对象进行更改，而不进行创建和回收的操作，所以速度要比String快很多。</p>
+<p>另外，有时候我们会这样对字符串进行赋值，</p>
+<pre><code class="lang-java">String str = &quot;abc&quot; + &quot;de&quot;;
+StringBuilder stringBuilder = new StringBuilder().append(&quot;abc&quot;).append(&quot;de&quot;);
+System.out.println(str);
+System.out.println(stringBuilder.toString());
+</code></pre>
+<p>这样输出的结果也是<code>abcde</code>和<code>abcde</code>，但是String的速度却比StringBuilder的反应速度快很多，这是因为第1行中的操作和<code>String str = &quot;abcde&quot;;</code>是完全一样的，所以会很快。如果写成下面的形式，</p>
+<pre><code class="lang-java">String str1 = &quot;abc&quot;;
+String str2 = &quot;de&quot;;
+String str = str1 + str2;
+</code></pre>
+<p>那么JVM就会像之前所提到的，不断的创建、回收对象来进行这个操作，速度就会很慢。</p>
+<h3 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h3><p>从线程的角度来看，<strong>StringBuilder</strong>是<strong>线程不安全</strong>的，而<strong>StringBuffer</strong>是<strong>线程安全</strong>的。</p>
+<p>如果一个StringBuffer对象在字符串缓冲区被多个线程使用时，StringBuffer中很多方法可以带有<code>synchronized</code>关键字，所以可以保证线程是安全的；而StringBuilder的方法则没有<code>synchronized</code>关键字，所以不能保证线程安全。</p>
+<blockquote>
+<p><strong>多线程</strong>的操作时，需要使用<strong>StringBuffer</strong><br><strong>单线程</strong>的情况下，建议使用<strong>StringBuilder</strong>，速度较快</p>
+</blockquote>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><strong>String</strong>：适用于操作<strong>少量字符串</strong>的情况</li>
+<li><strong>StringBuilder</strong>：适用于<strong>单线程</strong>下在字符缓冲区进行大量操作的情况</li>
+<li><strong>StringBuffer</strong>：适用<strong>多线程</strong>下在字符缓冲区进行大量操作的情况</li>
+</ul>
+<blockquote>
+<p><strong>参考文章</strong></p>
+<ol>
+<li><a href="https://www.cnblogs.com/su-feng/p/6659064.html" target="_blank" rel="noopener">Java中的String，StringBuilder，StringBuffer三者的区别 | cnblogs - 酥风</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-6/">Java 笔记 6：异常、断言和日志</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-5/">Java 笔记 5：集合</a></li><li><a href="https://abelsu7.top/2019/03/08/sort-algo-in-go/">排序算法 1：冒泡排序、插入排序、选择排序</a></li><li><a href="https://abelsu7.top/2019/02/10/core-java-notes-4/">Java 笔记 4：接口、lambda 表达式与内部类</a></li><li><a href="https://jarrychen.xyz/archives/57361fba.html">快速排序(递归)</a></li><li><a href="https://www.hosiang.cn/3372e3cc/">后端开发 - Java开发环境配置 - 入门篇</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.417Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/07/12/java-string-builder-buffer/" target="_blank" rel="external">https://abelsu7.top/2018/07/12/java-string-builder-buffer/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/字符串/">字符串</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/07/12/java-string-builder-buffer/&title=《Java 中 String，StringBuilder，StringBuffer 三者的区别》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/07/12/java-string-builder-buffer/&title=《Java 中 String，StringBuilder，StringBuffer 三者的区别》 — Keep Coding&source=
+Java中关于字符串有三个相关的类：String,StringBuilder和StringBuffer，那么这三个类之间有什么区别呢？cnblogs博主..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/07/12/java-string-builder-buffer/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java 中 String，StringBuilder，StringBuffer 三者的区别》 — Keep Coding&url=https://abelsu7.top/2018/07/12/java-string-builder-buffer/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/07/12/java-string-builder-buffer/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/08/23/rsync-and-borg/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Google 集群管理器 Borg 论文相关</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/07/11/java-check-null-string/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Java 判断字符串是否为空</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/07/12/java-string-builder-buffer/&title=《Java 中 String，StringBuilder，StringBuffer 三者的区别》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/07/12/java-string-builder-buffer/&title=《Java 中 String，StringBuilder，StringBuffer 三者的区别》 — Keep Coding&source=
+Java中关于字符串有三个相关的类：String,StringBuilder和StringBuffer，那么这三个类之间有什么区别呢？cnblogs博主..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/07/12/java-string-builder-buffer/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java 中 String，StringBuilder，StringBuffer 三者的区别》 — Keep Coding&url=https://abelsu7.top/2018/07/12/java-string-builder-buffer/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/07/12/java-string-builder-buffer/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACIUlEQVR42u3ay46DMBAEwPz/T7PXSBGo24aVsMsnlIRH5dCM7fl84nF8je9Pfo9/f3997vVdbh4YGBivZRyXY4yRk85+kz8bBgbGPoyz219HanKcB27+B2FgYGC0jDZ258EYGBgYM9PU64IyuQsGBgbGzCR2PoivJ7FJEN8wF8fAwHghI191///jR/Y3MDAwXsU4yjFW2M1Md6OnwsDAWJqRB1xelo1NWduyDwMDYzdGvnw/tvTWBnEb0BgYGGsz2nIwb97KIzK/2ikPAwNjA8bYRdtGirHSMyo0MTAwNmCMLaW1VdlYE0YU+hgYGBsw8sDNH2J+Aa64FwYGxtKM69C8a0Etb7BISs/TwhEDA2NpRt4Elk9Qn1uMG3yfYGBgvJbRXvSuki6HRWdhYGAszRhroWgbvNrCMW/vwMDA2IExdloStW3IzkQwBgbGDoy25StvnmiLyLrNIp8xY2BgLMTIa618oa0tNOsFOAwMjKUZYyE4FrttmVjHMQYGxpaMvAurjem8AK0LRAwMjM0YYxfNy772+Ib3BgYGxssZbdHWNpPlD93+TRgYGGszjnLMLK61GwlJewcGBsYOjHy0zWHPbX/mLwAMDIyVGEnItluM881eORsDA2Mfxr2T0vlv26fFwMDAyLcqi/aIeFMTAwMDYz5w2zJxJrhPr4aBgbEBI4nLBNO2a4xtmmJgYOzGaKeO+cJZ3fdRTncxMDA2YPwBPjGyUJ8w89oAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

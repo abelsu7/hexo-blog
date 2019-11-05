@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Linux 命令查看 CPU、内存、网络、磁盘等系统信息 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Linux,Shell,运维">
+    <meta name="description" content="摘自 Linux 查看 CPU 信息，机器型号，内存等信息 | 开源中国">
+<meta name="keywords" content="Linux,Shell,运维">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 命令查看 CPU、内存、网络、磁盘等系统信息">
+<meta property="og:url" content="https://abelsu7.top/2019/03/03/linux-list-cpu-info/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自 Linux 查看 CPU 信息，机器型号，内存等信息 | 开源中国">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/03/03/linux-list-cpu-info/cover.jpg">
+<meta property="og:updated_time" content="2019-10-31T13:39:48.946Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux 命令查看 CPU、内存、网络、磁盘等系统信息">
+<meta name="twitter:description" content="摘自 Linux 查看 CPU 信息，机器型号，内存等信息 | 开源中国">
+<meta name="twitter:image" content="https://abelsu7.top/2019/03/03/linux-list-cpu-info/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Linux 命令查看 CPU、内存、网络、磁盘等系统信息</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Linux 命令查看 CPU、内存、网络、磁盘等系统信息</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-03-03T09:27:18.000Z" itemprop="datePublished" class="page-time">
+  2019-03-03
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-系统"><span class="post-toc-text">1. 系统</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-资源"><span class="post-toc-text">2. 资源</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-磁盘和分区"><span class="post-toc-text">3. 磁盘和分区</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-网络"><span class="post-toc-text">4. 网络</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-进程"><span class="post-toc-text">5. 进程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-用户"><span class="post-toc-text">6. 用户</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-服务"><span class="post-toc-text">7. 服务</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8-程序"><span class="post-toc-text">8. 程序</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#9-CPU"><span class="post-toc-text">9. CPU</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#10-内存"><span class="post-toc-text">10. 内存</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-linux-list-cpu-info"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Linux 命令查看 CPU、内存、网络、磁盘等系统信息</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-03-03 17:27:18" datetime="2019-03-03T09:27:18.000Z"  itemprop="datePublished">2019-03-03</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>摘自 <a href="https://my.oschina.net/hunterli/blog/140783" target="_blank" rel="noopener">Linux 查看 CPU 信息，机器型号，内存等信息 | 开源中国</a></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/03/linux-list-cpu-info/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="1-系统"><a href="#1-系统" class="headerlink" title="1. 系统"></a>1. 系统</h3><pre><code class="lang-bash">&gt; uname -a              # 查看内核/操作系统/CPU信息
+&gt; head -n 1 /etc/issue  # 查看操作系统版本
+&gt; cat /proc/cpuinfo     # 查看CPU信息
+&gt; hostname              # 查看计算机名
+&gt; lspci -tv             # 列出所有PCI设备
+&gt; lsusb -tv             # 列出所有USB设备
+&gt; lsmod                 # 列出加载的内核模块
+&gt; env                   # 查看环境变量
+&gt; cat /etc/issue.net    # 查看当前操作系统发行版信息
+&gt; dmidecode | grep &#39;Product Name&#39;  # 查看机器型号
+    Product Name: HP Z240 Tower Workstation
+    Product Name: 802F
+</code></pre>
+<h3 id="2-资源"><a href="#2-资源" class="headerlink" title="2. 资源"></a>2. 资源</h3><pre><code class="lang-bash">&gt; free -m                # 查看内存使用量和交换区使用量
+&gt; df -h                  # 查看各分区使用情况
+&gt; du -sh &lt;目录名&gt;        # 查看指定目录的大小
+&gt; grep MemTotal /proc/meminfo   # 查看内存总量
+&gt; grep MemFree /proc/meminfo    # 查看空闲内存量
+&gt; uptime                 # 查看系统运行时间、用户数、负载
+&gt; cat /proc/loadavg      # 查看系统负载
+&gt; tree                   # 显示目录树状图
+</code></pre>
+<h3 id="3-磁盘和分区"><a href="#3-磁盘和分区" class="headerlink" title="3. 磁盘和分区"></a>3. 磁盘和分区</h3><pre><code class="lang-bash">&gt; mount | column -t      # 查看挂接的分区状态
+&gt; fdisk -l               # 查看所有分区
+&gt; swapon -s              # 查看所有交换分区
+&gt; hdparm -i /dev/hda     # 查看磁盘参数(仅适用于IDE设备)
+&gt; dmesg | grep IDE       # 查看启动时IDE设备检测状况
+</code></pre>
+<h3 id="4-网络"><a href="#4-网络" class="headerlink" title="4. 网络"></a>4. 网络</h3><pre><code class="lang-bash">&gt; ifconfig               # 查看所有网络接口的属性
+&gt; iptables -L            # 查看防火墙设置
+&gt; route -n               # 查看路由表
+&gt; netstat -lntp          # 查看所有监听端口
+&gt; netstat -antp          # 查看所有已经建立的连接
+&gt; netstat -s             # 查看网络统计信息
+</code></pre>
+<h3 id="5-进程"><a href="#5-进程" class="headerlink" title="5. 进程"></a>5. 进程</h3><pre><code class="lang-bash">&gt; ps -ef                 # 查看所有进程
+&gt; top                    # 实时显示进程状态
+</code></pre>
+<h3 id="6-用户"><a href="#6-用户" class="headerlink" title="6. 用户"></a>6. 用户</h3><pre><code class="lang-bash">&gt; w                      # 查看活动用户
+&gt; id &lt;用户名&gt;            # 查看指定用户信息
+&gt; last                   # 查看用户登录日志
+&gt; cut -d: -f1 /etc/passwd   # 查看系统所有用户
+&gt; cut -d: -f1 /etc/group    # 查看系统所有组
+&gt; crontab -l             # 查看当前用户的计划任务
+</code></pre>
+<h3 id="7-服务"><a href="#7-服务" class="headerlink" title="7. 服务"></a>7. 服务</h3><pre><code class="lang-bash">&gt; chkconfig --list       # 列出所有系统服务
+&gt; chkconfig --list | grep on    # 列出所有启动的系统服务
+</code></pre>
+<h3 id="8-程序"><a href="#8-程序" class="headerlink" title="8. 程序"></a>8. 程序</h3><pre><code class="lang-bash">&gt; rpm -qa  # 查看所有安装的软件包
+</code></pre>
+<h3 id="9-CPU"><a href="#9-CPU" class="headerlink" title="9. CPU"></a>9. CPU</h3><pre><code class="lang-bash">&gt; cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c # 查看 CPU 信息
+      8  Intel(R) Core(TM) i7-6700 CPU @ 3.40GHz
+
+&gt; cat /proc/cpuinfo | grep physical | uniq -c
+      1 physical id    : 0
+      1 address sizes    : 39 bits physical, 48 bits virtual
+      1 physical id    : 0
+      1 address sizes    : 39 bits physical, 48 bits virtual
+      1 physical id    : 0
+      1 address sizes    : 39 bits physical, 48 bits virtual
+      1 physical id    : 0
+      1 address sizes    : 39 bits physical, 48 bits virtual
+      1 physical id    : 0
+      1 address sizes    : 39 bits physical, 48 bits virtual
+      1 physical id    : 0
+      1 address sizes    : 39 bits physical, 48 bits virtual
+      1 physical id    : 0
+      1 address sizes    : 39 bits physical, 48 bits virtual
+      1 physical id    : 0
+      1 address sizes    : 39 bits physical, 48 bits virtual
+
+&gt; getconf LONG_BIT
+64 # 说明当前 CPU 运行在 64 位模式下
+
+&gt; cat /proc/cpuinfo | grep flags | grep &#39; lm &#39; | wc -l
+8 # 结果大于 0，说明支持 64 位计算，lm 代表 long mode
+
+&gt; dmidecode -s
+dmidecode: option requires an argument -- &#39;s&#39;
+String keyword expected
+Valid string keywords are:
+  bios-vendor
+  bios-version
+  bios-release-date
+  system-manufacturer
+  system-product-name
+  system-version
+  system-serial-number
+  system-uuid
+  baseboard-manufacturer
+  baseboard-product-name
+  baseboard-version
+  baseboard-serial-number
+  baseboard-asset-tag
+  chassis-manufacturer
+  chassis-type
+  chassis-version
+  chassis-serial-number
+  chassis-asset-tag
+  processor-family
+  processor-manufacturer
+  processor-version
+  processor-frequency
+
+&gt; dmidecode -s &#39;processor-version&#39;
+Intel(R) Core(TM) i5-4590 CPU @ 3.30GHz
+</code></pre>
+<h3 id="10-内存"><a href="#10-内存" class="headerlink" title="10. 内存"></a>10. 内存</h3><pre><code class="lang-bash">&gt; cat /proc/meminfo
+MemTotal:        3792120 kB
+MemFree:          313820 kB
+MemAvailable:    2639360 kB
+Buffers:            2288 kB
+Cached:          2490216 kB
+SwapCached:            0 kB
+Active:          1135928 kB
+Inactive:        1849112 kB
+Active(anon):     509352 kB
+Inactive(anon):    65012 kB
+Active(file):     626576 kB
+Inactive(file):  1784100 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Dirty:                 0 kB
+Writeback:             0 kB
+AnonPages:        492500 kB
+Mapped:           190708 kB
+Shmem:             81828 kB
+Slab:             269808 kB
+SReclaimable:     201596 kB
+SUnreclaim:        68212 kB
+KernelStack:        8000 kB
+PageTables:        24656 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     1896060 kB
+Committed_AS:    3072464 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:      348664 kB
+VmallocChunk:   34358947836 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:    159744 kB
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:      142584 kB
+DirectMap2M:     3962880 kB
+DirectMap1G:           0 kB
+</code></pre>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://my.oschina.net/hunterli/blog/140783" target="_blank" rel="noopener">Linux 查看 CPU 信息，机器型号，内存等信息 | 开源中国</a></li>
+<li><a href="https://blog.csdn.net/mdx20072419/article/details/7767809" target="_blank" rel="noopener">Linux 下如何查看 CPU 信息, 包括位数和多核信息 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/huangjin0507/article/details/44618171" target="_blank" rel="noopener">Linux下如何查看CPU型号、个数、核数、逻辑CPU数、位数、发行版本、内核信息、内存、服务器生产厂家 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/turkeyzhou/article/details/5962041" target="_blank" rel="noopener">Linux 下面 CPU 个数的几种方式 | CSDN</a></li>
+<li><a href="https://abelsu7.cn/2017/01/06/Linux_Version/" target="_blank" rel="noopener">Linux 下查看系统版本号信息 | 苏易北</a></li>
+<li><a href="https://www.cnblogs.com/Anker/p/3751369.html" target="_blank" rel="noopener">Linux 系统调用 sysconf【总结】| Dale 工作学习笔记</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/10/23/go-exec-shell-command/">Go 语言使用 os/exec 执行 Shell 命令</a></li><li><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7 安装配置 NFS</a></li><li><a href="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/">Linux 系统常用监控命令</a></li><li><a href="https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/">Linux 终端修改 ls 命令目录显示颜色</a></li><li><a href="http://ashin.wang/linux-basic/">Linux基础笔记</a></li><li><a href="https://wiki.hushhw.cn/posts/6fbc30d9.html">虚拟机 VMware 中安装 Ubuntu 操作系统</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-10-31T13:39:48.946Z" itemprop="dateUpdated">2019-10-31 21:39:48</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/03/03/linux-list-cpu-info/" target="_blank" rel="external">https://abelsu7.top/2019/03/03/linux-list-cpu-info/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/运维/">运维</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/03/linux-list-cpu-info/&title=《Linux 命令查看 CPU、内存、网络、磁盘等系统信息》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/03/linux-list-cpu-info/&title=《Linux 命令查看 CPU、内存、网络、磁盘等系统信息》 — Keep Coding&source=
+摘自 Linux 查看 CPU 信息，机器型号，内存等信息 | 开源中国
+
+
+                
+                    ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/03/linux-list-cpu-info/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux 命令查看 CPU、内存、网络、磁盘等系统信息》 — Keep Coding&url=https://abelsu7.top/2019/03/03/linux-list-cpu-info/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/03/linux-list-cpu-info/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/03/05/network-protocol-1-intro/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">网络协议笔记 1：初识网络协议、IP、MAC、DHCP</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/03/03/linux-yum-apt-disable-update/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Linux 下 Yum、APT 禁用指定软件包更新</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/03/linux-list-cpu-info/&title=《Linux 命令查看 CPU、内存、网络、磁盘等系统信息》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/03/linux-list-cpu-info/&title=《Linux 命令查看 CPU、内存、网络、磁盘等系统信息》 — Keep Coding&source=
+摘自 Linux 查看 CPU 信息，机器型号，内存等信息 | 开源中国
+
+
+                
+                    ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/03/linux-list-cpu-info/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux 命令查看 CPU、内存、网络、磁盘等系统信息》 — Keep Coding&url=https://abelsu7.top/2019/03/03/linux-list-cpu-info/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/03/linux-list-cpu-info/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLUlEQVR42u3aMY7DMAxEUd//0kqTIkWkzAztAKK+qgXijflSECTF65LP+DjKp2NyPj9133LDgQEDxraMsTyzZ1zMOlD9vdMYYMCAcQBjFpaeIt3g1plTjw0GDBgwZs8o6dhNoG4RCQMGDBgZI0vKazYMGDBguInPDXod+vone6QXhwEDxoYMfer+/78fud+AAQPGVoxhnnW6rISVNbrv/4IBA0Zrhvsa9zKyvh1hLH/AgAGjKSMbbOktrtsGZ00vDBgwejOkgbs56DcyfaFJ/hEtDBgwGjGyIb6bjjOk8j0wYMCAoYzA3GJRLwGVK9JLDw4GDBjbMtxBmJsiM7DeMMOAAeMERtaC6mG5Daq+avalNIQBA8YBjKeLwmxnTSoQYcCAcRhDCTdrSrPS094WgQEDRjtGvZjTQ9QXMsJlCxgwYDRlDOFkSxjrH0VJ5QYGBgwYrRnZcE1P026I2fgPBgwYJzCyL70rvbrJdBoVDBgwDmPo6w5uiswwYS8OAwaM1gy7XTQHbfVScjp0gwEDxgEMvbDTC7jKypexogEDBoxjGGEDGT1ZWRQzxm0wYMDYnDHMUykKs0QvNc8wYMBozaikuaxlzcrKSmsNAwaMHoxKQMY4zOw9wyYWBgwYrRl64nMvFytjuxuWLWDAgHEwQ0m+2cWnjocBAwYMfUlCCXpd8LnJXbrfgAEDRjuGkjr1AlFvR92ECwMGjDMZ986ysrSrF4Wli0wYMGDsx3gBlfiTYeQo4a4AAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>数值分析笔记 1：基础概念 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="读书,数值分析">
+    <meta name="description" content="误差分析、最值、谱半径、范数                                                                                               《应用数值分析》">
+<meta name="keywords" content="读书,数值分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数值分析笔记 1：基础概念">
+<meta property="og:url" content="https://abelsu7.top/2018/10/31/math-analysis/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="误差分析、最值、谱半径、范数                                                                                               《应用数值分析》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2018/10/31/math-analysis/math-cover.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.527Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数值分析笔记 1：基础概念">
+<meta name="twitter:description" content="误差分析、最值、谱半径、范数                                                                                               《应用数值分析》">
+<meta name="twitter:image" content="https://abelsu7.top/2018/10/31/math-analysis/math-cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">数值分析笔记 1：基础概念</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">数值分析笔记 1：基础概念</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-10-31T02:11:40.000Z" itemprop="datePublished" class="page-time">
+  2018-10-31
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/数学/">数学</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-基本概念"><span class="post-toc-text">1. 基本概念</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-2-误差分析"><span class="post-toc-text">1.2 误差分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-2-1-绝对误差-相对误差"><span class="post-toc-text">1.2.1 绝对误差/相对误差</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-2-2-有效数字"><span class="post-toc-text">1.2.2 有效数字</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-2-3-截断误差-舍入误差-初始数据误差"><span class="post-toc-text">1.2.3 截断误差/舍入误差/初始数据误差</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-3-病态问题与条件数-数值稳定性"><span class="post-toc-text">1.3 病态问题与条件数/数值稳定性</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-3-1-病态问题与条件数"><span class="post-toc-text">1.3.1 病态问题与条件数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-3-2-算法数值稳定性"><span class="post-toc-text">1.3.2 算法数值稳定性</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-4-数值算法设计与实现"><span class="post-toc-text">1.4 数值算法设计与实现</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-5-数学分析中的几个重要概念"><span class="post-toc-text">1.5 数学分析中的几个重要概念</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-5-1-Taylor-公式"><span class="post-toc-text">1.5.1 $Taylor$ 公式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-5-2-大-O-记号"><span class="post-toc-text">1.5.2 大 $O$ 记号</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-5-3-上确界与下确界"><span class="post-toc-text">1.5.3 上确界与下确界</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-5-4-函数序列的一致收敛性"><span class="post-toc-text">1.5.4 函数序列的一致收敛性</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-6-几种重要矩阵及相关性质"><span class="post-toc-text">1.6 几种重要矩阵及相关性质</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-6-1-对称正定矩阵"><span class="post-toc-text">1.6.1 对称正定矩阵</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-6-2-正交矩阵-相似矩阵"><span class="post-toc-text">1.6.2 正交矩阵/相似矩阵</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-6-3-初等矩阵与初等变换"><span class="post-toc-text">1.6.3 初等矩阵与初等变换</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-6-4-矩阵特征值-矩阵谱半径"><span class="post-toc-text">1.6.4 矩阵特征值/矩阵谱半径</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-7-线性空间概要"><span class="post-toc-text">1.7 线性空间概要</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-7-1-线性空间"><span class="post-toc-text">1.7.1 线性空间</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-7-2-范数-赋范线性空间"><span class="post-toc-text">1.7.2 范数/赋范线性空间</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-7-3-内积-内积空间"><span class="post-toc-text">1.7.3 内积/内积空间</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-9-向量范数-矩阵范数"><span class="post-toc-text">1.9 向量范数/矩阵范数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-9-1-向量范数"><span class="post-toc-text">1.9.1 向量范数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-9-2-矩阵范数"><span class="post-toc-text">1.9.2 矩阵范数</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-math-analysis"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">数值分析笔记 1：基础概念</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-10-31 10:11:40" datetime="2018-10-31T02:11:40.000Z"  itemprop="datePublished">2018-10-31</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/数学/">数学</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>误差分析、最值、谱半径、范数</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/10/31/math-analysis/math-cover.jpg" alt="《应用数值分析》" title>
+                </div>
+                <div class="image-caption">《应用数值分析》</div>
+            </figure>
+<a id="more"></a>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#1-基本概念">1. 基本概念</a><ul>
+<li><a href="#1-2-误差分析">1.2 误差分析</a><ul>
+<li><a href="#1-2-1-绝对误差-相对误差">1.2.1 绝对误差/相对误差</a></li>
+<li><a href="#1-2-2-有效数字">1.2.2 有效数字</a></li>
+<li><a href="#1-2-3-截断误差-舍入误差-初始数据误差">1.2.3 截断误差/舍入误差/初始数据误差</a></li>
+</ul>
+</li>
+<li><a href="#1-3-病态问题与条件数-数值稳定性">1.3 病态问题与条件数/数值稳定性</a><ul>
+<li><a href="#1-3-1-病态问题与条件数">1.3.1 病态问题与条件数</a></li>
+<li><a href="#1-3-2-算法数值稳定性">1.3.2 算法数值稳定性</a></li>
+</ul>
+</li>
+<li><a href="#1-4-数值算法设计与实现">1.4 数值算法设计与实现</a></li>
+<li><a href="#1-5-数学分析中的几个重要概念">1.5 数学分析中的几个重要概念</a><ul>
+<li><a href="#1-5-1-Taylor-公式">1.5.1 $Taylor$ 公式</a></li>
+<li><a href="#1-5-2-大-O-记号">1.5.2 大 $O$ 记号</a></li>
+<li><a href="#1-5-3-上确界与下确界">1.5.3 上确界与下确界</a></li>
+<li><a href="#1-5-4-函数序列的一致收敛性">1.5.4 函数序列的一致收敛性</a></li>
+</ul>
+</li>
+<li><a href="#1-6-几种重要矩阵及相关性质">1.6 几种重要矩阵及相关性质</a><ul>
+<li><a href="#1-6-1-对称正定矩阵">1.6.1 对称正定矩阵</a></li>
+<li><a href="#1-6-2-正交矩阵-相似矩阵">1.6.2 正交矩阵/相似矩阵</a></li>
+<li><a href="#1-6-3-初等矩阵与初等变换">1.6.3 初等矩阵与初等变换</a></li>
+<li><a href="#1-6-4-矩阵特征值-矩阵谱半径">1.6.4 矩阵特征值/矩阵谱半径</a></li>
+</ul>
+</li>
+<li><a href="#1-7-线性空间概要">1.7 线性空间概要</a><ul>
+<li><a href="#1-7-1-线性空间">1.7.1 线性空间</a></li>
+<li><a href="#1-7-2-范数-赋范线性空间">1.7.2 范数/赋范线性空间</a></li>
+<li><a href="#1-7-3-内积-内积空间">1.7.3 内积/内积空间</a></li>
+</ul>
+</li>
+<li><a href="#1-9-向量范数-矩阵范数">1.9 向量范数/矩阵范数</a><ul>
+<li><a href="#1-9-1-向量范数">1.9.1 向量范数</a></li>
+<li><a href="#1-9-2-矩阵范数">1.9.2 矩阵范数</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1. 基本概念"></a>1. 基本概念</h2><h3 id="1-2-误差分析"><a href="#1-2-误差分析" class="headerlink" title="1.2 误差分析"></a>1.2 误差分析</h3><h4 id="1-2-1-绝对误差-相对误差"><a href="#1-2-1-绝对误差-相对误差" class="headerlink" title="1.2.1 绝对误差/相对误差"></a>1.2.1 绝对误差/相对误差</h4><ul>
+<li><strong>绝对误差</strong>：<strong>准确值</strong>与<strong>近似值</strong>之差，<script type="math/tex">e\left ( x^{*} \right ) = x - x^{*}</script></li>
+<li><strong>相对误差</strong>：<script type="math/tex">e_r(x^*)=\frac{e(x^*)}{x}=\frac{x-x^*}{x}</script></li>
+<li><strong>绝对误差界</strong>：<script type="math/tex">\left| e \right|=\left | x-x^* \right |\leqslant \varepsilon</script></li>
+<li><strong>相对误差界</strong>：<script type="math/tex">\left| e_r \right|=\frac{\left | x-x^* \right |}{\left | x^*\right|}\leqslant \varepsilon_r</script></li>
+</ul>
+<h4 id="1-2-2-有效数字"><a href="#1-2-2-有效数字" class="headerlink" title="1.2.2 有效数字"></a>1.2.2 有效数字</h4><ul>
+<li><strong>定义</strong>：设 $x$ 的近似值 $x^*$ 表示成规格化形式：</li>
+</ul>
+<script type="math/tex; mode=display">
+x^* = \pm 10^k \times 0.a_1a_2 \cdots a_n \cdots</script><p>如果有 <script type="math/tex">\left| x-x^* \right| \leqslant \frac{1}{2} \times 10^{k-n}</script>，则称 <strong>$x^*$ 有 $n$ 位有效数字</strong>。</p>
+<ul>
+<li><strong>有效数字的位数与小数点无关</strong></li>
+<li><strong>有效数字位数</strong>与<strong>相对误差</strong>有下列关系：</li>
+</ul>
+<p>(1) 如果 $x^*$ 有 $n$ 位有效数字，则</p>
+<script type="math/tex; mode=display">
+\left| e_r(x^*) \right| = \frac{\left| x-x^* \right|}{\left| x^* \right|} \leqslant \frac{1}{2a_1} \times 10^{1-n}</script><p>(2) 如果下式成立，则 $x^*$ 至少有 $n$ 位有效数字：</p>
+<script type="math/tex; mode=display">
+\left| e_r(x^*) \right| = \frac{\left| x-x^* \right|}{\left| x^* \right|} \leqslant \frac{1}{2(a_1+1)} \times 10^{1-n}</script><h4 id="1-2-3-截断误差-舍入误差-初始数据误差"><a href="#1-2-3-截断误差-舍入误差-初始数据误差" class="headerlink" title="1.2.3 截断误差/舍入误差/初始数据误差"></a>1.2.3 截断误差/舍入误差/初始数据误差</h4><ul>
+<li><strong>截断误差</strong>：或称<strong>方法误差</strong>，指在构造数值计算方法时，用有限过程代替无限过程，其计算结果所存在的误差。</li>
+<li><strong>舍入误差</strong>：或称<strong>计算误差</strong>，进行舍入操作所引起的误差</li>
+<li><strong>初始数据误差</strong>：或称<strong>输入数据误差</strong>，可能是物理数据测量不准确、初始数据只能取近似值引起的。<strong>为简明起见，把这些误差归入舍入误差范围处理</strong>。</li>
+</ul>
+<h3 id="1-3-病态问题与条件数-数值稳定性"><a href="#1-3-病态问题与条件数-数值稳定性" class="headerlink" title="1.3 病态问题与条件数/数值稳定性"></a>1.3 病态问题与条件数/数值稳定性</h3><h4 id="1-3-1-病态问题与条件数"><a href="#1-3-1-病态问题与条件数" class="headerlink" title="1.3.1 病态问题与条件数"></a>1.3.1 病态问题与条件数</h4><p><strong><em>条件数</em></strong></p>
+<ul>
+<li><strong>条件数</strong>记为 $C$ 或 $Cond$</li>
+<li>误差 $e(x^*)$ 的条件数：<script type="math/tex">\left| {f}'(x)  \right|</script></li>
+<li>相对误差 $e_r(x^*)$ 的条件数：<script type="math/tex">\left| \frac{x{f}'(x)}{f(x)} \right|</script></li>
+</ul>
+<p><strong><em>病态/良态</em></strong></p>
+<ul>
+<li>对于一个数值问题，当输入数据（初始数据）有微小扰动时，计算结果对之很敏感，即<strong>条件数很大</strong>，就称这个问题是<strong>病态的</strong></li>
+<li>当初始数据有微小扰动时，计算结果对之不敏感，即<strong>条件数不大</strong>，就称这个问题是<strong>良态的</strong></li>
+</ul>
+<h4 id="1-3-2-算法数值稳定性"><a href="#1-3-2-算法数值稳定性" class="headerlink" title="1.3.2 算法数值稳定性"></a>1.3.2 算法数值稳定性</h4><ul>
+<li>一个算法在执行过程中，某阶段所产生的<strong>小误差</strong>在随后的阶段中<strong>不会被积累或放大</strong>，就称这个算法过程是<strong>数值稳定</strong>的</li>
+<li>否则，称这个算法过程是<strong>数值不稳定</strong>的</li>
+<li>不稳定有时也叫<strong>病态</strong></li>
+</ul>
+<p>所谓严重降低计算精确度，确切地说，设由且仅由 $\varepsilon$ 引起的、$n$ 步运算之后的误差为 $e_n$：</p>
+<ul>
+<li>如果 <script type="math/tex">\left| e_n \right| \approx  cn\varepsilon</script>（$c$ 是与 $n$ 无关的常数），即<strong>误差是线性增长的</strong>，从而可通过 $\varepsilon$ 来控制 $e_n$，故算法是<strong>稳定</strong>的</li>
+<li>如果 <script type="math/tex">\left| e_n \right| \approx k^n \left| \varepsilon \right|</script>（$k &gt; 1$ 的常数），即<strong>误差是指数增长的</strong>，或者如果 <script type="math/tex">\left| e_n \right| \approx c(n!) \cdot \varepsilon</script>，从而无论 $\left| \varepsilon \right|$ 多么小，均难以通过 $\varepsilon$ 来控制 $e_n$，故算法是<strong>不稳定</strong>的</li>
+</ul>
+<h3 id="1-4-数值算法设计与实现"><a href="#1-4-数值算法设计与实现" class="headerlink" title="1.4 数值算法设计与实现"></a>1.4 数值算法设计与实现</h3><p>对于数值算法设计来说，主要强调以下两方面：</p>
+<ul>
+<li>尽量简化计算步骤，<strong>减少运算次数</strong></li>
+<li>尽量<strong>减少舍入误差的影响</strong>，避免有效数字的损失，保证算法的数值稳定性</li>
+<li><strong>秦九韶算法</strong>：$n$ 次加法，$n$ 次乘法</li>
+</ul>
+<h3 id="1-5-数学分析中的几个重要概念"><a href="#1-5-数学分析中的几个重要概念" class="headerlink" title="1.5 数学分析中的几个重要概念"></a>1.5 数学分析中的几个重要概念</h3><h4 id="1-5-1-Taylor-公式"><a href="#1-5-1-Taylor-公式" class="headerlink" title="1.5.1 $Taylor$ 公式"></a>1.5.1 $Taylor$ 公式</h4><ul>
+<li>设 $f$ 在含有点 $x_0$ 的某个开区间 $( a,b )$ 内具有 $n+1$ 阶导数，则 $\forall x \in (a,b) $，有：</li>
+</ul>
+<script type="math/tex; mode=display">
+\begin{aligned}
+f(x) =& f(x_0) + {f}'(x_0)(x-x_0) + \frac{f''(x_0)}{2!}(x-x_0)^2 + \\ 
+& \cdots + \frac{f^{(n)}(x_0)}{n!}(x-x_0)^n + \frac{f^{(n+1)}(\xi )}{(n+1)!}(x-x_0)^{n+1}
+\end{aligned}</script><p>其中，<strong>$\xi$ 在 $x_0$ 与 $x$ 之间</strong>，前 $n+1$ 项称为 <strong>$n$ 次 $Taylor$ 多项式</strong>，最后一项称为 <strong>$n$ 次 $Taylor$ 多项式的余项</strong>（即截断误差）。为了方便作误差估计，有时还假定 $f$ 的 <strong>$n+1$ 阶导数连续</strong>。</p>
+<h4 id="1-5-2-大-O-记号"><a href="#1-5-2-大-O-记号" class="headerlink" title="1.5.2 大 $O$ 记号"></a>1.5.2 大 $O$ 记号</h4><p><strong><em>定义</em></strong></p>
+<p>大 $O$ 记号是为表示<strong>近似值</strong>而允许我们用 “$=$” 号替代 “$\approx$” 的方便符号。</p>
+<p>设变量 $X, Y$（其中 $X \neq 0$），如果在变化过程的某一时刻以后，有：</p>
+<script type="math/tex; mode=display">
+\left| \frac{Y}{X} \right| \leqslant M 或 \left| Y \right| \leqslant M \left| X \right|</script><p>（$M$ 为大于 $0$ 的常数）便记成 <strong>$Y=O(X)$</strong>。</p>
+<p><strong><em>性质</em></strong></p>
+<ul>
+<li>当 $X$ 变化到某一时刻后，<strong>$\left| O(X)  \right|$ 总是不会超过 $M\left| (X)  \right|$</strong></li>
+<li>大 $O$ 记号具有<strong>单向相等性</strong>，等式的右端只是左端的粗略化</li>
+</ul>
+<p><strong><em>运算法则</em></strong></p>
+<ul>
+<li>$O(X) \pm O(X) = O(X)$</li>
+<li>$mO(X) = O(X)$，$m$ 为不等于 $0$ 的常数</li>
+<li>$O(X) \cdot O(X) = O(X^2)$</li>
+<li>$O(O(X)) = O(X)$</li>
+</ul>
+<h4 id="1-5-3-上确界与下确界"><a href="#1-5-3-上确界与下确界" class="headerlink" title="1.5.3 上确界与下确界"></a>1.5.3 上确界与下确界</h4><p><strong><em>最大值/最小值</em></strong></p>
+<p>设 $S$ 是一个<strong>非空的实数集</strong>，<strong>$S \subset \mathbf{R}$</strong>（$\mathbf{R} \equiv \mathbf{R}^1 = (-\infty,+\infty)$ 是实数的全体），</p>
+<ul>
+<li>如果有 $M \in \mathbf{R}$，使得：<strong>$x \leqslant M, \forall x \in S$</strong>，则称集 $S$ <strong>上有界</strong>，$M$ 是 $S$ 的一个上界</li>
+<li>如果有 $m \in \mathbf{R}$，使得：<strong>$x \geqslant m, \forall x \in S$</strong>，则称集 $S$ <strong>下有界</strong>, $m$ 是 $S$ 的一个下界</li>
+<li>如果 $S$ <strong>上、下有界</strong>，则称 $S$ 为<strong>有界集</strong></li>
+<li>当上界 $M \in S$，则称 $M$ 是 $S$ 的<strong>最大值</strong>，记为 <strong>$M = \max S$</strong> 或 <strong>$M = \max \limits_{x \in S} x$</strong></li>
+<li>当下界 $m \in S$，则称 $m$ 是 $S$ 的<strong>最小值</strong>，记为 <strong>$m = \min S$</strong> 或 <strong>$m = \min \limits_{x \in S} x$</strong></li>
+</ul>
+<p><strong><em>最小上界公理</em></strong></p>
+<ul>
+<li>任何<strong>有上界的非空实数集</strong>都有一个<strong>最小上界</strong></li>
+</ul>
+<p><strong><em>上确界/下确界</em></strong></p>
+<p>设 $S \subset \mathbf{R}$，</p>
+<ul>
+<li>如果 <strong>$\mu \in \mathbf{R}$ 是 $S$ 的最小上界</strong>，则称 $\mu$ 是 $S$ 的<strong>上确界</strong>（supremum），记作 <strong>$\mu = \sup S$</strong> 或 <strong>$\mu = \sup \limits_{x \in S} x$</strong></li>
+<li>如果 <strong>$\nu \in \mathbf{R}$ 是 $S$ 的最大下界</strong>，则称 $\nu$ 是 $S$ 的<strong>下确界</strong>（infimum），记作 <strong>$\nu = \inf S$</strong> 或 <strong>$\nu = \inf \limits_{x \in S} x$</strong></li>
+<li>当 $S$ <strong>上无界</strong>时，规定 <strong>$\sup S = + \infty$</strong></li>
+<li>当 $S$ <strong>下无界</strong>时，规定 <strong>$\inf S = - \infty$</strong></li>
+<li>若 $S \subset \mathbf{R}$ <strong>上有界</strong>，则<strong>必存在上确界</strong>，但<strong>不一定存在最大值</strong>；如果 $S$ 存在最大值，则<strong>最大值就是上确界</strong></li>
+<li>若 $S \subset \mathbf{R}$ <strong>下有界</strong>，则<strong>必存在下确界</strong>，但<strong>不一定存在最小值</strong>；如果 $S$ 存在最小值，则<strong>最小值就是下确界</strong></li>
+</ul>
+<h4 id="1-5-4-函数序列的一致收敛性"><a href="#1-5-4-函数序列的一致收敛性" class="headerlink" title="1.5.4 函数序列的一致收敛性"></a>1.5.4 函数序列的一致收敛性</h4><p>设数列 $\left \{ x_n \right \}$，如果存在常数 $a$，对<strong>任意给定的正数 $\varepsilon$</strong>（无论它多小），总存在正整数 $N$，使得当 $n &gt; N$ 时，有</p>
+<script type="math/tex; mode=display">
+\left| x_n - a  \right| < \varepsilon</script><p>则称 <strong>$a$ 为数列 $\left \{ x_n \right \}$ 的极限</strong>，记为 $\lim \limits_{n \to \infty} x_n = a$，或称为<strong>数列 $\left \{ x_n \right \}$ 收敛于 $a$</strong>。</p>
+<h3 id="1-6-几种重要矩阵及相关性质"><a href="#1-6-几种重要矩阵及相关性质" class="headerlink" title="1.6 几种重要矩阵及相关性质"></a>1.6 几种重要矩阵及相关性质</h3><h4 id="1-6-1-对称正定矩阵"><a href="#1-6-1-对称正定矩阵" class="headerlink" title="1.6.1 对称正定矩阵"></a>1.6.1 对称正定矩阵</h4><p><strong><em>定义</em></strong></p>
+<p>设 $\pmb{A} = (a_{ij}) \in \mathbf{R^{n \times n}}$</p>
+<p>(1) 如果 $\pmb{A}^T = \pmb{A}$，即 $a^{ij} = a^{ji}$，则称 $\pmb{A}$ 为<strong>对称矩阵</strong></p>
+<p>(2) 如果对称矩阵 $\pmb{A}$ 满足对于 $\forall x \neq 0, x \in \mathbf{R}^{n \times n}$，有</p>
+<script type="math/tex; mode=display">
+x^T \pmb{A} x = \sum_{i,j=1}^{n} a_{ij}x_ix_j > 0</script><p>则称 $\pmb{A}$ 为<strong>对称正定矩阵</strong></p>
+<p><strong><em>性质</em></strong></p>
+<p><strong>对称矩阵</strong>和<strong>对称正定矩阵</strong>有如下性质：</p>
+<ul>
+<li>若 $\pmb{A}$ 对称，则 <strong>$\pmb{A}$ 的特征值皆为实数</strong>，且<strong>有 $n$ 个线性无关的特征向量</strong></li>
+<li>$\pmb{A} \in \mathbf{R}^{n \times n}$ <strong>对称正定的充要条件</strong>是 $\pmb{A}$ 的<strong>所有顺序主子式</strong></li>
+</ul>
+<script type="math/tex; mode=display">
+\Delta_i = \det A_i =
+\begin{vmatrix}
+a_{11} &\cdots  &a_{1i} \\ 
+\vdots &  &\vdots \\ 
+a_{1i} &\cdots  &a_{ii} 
+\end{vmatrix} > 0 \quad (i=1,2,\cdots,n)</script><ul>
+<li>$\pmb{A}$ <strong>对称正定的充要条件</strong>是 $\pmb{A}$ 的<strong>所有特征值 $\lambda^i &gt; 0 \quad (i=1,2,\cdots,n)$</strong></li>
+<li>$\pmb{A}$ <strong>对称正定</strong>，则 <strong>$\pmb{A}$ 非奇异</strong>，且 <strong>$\pmb{A}^{-1}$ 也对称正定</strong></li>
+<li>$\pmb{A}$ <strong>对称正定</strong>，则 <strong>$\pmb{A}$ 的对角元素 $a_{ij} &gt; 0$</strong></li>
+</ul>
+<h4 id="1-6-2-正交矩阵-相似矩阵"><a href="#1-6-2-正交矩阵-相似矩阵" class="headerlink" title="1.6.2 正交矩阵/相似矩阵"></a>1.6.2 正交矩阵/相似矩阵</h4><p><strong><em>正交矩阵定义</em></strong></p>
+<p>设 $\pmb{A} = (a_{ij}) \in \mathbf{R^{n \times n}}$ 且成立 <strong>$\pmb{A}^T \pmb{A} = I$</strong>，则称 $\pmb{A}$ 为<strong>正交矩阵</strong>。</p>
+<p>定义式 $\pmb{A}^T \pmb{A} = I$ 可以写成：</p>
+<script type="math/tex; mode=display">
+\sum_{k=1}^n a_{ki}a_{kj} = \delta_{ij} \quad (i,j=1,2,\cdots,n)</script><p>其中，</p>
+<script type="math/tex; mode=display">
+\delta_{ij}=\begin{cases}
+1, & \text{当$ i = j $}\\
+0, & \text{当$ i \neq j $}
+\end{cases}</script><p>称为 $Kronecker$（克罗内克尔）符号。</p>
+<p><strong><em>正交矩阵性质</em></strong></p>
+<p>正交矩阵有如下性质：</p>
+<ul>
+<li><strong>单位矩阵</strong>是<strong>正交矩阵</strong></li>
+<li>若 $\pmb{A}$ 是正交矩阵，则 <strong>$\pmb{A}^T$、$\pmb{A}^{-1}$ 也是正交矩阵</strong></li>
+<li>若 $\pmb{A}$ 是正交矩阵，则 <strong>$\pmb{A}$ 非奇异</strong>，且 <strong>$(\det \pmb{A})^2 = 1$</strong>，即 <strong>$\det \pmb{A}$ 等于 $1$ 或 $-1$</strong></li>
+<li>若 <strong>$\pmb{A},\pmb{B}$ 同阶且为正交矩阵</strong>，则 <strong>$\pmb{A}\pmb{B}$ 与 $\pmb{B}\pmb{A}$ 为正交矩阵</strong></li>
+</ul>
+<p><strong><em>相似矩阵定义</em></strong></p>
+<p>设 $\pmb{A}$ 与 $\pmb{B}$ 为 <strong>$n$ 阶方阵</strong>，如果有<strong>非奇异的 $n$ 阶方阵 $\pmb{S}$</strong>，使得 </p>
+<script type="math/tex; mode=display">
+\pmb{A} = \pmb{S}^{-1}\pmb{B}\pmb{S}</script><p>则称 <strong>$\pmb{A}$ 与 $\pmb{B}$ 相似</strong>，记作 <strong>$\pmb{A} \sim \pmb{B}$</strong></p>
+<p><strong><em>相似矩阵性质</em></strong></p>
+<p>矩阵相似关系有如下三个性质：</p>
+<ul>
+<li><strong>反身性</strong>：$\pmb{A} \sim \pmb{A}$</li>
+<li><strong>对称性</strong>：$\pmb{A} \sim \pmb{B} \Rightarrow \pmb{B} \sim \pmb{A}$</li>
+<li><strong>传递性</strong>：$\pmb{A} \sim \pmb{B}, \pmb{B} \sim \pmb{C} \Rightarrow \pmb{A} \sim \pmb{C}$</li>
+</ul>
+<p>应用中，常常不是判断两个矩阵是否相似，而是对给定的矩阵 $\pmb{B}$，寻找合适的可逆矩阵 $\pmb{S}$ 按 $\pmb{A} = \pmb{S}^{-1}\pmb{B}\pmb{S}$ 来产生一个矩阵 $\pmb{A}$。</p>
+<ul>
+<li>矩阵的<strong>相似变换</strong>：对一个矩阵两边<strong>分别乘以某可逆矩阵及其逆</strong></li>
+<li>矩阵的<strong>正交表换</strong>：对给定矩阵<strong>利用正交矩阵作相似变换</strong></li>
+</ul>
+<h4 id="1-6-3-初等矩阵与初等变换"><a href="#1-6-3-初等矩阵与初等变换" class="headerlink" title="1.6.3 初等矩阵与初等变换"></a>1.6.3 初等矩阵与初等变换</h4><p><strong><em>初等矩阵</em></strong></p>
+<p>下面三种形式的 $n$ 阶矩阵称为<strong>初等矩阵</strong>：</p>
+<ul>
+<li><strong>$\pmb{E}(i,j)$</strong></li>
+<li><strong>$\pmb{E}(i(\alpha))$</strong></li>
+<li><strong>$\pmb{E}(i,j(\alpha))$</strong></li>
+</ul>
+<p><strong><em>初等矩阵性质</em></strong></p>
+<ul>
+<li><strong>$\pmb{E}(i,j)^{-1}=\pmb{E}(i,j)$</strong></li>
+<li><strong>$\pmb{E}(i(\alpha))^{-1}=\pmb{E}(i(\frac{1}{\alpha}))$</strong></li>
+<li><strong>$\pmb{E}(i,j(\alpha))^{-1}=\pmb{E}(i,j(-\alpha))$</strong></li>
+</ul>
+<h4 id="1-6-4-矩阵特征值-矩阵谱半径"><a href="#1-6-4-矩阵特征值-矩阵谱半径" class="headerlink" title="1.6.4 矩阵特征值/矩阵谱半径"></a>1.6.4 矩阵特征值/矩阵谱半径</h4><p><strong><em>矩阵特征值定义</em></strong></p>
+<p>设 $\pmb{A}=(a_{ij}) \in \mathbf{R}^{n \times n}$。若存在一个数 $\lambda$（实数或复数）和非零向量 $\pmb{x}=(x_1,x_2,\cdots,x_n)^T \in \mathbf{R}^n$，使得：</p>
+<script type="math/tex; mode=display">
+\pmb{A}\pmb{x}=\lambda\pmb{x}</script><p>则称 $\lambda$ 为 $\pmb{A}$ 的<strong>特征值</strong>，$\pmb{x}$ 为 $\pmb{A}$ 对应 $\lambda$ 的<strong>特征向量</strong>。</p>
+<p><strong><em>矩阵特征值求解</em></strong></p>
+<p>应用中主要<strong>对给定的 $\pmb{A}$ 求其特征值 $\lambda$</strong>，为此将定义式改写为<strong>齐次方程</strong> $(\lambda\pmb{I} - \pmb{A})\pmb{x}=0$，即</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\pmb{p}(\lambda) = \det(\lambda\pmb{I}-\pmb{A}) &=\begin{vmatrix}
+\lambda-a_{11} &-a_{12}  &\cdots  &-a_{1n} \\ 
+-a_{21} &\lambda-a_{22} &\cdots  &-a_{2n} \\ 
+\vdots &\vdots  &  &\vdots \\ 
+-a_{n1} &-a_{n2}  &\cdots  &\lambda-a_{nn} 
+\end{vmatrix} \\ 
+&= \lambda^n+c_1 \lambda^{n-1}+\cdots+c_{n-1}\lambda+c_n \\
+&=0
+\end{aligned}</script><ul>
+<li>$\pmb{p}(\lambda)$ 称为 $\pmb{A}$ 的<strong>特征多项式</strong></li>
+<li>$\pmb{p}(\lambda)=0$ 称为相应的<strong>特征方程</strong></li>
+<li>在复数域内有 <strong>$n$ 个根</strong>即为 <strong>$n$ 个特征值</strong></li>
+<li>求 $\pmb{A}$ 的特征值即为<strong>求 $\pmb{A}$ 的特征方程的根</strong></li>
+</ul>
+<p><strong><em>矩阵谱半径定义</em></strong></p>
+<p>设 $\pmb{A} \in \mathbf{R}^{n \times n}$，$\pmb{A}$ 的特征值 $\lambda_1,\lambda_2,\cdots,\lambda_n$，则有：</p>
+<ul>
+<li>$\pmb{A}$ 的<strong>全体特征值</strong> $\left \{ \lambda_1,\lambda_2,\cdots,\lambda_n \right \}$ 称为 <strong>$\pmb{A}$ 的谱</strong></li>
+<li>这些特征值的<strong>模的最大值</strong> $\max\limits_{1\leqslant i\leqslant n}\left| \lambda_i \right|$ 称为 $\pmb{A}$ 的<strong>谱半径</strong>，记为 <strong>$\rho(A)$</strong>，即</li>
+</ul>
+<script type="math/tex; mode=display">
+\rho(A) = \max\limits_{1\leqslant i\leqslant n}\left| \lambda_i \right|</script><p><strong><em>矩阵特征值性质</em></strong></p>
+<ul>
+<li>若 $\pmb{A} \in \mathbf{R}^{n \times n}$ 是<strong>对称矩阵</strong>，则 <strong>$\pmb{A}$ 的特征值均为实数</strong>，且<strong>有 $n$ 个线性无关的特征向量</strong></li>
+<li>$\pmb{A} \in \mathbf{R}^{n \times n}$ 对称正定的充要条件是 $\pmb{A}$ 的所有特征值 $\lambda_i &gt; 0$，$(i=1,2,\cdots,n)$</li>
+<li>若 $\lambda_1,\lambda_2,\cdots,\lambda_m$ 是矩阵 $\pmb{A}$ 的单重特征值，$\pmb{x}_1,\pmb{x}_2,\cdots,\pmb{x}_m$ 依次是相应的特征向量，则 $\pmb{x}_1,\pmb{x}_2,\cdots,\pmb{x}_m$ 线性无关</li>
+<li><strong>相似矩阵</strong>有<strong>相同的特征多项式</strong>，因而也有<strong>相同的特征值</strong></li>
+</ul>
+<h3 id="1-7-线性空间概要"><a href="#1-7-线性空间概要" class="headerlink" title="1.7 线性空间概要"></a>1.7 线性空间概要</h3><h4 id="1-7-1-线性空间"><a href="#1-7-1-线性空间" class="headerlink" title="1.7.1 线性空间"></a>1.7.1 线性空间</h4><ul>
+<li>$\pmb{R}^n$：$n$ 维实向量的全体</li>
+<li>$\pmb{R}^{n \times m}$：$n$ 行 $m$ 列实矩阵的全体</li>
+<li>$C[a,b]$：定义在区间 $[a,b]$ 上连续实值函数的全体</li>
+<li>$P_n[a,b]$：定义在区间 $[a,b]$ 上次数 $\leqslant n$ 的实系数多项式全体</li>
+<li>$C^n[a,b]$：定义在区间 $[a,b]$ 上的具有连续 $n$ 阶导数的实值函数全体</li>
+</ul>
+<p><strong><em>线性相关</em></strong></p>
+<p>对数域 $K$ 上的线性空间 $X$，有 $u_1, u_2, \cdots, u_n \in X$，若存在<strong>不全为零</strong>的数 $\alpha_1, \alpha_2, \cdots, \alpha_n \in K$，使得下列等式成立：</p>
+<script type="math/tex; mode=display">
+\alpha_1 u_1 + \alpha_2 u_2 + \cdots + \alpha_n u_n = 0</script><p>则称 $u_1, u_2, \cdots, u_n$ 是<strong>线性相关</strong>的，否则，等式只对 $\alpha_1 = \alpha_2 = \cdots = \alpha_n = 0$ 才能成立，则称 $u_1, u_2, \cdots, u_n$ 是<strong>线性无关</strong>的。</p>
+<p><strong><em>基、维数、坐标</em></strong></p>
+<p>称 $S$ 是由线性空间 $X$ 中的 $n$ 个线性无关元素 $u_1, u_2, \cdots, u_n \in X$生成的，即 $\forall s \in S$，都有：</p>
+<script type="math/tex; mode=display">
+s = \alpha_1 u_1 + \alpha_2 u_2 + \cdots + \alpha_n u_n</script><ul>
+<li>记 <strong>$S = Span \left \{ u_1, u_2, \cdots, u_n \right \}$</strong></li>
+<li>称 $u_1, u_2, \cdots, u_n$ 是 $S$ 的一组<strong>基</strong></li>
+<li>称 $S$ 是 <strong>$n$ 维的</strong></li>
+<li>系数 $\alpha_1, \alpha_2, \cdots, \alpha_n$ 称为 $S$ 在基 $u_1, u_2, \cdots, u_n$ 下的<strong>坐标</strong>，并记为 $(\alpha_1, \alpha_2, \cdots, \alpha_n)$</li>
+</ul>
+<h4 id="1-7-2-范数-赋范线性空间"><a href="#1-7-2-范数-赋范线性空间" class="headerlink" title="1.7.2 范数/赋范线性空间"></a>1.7.2 范数/赋范线性空间</h4><p>设 $X$ 是数域 $K$ 上的线性空间，若 $\forall u \in X$，存在唯一的实数 <script type="math/tex">\| \cdot \|</script>，满足条件：</p>
+<ul>
+<li><strong>正定性</strong>：<script type="math/tex">\| u \| \geqslant 0</script>，其中 <script type="math/tex">\| u \| = 0</script> 当且仅当 $u = 0$</li>
+<li><strong>齐次性</strong>：<script type="math/tex">\| \alpha u \| = | \alpha | \| u \|, \forall \alpha \in K</script> </li>
+<li><strong>三角不等式</strong>：<script type="math/tex">\| u + v \| \leqslant \| u \| + \| v \|</script></li>
+</ul>
+<p>则称 <script type="math/tex">\| \cdot \|</script> 为线性空间 $X$ 上的<strong>范数</strong>，并且称 $X$ 为<strong>赋范线性空间</strong>，仍记为 $X$</p>
+<p>对于<strong>连续函数空间 $C[a,b]$</strong>，可以定义 $f \in C[a,b]$ 的如下两种范数：</p>
+<ul>
+<li><strong>$\infty$-范数</strong>：<script type="math/tex">\| f \|_{\infty} = \max \limits_{a \leqslant x \leqslant b} |f(x)|</script></li>
+<li><strong>$1$ - 范数</strong>：<script type="math/tex">\| f \|_1 = \int_{a}^{b} |f(x)|dx</script></li>
+</ul>
+<p>以及稍后在<strong>内积空间</strong>中还要定义：</p>
+<ul>
+<li><strong>$2$ - 范数</strong>：<script type="math/tex">\| f \|_2 = \left [ \int_a^b{f^2 (x) dx} \right ]^{\frac{1}{2}}</script></li>
+</ul>
+<h4 id="1-7-3-内积-内积空间"><a href="#1-7-3-内积-内积空间" class="headerlink" title="1.7.3 内积/内积空间"></a>1.7.3 内积/内积空间</h4><p><strong>内积</strong>：线性空间 $\pmb{R}^n$ 中，任意两个向量 $\pmb{x},\pmb{y}$ 的数量积，记为 $(\pmb{x},\pmb{y})$：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+(\pmb{x},\pmb{y}) &= x_1y_1 + x_2y_2 + \cdots + x_ny_n \\
+&= \sum \limits_{i=1}^n x_iy_i \\
+&= \pmb{x}^T \pmb{y}
+\end{aligned}</script><p><strong>内积空间</strong>：设 $X$ 是数域 $K$（如实数域 $\pmb{R}$ 或复数域 $\pmb{C}$）上的线性空间，若对 $\forall u,v \in X$，有 $K$ 中一个数与之对应，记为 $(u,v)$，且满足条件：</p>
+<ol>
+<li>$(u,u) \geqslant 0$，其中 $(u,u) = 0 \Leftrightarrow u = 0$</li>
+<li>$(u,v) = \overline{(v,u)}$，$\overline{(v,u)}$ 为 $(v,u)$ 的共轭</li>
+<li>$(\alpha u,v)=\alpha(u,v), \alpha \in K$</li>
+<li>$(u + v, \omega) = (u,\omega) + (v,\omega),\omega \in X$</li>
+</ol>
+<p>则 <strong>$(u,v)$</strong> 称为 $u$ 与 $v$ 的<strong>内积</strong>，<strong>定义了内积的线性空间 $X$</strong> 称为 <strong>内积空间</strong></p>
+<p><strong>正交</strong>：设 $X$ 为内积空间，若对任意的 $u,v \in X$，有：</p>
+<script type="math/tex; mode=display">
+(u,v) = 0</script><p>则称 $u$ 与 $v$ 正交。</p>
+<h3 id="1-9-向量范数-矩阵范数"><a href="#1-9-向量范数-矩阵范数" class="headerlink" title="1.9 向量范数/矩阵范数"></a>1.9 向量范数/矩阵范数</h3><h4 id="1-9-1-向量范数"><a href="#1-9-1-向量范数" class="headerlink" title="1.9.1 向量范数"></a>1.9.1 向量范数</h4><p>设向量 $\pmb{x} \in \pmb{R}^n$，若与 $\pmb{x}$ 对应的一个实值函数 <script type="math/tex">\| \pmb{x} \|</script> 满足：</p>
+<ul>
+<li><strong>正定性</strong>：<script type="math/tex">\| \pmb{x} \geqslant 0 \|</script>，其中 <script type="math/tex">\| \pmb{x} \|=0</script> 当且仅当 $\pmb{x}=0$</li>
+<li><strong>齐次性</strong>：<script type="math/tex">\| \alpha \pmb{x} \| = |\alpha| \| \pmb{x} \|,\forall \alpha \in \pmb{R}</script></li>
+<li><strong>三角不等式</strong>：<script type="math/tex">\| \pmb{x} + \pmb{y} \| \leqslant \| \pmb{x} \| + \| \pmb{y} \|, \forall \pmb{x},\pmb{y} \in \pmb{R}^n</script></li>
+</ul>
+<p>则称 <script type="math/tex">\| \pmb{x} \|</script> 为 $\pmb{R}^n$ 上 $\pmb{x}$ 的一个<strong>向量范数</strong>。</p>
+<p><strong><em>3 种常用的向量范数</em></strong></p>
+<ul>
+<li><strong>$1$ - 范数</strong>：<script type="math/tex">\| \pmb{x} \|_1 = \sum \limits_{i=1}^n| \pmb{x}_i |</script></li>
+<li><strong>$\infty$-范数</strong>：<script type="math/tex">\| \pmb{x} \|_{\infty} = \max \limits_{1 \leqslant i \leqslant n} |x_i|</script></li>
+<li><strong>$2$ - 范数</strong>：<script type="math/tex">\| \pmb{x} \|_2 = \sqrt{\sum \limits_{i=1}^n \pmb{x}_i^2 }</script></li>
+</ul>
+<p>或一般地定义</p>
+<ul>
+<li><strong>$p$ - 范数</strong>：<script type="math/tex">\| \pmb{x} \|_p = (\sum \limits_{i=1}^n|x_i|^p)^{\frac{1}{p}},\forall p \in [1,+ \infty)</script></li>
+</ul>
+<p><strong><em>向量范数基本性质</em></strong></p>
+<ul>
+<li><strong>连续性</strong>：设 $\pmb{x} = (x_1,x_2,\cdots,x_n)^T \in \pmb{R}^n$，其范数 <script type="math/tex">\|\pmb{x}\|</script> 是 $\pmb{x}$ 的分量 $x_1,x_2,\cdots,x_n$ 的 $n$ 元连续函数</li>
+<li><strong>等价性</strong>：设 <script type="math/tex">\|\pmb{x}\|_r</script> 和 <script type="math/tex">\|\pmb{x}\|_s</script> 为 $ \pmb{R}^n$ 上任意两种范数，则存在常数 $m,M&gt;0$，使得：</li>
+</ul>
+<script type="math/tex; mode=display">
+m \|\pmb{x}\|_r \leqslant \|\pmb{x}\|_s \leqslant M \|\pmb{x}\|_r, \quad \forall \pmb{x} \in \pmb{R}^n</script><ul>
+<li><strong>按范数收敛性</strong>：设向量序列 $\left\{ \pmb{x}^{(k)} \right\}$ 收敛于向量 <script type="math/tex">\pmb{x}^{*}</script>，即 <script type="math/tex">\lim \limits_{k \to  \infty} \pmb{x}^{(k)} = \pmb{x}^{*}</script>，则等价于：</li>
+</ul>
+<script type="math/tex; mode=display">
+\lim \limits_{k \to  \infty} \| \pmb{x}^{(k)} - \pmb{x}^{*} \| = 0</script><ul>
+<li>其中，<script type="math/tex">\| \cdot \|</script> 为向量的任一种范数，并称<strong>向量序列 $\left\{ \pmb{x}^{(k)} \right\}$ 按该函数收敛于向量 $\pmb{x}^*$。</strong></li>
+</ul>
+<h4 id="1-9-2-矩阵范数"><a href="#1-9-2-矩阵范数" class="headerlink" title="1.9.2 矩阵范数"></a>1.9.2 矩阵范数</h4><p>设矩阵 $\pmb{A} \in \pmb{R}^{n \times n}$，若与 $\pmb{A}$ 对应的一个实值函数 <script type="math/tex">\| A \|</script> 满足：</p>
+<ul>
+<li><strong>正定性</strong>：<script type="math/tex">\| \pmb{A} \| \geqslant 0</script>，其中 <script type="math/tex">\| \pmb{A} \| = 0 \Leftrightarrow \pmb{A} = 0</script></li>
+<li><strong>齐次性</strong>：<script type="math/tex">\| \alpha \pmb{A} \| = |\alpha| \|\pmb{A}\|, \forall \alpha \in \pmb{R}</script></li>
+<li><strong>三角不等式</strong>：<script type="math/tex">\| \pmb{A} + \pmb{B} \| \leqslant \| \pmb{A} \| + \| \pmb{B} \|, \forall \pmb{A},\pmb{B} \in \pmb{R}^{n \times n}</script></li>
+<li><strong>相容性</strong>：<script type="math/tex">\| \pmb{A} \pmb{B} \| \leqslant \| \pmb{A} \| \| \pmb{B} \|, \forall \pmb{A},\pmb{B} \in \pmb{R}^{n \times n}</script></li>
+</ul>
+<p>则称 <script type="math/tex">\| \pmb{A} \|</script> 为 $\pmb{R}^{n \times n}$ 上 $\pmb{A}$ 的一个<strong>矩阵范数</strong>。</p>
+<p><strong>几种常用的矩阵范数</strong></p>
+<ul>
+<li><strong>$F$ 范数</strong>（$Frobenius$）：<script type="math/tex">\| \pmb{A} \|_F = [\sum \limits_{i=1}^n(\sum \limits_{j=1}^n a_{ij}^2)]^{\frac{1}{2}}</script></li>
+<li><strong>行范数</strong>：<script type="math/tex">\| \pmb{A} \|_{\infty} = \max \limits_{1 \leqslant i \leqslant n} \sum \limits_{j=1}^n | a_{ij} |</script></li>
+<li><strong>列范数</strong>：<script type="math/tex">\| \pmb{A} \|_{1} = \max \limits_{1 \leqslant j \leqslant n} \sum \limits_{i=1}^n | a_{ij} |</script></li>
+<li><strong>$2$-范数</strong>：<script type="math/tex">\| \pmb{A} \|_{2} = \sqrt{\rho (\pmb{A}^T\pmb{A})}</script>，其中 $\rho (\pmb{A}^T\pmb{A})$ 为 $\pmb{A}^T\pmb{A}$ 的谱半径</li>
+</ul>
+<p>当 $\pmb{A}$ 是<strong>对称矩阵</strong>时，有：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\| \pmb{A} \|_{2} = \sqrt{\rho (\pmb{A}^T\pmb{A})} &= \sqrt{\lambda_{\max} (\pmb{A}^T\pmb{A})} \\
+&= \sqrt{\lambda_{\max} (\pmb{A}^2)} \\
+&= \sqrt{\lambda_{\max}^2 (\pmb{A})} \\
+&= \rho (\pmb{A})
+\end{aligned}</script><blockquote>
+<p><strong>参考文章</strong></p>
+<ol>
+<li><a href="http://www.cnblogs.com/Elaine-DWL/p/9426002.html" target="_blank" rel="noopener">向量范数和矩阵范数 | 博客园</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/03/18/understanding-linux-kernel/">Linux 内核笔记 1：绪论</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-6/">Java 笔记 6：异常、断言和日志</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-5/">Java 笔记 5：集合</a></li><li><a href="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/">5 分钟 Docker 笔记 5：存储</a></li><li><a href="http://www.hui-wang.info/2018/02/04/%E5%BD%B1%E5%93%8D%E5%8A%9B/">影响力</a></li><li><a href="http://www.hui-wang.info/2017/11/25/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E%EF%BC%9A%E4%B8%8D%E8%83%BD%E5%86%8D%E5%87%91%E4%BA%86/">数学之美：不能再凑了</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.527Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/10/31/math-analysis/" target="_blank" rel="external">https://abelsu7.top/2018/10/31/math-analysis/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数值分析/">数值分析</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书/">读书</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/10/31/math-analysis/&title=《数值分析笔记 1：基础概念》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/10/31/math-analysis/&title=《数值分析笔记 1：基础概念》 — Keep Coding&source=
+误差分析、最值、谱半径、范数
+
+
+                
+                    
+                    
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/10/31/math-analysis/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数值分析笔记 1：基础概念》 — Keep Coding&url=https://abelsu7.top/2018/10/31/math-analysis/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/10/31/math-analysis/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/11/05/docker-5mins-notes-2/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">5 分钟 Docker 笔记 2：镜像</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/10/29/hexo-mathjax/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">在 Hexo 中使用 MathJax 渲染数学公式</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/10/31/math-analysis/&title=《数值分析笔记 1：基础概念》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/10/31/math-analysis/&title=《数值分析笔记 1：基础概念》 — Keep Coding&source=
+误差分析、最值、谱半径、范数
+
+
+                
+                    
+                    
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/10/31/math-analysis/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数值分析笔记 1：基础概念》 — Keep Coding&url=https://abelsu7.top/2018/10/31/math-analysis/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/10/31/math-analysis/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJ0lEQVR42u3aS27DMAwFwNz/0u42QBH1kXQKWBqtDMeINV4Q4uf1itf1tt7vrH/9vT49v75/28LAwHgs41qu5MW9Z3r3P1IxMDAOYHyKYMl1L+CuI2e+NwwMDIzqM3fdwcDAwJgH3DyMro90yVESAwMDI09i70o414W2r+fiGBgYD2TkVff/v/5KfwMDA+NRjKu4qulrb1vlXWFgYGzNyF+Tj0fkR7fJsQ8DA+M0xqSIlhfXJmNhhZCNgYFxAKPXsOyFyHnj4Y8uBwYGxkaMPFHsjVxUj4b5/2BgYJzD+EZAnMAmoxsYGBj7MXpF/0nwrSa30SfAwMDYmlFNTedDYJOgHCWxGBgY2zHWpfm84JUf4ybh++N7MTAwDmNUu4R5Gpx8piS8NqdFMDAwHsuoNgZ6x8R5Ya7Qg8XAwNiOkWylnBMHIbg3tBElsRgYGNsxkjBX3cSkJNcbNcPAwNibUS1+5YW23odoFuAwMDC2ZlRLZtXGQK8Y12stYGBg7M1Y/3VSFKumptVDZBSUMTAwjmEkLcPeFnsN0cLxEQMD4wBGr0A/T4NvS5sxMDA2ZVzFVQ2X1c+RBPpCqMXAwNiCka/JkET1yFgt9mFgYJzASIJsnuhW09ekGVD+0hgYGJsyqklmb+SruofCkxgYGBit41qveZmHYwwMDIzehnrdicm4GAYGxjmMJB1NBrkm6XEvecbAwDiBUU0dq6G2V0qrNjUxMDA2ZfwAxCBqmKV8L1UAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+<!-- <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script> -->
+<!-- <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script> -->
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

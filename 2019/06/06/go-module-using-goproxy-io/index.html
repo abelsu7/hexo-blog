@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Go Modules 配置 GOPROXY | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Go,Go Modules,GOPROXY">
+    <meta name="description" content="goproxy.io is a global proxy for Go Modules.">
+<meta name="keywords" content="Go,Go Modules,GOPROXY">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go Modules 配置 GOPROXY">
+<meta property="og:url" content="https://abelsu7.top/2019/06/06/go-module-using-goproxy-io/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="goproxy.io is a global proxy for Go Modules.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/06/06/go-module-using-goproxy-io/cover.png">
+<meta property="og:updated_time" content="2019-11-01T07:55:14.996Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go Modules 配置 GOPROXY">
+<meta name="twitter:description" content="goproxy.io is a global proxy for Go Modules.">
+<meta name="twitter:image" content="https://abelsu7.top/2019/06/06/go-module-using-goproxy-io/cover.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Go Modules 配置 GOPROXY</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Go Modules 配置 GOPROXY</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-06-06T08:12:06.000Z" itemprop="datePublished" class="page-time">
+  2019-06-06
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-Linux-MacOS"><span class="post-toc-text">1. Linux/MacOS</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-Windows"><span class="post-toc-text">2. Windows</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-go-1-13"><span class="post-toc-text">3. go 1.13+</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#goproxy"><span class="post-toc-text">goproxy</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Go-Mod"><span class="post-toc-text">Go Mod</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-go-module-using-goproxy-io"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Go Modules 配置 GOPROXY</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-06-06 16:12:06" datetime="2019-06-06T08:12:06.000Z"  itemprop="datePublished">2019-06-06</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em><a href="https://goproxy.io" target="_blank" rel="noopener">goproxy.io</a> is a global proxy for Go Modules.</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/06/06/go-module-using-goproxy-io/cover.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="1-Linux-MacOS"><a href="#1-Linux-MacOS" class="headerlink" title="1. Linux/MacOS"></a>1. Linux/MacOS</h3><pre><code class="lang-bash"># Enable the go modules feature
+export GO111MODULE=on
+# Set the GOPROXY environment variable
+export GOPROXY=https://goproxy.io
+</code></pre>
+<h3 id="2-Windows"><a href="#2-Windows" class="headerlink" title="2. Windows"></a>2. Windows</h3><pre><code class="lang-powershell"># Enable the go modules feature
+$env:GO111MODULE=&quot;on&quot;
+# Set the GOPROXY environment variable
+$env:GOPROXY=&quot;https://goproxy.io&quot;
+</code></pre>
+<h3 id="3-go-1-13"><a href="#3-go-1-13" class="headerlink" title="3. go 1.13+"></a>3. go 1.13+</h3><pre><code class="lang-bash">go env -w GOPROXY=https://goproxy.io,direct
+# Set environment variable allow bypassing the proxy for selected modules
+go env -w GOPRIVATE=*.corp.example.com
+</code></pre>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><h4 id="goproxy"><a href="#goproxy" class="headerlink" title="goproxy"></a>goproxy</h4><blockquote>
+<ol>
+<li><a href="https://goproxy.io/zh/" target="_blank" rel="noopener">goproxy.io</a></li>
+<li><a href="https://github.com/goproxy/goproxy.cn/blob/master/README.zh-CN.md" target="_blank" rel="noopener">goproxy.cn</a></li>
+</ol>
+</blockquote>
+<h4 id="Go-Mod"><a href="#Go-Mod" class="headerlink" title="Go Mod"></a>Go Mod</h4><blockquote>
+<ol>
+<li><a href="https://blog.golang.org/using-go-modules" target="_blank" rel="noopener">Using Go Modules | The Go Blog</a></li>
+<li><a href="https://blog.golang.org/migrating-to-go-modules" target="_blank" rel="noopener">Migrating to Go Modules | The Go Blog</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/60703832" target="_blank" rel="noopener">拜拜了，GOPATH 君！新版本 Golang 的包管理入门教程 | 知乎</a></li>
+<li><a href="https://mp.weixin.qq.com/s/tPHwXflo_XZe1b6tSdlfuQ" target="_blank" rel="noopener">Go module 机制下升级 major 版本号的实践 | TonyBai</a></li>
+<li><a href="https://ysicing.me/posts/go-mod-vscode/" target="_blank" rel="noopener">VSCode 配置 Go 环境及 Go mod 使用 | YSICING</a></li>
+<li><a href="https://juejin.im/post/5c8e503a6fb9a070d878184a" target="_blank" rel="noopener">go mod 使用 | 掘金</a></li>
+<li><a href="https://ysicing.me/posts/go-mod-vscode/" target="_blank" rel="noopener">VSCode 配置 Go 环境及 Go mod 使用 | 方缘之道</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/59687626" target="_blank" rel="noopener">开始使用 Go Module - isLishude | 知乎</a></li>
+<li><a href="https://objcoding.com/2018/09/13/go-modules/" target="_blank" rel="noopener">Go Modules 详解 | 后端进阶</a></li>
+<li><a href="https://mp.weixin.qq.com/s/VvlBXyvJ_PaLl5lwao-AUQ" target="_blank" rel="noopener">Go Modules 不完全教程 | Golang 成神之路</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/82109036" target="_blank" rel="noopener">Go Modules 不完全教程 - Golang Inside | 知乎专栏</a></li>
+<li><a href="http://blog.ipalfish.com/?p=443" target="_blank" rel="noopener">Go Module 使用实践及问题解决 | banyu</a></li>
+<li><a href="https://xuanwo.io/2019/05/27/go-modules/" target="_blank" rel="noopener">【干货】Go Modules 内部分享 | Xuanwo’s Blog</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/">使用 Gogs 自建 Git 服务</a></li><li><a href="https://abelsu7.top/2019/10/31/go-gin-swagger/">在 Gin 中使用 swaggo 自动生成 RESTful API 文档</a></li><li><a href="https://abelsu7.top/2019/10/24/go-build-compress-using-upx/">使用 upx 压缩 go build 打包的可执行文件</a></li><li><a href="https://abelsu7.top/2019/10/24/go-cross-compile/">Go 程序的交叉编译、选择性编译</a></li><li><a href="chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li><li><a href="www.chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-11-01T07:55:14.996Z" itemprop="dateUpdated">2019-11-01 15:55:14</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/06/06/go-module-using-goproxy-io/" target="_blank" rel="external">https://abelsu7.top/2019/06/06/go-module-using-goproxy-io/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GOPROXY/">GOPROXY</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go-Modules/">Go Modules</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/06/06/go-module-using-goproxy-io/&title=《Go Modules 配置 GOPROXY》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/06/06/go-module-using-goproxy-io/&title=《Go Modules 配置 GOPROXY》 — Keep Coding&source=
+goproxy.io is a global proxy for Go Modules.
+
+
+                
+            ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/06/06/go-module-using-goproxy-io/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go Modules 配置 GOPROXY》 — Keep Coding&url=https://abelsu7.top/2019/06/06/go-module-using-goproxy-io/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/06/06/go-module-using-goproxy-io/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/06/10/tools-for-monitor-cpu-temp/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">几款监控 CPU 温度的软件推荐</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/06/05/gorm-notes/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Golang ORM 框架：GORM</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/06/06/go-module-using-goproxy-io/&title=《Go Modules 配置 GOPROXY》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/06/06/go-module-using-goproxy-io/&title=《Go Modules 配置 GOPROXY》 — Keep Coding&source=
+goproxy.io is a global proxy for Go Modules.
+
+
+                
+            ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/06/06/go-module-using-goproxy-io/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go Modules 配置 GOPROXY》 — Keep Coding&url=https://abelsu7.top/2019/06/06/go-module-using-goproxy-io/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/06/06/go-module-using-goproxy-io/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLElEQVR42u3aS27DMAwFwNz/0um2QBv7kVQLWBqvCte/yeJBJPV6xcf72/H9TO/6n/+9Pr/swMDAeCzjfXlMXnz9nN75j2/EwMA4gPHpI/JrqsGaPyF5LwYGBkYzBIuLRQwMDIy1jCReE2TyBAwMDIy8iL2+/jpqk8/6p1ocAwPjgYy86/7/f//JfAMDA+NRjHfxqA4J8nDMQ/aXr8LAwNiakQdctRCdbOBofg8GBsYxjDxqezGdl7L5oBQDA2NvRvLK3jJuUgBXx6gYGBinMVZt4aou+EYDAAwMjAMYyfn8TL7BIi+MF+wWwcDAeCxjMrDMH91baF6fwcDAOI0R9eSKd+UNu+pY9KbphoGBsSkjb/rnAboq+8s8DAyM7Rhrt20lBWreVkvujVIZAwNjC0Y1Lnu5Pl8glte2GBgYWzDytn41Rnvxmo9Ly0UsBgbGwxnVtn41glcxmlsuMDAwHs6YLOxWjScnxe1Nuw0DA2MLxmRhlxel8xFCVFRjYGAcwJg03SZDhbyEbu4ZwcDA2IiRN+sn7f5qWOejAgwMjBMYeRuuHIXBvfmGj8LSEAMDYwvGu3hUx435UrJaEmNgYJzDqBaiN8kdN9RWhXJzWouBgfFARh6y1TFAlT25CwMD4wRGNfjywE3isreIxMDAwJhsC+stH5MfCwMDA2MSl9VNYPN33ewZwcDA2I5R3RLRK3ongJsfBQMDY2tGb8TYLDWLAV1t8GFgYGzH+AKdMEupp1lGKgAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

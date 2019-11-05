@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>重启或关闭 Linux 系统的 6 个终端命令 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Linux,Shell,终端">
+    <meta name="description" content="重启或关闭 Linux 系统是诸多风险操作之一，务必慎之又慎。                                                                                                             Linux 系统在重启或关闭之前，会通知所有已登录的用户和进程。如果在命令中加入了时间参数，系统还将拒绝新的用户登入请">
+<meta name="keywords" content="Linux,Shell,终端">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重启或关闭 Linux 系统的 6 个终端命令">
+<meta property="og:url" content="https://abelsu7.top/2019/01/03/6-commands-to-shutdown-linux/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="重启或关闭 Linux 系统是诸多风险操作之一，务必慎之又慎。                                                                                                             Linux 系统在重启或关闭之前，会通知所有已登录的用户和进程。如果在命令中加入了时间参数，系统还将拒绝新的用户登入请">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/01/03/6-commands-to-shutdown-linux/cover.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:10.979Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="重启或关闭 Linux 系统的 6 个终端命令">
+<meta name="twitter:description" content="重启或关闭 Linux 系统是诸多风险操作之一，务必慎之又慎。                                                                                                             Linux 系统在重启或关闭之前，会通知所有已登录的用户和进程。如果在命令中加入了时间参数，系统还将拒绝新的用户登入请">
+<meta name="twitter:image" content="https://abelsu7.top/2019/01/03/6-commands-to-shutdown-linux/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">重启或关闭 Linux 系统的 6 个终端命令</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">重启或关闭 Linux 系统的 6 个终端命令</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-01-03T13:42:07.000Z" itemprop="datePublished" class="page-time">
+  2019-01-03
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#shutdown-命令"><span class="post-toc-text">shutdown 命令</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#reboot-命令"><span class="post-toc-text">reboot 命令</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#init-命令"><span class="post-toc-text">init 命令</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#halt-命令"><span class="post-toc-text">halt 命令</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#poweroff-命令"><span class="post-toc-text">poweroff 命令</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#systemctl-命令"><span class="post-toc-text">systemctl 命令</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-6-commands-to-shutdown-linux"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">重启或关闭 Linux 系统的 6 个终端命令</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-01-03 21:42:07" datetime="2019-01-03T13:42:07.000Z"  itemprop="datePublished">2019-01-03</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>重启或关闭 Linux 系统是诸多<strong>风险操作</strong>之一，务必<strong>慎之又慎</strong>。</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/01/03/6-commands-to-shutdown-linux/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>Linux 系统在重启或关闭之前，会<strong>通知所有已登录的用户和进程</strong>。如果在命令中加入了<strong>时间参数</strong>，系统还将<strong>拒绝新的用户登入请求</strong>。</p>
+<a id="more"></a>
+<blockquote>
+<p><strong>推荐阅读</strong>：</p>
+<ul>
+<li><a href="https://www.2daygeek.com/11-methods-to-find-check-system-server-uptime-in-linux/" target="_blank" rel="noopener">查看系统/服务器正常运行时间的 11 个方法 | 2daygeek</a></li>
+<li><a href="https://www.2daygeek.com/tuptime-a-tool-to-report-the-historical-and-statistical-running-time-of-linux-system/" target="_blank" rel="noopener">Tuptime 一款为 Linux 系统保存历史记录、统计运行时间工具 | 2daygeek</a></li>
+</ul>
+</blockquote>
+<p>下面将依次介绍以下命令</p>
+<ul>
+<li><code>shutdown</code>、<code>halt</code>、<code>poweroff</code>、<code>reboot</code>：用于<strong>休眠、重启或关机</strong></li>
+<li><code>init</code>：<strong>initialization</strong> 的简称，是<strong>系统启动的第一个进程</strong></li>
+<li><code>systemctl</code>：<strong>systemd</strong> 是 Linux 系统和服务器的<strong>管理程序</strong></li>
+</ul>
+<h2 id="shutdown-命令"><a href="#shutdown-命令" class="headerlink" title="shutdown 命令"></a>shutdown 命令</h2><p><code>shutdown</code>命令用于<strong>重启或关闭本地/远程的 Linux 设备</strong>，并提供了多个选项。如果定义了<strong>时间参数</strong>，则系统会在关机的 5 分钟前创建<code>/run/nologin</code>文件，以确保<strong>后续的登录请求会被拒绝</strong>。</p>
+<p><strong>通用语法</strong>如下：</p>
+<pre><code class="lang-bash">&gt; shutdown [OPTION] [TIME] [MESSAGE]
+</code></pre>
+<p>运行以下命令则会<strong>立即关闭 Linux 设备</strong>。<code>-h now</code>表示<strong>立刻杀死所有进程</strong>，并关闭系统：</p>
+<blockquote>
+<p><code>-h</code>：如果不特指<code>-halt</code>选项，则等价于<code>-poweroff</code>选项</p>
+</blockquote>
+<pre><code class="lang-bash">&gt; shutdown -h now
+</code></pre>
+<p>另外我们可以使用带有<code>-halt</code>选项的<code>shutdown</code>命令立即关闭设备：</p>
+<blockquote>
+<p><code>-H</code>、<code>--halt</code>：停止设备运行</p>
+</blockquote>
+<pre><code class="lang-bash">&gt; shutdown --halt now 
+# 或者
+&gt; shutdown -H now
+</code></pre>
+<p>还可以使用带有<code>poweroff</code>选项的<code>shutdown</code>命令：</p>
+<blockquote>
+<p><code>-P</code>、<code>--poweroff</code>：切断电源（默认）</p>
+</blockquote>
+<pre><code class="lang-bash">&gt; shutdown --poweroff now
+# 或者
+&gt; shutdown -P now
+</code></pre>
+<p>如果<strong>没有使用时间选项</strong>运行以下命令，则命令会在<strong>一分钟之后</strong>执行：</p>
+<pre><code class="lang-bash">[root@centos-1~] &gt; shutdown -h
+Shutdown scheduled for Mon 2018-10-08 06:42:31 EDT, use &#39;shutdown -c&#39; to cancel.
+
+[root@centos-2~] &gt;
+Broadcast message from root@centos-1 (Mon 2018-10-08 06:41:31 EDT):
+
+The system is going down for power-off at Mon 2018-10-08 06:42:31 EDT!
+</code></pre>
+<p>若要<strong>取消关机计划</strong>，则可使用<code>shutdown -c</code>：</p>
+<pre><code class="lang-bash">[root@centos-1~] &gt; shutdown -c
+Broadcast message from root@centos-1 (Mon 2018-10-08 06:39:09 EDT):
+
+The system shutdown has been cancelled at Mon 2018-10-08 06:40:09 EDT!
+</code></pre>
+<p>同样的，<strong>其他登录用户</strong>都能在中断中看到如下的<strong>广播消息</strong>：</p>
+<pre><code class="lang-bash">[root@centos-2~] &gt;
+Broadcast message from root@centos-1 (Mon 2018-10-08 06:41:35 EDT):
+
+The system shutdown has been cancelled at Mon 2018-10-08 06:42:35 EDT!
+</code></pre>
+<p>如果想在<strong>指定时间</strong>（例如<code>N</code>秒）后执行重启或关机操作，则可<strong>添加时间参数</strong>，并可以<strong>为所有登录用户添加自定义广播消息</strong>。例如，我们将在五分钟后重启设备：</p>
+<pre><code class="lang-bash">[root@centos-1~] &gt; shutdown -r +5 &quot;To activate the latest Kernel&quot;
+Shutdown scheduled for Mon 2018-10-08 07:13:16 EDT, use &#39;shutdown -c&#39; to cancel.
+
+[root@centos-2~] &gt;
+Broadcast message from root@vps.2daygeek.com (Mon 2018-10-08 07:08:16 EDT):
+
+To activate the latest Kernel
+The system is going down for reboot at Mon 2018-10-08 07:13:16 EDT!
+</code></pre>
+<p>运行以下命令则会<strong>立即杀死所有进程并重启系统</strong>：</p>
+<pre><code class="lang-bash">&gt; shutdown -r now
+</code></pre>
+<h2 id="reboot-命令"><a href="#reboot-命令" class="headerlink" title="reboot 命令"></a>reboot 命令</h2><p><code>reboot</code>命令同样可以<strong>重启或关闭本地/远程的 Linux 设备</strong>。</p>
+<p>执行<strong>不带任何参数</strong>的<code>reboot</code>命令以<strong>重启 Linux 设备</strong>：</p>
+<pre><code class="lang-bash">&gt; reboot
+</code></pre>
+<p>执行<strong>带<code>-p</code>参数</strong>的<code>reboot</code>命令以<strong>关闭 Linux 设备电源</strong>：</p>
+<blockquote>
+<p><code>-p</code>、<code>--poweroff</code>：调用<code>halt</code>或<code>poweroff</code>命令，切断设备电源</p>
+</blockquote>
+<pre><code class="lang-bash">&gt; reboot -p
+</code></pre>
+<p>执行<strong>带<code>-f</code>参数</strong>的<code>reboot</code>命令以<strong>强制重启 Linux 设备</strong>（类似按压机器上的电源键）：</p>
+<blockquote>
+<p><code>-f</code>、<code>--force</code>：立刻强制终端，切断电源或重启</p>
+</blockquote>
+<pre><code class="lang-bash">&gt; reboot -f
+</code></pre>
+<h2 id="init-命令"><a href="#init-命令" class="headerlink" title="init 命令"></a>init 命令</h2><p><code>init</code>进程是 <strong>Linux 系统启动的第一个进程</strong>。</p>
+<p>它会检查<code>/etc/inittab</code>文件并决定 Linux 的<strong>运行级别</strong>。同时，允许用户在 Linux 设备上执行关机或重启操作。级别范围为<code>0~6</code>，共七个运行等级。</p>
+<blockquote>
+<p><strong>推荐阅读</strong>：<a href="https://www.2daygeek.com/how-to-check-all-running-services-in-linux/" target="_blank" rel="noopener">如何检查 Linux 上所有运行的服务 | 2daygeek</a></p>
+</blockquote>
+<p>执行以下命令<strong>关闭系统</strong>：</p>
+<blockquote>
+<p><code>0</code>：停机 - 关闭系统</p>
+</blockquote>
+<pre><code class="lang-bash">&gt; init 0
+</code></pre>
+<p>执行以下命令<strong>重启设备</strong>：</p>
+<blockquote>
+<p><code>6</code>：重启 - 重启设备</p>
+</blockquote>
+<pre><code class="lang-bash">&gt; init 6
+</code></pre>
+<h2 id="halt-命令"><a href="#halt-命令" class="headerlink" title="halt 命令"></a>halt 命令</h2><p><code>halt</code>命令用来<strong>切断电源</strong>或<strong>关闭本地/远程 Linux 设备</strong>。它会<strong>中断所有进程</strong>并<strong>关闭 CPU</strong>：</p>
+<pre><code class="lang-bash">&gt; halt
+</code></pre>
+<h2 id="poweroff-命令"><a href="#poweroff-命令" class="headerlink" title="poweroff 命令"></a>poweroff 命令</h2><p><code>poweroff</code>命令同样用来<strong>切断电源</strong>或<strong>关闭本地/远程 Linux 设备</strong>。<code>poweroff</code>很像<code>halt</code>，但不同的是它可以<strong>关闭设备硬件</strong>：<code>poweroff</code>会给主板发送 <strong>ACPI 指令</strong>，主板再将信号发送给电源并切断电源：</p>
+<pre><code class="lang-bash">&gt; poweroff
+</code></pre>
+<h2 id="systemctl-命令"><a href="#systemctl-命令" class="headerlink" title="systemctl 命令"></a>systemctl 命令</h2><p><strong>systemd</strong> 是一款<strong>适用于所有主流 Linux 发行版</strong>的<strong>全新 init 系统</strong>和<strong>系统管理器</strong>，它是<strong>内核启动的第一个进程</strong>，并持有<strong>序号为<code>1</code>的进程 PID</strong>。</p>
+<blockquote>
+<p><strong>推荐阅读</strong>：<a href="https://www.2daygeek.com/chkservice-a-tool-for-managing-systemd-units-from-linux-terminal/" target="_blank" rel="noopener">chkservice – 一款终端下系统单元管理工具 | 2daygeek</a></p>
+</blockquote>
+<p><code>systemd</code>是<strong>一切进程的父进程</strong>，<strong>Fedora 15</strong> 是第一个适配安装 systemd（替代 upstart）的 Linux 发行版。</p>
+<p><code>systemctl</code>是命令行下<strong>管理 systemd 守护进程和服务</strong>的主要工具。<strong>常用命令</strong>包括：<code>start</code>、<code>restart</code>、<code>stop</code>、<code>enable</code>、<code>disable</code>、<code>reload</code>和<code>status</code>。</p>
+<p>systemd 使用<code>.service</code>文件而不是 SysV init 使用的 bash 脚本。systemd 将所有守护进程归于自身的 Linux cgroups 用户组下，可以浏览<code>/cgroup/systemd</code>文件查看该系统的层次等级。</p>
+<pre><code class="lang-bash">&gt; systemctl halt
+&gt; systemctl poweroff
+&gt; systemctl reboot
+&gt; systemctl suspend
+&gt; systemctl hibernate
+</code></pre>
+<blockquote>
+<p><strong>参考文章</strong></p>
+<ol>
+<li><a href="https://linux.cn/article-10177-1.html" target="_blank" rel="noopener">重启和关闭 Linux 系统的 6 个终端命令 | Linux 中国</a></li>
+<li><a href="https://www.2daygeek.com/6-commands-to-shutdown-halt-poweroff-reboot-the-linux-system/" target="_blank" rel="noopener">6 Commands To Shutdown And Reboot The Linux System From Terminal | 2daygeek</a></li>
+<li><a href="https://www.2daygeek.com/11-methods-to-find-check-system-server-uptime-in-linux/" target="_blank" rel="noopener">查看系统/服务器正常运行时间的 11 个方法 | 2daygeek</a></li>
+<li><a href="https://www.2daygeek.com/tuptime-a-tool-to-report-the-historical-and-statistical-running-time-of-linux-system/" target="_blank" rel="noopener">Tuptime 一款为 Linux 系统保存历史记录、统计运行时间工具 | 2daygeek</a></li>
+<li><a href="https://www.2daygeek.com/how-to-check-all-running-services-in-linux/" target="_blank" rel="noopener">如何检查 Linux 上所有运行的服务 | 2daygeek</a></li>
+<li><a href="https://www.2daygeek.com/chkservice-a-tool-for-managing-systemd-units-from-linux-terminal/" target="_blank" rel="noopener">chkservice – 一款终端下系统单元管理工具 | 2daygeek</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/10/23/go-exec-shell-command/">Go 语言使用 os/exec 执行 Shell 命令</a></li><li><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7 安装配置 NFS</a></li><li><a href="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/">Linux 系统常用监控命令</a></li><li><a href="https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/">Linux 终端修改 ls 命令目录显示颜色</a></li><li><a href="http://ashin.wang/linux-basic/">Linux基础笔记</a></li><li><a href="https://wiki.hushhw.cn/posts/6fbc30d9.html">虚拟机 VMware 中安装 Ubuntu 操作系统</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:10.979Z" itemprop="dateUpdated">2019-09-01 21:04:10</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/01/03/6-commands-to-shutdown-linux/" target="_blank" rel="external">https://abelsu7.top/2019/01/03/6-commands-to-shutdown-linux/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/终端/">终端</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/01/03/6-commands-to-shutdown-linux/&title=《重启或关闭 Linux 系统的 6 个终端命令》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/01/03/6-commands-to-shutdown-linux/&title=《重启或关闭 Linux 系统的 6 个终端命令》 — Keep Coding&source=
+重启或关闭 Linux 系统是诸多风险操作之一，务必慎之又慎。
+
+
+                
+                    
+    ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/01/03/6-commands-to-shutdown-linux/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《重启或关闭 Linux 系统的 6 个终端命令》 — Keep Coding&url=https://abelsu7.top/2019/01/03/6-commands-to-shutdown-linux/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/01/03/6-commands-to-shutdown-linux/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/01/04/quickgo-notes/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">《快学 Go 语言》笔记</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/12/28/go-vscode-plugin/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">解决 VS Code 中 golang.org 被墙导致的 Go 插件安装失败问题</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/01/03/6-commands-to-shutdown-linux/&title=《重启或关闭 Linux 系统的 6 个终端命令》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/01/03/6-commands-to-shutdown-linux/&title=《重启或关闭 Linux 系统的 6 个终端命令》 — Keep Coding&source=
+重启或关闭 Linux 系统是诸多风险操作之一，务必慎之又慎。
+
+
+                
+                    
+    ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/01/03/6-commands-to-shutdown-linux/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《重启或关闭 Linux 系统的 6 个终端命令》 — Keep Coding&url=https://abelsu7.top/2019/01/03/6-commands-to-shutdown-linux/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/01/03/6-commands-to-shutdown-linux/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLUlEQVR42u3aQZLCMAwEQP7/afYBKbIzMhxit08UBCedg0qW9HrF631Z118/XX+95n6f6/dfWxgYGI9lvG9Xfs2nnfMXsXRfDAyMAxjJQyS/5oE1x99fg4GBgTH7nKSMsz0xMDAwZoEvSeza0ygGBgbG7BC7UnprX8cPz+IYGBgPZKwEwV9//kl/AwMD41GMd7napLB9rPdoYWBg7M3Ib5Ong/ep2/2VedqHgYFxGiPfND9ezkLw7GCMgYGxNyO55awotv6vokWKgYFxACNJ3dYPsckoWP5CMTAwzmG0wxZti7EdGmtHQIYzIxgYGI9itMnZ/Tdt2tcW4KLzNwYGxnaMPNXLGW3Bri3A/fMvDAyMwxhJwJ0dTYuWZBziMTAwdmW04w5LY1tlcM/DOgYGxt6M9YdL2gaz4l09M4KBgbEpYxby1hPEnBQV5jAwMA5g5KFz9iht6b9tJ2BgYJzAaENnPuw1C7vtCAgGBsbejPzGs6Cc7L8yxvFq3x8GBsZjGbMBi3ZgIk8ik9BcF90wMDC2YMy2y5uR7a95ExQDA+McRtTtHA11LR1B87tgYGBsypgNWCSJ4KwY1zY1MTAwTmB8K2bnCdxKUF6qHWJgYDycMStyJYF4Jfgu9TEwMDA2ZbQHzvbQOxutyJ8WAwMDo20JrJfS6iIgBgYGxijhW0kok+D+sROLgYGxKSMfrZilfe3w69KwBQYGxnaMpaPjqIXQppJfa2piYGA8j/EH8yz6CKzMc30AAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

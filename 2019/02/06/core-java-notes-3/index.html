@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Java 笔记 3：继承、泛型与反射 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Java,读书">
+    <meta name="description" content="摘自 《Java 核心技术（卷 Ⅰ）》                                                                                               《Java 核心技术（卷 Ⅰ）》">
+<meta name="keywords" content="Java,读书">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 笔记 3：继承、泛型与反射">
+<meta property="og:url" content="https://abelsu7.top/2019/02/06/core-java-notes-3/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自 《Java 核心技术（卷 Ⅰ）》                                                                                               《Java 核心技术（卷 Ⅰ）》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/02/06/core-java-notes-3/douban.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/06/core-java-notes-3/core-java.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.085Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 笔记 3：继承、泛型与反射">
+<meta name="twitter:description" content="摘自 《Java 核心技术（卷 Ⅰ）》                                                                                               《Java 核心技术（卷 Ⅰ）》">
+<meta name="twitter:image" content="https://abelsu7.top/2019/02/06/core-java-notes-3/douban.svg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Java 笔记 3：继承、泛型与反射</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Java 笔记 3：继承、泛型与反射</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-02-05T17:51:15.000Z" itemprop="datePublished" class="page-time">
+  2019-02-06
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#继承、泛型与反射"><span class="post-toc-text">继承、泛型与反射</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-类、超类和子类"><span class="post-toc-text">1. 类、超类和子类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-1-定义子类"><span class="post-toc-text">1.1 定义子类</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-2-覆盖方法"><span class="post-toc-text">1.2 覆盖方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-3-子类构造器"><span class="post-toc-text">1.3 子类构造器</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-4-继承层次"><span class="post-toc-text">1.4 继承层次</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-5-多态"><span class="post-toc-text">1.5 多态</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-6-理解方法调用"><span class="post-toc-text">1.6 理解方法调用</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-7-阻止继承：final-类和方法"><span class="post-toc-text">1.7 阻止继承：final 类和方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-8-强制类型转换"><span class="post-toc-text">1.8 强制类型转换</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-9-抽象类"><span class="post-toc-text">1.9 抽象类</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-10-控制可见性的访问修饰符"><span class="post-toc-text">1.10 控制可见性的访问修饰符</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-Object：所有类的超类"><span class="post-toc-text">2. Object：所有类的超类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-equals-方法"><span class="post-toc-text">2.1 equals 方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-相等测试与继承"><span class="post-toc-text">2.2 相等测试与继承</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-3-hashCode-方法"><span class="post-toc-text">2.3 hashCode 方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-4-toString-方法"><span class="post-toc-text">2.4 toString 方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-泛型数组列表"><span class="post-toc-text">3. 泛型数组列表</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-访问数组列表元素"><span class="post-toc-text">3.1 访问数组列表元素</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-类型化与原始数组列表的兼容性"><span class="post-toc-text">3.2 类型化与原始数组列表的兼容性</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-对象包装器与自动装箱"><span class="post-toc-text">4. 对象包装器与自动装箱</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-参数数量可变的方法"><span class="post-toc-text">5. 参数数量可变的方法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-枚举类"><span class="post-toc-text">6. 枚举类</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-反射"><span class="post-toc-text">7. 反射</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-1-Class-类"><span class="post-toc-text">7.1 Class 类</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-2-捕获异常"><span class="post-toc-text">7.2 捕获异常</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-3-利用反射分析类的能力"><span class="post-toc-text">7.3 利用反射分析类的能力</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-4-在运行时使用反射分析对象"><span class="post-toc-text">7.4 在运行时使用反射分析对象</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-5-使用反射编写泛型数组代码"><span class="post-toc-text">7.5 使用反射编写泛型数组代码</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-6-调用任意方法"><span class="post-toc-text">7.6 调用任意方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8-继承的技巧"><span class="post-toc-text">8. 继承的技巧</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-core-java-notes-3"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Java 笔记 3：继承、泛型与反射</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-02-06 01:51:15" datetime="2019-02-05T17:51:15.000Z"  itemprop="datePublished">2019-02-06</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>摘自 <img src="/2019/02/06/core-java-notes-3/douban.svg"><a href="https://book.douban.com/subject/26880667/" target="_blank" rel="noopener">《Java 核心技术（卷 Ⅰ）》</a></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/06/core-java-notes-3/core-java.png" alt="《Java 核心技术（卷 Ⅰ）》" title>
+                </div>
+                <div class="image-caption">《Java 核心技术（卷 Ⅰ）》</div>
+            </figure>
+<a id="more"></a>
+<h2 id="继承、泛型与反射"><a href="#继承、泛型与反射" class="headerlink" title="继承、泛型与反射"></a>继承、泛型与反射</h2><h3 id="1-类、超类和子类"><a href="#1-类、超类和子类" class="headerlink" title="1. 类、超类和子类"></a>1. 类、超类和子类</h3><h4 id="1-1-定义子类"><a href="#1-1-定义子类" class="headerlink" title="1.1 定义子类"></a>1.1 定义子类</h4><p>关键字 <strong>extends</strong> 表示<strong>继承</strong>：</p>
+<pre><code class="lang-java">public class Manager extends Employee {
+    ....
+}
+</code></pre>
+<blockquote>
+<p><strong>在 Java 中，所有的继承都是公有继承</strong>，而没有 C++ 中的私有继承和保护继承。</p>
+</blockquote>
+<p>关键字 <strong>extends</strong> 表明正在构造的<strong>新类派生于一个已存在的类</strong>。已存在的类称为<strong>超类（superclass）</strong>、<strong>基类（base class）</strong>或<strong>父类（parent class）</strong>，新类称为<strong>子类（subclass）</strong>、<strong>派生类（derived class）</strong>或<strong>孩子类（child class）</strong>。</p>
+<blockquote>
+<p>子类比超类<strong>封装了更多的数据，拥有更多的功能</strong>。</p>
+</blockquote>
+<h4 id="1-2-覆盖方法"><a href="#1-2-覆盖方法" class="headerlink" title="1.2 覆盖方法"></a>1.2 覆盖方法</h4><p>可以在子类中提供一个新的方法来<strong>覆盖（override）</strong>超类中的<strong>同名方法</strong>：</p>
+<pre><code class="lang-java">public double getSalary() {
+    double baseSalary = super.getSalary();
+    return baseSalary + bonus;
+}
+</code></pre>
+<blockquote>
+<p><strong>super 不是一个对象的引用</strong>，不能将 super 赋给另一个对象变量，它只是一个<strong>指示编译器调用超类方法的特殊关键字</strong>。</p>
+</blockquote>
+<h4 id="1-3-子类构造器"><a href="#1-3-子类构造器" class="headerlink" title="1.3 子类构造器"></a>1.3 子类构造器</h4><pre><code class="lang-java">public Manager(String name, double salary, int year, int month, int day) {
+    super(name, salary, year, month, day);
+    bonus = 0;
+}
+</code></pre>
+<p>如果<strong>子类的构造器没有显式地调用超类的构造器</strong>， 则将自动地调用<strong>超类默认（没有参数) 的构造器</strong>。</p>
+<blockquote>
+<p>如果<strong>超类没有不带参数的构造器</strong>， 并且在<strong>子类</strong>的构造器中又<strong>没有显式地调用超类的其他构造器</strong>，则 Java 编译器将<strong>报错</strong>。</p>
+</blockquote>
+<h4 id="1-4-继承层次"><a href="#1-4-继承层次" class="headerlink" title="1.4 继承层次"></a>1.4 继承层次</h4><p><strong>继承并不仅限于一个层次</strong>，由一个公共超类派生出来的所有类的集合被称为<strong>继承层次（inheritance hierarchy）</strong>。在继承层次中，从某个特定类到其祖先的路径被称为该类的<strong>继承链（inheritance chain）</strong>。</p>
+<blockquote>
+<p><strong>一个祖先类</strong>可以拥有<strong>多个子孙继承链</strong>。另外，<strong>Java 不支持多继承</strong>。</p>
+</blockquote>
+<h4 id="1-5-多态"><a href="#1-5-多态" class="headerlink" title="1.5 多态"></a>1.5 多态</h4><p>在 Java 中，<strong>is-a 规则</strong>表明<strong>子类的每个对象也是超类的对象</strong>。它的另一种表述法是<strong>置换法则</strong>，即<strong>程序中出现超类对象的任何地方都可以用子类对象置换</strong>。</p>
+<h4 id="1-6-理解方法调用"><a href="#1-6-理解方法调用" class="headerlink" title="1.6 理解方法调用"></a>1.6 理解方法调用</h4><blockquote>
+<p>略</p>
+</blockquote>
+<h4 id="1-7-阻止继承：final-类和方法"><a href="#1-7-阻止继承：final-类和方法" class="headerlink" title="1.7 阻止继承：final 类和方法"></a>1.7 阻止继承：final 类和方法</h4><p>有时候，可能希望阻止人们利用某个类定义子类。<strong>不允许扩展的类被称为 final 类</strong>。</p>
+<pre><code class="lang-java">public final class Executive extends Manager {
+    ...
+}
+</code></pre>
+<p>类中的<strong>特定方法</strong>也可以被声明为 <strong>final</strong>，这样一来<strong>子类就不能覆盖这个方法</strong>。</p>
+<blockquote>
+<p><strong>final 类</strong>中的<strong>所有方法</strong>自动成为 <strong>final 方法</strong>。</p>
+</blockquote>
+<pre><code class="lang-java">public class Employee {
+    public final String getName() {
+        return name;
+    }
+}
+</code></pre>
+<p>将方法或类声明为 final 的主要目的是：<strong>确保它们不会在子类中改变语义</strong>。</p>
+<h4 id="1-8-强制类型转换"><a href="#1-8-强制类型转换" class="headerlink" title="1.8 强制类型转换"></a>1.8 强制类型转换</h4><p><strong>对象引用的转换语法</strong>与数值表达式的类型转换类似：</p>
+<pre><code class="lang-java">Manager boss = (Manager) staff[0];
+</code></pre>
+<p>需要注意的是：</p>
+<ul>
+<li>只能在<strong>继承层次内</strong>进1行类型转换</li>
+<li>再<strong>将超类转换成子类</strong>之前，应该使用<code>instanceof</code>进行检查</li>
+</ul>
+<h4 id="1-9-抽象类"><a href="#1-9-抽象类" class="headerlink" title="1.9 抽象类"></a>1.9 抽象类</h4><p>使用 <strong>abstract 关键字</strong>修饰类中的<strong>抽象方法</strong>：</p>
+<pre><code class="lang-java">// no implementation required
+public abstract String getDescription();
+</code></pre>
+<p>为了提高程序的清晰度，<strong>包含一个或多个抽象方法的类本身必须被声明为抽象的</strong>：</p>
+<pre><code class="lang-java">public abstract class Person {
+    ...
+    public abstract String getDescription();
+}
+</code></pre>
+<blockquote>
+<p>除了抽象方法之外，<strong>抽象类还可以包含具体数据和具体方法</strong>。</p>
+</blockquote>
+<ul>
+<li><strong>抽象方法</strong>充当着<strong>占位</strong>的角色，它们的<strong>具体实现在子类中</strong></li>
+<li>类即使<strong>不包含抽象方法，也可以将类声明为抽象类</strong></li>
+<li>抽象类<strong>不能被实例化</strong></li>
+</ul>
+<h4 id="1-10-控制可见性的访问修饰符"><a href="#1-10-控制可见性的访问修饰符" class="headerlink" title="1.10 控制可见性的访问修饰符"></a>1.10 控制可见性的访问修饰符</h4><p>在有些时候，人们希望<strong>超类中的某些方法允许被子类访问</strong>，或<strong>允许子类的方法访问超类的某个域</strong>。为此，需要将这些方法或域声明为 <strong>protected</strong>。</p>
+<p>下面归纳一下 <strong>Java</strong> 用于<strong>控制可见性</strong>的 <strong>4 个访问修饰符</strong>：</p>
+<ul>
+<li>仅对<strong>本类可见</strong>：<strong>private</strong></li>
+<li>对<strong>所有类可见</strong>：<strong>public</strong></li>
+<li>对<strong>本包</strong>和<strong>所有子类可见</strong>：<strong>protected</strong></li>
+<li>对<strong>本包可见</strong>：<strong>默认</strong>，不需要修饰符</li>
+</ul>
+<h3 id="2-Object：所有类的超类"><a href="#2-Object：所有类的超类" class="headerlink" title="2. Object：所有类的超类"></a>2. Object：所有类的超类</h3><p><strong>Object 类</strong>是 Java 中<strong>所有类的始祖</strong>，在 Java 中<strong>每个类都是由它扩展而来的</strong>：</p>
+<blockquote>
+<p>在 Java 中，<strong>只有基本类型（primitive types）不是对象</strong>，例如数值、字符和布尔类型的值。而所有的<strong>数组类型</strong>都<strong>扩展了 Object 类</strong></p>
+</blockquote>
+<p>可以使用 Object 类型的变量引用任何类型的对象：</p>
+<pre><code class="lang-java">Object obj = new Employee(&quot;Abel Su&quot;, 35000);
+</code></pre>
+<p>当然，Object 类型的变量<strong>只能用于作为各种值的通用持有者</strong>。要想<strong>对其中的内容进行具体的操作</strong>，还需要清楚对象的原始数据类型，并<strong>进行相应的类型转换</strong>：</p>
+<pre><code class="lang-java">Employee e = (Employee) obj;
+</code></pre>
+<h4 id="2-1-equals-方法"><a href="#2-1-equals-方法" class="headerlink" title="2.1 equals 方法"></a>2.1 equals 方法</h4><p>Object 类中的<code>equals</code>方法用于<strong>检测一个对象是否等于另外一个对象</strong>。在 Object 类中，这个方法将<strong>判断两个对象是否具有相同的引用</strong>。</p>
+<p>在子类中定义<code>equals</code>方法时，<strong>首先调用超类的</strong><code>equals</code>。如果检测失败，对象就不可能相等。<strong>如果超类中的域都相等，就需要比较子类中的实例域。</strong></p>
+<h4 id="2-2-相等测试与继承"><a href="#2-2-相等测试与继承" class="headerlink" title="2.2 相等测试与继承"></a>2.2 相等测试与继承</h4><pre><code class="lang-java">// java.util.Arrays
+// 如果两个数组长度相同，并且在对应的位置上数据元素也均相同，则返回 true
+static boolean equals(type[] a, type[] b)
+// java.util.Objects
+// 如果 a 和 b 都为 null，返回 true；如果只有其中之一为 null，则返回 false；否则返回 a.equals(b)
+static boolean equals(Object a, Object b)
+</code></pre>
+<h4 id="2-3-hashCode-方法"><a href="#2-3-hashCode-方法" class="headerlink" title="2.3 hashCode 方法"></a>2.3 hashCode 方法</h4><p><strong>散列码（hash code）</strong>是由<strong>对象导出的一个整型值</strong>。散列码是<strong>没有规律的</strong>，如果 x 和 y 是两个不同的对象，那么<code>x.hashCode()</code>和<code>y.hashCode()</code>基本上不会相同。</p>
+<blockquote>
+<p>字符串的散列码是由内容导出的</p>
+</blockquote>
+<p>由于 <strong>hashCode 方法定义在 Object 类中</strong>，因此<strong>每个对象都有一个默认的散列码</strong>，其值为<strong>对象的存储地址</strong>。</p>
+<h4 id="2-4-toString-方法"><a href="#2-4-toString-方法" class="headerlink" title="2.4 toString 方法"></a>2.4 toString 方法</h4><p>在 Object 中还有一个重要的方法，就是<code>toString</code>方法，它用于<strong>返回表示对象值的字符串</strong>。例如 Point 类的<code>toString</code>方法将返回下面的字符串：</p>
+<pre><code class="lang-java">java.awt.Point[x=10,y=20]
+</code></pre>
+<blockquote>
+<p>绝大多数（但不是全部）的 toString 方法都遵循这样的格式：<strong>类的名字，随后是一对方括号括起来的赋值</strong>。最好通过<code>getClass().getName()</code>获得类名的字符串。</p>
+</blockquote>
+<p>随处可见 toString 方法的主要原因是：<strong>只要对象与一个字符串通过操作符</strong><code>+</code><strong>连接起来</strong>，Java 编译器就会<strong>自动的调用 toString 方法</strong>，以便<strong>获得这个对象的字符串描述</strong>。</p>
+<h3 id="3-泛型数组列表"><a href="#3-泛型数组列表" class="headerlink" title="3. 泛型数组列表"></a>3. 泛型数组列表</h3><p><strong>ArrayList</strong> 是一个采用<strong>类型参数（type parameter）</strong>的<strong>泛型类（generic class）</strong>：</p>
+<pre><code class="lang-java">ArrayList&lt;Employee&gt; staff = new ArrayList&lt;Employee&gt;();
+</code></pre>
+<p>在 <strong>Java SE 7</strong> 中，可以<strong>省去右边的类型参数</strong>：</p>
+<pre><code class="lang-java">ArrayList&lt;Employee&gt; staff = new ArrayList&lt;&gt;();
+</code></pre>
+<p>使用 <strong>add 方法</strong>可以<strong>将元素添加到数组列表</strong>中：</p>
+<pre><code class="lang-java">staff.add(new Employee(&quot;Abel Su&quot;, ...));
+staff.add(new Employee(&quot;Harry Potter&quot;, ...));
+</code></pre>
+<p>数组列表管理着<strong>对象引用的一个内部数组</strong>。最终，数组的全部空间有可能被用尽。<strong>如果调用 add 且内部数组已经满了</strong>，数组列表就将<strong>自动的创建一个更大的数组</strong>，并将所有的对象从较小的数组中<strong>拷贝到较大的数组中</strong>。</p>
+<p>如果已经清楚或<strong>能够估计出数组可能存储的元素数量</strong>，就可以<strong>在填充数组之前调用</strong><code>ensureCapacity</code><strong>方法</strong>：</p>
+<pre><code class="lang-java">staff.ensureCapacity(100);
+</code></pre>
+<p>这个方法调用将<strong>分配一个包含 100 个对象的内部数组</strong>。然后调用 100 次 add, 而<strong>不用重新分配空间</strong>。</p>
+<p>另外，还可以<strong>把初始容量传递给 ArrayList 构造器</strong>：</p>
+<pre><code class="lang-java">ArrayList&lt;Employee&gt; staff = new ArrayList&lt;&gt;(100);
+</code></pre>
+<p><code>size</code>方法将返回数组列表中包含的<strong>实际元素数目</strong>。</p>
+<p>一旦能够确认<strong>数组列表的大小不再发生变化</strong>，就可以调用<code>trimToSize</code>方法，该方法会<strong>将存储区域的大小调整为当前元素数量所需要的存储空间数目</strong>，垃圾回收器（GC）将<strong>回收多余的存储空间</strong>。</p>
+<h4 id="3-1-访问数组列表元素"><a href="#3-1-访问数组列表元素" class="headerlink" title="3.1 访问数组列表元素"></a>3.1 访问数组列表元素</h4><p>使用<code>get</code>和<code>set</code>方法实现<strong>访问或改变数组元素</strong>的操作，而不能使用类似数组中的<code>[]</code>语法格式。</p>
+<pre><code class="lang-java">void set(int index, E obj)
+E get(int index)
+void add(int index, E obj)
+E remove(int index) // 删除一个元素，并将后面的元素向前移动。被删除的元素由返回值返回。
+</code></pre>
+<h4 id="3-2-类型化与原始数组列表的兼容性"><a href="#3-2-类型化与原始数组列表的兼容性" class="headerlink" title="3.2 类型化与原始数组列表的兼容性"></a>3.2 类型化与原始数组列表的兼容性</h4><p>假设有下面这个遗留下来的类：</p>
+<pre><code class="lang-java">public class EmployeeDB {
+    public void update(ArrayList list) {
+        ...
+    }
+    public ArrayList find(String query) {
+        ...
+    }
+}
+</code></pre>
+<p>可以将一个类型化的数组列表传递给 update 方法，而并不需要进行任何类型转换。</p>
+<h3 id="4-对象包装器与自动装箱"><a href="#4-对象包装器与自动装箱" class="headerlink" title="4. 对象包装器与自动装箱"></a>4. 对象包装器与自动装箱</h3><p>有时，需要将 int 这样的<strong>基本类型转换为对象</strong>。所有的基本类型都有一个与之对应的类，这些类称为<strong>包装器（wrapper）</strong>。这些对象包装器类拥有很明显的名字：<strong>Integer、Long、Float、Double、Short、Byte、Character、Void 和 Boolean</strong>（前 6 个类派生于<strong>公共的超类 Number</strong>）。</p>
+<ul>
+<li><strong>对象包装器类是不可变的</strong>，即一旦构造了包装器，就不允许更改包装在其中的值</li>
+<li><strong>对象包装器是 final 的</strong>，因此不能定义它们的子类</li>
+</ul>
+<pre><code class="lang-java">ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+</code></pre>
+<blockquote>
+<p>由于每个值分别包装在对象中，所以 <strong>ArrayList<integer> 的效率远远低于 int[] 数组</integer></strong>。因此，应该用它构造小型集合，此时程序员操作的方便性要比执行效率更加重要。</p>
+</blockquote>
+<p>有一个很有用的特性，从而<strong>便于添加 int 类型的元素到 ArrayList<integer> 中</integer></strong>，调用<code>list.add(3)</code>将自动变换成：</p>
+<pre><code class="lang-java">list.add(Integer.valueOf(3));
+</code></pre>
+<p>这种变换被称为<strong>自动装箱（autoboxing）</strong>。</p>
+<p>相反的，当<strong>将一个 Integer 对象赋给一个 int 值</strong>时，将会<strong>自动拆箱</strong>，编译器会将<code>int n = list.get(i)</code>翻译成：</p>
+<pre><code class="lang-java">int n = list.get(i).intValue();
+</code></pre>
+<p><strong>装箱和拆箱</strong>是<strong>编译器认可的，而不是虚拟机</strong>。编译器在生成类的字节码时， 插人必要的方法调用。虚拟机只是执行这些字节码。 </p>
+<h3 id="5-参数数量可变的方法"><a href="#5-参数数量可变的方法" class="headerlink" title="5. 参数数量可变的方法"></a>5. 参数数量可变的方法</h3><p>用户也可以自己定义<strong>可变参数的方法</strong>，并将参数指定为任意类型， 甚至是基本类型：</p>
+<pre><code class="lang-java">public static double max(double... values) {
+    double largest = Double.NEGATIVE_INFINITY;
+    for (double v : values) {
+        if (v &gt; largest) {
+            largest = v;
+        }
+    }
+    return largest;
+}
+</code></pre>
+<p>然后就可以调用该方法：</p>
+<pre><code class="lang-java">double m = max(3.1, 40.4, -5);
+</code></pre>
+<p>编译器会将<code>new double[]{3.1, 40.4, -5}</code>传递给<code>max</code>方法。</p>
+<h3 id="6-枚举类"><a href="#6-枚举类" class="headerlink" title="6. 枚举类"></a>6. 枚举类</h3><pre><code class="lang-java">public enum Size {
+    SMALL,
+    MEDIUM,
+    LARGE,
+    EXTRA_LARGE
+};
+...
+String s_small = Size.SMALL.toString();
+Size s = Enum.valueOf(Size.class, &quot;SMALL&quot;);
+Size[] values = Size.values();
+int pos = Size.MEDIUM.ordinal(); // 返回枚举常量的位置
+</code></pre>
+<h3 id="7-反射"><a href="#7-反射" class="headerlink" title="7. 反射"></a>7. 反射</h3><p>能够<strong>分析类能力的程序</strong>称为<strong>反射（reflective）</strong>。反射机制的功能十分强大，可以用来：</p>
+<ul>
+<li>在运行时<strong>分析类的能力</strong></li>
+<li>在运行时<strong>查看对象</strong></li>
+<li>实现<strong>通用的数组操作</strong>代码</li>
+<li>利用 <strong>Method 对象</strong>，这个对象类似于 C++ 中的函数指针</li>
+</ul>
+<h4 id="7-1-Class-类"><a href="#7-1-Class-类" class="headerlink" title="7.1 Class 类"></a>7.1 Class 类</h4><p>在程序运行期间，<strong>Java 运行时系统</strong>始终为所有的对象维护一个被称为<strong>运行时</strong>的<strong>类型标识</strong>。 这个信息跟踪着每个对象所属的类。虚拟机利用运行时类型信息选择相应的方法执行。 </p>
+<p><strong>Object 类</strong>中的<code>getClass()</code>方法将会<strong>返回一个 Class 类型的实例</strong>：</p>
+<pre><code class="lang-java">Employee e;
+...
+Class cl = e.getClass();
+</code></pre>
+<p><strong>最常用的 Class 方法</strong>是<code>getName()</code>，这个方法将<strong>返回类的名字</strong>：</p>
+<pre><code class="lang-java">System.out.println(e.getClass().getName() + &quot; &quot; + e.getName());
+
+-------
+Employee Harry Hacker
+</code></pre>
+<blockquote>
+<p>如果类在一个包中，<strong>包的名字也会作为类名的一部分</strong>，如<code>java.util.Random</code></p>
+</blockquote>
+<p>还可以<strong>调用静态方法</strong><code>forName(className)</code><strong>获得类名对应的 Class 对象</strong>：</p>
+<pre><code class="lang-java">String className = &quot;java.util.Random&quot;;
+Class cl = Class.forName(className);
+</code></pre>
+<p>获得 Class 类对象的第三种方法非常简单：如果 <strong>T 是任意的 Java 类型（或 void 关键字)</strong>，<code>T.class</code>将代表<strong>匹配的类的对象</strong>：</p>
+<pre><code class="lang-java">Class cl1 = Random.class; // if you import java.util.*;
+Class cl2 = int.class;
+Class cl3 = Double[].class;
+</code></pre>
+<p>虚拟机为每个类型管理一个 Class 对象。因此，<strong>可以利用</strong><code>==</code><strong>运算符实现两个类对象比较的操作</strong>：</p>
+<pre><code class="lang-java">if (e.getClass() == Employee.class) ...
+</code></pre>
+<p>另一个很有用的方法<code>newInstance()</code>可以用来<strong>动态的创建一个类的实例</strong>：</p>
+<pre><code class="lang-java">String s = &quot;java.util.Random&quot;;
+Object m = Class.forName(s).newInstance();
+</code></pre>
+<h4 id="7-2-捕获异常"><a href="#7-2-捕获异常" class="headerlink" title="7.2 捕获异常"></a>7.2 捕获异常</h4><pre><code class="lang-java">try {
+    String name = ...; // get class name
+    Class cl = Class.forName(name); // might throw exception
+    do something with cl
+} catch (Exception e) {
+    e.printStackTrace();
+}
+</code></pre>
+<h4 id="7-3-利用反射分析类的能力"><a href="#7-3-利用反射分析类的能力" class="headerlink" title="7.3 利用反射分析类的能力"></a>7.3 利用反射分析类的能力</h4><p>反射机制最重要的内容——检查类的结构。</p>
+<pre><code class="lang-java">package reflection;
+
+import java.util.*;
+import java.lang.reflect.*;
+
+/**
+ * This program uses reflection to print all features of a class.
+ * @version 1.1 2004-02-21
+ * @author Cay Horstmann
+ */
+public class ReflectionTest
+{
+   public static void main(String[] args)
+   {
+      // read class name from command line args or user input
+      String name;
+      if (args.length &gt; 0) name = args[0];
+      else
+      {
+         Scanner in = new Scanner(System.in);
+         System.out.println(&quot;Enter class name (e.g. java.util.Date): &quot;);
+         name = in.next();
+      }
+
+      try
+      {
+         // print class name and superclass name (if != Object)
+         Class cl = Class.forName(name);
+         Class supercl = cl.getSuperclass();
+         String modifiers = Modifier.toString(cl.getModifiers());
+         if (modifiers.length() &gt; 0) System.out.print(modifiers + &quot; &quot;);
+         System.out.print(&quot;class &quot; + name);
+         if (supercl != null &amp;&amp; supercl != Object.class) System.out.print(&quot; extends &quot;
+               + supercl.getName());
+
+         System.out.print(&quot;\n{\n&quot;);
+         printConstructors(cl);
+         System.out.println();
+         printMethods(cl);
+         System.out.println();
+         printFields(cl);
+         System.out.println(&quot;}&quot;);
+      }
+      catch (ClassNotFoundException e)
+      {
+         e.printStackTrace();
+      }
+      System.exit(0);
+   }
+
+   /**
+    * Prints all constructors of a class
+    * @param cl a class
+    */
+   public static void printConstructors(Class cl)
+   {
+      Constructor[] constructors = cl.getDeclaredConstructors();
+
+      for (Constructor c : constructors)
+      {
+         String name = c.getName();
+         System.out.print(&quot;   &quot;);
+         String modifiers = Modifier.toString(c.getModifiers());
+         if (modifiers.length() &gt; 0) System.out.print(modifiers + &quot; &quot;);         
+         System.out.print(name + &quot;(&quot;);
+
+         // print parameter types
+         Class[] paramTypes = c.getParameterTypes();
+         for (int j = 0; j &lt; paramTypes.length; j++)
+         {
+            if (j &gt; 0) System.out.print(&quot;, &quot;);
+            System.out.print(paramTypes[j].getName());
+         }
+         System.out.println(&quot;);&quot;);
+      }
+   }
+
+   /**
+    * Prints all methods of a class
+    * @param cl a class
+    */
+   public static void printMethods(Class cl)
+   {
+      Method[] methods = cl.getDeclaredMethods();
+
+      for (Method m : methods)
+      {
+         Class retType = m.getReturnType();
+         String name = m.getName();
+
+         System.out.print(&quot;   &quot;);
+         // print modifiers, return type and method name
+         String modifiers = Modifier.toString(m.getModifiers());
+         if (modifiers.length() &gt; 0) System.out.print(modifiers + &quot; &quot;);         
+         System.out.print(retType.getName() + &quot; &quot; + name + &quot;(&quot;);
+
+         // print parameter types
+         Class[] paramTypes = m.getParameterTypes();
+         for (int j = 0; j &lt; paramTypes.length; j++)
+         {
+            if (j &gt; 0) System.out.print(&quot;, &quot;);
+            System.out.print(paramTypes[j].getName());
+         }
+         System.out.println(&quot;);&quot;);
+      }
+   }
+
+   /**
+    * Prints all fields of a class
+    * @param cl a class
+    */
+   public static void printFields(Class cl)
+   {
+      Field[] fields = cl.getDeclaredFields();
+
+      for (Field f : fields)
+      {
+         Class type = f.getType();
+         String name = f.getName();
+         System.out.print(&quot;   &quot;);
+         String modifiers = Modifier.toString(f.getModifiers());
+         if (modifiers.length() &gt; 0) System.out.print(modifiers + &quot; &quot;);         
+         System.out.println(type.getName() + &quot; &quot; + name + &quot;;&quot;);
+      }
+   }
+}
+</code></pre>
+<h4 id="7-4-在运行时使用反射分析对象"><a href="#7-4-在运行时使用反射分析对象" class="headerlink" title="7.4 在运行时使用反射分析对象"></a>7.4 在运行时使用反射分析对象</h4><p><code>ObjectAnalyzer.java</code>：</p>
+<pre><code class="lang-java">package objectAnalyzer;
+
+import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+
+public class ObjectAnalyzer
+{
+   private ArrayList&lt;Object&gt; visited = new ArrayList&lt;&gt;();
+
+   /**
+    * Converts an object to a string representation that lists all fields.
+    * @param obj an object
+    * @return a string with the object&#39;s class name and all field names and
+    * values
+    */
+   public String toString(Object obj)
+   {
+      if (obj == null) return &quot;null&quot;;
+      if (visited.contains(obj)) return &quot;...&quot;;
+      visited.add(obj);
+      Class cl = obj.getClass();
+      if (cl == String.class) return (String) obj;
+      if (cl.isArray())
+      {
+         String r = cl.getComponentType() + &quot;[]{&quot;;
+         for (int i = 0; i &lt; Array.getLength(obj); i++)
+         {
+            if (i &gt; 0) r += &quot;,&quot;;
+            Object val = Array.get(obj, i);
+            if (cl.getComponentType().isPrimitive()) r += val;
+            else r += toString(val);
+         }
+         return r + &quot;}&quot;;
+      }
+
+      String r = cl.getName();
+      // inspect the fields of this class and all superclasses
+      do
+      {
+         r += &quot;[&quot;;
+         Field[] fields = cl.getDeclaredFields();
+         AccessibleObject.setAccessible(fields, true);
+         // get the names and values of all fields
+         for (Field f : fields)
+         {
+            if (!Modifier.isStatic(f.getModifiers()))
+            {
+               if (!r.endsWith(&quot;[&quot;)) r += &quot;,&quot;;
+               r += f.getName() + &quot;=&quot;;
+               try
+               {
+                  Class t = f.getType();
+                  Object val = f.get(obj);
+                  if (t.isPrimitive()) r += val;
+                  else r += toString(val);
+               }
+               catch (Exception e)
+               {
+                  e.printStackTrace();
+               }
+            }
+         }
+         r += &quot;]&quot;;
+         cl = cl.getSuperclass();
+      }
+      while (cl != null);
+
+      return r;
+   }
+}
+</code></pre>
+<p><code>ObjectAnalyzerTest.java</code>：</p>
+<pre><code class="lang-java">package objectAnalyzer;
+
+import java.util.ArrayList;
+
+/**
+ * This program uses reflection to spy on objects.
+ * @version 1.12 2012-01-26
+ * @author Cay Horstmann
+ */
+public class ObjectAnalyzerTest
+{
+   public static void main(String[] args)
+   {
+      ArrayList&lt;Integer&gt; squares = new ArrayList&lt;&gt;();
+      for (int i = 1; i &lt;= 5; i++)
+         squares.add(i * i);
+      System.out.println(new ObjectAnalyzer().toString(squares));
+   }
+}
+</code></pre>
+<h4 id="7-5-使用反射编写泛型数组代码"><a href="#7-5-使用反射编写泛型数组代码" class="headerlink" title="7.5 使用反射编写泛型数组代码"></a>7.5 使用反射编写泛型数组代码</h4><pre><code class="lang-java">package arrays;
+
+import java.lang.reflect.*;
+import java.util.*;
+
+/**
+ * This program demonstrates the use of reflection for manipulating arrays.
+ * @version 1.2 2012-05-04
+ * @author Cay Horstmann
+ */
+public class CopyOfTest
+{
+   public static void main(String[] args)
+   {
+      int[] a = { 1, 2, 3 };
+      a = (int[]) goodCopyOf(a, 10);
+      System.out.println(Arrays.toString(a));
+
+      String[] b = { &quot;Tom&quot;, &quot;Dick&quot;, &quot;Harry&quot; };
+      b = (String[]) goodCopyOf(b, 10);
+      System.out.println(Arrays.toString(b));
+
+      System.out.println(&quot;The following call will generate an exception.&quot;);
+      b = (String[]) badCopyOf(b, 10);
+   }
+
+   /**
+    * This method attempts to grow an array by allocating a new array and copying all elements.
+    * @param a the array to grow
+    * @param newLength the new length
+    * @return a larger array that contains all elements of a. However, the returned array has 
+    * type Object[], not the same type as a
+    */
+   public static Object[] badCopyOf(Object[] a, int newLength) // not useful
+   {
+      Object[] newArray = new Object[newLength];
+      System.arraycopy(a, 0, newArray, 0, Math.min(a.length, newLength));
+      return newArray;
+   }
+
+   /**
+    * This method grows an array by allocating a new array of the same type and
+    * copying all elements.
+    * @param a the array to grow. This can be an object array or a primitive
+    * type array
+    * @return a larger array that contains all elements of a.
+    */
+   public static Object goodCopyOf(Object a, int newLength) 
+   {
+      Class cl = a.getClass();
+      if (!cl.isArray()) return null;
+      Class componentType = cl.getComponentType();
+      int length = Array.getLength(a);
+      Object newArray = Array.newInstance(componentType, newLength);
+      System.arraycopy(a, 0, newArray, 0, Math.min(length, newLength));
+      return newArray;
+   }
+}
+</code></pre>
+<h4 id="7-6-调用任意方法"><a href="#7-6-调用任意方法" class="headerlink" title="7.6 调用任意方法"></a>7.6 调用任意方法</h4><p><code>java.lang.reflect.Method</code>：</p>
+<pre><code class="lang-java">public Object invoke(Object implicitParameter, Object[] explicitParameters)
+// 调用这个对象所描述的方法，传递给定参数，并返回方法的返回值
+// 对于静态方法，把 null 作为隐式参数传递
+</code></pre>
+<p><code>MethodTableTest.java</code>：</p>
+<pre><code class="lang-java">package methods;
+
+import java.lang.reflect.*;
+
+/**
+ * This program shows how to invoke methods through reflection.
+ * @version 1.2 2012-05-04
+ * @author Cay Horstmann
+ */
+public class MethodTableTest
+{
+   public static void main(String[] args) throws Exception
+   {
+      // get method pointers to the square and sqrt methods
+      Method square = MethodTableTest.class.getMethod(&quot;square&quot;, double.class);
+      Method sqrt = Math.class.getMethod(&quot;sqrt&quot;, double.class);
+
+      // print tables of x- and y-values
+
+      printTable(1, 10, 10, square);
+      printTable(1, 10, 10, sqrt);
+   }
+
+   /**
+    * Returns the square of a number
+    * @param x a number
+    * @return x squared
+    */
+   public static double square(double x)
+   {
+      return x * x;
+   }
+
+   /**
+    * Prints a table with x- and y-values for a method
+    * @param from the lower bound for the x-values
+    * @param to the upper bound for the x-values
+    * @param n the number of rows in the table
+    * @param f a method with a double parameter and double return value
+    */
+   public static void printTable(double from, double to, int n, Method f)
+   {
+      // print out the method as table header
+      System.out.println(f);
+
+      double dx = (to - from) / (n - 1);
+
+      for (double x = from; x &lt;= to; x += dx)
+      {
+         try
+         {
+            double y = (Double) f.invoke(null, x);
+            System.out.printf(&quot;%10.4f | %10.4f%n&quot;, x, y);
+         }
+         catch (Exception e)
+         {
+            e.printStackTrace();
+         }
+      }
+   }
+}
+</code></pre>
+<h3 id="8-继承的技巧"><a href="#8-继承的技巧" class="headerlink" title="8. 继承的技巧"></a>8. 继承的技巧</h3><ol>
+<li>将公共操作和域放在超类</li>
+<li>不要使用受保护的域</li>
+<li>使用继承实现 “is-a” 关系</li>
+<li>除非所有继承方法都有意义，否则不要使用继承</li>
+<li>在覆盖方法时，不要改变预期的行为</li>
+<li>使用多态，而非类型信息</li>
+<li>不要过多的使用反射</li>
+</ol>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/03/18/understanding-linux-kernel/">Linux 内核笔记 1：绪论</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-6/">Java 笔记 6：异常、断言和日志</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-5/">Java 笔记 5：集合</a></li><li><a href="https://abelsu7.top/2019/03/08/sort-algo-in-go/">排序算法 1：冒泡排序、插入排序、选择排序</a></li><li><a href="https://jarrychen.xyz/archives/57361fba.html">快速排序(递归)</a></li><li><a href="https://www.hosiang.cn/3372e3cc/">后端开发 - Java开发环境配置 - 入门篇</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.085Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/02/06/core-java-notes-3/" target="_blank" rel="external">https://abelsu7.top/2019/02/06/core-java-notes-3/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书/">读书</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/02/06/core-java-notes-3/&title=《Java 笔记 3：继承、泛型与反射》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/02/06/core-java-notes-3/&title=《Java 笔记 3：继承、泛型与反射》 — Keep Coding&source=
+摘自 《Java 核心技术（卷 Ⅰ）》
+
+
+                
+                    
+                ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/02/06/core-java-notes-3/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java 笔记 3：继承、泛型与反射》 — Keep Coding&url=https://abelsu7.top/2019/02/06/core-java-notes-3/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/02/06/core-java-notes-3/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/02/10/core-java-notes-4/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Java 笔记 4：接口、lambda 表达式与内部类</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/01/18/core-java-notes-2/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Java 笔记 2：对象与类</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/02/06/core-java-notes-3/&title=《Java 笔记 3：继承、泛型与反射》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/02/06/core-java-notes-3/&title=《Java 笔记 3：继承、泛型与反射》 — Keep Coding&source=
+摘自 《Java 核心技术（卷 Ⅰ）》
+
+
+                
+                    
+                ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/02/06/core-java-notes-3/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java 笔记 3：继承、泛型与反射》 — Keep Coding&url=https://abelsu7.top/2019/02/06/core-java-notes-3/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/02/06/core-java-notes-3/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACOklEQVR42u3aS27jQAwFQN//0h4gW0PyI9kZRN2lleEotqoDMPy9XvH1/rk+X1/d+XlP8v7VPcsuDAyMxzLet9c94+ork8f6/Jyr742oGBgYBzCqQbYXgu8PqHpMGBgYGHlA7L2+ShkxMDAwVgXce2o1WczDMQYGxsmMJIG7f4hJZywP9AtqcQwMjAcyJoOB3379n+YbGBgYf5jxbl1563/VAODL82BgYGzNSIrPZJ0iT+Dug2zyTuGxMDAwtmD0Boq9kjIfCZRDOQYGxtaMeYu/OqRc8KDVahsDA+PhjEl5+XvHkYRmDAyMMxnzxG5yHJM2HAYGxt6M3kpE8kHVe+bNOAwMjL0Z+QwhT+OqqeH9kUVJKgYGxtaMSfu+Op7Mh5TJESybQmBgYPxhxmQZojoSyHnlhBUDA2NrxnwJLO/MV8ecybGWJ7QYGBgPZ9wHsmrwnSx55AkrBgbGaYx8ZDhpkPVWPZJ/AxgYGCcw1qZ6vRZeXk5ffi8GBsamjN4kIV/zqpapSSvtchKLgYGxNaMXauePMn8fAwPjHMbagJsPA6oB+svKBQYGxqaMatlZXflKllCryxav3q0YGBgPZExa/722/qSUvQzZGBgYWzMmKxHzNC65M6FiYGCcwOitUOTIpADOfxrV4hgYGJsyegODPH4nKxfJJ3xZtsDAwMAohsve7zbHohgYGBitVa1eotlsrmFgYBzAyIcBefE5v8odQQwMjE0Zk02NZGCQUJPidtlfDAMD40mMfwNAslCdW7E1AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

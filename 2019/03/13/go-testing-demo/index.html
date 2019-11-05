@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Go 语言测试框架 testing 快速体验 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Go">
+    <meta name="description" content="Go 语言内置了测试包 testing，可以很方便的为函数编写测试方法">
+<meta name="keywords" content="Go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go 语言测试框架 testing 快速体验">
+<meta property="og:url" content="https://abelsu7.top/2019/03/13/go-testing-demo/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="Go 语言内置了测试包 testing，可以很方便的为函数编写测试方法">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/03/13/go-testing-demo/cover.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.271Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go 语言测试框架 testing 快速体验">
+<meta name="twitter:description" content="Go 语言内置了测试包 testing，可以很方便的为函数编写测试方法">
+<meta name="twitter:image" content="https://abelsu7.top/2019/03/13/go-testing-demo/cover.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Go 语言测试框架 testing 快速体验</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Go 语言测试框架 testing 快速体验</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-03-13T03:29:53.000Z" itemprop="datePublished" class="page-time">
+  2019-03-13
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-引入-testing-包"><span class="post-toc-text">1. 引入 testing 包</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-源代码文件"><span class="post-toc-text">2. 源代码文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-测试代码文件"><span class="post-toc-text">3. 测试代码文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-运行结果"><span class="post-toc-text">4. 运行结果</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-go-testing-demo"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Go 语言测试框架 testing 快速体验</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-03-13 11:29:53" datetime="2019-03-13T03:29:53.000Z"  itemprop="datePublished">2019-03-13</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>Go 语言内置了测试包 <code>testing</code>，可以很方便的为函数编写测试方法</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/13/go-testing-demo/cover.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="1-引入-testing-包"><a href="#1-引入-testing-包" class="headerlink" title="1. 引入 testing 包"></a>1. 引入 testing 包</h3><pre><code class="lang-go">import &quot;testing&quot;
+</code></pre>
+<h3 id="2-源代码文件"><a href="#2-源代码文件" class="headerlink" title="2. 源代码文件"></a>2. 源代码文件</h3><p>假设<strong>源代码文件</strong>为<code>_1_sorts/Sort.go</code>：</p>
+<pre><code class="lang-go">package _1_sorts
+
+/*
+冒泡排序、插入排序、选择排序
+ */
+
+//冒泡排序，a是数组，n表示数组大小
+func BubbleSort(a []int, n int) {
+    if n &lt;= 1 {
+        return
+    }
+    for i := 0; i &lt; n; i++ {
+        // 提前退出标志
+        flag := false
+        for j := 0; j &lt; n-i-1; j++ {
+            if a[j] &gt; a[j+1] {
+                a[j], a[j+1] = a[j+1], a[j]
+                //此次冒泡有数据交换
+                flag = true
+            }
+        }
+        // 如果没有交换数据，提前退出
+        if !flag {
+            break
+        }
+    }
+}
+
+// 插入排序，a表示数组，n表示数组大小
+func InsertionSort(a []int, n int) {
+    if n &lt;= 1 {
+        return
+    }
+    for i := 1; i &lt; n; i++ {
+        value := a[i]
+        j := i - 1
+        //查找要插入的位置并移动数据
+        for ; j &gt;= 0; j-- {
+            if a[j] &gt; value {
+                a[j+1] = a[j]
+            } else {
+                break
+            }
+        }
+        a[j+1] = value
+    }
+}
+
+// 选择排序，a表示数组，n表示数组大小
+func SelectionSort(a []int, n int) {
+    if n &lt;= 1 {
+        return
+    }
+    for i := 0; i &lt; n; i++ {
+        // 查找最小值
+        minIndex := i
+        for j := i + 1; j &lt; n; j++ {
+            if a[j] &lt; a[minIndex] {
+                minIndex = j
+            }
+        }
+        // 交换
+        a[i], a[minIndex] = a[minIndex], a[i]
+
+    }
+}
+
+// 归并排序
+func MergeSort(a []int, n int) {
+    if n &lt;= 1 {
+        return
+    }
+    mergeSort(a, 0, n-1)
+}
+
+func mergeSort(a []int, start, end int) {
+    if start &gt;= end {
+        return
+    }
+    mid := (start + end) / 2
+    mergeSort(a, start, mid)
+    mergeSort(a, mid+1, end)
+    merge(a, start, mid, end)
+}
+
+func merge(a []int, start, mid, end int) {
+    tmpArr := make([]int, end-start+1)
+
+    i := start
+    j := mid + 1
+    k := 0
+
+    for ; i &lt;= mid &amp;&amp; j &lt;= end; k++ {
+        if a[i] &lt; a[j] {
+            tmpArr[k] = a[i]
+            i++
+        } else {
+            tmpArr[k] = a[j]
+            j++
+        }
+    }
+
+    for ; i &lt;= mid; i++ {
+        tmpArr[k] = a[i]
+        k++
+    }
+    for ; j &lt;= end; j++ {
+        tmpArr[k] = a[j]
+        j++
+    }
+    copy(a[start:end+1], tmpArr)
+}
+
+func QuickSort(a []int, n int) {
+    separateSort(a, 0, n-1)
+}
+
+func separateSort(a []int, start, end int) {
+    if start &gt;= end {
+        return
+    }
+    i := partition(a, start, end)
+    separateSort(a, start, i-1)
+    separateSort(a, i+1, end)
+}
+
+func partition(a []int, start, end int) int {
+    // 选取最后一位当对比数字
+    pivot := a[end]
+
+    i := start
+    for j := start; j &lt; end; j++ {
+        if a[j] &lt; pivot {
+            if !(i == j) {
+                // 交换位置
+                a[i], a[j] = a[j], a[i]
+            }
+            i++
+        }
+    }
+    a[i], a[end] = a[end], a[i]
+    return i
+}
+</code></pre>
+<h3 id="3-测试代码文件"><a href="#3-测试代码文件" class="headerlink" title="3. 测试代码文件"></a>3. 测试代码文件</h3><ul>
+<li><strong>测试文件</strong><code>_1_sorts/Sort_test.go</code>的<strong>文件名后缀</strong>必须为<code>_test</code>，文件名前半部分无要求，一般与被测源代码文件相同</li>
+<li><strong>测试函数</strong>如<code>TestBubbleSort</code>，<strong>函数名必须以</strong><code>Test</code><strong>为前缀</strong>，函数名后半部分无要求</li>
+<li><strong>测试函数参数</strong>必须为<code>test *testing.T</code></li>
+</ul>
+<pre><code class="lang-go">package _1_sorts
+
+import (
+    &quot;fmt&quot;
+    &quot;math/rand&quot;
+    &quot;testing&quot;
+)
+
+func createRandomArr(len int) []int {
+    arr := make([]int, len, len)
+    for i := 0; i &lt; len; i++ {
+        arr[i] = rand.Intn(100)
+    }
+    return arr
+}
+
+func TestBubbleSort(t *testing.T) {
+    arr := []int{1, 5, 9, 6, 3, 7, 5, 10}
+    fmt.Println(&quot;排序前：&quot;, arr)
+    BubbleSort(arr, len(arr))
+    fmt.Println(&quot;排序后：&quot;, arr)
+}
+
+func TestInsertionSort(t *testing.T) {
+    arr := []int{1, 5, 9, 6, 3, 7, 5, 10}
+    fmt.Println(&quot;排序前：&quot;, arr)
+    InsertionSort(arr, len(arr))
+    fmt.Println(&quot;排序后：&quot;, arr)
+}
+
+func TestSelectionSort(t *testing.T) {
+    arr := []int{1, 5, 9, 6, 3, 7, 5, 10}
+    fmt.Println(&quot;排序前：&quot;, arr)
+    SelectionSort(arr, len(arr))
+    fmt.Println(&quot;排序后：&quot;, arr)
+}
+
+func TestMergeSort(t *testing.T) {
+    a := []int{5, 4}
+    MergeSort(a, len(a))
+    t.Log(a)
+
+    a = []int{5, 4, 3, 2, 1}
+    MergeSort(a, len(a))
+    t.Log(a)
+}
+
+func TestQuickSort(t *testing.T) {
+    a := []int{5, 4}
+    QuickSort(a, len(a))
+    t.Log(a)
+
+    a = createRandomArr(100)
+    QuickSort(a, len(a))
+    t.Log(a)
+}
+</code></pre>
+<h3 id="4-运行结果"><a href="#4-运行结果" class="headerlink" title="4. 运行结果"></a>4. 运行结果</h3><pre><code class="lang-go">=== RUN   TestBubbleSort
+排序前： [1 5 9 6 3 7 5 10]
+排序后： [1 3 5 5 6 7 9 10]
+--- PASS: TestBubbleSort (0.00s)
+=== RUN   TestInsertionSort
+排序前： [1 5 9 6 3 7 5 10]
+排序后： [1 3 5 5 6 7 9 10]
+--- PASS: TestInsertionSort (0.00s)
+=== RUN   TestSelectionSort
+排序前： [1 5 9 6 3 7 5 10]
+排序后： [1 3 5 5 6 7 9 10]
+--- PASS: TestSelectionSort (0.00s)
+=== RUN   TestMergeSort
+--- PASS: TestMergeSort (0.00s)
+    Sort_test.go:41: [4 5]
+    Sort_test.go:45: [1 2 3 4 5]
+=== RUN   TestQuickSort
+--- PASS: TestQuickSort (0.00s)
+    Sort_test.go:51: [4 5]
+    Sort_test.go:55: [0 0 2 2 2 3 3 5 5 5 6 7 8 10 11 11 13 15 18 18 20 21 23 24 25 26 28 28 28 29 31 31 33 33 33 36 37 37 37 38 40 40 41 41 43 43 45 46 46 47 47 47 47 47 51 52 53 53 55 56 56 56 57 58 59 59 59 61 62 63 63 63 66 66 74 76 77 78 78 81 81 83 85 87 87 87 88 88 89 89 90 90 91 94 94 94 95 96 98 99]
+PASS
+
+Process finished with exit code 0
+</code></pre>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://blog.csdn.net/quicmous/article/details/80362385" target="_blank" rel="noopener">Go语言测试框架（testing）用法 | CSDN</a></li>
+<li><a href="https://www.jianshu.com/p/d631847be875" target="_blank" rel="noopener">Go testing 使用 | 简书</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/">使用 Gogs 自建 Git 服务</a></li><li><a href="https://abelsu7.top/2019/10/31/go-gin-swagger/">在 Gin 中使用 swaggo 自动生成 RESTful API 文档</a></li><li><a href="https://abelsu7.top/2019/10/24/go-build-compress-using-upx/">使用 upx 压缩 go build 打包的可执行文件</a></li><li><a href="https://abelsu7.top/2019/10/24/go-cross-compile/">Go 程序的交叉编译、选择性编译</a></li><li><a href="chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li><li><a href="www.chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.271Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/03/13/go-testing-demo/" target="_blank" rel="external">https://abelsu7.top/2019/03/13/go-testing-demo/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/13/go-testing-demo/&title=《Go 语言测试框架 testing 快速体验》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/13/go-testing-demo/&title=《Go 语言测试框架 testing 快速体验》 — Keep Coding&source=
+Go 语言内置了测试包 testing，可以很方便的为函数编写测试方法
+
+
+                
+                    
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/13/go-testing-demo/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go 语言测试框架 testing 快速体验》 — Keep Coding&url=https://abelsu7.top/2019/03/13/go-testing-demo/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/13/go-testing-demo/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/03/13/core-go-notes/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">《Go 语言核心 36 讲》笔记</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/03/11/core-java-notes-5/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Java 笔记 5：集合</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/13/go-testing-demo/&title=《Go 语言测试框架 testing 快速体验》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/13/go-testing-demo/&title=《Go 语言测试框架 testing 快速体验》 — Keep Coding&source=
+Go 语言内置了测试包 testing，可以很方便的为函数编写测试方法
+
+
+                
+                    
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/13/go-testing-demo/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go 语言测试框架 testing 快速体验》 — Keep Coding&url=https://abelsu7.top/2019/03/13/go-testing-demo/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/13/go-testing-demo/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKElEQVR42u3aQW7DMAwEwP7/0ynQU4HU7pJUikYanQzZcTQ+EKLIj494PL7G1fX3cTV/dff5X57nlw0MDIy3ZTxux/PS7zH3z98/k3ymSyoGBsYBjPx1SYjMA3T1c1zOY2BgYMQBNJ+5p2JgYGCsCrj3W8x5pomBgYFRffX9QpP5HmNxLo6BgfGGjHlh4HXXf1rfwMDA+JeMR3Hkb5tsNMurwsDA2JqRlCfzMmT1brWQ8Es4xsDA2JSxqlWrd/TfK4j+MIOBgXE8oxcQJ2E3fwYDA+McRrUlIjn6r4JHHwIDA+NIRrIhy+/2Np2jNgsMDIztGPlxfJW0NuBergEDA2NrxutGXgTNW8TyRBcDA2M/xip9ElJ7JYFoHgMDY2tGnojmR/lrt5jVAgMGBsZ+jN4S560Y+RYzSlwxMDA2ZeQNDZPcd1IcjUgYGBjHMHrbu7VF0GYTBgYGxtaMXjlw3kyWf7K8RIqBgXECo9oSkfx20n4xarPAwMDYiJG3glWv841gfvz3y3YQAwNja0YCq5YKkrQz+VW5WwQDA2M7Rh4K58G3GlirW08MDIxdGY/i6MGiA/3gOO/yLgYGxtaMScNE75lCC0XwUTAwMM5hVI/bVm0QF4dUDAyMAxhJAF0V0XtRPypkYmBgHM+YpKm9j1II4hgYGBjxEntBtvr+qB6LgYGxHaPaZpE/k4fdarLdzMUxMDDekLEggRxs76rHfJM0GAMD4w0Zn+scQc+8qo6jAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

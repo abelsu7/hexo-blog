@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Vim 入坑不完全指北 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Linux,Shell,Vim">
+    <meta name="description" content="一入 Vim 深似海，从此 IDE 是路人">
+<meta name="keywords" content="Linux,Shell,Vim">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vim 入坑不完全指北">
+<meta property="og:url" content="https://abelsu7.top/2019/04/18/vim-quick-guide/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="一入 Vim 深似海，从此 IDE 是路人">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/04/18/vim-quick-guide/cover.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.762Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vim 入坑不完全指北">
+<meta name="twitter:description" content="一入 Vim 深似海，从此 IDE 是路人">
+<meta name="twitter:image" content="https://abelsu7.top/2019/04/18/vim-quick-guide/cover.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Vim 入坑不完全指北</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Vim 入坑不完全指北</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-04-18T12:53:20.000Z" itemprop="datePublished" class="page-time">
+  2019-04-18
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Vim/">Vim</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-基本操作"><span class="post-toc-text">1. 基本操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#移动光标"><span class="post-toc-text">移动光标</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#文件保存与退出"><span class="post-toc-text">文件保存与退出</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#删除字符"><span class="post-toc-text">删除字符</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#插入字符"><span class="post-toc-text">插入字符</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#行末添加新字符"><span class="post-toc-text">行末添加新字符</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-删除-撤销"><span class="post-toc-text">2. 删除/撤销</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#d-命令及其参数"><span class="post-toc-text">d 命令及其参数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#w-e-移动光标"><span class="post-toc-text">w/e 移动光标</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#dd-删除整行"><span class="post-toc-text">dd 删除整行</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Undo-Redo"><span class="post-toc-text">Undo/Redo</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-插入-替换-编辑"><span class="post-toc-text">3. 插入/替换/编辑</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#p-命令"><span class="post-toc-text">p 命令</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#r-命令"><span class="post-toc-text">r 命令</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#c-命令"><span class="post-toc-text">c 命令</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-定位-搜索替换-括号匹配"><span class="post-toc-text">4. 定位/搜索替换/括号匹配</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#快速定位"><span class="post-toc-text">快速定位</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#搜索"><span class="post-toc-text">搜索</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#替换"><span class="post-toc-text">替换</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#括号匹配"><span class="post-toc-text">括号匹配</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-运行终端命令-保存至文件"><span class="post-toc-text">5. 运行终端命令/保存至文件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#运行终端命令"><span class="post-toc-text">运行终端命令</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#保存至文件"><span class="post-toc-text">保存至文件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#保存选中内容"><span class="post-toc-text">保存选中内容</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#插入文件内容"><span class="post-toc-text">插入文件内容</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-新行插入-连续替换-复制粘贴-搜索选项"><span class="post-toc-text">6. 新行插入/连续替换/复制粘贴/搜索选项</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#o-命令"><span class="post-toc-text">o 命令</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#a-命令"><span class="post-toc-text">a 命令</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#R-命令"><span class="post-toc-text">R 命令</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#复制-粘贴"><span class="post-toc-text">复制/粘贴</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#设置搜索选项"><span class="post-toc-text">设置搜索选项</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-获取帮助-自动补全"><span class="post-toc-text">7. 获取帮助/自动补全</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#获取帮助"><span class="post-toc-text">获取帮助</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#自动补全"><span class="post-toc-text">自动补全</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8-vimrc-设置快捷键"><span class="post-toc-text">8. .vimrc 设置快捷键</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Ctrl-S-保存"><span class="post-toc-text">Ctrl+S 保存</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-vim-quick-guide"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Vim 入坑不完全指北</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-04-18 20:53:20" datetime="2019-04-18T12:53:20.000Z"  itemprop="datePublished">2019-04-18</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Vim/">Vim</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>一入 Vim 深似海，从此 IDE 是路人</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/04/18/vim-quick-guide/cover.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<p><strong><em>更新中…</em></strong></p>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#1-基本操作">1. 基本操作</a><ul>
+<li><a href="#移动光标">移动光标</a></li>
+<li><a href="#文件保存与退出">文件保存与退出</a></li>
+<li><a href="#删除字符">删除字符</a></li>
+<li><a href="#插入字符">插入字符</a></li>
+<li><a href="#行末添加新字符">行末添加新字符</a></li>
+</ul>
+</li>
+<li><a href="#2-删除-撤销">2. 删除/撤销</a><ul>
+<li><a href="#d-命令及其参数">d 命令及其参数</a></li>
+<li><a href="#w-e-移动光标">w/e 移动光标</a></li>
+<li><a href="#dd-删除整行">dd 删除整行</a></li>
+<li><a href="#Undo-Redo">Undo/Redo</a></li>
+</ul>
+</li>
+<li><a href="#3-插入-替换-编辑">3. 插入/替换/编辑</a><ul>
+<li><a href="#p-命令">p 命令</a></li>
+<li><a href="#r-命令">r 命令</a></li>
+<li><a href="#c-命令">c 命令</a></li>
+</ul>
+</li>
+<li><a href="#4-定位-搜索替换-括号匹配">4. 定位/搜索替换/括号匹配</a><ul>
+<li><a href="#快速定位">快速定位</a></li>
+<li><a href="#搜索">搜索</a></li>
+<li><a href="#替换">替换</a></li>
+<li><a href="#括号匹配">括号匹配</a></li>
+</ul>
+</li>
+<li><a href="#5-运行终端命令-保存至文件">5. 运行终端命令/保存至文件</a><ul>
+<li><a href="#运行终端命令">运行终端命令</a></li>
+<li><a href="#保存至文件">保存至文件</a></li>
+<li><a href="#保存选中内容">保存选中内容</a></li>
+<li><a href="#插入文件内容">插入文件内容</a></li>
+</ul>
+</li>
+<li><a href="#6-新行插入-连续替换-复制粘贴-搜索选项">6. 新行插入/连续替换/复制粘贴/搜索选项</a><ul>
+<li><a href="#o-命令">o 命令</a></li>
+<li><a href="#a-命令">a 命令</a></li>
+<li><a href="#R-命令">R 命令</a></li>
+<li><a href="#复制-粘贴">复制/粘贴</a></li>
+<li><a href="#设置搜索选项">设置搜索选项</a></li>
+</ul>
+</li>
+<li><a href="#7-获取帮助-自动补全">7. 获取帮助/自动补全</a><ul>
+<li><a href="#获取帮助">获取帮助</a></li>
+<li><a href="#自动补全">自动补全</a></li>
+</ul>
+</li>
+<li><a href="#参考文章">参考文章</a></li>
+</ul>
+<h3 id="1-基本操作"><a href="#1-基本操作" class="headerlink" title="1. 基本操作"></a>1. 基本操作</h3><h4 id="移动光标"><a href="#移动光标" class="headerlink" title="移动光标"></a>移动光标</h4><pre><code class="lang-bash">       ^
+       k          Hint:  The h key is at the left and moves left.
+ &lt; h       l &gt;           The l key is at the right and moves right.
+       j                 The j key looks like a down arrow.
+       v
+</code></pre>
+<h4 id="文件保存与退出"><a href="#文件保存与退出" class="headerlink" title="文件保存与退出"></a>文件保存与退出</h4><blockquote>
+<p><strong><em>待补充</em></strong></p>
+</blockquote>
+<ul>
+<li><code>:w</code></li>
+<li><code>:wq</code></li>
+<li><code>:q!</code></li>
+<li><code>:qa</code></li>
+</ul>
+<h4 id="删除字符"><a href="#删除字符" class="headerlink" title="删除字符"></a>删除字符</h4><ul>
+<li><code>x</code>：<strong>删除光标选中的字符</strong></li>
+</ul>
+<h4 id="插入字符"><a href="#插入字符" class="headerlink" title="插入字符"></a>插入字符</h4><ul>
+<li><code>i</code>：进入<strong>编辑模式</strong></li>
+</ul>
+<h4 id="行末添加新字符"><a href="#行末添加新字符" class="headerlink" title="行末添加新字符"></a>行末添加新字符</h4><ul>
+<li><code>A</code>：可在当前光标<strong>行末添加新字符</strong></li>
+</ul>
+<h3 id="2-删除-撤销"><a href="#2-删除-撤销" class="headerlink" title="2. 删除/撤销"></a>2. 删除/撤销</h3><h4 id="d-命令及其参数"><a href="#d-命令及其参数" class="headerlink" title="d 命令及其参数"></a>d 命令及其参数</h4><pre><code class="lang-bash">Many commands that change text are made from an operator and a motion.
+The format for a delete command with the  d  delete operator is as follows:
+
+    d   motion
+
+Where: 
+  d      - is the delete operator.
+  motion - is what the operator will operate on (listed below).
+
+A short list of motions:
+  w - until the start of the next word, EXCLUDING its first character.
+  e - to the end of the current word, INCLUDING the last character.
+  $ - to the end of the line, INCLUDING the last character.
+</code></pre>
+<ul>
+<li><code>dw</code>：<strong>删除光标后的单词</strong>，光标停留在<strong>下一个单词的开头</strong></li>
+<li><code>de</code>：<strong>删除光标后的单词</strong>，光标停留在<strong>下一个单词开头的前一个字符</strong></li>
+<li><code>d$</code>：<strong>删除至行末</strong></li>
+</ul>
+<h4 id="w-e-移动光标"><a href="#w-e-移动光标" class="headerlink" title="w/e 移动光标"></a>w/e 移动光标</h4><ul>
+<li><code>w</code>：移动至<strong>下一个单词的开头</strong>，可与数字连用，例如<code>2w</code>会移动至后数第二个单词的<strong>开头</strong></li>
+<li><code>e</code>：移动至<strong>下一个单词的末尾</strong>，可与数字连用，例如<code>3e</code>会移动至后数第三个单词的<strong>末尾</strong></li>
+<li><code>0</code>：移动至<strong>光标所在行的开头</strong>（类似<code>Home</code>）</li>
+<li><code>d2w</code>：<strong>删除光标后数的两个单词</strong>，光标停留在<strong>第三个单词的首字符</strong></li>
+<li><code>d2e</code>：<strong>删除光标后数的两个单词</strong>，光标停留在<strong>第三个单词首字符的前一个字符</strong></li>
+</ul>
+<h4 id="dd-删除整行"><a href="#dd-删除整行" class="headerlink" title="dd 删除整行"></a>dd 删除整行</h4><ul>
+<li><code>dd</code>：删除<strong>当前行</strong></li>
+<li><code>2dd</code>：删除<strong>包括当前行之后的 2 行</strong></li>
+</ul>
+<h4 id="Undo-Redo"><a href="#Undo-Redo" class="headerlink" title="Undo/Redo"></a>Undo/Redo</h4><ul>
+<li><code>u</code>：<strong>撤销</strong>最近的一次更改</li>
+<li><code>U</code>：撤销<strong>整行的更改</strong></li>
+<li><code>Ctrl+R</code>：<strong>Redo</strong></li>
+</ul>
+<h3 id="3-插入-替换-编辑"><a href="#3-插入-替换-编辑" class="headerlink" title="3. 插入/替换/编辑"></a>3. 插入/替换/编辑</h3><h4 id="p-命令"><a href="#p-命令" class="headerlink" title="p 命令"></a>p 命令</h4><ul>
+<li><code>p</code>：将上一次删除的内容<strong>插入到光标之后</strong></li>
+</ul>
+<h4 id="r-命令"><a href="#r-命令" class="headerlink" title="r 命令"></a>r 命令</h4><ul>
+<li><code>r</code>：<strong>替换</strong>光标选中的字符</li>
+</ul>
+<h4 id="c-命令"><a href="#c-命令" class="headerlink" title="c 命令"></a>c 命令</h4><p><strong>与</strong><code>d</code><strong>命令类似</strong>，满足以下格式：</p>
+<pre><code class="lang-bash">&gt; c [number] motion
+</code></pre>
+<ul>
+<li><code>ce</code>：编辑光标之后的单词直至其末尾</li>
+<li><code>c2e</code>：编辑光标之后的 2 个单词直至其末尾</li>
+<li><code>c$</code>：编辑光标至行末的内容</li>
+</ul>
+<h3 id="4-定位-搜索替换-括号匹配"><a href="#4-定位-搜索替换-括号匹配" class="headerlink" title="4. 定位/搜索替换/括号匹配"></a>4. 定位/搜索替换/括号匹配</h3><h4 id="快速定位"><a href="#快速定位" class="headerlink" title="快速定位"></a>快速定位</h4><ul>
+<li><code>Ctrl+G</code>：<strong>显示当前位置及行号</strong></li>
+<li><code>G</code>：移动至<strong>文件末尾</strong></li>
+<li><code>gg</code>：移动至<strong>文件开头</strong></li>
+<li><code>313 G</code>：移动至第<code>313</code>行</li>
+</ul>
+<h4 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h4><ul>
+<li><code>/pattern</code>：<strong>向后查找</strong>包含<code>pattern</code>的字符串</li>
+<li><code>?pattern</code>：<strong>向前查找</strong>包含<code>pattern</code>的字符串</li>
+<li><code>n</code>：<strong>下一个匹配</strong></li>
+<li><code>N</code>：<strong>上一个匹配</strong></li>
+<li><code>Ctrl+O</code>：跳转至<strong>光标上一次所在位置</strong></li>
+<li><code>Ctrl+I</code>：跳转至<strong>光标下一次所在位置</strong></li>
+</ul>
+<h4 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h4><ul>
+<li><code>:s/old/new</code>：将该行<strong>第一个出现的</strong><code>old</code>替换为<code>new</code></li>
+<li><code>:s/old/new/g</code>：将该行<strong>所有出现的</strong><code>old</code>替换为<code>new</code></li>
+<li><code>:#,#s/old/new/g</code>：将<strong>两行之间所有出现的</strong><code>old</code>替换为<code>new</code></li>
+<li><code>:%s/old/new/g</code>：将<strong>文件中所有出现的</strong><code>old</code>替换为<code>new</code></li>
+<li><code>:%s/old/new/g</code>：查找文件中所有出现的<code>old</code>，并<strong>提示用户是否用</strong><code>new</code><strong>进行替换</strong></li>
+</ul>
+<h4 id="括号匹配"><a href="#括号匹配" class="headerlink" title="括号匹配"></a>括号匹配</h4><ul>
+<li><code>%</code>：查找<strong>与光标后最近的左括号</strong><code>(</code>、<code>[</code>、<code>{</code><strong>匹配的右括号</strong></li>
+</ul>
+<h3 id="5-运行终端命令-保存至文件"><a href="#5-运行终端命令-保存至文件" class="headerlink" title="5. 运行终端命令/保存至文件"></a>5. 运行终端命令/保存至文件</h3><h4 id="运行终端命令"><a href="#运行终端命令" class="headerlink" title="运行终端命令"></a>运行终端命令</h4><ul>
+<li><code>:!command</code>：例如<code>:!pwd</code>将打印当前工作目录路径</li>
+</ul>
+<h4 id="保存至文件"><a href="#保存至文件" class="headerlink" title="保存至文件"></a>保存至文件</h4><ul>
+<li><code>:w FILENAME</code>：将更改保存至<code>FILENAME</code></li>
+</ul>
+<h4 id="保存选中内容"><a href="#保存选中内容" class="headerlink" title="保存选中内容"></a>保存选中内容</h4><ol>
+<li>首先在<strong>起始行</strong>按下<code>v</code>进入<strong>可视化选择模式</strong></li>
+<li>移动光标，<strong>选中想要保存的内容</strong></li>
+<li>之后<strong>按下</strong><code>:</code>，屏幕下方会出现<code>:&#39;&lt;,&#39;&gt;</code></li>
+<li><strong>输入</strong><code>w TEST</code>，即屏幕下方显示<code>:&#39;&lt;,&#39;&gt;w TEST</code>，<strong>将选中内容保存至</strong><code>TEST</code></li>
+</ol>
+<h4 id="插入文件内容"><a href="#插入文件内容" class="headerlink" title="插入文件内容"></a>插入文件内容</h4><ul>
+<li><code>:r TEST</code>：在光标后<strong>插入文件</strong><code>TEST</code><strong>的内容</strong></li>
+<li><code>:r !pwd</code>：在光标后<strong>插入</strong><code>pwd</code><strong>命令输出的内容</strong></li>
+</ul>
+<h3 id="6-新行插入-连续替换-复制粘贴-搜索选项"><a href="#6-新行插入-连续替换-复制粘贴-搜索选项" class="headerlink" title="6. 新行插入/连续替换/复制粘贴/搜索选项"></a>6. 新行插入/连续替换/复制粘贴/搜索选项</h3><h4 id="o-命令"><a href="#o-命令" class="headerlink" title="o 命令"></a>o 命令</h4><ul>
+<li><code>:o</code>：在光标<strong>下方插入新行</strong>，并进入<strong>编辑模式</strong></li>
+<li><code>:O</code>：在光标<strong>上方插入新行</strong>，并进入<strong>编辑模式</strong></li>
+</ul>
+<h4 id="a-命令"><a href="#a-命令" class="headerlink" title="a 命令"></a>a 命令</h4><ul>
+<li><code>:a</code>：在<strong>当前光标之后</strong>插入新内容，并进入<strong>编辑模式</strong></li>
+</ul>
+<h4 id="R-命令"><a href="#R-命令" class="headerlink" title="R 命令"></a>R 命令</h4><ul>
+<li><code>:R</code>：进入<strong>编辑模式</strong>，并<strong>用输入的字符替换当前光标选中的字符</strong></li>
+</ul>
+<h4 id="复制-粘贴"><a href="#复制-粘贴" class="headerlink" title="复制/粘贴"></a>复制/粘贴</h4><ul>
+<li><code>y</code>：<strong>复制选中内容</strong></li>
+<li><code>y2w</code>：复制光标之后的两个单词</li>
+<li><code>p</code>：在光标之后<strong>粘贴内容</strong></li>
+</ul>
+<h4 id="设置搜索选项"><a href="#设置搜索选项" class="headerlink" title="设置搜索选项"></a>设置搜索选项</h4><ul>
+<li><code>:set ic</code>：Ignore Case，<strong>忽略大小写</strong></li>
+<li><code>:set noic</code>：<strong>开启大小写</strong></li>
+<li><code>:set hls</code>：Highlight Search，<strong>高亮搜索</strong></li>
+<li><code>:nohlsearch</code>：<strong>取消当前的高亮</strong>，可简写为<code>:nohl</code>或<code>:noh</code></li>
+<li><code>:set is</code>：Increasing Search，<strong>递进搜索</strong></li>
+<li><code>:set nois</code>：<strong>取消递进搜索</strong></li>
+</ul>
+<h3 id="7-获取帮助-自动补全"><a href="#7-获取帮助-自动补全" class="headerlink" title="7. 获取帮助/自动补全"></a>7. 获取帮助/自动补全</h3><h4 id="获取帮助"><a href="#获取帮助" class="headerlink" title="获取帮助"></a>获取帮助</h4><ul>
+<li><code>:help</code>：打开<strong>帮助文档</strong></li>
+</ul>
+<h4 id="自动补全"><a href="#自动补全" class="headerlink" title="自动补全"></a>自动补全</h4><ul>
+<li><code>Ctrl+D</code>：显示所有<strong>匹配开头的命令</strong></li>
+<li><code>Tab</code>：<strong>自动补全</strong>至下一项</li>
+</ul>
+<h3 id="8-vimrc-设置快捷键"><a href="#8-vimrc-设置快捷键" class="headerlink" title="8. .vimrc 设置快捷键"></a>8. .vimrc 设置快捷键</h3><h4 id="Ctrl-S-保存"><a href="#Ctrl-S-保存" class="headerlink" title="Ctrl+S 保存"></a>Ctrl+S 保存</h4><blockquote>
+<p>参考 <a href="https://www.cnblogs.com/wbtcookie/p/4572385.html" target="_blank" rel="noopener">Vim 实现 Ctrl+S 为保存快捷键 | 博客园</a></p>
+</blockquote>
+<p>在<code>~/.vimrc</code>中加入以下内容：</p>
+<blockquote>
+<p>我用的是<code>nvim</code>，所以配置文件在<code>~/.config/nvim/</code>目录下</p>
+</blockquote>
+<pre><code class="lang-vim">&quot; 快捷键设置
+nmap &lt;F2&gt; :NERDTreeToggle&lt;cr&gt;
+nmap &lt;F3&gt; :TagbarToggle&lt;cr&gt;
+nmap &lt;F6&gt; :GoFmt&lt;cr&gt;
+nmap &lt;C-s&gt; :w&lt;cr&gt;
+</code></pre>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://hackernoon.com/learning-vim-what-i-wish-i-knew-b5dca186bef7" target="_blank" rel="noopener">Learning Vim: What I Wish I Knew | Hacker Noon</a></li>
+<li><a href="https://www.linode.com/docs/tools-reference/tools/introduction-to-vim-customization/" target="_blank" rel="noopener">Introduction To Vim Customization | Linode</a></li>
+<li><a href="https://github.com/amix/vimrc" target="_blank" rel="noopener">The Ultimate vimrc | Github</a></li>
+<li><a href="https://github.com/dracula/dracula-theme/" target="_blank" rel="noopener">Vim Dracula Theme | Github</a></li>
+<li><a href="https://github.com/VundleVim/Vundle.vim" target="_blank" rel="noopener">Vundle.vim | Github</a></li>
+<li><a href="https://github.com/lexkong/lexVim" target="_blank" rel="noopener">lexVim - lexkong | Github</a></li>
+<li><a href="https://mp.weixin.qq.com/s/k9PBlG5D6ylzTXfrj2ZI6g" target="_blank" rel="noopener">138 条 Vim 命令、操作、快捷键全集 | 马哥 Linux 运维</a></li>
+<li><a href="https://mp.weixin.qq.com/s/clK8OSLMLLp1ujHyVKiwhg" target="_blank" rel="noopener">练了一年再来总结的 vim 使用技巧 | CU 技术社区</a></li>
+<li><a href="https://mp.weixin.qq.com/s/10DB-vnL77kzBZ69HXcE6Q" target="_blank" rel="noopener">哈哈：180万程序员不知如何退出Vim编辑器 | 实验楼</a></li>
+<li><a href="https://mp.weixin.qq.com/s/EV773mhaO6o7lkIeDb_cVA" target="_blank" rel="noopener">精通 VIM ，此文就够了 | zempty 笔记</a></li>
+<li><a href="https://linux.cn/article-8288-1.html" target="_blank" rel="noopener">超酷的 Vim 搜索技巧 | Linux 中国</a></li>
+<li><a href="https://www.kawabangga.com/vim系列" target="_blank" rel="noopener">Vim 系列教程 | 卡瓦邦噶</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/10/23/go-exec-shell-command/">Go 语言使用 os/exec 执行 Shell 命令</a></li><li><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7 安装配置 NFS</a></li><li><a href="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/">Linux 系统常用监控命令</a></li><li><a href="https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/">Linux 终端修改 ls 命令目录显示颜色</a></li><li><a href="http://ashin.wang/linux-basic/">Linux基础笔记</a></li><li><a href="https://wiki.hushhw.cn/posts/6fbc30d9.html">虚拟机 VMware 中安装 Ubuntu 操作系统</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.762Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/04/18/vim-quick-guide/" target="_blank" rel="external">https://abelsu7.top/2019/04/18/vim-quick-guide/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim/">Vim</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/04/18/vim-quick-guide/&title=《Vim 入坑不完全指北》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/04/18/vim-quick-guide/&title=《Vim 入坑不完全指北》 — Keep Coding&source=
+一入 Vim 深似海，从此 IDE 是路人
+
+
+                
+                    
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/04/18/vim-quick-guide/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Vim 入坑不完全指北》 — Keep Coding&url=https://abelsu7.top/2019/04/18/vim-quick-guide/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/04/18/vim-quick-guide/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/04/18/linux-df-command/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Linux 下使用 df 命令查看磁盘使用情况</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/04/17/linux-du-command/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Linux 下使用 du 命令查看目录占用空间大小</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/04/18/vim-quick-guide/&title=《Vim 入坑不完全指北》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/04/18/vim-quick-guide/&title=《Vim 入坑不完全指北》 — Keep Coding&source=
+一入 Vim 深似海，从此 IDE 是路人
+
+
+                
+                    
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/04/18/vim-quick-guide/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Vim 入坑不完全指北》 — Keep Coding&url=https://abelsu7.top/2019/04/18/vim-quick-guide/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/04/18/vim-quick-guide/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLElEQVR42u3aS27DMAwFwNz/0inQVYDAziNlFw01WgWJa3u0YPnR4xGv5+96/fy63q/sfX90zWULAwPjaxnP0/XOOILlv+Zbk7wbBgbGPozkMUnAzSNhHtzPr8HAwMA4SuzOg3LyuXofDAwMjJWAmz84T/4wMDAwekXsfcliEtYvq8UxMDC+kNEbDPzN59vnGxgYGP+e8WytZDDZGwD03goDA2M2I3+V8wKyys4Hn4VAjIGBMZpRfcWo+VW8c3XY+WHrMTAwRjOSB1db9ncctmjW3xgYGCMYd7xEHjSr4XXp/wYGBsaXMFYSvuo4Mz9UkaenGBgYOzCqReYd3a3egPPDyREMDIxxjELm2AqdCaMQUo/ujIGBsQHjqvI1SQrz7SgnhRgYGKMZvS5dcjyiF46rm4WBgbEboze2zJt3vYZaOeBiYGCMYPTK1+oAMgmd1b3HwMDYk5EXsUlxm6SASckabSsGBsY2jCTsJkF25ZvmCBMDA2M0o9cU6w0vq8cvytdgYGBswKg21/Ikr3eYrHo3DAyMHRh5KrYy4Fxp3mFgYOzMWBlG9tLHQhgN2n8YGBizGb3Wf1LE5uA8uTwM0BgYGKMZ1YMRF4wbWyQMDAyMPMj2DnvlI9Klhh0GBsYGjN7AIKf2NqVw1AMDAwNj4ShYPpJceSIGBgZGL33MG2fVIx2FfBMDA2MQozoMOA+a61c2O4IYGBhDGdXBQF5YJn+VDwyqzTgMDIwRjB8qqtsZXseQLgAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

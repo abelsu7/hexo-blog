@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>数值分析笔记 6：非线性方程组的数值解法 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="读书,数值分析">
+    <meta name="description" content="二分法、不动点迭代法、切线法                                                                                               《应用数值分析》">
+<meta name="keywords" content="读书,数值分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数值分析笔记 6：非线性方程组的数值解法">
+<meta property="og:url" content="https://abelsu7.top/2018/11/26/math-analysis-6/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="二分法、不动点迭代法、切线法                                                                                               《应用数值分析》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2018/11/26/math-analysis-6/math-cover.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.524Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数值分析笔记 6：非线性方程组的数值解法">
+<meta name="twitter:description" content="二分法、不动点迭代法、切线法                                                                                               《应用数值分析》">
+<meta name="twitter:image" content="https://abelsu7.top/2018/11/26/math-analysis-6/math-cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">数值分析笔记 6：非线性方程组的数值解法</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">数值分析笔记 6：非线性方程组的数值解法</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-11-26T01:47:46.000Z" itemprop="datePublished" class="page-time">
+  2018-11-26
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/数学/">数学</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-非线性方程组的数值解法"><span class="post-toc-text">6. 非线性方程组的数值解法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-1-一元非线性方程求根"><span class="post-toc-text">6.1 一元非线性方程求根</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-2-二分法"><span class="post-toc-text">6.2 二分法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-3-不动点迭代法及其收敛性理论"><span class="post-toc-text">6.3 不动点迭代法及其收敛性理论</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-3-1-不动点迭代法"><span class="post-toc-text">6.3.1 不动点迭代法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-3-2-收敛性基本定理"><span class="post-toc-text">6.3.2 收敛性基本定理</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-3-3-局部收敛定理"><span class="post-toc-text">6.3.3 局部收敛定理</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-4-Newton-迭代法"><span class="post-toc-text">6.4 $Newton$ 迭代法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-4-1-Newton-迭代公式"><span class="post-toc-text">6.4.1 $Newton$ 迭代公式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-4-2-Newton-迭代法的收敛性"><span class="post-toc-text">6.4.2 $Newton$ 迭代法的收敛性</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-4-3-重根的迭代改善"><span class="post-toc-text">6.4.3 重根的迭代改善</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-4-4-Newton-迭代法用于求方根"><span class="post-toc-text">6.4.4 $Newton$ 迭代法用于求方根</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-4-5-离散-Newton-迭代法：割线法"><span class="post-toc-text">6.4.5 离散 $Newton$ 迭代法：割线法</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-5-非线性方程组的-Newton-迭代法与拟-Newton-迭代法"><span class="post-toc-text">6.5 非线性方程组的 $Newton$ 迭代法与拟 $Newton$ 迭代法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-5-1-Aitken-加速方案"><span class="post-toc-text">6.5.1 $Aitken$ 加速方案</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-5-2-拟-Newton-迭代法"><span class="post-toc-text">6.5.2 拟 $Newton$ 迭代法</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-math-analysis-6"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">数值分析笔记 6：非线性方程组的数值解法</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-11-26 09:47:46" datetime="2018-11-26T01:47:46.000Z"  itemprop="datePublished">2018-11-26</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/数学/">数学</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>二分法、不动点迭代法、切线法</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/26/math-analysis-6/math-cover.jpg" alt="《应用数值分析》" title>
+                </div>
+                <div class="image-caption">《应用数值分析》</div>
+            </figure>
+<a id="more"></a>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#6-非线性方程组的数值解法">6. 非线性方程组的数值解法</a><ul>
+<li><a href="#6-1-一元非线性方程求根">6.1 一元非线性方程求根</a></li>
+<li><a href="#6-2-二分法">6.2 二分法</a></li>
+<li><a href="#6-3-不动点迭代法及其收敛性理论">6.3 不动点迭代法及其收敛性理论</a><ul>
+<li><a href="#6-3-1-不动点迭代法">6.3.1 不动点迭代法</a></li>
+<li><a href="#6-3-2-收敛性基本定理">6.3.2 收敛性基本定理</a></li>
+<li><a href="#6-3-3-局部收敛定理">6.3.3 局部收敛定理</a></li>
+</ul>
+</li>
+<li><a href="#6-4-Newton-迭代法">6.4 $Newton$ 迭代法</a><ul>
+<li><a href="#6-4-1-Newton-迭代公式">6.4.1 $Newton$ 迭代公式</a></li>
+<li><a href="#6-4-2-Newton-迭代法的收敛性">6.4.2 $Newton$ 迭代法的收敛性</a></li>
+<li><a href="#6-4-3-重根的迭代改善">6.4.3 重根的迭代改善</a></li>
+<li><a href="#6-4-4-Newton-迭代法用于求方根">6.4.4 $Newton$ 迭代法用于求方根</a></li>
+<li><a href="#6-4-5-离散-Newton-迭代法：割线法">6.4.5 离散 $Newton$ 迭代法：割线法</a></li>
+</ul>
+</li>
+<li><a href="#6-5-非线性方程组的-Newton-迭代法与拟-Newton-迭代法">6.5 非线性方程组的 $Newton$ 迭代法与拟 $Newton$ 迭代法</a><ul>
+<li><a href="#6-5-1-Aitken-加速方案">6.5.1 $Aitken$ 加速方案</a></li>
+<li><a href="#6-5-2-拟-Newton-迭代法">6.5.2 拟 $Newton$ 迭代法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-非线性方程组的数值解法"><a href="#6-非线性方程组的数值解法" class="headerlink" title="6. 非线性方程组的数值解法"></a>6. 非线性方程组的数值解法</h2><h3 id="6-1-一元非线性方程求根"><a href="#6-1-一元非线性方程求根" class="headerlink" title="6.1 一元非线性方程求根"></a>6.1 一元非线性方程求根</h3><p>对 <strong>$f$ 不是 $x$ 的线性函数</strong>的方程，统称为<strong>非线性方程</strong>或<strong>一次方程</strong>。</p>
+<p>方程的解 <script type="math/tex">x^*</script> 满足 <script type="math/tex">f(x^*  )\equiv 0</script>，也称为<strong>方程的根、函数的零点、不动点</strong>。</p>
+<p>若 $f$ 在 $x^*$ 的邻域上可表示为</p>
+<script type="math/tex; mode=display">
+f(x) = (x-x^*)^m {g}(x), \quad g(x^*) \neq 0</script><p>其中，$m$ 为正整数，则称 <script type="math/tex">x^*</script> 是<strong>方程的 $m$ 重根</strong>或<strong>函数 $f$ 的 $m$ 重零点</strong>。$m=1$ 时，称为<strong>单重根</strong>或<strong>单重零点</strong>。</p>
+<p>若 $x^*$ 是 $f(x)=0$ 的 $m$ 重根，且 $g(x)$ 充分光滑，则可表示为：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+f(x^*)=0,f{}'(x^*)=0,\cdots,f^{(m-1)}(x^*)=0 \\
+f^{(m)}(x^*) \neq 0
+\end{cases}</script><p>若上式成立，则 $f(x)$ 在点 $x^*$ 处的 $Taylor$ 展开式为：</p>
+<script type="math/tex; mode=display">
+f(x)=\frac{f^{(m)}(\xi)}{m!}(x-x^*)^m, \quad \xi \ \text{在} \ x \ \text{与} \ x^* \ \text{之间}</script><p><strong>求根思想</strong>：把<strong>有根区间</strong>或<strong>隔离区间</strong>逐步缩小</p>
+<h3 id="6-2-二分法"><a href="#6-2-二分法" class="headerlink" title="6.2 二分法"></a>6.2 二分法</h3><p>如果方程 $f(x)=0$ 中，$f \in C[a,b]$，且 $f(a) \cdot f(b) &lt; 0$，则由二分法产生的序列 $\{x_n\}$ 收敛于方程的根 $x^*$，且有误差估计：</p>
+<script type="math/tex; mode=display">
+| x^* - x_n | \leqslant \frac{b-a}{2^n}</script><h3 id="6-3-不动点迭代法及其收敛性理论"><a href="#6-3-不动点迭代法及其收敛性理论" class="headerlink" title="6.3 不动点迭代法及其收敛性理论"></a>6.3 不动点迭代法及其收敛性理论</h3><h4 id="6-3-1-不动点迭代法"><a href="#6-3-1-不动点迭代法" class="headerlink" title="6.3.1 不动点迭代法"></a>6.3.1 不动点迭代法</h4><p>将方程改写为等价方程 $x=\varphi(x)$，从某个取定的初值 $x_0$ 开始，对应上式构建迭代公式：</p>
+<script type="math/tex; mode=display">
+x_{k+1} = \varphi(x_k) \quad (k=0,1,\cdots)</script><p>这种求根的方法就称为<strong>迭代法</strong>或<strong>函数迭代法</strong>，式中的 $\varphi(x)$ 称为<strong>迭代函数</strong>。如果 <script type="math/tex">x^*</script> 对函数 $\varphi(x)$ 满足 <script type="math/tex">x^*=\varphi(x^*)</script>，则称 <script type="math/tex">x^*</script> 为 $\varphi(x)$ 的不动点，因此函数迭代法也称为<strong>不动点迭代法</strong>。</p>
+<h4 id="6-3-2-收敛性基本定理"><a href="#6-3-2-收敛性基本定理" class="headerlink" title="6.3.2 收敛性基本定理"></a>6.3.2 收敛性基本定理</h4><p>设迭代公式中的迭代函数 $\varphi \in C[a,b]$ 满足条件：</p>
+<ol>
+<li><strong>映内性</strong>：当 $a \leqslant x \leqslant b$ 时，有 $a \leqslant \varphi(x) \leqslant b$</li>
+<li><strong>压缩性</strong>：存在常数 $0&lt;L&lt;1$，$L$ 称为<strong>压缩系数</strong>，使得：</li>
+</ol>
+<script type="math/tex; mode=display">
+\left| \varphi(x) - \varphi(\tilde{x}) \right| \leqslant L |x-\tilde{x}|, \quad \forall x,\tilde{x}\in[a,b]</script><p>则可得：</p>
+<ol>
+<li>函数 $\varphi$ 在 $[a,b]$ 上存在<strong>唯一的不动点 $x^*$</strong>；</li>
+<li>对任意初值 $x_0 \in [a,b]$，<strong>迭代公式收敛于 <script type="math/tex">x^*</script></strong>，即 <strong><script type="math/tex">\lim \limits_{k \to \infty} x_k = x^*</script></strong>；</li>
+<li>迭代值有<strong>误差估计式</strong>：</li>
+</ol>
+<script type="math/tex; mode=display">
+\left| x^* - x_k \right| \leqslant \frac{L}{1-L} |x_k - x_{k-1}|, \\
+\left| x^* - x_k \right| \leqslant \frac{L^k}{1-L} | x_1 - x_0 |.</script><h4 id="6-3-3-局部收敛定理"><a href="#6-3-3-局部收敛定理" class="headerlink" title="6.3.3 局部收敛定理"></a>6.3.3 局部收敛定理</h4><p>设 <script type="math/tex">x^*</script> 为 $\varphi$ 的不动点，$\varphi{}’(x)$ 在 <script type="math/tex">x^*</script> 的某个邻域 $\Delta$ 上存在、连续且 <strong><script type="math/tex">|\varphi{}'(x^*)|<1</script></strong>，则迭代公式 <strong>$x_{k+1}=\varphi(x_k)$ 局部收敛</strong></p>
+<h3 id="6-4-Newton-迭代法"><a href="#6-4-Newton-迭代法" class="headerlink" title="6.4 $Newton$ 迭代法"></a>6.4 $Newton$ 迭代法</h3><h4 id="6-4-1-Newton-迭代公式"><a href="#6-4-1-Newton-迭代公式" class="headerlink" title="6.4.1 $Newton$ 迭代公式"></a>6.4.1 $Newton$ 迭代公式</h4><p>解一元非线性方程 $f(x) = 0$</p>
+<ul>
+<li>$Newton$ 迭代公式：</li>
+</ul>
+<script type="math/tex; mode=display">
+x_{k+1} = x_k - \frac{f(x_k)}{f{}'(x_k)} \quad (k=0,1,\cdots)</script><ul>
+<li>$Newton$ 法也称为<strong>切线法</strong>，斜率为 $f{}’(x_k) = \displaystyle{\frac{f(x_k)}{x_k - x_{k+1}}}$</li>
+</ul>
+<h4 id="6-4-2-Newton-迭代法的收敛性"><a href="#6-4-2-Newton-迭代法的收敛性" class="headerlink" title="6.4.2 $Newton$ 迭代法的收敛性"></a>6.4.2 $Newton$ 迭代法的收敛性</h4><blockquote>
+<p>$Newton$ 迭代公式在<strong>单根</strong>附近至少是 <strong>2 阶局部收敛</strong>的。</p>
+</blockquote>
+<p>设 <script type="math/tex">f(x^*) = 0</script>，<script type="math/tex">f{}'(x^*) \ne 0</script>，且在 $x^*$ 的邻域上 $f{}’’$ 存在、连续，则：</p>
+<ol>
+<li>$Newton$ 迭代公式（用于求方程单根）至少 2 阶局部收敛</li>
+<li></li>
+</ol>
+<script type="math/tex; mode=display">
+\lim \limits_{k \to \infty} \displaystyle{\frac{x_{k+1} - x^*}{(x_k-x^*)^2}} = \displaystyle{\frac{f{}''(x^*)}{2f{}'(x^*)}}</script><h4 id="6-4-3-重根的迭代改善"><a href="#6-4-3-重根的迭代改善" class="headerlink" title="6.4.3 重根的迭代改善"></a>6.4.3 重根的迭代改善</h4><p><strong><em>方法 1</em></strong></p>
+<p>如果已知重根的重数 $m(m&gt;1)$，则利用 $m$ 构造新迭代公式：</p>
+<script type="math/tex; mode=display">
+x_{k+1} = x_k - m\frac{f(x_k)}{f{}'(x_k)} \quad (k=0,1,\cdots)</script><p>此时迭代函数为 $\varphi(x) = x - m \displaystyle{\frac{f(x)}{f{}’(x)}}$</p>
+<blockquote>
+<p>这种方法的缺点是<strong>要事先知道重根的重数</strong>，但实际应用中往往并不知道。</p>
+</blockquote>
+<p><strong><em>方法 2</em></strong></p>
+<p>作 $F(x) = \displaystyle{\frac{f(x)}{f{}’(x)}}$，如果 <script type="math/tex">x^*</script> 是 $f(x)=0$ 的 $m$ 重根（$m&gt;1$），则 <script type="math/tex">x^*</script> 是 $f{}’(x)=0$ 的 $m-1$ 重根，从而 $x^*$ 是 $F(x)=0$ 的单根。新迭代公式：</p>
+<script type="math/tex; mode=display">
+x_{k+1} = x_k - \displaystyle{\frac{f(x_k)f{}'(x_k)}{[f{}'(x_k)]^2 - f(x_k)f{}''(x_k)}} \quad (k=0,1,\cdots)</script><blockquote>
+<p>这种方法的缺点是<strong>需要 $f$ 的 2 阶导数</strong></p>
+</blockquote>
+<h4 id="6-4-4-Newton-迭代法用于求方根"><a href="#6-4-4-Newton-迭代法用于求方根" class="headerlink" title="6.4.4 $Newton$ 迭代法用于求方根"></a>6.4.4 $Newton$ 迭代法用于求方根</h4><p>$Newton$ 迭代法常用于求方根。如求平方根 $\sqrt{c}(c&gt;0)$，令 $x=\sqrt{c}$，有 $x^2=c$，可得方程</p>
+<script type="math/tex; mode=display">
+f(x) = x^2 - c = 0</script><p>则其正根 $x^*&gt;0$，即为 $\sqrt{c}$。现用 $Newton$ 法可得相应的迭代公式：</p>
+<script type="math/tex; mode=display">
+x_{k+1} = x_k - \displaystyle{\frac{x^2 - c}{2x_k}} \quad (k=0,1,\cdots)</script><p>整理成通用公式：</p>
+<script type="math/tex; mode=display">
+x_{k+1} = \displaystyle{\frac{1}{2}}\left( x_k + \displaystyle{\frac{c}{x_k}} \right) \quad (k=0,1,\cdots)</script><blockquote>
+<p>其意义就是<strong>把开方运算通过加法和除法来实现</strong>，这也是<strong>计算机系统（内部）做开方运算的实际做法</strong>。</p>
+</blockquote>
+<h4 id="6-4-5-离散-Newton-迭代法：割线法"><a href="#6-4-5-离散-Newton-迭代法：割线法" class="headerlink" title="6.4.5 离散 $Newton$ 迭代法：割线法"></a>6.4.5 离散 $Newton$ 迭代法：割线法</h4><p>$Newton$ 迭代的每一步都要计算导数值 $f{}’(x_k)$，当 $f(x)$ 的导数不存在时迭代公式还不能用。为此，考虑<strong>用函数 $f(x)$ 的差商代替求导</strong>：</p>
+<script type="math/tex; mode=display">
+f{}'(x_k) \approx \frac{f(x_k) - f(x_{k-1})}{x_k - x_{k-1}}</script><p>于是代入 $Newton$ 迭代公式，可得：</p>
+<script type="math/tex; mode=display">
+x_{k+1} = x_k - \frac{f(x_k)}{f(x_k)-f(x_{k-1})}(x_k - x_{k-1}) \quad (k=1,2,\cdots)</script><h3 id="6-5-非线性方程组的-Newton-迭代法与拟-Newton-迭代法"><a href="#6-5-非线性方程组的-Newton-迭代法与拟-Newton-迭代法" class="headerlink" title="6.5 非线性方程组的 $Newton$ 迭代法与拟 $Newton$ 迭代法"></a>6.5 非线性方程组的 $Newton$ 迭代法与拟 $Newton$ 迭代法</h3><h4 id="6-5-1-Aitken-加速方案"><a href="#6-5-1-Aitken-加速方案" class="headerlink" title="6.5.1 $Aitken$ 加速方案"></a>6.5.1 $Aitken$ 加速方案</h4><p>对某种迭代过程 $x_{k+1} = \varphi(x_k)$ 的 $Aitken$（埃特金）加速方案：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+\text{迭代：} x_{k+1}=\varphi(x_k) \\[1.5em]
+\text{再迭代：} x_{k+2}=\varphi(x_{k+1})\\[1em]
+\text{加速：} \bar{x}_k = x_k - \displaystyle{\frac{(x_{k+1} - x_k)^2}{x_{k+2} - 2x_{k+1} + x_k}}
+\end{cases}</script><p>令 $\Delta x_k = x_{k+1} - x_k$，$\Delta^2x_k = \Delta(\Delta x_k) = x_{k+2} - 2x_{k+1} + x_k$，则有：</p>
+<script type="math/tex; mode=display">
+\bar{x}_k = x_k - \frac{(\Delta x_k)^2}{\Delta^2x_k}</script><p>称为 <strong>$Aitken\Delta^2$ 加速方案</strong>。</p>
+<h4 id="6-5-2-拟-Newton-迭代法"><a href="#6-5-2-拟-Newton-迭代法" class="headerlink" title="6.5.2 拟 $Newton$ 迭代法"></a>6.5.2 拟 $Newton$ 迭代法</h4><p>考虑非线性方程组 $\pmb{F}(x)=0$，其中：</p>
+<script type="math/tex; mode=display">
+\pmb{F}(x) = 
+\begin{bmatrix}
+f_1(x_1,x_2,\cdots,x_n) \\
+f_2(x_1,x_2,\cdots,x_n) \\
+\vdots \\
+f_n(x_1,x_2,\cdots,x_n)
+\end{bmatrix} =
+\begin{bmatrix}
+f_1(\pmb{x}) \\
+f_2(\pmb{x}) \\
+\vdots \\
+f_n(\pmb{x})
+\end{bmatrix}</script><p>当 $n=1$ 时，$\pmb{F}(\pmb{x})=f(x)$，是微分学中的一元函数，类似于一维情况下的不动点迭代方法。<strong>一元方程的 $Newton$ 迭代公式</strong>为：</p>
+<script type="math/tex; mode=display">
+x_{k+1}=x_k - \frac{f(x_k)}{f{}'(x_k)},\ \text{其中} f{}'(x_k) \ne 0</script><p>将此迭代公式推广到方程组的情形，可得 <strong>$\pmb{F}(\pmb{x})=0$ 的 $Newton$ 迭代公式</strong>为：</p>
+<script type="math/tex; mode=display">
+\pmb{x}^{(k+1)} = \pmb{x}^{(k)} - (\pmb{F}{}'(\pmb{x}^{(k)}))^{-1}\pmb{F}(\pmb{x}^{(k)})</script><p>其中，<strong>导数矩阵</strong></p>
+<script type="math/tex; mode=display">
+\pmb{F}{}'(\pmb{x})=
+\begin{bmatrix}
+\displaystyle{\frac{\partial f_1(\pmb{x})}{\partial x_1}} &\displaystyle{\frac{\partial f_1(\pmb{x})}{\partial x_2}} &\cdots &\displaystyle{\frac{\partial f_1(\pmb{x})}{\partial x_n}} \\
+\displaystyle{\frac{\partial f_2(\pmb{x})}{\partial x_1}} &\displaystyle{\frac{\partial f_2(\pmb{x})}{\partial x_2}} &\cdots &\displaystyle{\frac{\partial f_2(\pmb{x})}{\partial x_n}} \\
+\vdots &\vdots & &\vdots \\
+\displaystyle{\frac{\partial f_n(\pmb{x})}{\partial x_1}} &\displaystyle{\frac{\partial f_n(\pmb{x})}{\partial x_2}} &\cdots &\displaystyle{\frac{\partial f_n(\pmb{x})}{\partial x_n}}
+\end{bmatrix}</script><p>为 $\pmb{F}(\pmb{x})$ 的 $Jacobi$ 矩阵，$\left(\pmb{F}{}’(\pmb{x})\right)^{-1}$ 为 $\pmb{F}\left(\pmb{x}\right)$ 的导数矩阵的逆矩阵。</p>
+<p>上面的 $Newton$ 迭代公式只是一种形式记号，<strong>实际计算可采用下列形式</strong>：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+\pmb{F}{}'(x^{(k)})\Delta \pmb{x}^{(k)} = - \pmb{F}(\pmb{x}^{(k)}) \\
+\pmb{x}^{(k+1)} = \pmb{x}^{(k)} + \Delta \pmb{x}^{(k)}
+\end{cases}
+\quad (k=0,1,2,\cdots)</script><p>最后，<strong>$Newton$ 法由 $\pmb{x}^{(k)}$ 计算 $\pmb{x}^{(k+1)}$ 的步骤</strong>是：</p>
+<ol>
+<li>计算 $\pmb{F}(x^{(k)})$ 和 $\pmb{F}{}’(x^{(k)})$；</li>
+<li>解线性方程组 $\pmb{F}{}’(x^{(k)})\Delta \pmb{x}^{(k)} = - \pmb{F}(\pmb{x}^{(k)})$，求得 $\Delta \pmb{x}^{(k)}$；</li>
+<li>令 $\pmb{x}^{(k+1)} = \pmb{x}^{(k)} + \Delta \pmb{x}^{(k)}$.</li>
+</ol>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/03/18/understanding-linux-kernel/">Linux 内核笔记 1：绪论</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-6/">Java 笔记 6：异常、断言和日志</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-5/">Java 笔记 5：集合</a></li><li><a href="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/">5 分钟 Docker 笔记 5：存储</a></li><li><a href="http://www.hui-wang.info/2018/02/04/%E5%BD%B1%E5%93%8D%E5%8A%9B/">影响力</a></li><li><a href="http://www.hui-wang.info/2017/11/25/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E%EF%BC%9A%E4%B8%8D%E8%83%BD%E5%86%8D%E5%87%91%E4%BA%86/">数学之美：不能再凑了</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.524Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/11/26/math-analysis-6/" target="_blank" rel="external">https://abelsu7.top/2018/11/26/math-analysis-6/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数值分析/">数值分析</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书/">读书</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/11/26/math-analysis-6/&title=《数值分析笔记 6：非线性方程组的数值解法》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/11/26/math-analysis-6/&title=《数值分析笔记 6：非线性方程组的数值解法》 — Keep Coding&source=
+二分法、不动点迭代法、切线法
+
+
+                
+                    
+                    
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/11/26/math-analysis-6/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数值分析笔记 6：非线性方程组的数值解法》 — Keep Coding&url=https://abelsu7.top/2018/11/26/math-analysis-6/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/11/26/math-analysis-6/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/11/27/math-analysis-7/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">数值分析笔记 7：矩阵特征值计算</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/11/23/math-analysis-5/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">数值分析笔记 5：线性代数方程组数值解法——迭代法</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/11/26/math-analysis-6/&title=《数值分析笔记 6：非线性方程组的数值解法》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/11/26/math-analysis-6/&title=《数值分析笔记 6：非线性方程组的数值解法》 — Keep Coding&source=
+二分法、不动点迭代法、切线法
+
+
+                
+                    
+                    
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/11/26/math-analysis-6/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数值分析笔记 6：非线性方程组的数值解法》 — Keep Coding&url=https://abelsu7.top/2018/11/26/math-analysis-6/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/11/26/math-analysis-6/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACL0lEQVR42u3azW6EMAxFYd7/panUVaUR4VybqYRzWI2gk/DNwvVPjgNf5+91df/v08875C8/r+MblwwZMl7LIMuRF12vuf5p1vsiqgwZMjZgkG3Wn/krrldI15chQ4YMEhC/wZYhQ4aMTsDlSJ4sypAhQwZhkASOJHa1ztgDLTkZMmSMZqSDgf/8/MX5hgwZMl7COEtXunE/ibx5HxkyZIxm8JFkZzMeuMkd9EIyZMgYxEgL104y1zkodrOmDBkyRjPIomloXn+rdlysWNDKkCFjBIMHUz5KfPa763Uu/2/IkCFjKKNfZPLxJB+RoiadDBkytmHwApWkbukAIB1q3sw3ZMiQsQGjNgxIRw7pOOEy3MuQIWNLBg+4PIzW0kH0DjJkyBjNqAXHdDNSGPM5RlyXy5Ah4+WMWjpYO1LGwXFZK0OGjNEMUlLyEWN6VCJNIuPUUIYMGUMZJIFLR578R+GvK0OGjH0YfJugTR8e/+IHOy73kiFDxmhGGnBTZNpcSwvdy66hDBkyxjF4Uz5tqJEithPKWdIrQ4aMOYxnEzvebuMkGTJk7Mx4CsPbc7VjFijFlCFDxjjGGV6dQMxL4niQKUOGjNGMWoGahtc+qVYky5AhYxKDBNk02PWfxg07GTJkbMDot8M6zbVaJ02GDBky0qMPZLP0SGvQpJMhQ4aM5cbpUxJ84+aaDBkyNmCko8d0nTS5bB2zkCFDxjhGOhjoHwtLeU8d1JAhQ8YLGT84egPx81Va0QAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+<!-- <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script> -->
+<!-- <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script> -->
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

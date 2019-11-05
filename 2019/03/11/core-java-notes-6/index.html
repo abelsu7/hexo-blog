@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Java 笔记 6：异常、断言和日志 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Java,读书">
+    <meta name="description" content="摘自 《Java 核心技术（卷 Ⅰ）》                                                                                               《Java 核心技术（卷 Ⅰ）》">
+<meta name="keywords" content="Java,读书">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 笔记 6：异常、断言和日志">
+<meta property="og:url" content="https://abelsu7.top/2019/03/11/core-java-notes-6/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自 《Java 核心技术（卷 Ⅰ）》                                                                                               《Java 核心技术（卷 Ⅰ）》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/03/11/core-java-notes-6/douban.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/11/core-java-notes-6/core-java.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/11/core-java-notes-6/throwable.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.094Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 笔记 6：异常、断言和日志">
+<meta name="twitter:description" content="摘自 《Java 核心技术（卷 Ⅰ）》                                                                                               《Java 核心技术（卷 Ⅰ）》">
+<meta name="twitter:image" content="https://abelsu7.top/2019/03/11/core-java-notes-6/douban.svg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Java 笔记 6：异常、断言和日志</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Java 笔记 6：异常、断言和日志</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-03-11T06:39:15.000Z" itemprop="datePublished" class="page-time">
+  2019-03-11
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#异常、断言和日志"><span class="post-toc-text">异常、断言和日志</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-处理错误"><span class="post-toc-text">1. 处理错误</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-1-异常分类"><span class="post-toc-text">1.1 异常分类</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-2-声明受查异常"><span class="post-toc-text">1.2 声明受查异常</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-3-如何抛出异常"><span class="post-toc-text">1.3 如何抛出异常</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-4-创建异常类"><span class="post-toc-text">1.4 创建异常类</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-捕获异常"><span class="post-toc-text">2. 捕获异常</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-如何捕获异常"><span class="post-toc-text">2.1 如何捕获异常</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-捕获多个异常"><span class="post-toc-text">2.2 捕获多个异常</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-3-再次抛出异常与异常链"><span class="post-toc-text">2.3 再次抛出异常与异常链</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-core-java-notes-6"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Java 笔记 6：异常、断言和日志</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-03-11 14:39:15" datetime="2019-03-11T06:39:15.000Z"  itemprop="datePublished">2019-03-11</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>摘自 <img src="/2019/03/11/core-java-notes-6/douban.svg"><a href="https://book.douban.com/subject/26880667/" target="_blank" rel="noopener">《Java 核心技术（卷 Ⅰ）》</a></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/11/core-java-notes-6/core-java.png" alt="《Java 核心技术（卷 Ⅰ）》" title>
+                </div>
+                <div class="image-caption">《Java 核心技术（卷 Ⅰ）》</div>
+            </figure>
+<a id="more"></a>
+<h2 id="异常、断言和日志"><a href="#异常、断言和日志" class="headerlink" title="异常、断言和日志"></a>异常、断言和日志</h2><h3 id="1-处理错误"><a href="#1-处理错误" class="headerlink" title="1. 处理错误"></a>1. 处理错误</h3><ol>
+<li>用户输入错误</li>
+<li>设备错误</li>
+<li>物理限制</li>
+<li>代码错误</li>
+</ol>
+<h4 id="1-1-异常分类"><a href="#1-1-异常分类" class="headerlink" title="1.1 异常分类"></a>1.1 异常分类</h4><p>在 Java 中，<strong>异常对象</strong>都是<strong>派生于</strong><code>Throwable</code><strong>类</strong>的一个<strong>实例</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/11/core-java-notes-6/throwable.png" alt="Java 中的异常层次结构" title>
+                </div>
+                <div class="image-caption">Java 中的异常层次结构</div>
+            </figure>
+<p>需要注意的是，<strong>所有的异常都是由</strong><code>Throwable</code><strong>继承而来</strong>，但在下一层立即分解为<strong>两个分支</strong>：<code>Error</code>和<code>Exception</code>。</p>
+<p><code>Error</code><strong>类层次结构</strong>描述了 <strong>Java 运行时系统的内部错误</strong>和<strong>资源耗尽错误</strong>。应用程序不应该抛出这种类型的对象。如果出现了这样的内部情况，只能通告给用户，并尽力使程序安全的终止，再无能为力了。</p>
+<p><code>Exception</code><strong>类层次结构</strong>又可以分解为<strong>两个分支</strong>：一个分支<strong>派生于</strong><code>RuntimeException</code>，另一个分支<strong>包含其他异常</strong>，划分规则是：<strong>由程序错误导致的异常属于</strong><code>RuntimeException</code>，而程序本身没有问题，但由于<strong>像</strong><code>I/O</code><strong>错误这类问题导致的异常</strong>属于<strong>其他异常</strong>。</p>
+<h4 id="1-2-声明受查异常"><a href="#1-2-声明受查异常" class="headerlink" title="1.2 声明受查异常"></a>1.2 声明受查异常</h4><p>对于那些<strong>可能被他人使用的 Java 方法</strong>，应该根据<strong>异常规范</strong>（exception specification），<strong>在方法的首部声明</strong>这个方法可能抛出的<strong>异常</strong>：</p>
+<pre><code class="lang-java">class MyAnimation {
+    ...
+    public Image loadImage(String s) throws IOException {
+        ...
+    }
+}
+</code></pre>
+<p>如果<strong>有可能抛出多个受查异常类型</strong>，那么就必须<strong>在方法的首部列出所有的异常类</strong>，每个异常类之间用逗号隔开：</p>
+<pre><code class="lang-java">class MyAnimation {
+    ...
+    public Image loadImage(String s) throws FileNotFoundException, EOFException {
+        ...
+    }
+}
+</code></pre>
+<blockquote>
+<p>但是，<strong>不需要声明 Java 的内部错误</strong>，即<strong>从</strong><code>Error</code><strong>继承的错误</strong>。任何程序代码都具有抛出那些异常的可能，而我们对其也没有任何控制能力</p>
+</blockquote>
+<h4 id="1-3-如何抛出异常"><a href="#1-3-如何抛出异常" class="headerlink" title="1.3 如何抛出异常"></a>1.3 如何抛出异常</h4><pre><code class="lang-java">throw new EOFException();
+// 或者
+EOFException e = new EOFException();
+throw e;
+</code></pre>
+<p>在<strong>异常类</strong>中抛出异常：</p>
+<pre><code class="lang-java">String readData(Scanner in) throws EOFException {
+    ...
+    while (...) {
+        if (!in.hasNext()) { // EOF encountered
+            if (n &lt; len)
+                throw new EOFException();
+        }
+        ...
+    }
+    return s;
+}
+</code></pre>
+<h4 id="1-4-创建异常类"><a href="#1-4-创建异常类" class="headerlink" title="1.4 创建异常类"></a>1.4 创建异常类</h4><pre><code class="lang-java">class FileFormatException extends IOException {
+    public FileFormatException() {}
+    public FileFormatException(String gripe) {
+        super(gripe);
+    }
+}
+</code></pre>
+<h3 id="2-捕获异常"><a href="#2-捕获异常" class="headerlink" title="2. 捕获异常"></a>2. 捕获异常</h3><h4 id="2-1-如何捕获异常"><a href="#2-1-如何捕获异常" class="headerlink" title="2.1 如何捕获异常"></a>2.1 如何捕获异常</h4><p>如果<strong>某个异常发生</strong>的时候<strong>没有在任何地方进行捕获</strong>，那么<strong>程序就会终止执行</strong>，并在控制台上<strong>打印出异常信息</strong>，其中包括<strong>异常的类型</strong>和<strong>堆栈的内容</strong>。</p>
+<pre><code class="lang-java">try {
+    code
+    more code
+} catch (Exception e) {
+    handler for this type
+}
+</code></pre>
+<p>如果在<code>try</code><strong>语句块</strong>中的任何代码<strong>抛出了一个在</strong><code>catch</code><strong>子句中说明的异常类</strong>，那么：</p>
+<ol>
+<li>程序将<strong>跳过</strong><code>try</code><strong>语句块的其余代码</strong></li>
+<li>程序将<strong>执行</strong><code>catch</code><strong>子句中的<code>handler</code>代码</strong></li>
+</ol>
+<p>如果在<code>try</code>语句块中的代码没有抛出任何异常，那么程序将跳过<code>catch</code>子句。</p>
+<p>如果方法中的任何代码<strong>抛出了一个在</strong><code>catch</code><strong>子句中没有声明的异常类型</strong>，那么这个方法就会<strong>立刻退出</strong>。</p>
+<pre><code class="lang-java">public void read(String filename) {
+    try {
+        InputStream in = new FileInputStream(filename);
+        int b;
+        while ((b = in.read()) != -1) {
+            // process input
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre>
+<p>还可以什么都不做，<strong>将异常传递给调用者</strong>，这样就<strong>必须声明这个方法可能会抛出一个</strong><code>IOException</code>：</p>
+<pre><code class="lang-java">public void read(String filename) throws IOException {
+    InputStream in = new FileInputStream(filename);
+    int b;
+    while ((b = in.read()) != -1) {
+        // process input
+    }
+}
+</code></pre>
+<blockquote>
+<p>Java 编译器严格的执行<code>throws</code>说明符。如果<strong>调用了一个抛出受查异常的方法</strong>，就必须对它<strong>进行处理</strong>，或者<strong>继续传递</strong></p>
+</blockquote>
+<h4 id="2-2-捕获多个异常"><a href="#2-2-捕获多个异常" class="headerlink" title="2.2 捕获多个异常"></a>2.2 捕获多个异常</h4><p>在一个<code>try</code>语句块中可以<strong>捕获多个异常类型</strong>，并对不同类型的异常<strong>做出不同的处理</strong>：</p>
+<pre><code class="lang-java">try {
+    // some code
+} catch (FileNotFoundException e) {
+    // handle exception
+} catch (UnknownHostException e) {
+    // handle exception
+} catch (IOException e) {
+    // handle exception
+}
+</code></pre>
+<p>还可以通过以下语句<strong>获得对象的更多信息</strong>：</p>
+<pre><code class="lang-java">e.getMessage();
+e.getClass().getName();
+</code></pre>
+<p>在 <strong>Java SE 7</strong> 中，<strong>同一个</strong><code>catch</code><strong>子句</strong>中可以<strong>合并多个异常类型</strong>：</p>
+<pre><code class="lang-java">try {
+    // some code
+} catch (FileNotFoundException | UnknownHostException e) {
+    // handle exception
+} catch (IOException e) {
+    // handle exception
+}
+</code></pre>
+<h4 id="2-3-再次抛出异常与异常链"><a href="#2-3-再次抛出异常与异常链" class="headerlink" title="2.3 再次抛出异常与异常链"></a>2.3 再次抛出异常与异常链</h4><div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/03/18/understanding-linux-kernel/">Linux 内核笔记 1：绪论</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-5/">Java 笔记 5：集合</a></li><li><a href="https://abelsu7.top/2019/03/08/sort-algo-in-go/">排序算法 1：冒泡排序、插入排序、选择排序</a></li><li><a href="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/">5 分钟 Docker 笔记 5：存储</a></li><li><a href="https://jarrychen.xyz/archives/57361fba.html">快速排序(递归)</a></li><li><a href="https://www.hosiang.cn/3372e3cc/">后端开发 - Java开发环境配置 - 入门篇</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.094Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/03/11/core-java-notes-6/" target="_blank" rel="external">https://abelsu7.top/2019/03/11/core-java-notes-6/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书/">读书</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/11/core-java-notes-6/&title=《Java 笔记 6：异常、断言和日志》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/11/core-java-notes-6/&title=《Java 笔记 6：异常、断言和日志》 — Keep Coding&source=
+摘自 《Java 核心技术（卷 Ⅰ）》
+
+
+                
+                    
+                ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/11/core-java-notes-6/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java 笔记 6：异常、断言和日志》 — Keep Coding&url=https://abelsu7.top/2019/03/11/core-java-notes-6/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/11/core-java-notes-6/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/03/11/core-java-notes-5/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Java 笔记 5：集合</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/03/11/go-restful-api-using-gin/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">基于 Golang Web 框架 Gin 搭建 RESTful API 服务</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/11/core-java-notes-6/&title=《Java 笔记 6：异常、断言和日志》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/11/core-java-notes-6/&title=《Java 笔记 6：异常、断言和日志》 — Keep Coding&source=
+摘自 《Java 核心技术（卷 Ⅰ）》
+
+
+                
+                    
+                ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/11/core-java-notes-6/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java 笔记 6：异常、断言和日志》 — Keep Coding&url=https://abelsu7.top/2019/03/11/core-java-notes-6/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/11/core-java-notes-6/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACHklEQVR42u3aMW7DMAwF0N7/0i7QrYPlTzIpGulpMgwn9tNAUCS/vuJ1/ay76/Wd/P7dMy9bGBgYH8u4lmvNqLLXz6w35YGKgYFxAGMSZHuR8O7t1S3AwMDASBK73vU6ucTAwMCYBNzeEXT9TB6OMTAwTmYkCVyv0NYjvfEsjoGB8YGMeWPgfdd/2t/AwMD4l4xrsPIkct4AePgSDAyMrRnzQn81gZsMbTx8IQYGxtaMvPQ/GeTKWwL5Pz+cyDEwMLZgVI+Lk9SwVzgrBFkMDIwDGEn4y4+pSdKZtxYewBgYGFszkoZi9QXVgtq8DIeBgXEOoxouqwfdPOD2inEYGBgnMJISfPXYmTOSNLTcwsTAwNiCUS3695K25H5vC5q9CwwMjI9i5D+elN7yjehNq2JgYJzM6L0gTxmr2/SQvGJgYBzMmJTVqqW6PBHEwMDAqCZzeUGtun2Fwh8GBsamjMIoQ/yJ1TDdGzX7dY2BgbE1o5mExWMT1ZDa20QMDIwTGHk4qx538wLc5D4GBsY5jGqpq5rw9Zqd5ckRDAyMTRmTRuNkFOwdjVIMDIz9GFdxzRuNk6Ps7f9jYGBszcjXZOSrl2Im1xgYGOcwJkG23HmIj83lgh0GBsYBjNc2DCYBt9ooxcDAwMg/Yj5OMRrCwMDAwGiljzmsV7zDwMA4jZG3JPMtmK9yRRADA2NTRrUxMG9qJgli77cYGBjbMb4B3r1BzwgB2pkAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

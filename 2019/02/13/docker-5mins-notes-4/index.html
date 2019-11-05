@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>5 分钟 Docker 笔记 4：网络 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="读书,容器,Docker">
+    <meta name="description" content="三种默认的网络模式、容器间的通信方式、容器与外部网络互连                                                                                               《每天5分钟玩转Docker容器技术》">
+<meta name="keywords" content="读书,容器,Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5 分钟 Docker 笔记 4：网络">
+<meta property="og:url" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="三种默认的网络模式、容器间的通信方式、容器与外部网络互连                                                                                               《每天5分钟玩转Docker容器技术》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/cover.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/docker-network-ls.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/network-none.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/network-host.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/network-bridge.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/bridge-1.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/bridge-2.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/network-inspect.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/gateway-docker0.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/network-topo.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/net-user-defined-1.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/net-user-defined-2.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/net-user-defined-3.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/net-user-defined-4.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/net-user-defined-5.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/net-user-defined-6.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/net-user-defined-7.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/network-topo-2.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/wechat.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/ping.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/wechat.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/docker-port.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/docker-port-2.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/docker-port-3.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/docker-port-4.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.143Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="5 分钟 Docker 笔记 4：网络">
+<meta name="twitter:description" content="三种默认的网络模式、容器间的通信方式、容器与外部网络互连                                                                                               《每天5分钟玩转Docker容器技术》">
+<meta name="twitter:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-4/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">5 分钟 Docker 笔记 4：网络</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">5 分钟 Docker 笔记 4：网络</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-02-13T12:03:52.000Z" itemprop="datePublished" class="page-time">
+  2019-02-13
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Docker/">Docker</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#第-5-章-Docker-网络"><span class="post-toc-text">第 5 章 Docker 网络</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-1-none-和-host-网络的适用场景"><span class="post-toc-text">5.1 none 和 host 网络的适用场景</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-1-1-none-网络"><span class="post-toc-text">5.1.1 none 网络</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-1-2-host-网络"><span class="post-toc-text">5.1.2 host 网络</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-2-默认的-bridge-网络"><span class="post-toc-text">5.2 默认的 bridge 网络</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-3-user-defined-自定义容器网络"><span class="post-toc-text">5.3 user-defined 自定义容器网络</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-4-理解容器之间的连通性"><span class="post-toc-text">5.4 理解容器之间的连通性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-5-容器间通信的三种方式"><span class="post-toc-text">5.5 容器间通信的三种方式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-5-1-IP-通信"><span class="post-toc-text">5.5.1 IP 通信</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-5-2-Docker-DNS-Server"><span class="post-toc-text">5.5.2 Docker DNS Server</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-5-3-joined-容器"><span class="post-toc-text">5.5.3 joined 容器</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-6-容器如何访问外部世界"><span class="post-toc-text">5.6 容器如何访问外部世界</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-7-外部世界如何访问容器"><span class="post-toc-text">5.7 外部世界如何访问容器</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-docker-5mins-notes-4"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">5 分钟 Docker 笔记 4：网络</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-02-13 20:03:52" datetime="2019-02-13T12:03:52.000Z"  itemprop="datePublished">2019-02-13</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Docker/">Docker</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>三种默认的网络模式、容器间的通信方式、容器与外部网络互连</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/cover.jpg" alt="《每天5分钟玩转Docker容器技术》" title>
+                </div>
+                <div class="image-caption">《每天5分钟玩转Docker容器技术》</div>
+            </figure>
+<a id="more"></a>
+<h2 id="第-5-章-Docker-网络"><a href="#第-5-章-Docker-网络" class="headerlink" title="第 5 章 Docker 网络"></a>第 5 章 Docker 网络</h2><h3 id="5-1-none-和-host-网络的适用场景"><a href="#5-1-none-和-host-网络的适用场景" class="headerlink" title="5.1 none 和 host 网络的适用场景"></a>5.1 none 和 host 网络的适用场景</h3><p><strong>Docker 网络</strong>从<strong>覆盖范围</strong>可分<strong>为单个 host 上的容器网络</strong>和<strong>跨多个 host 的网络</strong>，本章将主要讨论前一种，即单个 host 上的容器网络。</p>
+<p><strong>Docker 安装时会自动在 host 上创建三个网络</strong>，可以用<code>docker network ls</code>命令查看：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/docker-network-ls.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h4 id="5-1-1-none-网络"><a href="#5-1-1-none-网络" class="headerlink" title="5.1.1 none 网络"></a>5.1.1 none 网络</h4><p>顾名思义，none 网络就是什么都没有的网络。<strong>挂在 none 网络下的容器除了 lo，没有其他任何网卡</strong>。容器创建时，可以通过<code>--network=none</code>指定使用 none 网络：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/network-none.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>这种<strong>封闭的网络同时也意味着隔离</strong>，一些对安全性要求高并且不需要联网的应用可以使用 none 网络。</p>
+<h4 id="5-1-2-host-网络"><a href="#5-1-2-host-网络" class="headerlink" title="5.1.2 host 网络"></a>5.1.2 host 网络</h4><p><strong>连接到 host 网络的容器共享 Docker host 的网络栈，容器的网络配置与 host 完全一样。</strong>可以通过<code>--network=host</code>指定使用 host 网络：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/network-host.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>在容器中<strong>可以看到 host 的所有网卡</strong>，并且<strong>连 hostname 也是 host 的</strong>。</p>
+<p><strong>直接使用 Docker host 的网络最大的好处就是性能</strong>，如果容器对网络传输效率有较高要求，则可以选择 host 网络。当然不便之处就是<strong>牺牲一些灵活性，比如要考虑端口冲突问题</strong>，Docker host 上已经使用的端口就不能再用了。</p>
+<p><strong>Docker host 的另一个用途是让容器可以直接配置 host 网络</strong>。比如某些跨 host 的网络解决方案，其本身也是以容器方式运行的，这些方案需要对网络进行配置，比如管理 iptables。</p>
+<h3 id="5-2-默认的-bridge-网络"><a href="#5-2-默认的-bridge-网络" class="headerlink" title="5.2 默认的 bridge 网络"></a>5.2 默认的 bridge 网络</h3><p>Docker 安装时会创建一个名为 <code>docker0</code> 的 Linux bridge。如果不指定<code>--network</code>，那么创建的容器默认都会挂到<code>docker0</code>上：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/network-bridge.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>当前<code>docker0</code>上没有任何其他网络设备，下面创建一个容器看看有什么变化：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/bridge-1.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>一个新的网络接口<code>veth28c57df</code>被挂到了<code>docker0</code>上，<code>veth28c57df</code>就是<strong>新创建容器的虚拟网卡</strong>。之后来看<strong>容器的网络配置</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/bridge-2.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>容器有一个网卡<code>eth0@if34</code>。实际上<code>eth0@if34</code>和<code>veth28c57df</code>是一对 veth pair。<strong>veth pair 是一种成对出现的特殊网络设备</strong>，可以把它们想象成由一根虚拟网线连接起来的一对网卡，网卡的一头<code>eth0@if34</code>在容器中，另一头<code>veth28c57df</code>挂在网桥<code>docker0</code>上，其效果就是将<code>eth0@if34</code>也挂在了<code>docker0</code>上。</p>
+<p>我们还可以看到，<code>eth0@if34</code>已经配置了 IP <code>172.17.0.2</code>。通过<code>docker network inspect bridge</code>查看 bridge 网络的配置信息：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/network-inspect.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>易知，bridge 网络配置的 subnet 就是<code>172.17.0.0/16</code>，并且网关是<code>172.17.0.1</code>。这个网关正是<code>docker0</code>的 IP 地址：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/gateway-docker0.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>最后，<strong>当前容器网络拓扑结构</strong>如下图所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/network-topo.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>容器创建时，docker 会自动从<code>172.17.0.0/16</code>中分配一个 IP，这里<strong>使用 16 位的掩码可以保证有足够多的 IP 地址可供容器使用</strong>。</p>
+<h3 id="5-3-user-defined-自定义容器网络"><a href="#5-3-user-defined-自定义容器网络" class="headerlink" title="5.3 user-defined 自定义容器网络"></a>5.3 user-defined 自定义容器网络</h3><p>除了 <strong>none, host, bridge</strong> 这三个<strong>自动创建的网络</strong>，用户也可以根据业务需要<strong>创建 user-defined 网络</strong>。</p>
+<p><strong>Docker 提供三种 user-defined 网络驱动：bridge, overlay 和 macvlan</strong>。overlay 和 macvlan 用于<strong>创建跨主机的网络</strong>，后面的章节将单独讨论。</p>
+<p>可通过 <strong>bridge 驱动</strong>创建类似前面默认的 <strong>bridge 网络</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/net-user-defined-1.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>查看一下当前 host 的网络结构变化：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/net-user-defined-2.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>可以看到新增了一个网桥<code>br-eaed97dc9a77</code>，这里<code>eaed97dc9a77</code>就是新建 bridge 网络<code>my_net</code>的短ID。</p>
+<p>执行<code>docker network inspect</code>查看一下<code>my_net</code>的配置信息：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/net-user-defined-3.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>这里<code>172.18.0.0/16</code>是 <strong>Docker 自动分配的 IP 网段</strong>。</p>
+<p>也可以<strong>自己指定 IP 网段</strong>，只需在创建网段时指定<code>--subnet</code>和<code>--gateway</code>参数：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/net-user-defined-4.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>这里创建了新的 bridge 网络<code>my_net2</code>，网段为<code>172.22.16.0/24</code>，网关为<code>172.22.16.1</code>。与之前一样，网关在<code>my_net2</code>对应的网桥<code>br-5d863e9f78b6</code>上：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/net-user-defined-5.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>容器要使用新的网络</strong>，需要<strong>在启动时通过</strong><code>--network</code><strong>指定</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/net-user-defined-6.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>到目前为止，<strong>容器的 IP 都是 Docker 自动从 subnet 中分配的</strong>。除此之外，我们还可以<strong>通过</strong><code>--ip</code><strong>参数来指定容器使用静态 IP 地址</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/net-user-defined-7.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<blockquote>
+<p>只有使用<code>--subnet</code>创建的网络才能指定<strong>静态 IP</strong>，否则 Docker 将会报错。</p>
+</blockquote>
+<p>当前 docker host 的<strong>网络拓扑</strong>如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/network-topo-2.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h3 id="5-4-理解容器之间的连通性"><a href="#5-4-理解容器之间的连通性" class="headerlink" title="5.4 理解容器之间的连通性"></a>5.4 理解容器之间的连通性</h3><p>推荐阅读<img src="/2019/02/13/docker-5mins-notes-4/wechat.svg"><a href="https://mp.weixin.qq.com/s/auYhmsv0aDpLJqplt2zszA" target="_blank" rel="noopener">理解容器之间的连通性 - 每天5分钟玩转 Docker 容器技术（34）</a></p>
+<h3 id="5-5-容器间通信的三种方式"><a href="#5-5-容器间通信的三种方式" class="headerlink" title="5.5 容器间通信的三种方式"></a>5.5 容器间通信的三种方式</h3><p>容器之间可通过 <strong>IP，Docker DNS Server 或 joined 容器</strong>三种方式通信。</p>
+<h4 id="5-5-1-IP-通信"><a href="#5-5-1-IP-通信" class="headerlink" title="5.5.1 IP 通信"></a>5.5.1 IP 通信</h4><p><strong>两个容器要能通信</strong>，必须要<strong>有属于同一个网络的网卡</strong>。满足这个条件后，容器就可以通过 IP 交互了。具体做法是<strong>在容器创建时通过</strong><code>--network</code><strong>指定相应的网络</strong>，或者<strong>通过</strong><code>docker network connect</code><strong>将现有容器加入到指定网络</strong>。</p>
+<h4 id="5-5-2-Docker-DNS-Server"><a href="#5-5-2-Docker-DNS-Server" class="headerlink" title="5.5.2 Docker DNS Server"></a>5.5.2 Docker DNS Server</h4><p>从 Docker 1.10 版本开始，<strong>docker daemon 实现了一个内嵌的 DNS server</strong>，使容器可以<strong>直接通过容器名通信</strong>：</p>
+<pre><code class="lang-docker">docker run -it --network=my_net2 --name=bbox1 busybox
+docker run -it --network=my_net2 --name=bbox2 busybox
+</code></pre>
+<p>然后，<code>bbox2</code>就可以直接 ping 到<code>bbox1</code>了：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/ping.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>使用 docker DNS 有个限制：<strong>只能在 user-defined 网络中使用，默认的 bridge 网络是无法使用 DNS 的</strong>。</p>
+<h4 id="5-5-3-joined-容器"><a href="#5-5-3-joined-容器" class="headerlink" title="5.5.3 joined 容器"></a>5.5.3 joined 容器</h4><p><strong>joined 容器</strong>是另一种实现容器间通信的方式。</p>
+<p>它可以使两个或多个容器<strong>共享一个网络栈，共享网卡和配置信息</strong>，joined 容器之间可以通过<code>127.0.0.1</code>直接通信。</p>
+<p>joined 容器非常适合以下场景：</p>
+<ol>
+<li><strong>不同容器中的程序希望通过 loopback 高效快速地通信</strong>，比如 web server 与 app server。</li>
+<li>希望<strong>监控其他容器的网络流量</strong>，比如运行在独立容器中的网络监控程序。</li>
+</ol>
+<h3 id="5-6-容器如何访问外部世界"><a href="#5-6-容器如何访问外部世界" class="headerlink" title="5.6 容器如何访问外部世界"></a>5.6 容器如何访问外部世界</h3><p>容器默认就能访问外网（容器网络以外的网络），这是通过网桥的 NAT（网络地址转换）实现的。</p>
+<p>具体参考<img src="/2019/02/13/docker-5mins-notes-4/wechat.svg"><a href="https://mp.weixin.qq.com/s/CguNbxRiy3QPdzSVnPlGrQ" target="_blank" rel="noopener">容器如何访问外部世界？- 每天5分钟玩转 Docker 容器技术（36）</a></p>
+<h3 id="5-7-外部世界如何访问容器"><a href="#5-7-外部世界如何访问容器" class="headerlink" title="5.7 外部世界如何访问容器"></a>5.7 外部世界如何访问容器</h3><p>外部网络通过<strong>端口映射</strong>访问到容器内部。</p>
+<p><strong>Docker 可将容器对外提供服务的端口映射到 host 的某个端口</strong>，外网通过该端口访问容器。容器启动时<strong>通过</strong><code>-p</code><strong>参数映射端口</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/docker-port.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>容器启动后，可通过<code>docker ps</code>或<code>docker port</code><strong>查看动态映射到 host 的端口</strong>。</p>
+<p>除了映射动态端口，也可以<strong>在</strong><code>-p</code><strong>中指定映射到 host 某个特定端口</strong>，例如可将容器的 80 端口映射到 host 的 8080 端口：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/docker-port-2.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>每一个映射的端口，<strong>host 都会启动一个</strong><code>docker-proxy</code><strong>进程来处理访问容器的流量</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/docker-port-3.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>以<code>0.0.0.0:32773-&gt;80/tcp</code>为例：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-4/docker-port-4.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ol>
+<li><code>docker-proxy</code><strong>监听 host 的 32773 端口</strong></li>
+<li>当 curl 访问<code>10.0.2.15:32773</code>时，<code>docker-proxy</code><strong>转发给容器</strong><code>172.17.0.2:80</code></li>
+<li>httpd 容器<strong>响应请求并返回结果</strong></li>
+</ol>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/09/25/micro-service-orchestration-and-container-schedule/">微服务编排与容器调度</a></li><li><a href="https://abelsu7.top/2019/09/18/micro-service-notes/">微服务学习资料汇总</a></li><li><a href="https://abelsu7.top/2019/03/19/recent-review/">近期复习合集</a></li><li><a href="https://abelsu7.top/2019/03/18/understanding-linux-kernel/">Linux 内核笔记 1：绪论</a></li><li><a href="http://www.hui-wang.info/2018/02/04/%E5%BD%B1%E5%93%8D%E5%8A%9B/">影响力</a></li><li><a href="http://www.hui-wang.info/2017/11/25/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E%EF%BC%9A%E4%B8%8D%E8%83%BD%E5%86%8D%E5%87%91%E4%BA%86/">数学之美：不能再凑了</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.143Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/02/13/docker-5mins-notes-4/" target="_blank" rel="external">https://abelsu7.top/2019/02/13/docker-5mins-notes-4/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/容器/">容器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书/">读书</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/02/13/docker-5mins-notes-4/&title=《5 分钟 Docker 笔记 4：网络》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/02/13/docker-5mins-notes-4/&title=《5 分钟 Docker 笔记 4：网络》 — Keep Coding&source=
+三种默认的网络模式、容器间的通信方式、容器与外部网络互连
+
+
+                
+                    
+       ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/02/13/docker-5mins-notes-4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《5 分钟 Docker 笔记 4：网络》 — Keep Coding&url=https://abelsu7.top/2019/02/13/docker-5mins-notes-4/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/02/13/docker-5mins-notes-4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/02/15/docker-5mins-notes-5/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">5 分钟 Docker 笔记 5：存储</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/02/13/docker-5mins-notes-3/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">5 分钟 Docker 笔记 3：容器</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/02/13/docker-5mins-notes-4/&title=《5 分钟 Docker 笔记 4：网络》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/02/13/docker-5mins-notes-4/&title=《5 分钟 Docker 笔记 4：网络》 — Keep Coding&source=
+三种默认的网络模式、容器间的通信方式、容器与外部网络互连
+
+
+                
+                    
+       ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/02/13/docker-5mins-notes-4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《5 分钟 Docker 笔记 4：网络》 — Keep Coding&url=https://abelsu7.top/2019/02/13/docker-5mins-notes-4/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/02/13/docker-5mins-notes-4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMElEQVR42u3awY7CMAxFUf7/pztbJCbhPjss6t6sEFCa05HeOHFeLzyuxXj/dPX9z+98frp//9iQIUPGbRnXduynxW/Mf3///vKOMmTIeABjdeP9d2pXkbDmvyBDhgwZ+8KO35IXlzJkyJBxKnD7BSVZ3MqQIUNGJxB5RNZC+YdrcRkyZNyQ0Vma/vr1T/obMmTIuBXjCgff6E9bkldjyJAhYzaDBxyfaNpCIIcw0HxkyJDxGEZn0cjDMQ1o8o4MGTJmM9J4JY+gswDmUf4FI0OGjEEMHo5ppPKCr1MmypAh42mMtDGQFoUd2Jf/FTJkyBjK2AfrqQZAuiUXs2XIkDGakR6q4CUgfyidxkPw95EhQ8ZtGfwyvvXGp54m53KeMmTIeACDhGlKTQ+TdR6TDBkyZjPScjAFpM3Lw2dGZMiQMYLBW4adICZxmTYnlotYGTJkjGakBdyp6aaFKVqLy5AhYxyjMzmylZY2FUis/xO4MmTIGMrgP8djMS0iO5t06OSIDBkyhjJ4sdhZAKebbnHgypAhYxwjHSmPbPqT10uqDBkyHsDgx7N4Y6B25Attse3/b8iQIWMQox+y5Ja1x8S3AmXIkDGb0Qm79IBFP9z3ZaUMGTJmM9KjFemEaiVjepUMGTKewOgE39mYLi59ZciQIaPUYuQbdrWlsgwZMmTwQOxv0qVlaNDClCFDxiBGemwi3dDnVxXbpTJkyBjNqNVdtQYA30qrHReTIUPGOMYfxLfRP98vJDIAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

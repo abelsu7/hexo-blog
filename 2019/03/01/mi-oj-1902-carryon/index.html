@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>小米 OJ 2 月常规赛 T2：Carryon 数数字 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Go,OJ">
+    <meta name="description" content="参见 小米 OJ 编程比赛 02 月常规赛">
+<meta name="keywords" content="Go,OJ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小米 OJ 2 月常规赛 T2：Carryon 数数字">
+<meta property="og:url" content="https://abelsu7.top/2019/03/01/mi-oj-1902-carryon/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="参见 小米 OJ 编程比赛 02 月常规赛">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/03/01/mi-oj-1902-carryon/cover.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/01/mi-oj-1902-carryon/describe.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/01/mi-oj-1902-carryon/pass.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/01/mi-oj-1902-carryon/ac-go.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.531Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="小米 OJ 2 月常规赛 T2：Carryon 数数字">
+<meta name="twitter:description" content="参见 小米 OJ 编程比赛 02 月常规赛">
+<meta name="twitter:image" content="https://abelsu7.top/2019/03/01/mi-oj-1902-carryon/cover.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">小米 OJ 2 月常规赛 T2：Carryon 数数字</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">小米 OJ 2 月常规赛 T2：Carryon 数数字</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-03-01T02:13:56.000Z" itemprop="datePublished" class="page-time">
+  2019-03-01
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/算法/">算法</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#题目描述"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#输入"><span class="post-toc-text">输入</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#输出"><span class="post-toc-text">输出</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#通过率"><span class="post-toc-text">通过率</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#测试用例"><span class="post-toc-text">测试用例</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Go-代码-1-11-ms"><span class="post-toc-text">Go 代码 1.11 ms</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#待更新"><span class="post-toc-text">待更新</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-mi-oj-1902-carryon"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">小米 OJ 2 月常规赛 T2：Carryon 数数字</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-03-01 10:13:56" datetime="2019-03-01T02:13:56.000Z"  itemprop="datePublished">2019-03-01</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/算法/">算法</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>参见 <a href="https://code.mi.com/contest/list/view?id=7" target="_blank" rel="noopener">小米 OJ 编程比赛 02 月常规赛</a></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/01/mi-oj-1902-carryon/cover.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/01/mi-oj-1902-carryon/describe.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h3 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h3><p>单组输入<code>l</code>和<code>r</code>的值</p>
+<h3 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h3><p>输出<strong>最终结果</strong></p>
+<h3 id="通过率"><a href="#通过率" class="headerlink" title="通过率"></a>通过率</h3><blockquote>
+<p><strong>Up to</strong> <code>2019-3-1 10:36 GMT+8</code></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/01/mi-oj-1902-carryon/pass.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h3 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h3><blockquote>
+<p>如：<code>10、11、12、13、14</code>的<strong>十六进制</strong>分别是<code>a、b、c、d、e</code>。依次连在一起是<code>abcde</code>，转换成<strong>十进制</strong>是<code>703710</code>，对<code>15</code><strong>取模</strong>为<code>0</code></p>
+</blockquote>
+<pre><code class="lang-go">10 14
+685003 898583
+100 100000000000
+
+------
+0
+3
+10
+</code></pre>
+<h3 id="Go-代码-1-11-ms"><a href="#Go-代码-1-11-ms" class="headerlink" title="Go 代码 1.11 ms"></a>Go 代码 1.11 ms</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/01/mi-oj-1902-carryon/ac-go.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;bufio&quot;
+    &quot;fmt&quot;
+    &quot;os&quot;
+    &quot;strconv&quot;
+    &quot;strings&quot;
+)
+
+func solution(line string) string {
+    lineArr := strings.Split(line, &quot; &quot;)
+    l, _ := strconv.Atoi(lineArr[0])
+    r, _ := strconv.Atoi(lineArr[1])
+
+    tmp1 := l + r
+    tmp2 := r - l + 1
+
+    if (tmp1 % 2) == 0 {
+        tmp1 /= 2
+    } else {
+        tmp2 /= 2
+    }
+
+    ans := ((tmp1 % 15) * (tmp2 % 15)) % 15
+    return strconv.Itoa(ans)
+}
+
+func main() {
+    r := bufio.NewReaderSize(os.Stdin, 20480)
+    for line, _, err := r.ReadLine(); err == nil; line, _, err = r.ReadLine() {
+        fmt.Println(solution(string(line)))
+    }
+}
+</code></pre>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://code.mi.com/contest/list/view?id=7" target="_blank" rel="noopener">小米 OJ 编程比赛 02 月常规赛</a></li>
+<li><a href="https://blog.csdn.net/mtrix/article/details/47087647" target="_blank" rel="noopener">取模运算的性质 | CSDN</a></li>
+</ol>
+</blockquote>
+<h3 id="待更新"><a href="#待更新" class="headerlink" title="待更新"></a>待更新</h3><blockquote>
+<ol>
+<li><a href="https://code.mi.com/problem/list/view?id=35" target="_blank" rel="noopener">分糖果 | 小米 OJ</a></li>
+<li><a href="https://www.e-learn.cn/content/qita/1999351" target="_blank" rel="noopener">小米 OJ：分糖果 | 易学教程</a></li>
+<li><a href="https://sakuratears.me/index.php/archives/3/" target="_blank" rel="noopener">MiOJ-1月常规赛-灯 | Sakura</a></li>
+<li><a href="https://blog.csdn.net/xiao__jia__jia/article/details/86651199" target="_blank" rel="noopener">小米 OJ 编程比赛 01 月常规赛题解 | CSDN</a></li>
+<li><a href="http://120.77.42.77/?p=121" target="_blank" rel="noopener">小米 OJ 编程比赛 01 月常规赛 | 血小板自动机’s Blog</a></li>
+<li><a href="https://blog.csdn.net/lgz0921/article/details/86672377" target="_blank" rel="noopener">灯——小米 OJ 编程比赛 01 月常规赛 （思维）| CSDN</a></li>
+<li><a href="https://blog.csdn.net/Jaster_wisdom/article/details/80660467" target="_blank" rel="noopener">LeetCode41. 缺失的第一个正数 | CSDN</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/">使用 Gogs 自建 Git 服务</a></li><li><a href="https://abelsu7.top/2019/10/31/go-gin-swagger/">在 Gin 中使用 swaggo 自动生成 RESTful API 文档</a></li><li><a href="https://abelsu7.top/2019/10/24/go-build-compress-using-upx/">使用 upx 压缩 go build 打包的可执行文件</a></li><li><a href="https://abelsu7.top/2019/10/24/go-cross-compile/">Go 程序的交叉编译、选择性编译</a></li><li><a href="chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li><li><a href="www.chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.531Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/03/01/mi-oj-1902-carryon/" target="_blank" rel="external">https://abelsu7.top/2019/03/01/mi-oj-1902-carryon/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OJ/">OJ</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/01/mi-oj-1902-carryon/&title=《小米 OJ 2 月常规赛 T2：Carryon 数数字》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/01/mi-oj-1902-carryon/&title=《小米 OJ 2 月常规赛 T2：Carryon 数数字》 — Keep Coding&source=
+参见 小米 OJ 编程比赛 02 月常规赛
+
+
+                
+                    
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/01/mi-oj-1902-carryon/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《小米 OJ 2 月常规赛 T2：Carryon 数数字》 — Keep Coding&url=https://abelsu7.top/2019/03/01/mi-oj-1902-carryon/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/01/mi-oj-1902-carryon/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/03/03/linux-yum-apt-disable-update/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Linux 下 Yum、APT 禁用指定软件包更新</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/02/28/hexo-pin-top/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Hexo 实现自定义文章置顶</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/01/mi-oj-1902-carryon/&title=《小米 OJ 2 月常规赛 T2：Carryon 数数字》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/01/mi-oj-1902-carryon/&title=《小米 OJ 2 月常规赛 T2：Carryon 数数字》 — Keep Coding&source=
+参见 小米 OJ 编程比赛 02 月常规赛
+
+
+                
+                    
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/01/mi-oj-1902-carryon/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《小米 OJ 2 月常规赛 T2：Carryon 数数字》 — Keep Coding&url=https://abelsu7.top/2019/03/01/mi-oj-1902-carryon/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/01/mi-oj-1902-carryon/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMElEQVR42u3aS27bQBAFQN//0so2QGLqvR7agJrFlSBQnCkuWtOfr6/4ev11/ft9cv93n5NVbrswMDA+lvG6vK7vSZ6crNKu+5/VMTAwHsBINtGG4JMn50/AwMDAyA9z7T3XgRUDAwPj5xjfbS5JUzEwMDCuGcmGks2dHPV+KRfHwMD4QEZedf/9zz/S38DAwPgoxqxYn7cK8qPhUQsBAwNjNSMPcLMNnTQ16+EPDAyM1Yy8TH8+TjEbCyteFgYGxlLGrA15Pn6Rl/aSkh8GBsYTGG1x7WjJsiWQhHsMDIzdjPxn15hZqa4dNXuzTwwMjHWMtujfjlmcpMTFuAYGBsYDGO2GZi/ipM3wZj8YGBirGe3MVTuR1R46Z4dRDAyM3Yy2lJY3Ju9qM0RBHAMDYzUjD215knl9+Js1A9rhMwwMjE2MIoSN2G2rchaCMTAwdjPyEljePJiVzxLGcNgCAwNjBaNNINvq3UkCXJxtMTAwVjPaAYu7kttrTFL4w8DAeA5jlsrOimV5kM1DMwYGxjMZ15vLm4v5qFk7ohEFXAwMjHWMdvzirlNZ24SoJ0cwMDA+nPEqr3zreahtRzGKQyEGBsYKxm0xOy6NzYpr7R8ABgbGPkZb5MpbmOeFvOJ9Y2BgPIAxC3xJeE1GNG5IfTEwMDDK0ttdKWs9LYKBgYERB8G2ndm2SN/0NzAwMJYy8pGLfMlZops3BjAwMJ7DmKWO7ehYnsS2Y2cYGBirGX8Ada9BzwHobRUAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

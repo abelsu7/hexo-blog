@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Linux Shell 编程速查 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Linux,Shell">
+    <meta name="description" content="摘自 这些必备的 Linux shell知识你都掌握了吗 | Linux 学习">
+<meta name="keywords" content="Linux,Shell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux Shell 编程速查">
+<meta property="og:url" content="https://abelsu7.top/2019/06/10/linux-shell-examples/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自 这些必备的 Linux shell知识你都掌握了吗 | Linux 学习">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/06/10/linux-shell-examples/cover.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.508Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux Shell 编程速查">
+<meta name="twitter:description" content="摘自 这些必备的 Linux shell知识你都掌握了吗 | Linux 学习">
+<meta name="twitter:image" content="https://abelsu7.top/2019/06/10/linux-shell-examples/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Linux Shell 编程速查</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Linux Shell 编程速查</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-06-10T07:16:16.000Z" itemprop="datePublished" class="page-time">
+  2019-06-10
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Shell/">Shell</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-入参和默认变量"><span class="post-toc-text">1. 入参和默认变量</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-变量"><span class="post-toc-text">2. 变量</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-命令执行"><span class="post-toc-text">3. 命令执行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-条件分支"><span class="post-toc-text">4. 条件分支</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#if-语句"><span class="post-toc-text">if 语句</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#case-语句"><span class="post-toc-text">case 语句</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用多个条件"><span class="post-toc-text">使用多个条件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#整数判断"><span class="post-toc-text">整数判断</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#文件目录判断"><span class="post-toc-text">文件目录判断</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-循环"><span class="post-toc-text">5. 循环</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#for-in"><span class="post-toc-text">for in</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#for-do"><span class="post-toc-text">for do</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#while-do"><span class="post-toc-text">while do</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#until-do"><span class="post-toc-text">until do</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-函数"><span class="post-toc-text">6. 函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-返回值"><span class="post-toc-text">7. 返回值</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8-注释"><span class="post-toc-text">8. 注释</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#9-日志保存"><span class="post-toc-text">9. 日志保存</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#10-脚本执行"><span class="post-toc-text">10. 脚本执行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#11-脚本退出码"><span class="post-toc-text">11. 脚本退出码</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-linux-shell-examples"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Linux Shell 编程速查</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-06-10 15:16:16" datetime="2019-06-10T07:16:16.000Z"  itemprop="datePublished">2019-06-10</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Shell/">Shell</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>摘自 <a href="https://mp.weixin.qq.com/s/Xhjn2QlGXPPVTyiRj8c46A" target="_blank" rel="noopener">这些必备的 Linux shell知识你都掌握了吗 | Linux 学习</a></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/06/10/linux-shell-examples/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="1-入参和默认变量"><a href="#1-入参和默认变量" class="headerlink" title="1. 入参和默认变量"></a>1. 入参和默认变量</h3><pre><code class="lang-bash">/root/sh-utils/test.sh para1 para2 para3
+$0                     $1    $2    $3
+脚本名                 第一个参数   第三个参数
+</code></pre>
+<ul>
+<li><code>$0</code>：执行的<strong>脚本名</strong></li>
+<li><code>$1</code>：<strong>第一个</strong>参数</li>
+<li><code>$2</code>：<strong>第二个</strong>参数</li>
+<li><code>$#</code>：脚本后面传入的<strong>参数个数</strong></li>
+<li><code>$@</code>：<strong>所有参数</strong>，并且<strong>可以被遍历</strong></li>
+<li><code>$*</code>：<strong>所有参数</strong>，不加引号时与<code>$@</code>相同，具体区别请移步 <a href="#参考文章">参考文章</a></li>
+<li><code>$?</code>：上一条命令的<strong>退出状态</strong></li>
+<li><code>两个$</code>：当前脚本的<strong>进程 ID</strong></li>
+</ul>
+<h3 id="2-变量"><a href="#2-变量" class="headerlink" title="2. 变量"></a>2. 变量</h3><p>使用<code>=</code>给变量<strong>赋值</strong>：</p>
+<pre><code class="lang-shell">para1=&quot;hello world&quot;  # 字符串直接赋给变量 para1
+</code></pre>
+<blockquote>
+<p><strong>注意</strong>：<code>=</code><strong>两边不能有空格</strong>，等号右边<strong>有空格的字符串</strong>也必须<strong>用引号括起来</strong></p>
+</blockquote>
+<p>使用<code>unset</code><strong>取消变量</strong>：</p>
+<pre><code class="lang-shell">unset para1
+</code></pre>
+<p><strong>使用变量时</strong>，需要在<strong>变量前添加</strong><code>$</code>，或者<strong>变量名两边添加</strong><code>{}</code>：</p>
+<pre><code class="lang-shell">#!/bin/bash
+para1=&quot;hello world&quot;
+
+echo &quot;para1 is $para1&quot;
+echo &quot;para1 is ${para1}!&quot;
+
+------
+para1 is hello world
+para1 is hello world!
+</code></pre>
+<h3 id="3-命令执行"><a href="#3-命令执行" class="headerlink" title="3. 命令执行"></a>3. 命令执行</h3><pre><code class="lang-shell">#!/bin/bash
+
+# save command output into var
+hostname=`hostname`
+echo $hostname
+
+# call command in string
+echo &quot;Current path is $(pwd)&quot;
+
+# use double (()) to calculate an expression
+echo &quot;36+52=$((36+52))&quot;
+
+# command as a string
+kernel=&quot;uname -r&quot;    
+echo &quot;kernel is $($kernel)&quot;
+
+# several commands as a string
+cmd=&quot;ls;pwd&quot;
+echo &quot;$(eval $cmd)&quot;
+
+------
+centos-2
+Current path is /root/GithubProjects/sh-utils
+36+52=88
+kernel is 3.10.0-862.14.4.el7.x86_64
+24-bit-color.sh
+docker-k8s-images.sh
+export-http-proxy.sh
+get-wechat-cover.sh
+ssr.sh
+start-goland.sh
+test.sh
+tmux-tools
+/root/GithubProjects/sh-utils
+</code></pre>
+<h3 id="4-条件分支"><a href="#4-条件分支" class="headerlink" title="4. 条件分支"></a>4. 条件分支</h3><h4 id="if-语句"><a href="#if-语句" class="headerlink" title="if 语句"></a>if 语句</h4><p>一般来说，如果<strong>命令成功执行</strong>，则其<strong>返回值为</strong><code>0</code>，因此可通过下面的方式<strong>判断上一条命令的执行结果</strong>：</p>
+<pre><code class="lang-shell">if [ $? -eq 0 ]
+then
+    echo &quot;success&quot;
+elif [ $? -eq 1 ]
+then
+    echo &quot;failed,code is 1&quot;
+else
+    echo &quot;other code&quot;
+fi
+</code></pre>
+<h4 id="case-语句"><a href="#case-语句" class="headerlink" title="case 语句"></a>case 语句</h4><p><code>case</code>语句的使用方法如下：</p>
+<pre><code class="lang-shell">name=&quot;aa&quot;
+name=&quot;aa&quot;
+case $name in
+    &quot;aa&quot;)
+    echo &quot;name is $name&quot;
+    ;;
+    &quot;&quot;)
+    echo &quot;name is empty&quot;
+    ;;
+    &quot;bb&quot;)
+    echo &quot;name is $name&quot;
+    ;;
+    *)
+    echo &quot;other name&quot;
+    ;;
+esac
+</code></pre>
+<p>需要注意以下几点：</p>
+<ul>
+<li><code>[]</code>前面要有<strong>空格</strong>，里面是<strong>逻辑表达式</strong></li>
+<li><code>if elif</code><strong>后面要跟</strong><code>then</code>，之后才是要执行的语句</li>
+<li>如果想打印上一条命令的执行结果，最好的做法是<strong>将</strong><code>$?</code><strong>赋给一个变量</strong>，因为一旦执行了一条命令，<code>$?</code>的值就可能会变</li>
+<li><code>case</code>语句的每个分支最后以<strong>两个</strong><code>;;</code><strong>结尾</strong>，最后是<code>esac</code></li>
+</ul>
+<h4 id="使用多个条件"><a href="#使用多个条件" class="headerlink" title="使用多个条件"></a>使用多个条件</h4><p>有两种写法：</p>
+<pre><code class="lang-shell">if [ 10 -gt 5 -o 10 -gt 4 ];then
+        echo &quot;10&gt;5 or 10&gt;4&quot;
+fi
+# 或者
+if [ 10 -gt 5 ] || [ 10 -gt 4 ];then
+        echo &quot;10&gt;5 or 10&gt;4&quot;
+fi
+</code></pre>
+<ul>
+<li><code>-a</code>，同<code>&amp;&amp;</code>，表示<strong>与</strong></li>
+<li><code>-o</code>，同<code>||</code>，表示<strong>或</strong></li>
+<li><code>!</code>，表示<strong>非</strong></li>
+</ul>
+<h4 id="整数判断"><a href="#整数判断" class="headerlink" title="整数判断"></a>整数判断</h4><ul>
+<li><code>-eq</code>：两数是否<strong>相等</strong></li>
+<li><code>-ne</code>：两数是否<strong>不等</strong></li>
+<li><code>-gt</code>：前者是否<strong>大于</strong>后者</li>
+<li><code>-lt</code>：前者是否<strong>小于</strong>后者</li>
+<li><code>-ge</code>：前者是否<strong>大于等于</strong>后者</li>
+<li><code>-le</code>：前者是否<strong>小于等于</strong>后者</li>
+</ul>
+<h4 id="文件目录判断"><a href="#文件目录判断" class="headerlink" title="文件目录判断"></a>文件目录判断</h4><ul>
+<li><code>-f $filename</code>：是否为<strong>文件</strong></li>
+<li><code>-e $filename</code>：是否<strong>存在</strong></li>
+<li><code>-d $filename</code>：是否为<strong>目录</strong></li>
+<li><code>-s $filename</code>：文件<strong>存在且不为空</strong></li>
+<li><code>! -s $filename</code>：文件是否<strong>为空</strong></li>
+</ul>
+<h3 id="5-循环"><a href="#5-循环" class="headerlink" title="5. 循环"></a>5. 循环</h3><h4 id="for-in"><a href="#for-in" class="headerlink" title="for in"></a>for in</h4><p><strong>遍历输出脚本的参数</strong>：</p>
+<pre><code class="lang-shell"># 遍历输出脚本的参数
+for i in $@; do
+    echo $i
+done
+</code></pre>
+<p>还可以<strong>指定循环变量范围</strong>：</p>
+<pre><code class="lang-shell">for i in {1..5}; do
+    echo &quot;Welcome $i&quot;
+done
+</code></pre>
+<p>在此基础上<strong>指定循环步长</strong>：</p>
+<pre><code class="lang-shell">for i in {5..15..3}; do
+    echo &quot;number is $i&quot;
+done
+</code></pre>
+<h4 id="for-do"><a href="#for-do" class="headerlink" title="for do"></a>for do</h4><pre><code class="lang-shell">for ((i = 0 ; i &lt; 10 ; i++)); do
+    echo $i
+done
+</code></pre>
+<h4 id="while-do"><a href="#while-do" class="headerlink" title="while do"></a>while do</h4><pre><code class="lang-shell">while [ &quot;$ans&quot; != &quot;yes&quot; ]
+do
+    read -p &quot;please input yes to exit loop: &quot; ans
+done
+</code></pre>
+<h4 id="until-do"><a href="#until-do" class="headerlink" title="until do"></a>until do</h4><pre><code class="lang-shell">ans=&quot;yes&quot;
+until [ &quot;$ans&quot; != &quot;yes&quot; ]
+do
+    read -p &quot;please input yes to continue loop: &quot; ans
+done
+</code></pre>
+<h3 id="6-函数"><a href="#6-函数" class="headerlink" title="6. 函数"></a>6. 函数</h3><p>函数定义如下：</p>
+<pre><code class="lang-shell">myfunc()
+{
+    echo &quot;Hello! $1&quot;
+}
+</code></pre>
+<p>或者：</p>
+<pre><code class="lang-shell">function myfunc()
+{
+    echo &quot;Hello! $1&quot;
+}
+</code></pre>
+<p>函数调用：</p>
+<pre><code class="lang-shell">para1=&quot;abelsu7&quot;
+myfunc $para1
+</code></pre>
+<h3 id="7-返回值"><a href="#7-返回值" class="headerlink" title="7. 返回值"></a>7. 返回值</h3><p>通常<strong>函数的</strong><code>return</code><strong>返回值只支持</strong><code>0-255</code>，因此想要获得其他形式的返回值，可以通过下面的方式：</p>
+<pre><code class="lang-shell">function myfunc()
+{
+    local myresult=&quot;some value&quot;
+    echo $myresult
+}
+val=$(myfunc) # val 的值为 some value
+</code></pre>
+<p>通过<code>return</code>的方式适用于<strong>判断函数的执行是否成功</strong>：</p>
+<pre><code class="lang-shell">function myfunc()
+{
+    # do something
+    return 0
+}
+
+if myfunc;then
+    echo &quot;success&quot;
+else
+    echo &quot;failed&quot;
+fi
+</code></pre>
+<h3 id="8-注释"><a href="#8-注释" class="headerlink" title="8. 注释"></a>8. 注释</h3><pre><code class="lang-shell">#!/bin/bash
+
+# 这是单行注释
+
+: &lt;&lt; !
+注释 1
+注释 2
+注释 3
+!
+
+: &#39;
+注释 1
+注释 2
+注释 3
+&#39;
+
+: &lt;&lt; EOF
+注释 1
+注释 2
+注释 3
+EOF
+
+: &lt;&lt; 字符 # 数字或者字符均可
+注释 1
+注释 2
+注释 3
+字符 # 要与之前的字符相同
+</code></pre>
+<h3 id="9-日志保存"><a href="#9-日志保存" class="headerlink" title="9. 日志保存"></a>9. 日志保存</h3><p>脚本执行后免不了要<strong>记录日志</strong>，常用的方法是<strong>重定向</strong>。</p>
+<p>方式一，<strong>将标准输出保存到文件中，并在控制台打印标准错误</strong>：</p>
+<pre><code class="lang-bash">./test.sh &gt; log.dat
+</code></pre>
+<p>方式二，<strong>将标准输出和标准错误都保存到日志文件中</strong>：</p>
+<pre><code class="lang-bash">./test.sh &gt; log.dat 2&gt;&amp;1
+</code></pre>
+<p>方式三，<strong>保存日志文件的同时，也输出到控制台</strong>：</p>
+<pre><code class="lang-bash">./test.sh |tee log.dat
+</code></pre>
+<h3 id="10-脚本执行"><a href="#10-脚本执行" class="headerlink" title="10. 脚本执行"></a>10. 脚本执行</h3><pre><code class="lang-bash">./test.sh      # 最常见的执行方式
+sh test.sh     # 在子进程中执行
+sh -x test.sh  # 会在终端打印执行的命令，适合调试
+source test.sh # 在父进程中执行
+. test.sh      # 不需要赋予执行权限，临时执行
+</code></pre>
+<h3 id="11-脚本退出码"><a href="#11-脚本退出码" class="headerlink" title="11. 脚本退出码"></a>11. 脚本退出码</h3><p>很多时候我们需要<strong>获取脚本的执行结果</strong>，即<strong>退出状态</strong>。通常<code>0</code>表示<strong>执行成功</strong>，而非<code>0</code>表示<strong>执行失败</strong>。</p>
+<p>为了<strong>获得退出码</strong>，我们需要<strong>使用</strong><code>exit</code>，例如：</p>
+<pre><code class="lang-shell">#!/bin/bash
+function myfun()
+{
+    if [ $# -lt 2 ]
+    then
+       echo &quot;para num error&quot;
+       exit 1
+    fi
+    echo &quot;ok&quot;
+    exit 2
+}
+if [ $# -lt 1 ]
+then
+    echo &quot;para num error&quot;
+    exit 1
+fi
+returnVal=`myfun aa`
+echo &quot;end shell&quot;
+exit 0
+</code></pre>
+<p>这里需要注意的是，使用：</p>
+<pre><code class="lang-shell">returnVal=`myfun aa`
+</code></pre>
+<p>这样的语句来执行函数，即使函数里面有<code>exit</code>，它也不会退出脚本执行，而只是会退出该函数。这是<strong>因为</strong><code>exit</code><strong>是退出当前进程</strong>，而这种方式执行函数，<strong>相当于</strong><code>fork</code><strong>了一个子进程</strong>，因此不会退出当前脚本。</p>
+<p>所以无论你的函数参数是什么，最后都会打印：</p>
+<pre><code class="lang-bash">./test.sh;echo $?
+0
+</code></pre>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://mp.weixin.qq.com/s/Xhjn2QlGXPPVTyiRj8c46A" target="_blank" rel="noopener">这些必备的 Linux Shell 知识你都掌握了吗 | Linux 学习</a></li>
+<li><a href="https://mp.weixin.qq.com/s/x0m8a1ytL3zNhk_4tNUPCw" target="_blank" rel="noopener">如何理解 Linux shell中“2&gt;&amp;1”？| 编程珠玑</a></li>
+<li><a href="http://c.biancheng.net/view/807.html" target="_blank" rel="noopener">Shell $* 和 $@ 的区别 | C 语言中文网</a></li>
+<li><a href="https://www.cnblogs.com/xuliangwei/p/10585486.html" target="_blank" rel="noopener">Shell $* 与 $@ 的区别 | 博客园</a></li>
+<li><a href="https://blog.csdn.net/miyatang/article/details/8077123" target="_blank" rel="noopener">linux bash shell 中，单引号、 双引号，反引号（``）的区别及各种括号的区别 | CSDN</a></li>
+<li><a href="https://www.cnblogs.com/blackpepper/p/9970691.html" target="_blank" rel="noopener">【Shell】单行注释和多行注释 | 博客园</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/10/23/go-exec-shell-command/">Go 语言使用 os/exec 执行 Shell 命令</a></li><li><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7 安装配置 NFS</a></li><li><a href="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/">Linux 系统常用监控命令</a></li><li><a href="https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/">Linux 终端修改 ls 命令目录显示颜色</a></li><li><a href="http://ashin.wang/linux-basic/">Linux基础笔记</a></li><li><a href="https://wiki.hushhw.cn/posts/6fbc30d9.html">虚拟机 VMware 中安装 Ubuntu 操作系统</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.508Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/06/10/linux-shell-examples/" target="_blank" rel="external">https://abelsu7.top/2019/06/10/linux-shell-examples/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/06/10/linux-shell-examples/&title=《Linux Shell 编程速查》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/06/10/linux-shell-examples/&title=《Linux Shell 编程速查》 — Keep Coding&source=
+摘自 这些必备的 Linux shell知识你都掌握了吗 | Linux 学习
+
+
+                
+                 ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/06/10/linux-shell-examples/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux Shell 编程速查》 — Keep Coding&url=https://abelsu7.top/2019/06/10/linux-shell-examples/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/06/10/linux-shell-examples/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/06/13/windows-powershell-beautify/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Windows 10 终端 PowerShell 外观美化</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/06/10/go-in-vscode/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">VS Code 配置 Go 开发环境</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/06/10/linux-shell-examples/&title=《Linux Shell 编程速查》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/06/10/linux-shell-examples/&title=《Linux Shell 编程速查》 — Keep Coding&source=
+摘自 这些必备的 Linux shell知识你都掌握了吗 | Linux 学习
+
+
+                
+                 ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/06/10/linux-shell-examples/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux Shell 编程速查》 — Keep Coding&url=https://abelsu7.top/2019/06/10/linux-shell-examples/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/06/10/linux-shell-examples/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMElEQVR42u3awXLDIAxF0f7/T7vbLgK5T3IytbisOjExnCxUIfHzg8f1Z6w+IfP3392/84YhQ4aMxzKu7VjNSRfmbyZPX6woQ4aMAxirhfdz9jNrb07fIEOGDBn7xI4v2QnoMmTIkFFjkKMp/4Q8lSFDhgwSEHkwraV6XzqLy5Ah44EMXnX//t8f6W/IkCHjUYwrHDxo9tsGwa5kyJAxmsEDHL8ewcNlJ+2TIUPGaYx9GatWXLsrZJNdyZAhYzajs8W7ym2kVfAGI0OGjNGM/WLptviPcleaKEOGjHMYaTLXKoqFsOD4KkOGjNEMXlAj6SNvGHQulrXqgjJkyBjE6BwmeeDmhTZEkiFDxmGMYm+htPw+4Qvmy5AhYxyjdtGBtAR4osm3/ua2iAwZMoYy+HZ50Y0nmik+DfoyZMiYx+CB7N6tp+kj6sTKkCFjECP9cq0olrYfyH+G5SFWhgwZ4xhpVK5d/EqbBGmaKEOGjHMY/dsL5CkvqN2MkSFDxsMZabF+f3xNw3RayFtiZMiQcRhj/zoexfl3eZMg6MfKkCFjKCNtanae1o6jyzfIkCFjKOMKB295plfN+FWMILeVIUPGCEa/6JYW9/vth4/UDmXIkPHvGSTIptfFeNjlx9rgl5YhQ8ZQRu3A2blGVkv1ljNlyJAho511dtqiqCwoQ4YMGR9OE2uH4ReHWBkyZIxmkEMsL9mngNqVMhkyZJzDqF1xSINmrf3Jm5oyZMgYyvgF/6jbGRo4sdMAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

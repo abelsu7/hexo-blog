@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>数值分析笔记 7：矩阵特征值计算 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="读书,数值分析">
+    <meta name="description" content="矩阵特征值和特征向量、乘幂法、反幂法                                                                                               《应用数值分析》">
+<meta name="keywords" content="读书,数值分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数值分析笔记 7：矩阵特征值计算">
+<meta property="og:url" content="https://abelsu7.top/2018/11/27/math-analysis-7/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="矩阵特征值和特征向量、乘幂法、反幂法                                                                                               《应用数值分析》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2018/11/27/math-analysis-7/math-cover.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.525Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数值分析笔记 7：矩阵特征值计算">
+<meta name="twitter:description" content="矩阵特征值和特征向量、乘幂法、反幂法                                                                                               《应用数值分析》">
+<meta name="twitter:image" content="https://abelsu7.top/2018/11/27/math-analysis-7/math-cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">数值分析笔记 7：矩阵特征值计算</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">数值分析笔记 7：矩阵特征值计算</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-11-27T01:46:28.000Z" itemprop="datePublished" class="page-time">
+  2018-11-27
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/数学/">数学</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-矩阵特征值计算"><span class="post-toc-text">7. 矩阵特征值计算</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-1-矩阵特征值和特征向量"><span class="post-toc-text">7.1 矩阵特征值和特征向量</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-2-乘幂法"><span class="post-toc-text">7.2 乘幂法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-2-1-求模最大的特征值的乘幂法"><span class="post-toc-text">7.2.1 求模最大的特征值的乘幂法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-2-2-求模最小的特征值的反幂法"><span class="post-toc-text">7.2.2 求模最小的特征值的反幂法</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-math-analysis-7"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">数值分析笔记 7：矩阵特征值计算</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-11-27 09:46:28" datetime="2018-11-27T01:46:28.000Z"  itemprop="datePublished">2018-11-27</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/数学/">数学</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>矩阵特征值和特征向量、乘幂法、反幂法</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/27/math-analysis-7/math-cover.jpg" alt="《应用数值分析》" title>
+                </div>
+                <div class="image-caption">《应用数值分析》</div>
+            </figure>
+<a id="more"></a>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#7-矩阵特征值计算">7. 矩阵特征值计算</a><ul>
+<li><a href="#7-1-矩阵特征值和特征向量">7.1 矩阵特征值和特征向量</a></li>
+<li><a href="#7-2-乘幂法">7.2 乘幂法</a><ul>
+<li><a href="#7-2-1-求模最大的特征值的乘幂法">7.2.1 求模最大的特征值的乘幂法</a></li>
+<li><a href="#7-2-2-求模最小的特征值的反幂法">7.2.2 求模最小的特征值的反幂法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="7-矩阵特征值计算"><a href="#7-矩阵特征值计算" class="headerlink" title="7. 矩阵特征值计算"></a>7. 矩阵特征值计算</h2><h3 id="7-1-矩阵特征值和特征向量"><a href="#7-1-矩阵特征值和特征向量" class="headerlink" title="7.1 矩阵特征值和特征向量"></a>7.1 矩阵特征值和特征向量</h3><p>设 $\pmb{A}$ 是 $n$ 阶方阵，$\pmb{x}=(x_1,x_2,\cdots,x_n)^T$ 是 $n$ 维列向量。若有数值 $\lambda$，使得下面的矩阵方程：</p>
+<script type="math/tex; mode=display">
+\pmb{A}\pmb{x} = \lambda\pmb{x}</script><p>有非零解 $\pmb{x}$，则称<strong>数值 $\lambda$</strong> 为方阵 $\pmb{A}$ 的<strong>特征值</strong>，而对应的<strong>非零解 $\pmb{x}$</strong> 称为对应特征值 $\lambda$ 的<strong>特征向量</strong>。</p>
+<p>将上式变换为：</p>
+<script type="math/tex; mode=display">
+(\pmb{A} - \lambda \pmb{I})\pmb{x}=\pmb{0}</script><p>于是，当且仅当方程的<strong>系数矩阵行列式为零</strong>时，即</p>
+<script type="math/tex; mode=display">
+\det(\pmb{A} - \lambda \pmb{I})=0</script><p>则<strong>方程有非零解</strong>。将上式等号左边按 $\lambda$ 展开，得到 $\lambda$ 的 $n$ 次多项式，称为 $\pmb{A}$ 的特征多项式，上式也变成多项式方程：</p>
+<script type="math/tex; mode=display">
+a_n\lambda^n + a_{n-1}\lambda^{n-1} + \cdots + a_1\lambda + a_0 = 0</script><p><strong>特征值 $\lambda$ 即为 $n$ 次多项式方程的解</strong>。</p>
+<h3 id="7-2-乘幂法"><a href="#7-2-乘幂法" class="headerlink" title="7.2 乘幂法"></a>7.2 乘幂法</h3><h4 id="7-2-1-求模最大的特征值的乘幂法"><a href="#7-2-1-求模最大的特征值的乘幂法" class="headerlink" title="7.2.1 求模最大的特征值的乘幂法"></a>7.2.1 求模最大的特征值的乘幂法</h4><p><strong>输入</strong>：矩阵 $\pmb{A}$，精度要求 $\varepsilon$，迭代次数上限 $N$</p>
+<p><strong>输出</strong>：模数最大的特征值 $\lambda_1$ 及对应的特征向量 $\pmb{x}$</p>
+<p><strong>算法过程</strong>：</p>
+<ol>
+<li>任意取一个非零向量 $\pmb{V}_0=(x_1,x_2,\cdots,x_n)^T$，迭代次数 $k=0$，向量 $\pmb{V}$ 中绝对值最大的分量 $m_0$</li>
+<li>$\pmb{U}^{(k)}=\pmb{A}\pmb{V}^{(k-1)}$，$m = \max \{ \pmb{U}^{(k)} \}$，$\pmb{V}^{(k)}=\displaystyle{\frac{1}{m}}\pmb{U}^{(k)}$，$k=k+1$</li>
+<li>若 $|m-m_0| &lt; \varepsilon$，则转到 4；若 $k \geqslant N$，则显示“超出最大迭代次数”，停机；否则，$m_0 = m$，转向 2</li>
+<li>$\lambda_1 = m$，$\pmb{x} = \pmb{V}^{(k)}$，输出结果结束</li>
+</ol>
+<h4 id="7-2-2-求模最小的特征值的反幂法"><a href="#7-2-2-求模最小的特征值的反幂法" class="headerlink" title="7.2.2 求模最小的特征值的反幂法"></a>7.2.2 求模最小的特征值的反幂法</h4><p><strong>输入</strong>：矩阵 $\pmb{A}$，精度要求 $\varepsilon$，迭代次数上限 $N$</p>
+<p><strong>输出</strong>：模数最小的特征值 $\lambda_n$ 及对应的特征向量 $\pmb{x}$</p>
+<p><strong>算法过程</strong>：</p>
+<ol>
+<li>任意取一个非零向量 $\pmb{V}_0=(x_1,x_2,\cdots,x_n)^T$，迭代次数 $k=0$，向量 $\pmb{V}$ 中绝对值最大的分量 $m_0$</li>
+<li>将矩阵 $\pmb{A}$ 作 $LU$ 分解：$\pmb{A} = \pmb{L}\pmb{U}$，得到下三角矩阵 $\pmb{L}$ 和上三角矩阵 $\pmb{U}$</li>
+<li>解线性方程组 $\pmb{L}\pmb{W}=\pmb{x}$，得到解 $\pmb{W} \in \pmb{R}^n$。再解线性方程组 $\pmb{U}\pmb{Y}=\pmb{W}$，得到解 $\pmb{Y} \in \pmb{R}^n$。$m \leftarrow$ 向量 $Y$ 中绝对值最大的分量，$\pmb{x} \leftarrow \displaystyle{\frac{1}{m}} \pmb{Y}$，$k \leftarrow k+1$</li>
+<li>若 $\left| \displaystyle{\frac{1}{m}} - \displaystyle{\frac{1}{m_0}} \right| &lt; \varepsilon$，且 $|m-m_0| &lt; \varepsilon$，则转到 5；若 $k \geqslant N$，则显示“超出最大迭代数”，停机；否则，$m_0 \leftarrow m$，转回 3</li>
+<li>输处模最小的特征值 $\lambda_n = \displaystyle{\frac{1}{m}}$，对应的特征向量 $\pmb{x} = \pmb{V}^{(k)}$，算法结束</li>
+</ol>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/03/18/understanding-linux-kernel/">Linux 内核笔记 1：绪论</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-6/">Java 笔记 6：异常、断言和日志</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-5/">Java 笔记 5：集合</a></li><li><a href="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/">5 分钟 Docker 笔记 5：存储</a></li><li><a href="http://www.hui-wang.info/2018/02/04/%E5%BD%B1%E5%93%8D%E5%8A%9B/">影响力</a></li><li><a href="http://www.hui-wang.info/2017/11/25/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E%EF%BC%9A%E4%B8%8D%E8%83%BD%E5%86%8D%E5%87%91%E4%BA%86/">数学之美：不能再凑了</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.525Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/11/27/math-analysis-7/" target="_blank" rel="external">https://abelsu7.top/2018/11/27/math-analysis-7/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数值分析/">数值分析</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书/">读书</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/11/27/math-analysis-7/&title=《数值分析笔记 7：矩阵特征值计算》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/11/27/math-analysis-7/&title=《数值分析笔记 7：矩阵特征值计算》 — Keep Coding&source=
+矩阵特征值和特征向量、乘幂法、反幂法
+
+
+                
+                    
+                 ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/11/27/math-analysis-7/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数值分析笔记 7：矩阵特征值计算》 — Keep Coding&url=https://abelsu7.top/2018/11/27/math-analysis-7/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/11/27/math-analysis-7/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/12/02/math-sample-questions/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">数值分析笔记 8：例题整理</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/11/26/math-analysis-6/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">数值分析笔记 6：非线性方程组的数值解法</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/11/27/math-analysis-7/&title=《数值分析笔记 7：矩阵特征值计算》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/11/27/math-analysis-7/&title=《数值分析笔记 7：矩阵特征值计算》 — Keep Coding&source=
+矩阵特征值和特征向量、乘幂法、反幂法
+
+
+                
+                    
+                 ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/11/27/math-analysis-7/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数值分析笔记 7：矩阵特征值计算》 — Keep Coding&url=https://abelsu7.top/2018/11/27/math-analysis-7/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/11/27/math-analysis-7/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJUlEQVR42u3aQY6DMAwF0N7/0ow02w7022YqkbysEFQhj4Ubx3694nH8jvzOcTLen77P8H7/toGBgfFYxnE5zhZ9/fr8zvUnS9aGgYGxDyOfLoHdFYiTtWFgYGBcX0/CbhLcMTAwMCYBt7x1O/l9ch8DAwMjD4KTbVwyvpSLY2BgPJDRS0S/c/2P9Q0MDIyHMI7iyGfoHd71BgYGxtqMvJHiOtVMNotVZLkggYGBsTRjstzewVleWhjteTEwMJZjJMdYyWvmYTdZAwYGxm6MfKvXKyfkiWv1Q/yRxGJgYGzGmMS0aqNGb/uIgYGxA2OyFeu1YkwC7ikbAwNjaUbeYJEXLCdF0GpbGAYGxg6M5Ag+LwNUF1EN66d4DAyMDRjVKXrsPEBjYGBgJAG310jRS3d7n+l1178EBgbGwxnJ1JPfT+b549QQAwNjUcZkM1c9xK8WKcufDAMDY2NGcohfbbZI5ikntxgYGEsz8iaweXNGXlToFUQxMDDWY0wWmpc/qyGyPA8GBsYGjPw63/blZYZ5WQIDA2NtxgRQLjTGx2rVQI+BgbE24yiO6oLyUHu9qg9PMTAwlmbko1qkzF+Tp6yjs0MMDIyHM5Igm6eyvcB6Q0jFwMDYgJEH2fygrZlVt0IzBgYGRvW4/65yQqH8iYGBgRFMeh1Gk6d5meFDPRYDA2NRxqjRIQia1dS3nNxiYGAszZgnkJMUt9dGdkN9AwMD4xmMH+vaqHaC3Vh4AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+<!-- <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script> -->
+<!-- <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script> -->
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

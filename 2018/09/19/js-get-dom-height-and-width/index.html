@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>JavaScript获取网页滚动距离及DOM元素宽高属性 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="JavaScript">
+    <meta name="description" content="AnimateScroll              在前端开发中，我们经常需要获取网页中滚动条滚过的长度。获取该值的方法一般是通过scrollTop属性，如document.body.scrollTop，但同时也">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript获取网页滚动距离及DOM元素宽高属性">
+<meta property="og:url" content="https://abelsu7.top/2018/09/19/js-get-dom-height-and-width/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="AnimateScroll              在前端开发中，我们经常需要获取网页中滚动条滚过的长度。获取该值的方法一般是通过scrollTop属性，如document.body.scrollTop，但同时也">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2018/09/19/js-get-dom-height-and-width/js-scroll.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.418Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript获取网页滚动距离及DOM元素宽高属性">
+<meta name="twitter:description" content="AnimateScroll              在前端开发中，我们经常需要获取网页中滚动条滚过的长度。获取该值的方法一般是通过scrollTop属性，如document.body.scrollTop，但同时也">
+<meta name="twitter:image" content="https://abelsu7.top/2018/09/19/js-get-dom-height-and-width/js-scroll.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">JavaScript获取网页滚动距离及DOM元素宽高属性</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">JavaScript获取网页滚动距离及DOM元素宽高属性</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-09-19T13:26:43.000Z" itemprop="datePublished" class="page-time">
+  2018-09-19
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/前端/">前端</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么是DTD"><span class="post-toc-text">什么是DTD</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#document-body与document-documentElement的区别"><span class="post-toc-text">document.body与document.documentElement的区别</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#获取网页相关属性"><span class="post-toc-text">获取网页相关属性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#获取DOM元素相关属性"><span class="post-toc-text">获取DOM元素相关属性</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-js-get-dom-height-and-width"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">JavaScript获取网页滚动距离及DOM元素宽高属性</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-09-19 21:26:43" datetime="2018-09-19T13:26:43.000Z"  itemprop="datePublished">2018-09-19</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/前端/">前端</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/09/19/js-get-dom-height-and-width/js-scroll.jpg" alt="AnimateScroll" title>
+                </div>
+                <div class="image-caption">AnimateScroll</div>
+            </figure>
+<p>在前端开发中，我们经常需要获取网页中滚动条滚过的长度。获取该值的方法一般是通过<strong>scrollTop</strong>属性，如<code>document.body.scrollTop</code>，但同时也有<code>document.documentElement.scrollTop</code>。这两者都是经常用来获取文档滚动条滚过距离的方式，它们又有什么区别呢？</p>
+<a id="more"></a>
+<h2 id="什么是DTD"><a href="#什么是DTD" class="headerlink" title="什么是DTD"></a>什么是DTD</h2><p><strong>DTD</strong>（<strong>D</strong>ocument <strong>T</strong>ype <strong>D</strong>efinition，<em>文档类型定义</em> ）是一套为了进行程序间的数据交换而建立的关于标记符的语法规则，它使用一系列的合法元素来<strong>定义文档结构</strong>。 DTD告诉浏览器当前文档用的是什么标记语言，之后浏览器才能正确的根据<a href="http://www.chinaw3c.org/standards.html" target="_blank" rel="noopener">W3C标准</a>解析文档代码。</p>
+<p>目前HTML DTD共有三种类型：</p>
+<ul>
+<li><strong>Strict DTD</strong>：<strong>严格</strong>的文档类型定义，不能包含已过时的元素（或属性）和框架元素</li>
+<li><strong>Transitional DTD</strong>：<strong>过渡</strong>的文档类型定义，可以包含已过时的元素（或属性）但不能包含框架元素</li>
+<li><strong>Frameset DTD</strong>：<strong>框架集</strong>文档类型定义，可以包含已过时的元素（或属性）和框架元素</li>
+</ul>
+<p>HTML文档就是通过<code>&lt;!DOCTYPE ...&gt;</code>定义的。下面是一个HTML4.0的过渡DTD HTML文档：</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>或在HTML5中：</p>
+<pre><code class="lang-html">&lt;!doctype html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="document-body与document-documentElement的区别"><a href="#document-body与document-documentElement的区别" class="headerlink" title="document.body与document.documentElement的区别"></a>document.body与document.documentElement的区别</h2><ul>
+<li><strong>document</strong>代表的是<strong>整个文档</strong>（对于一个网页来说，包括整个网页结构），<code>document.documentElement</code>是整个文档节点树的根节点，在网页中即<code>html</code>标签元素</li>
+<li>而<strong>document.body</strong>是整个文档DOM节点树里的<code>body</code>节点，在网页中即<code>body</code>标签元素</li>
+</ul>
+<p>我们常看见如下写法来获取页面滚动条滚动的长度，</p>
+<pre><code class="lang-javascript">var top = document.documentElement.scrollTop || document.body.scrollTop;
+// 或者
+var top = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop;
+</code></pre>
+<ul>
+<li>当使用了DTD来定义文档时，<code>document.body.scrollTop</code>的值为0，此时需要使用<code>document.documentElement.scrollTop</code>来获取滚动条滚过的长度</li>
+<li>当未使用DTD时，使用<code>document.body.scrollTop</code>来获取滚动条滚过的长度</li>
+</ul>
+<h2 id="获取网页相关属性"><a href="#获取网页相关属性" class="headerlink" title="获取网页相关属性"></a>获取网页相关属性</h2><pre><code class="lang-javascript">// 网页可见区域宽
+var clientWidth = document.body.clientWidth; 
+// 网页可见区域高
+var clientHeight = document.body.clientHeight;
+// 网页可见区域宽(包括边线的宽)
+var offsetWidth = document.body.offsetWidth;
+// 网页可见区域高(包括边线的高)
+var offsetHeight = document.body.offsetHeight;
+// 网页正文全文宽
+var scrollWidth = document.body.scrollWidth;
+// 网页正文全文高
+var scrollHeight = document.body.scrollHeight;
+// 网页被卷去的高
+var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+// 网页被卷去的左
+var scrollLeft = document.body.scrollLeft || document.documentElement.scrollLeft;
+</code></pre>
+<h2 id="获取DOM元素相关属性"><a href="#获取DOM元素相关属性" class="headerlink" title="获取DOM元素相关属性"></a>获取DOM元素相关属性</h2><pre><code class="lang-javascript">// 元素的实际高度
+var offsetHeight = document.getElementById(&quot;div&quot;).offsetHeight;
+// 元素的实际宽度
+var offsetWidth = document.getElementById(&quot;div&quot;).offsetWidth;
+// 元素距离左边界的距离
+var offsetLeft = document.getElementById(&quot;div&quot;).offsetLeft;
+// 元素距离上边界的距离
+var offsetTop = document.getElementById(&quot;div&quot;).offsetTop;
+</code></pre>
+<blockquote>
+<p><strong>参考文章</strong></p>
+<ol>
+<li><a href="https://www.cnblogs.com/lingdublog/p/6438055.html" target="_blank" rel="noopener">javascript中获取dom元素的高度和宽度 | 零度逍遥的博客</a></li>
+<li><a href="https://www.jianshu.com/p/fb867e8109f7" target="_blank" rel="noopener">漫谈document.documentElement与document.body | 简书</a></li>
+<li><a href="https://blog.csdn.net/mathewsking/article/details/4539997" target="_blank" rel="noopener">document.body 和 document.documentElement 的区别 | CSDN</a></li>
+<li><a href="https://plugins.compzets.com/animatescroll" target="_blank" rel="noopener">AnimateScroll</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2018/03/19/wordcloud2/">HTML5 词云 wordcloud2.js 初体验</a></li><li><a href="https://jarrychen.xyz/archives/efa8ef13.html">归并排序(递归)</a></li><li><a href="https://jarrychen.xyz/archives/57361fba.html">快速排序(递归)</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.418Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/09/19/js-get-dom-height-and-width/" target="_blank" rel="external">https://abelsu7.top/2018/09/19/js-get-dom-height-and-width/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/09/19/js-get-dom-height-and-width/&title=《JavaScript获取网页滚动距离及DOM元素宽高属性》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/09/19/js-get-dom-height-and-width/&title=《JavaScript获取网页滚动距离及DOM元素宽高属性》 — Keep Coding&source=
+                
+                    
+                    
+                
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/09/19/js-get-dom-height-and-width/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JavaScript获取网页滚动距离及DOM元素宽高属性》 — Keep Coding&url=https://abelsu7.top/2018/09/19/js-get-dom-height-and-width/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/09/19/js-get-dom-height-and-width/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/09/21/how-to-learn-coding/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">程序员学习之路</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/09/19/manage-a-docker-cluster-with-k8s/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">【译】使用 Kubernetes 管理 Docker 集群</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/09/19/js-get-dom-height-and-width/&title=《JavaScript获取网页滚动距离及DOM元素宽高属性》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/09/19/js-get-dom-height-and-width/&title=《JavaScript获取网页滚动距离及DOM元素宽高属性》 — Keep Coding&source=
+                
+                    
+                    
+                
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/09/19/js-get-dom-height-and-width/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JavaScript获取网页滚动距离及DOM元素宽高属性》 — Keep Coding&url=https://abelsu7.top/2018/09/19/js-get-dom-height-and-width/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/09/19/js-get-dom-height-and-width/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKUlEQVR42u3aS27DMAwFwN7/0u46KCw/UkoBS+NVkI+j8eJBIvnzE1/Xn+vu0/E7d5+O3192YWBgvJZxDa/xd5JFzNw5WRsGBsY5jLsES+IyB4z/cfy/D2vGwMDAaG3sqsGKgYGB8e3ATU6Xq+6MgYFxJqMaiPlRc34TufgsjoGB8UJGXnX//9df6W9gYGC8inEVr7W8mZV8rAoDA2NrRh5w4y1dPjCxatuHgYFxGmNmVKt37MzvNn5Y5eeNgYHxWkavxFY9cObtgWpDFAMDY29GsriZwE3usKABgIGBcRhj1QauF9/5CMhD4GJgYGzKqB5fx0HZW24e39HxFQMDYyNGEnZJdFaDeCbcP36FgYGxNaMaoPNL720EqzwMDIydGNWyWr6IvEhXDf2HaREMDIxNGUkrMd/qVRuiCxqlGBgYxzNmIrJaUOvFOgYGxt6M3iF2VRxXGc0IxsDA2IJRLbHl+LyFkIfp7UowMDCOYcyPUMyHdfUgjYGBcRojD9xe87I3tJG8xsDAOIGxKjrz4lreJIgOtxgYGAcw8jGvvNCWg/MS24KzOAYGxqsYV/H6RmOyOopR2NtiYGBswZgPu14Ls0oqD1tgYGBsx8gbkMkzyFsISXug8LwxMDAOYPSCr1fE7wXxw0PEwMDAKC69N+ZVDWsMDAyM6tawWpLLGwbRABkGBsYBjOrQanUUIxk468U0BgbGCYzqvmu+QNZrMCxoZGJgYLyP8QskuPoIW/O5LAAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

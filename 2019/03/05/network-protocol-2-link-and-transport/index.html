@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>网络协议笔记 2：交换机、VLAN、ICMP、网关、路由协议 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="网络协议,VLAN,网关">
+    <meta name="description" content="摘自  趣谈网络协议 | 极客时间">
+<meta name="keywords" content="网络协议,VLAN,网关">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络协议笔记 2：交换机、VLAN、ICMP、网关、路由协议">
+<meta property="og:url" content="https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自  趣谈网络协议 | 极客时间">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/jikeshijian.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/cover.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/lan-with-two-switch.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/lan-loop.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/stp.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/vlan-tag.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/vlan-topo.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/icmp-in-ip.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/ping.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/mac-ip-head.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/forward-gateway.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/nat-gateway.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/distance-vector-routing.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/igp.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/bgp.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.550Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网络协议笔记 2：交换机、VLAN、ICMP、网关、路由协议">
+<meta name="twitter:description" content="摘自  趣谈网络协议 | 极客时间">
+<meta name="twitter:image" content="https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/jikeshijian.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">网络协议笔记 2：交换机、VLAN、ICMP、网关、路由协议</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">网络协议笔记 2：交换机、VLAN、ICMP、网关、路由协议</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-03-05T07:41:35.000Z" itemprop="datePublished" class="page-time">
+  2019-03-05
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/计算机网络/">计算机网络</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-从物理层到链路层的局域网连接"><span class="post-toc-text">1. 从物理层到链路层的局域网连接</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-交换机与-VLAN"><span class="post-toc-text">2. 交换机与 VLAN</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-有两台交换机的拓扑结构"><span class="post-toc-text">2.1 有两台交换机的拓扑结构</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-环路问题"><span class="post-toc-text">2.2 环路问题</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-3-STP-协议的基本概念"><span class="post-toc-text">2.3 STP 协议的基本概念</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-4-STP-协议的工作过程"><span class="post-toc-text">2.4 STP 协议的工作过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-5-如何解决广播问题和安全问题"><span class="post-toc-text">2.5 如何解决广播问题和安全问题</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-6-小结"><span class="post-toc-text">2.6 小结</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-ICMP-与-ping"><span class="post-toc-text">3. ICMP 与 ping</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-ICMP-互联网控制报文协议"><span class="post-toc-text">3.1 ICMP 互联网控制报文协议</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-ping-查询报文类型的使用"><span class="post-toc-text">3.2 ping 查询报文类型的使用</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-3-Traceroute-差错报文类型的使用"><span class="post-toc-text">3.3 Traceroute 差错报文类型的使用</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-网关-Gateway"><span class="post-toc-text">4. 网关 Gateway</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-1-MAC-头和-IP-头"><span class="post-toc-text">4.1 MAC 头和 IP 头</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-2-静态路由"><span class="post-toc-text">4.2 静态路由</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-3-小结"><span class="post-toc-text">4.3 小结</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-路由协议"><span class="post-toc-text">5. 路由协议</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-1-如何配置路由？"><span class="post-toc-text">5.1 如何配置路由？</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-2-如何配置策略路由？"><span class="post-toc-text">5.2 如何配置策略路由？</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-3-动态路由算法"><span class="post-toc-text">5.3 动态路由算法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-距离矢量路由算法"><span class="post-toc-text">1. 距离矢量路由算法</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-链路状态路由算法"><span class="post-toc-text">2. 链路状态路由算法</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-4-动态路由协议"><span class="post-toc-text">5.4 动态路由协议</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-基于链路状态路由算法的-OSPF"><span class="post-toc-text">1. 基于链路状态路由算法的 OSPF</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-基于距离矢量路由算法的-BGP"><span class="post-toc-text">2. 基于距离矢量路由算法的 BGP</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-5-小结"><span class="post-toc-text">5.5 小结</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-network-protocol-2-link-and-transport"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">网络协议笔记 2：交换机、VLAN、ICMP、网关、路由协议</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-03-05 15:41:35" datetime="2019-03-05T07:41:35.000Z"  itemprop="datePublished">2019-03-05</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/计算机网络/">计算机网络</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>摘自 <img src="/2019/03/05/network-protocol-2-link-and-transport/jikeshijian.png" width="16"> <a href="https://time.geekbang.org/column/85" target="_blank" rel="noopener">趣谈网络协议 | 极客时间</a></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/05/network-protocol-2-link-and-transport/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#1-从物理层到链路层的局域网连接">1. 从物理层到链路层的局域网连接</a></li>
+<li><a href="#2-交换机与-VLAN">2. 交换机与 VLAN</a><ul>
+<li><a href="#2-1-有两台交换机的拓扑结构">2.1 有两台交换机的拓扑结构</a></li>
+<li><a href="#2-2-环路问题">2.2 环路问题</a></li>
+<li><a href="#2-3-STP-协议的基本概念">2.3 STP 协议的基本概念</a></li>
+<li><a href="#2-4-STP-协议的工作过程">2.4 STP 协议的工作过程</a></li>
+<li><a href="#2-5-如何解决广播问题和安全问题">2.5 如何解决广播问题和安全问题</a></li>
+<li><a href="#2-6-小结">2.6 小结</a></li>
+</ul>
+</li>
+<li><a href="#3-ICMP-与-ping">3. ICMP 与 ping</a><ul>
+<li><a href="#3-1-ICMP-互联网控制报文协议">3.1 ICMP 互联网控制报文协议</a></li>
+<li><a href="#3-2-ping-查询报文类型的使用">3.2 ping 查询报文类型的使用</a></li>
+<li><a href="#3-3-Traceroute-差错报文类型的使用">3.3 Traceroute 差错报文类型的使用</a></li>
+</ul>
+</li>
+<li><a href="#4-网关-Gateway">4. 网关 Gateway</a><ul>
+<li><a href="#4-1-MAC-头和-IP-头">4.1 MAC 头和 IP 头</a></li>
+<li><a href="#4-2-静态路由">4.2 静态路由</a></li>
+<li><a href="#4-3-小结">4.3 小结</a></li>
+</ul>
+</li>
+<li><a href="#5-路由协议">5. 路由协议</a><ul>
+<li><a href="#5-1-如何配置路由？">5.1 如何配置路由？</a></li>
+<li><a href="#5-2-如何配置策略路由？">5.2 如何配置策略路由？</a></li>
+<li><a href="#5-3-动态路由算法">5.3 动态路由算法</a></li>
+<li><a href="#5-4-动态路由协议">5.4 动态路由协议</a></li>
+<li><a href="#5-5-小结">5.5 小结</a></li>
+</ul>
+</li>
+<li><a href="#参考文章">参考文章</a></li>
+</ul>
+<h3 id="1-从物理层到链路层的局域网连接"><a href="#1-从物理层到链路层的局域网连接" class="headerlink" title="1. 从物理层到链路层的局域网连接"></a>1. 从物理层到链路层的局域网连接</h3><p>首先明确三点基础知识：</p>
+<ol>
+<li><strong>MAC 层（数据链路层）</strong>是用来<strong>解决多路访问的堵车问题</strong>的</li>
+<li><strong>ARP（Address Resolution Protocol，地址解析协议）</strong>是通过吼的方式来<strong>寻找目标 MAC 地址</strong>的，<strong>吼完之后记住一段时间</strong>，这个叫做<strong>缓存</strong></li>
+<li><strong>交换机</strong>是有 <strong>MAC 学习能力</strong>的，学完就知道谁在哪儿，不用广播了</li>
+</ol>
+<blockquote>
+<p><strong>一个局域网里有多个交换机</strong>时，ARP 广播的模式容易产生<strong>广播风暴</strong>：ARP 广播时，交换机会将一个端口收到的包转发到其他所有的端口上。比如数据包经过交换机 A 到达交换机 B，交换机 B 又将包复制为多分广播出去。<strong>如果整个局域网存在一个环路</strong>，使得数据包又重新回到了最开始的交换机 A，这个包又会被 A 再次复制多份广播出去。如此循环，数据包会不停的转发，而且越来越多，最终占满带宽，或者使解析协议的硬件过载，<strong>形成广播风暴</strong></p>
+</blockquote>
+<h3 id="2-交换机与-VLAN"><a href="#2-交换机与-VLAN" class="headerlink" title="2. 交换机与 VLAN"></a>2. 交换机与 VLAN</h3><h4 id="2-1-有两台交换机的拓扑结构"><a href="#2-1-有两台交换机的拓扑结构" class="headerlink" title="2.1 有两台交换机的拓扑结构"></a>2.1 有两台交换机的拓扑结构</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/05/network-protocol-2-link-and-transport/lan-with-two-switch.jpg" alt="两台交换机连接三个局域网" title>
+                </div>
+                <div class="image-caption">两台交换机连接三个局域网</div>
+            </figure>
+<h4 id="2-2-环路问题"><a href="#2-2-环路问题" class="headerlink" title="2.2 环路问题"></a>2.2 环路问题</h4><p>当<strong>两个交换机将两个局域网同时连接起来</strong>的时候，就会出现<strong>环路问题</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/05/network-protocol-2-link-and-transport/lan-loop.jpg" alt="局域网的环路问题" title>
+                </div>
+                <div class="image-caption">局域网的环路问题</div>
+            </figure>
+<p>此时就会出现之前提到的<strong>广播风暴</strong>。</p>
+<h4 id="2-3-STP-协议的基本概念"><a href="#2-3-STP-协议的基本概念" class="headerlink" title="2.3 STP 协议的基本概念"></a>2.3 STP 协议的基本概念</h4><p>在数据结构中，有一个方法叫做<strong>最小生成树</strong>。在计算机网络中，<strong>生成树的算法</strong>叫做 <strong>STP（Spanning Tree Protocol）</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/05/network-protocol-2-link-and-transport/stp.jpg" alt="STP 协议" title>
+                </div>
+                <div class="image-caption">STP 协议</div>
+            </figure>
+<p><strong>STP 协议</strong>中的<strong>基本概念</strong>如下：</p>
+<ul>
+<li><strong>Root Bridge</strong>：也就是<strong>根交换机</strong>，是某棵树的<strong>老大，“掌门”</strong></li>
+<li><strong>Designated Bridges</strong>：翻译为<strong>指定交换机</strong>。可看成是<strong>“掌门”的“弟子”</strong>。对于树来说，就是<strong>一棵树的树枝</strong></li>
+<li><strong>Bridge Protocol Data Units（BPDU）</strong>：翻译为<strong>网桥协议数据单元</strong>，可看成<strong>相互比较实力的协议</strong>。当两个交换机碰见时，就需要互相比一比内力。<strong>BPDU 只有掌门能发</strong>，已经隶属于某个掌门的交换机<strong>只能传达掌门的指示</strong></li>
+<li><strong>Priority Vector</strong>：翻译为<strong>优先级向量</strong>，可以比喻为<strong>实力（值越小越强）</strong>，实际是一组 <strong>ID 数目</strong>，<code>Root Bridge ID, Root Path Cost, Bridge ID, and Port ID</code></li>
+</ul>
+<h4 id="2-4-STP-协议的工作过程"><a href="#2-4-STP-协议的工作过程" class="headerlink" title="2.4 STP 协议的工作过程"></a>2.4 STP 协议的工作过程</h4><blockquote>
+<p><strong>略</strong></p>
+</blockquote>
+<h4 id="2-5-如何解决广播问题和安全问题"><a href="#2-5-如何解决广播问题和安全问题" class="headerlink" title="2.5 如何解决广播问题和安全问题"></a>2.5 如何解决广播问题和安全问题</h4><p><strong><em>1. 物理隔离</em></strong></p>
+<p><strong>每个部门</strong>有<strong>单独的交换机</strong>，配置<strong>单独的子网</strong>，这样部门之间的沟通就需要<strong>路由器</strong>了。</p>
+<p>然而问题在于，<strong>有的部门人多，有的部门人少</strong>。如果每个部门有单独的交换机，口多了浪费，口少了不够用。</p>
+<p><strong><em>2. 虚拟隔离 VLAN</em></strong></p>
+<p>另一种方式是<strong>虚拟隔离</strong>，就是我们常说的 <strong>VLAN</strong>，又称<strong>虚拟局域网</strong>。使用 VLAN，<strong>一个交换机上会连属于多个局域网的机器</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/05/network-protocol-2-link-and-transport/vlan-tag.jpg" alt="二层数据包头的 TAG 中包含了 VLAN ID" title>
+                </div>
+                <div class="image-caption">二层数据包头的 TAG 中包含了 VLAN ID</div>
+            </figure>
+<p>为了让交换机区分哪个机器属于哪个局域网，我们只需要<strong>在原来的二层的头上加一个 TAG</strong>，里面有一个 <strong>VLAN ID</strong>，一共 <strong>12 位</strong>，这样就可以划分 <strong>4096 个 VLAN</strong>。</p>
+<p>如果<strong>交换机是支持 VLAN 的</strong>，当这个交换机把二层的头取下来的时候，就能够<strong>识别这个 VLAN ID</strong>。这样<strong>只有相同 VLAN 的包，才会互相转发</strong>，不同 VLAN 的包是看不到的，这样就<strong>解决了广播问题和安全问题</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/05/network-protocol-2-link-and-transport/vlan-topo.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>可以设置交换机每个口所属的 VLAN</strong>。而且对于交换机来说，<strong>每个 VLAN 的口都是可以重新设置的</strong>。例如，一个财务走了，把他所在的座位的口从 VLAN 30 移除掉。来了一个程序员，坐在财务的位置，就把这个口设置为 VLAN 10，十分灵活。</p>
+<p>对于<strong>支持 VLAN 的交换机</strong>，有一种 <strong>Trunk 口</strong>，可以<strong>转发属于任何 VLAN 的口</strong>。<strong>交换机之间</strong>可以<strong>通过 Trunk 口相互连接</strong>。</p>
+<h4 id="2-6-小结"><a href="#2-6-小结" class="headerlink" title="2.6 小结"></a>2.6 小结</h4><ul>
+<li><strong>交换机的数目越来越多</strong>时，会遭遇<strong>环路问题</strong>，让网络包迷路，这时就需要使用 <strong>STP 协议</strong>，通过华山论剑比武的方式，<strong>将有环路的图变成没有环路的树</strong>，从而解决环路问题</li>
+<li><strong>交换机数目多</strong>会面临<strong>隔离问题</strong>，可以<strong>通过 VLAN 形成虚拟局域网</strong>，从而<strong>解决广播问题和安全问题</strong></li>
+</ul>
+<h3 id="3-ICMP-与-ping"><a href="#3-ICMP-与-ping" class="headerlink" title="3. ICMP 与 ping"></a>3. ICMP 与 ping</h3><h4 id="3-1-ICMP-互联网控制报文协议"><a href="#3-1-ICMP-互联网控制报文协议" class="headerlink" title="3.1 ICMP 互联网控制报文协议"></a>3.1 ICMP 互联网控制报文协议</h4><blockquote>
+<p><strong>ICMP</strong> 一般被认为<strong>属于网络层</strong>，和 IP 协议同一层，是<strong>管理和控制 IP</strong> 的一种协议</p>
+</blockquote>
+<p><strong>ping</strong> 是基于 <strong>ICMP 协议</strong>工作的。<strong>ICMP</strong> 全称 <strong>Internet Control Message Protocol</strong>，即<strong>互联网控制报文协议</strong>。</p>
+<p><strong>ICMP 报文</strong>是<strong>封装在 IP 包里面</strong>的。因为传输指令的时候，肯定需要源地址和目标地址。它本身非常简单，因为作为侦察兵，要轻装上阵，不能携带大量的包袱。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/05/network-protocol-2-link-and-transport/icmp-in-ip.jpg" alt="封装在 IP 包里面的 ICMP 报文" title>
+                </div>
+                <div class="image-caption">封装在 IP 包里面的 ICMP 报文</div>
+            </figure>
+<p><strong>ICMP 报文</strong>有很多的类型，<strong>不同的类型有不同的代码</strong>。最常用的类型是<strong>主动请求为 8，主动请求的应答为 0</strong>。</p>
+<p><strong><em>1. 查询报文类型</em></strong></p>
+<p><strong>ICMP</strong> 的<strong>查询报文类型</strong>，好比主帅传令侦察兵，会主动查看敌情。例如，<strong>常用的</strong><code>ping</code>就是<strong>查询报文</strong>，是一种<strong>主动请求、并且获得主动应答</strong>的 ICMP 协议。</p>
+<p>对<code>ping</code>的主动请求，进行网络抓包，称为 <strong>ICMP ECHO REQUEST</strong>。同理<strong>主动请求的回复</strong>，称为 <strong>ICMP ECHO REPLY</strong>。比起原生的 ICMP，这里面多了两个字段：一个是<strong>标识符</strong>，用来<strong>区分不同的报文</strong>；另一个是<strong>序号</strong>，用来<strong>记录报文的顺序</strong>。</p>
+<blockquote>
+<p>在选项数据中，<code>ping</code>还会<strong>存放发送请求的时间值</strong>，用来<strong>计算往返时间</strong>，说明路程的长短</p>
+</blockquote>
+<p><strong><em>2. 差错报文类型</em></strong></p>
+<p>由异常情况发起的、来<strong>报告差错</strong>的报文，对应 ICMP 的<strong>差错报文类型</strong>。</p>
+<p><strong>常见的 ICMP 差错报文</strong>的例子如下：</p>
+<ul>
+<li><strong>终点不可达</strong>：3，包括<strong>网络不可达、主机不可达、协议不可达、端口不可达</strong>、需要进行分片但<strong>设置了不分片位</strong></li>
+<li><strong>源站抑制</strong>：4，让源站<strong>放慢发送速度</strong></li>
+<li><strong>时间超时</strong>：11，<strong>超过网络包的生存时间</strong>还是没到</li>
+<li><strong>路由重定向</strong>：5，让下次<strong>发给另一个路由器</strong></li>
+</ul>
+<h4 id="3-2-ping-查询报文类型的使用"><a href="#3-2-ping-查询报文类型的使用" class="headerlink" title="3.2 ping 查询报文类型的使用"></a>3.2 ping 查询报文类型的使用</h4><p>下图展示了<code>ping</code>命令的<strong>发送和接收过程</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/05/network-protocol-2-link-and-transport/ping.jpg" alt="ping 的发送和接收过程" title>
+                </div>
+                <div class="image-caption">ping 的发送和接收过程</div>
+            </figure>
+<ol>
+<li><p><code>ping</code>命令执行的时候，<strong>源主机首先会构建一个 ICMP 请求数据包</strong>，这个包内<strong>包含多个字段</strong>，最重要的有两个：第一个是<strong>类型字段</strong>，对于<strong>请求数据包</strong>而言该字段为 <strong>8</strong>；另一个是<strong>顺序号</strong>，主要用于<strong>区分连续</strong><code>ping</code><strong>的时候发出的多个数据包</strong>。每发出一个请求数据包，顺序号会自动加 1。为了能够<strong>计算往返时间 RTT</strong>，它会在报文的数据部分<strong>插入发送时间</strong>。</p>
+</li>
+<li><p>然后，由 ICMP 协议将这个<strong>数据包连同地址</strong><code>192.168.1.2</code>一起<strong>交给 IP 层</strong>。IP 层将以<code>192.168.1.2</code>作为<strong>目的地址</strong>，<strong>本机 IP 地址</strong>作为<strong>源地址</strong>，加上一些其他控制信息，构建一个 <strong>IP 数据包</strong>。</p>
+</li>
+<li><p>接下来，需要<strong>加入 MAC 头</strong>。可在 <strong>ARP 映射表</strong>中查找 IP 地址对应的 MAC 地址，如果没有，则需要<strong>发送 ARP 协议查询 MAC 地址</strong>。获得 MAC 地址后，<strong>由数据链路层构建一个数据帧</strong>，目的地址是 IP 层传过来的 MAC 地址，源地址则是本机的 MAC 地址，<strong>附加上一些控制信息</strong>，最后将它们传送出去。</p>
+</li>
+<li><p>主机 B 收到这个数据帧后，先<strong>检查它的目的 MAC 地址</strong>，符合本机则接收，否则就丢弃。接收后检查该数据帧，<strong>将 IP 数据包从帧中提取出来，交给本机的 IP 层</strong>。同样，IP 层检查后，<strong>将有用的信息提取后交给 ICMP 协议</strong>。</p>
+</li>
+<li><p>主机 B 会<strong>构建一个 ICMP 应答包</strong>，应答数据包的<strong>类型字段为 0</strong>，顺序号为<strong>接收到的请求数据包中的顺序号</strong>，然后再发送出去给主机 A。</p>
+</li>
+<li><p>在规定的时间内，源主机如果<strong>没有接到 ICMP 的应答包</strong>，则说明<strong>目标主机不可达</strong>；如果<strong>接收到了</strong>，则说明<strong>可达</strong>。此时，源主机会<strong>用当前时刻减去该数据包最初从源主机上发出的时刻</strong>，就是 ICMP 数据包的<strong>时间延迟</strong>。</p>
+</li>
+</ol>
+<blockquote>
+<p><code>ping</code>这个程序使用了 ICMP 里面 <strong>ECHO REQUEST</strong> 和 <strong>ECHO REPLY</strong> 类型</p>
+</blockquote>
+<h4 id="3-3-Traceroute-差错报文类型的使用"><a href="#3-3-Traceroute-差错报文类型的使用" class="headerlink" title="3.3 Traceroute 差错报文类型的使用"></a>3.3 Traceroute 差错报文类型的使用</h4><p>有一个程序<code>traceroute</code>，是个“大骗子”，它会使用 ICMP 的规则，<strong>故意制造一些能够产生错误的场景</strong>。</p>
+<ol>
+<li><strong>故意设置特殊的 TTL</strong>，来追踪去往目的地时<strong>沿途经过的路由器</strong></li>
+<li><strong>故意设置不分片</strong>，从而<strong>确定路径的 MTU</strong></li>
+</ol>
+<h3 id="4-网关-Gateway"><a href="#4-网关-Gateway" class="headerlink" title="4. 网关 Gateway"></a>4. 网关 Gateway</h3><p>在进行<strong>网卡配置</strong>的时候，除了 <strong>IP 地址</strong>，还需要配置<strong>网关（Gateway）</strong>。</p>
+<h4 id="4-1-MAC-头和-IP-头"><a href="#4-1-MAC-头和-IP-头" class="headerlink" title="4.1 MAC 头和 IP 头"></a>4.1 MAC 头和 IP 头</h4><p>一旦配置了 IP 地址和网关，往往就能够<strong>指定目标地址进行访问了</strong>。但在<strong>跨网关访问</strong>的时候，还<strong>牵扯到 MAC 地址和 IP 地址的变化</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/05/network-protocol-2-link-and-transport/mac-ip-head.jpg" alt="MAC 头和 IP 头" title>
+                </div>
+                <div class="image-caption">MAC 头和 IP 头</div>
+            </figure>
+<p>在任何一台机器上，当要访问另一个 IP 地址的时候，都会先判断：这个<strong>目标 IP 地址和当前机器的 IP 地址是否在同一个网段</strong>，需要借助 <strong>CIDR</strong>（无类型域间选路）和<strong>子网掩码</strong>来实现。</p>
+<ol>
+<li><strong>如果是同一个网段</strong>：那就不需要访问网关，<strong>直接将源地址和目标地址放入 IP 头中</strong>，然后<strong>通过 ARP 获得 MAC 地址</strong>，将源 MAC 和目的 MAC <strong>放入 MAC 头中</strong>，发出去就可以了</li>
+<li><strong>如果不是同一个网段</strong>：这时就需要<strong>发往默认网关 Gateway</strong>，Gateway 的地址一定是和源 IP 地址<strong>同一个网段</strong>的，往往不是第一个，就是第二个。例如<code>192.168.1.0/24</code>这个网段，Gateway 往往会是<code>192.168.1.1/24</code>或者<code>192.168.1.2/24</code></li>
+</ol>
+<blockquote>
+<p><strong>网关</strong>往往是一个<strong>路由器</strong>，是一个<strong>三层转发设备</strong>（即会<strong>把 MAC 头和 IP 头都取下来</strong>，然后根据里面的内容，<strong>看看接下来把包往哪里转发</strong>的设备）</p>
+</blockquote>
+<h4 id="4-2-静态路由"><a href="#4-2-静态路由" class="headerlink" title="4.2 静态路由"></a>4.2 静态路由</h4><p><strong>静态路由</strong>，其实就是在<strong>路由器</strong>上，<strong>配置一条一条规则</strong>。</p>
+<blockquote>
+<p><strong>MAC 地址</strong>是<strong>一个局域网内才有效的地址</strong>。因而，<strong>MAC 地址只要过了网关，就必定会改变</strong>，因为已经换了另一个局域网</p>
+</blockquote>
+<p>对于 IP 头和 MAC 头哪些变、哪些不变的问题，可以分为<strong>两种类型</strong>：<strong>不改变 IP 地址</strong>的网关，称为<strong>转发网关</strong>；<strong>改变 IP 地址</strong>的网关，称为 <strong>NAT 网关</strong>。</p>
+<p><strong><em>1. 转发网关</em></strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/05/network-protocol-2-link-and-transport/forward-gateway.jpg" alt="转发网关" title>
+                </div>
+                <div class="image-caption">转发网关</div>
+            </figure>
+<p><strong>服务器 A 要访问服务器 B</strong>，首先，因为<strong>不是一个网段的</strong>，会向网关<code>192.168.1.1</code>发送包：</p>
+<ul>
+<li><strong>源 MAC</strong>：服务器 A 的 MAC</li>
+<li><strong>目标 MAC</strong>：<code>192.168.1.101</code>这个网口的 MAC</li>
+<li><strong>源 IP</strong>：<code>192.168.1.101</code></li>
+<li><strong>目标 IP</strong>：<code>192.168.4.101</code></li>
+</ul>
+<p>左边的网关收到包后，<strong>修改源 MAC 和目标 MAC</strong>，向右边的网关转发包：</p>
+<ul>
+<li><strong>源 MAC</strong>：<code>192.168.56.1</code>的 MAC 地址</li>
+<li><strong>目标 MAC</strong>：<code>192.168.56.2</code>的 MAC 地址</li>
+<li><strong>源 IP</strong>：<code>192.168.1.101</code></li>
+<li><strong>目标 IP</strong>：<code>192.168.4.101</code></li>
+</ul>
+<p>路由器 B 收到包后，<strong>发送 ARP 获取</strong><code>192.168.4.101</code><strong>的 MAC 地址</strong>，然后发送包：</p>
+<ul>
+<li><strong>源 MAC</strong>：<code>192.168.4.1</code>的 MAC 地址</li>
+<li><strong>目标 MAC</strong>：<code>192.168.4.101</code>的 MAC 地址</li>
+<li><strong>源 IP</strong>：<code>192.168.1.101</code></li>
+<li><strong>目标 IP</strong>：<code>192.168.4.101</code></li>
+</ul>
+<p>包到达服务器 B，<strong>MAC 地址匹配，将包收进来</strong>。</p>
+<p>从上面的过程可以看出，<strong>每到一个局域网，MAC 都是要变的，但是 IP 地址都不变</strong>。在 IP 头里面，不会保存任何网关的 IP 地址。所谓的<strong>下一跳</strong>是，<strong>某个 IP 要将这个 IP 地址转换为 MAC 放入 MAC 头</strong>。</p>
+<p><strong><em>2. NAT 网关</em></strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/05/network-protocol-2-link-and-transport/nat-gateway.jpg" alt="NAT 网关" title>
+                </div>
+                <div class="image-caption">NAT 网关</div>
+            </figure>
+<p>首先，<strong>目标服务器 B</strong> 在国际上要有一个<strong>国际的身份</strong>，例如<code>192.168.56.2</code>。在<strong>网关</strong> 上，我们记下来，国际身份<code>192.168.56.2</code>对应国内身份<code>192.168.1.101</code>。<strong>凡是要访问</strong><code>192.168.56.2</code><strong>的，都转成</strong><code>192.168.1.101</code>。</p>
+<p>于是，<strong>源服务器 A 要访问目标服务器 B</strong>，先<strong>向路由器 A 发送包</strong>，内容为：</p>
+<ul>
+<li><strong>源 MAC</strong>：服务器 A 的 MAC 地址</li>
+<li><strong>目标 MAC</strong>：<code>192.168.1.1</code>这个网口的 MAC 地址</li>
+<li><strong>源 IP</strong>：<code>192.168.1.101</code></li>
+<li><strong>目标 IP</strong>：<code>192.168.56.2</code></li>
+</ul>
+<p>之后<strong>路由器 A 发送包到路由器 B</strong>：</p>
+<ul>
+<li><strong>源 MAC</strong>：<code>192.168.56.1</code>的 MAC 地址</li>
+<li><strong>目标 MAC</strong>：<code>192.168.56.2</code>的 MAC 地址</li>
+<li><strong>源 IP</strong>：<code>192.168.56.1</code></li>
+<li><strong>目标 IP</strong>：<code>192.168.56.2</code></li>
+</ul>
+<p>最后，<strong>路由器 B 发送包到服务器 B</strong> 的内容：</p>
+<ul>
+<li><strong>源 MAC</strong>：<code>192.168.1.1</code>的 MAC 地址</li>
+<li><strong>目标 MAC</strong>：<code>192.168.1.101</code>的 MAC 地址</li>
+<li><strong>源 IP</strong>：<code>192.168.56.1</code></li>
+<li><strong>目标 IP</strong>：<code>192.168.1.101</code></li>
+</ul>
+<p>包到达服务器 B，<strong>MAC 地址匹配</strong>，将包收进来。</p>
+<p>从这个过程可以看出，<strong>IP 地址也会改变</strong>，用英文说就是 <strong>Network Address Translation</strong>，简称 <strong>NAT</strong>。</p>
+<h4 id="4-3-小结"><a href="#4-3-小结" class="headerlink" title="4.3 小结"></a>4.3 小结</h4><ol>
+<li>如果<strong>离开本局域网</strong>，就需要<strong>经过网关</strong>，网关是<strong>路由器的一个网口</strong></li>
+<li><strong>路由器</strong>是一个<strong>三层设备</strong>，里面有<strong>如何寻找下一跳的规则</strong></li>
+<li>网关<strong>处理 MAC 和 IP 地址</strong>时有两种方式，一种是<strong>转发网关</strong>，另一种是 <strong>NAT 网关</strong></li>
+</ol>
+<h3 id="5-路由协议"><a href="#5-路由协议" class="headerlink" title="5. 路由协议"></a>5. 路由协议</h3><h4 id="5-1-如何配置路由？"><a href="#5-1-如何配置路由？" class="headerlink" title="5.1 如何配置路由？"></a>5.1 如何配置路由？</h4><p>通过之前的内容可以知道，<strong>路由器就是一台网络设备，它有多张网卡</strong>。当一个入口的网络包送到路由器时，他会<strong>根据一个本地的转发信息库，来决定如何正确的转发流量</strong>，这个转发信息库通常被称为<strong>路由表</strong>。</p>
+<p><strong>一张路由表</strong>中会有<strong>多条路由规则</strong>，每一条规则<strong>至少包含这三项信息</strong>：</p>
+<ul>
+<li><strong>目的网络</strong>：这个包想去哪儿？</li>
+<li><strong>出口设备</strong>：将包从哪个口扔出去？</li>
+<li><strong>下一跳网关</strong>：下一个路由器的地址</li>
+</ul>
+<blockquote>
+<p>通过<code>route</code>或<code>ip route</code>命令都可以<strong>对路由表进行查询或配置</strong></p>
+</blockquote>
+<p>例如，我们要设置<code>ip route add 10.176.48.0/20 via 10.173.32.1 dev eth0</code>，就说明<strong>要去</strong><code>10.176.48.0/20</code><strong>这个目标网络</strong>，要<strong>从</strong><code>eth0</code><strong>端口出去</strong>，<strong>经过</strong><code>10.173.32.1</code>。这种配置方式的核心思想是：<strong>根据目的 IP 地址来配置路由</strong>。</p>
+<h4 id="5-2-如何配置策略路由？"><a href="#5-2-如何配置策略路由？" class="headerlink" title="5.2 如何配置策略路由？"></a>5.2 如何配置策略路由？</h4><p><strong>在真实的复杂网络环境中</strong>，除了根据目的 IP 地址来配置路由外，还可以<strong>根据多个参数来配置路由</strong>，这就称为<strong>策略路由</strong>。</p>
+<p>例如，我们设置：</p>
+<pre><code class="lang-bash">&gt; ip rule add from 192.168.1.0/24 table 10 
+&gt; ip rule add from 192.168.2.0/24 table 20
+</code></pre>
+<p>表示从<code>192.168.1.0/24</code>这个网段来的，使用<code>table 10</code>中的路由表，而从<code>192.168.2.0/24</code>网段来的，则使用<code>table 20</code>的路由表。</p>
+<p>在<strong>一条路由规则</strong>中，也可以走<strong>多条路径</strong>：</p>
+<pre><code class="lang-bash">&gt; ip route add default scope global nexthop via 100.100.100.1 weight 1 nexthop via 200.200.200.1 weight 2
+</code></pre>
+<p>这条规则表示<strong>下一跳有两个地方</strong>，分别是<code>100.100.100.1</code>和<code>200.200.200.1</code>，<strong>权重</strong>分别为<code>1</code>和<code>2</code>。</p>
+<h4 id="5-3-动态路由算法"><a href="#5-3-动态路由算法" class="headerlink" title="5.3 动态路由算法"></a>5.3 动态路由算法</h4><p>使用<strong>动态路由协议</strong>的路由器，可以<strong>根据路由协议算法生成动态路由表</strong>，随网络运行状况的变化而变化。</p>
+<p>可以<strong>将复杂的网络拓扑路径，抽象为图的结构</strong>。因而这就转化成<strong>如何在途中找到最短路径</strong>的问题。</p>
+<h5 id="1-距离矢量路由算法"><a href="#1-距离矢量路由算法" class="headerlink" title="1. 距离矢量路由算法"></a>1. 距离矢量路由算法</h5><p>第一大类的算法称为<strong>距离矢量路由（Distance Vector Routing）</strong>，它是基于 <strong>Bellman-Ford 算法</strong>的。</p>
+<p>它的<strong>基本思想</strong>是：<strong>每个路由器都保存一个路由表</strong>，包含多行，<strong>每行对应网络中的一个路由器</strong>。每一行包含<strong>两部分信息</strong>：一个是<strong>要到目标路由器，从哪条线出去</strong>；另一个是<strong>到目标路由器的距离</strong>。</p>
+<p>可以看出，<strong>每个路由器都知道全局信息</strong>，都知道自己和邻居之间的距离。为了<strong>更新路由表</strong>，每过几秒，<strong>每个路由器都将自己所知的到达所有路由器的距离告知邻居</strong>。</p>
+<p>这样一来，每个路由器根据新收集的信息，<strong>计算和其他路由器的距离</strong>。例如<strong>一个邻居距离目标路由器</strong>的距离是<code>M</code>，而<strong>自己距离邻居</strong>是<code>X</code>，则<strong>自己距离目标路由器</strong>的距离是<code>X+M</code></p>
+<p>该算法虽然<strong>简单</strong>，但也<strong>存在问题</strong>：</p>
+<ol>
+<li><strong>好消息传得快，坏消息传得慢</strong>：新加入网络的路由器会被很快发现，而<strong>挂掉的路由器是没有广播的</strong></li>
+<li>每次发送的时候，都要<strong>发送整个全局路由表</strong>，网络带宽无法承受，从而<strong>限制了距离矢量路由的网络规模</strong></li>
+</ol>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/05/network-protocol-2-link-and-transport/distance-vector-routing.jpg" alt="挂掉的路由器超过距离阈值才会被判定挂掉了" title>
+                </div>
+                <div class="image-caption">挂掉的路由器超过距离阈值才会被判定挂掉了</div>
+            </figure>
+<h5 id="2-链路状态路由算法"><a href="#2-链路状态路由算法" class="headerlink" title="2. 链路状态路由算法"></a>2. 链路状态路由算法</h5><p>第二大类算法是<strong>链路状态路由（Link State Routing）</strong>，基于 <strong>Dijkstra 算法</strong>。</p>
+<p>它的<strong>基本思想</strong>是：当一个路由器启动时，首先发现邻居，然后<strong>将自己和邻居之间的链路状态包广播出去，发送到整个网络的每个路由器</strong>。因而，每个路由器都能<strong>在本地构建一个完整的图</strong>，然后针对这个图<strong>使用 Dijkstra 算法，找到两点之间的最短路径</strong>。</p>
+<blockquote>
+<p><strong>链路状态路由算法只广播更新的或改变的网络拓扑</strong>，这使得更新信息更小，<strong>节省了带宽和 CPU 利用率</strong>。而且一旦一个路由器挂了，它的邻居都会广播这个消息，可以<strong>使得坏消息迅速收敛</strong></p>
+</blockquote>
+<h4 id="5-4-动态路由协议"><a href="#5-4-动态路由协议" class="headerlink" title="5.4 动态路由协议"></a>5.4 动态路由协议</h4><h5 id="1-基于链路状态路由算法的-OSPF"><a href="#1-基于链路状态路由算法的-OSPF" class="headerlink" title="1. 基于链路状态路由算法的 OSPF"></a>1. 基于链路状态路由算法的 OSPF</h5><p><strong>OSPF（Open Shortest Path First，开放式最短路径优先）</strong>就是这样一个<strong>基于链路状态路由算法</strong>的动态路由协议，主要用于<strong>数据中心内部的路由决策</strong>，因而称为<strong>内部网关协议</strong>（Interior Gateway Protocol，简称 <strong>IGP</strong>）。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/05/network-protocol-2-link-and-transport/igp.jpg" alt="OSPF 中的等价路由" title>
+                </div>
+                <div class="image-caption">OSPF 中的等价路由</div>
+            </figure>
+<p><strong>内部网关协议</strong>的重点就是<strong>找到最短路径</strong>。当然，有时候 OSPF 可以发现<strong>多个最短的路径</strong>，可以在这多个路径中进行<strong>负载均衡</strong>，这常常被称为<strong>等价路由</strong>。</p>
+<blockquote>
+<p>一般应用的<strong>接入层</strong>会有<strong>负载均衡 LVS</strong>，它可以<strong>和 OSPF 一起，实现高吞吐量的接入层设计</strong></p>
+</blockquote>
+<h5 id="2-基于距离矢量路由算法的-BGP"><a href="#2-基于距离矢量路由算法的-BGP" class="headerlink" title="2. 基于距离矢量路由算法的 BGP"></a>2. 基于距离矢量路由算法的 BGP</h5><p><strong>外网的路由协议</strong>又有所不同，我们称为<strong>外网路由协议</strong>（Border Gateway Protocol，简称 <strong>BGP</strong>）。</p>
+<p>在网络世界中，一个个局域网成为<strong>自治系统 AS</strong>（Autonomous System），并根据<strong>对外的连接情况</strong>分为<strong>多种不同的类型</strong>。</p>
+<p>每个自治系统都有<strong>边界路由器</strong>，通过它和外面的世界建立联系。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/05/network-protocol-2-link-and-transport/bgp.jpg" alt="外网路由协议 BGP" title>
+                </div>
+                <div class="image-caption">外网路由协议 BGP</div>
+            </figure>
+<p>BGP 又分为两类：<strong>eBGP</strong> 和 <strong>iBGP</strong>。<strong>自治系统的边界路由器之间使用 eBGP 广播路由</strong>。而边界路由器要想<strong>将 BGP 学习到的路由导入到内部网络</strong>，则需要运行 <strong>iBGP</strong>，使得<strong>内部的路由器能够找到</strong>到达外网目的地的<strong>最优边界路由器</strong>。</p>
+<blockquote>
+<p><strong>BGP 协议</strong>使用的算法是<strong>路径矢量路由协议（Path Vector Protocol）</strong>，它是距离矢量路由协议的<strong>升级版</strong></p>
+</blockquote>
+<h4 id="5-5-小结"><a href="#5-5-小结" class="headerlink" title="5.5 小结"></a>5.5 小结</h4><ol>
+<li><strong>路由</strong>分<strong>静态路由</strong>和<strong>动态路由</strong>，<strong>静态路由</strong>可以配置复杂的策略路由，<strong>控制转发策略</strong></li>
+<li><strong>动态路由主流算法</strong>有两种：<strong>距离矢量算法</strong>和<strong>链路状态算法</strong>。基于这两种算法产生两种协议：<strong>BGP 协议</strong>和 <strong>OSPF 协议</strong></li>
+</ol>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://time.geekbang.org/column/85" target="_blank" rel="noopener">趣谈网络协议 | 极客时间</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/">网络协议笔记 4：传输层之 TCP 协议</a></li><li><a href="https://abelsu7.top/2019/03/06/network-protocol-3-udp/">网络协议笔记 3：传输层之 UDP 协议</a></li><li><a href="https://abelsu7.top/2019/03/05/network-protocol-1-intro/">网络协议笔记 1：初识网络协议、IP、MAC、DHCP</a></li><li><a href="https://heyizhang.github.io/2019/07/13/wireshark/tcp_protocol/">TCP协议</a></li><li><a href="https://heyizhang.github.io/2019/07/09/wireshark/tls_protocol_overview/">从数据包看 TLS 1.2</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.550Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/03/05/network-protocol-2-link-and-transport/" target="_blank" rel="external">https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VLAN/">VLAN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网关/">网关</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/&title=《网络协议笔记 2：交换机、VLAN、ICMP、网关、路由协议》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/&title=《网络协议笔记 2：交换机、VLAN、ICMP、网关、路由协议》 — Keep Coding&source=
+摘自  趣谈网络协议 | 极客时间
+
+
+                
+                    
+                  ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《网络协议笔记 2：交换机、VLAN、ICMP、网关、路由协议》 — Keep Coding&url=https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/03/06/network-protocol-3-udp/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">网络协议笔记 3：传输层之 UDP 协议</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/03/05/network-protocol-1-intro/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">网络协议笔记 1：初识网络协议、IP、MAC、DHCP</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/&title=《网络协议笔记 2：交换机、VLAN、ICMP、网关、路由协议》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/&title=《网络协议笔记 2：交换机、VLAN、ICMP、网关、路由协议》 — Keep Coding&source=
+摘自  趣谈网络协议 | 极客时间
+
+
+                
+                    
+                  ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《网络协议笔记 2：交换机、VLAN、ICMP、网关、路由协议》 — Keep Coding&url=https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACr0lEQVR42u3a0WrDMAwF0P7/T3ewp7GS7EqK0g5OnkrJGh8PLOdaj0d8Pb+v129+fv/6Obnn6CnPg+uxceHh4eG1hn7+c+fDSqajOonJeKIpwMPDw1vj5Q/Ll/7kzry0JFOMh4eH92m8SWHI2ee7Yjw8PLz/xcsjifNBT4oEHh4e3ufwqi//kzC3NxHrWQseHh5ezOsFrO/9vHi+h4eHhzc4VU+W9Tw+6B1rjUaLh4eHt8DLI9deJHH+V/MiFJUNPDw8vGVeNTLoBQq9QeetYIeFAQ8PD2+B11tRq/f0ts5JmYm21Hh4eHgD3rwkVBsC8k12b4OOh4eH917e5I2+d9hfjUWaqQYeHh7egJdj8rIx33xXD9vKYDw8PLwx76oN7qTM5BFwXqjw8PDwtnnV9qbeEj8HJys/Hh4e3j28yeI72QTnJSc/PLu4tuDh4eEF7VaTRqgcnEe0ydHa4f8NDw8Pb5mXBAq9Q6lq61WPjYeHh7fNywdd3SKXe2bj9oJqYcPDw8O7lpcv5flhVQ6oHrCVg2M8PDy8ZV5v0O+iJu2weHh4eBu8SfCasAuPHxyzRVtwPDw8vAVeddA5IC8kk2aFy3JrPDw8vNPfqTYE5I+ZRMDzglGuY3h4eHhF3lVtqb22gzzgyNsU8PDw8LZ5j/iatBfM2wjKoQkeHh7eAi8JQ5MwIg8g8omo3hNtrPHw8PDGvN6wzo+aJpvy3nU4fXh4eHjLvHzRn7Qa9MpJdZNdqHh4eHh4Rd49MUQeOvRaEPDw8PDu5/WW7KsijPN78sLwRx8uHh4e3gIvf8lPFvdeMZjUtKizDA8PD+92XjWorYa2G0/Ew8PD+wTepOGgVx6S1f6wdOHh4eGt8aphwXyLXA1/q1t/PDw8vD3e6FU/RlbvT0Lk9fM9PDw8vN/XFxNWpksFl1mbAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

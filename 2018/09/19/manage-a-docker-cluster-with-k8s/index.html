@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>【译】使用 Kubernetes 管理 Docker 集群 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Docker,Kubernetes">
+    <meta name="description" content="译自 Manage a Docker Cluster with Kubernetes | Linode                                                                                               使用 Kubernetes 管理 Docker 集群">
+<meta name="keywords" content="Docker,Kubernetes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【译】使用 Kubernetes 管理 Docker 集群">
+<meta property="og:url" content="https://abelsu7.top/2018/09/19/manage-a-docker-cluster-with-k8s/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="译自 Manage a Docker Cluster with Kubernetes | Linode                                                                                               使用 Kubernetes 管理 Docker 集群">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2018/09/19/manage-a-docker-cluster-with-k8s/docker-cluster-kubernetes.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/09/19/manage-a-docker-cluster-with-k8s/kubernetes-cluster.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.514Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【译】使用 Kubernetes 管理 Docker 集群">
+<meta name="twitter:description" content="译自 Manage a Docker Cluster with Kubernetes | Linode                                                                                               使用 Kubernetes 管理 Docker 集群">
+<meta name="twitter:image" content="https://abelsu7.top/2018/09/19/manage-a-docker-cluster-with-k8s/docker-cluster-kubernetes.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">【译】使用 Kubernetes 管理 Docker 集群</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">【译】使用 Kubernetes 管理 Docker 集群</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-09-19T09:57:34.000Z" itemprop="datePublished" class="page-time">
+  2018-09-19
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Kubernetes/">Kubernetes</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么是Kubernetes集群？"><span class="post-toc-text">什么是Kubernetes集群？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#系统要求"><span class="post-toc-text">系统要求</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#开始前的准备"><span class="post-toc-text">开始前的准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Kubernetes-Pods"><span class="post-toc-text">Kubernetes Pods</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建部署"><span class="post-toc-text">创建部署</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#扩展部署"><span class="post-toc-text">扩展部署</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#滚动更新"><span class="post-toc-text">滚动更新</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Kubernetes服务"><span class="post-toc-text">Kubernetes服务</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Kubernetes命名空间"><span class="post-toc-text">Kubernetes命名空间</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#上下文"><span class="post-toc-text">上下文</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#标签"><span class="post-toc-text">标签</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Kubernetes节点"><span class="post-toc-text">Kubernetes节点</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#节点维护"><span class="post-toc-text">节点维护</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-manage-a-docker-cluster-with-k8s"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">【译】使用 Kubernetes 管理 Docker 集群</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-09-19 17:57:34" datetime="2018-09-19T09:57:34.000Z"  itemprop="datePublished">2018-09-19</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Kubernetes/">Kubernetes</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>译自 <a href="https://www.linode.com/docs/applications/containers/manage-a-docker-cluster-with-kubernetes/#kubernetes-namespaces" target="_blank" rel="noopener">Manage a Docker Cluster with Kubernetes | Linode</a></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/09/19/manage-a-docker-cluster-with-k8s/docker-cluster-kubernetes.jpg" alt="使用 Kubernetes 管理 Docker 集群" title>
+                </div>
+                <div class="image-caption">使用 Kubernetes 管理 Docker 集群</div>
+            </figure>
+<a id="more"></a>
+<h2 id="什么是Kubernetes集群？"><a href="#什么是Kubernetes集群？" class="headerlink" title="什么是Kubernetes集群？"></a>什么是Kubernetes集群？</h2><p><a href="https://kubernetes.io/" target="_blank" rel="noopener">Kubernetes</a>是一个来管理容器化应用程序的开源平台。如果您使用Docker将应用部署到多个服务器节点上，Kubernetes集群就可以管理您的服务器和应用，包括扩展、部署和滚动更新等操作。</p>
+<p>Kubernetes集群由至少一个主节点和多个工作节点组成。主节点运行API服务器、调度程序和控制器管理器，并在集群中动态部署应用程序。</p>
+<h2 id="系统要求"><a href="#系统要求" class="headerlink" title="系统要求"></a>系统要求</h2><p>要完成本指南的操作，您需要三台运行Ubuntu 16.04 LTS的服务器，每台服务器内存需在4GB以上。</p>
+<h2 id="开始前的准备"><a href="#开始前的准备" class="headerlink" title="开始前的准备"></a>开始前的准备</h2><p>本文需要您首先完成<a href="https://linode.com/docs/applications/containers/how-to-deploy-nginx-on-a-kubernetes-cluster/" target="_blank" rel="noopener">如何在Kubernetes集群上安装，配置和部署NGINX</a>指南的相关操作，并按照其中的步骤配置一个主节点和两个工作节点。</p>
+<p>设置三台服务器主机名如下：</p>
+<ul>
+<li>主节点：<code>kube-master</code></li>
+<li>第一个工作节点：<code>kube-worker-1</code></li>
+<li>第二个工作节点：<code>kube-worker-2</code></li>
+</ul>
+<p>除非另有说明，否则以下的所有命令都将在<code>kube-master</code>节点上执行。</p>
+<h2 id="Kubernetes-Pods"><a href="#Kubernetes-Pods" class="headerlink" title="Kubernetes Pods"></a>Kubernetes Pods</h2><p>每个Pod由一个或多个紧密耦合的容器组成，这些容器共享存储和网络等资源。Pod中的容器以Pod为单位启动、停止或复制。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/09/19/manage-a-docker-cluster-with-k8s/kubernetes-cluster.png" alt="Kubernetes Pods" title>
+                </div>
+                <div class="image-caption">Kubernetes Pods</div>
+            </figure>
+<h3 id="创建部署"><a href="#创建部署" class="headerlink" title="创建部署"></a>创建部署</h3><p><a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/" target="_blank" rel="noopener">部署（Deployments）</a>是可以管理Pod创建的高级对象，并支持声明性扩展和滚动升级等功能。</p>
+<p>1.在文本编辑器中，创建<code>nginx.yaml</code>配置文件并添加以下内容。</p>
+<p><code>~/nginx.yaml</code>：</p>
+<pre><code class="lang-yaml">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-server
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.13-alpine
+        ports:
+        - containerPort: 80
+</code></pre>
+<p>该文件包含了定义一个部署所需的所有必要信息，包括要使用的Docker镜像、副本数量以及容器端口。要了解关于配置部署的更多信息，请参阅<a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#creating-a-deployment" target="_blank" rel="noopener">官方文档</a>。</p>
+<p>2.创建您的第一个部署：</p>
+<pre><code class="lang-bash">kubectl create -f nginx.yaml --record
+</code></pre>
+<p>3.查看部署列表：</p>
+<pre class="command-line" data-user="root" data-host="kube-master" data-output="2-3">
+<code class="language-bash">kubectl get deployments
+NAME           DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+nginx-server   1         1         1            1           13s</code>
+</pre>
+
+<p>4.检查Pod状态：</p>
+<pre class="command-line" data-user="root" data-host="kube-master" data-output="2-3">
+<code class="language-bash">kubectl get pods
+NAME                           READY     STATUS    RESTARTS   AGE
+nginx-server-b9bc6c6b5-d2gqv   1/1       Running   0          58</code>
+</pre>
+
+<p>5.要查看部署的创建节点，请添加<code>-o wide</code>参数：</p>
+<pre class="command-line" data-user="root" data-host="kube-master" data-output="2-3">
+<code class="language-bash">kubectl get pods -o wide
+NAME                           READY     STATUS    RESTARTS   AGE       IP                NODE
+nginx-server-b9bc6c6b5-d2gqv   1/1       Running   0          1m        192.168.255.197   kube-worker-02</code>
+</pre>
+
+<h3 id="扩展部署"><a href="#扩展部署" class="headerlink" title="扩展部署"></a>扩展部署</h3><p>Kubernetes可以轻松扩展部署以添加或删除副本。</p>
+<p>1.将副本的数量增加到8：</p>
+<pre><code class="lang-bash">kubectl scale deployment nginx-server --replicas=8
+</code></pre>
+<p>2.检查新副本的可用性：</p>
+<pre class="command-line" data-user="root" data-host="kube-master" data-output="2-10">
+<code class="language-bash">kubectl get pods -o wide
+NAME                           READY     STATUS    RESTARTS   AGE       IP               NODE
+nginx-server-b9bc6c6b5-4mdf6   1/1       Running   0          41s       192.168.180.10   kube-worker-1
+nginx-server-b9bc6c6b5-8mvrd   1/1       Running   0          3m        192.168.180.9    kube-worker-1
+nginx-server-b9bc6c6b5-b99pt   1/1       Running   0          40s       192.168.180.12   kube-worker-1
+nginx-server-b9bc6c6b5-fjg2c   1/1       Running   0          40s       192.168.127.12   kube-worker-2
+nginx-server-b9bc6c6b5-kgdq5   1/1       Running   0          41s       192.168.127.11   kube-worker-2
+nginx-server-b9bc6c6b5-mhb7s   1/1       Running   0          40s       192.168.180.11   kube-worker-1
+nginx-server-b9bc6c6b5-rlf9w   1/1       Running   0          41s       192.168.127.10   kube-worker-2
+nginx-server-b9bc6c6b5-scwgj   1/1       Running   0          40s       192.168.127.13   kube-worker-2</code>
+</pre>
+
+<p>3.可以使用同样的命令减少副本的数量：</p>
+<pre><code class="lang-bash">kubectl scale deployment nginx-server --replicas=3
+</code></pre>
+<h3 id="滚动更新"><a href="#滚动更新" class="headerlink" title="滚动更新"></a>滚动更新</h3><p>通过部署来管理Pod允许您使用<strong>滚动更新</strong>（Rolling Upgrades）的功能。滚动更新是一种允许您在不停机的情况下更新应用程序版本的机制。Kubernetes确保至少有25%的Pod可随时提供服务，并会在删除旧Pod之前先创建新的Pod。</p>
+<p>1.将容器的NGINX版本从 1.13 升级到 1.13.8：</p>
+<pre><code class="lang-bash">kubectl set image deployment/nginx-server nginx=nginx:1.13.8-alpine
+</code></pre>
+<p>与扩展过程类似，<code>set</code>命令使用声明性方法：您只需指定所需的目标状态，控制器会管理完成该目标所需的所有任务。</p>
+<p>2.检查更新状态：</p>
+<pre class="command-line" data-user="root" data-host="kube-master" data-output="2-10">
+<code class="language-bash">kubectl rollout status deployment/nginx-server
+Waiting for rollout to finish: 1 out of 3 new replicas have been updated...
+Waiting for rollout to finish: 1 out of 3 new replicas have been updated...
+Waiting for rollout to finish: 1 out of 3 new replicas have been updated...
+Waiting for rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for rollout to finish: 1 old replicas are pending termination...
+Waiting for rollout to finish: 1 old replicas are pending termination...
+deployment "nginx-server" successfully rolled out</code>
+</pre>
+
+<p>3.你可以使用<code>describe</code>命令手动检查应用程序版本：</p>
+<pre><code class="lang-bash">kubectl describe pod &lt;pod-name&gt;
+</code></pre>
+<p>4.如果发生错误，回滚（Rollout）将被挂起，系统将强制要求用户输入 <strong>CTRL + C</strong> 以取消更新。通过设置无效的NGINX版本来测试：</p>
+<pre><code class="lang-bash">kubectl set image deployment/nginx-server nginx=nginx:1.18.
+</code></pre>
+<p>5.查看当前Pod状态：</p>
+<pre class="command-line" data-user="root" data-host="kube-master" data-output="2-6">
+<code class="language-bash">kubectl get pods -o wide
+NAME                            READY     STATUS             RESTARTS   AGE       IP               NODE
+nginx-server-76976d4555-7nv6z   1/1       Running            0          3m        192.168.127.15   kube-worker-2
+nginx-server-76976d4555-wg785   1/1       Running            0          3m        192.168.180.13   kube-worker-1
+nginx-server-76976d4555-ws4vf   1/1       Running            0          3m        192.168.127.14   kube-worker-2
+nginx-server-7ddd985dd6-mpn9h   0/1       ImagePullBackOff   0          2m        192.168.180.16   kube-worker-1</code>
+</pre>
+
+<p>可以看到名为<code>nginx-server-7ddd985dd6-mpn9h</code>的Pod正在试图将NGINX更新到一个不存在的版本。</p>
+<p>6.检查此Pod以获取该错误的更多详细信息：</p>
+<pre><code class="lang-bash">kubectl describe pod nginx-server-7ddd985dd6-mpn9h
+</code></pre>
+<p>7.由于在创建部署时使用了<code>--record</code>参数，您可以通过以下命令检索完整的历史记录：</p>
+<pre class="command-line" data-user="root" data-host="kube-master" data-output="2-5">
+<code class="language-bash">kubectl rollout history deployment/nginx-server
+REVISION  CHANGE-CAUSE
+1         kubectl scale deployment nginx-server --replicas=3
+2         kubectl set image deployment/nginx-server nginx=nginx:1.13.8-alpine
+3         kubectl set image deployment/nginx-server nginx=nginx:1.18</code>
+</pre>
+
+<p>8.您可以使用<code>undo</code>命令回滚到之前的工作版本：</p>
+<pre><code class="lang-bash">kubectl rollout undo deployment/nginx-server
+</code></pre>
+<p>9.要回滚到特定的版本，请使用<code>--to-revision</code>选项以指定要回滚的目标版本：</p>
+<pre><code class="lang-bash">kubectl rollout undo deployment/nginx-server --to-revision=1
+</code></pre>
+<h2 id="Kubernetes服务"><a href="#Kubernetes服务" class="headerlink" title="Kubernetes服务"></a>Kubernetes服务</h2><p>您现在已经有了一个运行三个Pod的部署，每个Pod都运行了一个NGINX应用。要将Pod发布到互联网，您需要创建一个 <strong>服务</strong>。在Kubernetes中，服务是一种抽象，允许随时访问Pod。服务会自动处理IP更改，更新以及扩展，因此在启用该服务后，只要运行的Pod保持活动状态，就可通过互联网访问您的应用程序。</p>
+<p>1.配置一个测试服务。</p>
+<p><code>~/nginx-service.yaml</code>：</p>
+<pre><code class="lang-yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  labels:
+    run: nginx
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: nginx
+</code></pre>
+<p>2.创建服务：</p>
+<pre><code class="lang-bash">kubectl create -f nginx-service.yaml
+</code></pre>
+<p>3.检查新服务的状态：</p>
+<pre class="command-line" data-user="root" data-host="kube-master" data-output="2-4">
+<code class="language-bash">kubectl get services
+NAME            TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)        AGE
+kubernetes      ClusterIP   10.96.0.1     <none>        443/TCP        2d
+nginx-service   NodePort    10.97.41.31   <none>        80:31738/TCP   38m</none></none></code>
+</pre>
+
+<p>服务正在运行并接受<code>31738</code>端口上的连接。</p>
+<p>4.测试服务：</p>
+<pre><code class="lang-bash">curl &lt;MASTER_LINODE_PUBLIC_IP_ADDRESS&gt;:&lt;PORT(S)&gt;
+</code></pre>
+<p>5.使用<code>describe</code>命令查看此服务的其他信息：</p>
+<pre class="command-line" data-user="root" data-host="kube-master" data-output="2-15">
+<code class="language-bash">kubectl describe service nginx-service
+Name:                     nginx-service
+Namespace:                default
+Labels:                   run=nginx
+Annotations:              <none> 
+Selector:                 app=nginx
+Type:                     NodePort
+IP:                       10.97.41.31
+Port:                     http  80/TCP
+TargetPort:               80/TCP
+NodePort:                 http  31738/TCP
+Endpoints:                192.168.127.14:80,192.168.127.15:80,192.168.180.13:80
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:                   <none> </none></none></code>
+</pre>
+
+<h2 id="Kubernetes命名空间"><a href="#Kubernetes命名空间" class="headerlink" title="Kubernetes命名空间"></a>Kubernetes命名空间</h2><p>命名空间是是一个逻辑环境，可以灵活的在多个团队或用户之间划分集群资源。</p>
+<p>1.查看可用的命名空间：</p>
+<pre class="command-line" data-user="root" data-host="kube-master" data-output="2-4">
+<code class="language-bash">kubectl get namespaces
+default       Active        7h
+kube-public   Active        7h
+kube-system   Active        7h</code>
+</pre>
+
+<p>顾名思义，如果未指定其他的命名空间，则您的部署将会放置在<code>default</code>命名空间下。<code>kube-system</code>为Kubernetes创建的对象保留，而<code>kube-public</code>则对所有用户可用。命名空间可以通过<code>.json</code>文件创建，也可以直接在命令行创建。</p>
+<p>2.为 <strong>development</strong> 环境新建名为<code>dev-namespace.json</code>的文件。</p>
+<p><code>~/home/dev-namespace.json</code>：</p>
+<pre><code class="lang-json">{
+  &quot;kind&quot;: &quot;Namespace&quot;,
+  &quot;apiVersion&quot;: &quot;v1&quot;,
+  &quot;metadata&quot;: {
+    &quot;name&quot;: &quot;development&quot;,
+    &quot;labels&quot;: {
+      &quot;name&quot;: &quot;development&quot;
+    }
+  }
+}
+</code></pre>
+<p>3.在集群中创建命名空间：</p>
+<pre><code class="lang-bash">kubectl create -f dev-namespace.json
+</code></pre>
+<p>4.再次查看命名空间：</p>
+<pre><code class="lang-bash">kubectl get namespaces
+</code></pre>
+<h3 id="上下文"><a href="#上下文" class="headerlink" title="上下文"></a>上下文</h3><p>要使用命名空间，您需要定义使用命名空间的 <strong>上下文</strong>（Context）。Kubernetes上下文保存在<code>kubectl</code>配置文件中。</p>
+<p>1.查看当前的配置：</p>
+<pre><code class="lang-bash">kubectl config view
+</code></pre>
+<p>2.检查您当前正在使用的上下文：</p>
+<pre><code class="lang-bash">kubectl config current-context
+</code></pre>
+<p>3.使用以下命令添加<code>dev</code>上下文：</p>
+<pre><code class="lang-bash">kubectl config set-context dev --namespace=development \
+--cluster=kubernetes \
+--user=kubernetes-admin
+</code></pre>
+<p>4.切换至<code>dev</code>上下文/命名空间：</p>
+<pre><code class="lang-bash">kubectl config use-context dev
+</code></pre>
+<p>5.验证更改是否生效：</p>
+<pre><code class="lang-bash">kubectl config current-context
+</code></pre>
+<p>6.查看新的配置：</p>
+<pre><code class="lang-bash">kubectl config view
+</code></pre>
+<p>7.命名空间中的Pod对其他命名空间不可见。列出您的Pod来检查该特性：</p>
+<pre><code class="lang-bash">kubectl get pods
+</code></pre>
+<p>系统提示“No resources found”，是因为您未在此命名空间中创建Pod或部署，不过您仍然可以添加<code>--all-namespaces</code>参数来查看这些对象：</p>
+<pre><code class="lang-bash">kubectl get services --all-namespaces
+</code></pre>
+<h3 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h3><p>Kubernetes中的任何对象都可以添加标签。标签是一组键值对，可以帮助用户基于各种特征更加轻松的组织、过滤并选择对象。</p>
+<p>1.在此命名空间中创建一个测试部署，此部署将包含<code>nginx</code>标签。</p>
+<p><code>~/my-app.yaml</code>：</p>
+<pre><code class="lang-yaml">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  labels:
+    app: my-app
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.12-alpine
+        ports:
+        - containerPort: 80
+</code></pre>
+<p>2.创建部署：</p>
+<pre><code class="lang-bash">kubectl create -f my-app.yaml --record
+</code></pre>
+<p>3.如果您只需在集群中查找特定的Pod，而不是列出所有Pod，那么在命令中添加<code>-l</code>选项以按标签搜索通常更有效率：</p>
+<pre><code class="lang-bash">kubectl get pods --all-namespaces -l app=nginx
+</code></pre>
+<p>这里仅列出了<code>default</code>和<code>development</code>命名空间中的Pod，因为它们的定义中包含<code>nginx</code>标签。</p>
+<h2 id="Kubernetes节点"><a href="#Kubernetes节点" class="headerlink" title="Kubernetes节点"></a>Kubernetes节点</h2><p>Kubernetes节点可以是物理机或虚拟机。可以将节点视为Kubernetes抽象模型中的最高级别。</p>
+<p>1.列出您当前的节点：</p>
+<pre class="command-line" data-user="root" data-host="kube-master" data-output="2-5">
+<code class="language-bash">kubectl get nodes
+NAME             STATUS    ROLES     AGE       VERSION
+kube-master      Ready     master    21h       v1.9.2
+kube-worker-1    Ready     <none>    19h       v1.9.2
+kube-worker-2    Ready     <none>    17h       v1.9.2</none></none></code>
+</pre>
+
+<p>2.要查看更多信息，添加<code>-o</code>参数：</p>
+<pre><code class="lang-bash">kubectl get nodes -o wide
+</code></pre>
+<p>3.显示的信息大部分是自解释的，对于检查全部节点是否准备就绪而言非常有用。您可以使用<code>describe</code>命令以获取特定节点的详细信息：</p>
+<pre><code class="lang-bash">kubectl describe node kube-worker-1
+</code></pre>
+<h3 id="节点维护"><a href="#节点维护" class="headerlink" title="节点维护"></a>节点维护</h3><p>Kubernetes提供了一种非常直接的办法使节点安全离线。</p>
+<p>1.返回您正在运行NGINX服务的默认命名空间：</p>
+<pre><code class="lang-bash">kubectl config use-context kubernetes-admin@kubernetes
+</code></pre>
+<p>2.检查您的Pod：</p>
+<pre><code class="lang-bash">kubectl get pods -o wide
+</code></pre>
+<p>3.在<code>kube-worker-2</code>节点上禁止新Pod的创建：</p>
+<pre><code class="lang-bash">kubectl cordon kube-worker-2
+</code></pre>
+<p>4.检查您的节点状态：</p>
+<pre class="command-line" data-user="root" data-host="kube-master" data-output="2-5">
+<code class="language-bash">kubectl get nodes
+NAME             STATUS                     ROLES     AGE       VERSION
+kube-master      Ready                      master    4h        v1.9.2
+kube-worker-1    Ready                      <none>    4h        v1.9.2
+kube-worker-2    Ready,SchedulingDisabled   <none>    4h        v1.9.2</none></none></code>
+</pre>
+
+<p>5.要测试Kubernetes控制器和调度程序，请扩展您的部署：</p>
+<pre><code class="lang-bash">kubectl scale deployment nginx-server --replicas=10
+</code></pre>
+<p>6.再次查看您的Pod：</p>
+<pre class="command-line" data-user="root" data-host="kube-master" data-output="2-12">
+<code class="language-bash">kubectl get pods -o wide
+NAME                           READY     STATUS    RESTARTS   AGE       IP                NODE
+nginx-server-b9bc6c6b5-2pnbk   1/1       Running   0          11s       192.168.188.146   kube-worker-1
+nginx-server-b9bc6c6b5-4cls5   1/1       Running   0          11s       192.168.188.148   kube-worker-1
+nginx-server-b9bc6c6b5-7nw5m   1/1       Running   0          3d        192.168.255.220   kube-worker-2
+nginx-server-b9bc6c6b5-7s7w5   1/1       Running   0          44s       192.168.188.143   kube-worker-1
+nginx-server-b9bc6c6b5-88dvp   1/1       Running   0          11s       192.168.188.145   kube-worker-1
+nginx-server-b9bc6c6b5-95jgr   1/1       Running   0          3d        192.168.255.221   kube-worker-2
+nginx-server-b9bc6c6b5-md4qd   1/1       Running   0          3d        192.168.188.139   kube-worker-1
+nginx-server-b9bc6c6b5-r5krq   1/1       Running   0          11s       192.168.188.144   kube-worker-1
+nginx-server-b9bc6c6b5-r5nd6   1/1       Running   0          44s       192.168.188.142   kube-worker-1
+nginx-server-b9bc6c6b5-ztgmr   1/1       Running   0          11s       192.168.188.147   kube-worker-1</code>
+</pre>
+
+<p>现在总共有10个Pod，但新Pod只在第一个节点中创建。</p>
+<p>7.通知<code>kube-worker-2</code>节点停止其运行的Pod：</p>
+<pre class="command-line" data-user="root" data-host="kube-master" data-output="2-8">
+<code class="language-bash">kubectl drain kube-worker-2 --ignore-daemonsets
+node "kube-worker-2" already cordoned
+WARNING: Ignoring DaemonSet-managed pods: calico-node-9mgc6, kube-proxy-2v8rw
+pod "my-app-68845b9f68-wcqsb" evicted
+pod "nginx-server-b9bc6c6b5-7nw5m" evicted
+pod "nginx-server-b9bc6c6b5-95jgr" evicted
+pod "my-app-68845b9f68-n5kpt" evicted
+node "kube-worker-2" drained</code>
+</pre>
+
+<p>8.检查上述命令对您Pod产生的效果：</p>
+<pre class="command-line" data-user="root" data-host="kube-master" data-output="2-12">
+<code class="language-bash">kubectl get pods -o wide
+NAME                           READY     STATUS    RESTARTS   AGE       IP                NODE
+nginx-server-b9bc6c6b5-2pnbk   1/1       Running   0          9m        192.168.188.146   kube-worker-1
+nginx-server-b9bc6c6b5-4cls5   1/1       Running   0          9m        192.168.188.148   kube-worker-1
+nginx-server-b9bc6c6b5-6zbv6   1/1       Running   0          3m        192.168.188.152   kube-worker-1
+nginx-server-b9bc6c6b5-7s7w5   1/1       Running   0          9m        192.168.188.143   kube-worker-1
+nginx-server-b9bc6c6b5-88dvp   1/1       Running   0          9m        192.168.188.145   kube-worker-1
+nginx-server-b9bc6c6b5-c2c5c   1/1       Running   0          3m        192.168.188.150   kube-worker-1
+nginx-server-b9bc6c6b5-md4qd   1/1       Running   0          3d        192.168.188.139   kube-worker-1
+nginx-server-b9bc6c6b5-r5krq   1/1       Running   0          9m        192.168.188.144   kube-worker-1
+nginx-server-b9bc6c6b5-r5nd6   1/1       Running   0          9m        192.168.188.142   kube-worker-1
+nginx-server-b9bc6c6b5-ztgmr   1/1       Running   0          9m        192.168.188.147   kube-worker-1</code>
+</pre>
+
+<p>9.您现在已经可以在不中断服务的情况下安全关闭<code>kube-worker-2</code>节点。</p>
+<p>10.完成维护后，通知控制器此节点可以再次进行调度：</p>
+<pre><code class="lang-bash">kubectl uncordon kube-worker-2
+</code></pre>
+<blockquote>
+<p><strong>参考资料</strong></p>
+<ol>
+<li><a href="https://www.linode.com/docs/applications/containers/manage-a-docker-cluster-with-kubernetes/#kubernetes-namespaces" target="_blank" rel="noopener">Manage a Docker Cluster with Kubernetes | Linode</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1344017" target="_blank" rel="noopener">使用Kubernetes管理Docker集群 | 腾讯云+社区</a></li>
+<li><a href="https://legacy.gitbook.com/book/rootsongjc/kubernetes-handbook/details" target="_blank" rel="noopener">Kubernetes Handbook | Gitbook</a></li>
+<li><a href="https://kubernetes.io/docs/home" target="_blank" rel="noopener">Kubernetes官方文档</a></li>
+<li><a href="https://docs.projectcalico.org/v2.0/getting-started/kubernetes/" target="_blank" rel="noopener">Calico官方文档</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/09/25/micro-service-orchestration-and-container-schedule/">微服务编排与容器调度</a></li><li><a href="https://abelsu7.top/2019/09/18/micro-service-notes/">微服务学习资料汇总</a></li><li><a href="https://abelsu7.top/2019/03/19/recent-review/">近期复习合集</a></li><li><a href="https://abelsu7.top/2019/03/18/k8s-quick-guides/">Kubernetes 实践简明指南</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.514Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/09/19/manage-a-docker-cluster-with-k8s/" target="_blank" rel="external">https://abelsu7.top/2018/09/19/manage-a-docker-cluster-with-k8s/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kubernetes/">Kubernetes</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/09/19/manage-a-docker-cluster-with-k8s/&title=《【译】使用 Kubernetes 管理 Docker 集群》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/09/19/manage-a-docker-cluster-with-k8s/&title=《【译】使用 Kubernetes 管理 Docker 集群》 — Keep Coding&source=
+译自 Manage a Docker Cluster with Kubernetes | Linode
+
+
+                
+     ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/09/19/manage-a-docker-cluster-with-k8s/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【译】使用 Kubernetes 管理 Docker 集群》 — Keep Coding&url=https://abelsu7.top/2018/09/19/manage-a-docker-cluster-with-k8s/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/09/19/manage-a-docker-cluster-with-k8s/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/09/19/js-get-dom-height-and-width/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">JavaScript获取网页滚动距离及DOM元素宽高属性</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">【译】使用 Apache Guacamole 连接虚拟云桌面</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/09/19/manage-a-docker-cluster-with-k8s/&title=《【译】使用 Kubernetes 管理 Docker 集群》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/09/19/manage-a-docker-cluster-with-k8s/&title=《【译】使用 Kubernetes 管理 Docker 集群》 — Keep Coding&source=
+译自 Manage a Docker Cluster with Kubernetes | Linode
+
+
+                
+     ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/09/19/manage-a-docker-cluster-with-k8s/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【译】使用 Kubernetes 管理 Docker 集群》 — Keep Coding&url=https://abelsu7.top/2018/09/19/manage-a-docker-cluster-with-k8s/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/09/19/manage-a-docker-cluster-with-k8s/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsklEQVR42u3awW4jIRAEUP//TzvSXhOzVTQ4jvQ4RfF4hjcHwNX9eMTj+W88yvH8Ntb3/H7l+g7HBh4eHt54Eu1j1tfnr2l95/V8Xr4CPDw8vGu89cMS6t7ynSz9r54VbWB4eHh4v8pLAMmn6xeXbwx4eHh4f4XXxgfr++THdzw8PLxP4yXTyv9Oto1nPNrv4uHh4d3mtQWwT/j7Yn0PDw8Pb1BVz5fpPGhoC1qT2eLh4eHd4LVxbR4ltMt6CysKY3h4eHjXeG0DQdteMNk22oM+Hh4e3j3e5Ljc4vPt4VhLAR4eHt5beMWP/HJjmKes+fH6QNaCh4eHFzxx/SN/Uqba234mwW7Rs4CHh4dX8pJINI8G2uN4e6ROXjceHh7eO3mnjsJ73VAtLwHj4eHh3ea1ZftJoSs/FiczrHsi8PDw8Aa89uCbdCIkdzhVbMtjDjw8PLyzvJyUF7oOH44HPwDw8PDwbvBOHXyTT9tXtkfFw8PDu8drw4hJc9Xe9e3G8ENPGR4eHt5beHkbwd5/9sKFugkMDw8P7wIv2QDmsUJ+CG5D5KJ9AQ8PD+8or41l520He8HxXviLh4eHd5aXRwN7x+h5IW3UsoCHh4d3gZcs05M4ID9wTzaGUWcEHh4eXsnbO0zvFcby7Sd5BdH2g4eHh3eBl395b2meH8TbgBgPDw/vNq8NGvJP581VRQ796lt4eHh4F3htzJqXvib32dvH/nMlHh4e3iHesxz5tyYBRxLmRsUzPDw8vAu8fJwt5+cTmmwqeHh4ePd48yV+bxFvJ9rOAQ8PD+82Ly+A5UFt23DQtmdFpTg8PDy8D+Dlj2mnklDrJgY8PDy8X+VNQoE8vJi8gqhpAA8PD+8QLw8j5rAkbjgVVeDh4eHd4LUFsFPR7V4MkeBH9T08PDy81T2/AM+8xptUzg7yAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

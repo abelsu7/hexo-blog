@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>【译】在 Ubuntu 16.04上安装 Seafile 并配置 Nginx | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Ubuntu,Linux,Nginx">
+    <meta name="description" content="Seafile是一个跨平台的文件托管工具，包含了适用于Linux和Windows的服务器应用程序，以及适用于Android，iOS，Linux，OS X和Windows的GUI客户端。它支持文件版本控制和快照，双重身份验证，WebDAV（Web-based Distributed Authoring and Versioning），并且可以配合Nginx和Apache使用以启用HTTPS。">
+<meta name="keywords" content="Ubuntu,Linux,Nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【译】在 Ubuntu 16.04上安装 Seafile 并配置 Nginx">
+<meta property="og:url" content="https://abelsu7.top/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="Seafile是一个跨平台的文件托管工具，包含了适用于Linux和Windows的服务器应用程序，以及适用于Android，iOS，Linux，OS X和Windows的GUI客户端。它支持文件版本控制和快照，双重身份验证，WebDAV（Web-based Distributed Authoring and Versioning），并且可以配合Nginx和Apache使用以启用HTTPS。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/seafile.png">
+<meta property="og:image" content="https://abelsu7.top/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/seafile-firststart-small.png">
+<meta property="og:image" content="https://abelsu7.top/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/seafile-login-small.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.402Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【译】在 Ubuntu 16.04上安装 Seafile 并配置 Nginx">
+<meta name="twitter:description" content="Seafile是一个跨平台的文件托管工具，包含了适用于Linux和Windows的服务器应用程序，以及适用于Android，iOS，Linux，OS X和Windows的GUI客户端。它支持文件版本控制和快照，双重身份验证，WebDAV（Web-based Distributed Authoring and Versioning），并且可以配合Nginx和Apache使用以启用HTTPS。">
+<meta name="twitter:image" content="https://abelsu7.top/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/seafile.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">【译】在 Ubuntu 16.04上安装 Seafile 并配置 Nginx</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">【译】在 Ubuntu 16.04上安装 Seafile 并配置 Nginx</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-09-06T06:55:10.000Z" itemprop="datePublished" class="page-time">
+  2018-09-06
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Ubuntu/">Ubuntu</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#准备Ubuntu环境"><span class="post-toc-text">准备Ubuntu环境</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装并配置MySQL"><span class="post-toc-text">安装并配置MySQL</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#创建可供Nginx使用的TLS证书"><span class="post-toc-text">创建可供Nginx使用的TLS证书</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装并配置Nginx"><span class="post-toc-text">安装并配置Nginx</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装并配置Seafile"><span class="post-toc-text">安装并配置Seafile</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#设置Seafile在服务器启动时自启动"><span class="post-toc-text">设置Seafile在服务器启动时自启动</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#升级Seafile"><span class="post-toc-text">升级Seafile</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-install-seafile-with-nginx-on-ubuntu-1604"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">【译】在 Ubuntu 16.04上安装 Seafile 并配置 Nginx</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-09-06 14:55:10" datetime="2018-09-06T06:55:10.000Z"  itemprop="datePublished">2018-09-06</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Ubuntu/">Ubuntu</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>Seafile是一个跨平台的文件托管工具，包含了适用于Linux和Windows的服务器应用程序，以及适用于Android，iOS，Linux，OS X和Windows的GUI客户端。它支持文件版本控制和快照，双重身份验证，WebDAV（Web-based Distributed Authoring and Versioning），并且可以配合Nginx和Apache使用以启用HTTPS。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/seafile.png" alt="在Ubuntu 16.04上安装Seafile并配置Nginx" title>
+                </div>
+                <div class="image-caption">在Ubuntu 16.04上安装Seafile并配置Nginx</div>
+            </figure>
+<p>Seafile有<a href="https://www.seafile.com/en/product/private_server/" target="_blank" rel="noopener">两个版本</a>：免费的开源社区版和付费的专业版。虽然专业版最多可供3位用户免费使用，本教程还是将使用Seafile的社区版本，使用Nginx作为服务器提供HTTPS连接，后端使用MySQL数据库。</p>
+<a id="more"></a>
+<h2 id="准备Ubuntu环境"><a href="#准备Ubuntu环境" class="headerlink" title="准备Ubuntu环境"></a>准备Ubuntu环境</h2><blockquote>
+<p><strong>注意</strong></p>
+<p>本指南是为非root用户编写的，会在需要提升权限的命令之前加上<code>sudo</code>。如果您不熟悉<code>sudo</code>命令，请参阅<a href="https://www.linode.com/docs/tools-reference/linux-users-and-groups/" target="_blank" rel="noopener">Linux用户和用户组</a>指南。</p>
+</blockquote>
+<p>升级系统：</p>
+<pre><code class="lang-bash">apt update &amp;&amp; apt upgrade
+</code></pre>
+<p>使用root权限创建标准用户账户。本例中，我们将创建一个名为 <em>sfadmin</em> 的用户：</p>
+<pre><code class="lang-bash">adduser sfadmin
+adduser sfadmin sudo
+</code></pre>
+<p>注销您已登录Linode的root账户，然后以 <em>sfadmin</em> 的身份重新登录：</p>
+<pre><code class="lang-bash">exit
+ssh sfadmin@&lt;your_linode&#39;s_ip&gt;
+</code></pre>
+<p>现在您应该已经以 <em>sfadmin</em> 的身份登录到您的Linode服务器。请参考<a href="https://www.linode.com/docs/security/securing-your-server/#harden-ssh-access" target="_blank" rel="noopener">保护您的服务器安全</a>指南以提高SSH访问的安全性。</p>
+<p>设置UFW防火墙规则。UFW是Ubuntu的防火墙控制器，它让设置防火墙规则变得更加简单。有关UFW的更多信息，请参阅<a href="https://www.linode.com/docs/security/firewalls/configure-firewall-with-ufw/" target="_blank" rel="noopener">使用UFW配置防火墙</a>指南。使用以下命令允许SSH和HTTP(S)通过防火墙：</p>
+<pre><code class="lang-bash">sudo ufw allow ssh
+sudo ufw allow http
+sudo ufw allow https
+sudo ufw enable
+</code></pre>
+<p>之后检查防火墙规则的状态，并以标号列表的形式列出：</p>
+<pre><code class="lang-bash">sudo ufw status numbered
+</code></pre>
+<p>输出应与下面的示例相似：</p>
+<pre><code class="lang-bash">Status: active
+
+To                         Action      From
+--                         ------      ----
+[ 1] 22                         ALLOW IN    Anywhere
+[ 2] 80                         ALLOW IN    Anywhere
+[ 3] 443                        ALLOW IN    Anywhere
+[ 4] 22 (v6)                    ALLOW IN    Anywhere (v6)
+[ 5] 80 (v6)                    ALLOW IN    Anywhere (v6)
+[ 6] 443 (v6)                   ALLOW IN    Anywhere (v6)
+</code></pre>
+<blockquote>
+<p><strong>注意</strong></p>
+<p>如果不希望UFW在22端口上允许来自IPv4与IPv6的SSH连接，您可以删除对应的规则。例如，您可以运行<code>sudo ufw delete 4</code>命令来删除允许来自IPv6的SSH连接通过的规则。</p>
+</blockquote>
+<p>设置Linode主机名，这里我们设置为 <em>seafile</em> ：</p>
+<pre><code class="lang-bash">sudo hostnamectl set-hostname seafile
+</code></pre>
+<p>在<code>/etc/hosts</code>中添加新主机名。该文件的第二行应该类似下面的示例：</p>
+<pre><code class="lang-hosts">127.0.1.1    members.linode.com     seafile
+</code></pre>
+<p>首次启动时，您的Linode服务器时区会被设置为UTC（Coordinated Universal Time，世界协调时间）。更改时区是可选项，如果您希望这么做，请运行以下命令：</p>
+<pre><code class="lang-bash">sudo dpkg-reconfigure tzdata
+</code></pre>
+<h2 id="安装并配置MySQL"><a href="#安装并配置MySQL" class="headerlink" title="安装并配置MySQL"></a>安装并配置MySQL</h2><p>安装程序将要求您为MySQL的root用户设置密码。请确保您安装的是<code>mysql-server-5.7</code>，而不是<code>mysql-server</code>。这是因为如果您通过<code>mysql-server</code>包安装MySQL，一个来自上游的问题将导致MySQL服务在启动时出现错误。</p>
+<pre><code class="lang-bash">sudo apt install mysql-server-5.7
+</code></pre>
+<p>运行 <em>mysql_secure_installation</em> 脚本：</p>
+<pre><code class="lang-bash">sudo mysql_secure_installation
+</code></pre>
+<p>有关MySQL的更多信息，请参阅<a href="https://www.linode.com/docs/databases/mysql/install-mysql-on-ubuntu-14-04/" target="_blank" rel="noopener">在Ubuntu上安装MySQL</a>指南。</p>
+<h2 id="创建可供Nginx使用的TLS证书"><a href="#创建可供Nginx使用的TLS证书" class="headerlink" title="创建可供Nginx使用的TLS证书"></a>创建可供Nginx使用的TLS证书</h2><p>如果您还没有SSL/TLS证书，可以现在创建一个。这是一个自签名证书，并让Web浏览器拒绝未经认证的连接。您应该验证浏览器证书的SHA256指纹与服务器证书的SHA256指纹是否相同，并在浏览器中添加例外以永久信任该证书。</p>
+<p>切换到证书文件存储的路径，并使用密钥创建服务器证书：</p>
+<pre><code class="lang-bash">cd /etc/ssl
+sudo openssl genrsa -out privkey.pem 4096
+sudo openssl req -new -x509 -key privkey.pem -out cacert.pem
+</code></pre>
+<h2 id="安装并配置Nginx"><a href="#安装并配置Nginx" class="headerlink" title="安装并配置Nginx"></a>安装并配置Nginx</h2><p>通过Ubuntu的软件库安装Nginx：</p>
+<pre><code class="lang-bash">sudo apt install nginx
+</code></pre>
+<p>创建站点配置文件。您唯一需要修改的一行是<code>server_name</code>。有关HTTPS的更多配置选项，请参阅<a href="https://www.linode.com/docs/web-servers/nginx/nginx-ssl-and-tls-deployment-best-practices/" target="_blank" rel="noopener">Nginx的TLS最佳实践</a>指南。</p>
+<pre><code class="lang-json">server{
+    listen 80;
+    server_name example.com;
+    rewrite ^ https://$http_host$request_uri? permanent;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    }
+ server {
+    listen 443 ssl http2;
+    ssl on;
+    ssl_certificate /etc/ssl/cacert.pem;
+    ssl_certificate_key /etc/ssl/privkey.pem;
+    server_name example.com;
+
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    add_header   Strict-Transport-Security &quot;max-age=31536000; includeSubdomains&quot;;
+    add_header   X-Content-Type-Options nosniff;
+    add_header   X-Frame-Options DENY;
+    ssl_session_cache shared:SSL:10m;
+    ssl_ciphers  &quot;EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH !RC4&quot;;
+    ssl_prefer_server_ciphers   on;
+
+    fastcgi_param   HTTPS               on;
+    fastcgi_param   HTTP_SCHEME         https;
+
+  location / {
+        fastcgi_pass    127.0.0.1:8000;
+        fastcgi_param   SCRIPT_FILENAME     $document_root$fastcgi_script_name;
+        fastcgi_param   PATH_INFO           $fastcgi_script_name;
+
+        fastcgi_param    SERVER_PROTOCOL        $server_protocol;
+        fastcgi_param   QUERY_STRING        $query_string;
+        fastcgi_param   REQUEST_METHOD      $request_method;
+        fastcgi_param   CONTENT_TYPE        $content_type;
+        fastcgi_param   CONTENT_LENGTH      $content_length;
+        fastcgi_param    SERVER_ADDR         $server_addr;
+        fastcgi_param    SERVER_PORT         $server_port;
+        fastcgi_param    SERVER_NAME         $server_name;
+        fastcgi_param   REMOTE_ADDR         $remote_addr;
+
+        access_log      /var/log/nginx/seahub.access.log;
+        error_log       /var/log/nginx/seahub.error.log;
+        fastcgi_read_timeout 36000;
+        client_max_body_size 0;
+    }
+
+    location /seafhttp {
+        rewrite ^/seafhttp(.*)$ $1 break;
+        proxy_pass http://127.0.0.1:8082;
+        client_max_body_size 0;
+        proxy_connect_timeout  36000s;
+        proxy_read_timeout  36000s;
+        proxy_send_timeout  36000s;
+        send_timeout  36000s;
+        proxy_request_buffering off;
+    }
+
+    location /media {
+        root /home/sfadmin/sfroot/seafile-server-latest/seahub;
+    }
+    }
+</code></pre>
+<p>禁用默认的站点配置并启用刚刚创建的站点配置：</p>
+<pre><code class="lang-bash">sudo rm /etc/nginx/sites-enabled/default
+sudo ln -s /etc/nginx/sites-available/seafile.conf /etc/nginx/sites-enabled/seafile.conf
+</code></pre>
+<p>运行Nginx配置测试并重启Web服务器。如果测试失败，终端会显示简要的错误描述信息，以便您能借此解决问题。</p>
+<pre><code class="lang-bash">sudo nginx -t
+sudo systemctl restart nginx
+</code></pre>
+<h2 id="安装并配置Seafile"><a href="#安装并配置Seafile" class="headerlink" title="安装并配置Seafile"></a>安装并配置Seafile</h2><p><a href="https://manual.seafile.com/deploy/using_mysql.html" target="_blank" rel="noopener">Seafile手册</a>建议使用特定的目录结构来简化日后的升级过程。在这里我们也会这样做，只不过我们把在<code>sfadmin</code>家目录下创建的目录命名为<code>sfroot</code>，而不是Seafile手册示例中的<code>haiwen</code>。</p>
+<pre><code class="lang-bash">mkdir ~/sfroot &amp;&amp; cd ~/sfroot
+</code></pre>
+<p>下载Seafile CE Linux服务端安装文件的64位版本。您需要从<a href="https://www.seafile.com/en/download/" target="_blank" rel="noopener">Seafile官网</a>获取对应的下载链接。取得下载URL后，使用<code>wget</code>命令将其下载至<code>~/sfadmin/sfroot</code>。</p>
+<pre><code class="lang-bash">wget &lt;link&gt;
+</code></pre>
+<p>解压tarball，并将压缩包移动到<code>installed</code>目录：</p>
+<pre><code class="lang-bash">tar -xzvf seafile-server*.tar.gz
+mkdir installed &amp;&amp; mv seafile-server*.tar.gz installed
+</code></pre>
+<p>安装Seafile的依赖包：</p>
+<pre><code class="lang-bash">sudo apt install python2.7 libpython2.7 python-setuptools python-imaging python-ldap python-mysqldb python-memcache python-urllib3
+</code></pre>
+<p>运行安装脚本：</p>
+<pre><code class="lang-bash">cd seafile-server-* &amp;&amp; ./setup-seafile-mysql.sh
+</code></pre>
+<p>启动服务端程序。</p>
+<pre><code class="lang-bash">./seafile.sh start
+./seahub.sh start-fastcgi
+</code></pre>
+<p><code>seahub.sh</code>脚本将创建用于登录Seafile的管理员用户账户。系统会要求您输入登录用的电子邮件账户并创建密码。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/seafile-firststart-small.png" alt="运行seahub.sh" title>
+                </div>
+                <div class="image-caption">运行seahub.sh</div>
+            </figure>
+<p>现在可以通过您Linode服务器的IP地址，或是之前在Nginx的<code>seafile.conf</code>配置文件中设置的<code>server_name</code>，在Web浏览器中访问Seafile。如之前所说，Nginx将重定向至HTTPS连接，由于您创建了自签名证书，因此您的浏览器将警告该HTTPS连接不是私有的。忽略浏览器警告并继续访问该网址，您将看到Seafile的登录界面。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/seafile-login-small.png" alt="登录Seafile" title>
+                </div>
+                <div class="image-caption">登录Seafile</div>
+            </figure>
+<h2 id="设置Seafile在服务器启动时自启动"><a href="#设置Seafile在服务器启动时自启动" class="headerlink" title="设置Seafile在服务器启动时自启动"></a>设置Seafile在服务器启动时自启动</h2><p><code>seafile.sh</code>与<code>seahub.sh</code>脚本并不会自动在您的Linode服务器重启后运行，需要我们手动进行设置。</p>
+<p>创建systemd单元文件：</p>
+<p><code>/etc/systemd/system/seafile.service</code>：</p>
+<pre><code class="lang-service">[Unit]
+Description=Seafile Server
+After=network.target mysql.service
+
+[Service]
+Type=oneshot
+ExecStart=/home/sfadmin/sfroot/seafile-server-latest/seafile.sh start
+ExecStop=/home/sfadmin/sfroot/seafile-server-latest/seafile.sh stop
+RemainAfterExit=yes
+User=sfadmin
+Group=sfadmin
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<p><code>/etc/systemd/system/seahub.service</code>：</p>
+<pre><code class="lang-service">[Unit]
+Description=Seafile Hub
+After=network.target seafile.service
+
+[Service]
+Type=oneshot
+ExecStart=/home/sfadmin/sfroot/seafile-server-latest/seahub.sh start-fastcgi
+ExecStop=/home/sfadmin/sfroot/seafile-server-latest/seahub.sh stop
+RemainAfterExit=yes
+User=sfadmin
+Group=sfadmin
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<p>之后启动服务：</p>
+<pre><code class="lang-bash">sudo systemctl enable seafile
+sudo systemctl enable seahub
+</code></pre>
+<p>您可以使用以下命令验证服务是否成功启动：</p>
+<pre><code class="lang-bash">sudo systemctl status seafile
+sudo systemctl status seahub
+</code></pre>
+<p>重新启动Linode服务器验证自启动脚本是否生效。服务器启动后，当运行上一步中的验证命令时，Seafile和Seahub都应处于活跃状态。同样的，此时您应该也可以在浏览器中访问Seafile服务。</p>
+<h2 id="升级Seafile"><a href="#升级Seafile" class="headerlink" title="升级Seafile"></a>升级Seafile</h2><p>有多种方法可供您升级Seafile。请参阅<a href="https://manual.seafile.com/deploy/upgrade.html" target="_blank" rel="noopener">Seafile手册</a>以了解最适合您需求的升级说明。</p>
+<blockquote>
+<p><strong>参考文章</strong></p>
+<ol>
+<li><a href="https://www.linode.com/docs/applications/cloud-storage/install-seafile-with-nginx-on-ubuntu-1604" target="_blank" rel="noopener">Install Seafile with NGINX on Ubuntu 16.04 | Linode</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1329638" target="_blank" rel="noopener">在Ubuntu 16.04上安装Seafile并配置Nginx | 腾讯云+社区</a></li>
+<li><a href="https://manual.seafile.com/" target="_blank" rel="noopener">Seafile Server手册</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7 安装配置 NFS</a></li><li><a href="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/">Linux 系统常用监控命令</a></li><li><a href="https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/">Linux 终端修改 ls 命令目录显示颜色</a></li><li><a href="https://abelsu7.top/2019/07/07/perf-quick-guides/">Linux 下使用 Perf 分析系统性能</a></li><li><a href="http://www.borgor.cn/2019-07-25/81eae861.html">在CentOS上使用certbot为nginx添加https证书</a></li><li><a href="http://ashin.wang/linux-basic/">Linux基础笔记</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.402Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/" target="_blank" rel="external">https://abelsu7.top/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/&title=《【译】在 Ubuntu 16.04上安装 Seafile 并配置 Nginx》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/&title=《【译】在 Ubuntu 16.04上安装 Seafile 并配置 Nginx》 — Keep Coding&source=Seafile是一个跨平台的文件托管工具，包含了适用于Linux和Windows的服务器应用程序，以及适用于Android，iOS，Linux，OS X和..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【译】在 Ubuntu 16.04上安装 Seafile 并配置 Nginx》 — Keep Coding&url=https://abelsu7.top/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/09/06/configure-firewall-with-ufw/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">【译】如何使用 UFW 配置防火墙</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/08/28/docker-5mins-notes-1/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">5 分钟 Docker 笔记 1：Docker 生态及核心概念</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/&title=《【译】在 Ubuntu 16.04上安装 Seafile 并配置 Nginx》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/&title=《【译】在 Ubuntu 16.04上安装 Seafile 并配置 Nginx》 — Keep Coding&source=Seafile是一个跨平台的文件托管工具，包含了适用于Linux和Windows的服务器应用程序，以及适用于Android，iOS，Linux，OS X和..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【译】在 Ubuntu 16.04上安装 Seafile 并配置 Nginx》 — Keep Coding&url=https://abelsu7.top/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsUlEQVR42u3aQXLCQAwEQP7/aXJOEcNIWhGoap9SwXG2dfCK0d5u8XV/uB5/f3Xn46dXf3v1Hx//9vCFh4eHN156sugcny/9OSAp4h9PwMPDw1vjJY/L70+KkpQ4Wc8LCx4eHt4H8PKXfvKEvLHGw8PD+3ZeNVDIC4SHh4f3Lbw8fq0mpUnokFMXsxY8PDy8mJdPkT7n55X5Hh4eHt54ql4dhlXHZr3yFVaLh4eHt8DrhQKT3yTPrEYeL+7Ew8PDW+Mlr/VeHJBHBvfBdRlt4OHh4R3lVQdU+UGoHj45ZFDYVPDw8PAWeMlQarJVPGdPxm+FyAMPDw9vgdf72n+qNNXNaTTrw8PDwxvzqjFr9dP5YYVRIIKHh4e3wOstpRAEFLeQ/DmFguLh4eGt8fLmOA95q8izbT0eHh7eBi8fKZ06EDCJbquDNzw8PLw9XjVanbzie2OtvEy/noOHh4f3Fl5vWdX4oNpAVw8x3BI9Hh4e3oCXL26yefSiimrRy6MvPDw8vDEviQZ6UW+hFR6Muy6zFjw8PLxDvOR1X41ZJ4Fsb1t6sQnh4eHhHeX1xvNJG51vD9Wwo7BV4OHh4S3zqptB3i73DhbkZb28Bw8PD2+BlwQKh6OB4jYzb8rx8PDwtnnVgwWTYVgSB0+OYeHh4eHt8ZLXfa+prTbok6MGl/fj4eHhrfEm4ULysp7ExEk0jIeHh/dfvORrf++eXsny0hQOXeHh4eENeKda4V6Zqo1yta3Hw8PD2+DlVzWi7S1645AWHh4e3gavuhnkrXNeuOctcr4x4OHh4b2Tl3zJn9xfbdx7BYrORODh4eG9nVeNdDfe1YUQBA8PD+8jedVYNh90VcdmB1pqPDw8vJh3ahHPN48kRJgcF7jcGPDw8PCO8nph6xyTF7R3GAsPDw9vgfcDoLO7YD2v/8kAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

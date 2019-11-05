@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Java 笔记 5：集合 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Java,读书">
+    <meta name="description" content="摘自 《Java 核心技术（卷 Ⅰ）》                                                                                               《Java 核心技术（卷 Ⅰ）》">
+<meta name="keywords" content="Java,读书">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 笔记 5：集合">
+<meta property="og:url" content="https://abelsu7.top/2019/03/11/core-java-notes-5/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自 《Java 核心技术（卷 Ⅰ）》                                                                                               《Java 核心技术（卷 Ⅰ）》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/03/11/core-java-notes-5/douban.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/11/core-java-notes-5/core-java.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/11/core-java-notes-5/collection-interface.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/11/core-java-notes-5/linked-hash-list.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.090Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 笔记 5：集合">
+<meta name="twitter:description" content="摘自 《Java 核心技术（卷 Ⅰ）》                                                                                               《Java 核心技术（卷 Ⅰ）》">
+<meta name="twitter:image" content="https://abelsu7.top/2019/03/11/core-java-notes-5/douban.svg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Java 笔记 5：集合</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Java 笔记 5：集合</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-03-11T06:39:15.000Z" itemprop="datePublished" class="page-time">
+  2019-03-11
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#集合"><span class="post-toc-text">集合</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-Java-集合框架"><span class="post-toc-text">1. Java 集合框架</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-1-将集合的结构与实现分离"><span class="post-toc-text">1.1 将集合的结构与实现分离</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-2-Collection-接口"><span class="post-toc-text">1.2 Collection 接口</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-3-迭代器"><span class="post-toc-text">1.3 迭代器</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-4-泛型实用方法"><span class="post-toc-text">1.4 泛型实用方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-5-集合框架中的接口"><span class="post-toc-text">1.5 集合框架中的接口</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-线性表与队列"><span class="post-toc-text">2. 线性表与队列</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-链表-LinkedList"><span class="post-toc-text">2.1 链表 LinkedList</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-数组列表-ArrayList"><span class="post-toc-text">2.2 数组列表 ArrayList</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-3-散列集-HashSet"><span class="post-toc-text">2.3 散列集 HashSet</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-4-树集-TreeSet"><span class="post-toc-text">2.4 树集 TreeSet</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-5-队列与双端队列"><span class="post-toc-text">2.5 队列与双端队列</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-6-优先级队列"><span class="post-toc-text">2.6 优先级队列</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-映射"><span class="post-toc-text">3. 映射</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-基本映射操作"><span class="post-toc-text">3.1 基本映射操作</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-更新映射项"><span class="post-toc-text">3.2 更新映射项</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-3-映射视图"><span class="post-toc-text">3.3 映射视图</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-4-弱散列映射"><span class="post-toc-text">3.4 弱散列映射</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-5-LinkedHashSet-与-LinkedHashMap"><span class="post-toc-text">3.5 LinkedHashSet 与 LinkedHashMap</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-6-枚举集与映射"><span class="post-toc-text">3.6 枚举集与映射</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-7-标识散列映射"><span class="post-toc-text">3.7 标识散列映射</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-视图与包装器"><span class="post-toc-text">4. 视图与包装器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-1-轻量级集合包装器"><span class="post-toc-text">4.1 轻量级集合包装器</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-2-子范围"><span class="post-toc-text">4.2 子范围</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-3-不可修改的视图"><span class="post-toc-text">4.3 不可修改的视图</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-4-同步视图"><span class="post-toc-text">4.4 同步视图</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-5-受查视图"><span class="post-toc-text">4.5 受查视图</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-算法"><span class="post-toc-text">5. 算法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-1-排序与混排"><span class="post-toc-text">5.1 排序与混排</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-2-二分查找"><span class="post-toc-text">5.2 二分查找</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-3-简单算法"><span class="post-toc-text">5.3 简单算法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-4-批操作"><span class="post-toc-text">5.4 批操作</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-5-集合与数组的转换"><span class="post-toc-text">5.5 集合与数组的转换</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-遗留的集合"><span class="post-toc-text">6 遗留的集合</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-1-HashTable"><span class="post-toc-text">6.1 HashTable</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-2-枚举-Enumeration"><span class="post-toc-text">6.2 枚举 Enumeration</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-3-属性映射"><span class="post-toc-text">6.3 属性映射</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-4-栈-Stack"><span class="post-toc-text">6.4 栈 Stack</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-5-位集-BitSet"><span class="post-toc-text">6.5 位集 BitSet</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-core-java-notes-5"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Java 笔记 5：集合</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-03-11 14:39:15" datetime="2019-03-11T06:39:15.000Z"  itemprop="datePublished">2019-03-11</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>摘自 <img src="/2019/03/11/core-java-notes-5/douban.svg"><a href="https://book.douban.com/subject/26880667/" target="_blank" rel="noopener">《Java 核心技术（卷 Ⅰ）》</a></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/11/core-java-notes-5/core-java.png" alt="《Java 核心技术（卷 Ⅰ）》" title>
+                </div>
+                <div class="image-caption">《Java 核心技术（卷 Ⅰ）》</div>
+            </figure>
+<a id="more"></a>
+<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><h3 id="1-Java-集合框架"><a href="#1-Java-集合框架" class="headerlink" title="1. Java 集合框架"></a>1. Java 集合框架</h3><h4 id="1-1-将集合的结构与实现分离"><a href="#1-1-将集合的结构与实现分离" class="headerlink" title="1.1 将集合的结构与实现分离"></a>1.1 将集合的结构与实现分离</h4><p><strong>Java 集合类库</strong>也将<strong>接口（interface）</strong>与<strong>实现（implementation）</strong>分离。</p>
+<p>例如<strong>队列接口的最简形式</strong>类似下面的代码：</p>
+<pre><code class="lang-java">public interface Queue&lt;E&gt; {// a simplified form of the interface in the standard library
+    void add(E element);
+    E remove();
+    int size();
+}
+</code></pre>
+<p>这个接口并没有说明队列是如何实现的，通常有<strong>两种实现方式</strong>：一种是使用<strong>循环数组</strong>；另一种是<strong>使用链表</strong>。</p>
+<p>这样做的好处是：当在程序中使用队列时，<strong>一旦构建了集合，就不需要知道究竟使用了哪种实现</strong>。因此，只有在构建集合对象的时候，使用具体的类才有意义。<strong>可以使用接口类型存放集合的引用</strong>：</p>
+<pre><code class="lang-java">Queue&lt;Customer&gt; expressLane = new CircularArrayQueue&lt;&gt;(100);
+expressLane.add(new Customer(&quot;Harry&quot;));
+</code></pre>
+<p>这样一来，<strong>一旦改变了想法，就可以轻松的使用另外一种不同的实现</strong>。只需要对程序的一个地方做出修改，即<strong>调用构造器</strong>的地方。如果觉得<code>LinkedListQueue</code>是个更好的选择，就将代码修改为：</p>
+<pre><code class="lang-java">Queue&lt;Customer&gt; expressLane = new LinkedListQueue&lt;&gt;(100);
+expressLane.add(new Customer(&quot;Harry&quot;));
+</code></pre>
+<blockquote>
+<p>注：<strong>循环数组</strong>是一个<strong>有界集合</strong>，即<strong>容量有限</strong>。如果程序中<strong>要收集的对象数量没有上限</strong>，就<strong>最好使用链表</strong>来实现</p>
+</blockquote>
+<h4 id="1-2-Collection-接口"><a href="#1-2-Collection-接口" class="headerlink" title="1.2 Collection 接口"></a>1.2 Collection 接口</h4><p>在 Java 类库中，集合类的基本接口是<code>Collection</code>接口，它有两个基本方法：</p>
+<pre><code class="lang-java">public interface Collection&lt;E&gt; {
+    boolean add(E element);
+    Iterator&lt;E&gt; iterator();
+    ...
+}
+</code></pre>
+<p>方法<code>add</code>用于<strong>向集合中添加元素</strong>。如果<strong>添加元素确实改变了集合</strong>就返回<code>true</code>，如果<strong>集合没有发生变化</strong>就返回<code>false</code>。</p>
+<p>方法<code>iterator</code>用于<strong>返回一个实现了</strong><code>Iterator</code><strong>接口的对象</strong>，可以使用这个迭代器<strong>依次访问集合中的元素</strong>。</p>
+<h4 id="1-3-迭代器"><a href="#1-3-迭代器" class="headerlink" title="1.3 迭代器"></a>1.3 迭代器</h4><p>接口<code>Iterator</code>包含了 4 个方法：</p>
+<pre><code class="lang-java">public interface Iterator&lt;E&gt; {
+    E next();
+    boolean hasNext();
+    void remove();
+    default void forEachRemaining(Consumet&lt;? super E&gt; action);
+}
+</code></pre>
+<p>用<code>for each</code>循环可以<strong>简练的表示循环操作</strong>：</p>
+<pre><code class="lang-java">for (String element : c) {
+    do something with element
+}
+</code></pre>
+<p>编译器简单的将<code>for each</code>循环翻译为<strong>带有迭代器的循环</strong>。<code>for each</code>循环<strong>可以与任何实现了</strong><code>Iterable</code><strong>接口的对象一起工作</strong>，这个接口只包含<strong>一个抽象方法</strong>：</p>
+<pre><code class="lang-java">public interface Iterable&lt;E&gt; {
+    Iterator&lt;E&gt; iterator();
+    ...
+}
+</code></pre>
+<p><code>Collection</code>接口扩展了<code>Iterable</code>接口。因此，对于<strong>标准类库中的任何集合</strong>，对可以使用<code>for each</code>循环。</p>
+<blockquote>
+<p>在 <strong>Java SE 8</strong> 中，甚至不用写循环，可以<strong>调用</strong><code>forEachRemaining</code><strong>方法</strong>并提供一个 <strong>lambda 表达式</strong>：</p>
+</blockquote>
+<pre><code class="lang-java">iterator.forEachRemaining(element -&gt; do something with element);
+</code></pre>
+<blockquote>
+<p>注：<strong>Java 迭代器</strong>应该被视作<strong>位于两个元素之间</strong>。当<strong>调用</strong><code>next</code><strong>时</strong>，迭代器就<strong>越过下一个元素</strong>，并<strong>返回刚刚越过的那个元素的引用</strong>，而<code>Iterator</code>接口的<code>remove</code>方法将会删除上次调用<code>next</code>方法时返回的元素。</p>
+</blockquote>
+<p>例如，<strong>删除字符串集合中的第一个元素</strong>：</p>
+<pre><code class="lang-java">Iterator&lt;String&gt; it = c.iterator();
+it.next(); // skip over the first element
+it.remove(); // now remove it
+</code></pre>
+<p>类似的，要想<strong>删除两个相邻的元素</strong>，必须<strong>先调用</strong><code>next</code><strong>越过将要删除的元素</strong>：</p>
+<pre><code class="lang-java">it.remove();
+it.next();
+it.remove();
+</code></pre>
+<h4 id="1-4-泛型实用方法"><a href="#1-4-泛型实用方法" class="headerlink" title="1.4 泛型实用方法"></a>1.4 泛型实用方法</h4><p>由于<code>Collection</code>和<code>Iterator</code>都是泛型接口，可以编写操作任何集合类型的实用方法：</p>
+<pre><code class="lang-java">public static &lt;E&gt; boolean contains(Collection&lt;E&gt; c, Object obj) {
+    for (E element : c)
+        if (element.equals(obj))
+            return true;
+    return false;
+}
+</code></pre>
+<pre><code class="lang-java">int size()
+boolean isEmpty()
+boolean contains(Object obj)
+boolean containsAll(Collection&lt;?&gt; c)
+boolean equals(Object other)
+boolean addAll (Collection&lt;? extends E&gt; from) 
+boolean remove(Object obj)
+boolean removeAll(Collection&lt;?&gt; c)
+void clear()
+boolean retainAll(Col1ection&lt;?&gt; c)
+Object[] toArray()
+&lt;T&gt; T[] toArray(T[] arrayToFill)
+</code></pre>
+<h4 id="1-5-集合框架中的接口"><a href="#1-5-集合框架中的接口" class="headerlink" title="1.5 集合框架中的接口"></a>1.5 集合框架中的接口</h4><p><strong>Java 集合框架</strong>为不同类型的集合<strong>定义了大量接口</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/11/core-java-notes-5/collection-interface.png" alt="集合框架的接口" title>
+                </div>
+                <div class="image-caption">集合框架的接口</div>
+            </figure>
+<p><strong>集合</strong>有<strong>两个基本接口</strong>：<code>Collection</code>和<code>Map</code>：</p>
+<pre><code class="lang-java">boolean add(E element) // 用于集合
+iterator.next()
+V put(K key, V value) // 用于映射
+V get(K key)
+</code></pre>
+<h3 id="2-线性表与队列"><a href="#2-线性表与队列" class="headerlink" title="2. 线性表与队列"></a>2. 线性表与队列</h3><p>下面展示了 <strong>Java 类库中的集合</strong>，并简要描述了<strong>每个集合类的用途</strong>。除了以<code>Map</code>结尾的类之外，其他类都实现了<code>Collection</code>接口，而以<code>Map</code>结尾的类则实现了<code>Map</code>接口：</p>
+<ul>
+<li><strong>ArrayList</strong>：一种可以<strong>动态增长和缩减</strong>的<strong>索引序列</strong></li>
+<li><strong>LinkedList</strong>：一种可以<strong>在任何位置进行高效的插入和删除操作</strong>的<strong>有序序列</strong></li>
+<li><strong>ArrayQueue</strong>：一种用<strong>循环数组</strong>实现的<strong>双端队列</strong></li>
+<li><strong>HashSet</strong>：一种<strong>没有重复元素</strong>的<strong>无序集合</strong></li>
+<li><strong>TreeSet</strong>：一种<strong>有序集</strong></li>
+<li><strong>EnumSet</strong>：一种<strong>包含枚举类型值的集</strong></li>
+<li><strong>LinkedHashSet</strong>：一种<strong>可以记住元素插入次序的集</strong></li>
+<li><strong>PriorityQueue</strong>：一种<strong>允许高效删除最小元素的集合</strong></li>
+<li><strong>HashMap</strong>：一种<strong>存储键/值关联</strong>的数据结构</li>
+<li><strong>TreeMap</strong>：一种<strong>键值有序排列</strong>的<strong>映射表</strong></li>
+<li><strong>EnumMap</strong>：一种<strong>键值属于枚举类型</strong>的<strong>映射表</strong></li>
+<li><strong>LinkedHashMap</strong>：一种<strong>可以记住键/值项并添加次序</strong>的<strong>映射表</strong></li>
+<li><strong>WeakHashMap</strong>：一种<strong>其值无用武之地后可以被 GC 回收</strong>的<strong>映射表</strong></li>
+<li><strong>IdentityHashMap</strong>：一种用<code>==</code>而不是用<code>equals</code><strong>比较键值</strong>的<strong>映射表</strong></li>
+</ul>
+<h4 id="2-1-链表-LinkedList"><a href="#2-1-链表-LinkedList" class="headerlink" title="2.1 链表 LinkedList"></a>2.1 链表 LinkedList</h4><p>在 Java 中，所有<strong>链表（Linked List）</strong>都是<strong>双向链接（Doubly Linked）</strong>的，即每个节点还<strong>存放着指向前驱节点的引用</strong>。</p>
+<p>例如下面的代码示例，先<strong>添加 3 个元素</strong>，然后再<strong>将第 2 个元素删除</strong>：</p>
+<pre><code class="lang-java">import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        List&lt;String&gt; staff = new LinkedList&lt;&gt;();
+        staff.add(&quot;Amy&quot;);
+        staff.add(&quot;Bob&quot;);
+        staff.add(&quot;Carl&quot;);
+        System.out.println(staff);
+        Iterator iterator = staff.iterator();
+        String first = iterator.next().toString();
+        String second = iterator.next().toString();
+        iterator.remove();
+        for (String name : staff) {
+            System.out.println(name);
+        }
+    }
+}
+
+------
+[Amy, Bob, Carl]
+Amy
+Carl
+
+Process finished with exit code 0
+</code></pre>
+<p>但是，<strong>链表</strong>与<strong>泛型集合</strong>有一个<strong>重要的区别</strong>：<strong>链表</strong>是一个<strong>有序集合（Ordered Collection）</strong>，每个对象的位置十分重要。</p>
+<blockquote>
+<p>关于 <strong>Java 中</strong><code>Iterator</code><strong>和</strong><code>ListIterator</code>的<strong>区别</strong>，可以参考 <a href="https://blog.csdn.net/longshengguoji/article/details/41551491" target="_blank" rel="noopener">Java 中 ListIterator 和 Iterator 详解与辨析 | CSDN</a></p>
+</blockquote>
+<p>另外，<strong>链表不支持快速的随机访问</strong>。如果要查看链表中第<code>n</code>个元素，就必须<strong>从头开始</strong>，越过<code>n-1</code>个元素，没有捷径可走。鉴于这个原因，<strong>在程序需要采用整数索引访问元素时，通常不会采用链表而会选择数组</strong>，因为<code>LinkedList</code>对象根本<strong>不做任何缓存位置信息的操作</strong>。</p>
+<pre><code class="lang-java">package linkedList;
+
+import java.util.*;
+
+/**
+ * This program demonstrates operations on linked lists.
+ *
+ * @author Cay Horstmann
+ * @version 1.11 2012-01-26
+ */
+public class LinkedListTest {
+    public static void main(String[] args) {
+        List&lt;String&gt; a = new LinkedList&lt;&gt;();
+        a.add(&quot;Amy&quot;);
+        a.add(&quot;Carl&quot;);
+        a.add(&quot;Erica&quot;);
+
+        List&lt;String&gt; b = new LinkedList&lt;&gt;();
+        b.add(&quot;Bob&quot;);
+        b.add(&quot;Doug&quot;);
+        b.add(&quot;Frances&quot;);
+        b.add(&quot;Gloria&quot;);
+
+        // merge the words from b into a
+
+        ListIterator&lt;String&gt; aIter = a.listIterator();
+        Iterator&lt;String&gt; bIter = b.iterator();
+
+        while (bIter.hasNext()) {
+            if (aIter.hasNext()) aIter.next();
+            aIter.add(bIter.next());
+        }
+
+        System.out.println(a);
+
+        // remove every second word from b
+
+        bIter = b.iterator();
+        while (bIter.hasNext()) {
+            bIter.next(); // skip one element
+            if (bIter.hasNext()) {
+                bIter.next(); // skip next element
+                bIter.remove(); // remove that element
+            }
+        }
+
+        System.out.println(b);
+
+        // bulk operation: remove all words in b from a
+
+        a.removeAll(b);
+
+        System.out.println(a);
+    }
+}
+
+------
+[Amy, Bob, Carl, Doug, Erica, Frances, Gloria]
+[Bob, Frances]
+[Amy, Carl, Doug, Erica, Gloria]
+
+Process finished with exit code 0
+</code></pre>
+<h4 id="2-2-数组列表-ArrayList"><a href="#2-2-数组列表-ArrayList" class="headerlink" title="2.2 数组列表 ArrayList"></a>2.2 数组列表 ArrayList</h4><p>集合类库提供了<code>ArrayList</code>类，这个类也<strong>实现了</strong><code>List</code><strong>接口</strong>。<code>ArrayList</code><strong>封装了一个动态再分配的对象数组</strong>。</p>
+<blockquote>
+<p><strong>Vector 类</strong>的所有方法都是<strong>同步的</strong>，可以<strong>由两个线程安全的访问一个 Vector 对象</strong>。但是，如果由一个线程访问 Vector，<strong>代码要在同步操作上耗费大量的时间</strong>。而 <strong>ArrayList 方法不是同步的</strong>，因此，建议在<strong>不需要同步</strong>的时候<strong>使用</strong><code>ArrayList</code>，而不要使用<code>Vector</code>。</p>
+</blockquote>
+<h4 id="2-3-散列集-HashSet"><a href="#2-3-散列集-HashSet" class="headerlink" title="2.3 散列集 HashSet"></a>2.3 散列集 HashSet</h4><p><strong>散列表（Hash Table）</strong>可以<strong>快速的查找所需要的对象</strong>，而<strong>忽略元素出现的次序</strong>。散列表为每个对象计算一个整数，称为<strong>散列码（Hash Code）</strong>。散列码是<strong>由对象的实例域产生的一个整数</strong>。</p>
+<p><strong>在 Java 中，散列表用链表数组实现</strong>。每个链表被称为<strong>桶（bucket）</strong>。要想查找表中对象的位置，就要<strong>先计算它的散列码，然后与桶的总数取余</strong>，所得到的结果就是<strong>保存这个元素的桶的索引</strong>。</p>
+<p>当然，有时候会遇到<strong>桶被占满</strong>的情况，这种现象被称为<strong>散列冲突（hash collision）</strong>。</p>
+<blockquote>
+<p>在 <strong>Java SE 8</strong> 中，<strong>桶满时</strong>会从<strong>链表</strong>变为<strong>平衡二叉树</strong>。</p>
+</blockquote>
+<p><strong>Java 集合类库</strong>提供了一个<code>HashSet</code>类，它实现了<strong>基于散列表的集</strong>，可以用<code>add</code>方法<strong>添加元素</strong>。<code>contains</code><strong>方法</strong>已经被重新定义，用来<strong>快速的查看是否某个元素已经出现在集中</strong>。它只在某个桶中查找元素，而不必查看集合中的所有元素。</p>
+<pre><code class="lang-java">package set;
+
+import java.util.*;
+
+/**
+ * This program uses a set to print all unique words in System.in.
+ *
+ * @author Cay Horstmann
+ * @version 1.12 2015-06-21
+ */
+public class SetTest {
+    public static void main(String[] args) {
+        Set&lt;String&gt; words = new HashSet&lt;&gt;(); // HashSet implements Set
+        long totalTime = 0;
+
+        try (Scanner in = new Scanner(System.in)) {
+            while (in.hasNext()) {
+                String word = in.next();
+                long callTime = System.currentTimeMillis();
+                words.add(word);
+                callTime = System.currentTimeMillis() - callTime;
+                totalTime += callTime;
+            }
+        }
+
+        Iterator&lt;String&gt; iter = words.iterator();
+        for (int i = 1; i &lt;= 20 &amp;&amp; iter.hasNext(); i++)
+            System.out.println(iter.next());
+        System.out.println(&quot;. . .&quot;);
+        System.out.println(words.size() + &quot; distinct words. &quot; + totalTime + &quot; milliseconds.&quot;);
+    }
+}
+</code></pre>
+<h4 id="2-4-树集-TreeSet"><a href="#2-4-树集-TreeSet" class="headerlink" title="2.4 树集 TreeSet"></a>2.4 树集 TreeSet</h4><p><strong>树集（TreeSet）</strong>与散列集十分类似，不过比散列集有所改进。树集是一个<strong>有序集合</strong>，可以<strong>以任意顺序将元素插入到集合中</strong>。在<strong>对集合进行遍历</strong>时，每个值将<strong>自动的按照字典顺序呈现</strong>：</p>
+<pre><code class="lang-java">import java.util.SortedSet;
+import java.util.TreeSet;
+
+public class Main {
+    public static void main(String[] args) {
+        SortedSet&lt;String&gt; sorter = new TreeSet&lt;&gt;(); // TreeSet implements SortedSet
+        sorter.add(&quot;Bob&quot;);
+        sorter.add(&quot;Amy&quot;);
+        sorter.add(&quot;Carl&quot;);
+        for (String s : sorter) {
+            System.out.println(s);
+        }
+    }
+}
+
+------
+Amy
+Bob
+Carl
+
+Process finished with exit code 0
+</code></pre>
+<p>正如<code>TreeSet</code>类名所示，<strong>排序是用树结构（红黑树）完成的</strong>。每次将一个元素添加到树中时，都被放置在正确的排序位置上。因此，<strong>迭代器总是以排好序的顺序访问每个元素</strong>。</p>
+<blockquote>
+<p><strong>添加元素到树集中的速度比散列表中要慢</strong>，不过还是<strong>比数组或链表快</strong>。另外，要使用树集，<strong>必须能够比较元素</strong>，这些元素必须<strong>实现</strong><code>Comparable</code><strong>接口</strong>，或者<strong>构造集的时候必须提供一个</strong><code>Comparator</code></p>
+</blockquote>
+<h4 id="2-5-队列与双端队列"><a href="#2-5-队列与双端队列" class="headerlink" title="2.5 队列与双端队列"></a>2.5 队列与双端队列</h4><p><strong>队列（Queue）</strong>可以让我们有效的<strong>在尾部添加一个元素，在头部删除一个元素</strong>。有两个端头的队列，即<strong>双端队列（Deque）</strong>，可以有效的<strong>在头部和尾部同时添加或删除元素</strong>，但<strong>不支持在队列中间添加元素</strong>。</p>
+<p>在 Java SE 6 中引入了<code>Deque</code>接口，并由<code>ArrayDeque</code>和<code>LinkedList</code>类实现。这两个类都<strong>提供了双端队列</strong>，而且<strong>在必要时可以增加队列的长度</strong>。</p>
+<pre><code class="lang-java">Queue&lt;String&gt; student = new LinkedList&lt;&gt;();
+Deque&lt;String&gt; teacher = new ArrayDeque&lt;&gt;();
+Deque&lt;String&gt; employee = new LinkedList&lt;&gt;();
+</code></pre>
+<h4 id="2-6-优先级队列"><a href="#2-6-优先级队列" class="headerlink" title="2.6 优先级队列"></a>2.6 优先级队列</h4><p><strong>优先级队列（priority queue）</strong>中的元素可以<strong>按照任意的顺序插入</strong>，却总是<strong>按照排序的顺序进行检索</strong>。也就是说，无论何时<strong>调用</strong><code>remove</code><strong>方法</strong>，总会<strong>获得当前优先级队列中最小的元素</strong>。</p>
+<p><strong>优先级队列</strong>使用了一个<strong>优雅且高效的数据结构</strong>，称为<strong>堆（heap）</strong>。堆是一个<strong>可以自我调整的二叉树</strong>，对树执行添加<code>add</code>和删除<code>remove</code>操作，可以<strong>让最小的元素移动到根</strong>，而不必花费时间对元素进行排序。</p>
+<blockquote>
+<p>使用<strong>优先级队列</strong>的<strong>典型示例</strong>是<strong>任务调度</strong>。每一个任务有一个优先级，任务以<strong>随机顺序</strong>添加到队列中。每当启动一个新任务的时候，就<strong>将优先级最高的任务从队列中删除</strong></p>
+</blockquote>
+<pre><code class="lang-java">import java.time.LocalDate;
+import java.util.PriorityQueue;
+
+public class Main {
+    public static void main(String[] args) {
+        PriorityQueue&lt;LocalDate&gt; pq = new PriorityQueue&lt;&gt;();
+        pq.add(LocalDate.of(1906, 12, 9)); // G. Hopper
+        pq.add(LocalDate.of(1815, 12, 10)); // A. Lovelace
+        pq.add(LocalDate.of(1903, 12, 3)); // J. von Neumann
+        pq.add(LocalDate.of(1910, 6, 22)); // K. Zuse
+
+        System.out.println(&quot;Iterating over elements...&quot;);
+        for (LocalDate date : pq) {
+            System.out.println(date);
+        }
+        System.out.println(&quot;Removing elements...&quot;);
+        while (!pq.isEmpty()) {
+            System.out.println(pq.remove());
+        }
+    }
+}
+</code></pre>
+<h3 id="3-映射"><a href="#3-映射" class="headerlink" title="3. 映射"></a>3. 映射</h3><p><strong>映射（map）</strong>用来存放<strong>键/值对</strong>，如果提供了键，就能查找到值。</p>
+<h4 id="3-1-基本映射操作"><a href="#3-1-基本映射操作" class="headerlink" title="3.1 基本映射操作"></a>3.1 基本映射操作</h4><p><strong>Java 类库</strong>为<strong>映射</strong>提供了<strong>两个通用的实现</strong>：<code>HashMap</code>和<code>TreeMap</code>，这两个类都<strong>实现了</strong><code>Map</code><strong>接口</strong>。</p>
+<p><code>HashMap</code><strong>对键进行散列</strong>，<code>TreeMap</code><strong>用键的整体顺序对元素进行排序</strong>，并将其组织成<strong>搜索树</strong>。<strong>散列或比较函数只能作用于键</strong>，与键关联的值不能进行散列或比较。</p>
+<blockquote>
+<p>与集一样，<code>HashMap</code><strong>比</strong><code>TreeMap</code><strong>稍微快一些</strong>。如果<strong>不需要按照排列顺序</strong>访问键，就<strong>最好选择散列</strong></p>
+</blockquote>
+<pre><code class="lang-java">Map&lt;String, Employee&gt; staff = new HashMap&lt;&gt;(); // HashMap implements Map
+Employee harry = new Employee(&quot;Harry Hacker&quot;, 8000, 1990, 11, 07);
+staff.put(&quot;987-98-9996&quot;, harry);
+// 使用键来检索对象，如果不存在则返回 null
+String id = &quot;987-98-9996&quot;;
+Employee e = staff.get(id);
+</code></pre>
+<p>还可以<strong>设定一个默认值</strong>，用作映射中<strong>不存在的键</strong>：</p>
+<pre><code class="lang-java">Map&lt;String, Integer&gt; scores = ...;
+int score = scores.get(id, 0); // Gets 0 if the id is not present
+</code></pre>
+<ul>
+<li><strong>键必须是唯一的</strong>，不能对同一个键存放两个值。如果对同一个键两次调用<code>put</code>方法，则<strong>第二个值就会覆盖第一个值</strong></li>
+<li><code>remove</code>方法用于<strong>从映射中删除给定键对应的元素</strong></li>
+<li><code>size</code>方法用于<strong>返回映射中的元素个数</strong></li>
+<li>可以使用 <strong>lambda 表达式</strong>和<code>forEach</code>方法，<strong>迭代处理映射的键和值</strong></li>
+</ul>
+<pre><code class="lang-java">scores.forEach((k, v) -&gt;
+    System.out.println(&quot;key=&quot; + k + &quot;value=&quot; + v));
+</code></pre>
+<p>如下的<strong>示例代码</strong>显示了<strong>映射的操作过程</strong>：</p>
+<pre><code class="lang-java">package map;
+
+import java.util.*;
+
+/**
+ * This program demonstrates the use of a map with key type String and value type Employee.
+ * @version 1.12 2015-06-21
+ * @author Cay Horstmann
+ */
+public class MapTest
+{
+   public static void main(String[] args)
+   {
+      Map&lt;String, Employee&gt; staff = new HashMap&lt;&gt;();
+      staff.put(&quot;144-25-5464&quot;, new Employee(&quot;Amy Lee&quot;));
+      staff.put(&quot;567-24-2546&quot;, new Employee(&quot;Harry Hacker&quot;));
+      staff.put(&quot;157-62-7935&quot;, new Employee(&quot;Gary Cooper&quot;));
+      staff.put(&quot;456-62-5527&quot;, new Employee(&quot;Francesca Cruz&quot;));
+
+      // print all entries
+
+      System.out.println(staff);
+
+      // remove an entry
+
+      staff.remove(&quot;567-24-2546&quot;);
+
+      // replace an entry
+
+      staff.put(&quot;456-62-5527&quot;, new Employee(&quot;Francesca Miller&quot;));
+
+      // look up a value
+
+      System.out.println(staff.get(&quot;157-62-7935&quot;));
+
+      // iterate through all entries
+
+      staff.forEach((k, v) -&gt; 
+         System.out.println(&quot;key=&quot; + k + &quot;, value=&quot; + v));
+   }
+}
+</code></pre>
+<h4 id="3-2-更新映射项"><a href="#3-2-更新映射项" class="headerlink" title="3.2 更新映射项"></a>3.2 更新映射项</h4><p>当<strong>更新一个之前不存在的键值</strong>时会抛出<code>NullPointerException</code>异常，作为补救，可以<strong>使用</strong><code>getOrDefault</code><strong>方法设置一个默认值</strong>：</p>
+<pre><code class="lang-java">counts.put(word, counts.getOrDefault(word, 0) + 1);
+</code></pre>
+<p>或者<strong>首先调用</strong><code>putIfAbsent</code><strong>方法</strong>，当原先的键不存在时才会放入一个值：</p>
+<pre><code class="lang-java">counts.putIfAbsent(word, 0);
+counts.put(word, counts.get(word) + 1);
+</code></pre>
+<p>还可以<strong>使用</strong><code>merge</code><strong>方法来简化操作</strong>。如果键原先不存在，则下面的调用：</p>
+<pre><code class="lang-java">counts.merge(word, 1, Integer::sum);
+</code></pre>
+<p>将把<code>word</code>与<code>1</code>关联，否则使用<code>Integer::sum</code>函数组合将原值和<code>1</code>相加求和。</p>
+<h4 id="3-3-映射视图"><a href="#3-3-映射视图" class="headerlink" title="3.3 映射视图"></a>3.3 映射视图</h4><p><strong>集合框架不认为映射本身是一个集合</strong>。不过，可以得到<strong>映射的视图（view）</strong>——这是<strong>实现了</strong><code>Collection</code><strong>接口或某个子接口的对象</strong>。</p>
+<p>有三种视图：<strong>键集</strong>、<strong>值集合</strong>（不是一个集）以及<strong>键/值对集</strong>。键和键/值对可以构成一个集，因为映射中一个键只能有一个副本。下面的方法：</p>
+<pre><code class="lang-java">Set&lt;K&gt; keySet()
+Collection&lt;V&gt; values()
+Set&lt;Map.Entry&lt;K, V&gt;&gt; entrySet()
+</code></pre>
+<p>会分别返回这三个视图。需要注意的是，<code>keySet</code><strong>不是</strong><code>HashSet</code><strong>或者</strong><code>TreeSet</code>，而是<strong>实现了</strong><code>Set</code><strong>接口的另外某个类的对象</strong>。<code>Set</code>接口扩展了<code>Collection</code>接口，因此可以像使用集合一样使用<code>ketSet</code>。例如<strong>可以枚举一个映射的所有键</strong>：</p>
+<pre><code class="lang-java">Set&lt;String&gt; keys = map.keySet();
+for (String key: keys) {
+    do something with key
+}
+</code></pre>
+<p>如果想<strong>同时查看键和值</strong>，可以通过<strong>枚举条目</strong>来<strong>避免查找值</strong>：</p>
+<pre><code class="lang-java">for (Map.Entry&lt;String, Employee&gt; entry: staff.entrySet()) {
+    String k = entry.getKey();
+    Employee v = entry.getValue();
+    do something with k, v
+}
+</code></pre>
+<p>现在，还可以使用<code>forEach</code>方法：</p>
+<pre><code class="lang-java">counts.forEach((k, v) -&gt; {
+    do something with k, v
+})
+</code></pre>
+<h4 id="3-4-弱散列映射"><a href="#3-4-弱散列映射" class="headerlink" title="3.4 弱散列映射"></a>3.4 弱散列映射</h4><p>对于<strong>类</strong><code>WeakHashMap</code>，如果有一个值，假定<strong>对该值对应的键的最后一次引用已经消亡，不再有任何途径引用这个值的对象了</strong>，这时这个键/值对就会<strong>被 GC 回收</strong>。</p>
+<h4 id="3-5-LinkedHashSet-与-LinkedHashMap"><a href="#3-5-LinkedHashSet-与-LinkedHashMap" class="headerlink" title="3.5 LinkedHashSet 与 LinkedHashMap"></a>3.5 LinkedHashSet 与 LinkedHashMap</h4><p><code>LinkedHashSet</code>与<code>LinkedHashMap</code>两个类用来<strong>记住插入元素项的顺序</strong>。当<strong>条目插入到散列表</strong>中时，就会被<strong>并入到双向链表中</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/11/core-java-notes-5/linked-hash-list.png" alt="LinkedHashList" title>
+                </div>
+                <div class="image-caption">LinkedHashList</div>
+            </figure>
+<h4 id="3-6-枚举集与映射"><a href="#3-6-枚举集与映射" class="headerlink" title="3.6 枚举集与映射"></a>3.6 枚举集与映射</h4><p><code>EnumSet</code>是一个<strong>枚举类型元素集</strong>的高效实现。可以使用<strong>静态工厂方法</strong>构造这个集：</p>
+<pre><code class="lang-java">enum Weekday { MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY };
+EnumSet&lt;Weekday&gt; always = EnumSet.allOf(Weekday.class);
+EnumSet&lt;Weekday&gt; never = EnumSet.noneOf(Weekday.class);
+EnumSet&lt;Weekday&gt; workday = EnumSet.range(Weekday.MONDAY, Weekday.FRIDAY);
+EnumSet&lt;Weekday&gt; mwf = EnumSet.of(Weekday.MONDAY, Weekday.WEDNESDAY, Weekday.FRIDAY);
+</code></pre>
+<p><code>EnumMap</code>是一个<strong>键类型为枚举类型</strong>的<strong>映射</strong>，可以直接且高效的<strong>用一个值数组实现</strong>。在使用时，需要<strong>在构造器中指定键类型</strong>：</p>
+<pre><code class="lang-java">EnumMap&lt;Weekday, Employee&gt; personInCharge = new EnumMap&lt;&gt;(Weekday.class);
+</code></pre>
+<h4 id="3-7-标识散列映射"><a href="#3-7-标识散列映射" class="headerlink" title="3.7 标识散列映射"></a>3.7 标识散列映射</h4><p>在类<code>IdentityHashMap</code>中，<strong>键的散列值</strong>不是用<code>hashCode</code>函数计算的，而是<strong>用</strong><code>System.identityHashCode</code><strong>方法计算的</strong>。这是<code>Object.hashCode</code>方法<strong>根据对象的内存地址来计算散列码</strong>时所使用的方式。而且，在对两个对象进行比较时，<code>IdentityHashMap</code>类使用<code>==</code>，而不是<code>equals</code>，所以<strong>不同的键对象，即使内容相同，也被视为是不同的对象</strong>。</p>
+<h3 id="4-视图与包装器"><a href="#4-视图与包装器" class="headerlink" title="4. 视图与包装器"></a>4. 视图与包装器</h3><h4 id="4-1-轻量级集合包装器"><a href="#4-1-轻量级集合包装器" class="headerlink" title="4.1 轻量级集合包装器"></a>4.1 轻量级集合包装器</h4><p><strong>Arrays 类</strong>的<strong>静态方法</strong><code>asList</code>将返回一个<strong>包装了普通 Java 数组的 List 包装器</strong>，这个方法可以<strong>将数组传递给一个期望得到列表或者集合参数的方法</strong>：</p>
+<pre><code class="lang-java">Card[] cardDeck = new Card[52];
+...
+List&lt;Card&gt; cardList = Arrays.asList(cardDeck);
+List&lt;String&gt; names = Arrays.asList(&quot;Amy&quot;, &quot;Bob&quot;, &quot;Carl&quot;);
+</code></pre>
+<h4 id="4-2-子范围"><a href="#4-2-子范围" class="headerlink" title="4.2 子范围"></a>4.2 子范围</h4><p>可以为很多<strong>集合</strong>建立<strong>子范围（subrange）视图</strong>：</p>
+<pre><code class="lang-java">import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        List&lt;String&gt; names = new ArrayList&lt;&gt;();
+        names.add(&quot;Abel&quot;);
+        names.add(&quot;Bob&quot;);
+        names.add(&quot;Carl&quot;);
+
+        List group2 = names.subList(0, 2);
+        System.out.println(group2);
+
+        group2.clear();
+        System.out.println(names);
+        System.out.println(group2);
+    }
+}
+
+------
+[Abel, Bob]
+[Carl]
+[]
+
+Process finished with exit code 0
+</code></pre>
+<p>对于<strong>有序集</strong>和<strong>映射</strong>，<strong>可以使用排序顺序</strong>而不是元素位置<strong>建立子范围</strong>：</p>
+<pre><code class="lang-java">// 有序集
+SortedSet&lt;E&gt; subSet(E from, E to)
+SortedSet&lt;E&gt; headSet(E to)
+SortedSet&lt;E&gt; tailSet(E from)
+// 有序映射
+SortedMap&lt;K, V&gt; subMap(K from, K to)
+SortedMap&lt;K, V&gt; headMap(K to)
+SortedMap&lt;K, V&gt; tailMap(K from)
+</code></pre>
+<h4 id="4-3-不可修改的视图"><a href="#4-3-不可修改的视图" class="headerlink" title="4.3 不可修改的视图"></a>4.3 不可修改的视图</h4><p><strong>Collections</strong> 还有几个方法，用于产生集合的<strong>不可修改视图（unmodifiable views）</strong>。这些视图对现有集合<strong>增加了一个运行时检查</strong>，如果发现试图对集合进行修改，就<strong>抛出一个异常</strong>，同时这个集合将<strong>保持未修改的状态</strong>：</p>
+<pre><code class="lang-java">Collections.unmodifiableCollection Collections.unmodifiableList Collections.unmodifiableSet Collections.unmodifiableSortedSet Collections.unmodifiableNavigableSet Collections.unmodifiableMap Collections.unmodifiableSortedMap Collections.unmodifiableNavigableMap 
+...
+List&lt;String&gt; staff = new LinkedList&lt;&gt;();
+...
+lookAt(Collections.unmodifiableList(staff));
+</code></pre>
+<h4 id="4-4-同步视图"><a href="#4-4-同步视图" class="headerlink" title="4.4 同步视图"></a>4.4 同步视图</h4><p>例如，Collections 类的静态<code>synchronizedMap</code>方法可以<strong>将任何一个映射表转换成具有同步访问方法的 Map</strong>：</p>
+<pre><code class="lang-java">Map&lt;String, Employee&gt; map = Collections.synchronizedMap(new HashMap&lt;String, Employee&gt;);
+</code></pre>
+<p>这样一来，就可以由<strong>多线程</strong>访问<code>map</code>对象了。</p>
+<h4 id="4-5-受查视图"><a href="#4-5-受查视图" class="headerlink" title="4.5 受查视图"></a>4.5 受查视图</h4><pre><code class="lang-java">List&lt;String&gt; safeStrings = Collections.checkedList(strings, String.class);
+</code></pre>
+<p>视图的<code>add</code>方法将<strong>检测插入的对象是否属于给定的类</strong>。如果不属于给定的类，就立即<strong>抛出一个</strong><code>ClassCastException</code>。</p>
+<h3 id="5-算法"><a href="#5-算法" class="headerlink" title="5. 算法"></a>5. 算法</h3><p>可以将<code>max</code><strong>方法</strong>实现为<strong>能够接收任何实现了</strong><code>Collections</code><strong>接口的对象</strong>：</p>
+<pre><code class="lang-java">public static &lt;T extends Comparable&gt; T max(Collection&lt;T&gt; c) {
+    if (c.isEmpty()) throw new NoSuchElementException();
+    Iterator&lt;T&gt; iter = c.iterator();
+    T largest = iter.next();
+    while (iter.hasNext()) {
+        T next = iter.next();
+        if (largest.compareTo(next) &lt; 0)
+            largest = next;
+    }
+    return largest;
+}
+</code></pre>
+<h4 id="5-1-排序与混排"><a href="#5-1-排序与混排" class="headerlink" title="5.1 排序与混排"></a>5.1 排序与混排</h4><p>Collections 类中的<code>sort</code>方法可以对实现了<code>List</code>接口的集合进行排序：</p>
+<pre><code class="lang-java">List&lt;String&gt; staff = new LinkedList&lt;&gt;();
+// fill collection
+Collections.sort(staff);
+</code></pre>
+<p>这个方法<strong>假定列表元素实现了*8<code>Comparable</code></strong>接口<strong>。如果想采用其他方式对列表进行排序，可以</strong>使用<strong><code>List</code></strong>接口的<strong><code>sort</code></strong>方法<strong>并</strong>传入一个<strong><code>Comparator</code></strong>对象**：</p>
+<pre><code class="lang-java">staff.sort(Comparator.comparingDouble(Employee::getSalary));
+// 逆序排
+staff.sort(Comparator.reverseOrder());
+staff.sort(Comparator.comparingDouble(Employee::getSalary).reversed());
+</code></pre>
+<h4 id="5-2-二分查找"><a href="#5-2-二分查找" class="headerlink" title="5.2 二分查找"></a>5.2 二分查找</h4><p><strong>Collections 类</strong>的<code>binarySearch</code>方法实现了<strong>二分查找算法</strong>。需要注意的是，<strong>集合必须是排好序的</strong>，否则算法将返回错误的答案。要想查找某个元素，必须提供集合（实现<code>List</code>接口）以及要查找的元素。如果集合没有采用<code>Comparable</code>接口的<code>compareTo</code>方法进行排序，就还要提供一个<strong>比较器对象</strong>：</p>
+<pre><code class="lang-java">i = Collections.binarySearch(c, element);
+i = Collections.binarySearch(c, element, comparator);
+</code></pre>
+<blockquote>
+<p><strong>只有采用随机访问，二分查找才有意义</strong>。如果必须利用<strong>迭代方式</strong>来一次次的<strong>遍历链表</strong>，二分查找就完全失去了优势，<strong>退化为线性查找</strong></p>
+</blockquote>
+<h4 id="5-3-简单算法"><a href="#5-3-简单算法" class="headerlink" title="5.3 简单算法"></a>5.3 简单算法</h4><blockquote>
+<p>略</p>
+</blockquote>
+<h4 id="5-4-批操作"><a href="#5-4-批操作" class="headerlink" title="5.4 批操作"></a>5.4 批操作</h4><pre><code class="lang-java">coll1.removeAll(coll2);
+coll1.retainAll(coll2); // 删除所有未在`coll2`中出现的元素
+</code></pre>
+<p>例如求<code>a</code>和<code>b</code>的交集：</p>
+<pre><code class="lang-java">Set&lt;String&gt; result = new HashSet&lt;&gt;(a);
+result.retainAll(b);
+</code></pre>
+<h4 id="5-5-集合与数组的转换"><a href="#5-5-集合与数组的转换" class="headerlink" title="5.5 集合与数组的转换"></a>5.5 集合与数组的转换</h4><p><strong>将数组转换为集合</strong>，可利用<code>Arrays.asList</code>包装器：</p>
+<pre><code class="lang-java">String[] values = ...;
+HashSet&lt;String&gt; staff = new HashSet&lt;&gt;(Arrays.asList(values));
+</code></pre>
+<p><strong>将集合转换为数组</strong>：</p>
+<pre><code class="lang-java">String[] values = staff.toArray(new String[0]);
+</code></pre>
+<h3 id="6-遗留的集合"><a href="#6-遗留的集合" class="headerlink" title="6 遗留的集合"></a>6 遗留的集合</h3><h4 id="6-1-HashTable"><a href="#6-1-HashTable" class="headerlink" title="6.1 HashTable"></a>6.1 HashTable</h4><p><strong>HashTable</strong> 与 <strong>HashMap</strong> 类的<strong>作用一样</strong>，且<strong>拥有相同的接口</strong>，它本身也是<strong>同步的</strong>。如果<strong>对同步性和遗留代码的兼容性没有任何要求</strong>，就应该<strong>使用</strong><code>HashMap</code>。如果<strong>需要并发访问</strong>，则要<strong>使用</strong><code>ConcurrentHashMap</code>。</p>
+<h4 id="6-2-枚举-Enumeration"><a href="#6-2-枚举-Enumeration" class="headerlink" title="6.2 枚举 Enumeration"></a>6.2 枚举 Enumeration</h4><h4 id="6-3-属性映射"><a href="#6-3-属性映射" class="headerlink" title="6.3 属性映射"></a>6.3 属性映射</h4><h4 id="6-4-栈-Stack"><a href="#6-4-栈-Stack" class="headerlink" title="6.4 栈 Stack"></a>6.4 栈 Stack</h4><pre><code class="lang-java">E stack.push(E item) // 将 item 压入栈并返回 item
+E pop() // 弹出并返回栈顶的 item。如果栈为空，请勿调用
+E peek() // 返回
+</code></pre>
+<h4 id="6-5-位集-BitSet"><a href="#6-5-位集-BitSet" class="headerlink" title="6.5 位集 BitSet"></a>6.5 位集 BitSet</h4><p><strong>BitSet 类</strong>提供了一个<strong>便于读取、设置或清除各个位的接口</strong>。使用这个接口可以避免屏蔽和其他麻烦的位操作。例如，对于一个名为<code>bucketsOfBits</code>的 BitSet：</p>
+<pre><code class="lang-java">bucketOfBits.get(i); // 如果第 i 位有设置过，则返回 true
+bucketOfBits.set(i); // 将第 i 位设置为 “开” 状态
+bucketOfBits.clear(i); // 清除第 i 位
+</code></pre>
+<p><strong>筛法求质数</strong>：</p>
+<pre><code class="lang-java">package sieve;
+
+import java.util.*;
+
+/**
+ * This program runs the Sieve of Erathostenes benchmark. It computes all primes up to 2,000,000.
+ * @version 1.21 2004-08-03
+ * @author Cay Horstmann
+ */
+public class Sieve
+{
+   public static void main(String[] s)
+   {
+      int n = 2000000;
+      long start = System.currentTimeMillis();
+      BitSet b = new BitSet(n + 1);
+      int count = 0;
+      int i;
+      for (i = 2; i &lt;= n; i++)
+         b.set(i);
+      i = 2;
+      while (i * i &lt;= n)
+      {
+         if (b.get(i))
+         {
+            count++;
+            int k = 2 * i;
+            while (k &lt;= n)
+            {
+               b.clear(k);
+               k += i;
+            }
+         }
+         i++;
+      }
+      while (i &lt;= n)
+      {
+         if (b.get(i)) count++;
+         i++;
+      }
+      long end = System.currentTimeMillis();
+      System.out.println(count + &quot; primes&quot;);
+      System.out.println((end - start) + &quot; milliseconds&quot;);
+   }
+}
+
+------
+148933 primes
+61 milliseconds
+
+Process finished with exit code 0
+</code></pre>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/03/18/understanding-linux-kernel/">Linux 内核笔记 1：绪论</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-6/">Java 笔记 6：异常、断言和日志</a></li><li><a href="https://abelsu7.top/2019/03/08/sort-algo-in-go/">排序算法 1：冒泡排序、插入排序、选择排序</a></li><li><a href="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/">5 分钟 Docker 笔记 5：存储</a></li><li><a href="https://jarrychen.xyz/archives/57361fba.html">快速排序(递归)</a></li><li><a href="https://www.hosiang.cn/3372e3cc/">后端开发 - Java开发环境配置 - 入门篇</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.090Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/03/11/core-java-notes-5/" target="_blank" rel="external">https://abelsu7.top/2019/03/11/core-java-notes-5/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书/">读书</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/11/core-java-notes-5/&title=《Java 笔记 5：集合》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/11/core-java-notes-5/&title=《Java 笔记 5：集合》 — Keep Coding&source=
+摘自 《Java 核心技术（卷 Ⅰ）》
+
+
+                
+                    
+                ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/11/core-java-notes-5/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java 笔记 5：集合》 — Keep Coding&url=https://abelsu7.top/2019/03/11/core-java-notes-5/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/11/core-java-notes-5/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/03/13/go-testing-demo/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Go 语言测试框架 testing 快速体验</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/03/11/core-java-notes-6/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Java 笔记 6：异常、断言和日志</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/11/core-java-notes-5/&title=《Java 笔记 5：集合》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/11/core-java-notes-5/&title=《Java 笔记 5：集合》 — Keep Coding&source=
+摘自 《Java 核心技术（卷 Ⅰ）》
+
+
+                
+                    
+                ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/11/core-java-notes-5/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java 笔记 5：集合》 — Keep Coding&url=https://abelsu7.top/2019/03/11/core-java-notes-5/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/11/core-java-notes-5/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACL0lEQVR42u3aW26EMBAEwL3/pTcHiCDdY4iEKX+tErKmHGk0D38+8foerN+/zZ8/3+Vzx8LAwHgs43u68g2Onkm+J9n36BkMDIz3MI5e6/zz+fe0AXdlLwwMDIz8mTZlvOrIMDAwMJLCMilN2+QSAwMDoy1i8xTw/NWTQvfGWhwDA+OBjLzr/v+fb5lvYGBgPIrxLdcspcvTytnCwMDYm7GyTTuknN2OKMalGBgYmzJmw8trW//tdY26z4eBgbERIw+aV0X6JIgnbT4MDIw3MPKXThizxv3sAlkxI8XAwNiC0aZoszFk26SL0kQMDIytGde2w9oSty2Sly5YYGBgbMpoC9c2TLdBeZg4YmBgPJyRpHp52yt/iWQgcf7zwxEmBgbGdox8s1m0bgNo+7d1JouBgfFARlIc1qdSDg9mLTYMDIz3MPIUMKcmRewsEBf/EwwMjO0YSQHZlrvJancp+oIYGBjbMdqS8qqh5uxiWVTKYmBgbMdYuarVpo/tgCFPEzEwMPZm5Jeu2msTs0Rw9j4YGBhvYKxckpi1+/OjKbqGGBgYL2Akqdis9Z83+PJjwsDAeANjpZW/0p9v23l/HCUGBsbWjKtidr7xVaXyZWNODAyMhzDysWKSPq6HxVnIxsDAeAMjD3ztcDG/crHythgYGBjt8HKF1B4TBgYGxmwwcJ7wzYL7H9+GgYHxAsYdDbUk+UsukEWHgoGBsTVjNmJcH1gml8zyQ8TAwNiU8QNCqgPxUcNLFQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

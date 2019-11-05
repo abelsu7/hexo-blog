@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>QEMU-KVM 热迁移：Live Migration | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="KVM,虚拟化,QEMU,热迁移">
+    <meta name="description" content="QEMU-KVM 热迁移原理及相关源码分析">
+<meta name="keywords" content="KVM,虚拟化,QEMU,热迁移">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QEMU-KVM 热迁移：Live Migration">
+<meta property="og:url" content="https://abelsu7.top/2019/07/07/qemu-kvm-live-migration/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="QEMU-KVM 热迁移原理及相关源码分析">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/07/07/qemu-kvm-live-migration/seaside.jpg">
+<meta property="og:updated_time" content="2019-10-31T08:15:29.454Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="QEMU-KVM 热迁移：Live Migration">
+<meta name="twitter:description" content="QEMU-KVM 热迁移原理及相关源码分析">
+<meta name="twitter:image" content="https://abelsu7.top/2019/07/07/qemu-kvm-live-migration/seaside.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">QEMU-KVM 热迁移：Live Migration</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">QEMU-KVM 热迁移：Live Migration</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-07-07T07:29:55.000Z" itemprop="datePublished" class="page-time">
+  2019-07-07
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/KVM/">KVM</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#OenHan-的文章列表"><span class="post-toc-text">OenHan 的文章列表</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#KVM-虚拟化"><span class="post-toc-text">KVM 虚拟化</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#其他"><span class="post-toc-text">其他</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#KVM-迁移原理简介"><span class="post-toc-text">KVM 迁移原理简介</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#迁移算法"><span class="post-toc-text">迁移算法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#相关论文"><span class="post-toc-text">相关论文</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#PPT"><span class="post-toc-text">PPT</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#QEMU-迁移源码分析"><span class="post-toc-text">QEMU 迁移源码分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#QEMU-迁移实践"><span class="post-toc-text">QEMU 迁移实践</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#QEMU-热迁移优化"><span class="post-toc-text">QEMU 热迁移优化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#操作系统相关资料"><span class="post-toc-text">操作系统相关资料</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#调试-Debug"><span class="post-toc-text">调试 Debug</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#压测工具"><span class="post-toc-text">压测工具</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CPU-Steal-time"><span class="post-toc-text">CPU Steal time</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CPU-State"><span class="post-toc-text">CPU State</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#VMCS"><span class="post-toc-text">VMCS</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何阅读内核源码"><span class="post-toc-text">如何阅读内核源码</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#KVM-关于-Fast-Write-Protect-的-Patch"><span class="post-toc-text">KVM 关于 Fast Write Protect 的 Patch</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#dirty-pages-脏页同步"><span class="post-toc-text">dirty pages 脏页同步</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-qemu-kvm-live-migration"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">QEMU-KVM 热迁移：Live Migration</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-07-07 15:29:55" datetime="2019-07-07T07:29:55.000Z"  itemprop="datePublished">2019-07-07</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/KVM/">KVM</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>QEMU-KVM 热迁移原理及相关源码分析</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/07/07/qemu-kvm-live-migration/seaside.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<p><strong><em>// TODO: To be updated…</em></strong></p>
+<h3 id="OenHan-的文章列表"><a href="#OenHan-的文章列表" class="headerlink" title="OenHan 的文章列表"></a>OenHan 的文章列表</h3><h4 id="KVM-虚拟化"><a href="#KVM-虚拟化" class="headerlink" title="KVM 虚拟化"></a>KVM 虚拟化</h4><ul>
+<li><a href="http://oenhan.com/kvm-src-1" target="_blank" rel="noopener">KVM源代码分析1: 基本工作原理 | OenHan</a></li>
+<li><a href="http://oenhan.com/kvm-src-2-vm-run" target="_blank" rel="noopener">KVM源代码分析2: 虚拟机的创建与运行 | OenHan</a></li>
+<li><a href="http://oenhan.com/kvm-src-3-cpu" target="_blank" rel="noopener">KVM源代码分析3: CPU虚拟化 | OenHan</a></li>
+<li><a href="http://oenhan.com/kvm-src-4-mem" target="_blank" rel="noopener">KVM源代码分析4: 内存虚拟化 | OenHan</a></li>
+<li><a href="http://oenhan.com/kvm-src-5-io-pio" target="_blank" rel="noopener">KVM源代码分析5: IO虚拟化之PIO | OenHan</a></li>
+<li><a href="http://oenhan.com/kvm-pv-kvmclock-tsc" target="_blank" rel="noopener">KVMCLOCK时钟虚拟化源代码分析 | OenHan</a></li>
+<li><a href="http://oenhan.com/kvm-free-mmu-page" target="_blank" rel="noopener">KVM MMU Page 释放机制 | OenHan</a></li>
+</ul>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><ul>
+<li><a href="http://oenhan.com/topic" target="_blank" rel="noopener">TOPIC | OenHan</a></li>
+<li><a href="http://oenhan.com/cpu-affinity" target="_blank" rel="noopener">CPU 亲和性的使用与机制 | OenHan</a></li>
+<li><a href="http://oenhan.com/cgroup-src-1" target="_blank" rel="noopener">CGROUP 源码分析 1: 基本概念与框架 | OenHan</a></li>
+<li><a href="http://oenhan.com/kernel-program-exec" target="_blank" rel="noopener">从一次内存泄露看程序在内核中的执行过程 | OenHan</a></li>
+<li><a href="http://oenhan.com/linux-cache-writeback" target="_blank" rel="noopener">LINUX 缓存写回机制 | OenHan</a></li>
+</ul>
+<h3 id="KVM-迁移原理简介"><a href="#KVM-迁移原理简介" class="headerlink" title="KVM 迁移原理简介"></a>KVM 迁移原理简介</h3><ul>
+<li><a href="http://cshuo.top/2016/09/10/live_migration/" target="_blank" rel="noopener">VM 热迁移详解 | Blog Cshuo</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-mgrtvm1/" target="_blank" rel="noopener">虚拟机迁移技术漫谈 - 第一部分 | IBM Developer</a></li>
+<li><a href="http://blog.chinaunix.net/uid-14528823-id-4412985.html" target="_blank" rel="noopener">kernel 3.10 代码分析—KVM相关—虚拟机创建 | ChinaUnix</a></li>
+<li><a href="http://www.linux-kvm.org/page/Migration" target="_blank" rel="noopener">Migration | KVM Docs</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Live_migration#Post-copy_memory_migration" target="_blank" rel="noopener">Live Migration | Wikipedia</a></li>
+<li><a href="https://developers.redhat.com/blog/2015/03/24/live-migrating-qemu-kvm-virtual-machines/" target="_blank" rel="noopener">Live Migrating QEMU-KVM Virtual Machines | Red Hat Developer</a></li>
+</ul>
+<h3 id="迁移算法"><a href="#迁移算法" class="headerlink" title="迁移算法"></a>迁移算法</h3><ul>
+<li><a href="https://wiki.qemu.org/Features/PostCopyLiveMigration" target="_blank" rel="noopener">Features/PostCopyLiveMigration | QEMU</a></li>
+<li><a href="https://blog.csdn.net/llwszjj/article/details/44830053" target="_blank" rel="noopener">KVM 的预拷贝在线迁移过程 | CSDN</a></li>
+<li><a href="https://blog.zhaw.ch/icclab/post-copy-live-migration-in-qemu/" target="_blank" rel="noopener">Post-copy live migration in QEMU | Zurich University</a></li>
+<li><a href="https://blog.csdn.net/Jmilk/article/details/88721288" target="_blank" rel="noopener">Libvirt Live Migration 与 Pre-Copy 实现原理 | CSDN</a></li>
+</ul>
+<h3 id="相关论文"><a href="#相关论文" class="headerlink" title="相关论文"></a>相关论文</h3><ul>
+<li><a href="https://dl.acm.org/citation.cfm?id=1251223" target="_blank" rel="noopener">Live migration of virtual machines | ACM</a></li>
+<li><a href="https://dl.acm.org/citation.cfm?id=1618528" target="_blank" rel="noopener">Post-copy live migration of virtual machines | ACM</a></li>
+<li><a href="https://www.lfasiallc.com/wp-content/uploads/2017/11/Better-Live-Migration-on-KVM_QEMU_Guangrong-Xiao.pdf" target="_blank" rel="noopener">Better Live Migration - 腾讯云肖光荣 | PDF</a></li>
+<li><a href="https://www.linux-kvm.org/images/6/66/2012-forum-live-migration.pdf" target="_blank" rel="noopener">Live Migration: Even faster, now with a dedicated thread! - redhat | KVM Forum 2012</a></li>
+<li><a href="https://wiki.linuxfoundation.org/_media/realtime/events/rt-summit2016/kvm_rik-van-riel.pdf" target="_blank" rel="noopener">Real-time KVM from the ground up - redhat | LinuxCon NA 2016</a></li>
+<li><a href="https://pdfs.semanticscholar.org/f93a/33630f09e03d7b6fe8963b107e0d1342edef.pdf" target="_blank" rel="noopener">iMIG: Toward an Adaptive Live Migration Method for KVM Virtual Machines | PDF</a></li>
+<li><a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.402.2198&amp;rep=rep1&amp;type=pdf" target="_blank" rel="noopener">Comparative Study of Live Virtual Machine Migration Techniques in Cloud | PDF</a></li>
+<li><a href="http://events17.linuxfoundation.org/sites/events/files/slides/kvm%20live%20migraion%20optimization-kvm%20forum%202015.pdf" target="_blank" rel="noopener">KVM Live Migration Optimization | PDF</a></li>
+</ul>
+<h3 id="PPT"><a href="#PPT" class="headerlink" title="PPT"></a>PPT</h3><ul>
+<li><a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.402.2198&amp;rep=rep1&amp;type=pdf" target="_blank" rel="noopener">Comparative Study of Live Virtual Machine Migration Techniques in Cloud | PDF</a></li>
+<li><a href="http://events17.linuxfoundation.org/sites/events/files/slides/kvm%20live%20migraion%20optimization-kvm%20forum%202015.pdf" target="_blank" rel="noopener">KVM Live Migration Optimization | PDF</a></li>
+<li><a href="https://events.static.linuxfound.org/sites/events/files/slides/CloudOpen-Japan-2015.pdf" target="_blank" rel="noopener">Enhanced Live Migration For Intensive Memory Loads | LinuxCon Japan 2015</a></li>
+<li><a href="https://www.linux-kvm.org/images/c/c7/KvmForum2008%24kdf2008_11.pdf" target="_blank" rel="noopener">Extending KVM with new Intel Virtualization technology | Kvm Forum 2008</a></li>
+<li><a href="http://qemu.rocks/jtc-kvm2016/#/print-never" target="_blank" rel="noopener">QEMU Coroutines, Exposed | Red Hat</a></li>
+</ul>
+<h3 id="QEMU-迁移源码分析"><a href="#QEMU-迁移源码分析" class="headerlink" title="QEMU 迁移源码分析"></a>QEMU 迁移源码分析</h3><ul>
+<li><a href="https://blog.csdn.net/wan_hust/article/details/25805431" target="_blank" rel="noopener">qemu-kvm-1.1.0 源码中关于迁移的代码分析 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/sdulibh/article/details/51839410" target="_blank" rel="noopener">qemu-kvm 部分流程/源代码分析（很详细的流程图） | CSDN</a></li>
+<li><a href="http://terenceli.github.io/%E6%8A%80%E6%9C%AF/2018/03/01/qemu-live-migration" target="_blank" rel="noopener">qemu 热迁移简介 | 不忘初心，方得始终</a></li>
+<li><a href="https://www.hanbaoying.com/2017/04/07/qemu-hot-migration.html" target="_blank" rel="noopener">QEMU 迁移代码分析 | 随便写写</a></li>
+<li><a href="https://blog.csdn.net/wangwei222/article/details/81234504" target="_blank" rel="noopener">KVM/QEMU 2.3.0 虚拟机动态迁移分析（一）| CSDN</a></li>
+<li><a href="http://oenhan.com/qemu-monitor-savevm-loadvm" target="_blank" rel="noopener">QEMU MONITOR SAVEVM LOADVM 源代码分析 | OenHan</a></li>
+<li><a href="http://ssdxiao.github.io/%E8%99%9A%E6%8B%9F%E5%8C%96/2015/09/07/qemu-hot-migration.html" target="_blank" rel="noopener">走读 qemu 代码热迁移流程 | 任思绪在这里飞</a></li>
+<li><a href="https://blog.csdn.net/mrbuffoon/article/details/54948532" target="_blank" rel="noopener">KVM 迁移中脏页位图机制源码分析 | CSDN</a></li>
+</ul>
+<h3 id="QEMU-迁移实践"><a href="#QEMU-迁移实践" class="headerlink" title="QEMU 迁移实践"></a>QEMU 迁移实践</h3><ul>
+<li><a href="https://blog.csdn.net/yadehuiyin/article/details/80897515" target="_blank" rel="noopener">通过qemu monitor 来测试 qemu live migration (1) | CSDN/yadeihuiyin</a></li>
+<li><a href="https://blog.csdn.net/yadehuiyin/article/details/80908296" target="_blank" rel="noopener">通过qemu monitor 来测试 qemu live migration (2) | CSDN/yadeihuiyin</a></li>
+<li><a href="https://blog.csdn.net/yadehuiyin/article/details/80910018" target="_blank" rel="noopener">通过qemu monitor 来测试 qemu live migration (3) | CSDN/yadeihuiyin</a></li>
+<li><a href="https://www.cnblogs.com/sammyliu/p/4572287.html" target="_blank" rel="noopener">KVM 介绍（8）：使用 libvirt 迁移 QEMU/KVM 虚机和 Nova 虚机 | 世民谈云计算</a></li>
+<li><a href="https://blog.csdn.net/taiyang1987912/article/details/47973479" target="_blank" rel="noopener">KVM 虚拟机静态和动态迁移 | CSDN</a></li>
+</ul>
+<h3 id="QEMU-热迁移优化"><a href="#QEMU-热迁移优化" class="headerlink" title="QEMU 热迁移优化"></a>QEMU 热迁移优化</h3><ul>
+<li><a href="https://blog.csdn.net/yadehuiyin/article/details/81010018" target="_blank" rel="noopener">qemu live migration 优化 1（compress and xbzrle）| CSDN/yadeihuiyin</a></li>
+<li><a href="https://blog.csdn.net/yadehuiyin/article/details/81382060" target="_blank" rel="noopener">qemu live migration 优化 2（post-copy and x-multifd）| CSDN/yadeihuiyin</a></li>
+<li><a href="https://blog.csdn.net/yadehuiyin/article/details/81449186" target="_blank" rel="noopener">qemu live migration 优化 3（ auto-converge）| CSDN/yadeihuiyin</a></li>
+<li><a href="https://blog.csdn.net/leoufung/article/details/51281633" target="_blank" rel="noopener">QEMU-KVM 中的多线程压缩迁移技术 - leoufung | CSDN</a></li>
+</ul>
+<h3 id="操作系统相关资料"><a href="#操作系统相关资料" class="headerlink" title="操作系统相关资料"></a>操作系统相关资料</h3><ul>
+<li><a href="https://www.bottomupcs.com/" target="_blank" rel="noopener">Computer Science from the Bottom Up</a></li>
+<li><a href="http://wiki.0xffffff.org/" target="_blank" rel="noopener">x86 架构操作系统内核的实现 | hurley25</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2013/02/booting.html" target="_blank" rel="noopener">计算机是如何启动的？| 阮一峰</a></li>
+</ul>
+<h3 id="调试-Debug"><a href="#调试-Debug" class="headerlink" title="调试 Debug"></a>调试 Debug</h3><ul>
+<li><a href="https://wiki.qemu.org/Features/Migration/Troubleshooting" target="_blank" rel="noopener">Features/Migration/Troubleshooting | QEMU Wiki</a></li>
+<li><a href="https://wiki.qemu.org/Documentation/Debugging" target="_blank" rel="noopener">Documentation/Debugging | QEMU</a></li>
+<li><a href="http://www.unknownroad.com/rtfm/gdbtut/" target="_blank" rel="noopener">gdb Debugger Tutorial</a></li>
+<li><a href="https://blog.csdn.net/yadehuiyin/article/details/80799267" target="_blank" rel="noopener">使用 gdb debug libvirt 心得 | CSDN/yadeihuiyin</a></li>
+<li><a href="https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1826051" target="_blank" rel="noopener">VMs go to 100% CPU after live migration from Trusty to Bionic | Ubuntu qemu package</a></li>
+<li><a href="https://unix.stackexchange.com/questions/296636/100-cpu-utilisation-and-hang-after-virsh-migrate" target="_blank" rel="noopener">100% CPU utilisation and hang after virsh migrate | Unix &amp; Linux</a></li>
+<li><a href="https://www.server24.eu/private-cloud/complete-live-migration-vms-high-load/" target="_blank" rel="noopener">Complete Live Migration of VMs with High Load | Server24</a></li>
+<li><a href="https://bugzilla.redhat.com/show_bug.cgi?id=596028" target="_blank" rel="noopener">qemu-kvm stuck at 100% cpu after live migration with spice,then guest time goes very fast | Red Hat Bugzilla</a></li>
+</ul>
+<h3 id="压测工具"><a href="#压测工具" class="headerlink" title="压测工具"></a>压测工具</h3><ul>
+<li><a href="https://devin.com/lookbusy/" target="_blank" rel="noopener">lookbusy - a synthetic load generator</a></li>
+</ul>
+<h3 id="CPU-Steal-time"><a href="#CPU-Steal-time" class="headerlink" title="CPU Steal time"></a>CPU Steal time</h3><ul>
+<li><a href="http://oenhan.com/kvm-steal-time" target="_blank" rel="noopener">KVM 下 STEAL_TIME 源代码分析 | OenHan</a></li>
+<li><a href="https://blog.csdn.net/jessysong/article/details/73571878" target="_blank" rel="noopener">理解 CPU steal time | CSDN</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/33293033" target="_blank" rel="noopener">谁偷走了我的云主机 CPU 时间：理解 CPU Steal Time | 知乎</a></li>
+<li><a href="https://www.cnblogs.com/menkeyi/p/6732020.html" target="_blank" rel="noopener">理解 CPU steal time | 博客园</a></li>
+<li><a href="https://www.sohu.com/a/156011165_610730" target="_blank" rel="noopener">CPU到底在忙啥？CPU利用率的正确计算方法 | 搜狐科技</a></li>
+<li><a href="https://scoutapm.com/blog/understanding-cpu-steal-time-when-should-you-be-worried" target="_blank" rel="noopener">Understanding CPU Steal Time - when should you be worried?</a></li>
+<li><a href="https://www.cloudsigma.com/understanding-cpu-steal-time-in-the-cloud/" target="_blank" rel="noopener">Are We Stealing from You? Understanding CPU Steal Time in the Cloud</a></li>
+</ul>
+<h3 id="CPU-State"><a href="#CPU-State" class="headerlink" title="CPU State"></a>CPU State</h3><ul>
+<li><a href="http://blog.sina.com.cn/s/blog_51f0be1b0102xg03.html" target="_blank" rel="noopener">CPU C-States 省电模式 | 新浪博客</a></li>
+<li><a href="https://blog.csdn.net/drshenlei/article/details/4265101" target="_blank" rel="noopener">CPU 的运行环、特权级与保护 | CSDN</a></li>
+</ul>
+<h3 id="VMCS"><a href="#VMCS" class="headerlink" title="VMCS"></a>VMCS</h3><ul>
+<li><a href="https://zhuanlan.zhihu.com/p/49257842" target="_blank" rel="noopener">VMX(2) — VMCS理解 - 河马虚拟化 | 知乎</a></li>
+</ul>
+<h3 id="如何阅读内核源码"><a href="#如何阅读内核源码" class="headerlink" title="如何阅读内核源码"></a>如何阅读内核源码</h3><ul>
+<li><a href="https://elixir.bootlin.com/linux/latest/source" target="_blank" rel="noopener">Bootlin - 在线阅读内核源码 | Elixir Cross Referencer</a></li>
+<li><a href="https://www.zhihu.com/question/22573737" target="_blank" rel="noopener">如何阅读 Linux 内核源码 | 知乎</a></li>
+<li><a href="https://blog.csdn.net/lz710117239/article/details/80723428" target="_blank" rel="noopener">Linux 内核源码阅读（一）从何处阅读源码 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/hzqnju/article/details/17549513" target="_blank" rel="noopener">献给新手，如何阅读 Linux 源码(转) | CSDN</a></li>
+</ul>
+<h3 id="KVM-关于-Fast-Write-Protect-的-Patch"><a href="#KVM-关于-Fast-Write-Protect-的-Patch" class="headerlink" title="KVM 关于 Fast Write Protect 的 Patch"></a>KVM 关于 Fast Write Protect 的 Patch</h3><ul>
+<li><a href="https://lkml.org/lkml/2017/5/3/142" target="_blank" rel="noopener">[PATCH 0/7] KVM: MMU: fast write protect | LKML</a></li>
+<li><a href="http://patchwork.ozlabs.org/patch/757954/" target="_blank" rel="noopener">[5/7] KVM: MMU: allow dirty log without write protect | Patchwork - QEMU Development</a></li>
+</ul>
+<h3 id="dirty-pages-脏页同步"><a href="#dirty-pages-脏页同步" class="headerlink" title="dirty pages 脏页同步"></a>dirty pages 脏页同步</h3><ul>
+<li><a href="https://terenceli.github.io/%E6%8A%80%E6%9C%AF/2018/08/11/dirty-pages-tracking-in-migration" target="_blank" rel="noopener">qemu/kvm dirty pages tracking in migration | 不忘初心，方得始终</a></li>
+<li><a href="https://frankjkl.github.io/2019/04/07/QemuKVM-Qemu%E5%90%8C%E6%AD%A5KVM%E8%84%8F%E9%A1%B5%E4%BD%8D%E5%9B%BE/#64%E4%BD%8D%E5%AF%B9%E9%BD%90%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B" target="_blank" rel="noopener">KVM 同步脏页位图到 QEMU | tobyjiang</a></li>
+<li><a href="https://blog.csdn.net/mrbuffoon/article/details/53611611" target="_blank" rel="noopener">KVM 异常处理流程源码简要分析 - Mr_buffoon | CSDN</a></li>
+<li><a href="https://blog.csdn.net/mrbuffoon/article/details/54948532" target="_blank" rel="noopener">KVM 迁移中脏页位图机制源码分析 - Mr_buffoon | CSDN</a></li>
+</ul>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://zhhuabj.github.io/2018/03/09/Libvirt%E6%94%AF%E6%8C%81%E7%9A%84%E4%B8%89%E7%A7%8DCPU%E6%A8%A1%E5%BC%8F%E4%B8%8E%E7%83%AD%E8%BF%81%E7%A7%BB-by-Joshua/" target="_blank" rel="noopener">Libvirt支持的三种CPU模式与热迁移(by Joshua)</a></li>
+<li><a href="https://blog.csdn.net/quqi99/article/details/79495428" target="_blank" rel="noopener">Libvirt支持的三种CPU模式与热迁移(by Joshua) | CSDN</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/27562993" target="_blank" rel="noopener">虚拟化在线迁移优化实践（二）：KVM虚拟化跨机迁移优化指南 | UCloud 云计算</a></li>
+<li><a href="https://huataihuang.gitbooks.io/cloud-atlas/virtual/kvm/startup/in_action/live_migration_kvm_vm_in_action.html" target="_blank" rel="noopener">Linux KVM 在线迁移实战 | Cloud Atlas</a></li>
+<li><a href="https://legacy.gitbook.com/book/huataihuang/cloud-atlas/details" target="_blank" rel="noopener">huataihuang/Cloud Atlas Draft | GitBook</a></li>
+<li><a href="https://github.com/huataihuang/cloud-atlas-draft" target="_blank" rel="noopener">huataihuang/Cloud Atlas Draft | Github</a></li>
+<li><a href="https://www.infoq.cn/article/2017/11/tengxun-KVM-patch-Cloud" target="_blank" rel="noopener">热迁移、RTC 计时与安全加固…腾讯云 KVM 性能优化实践验谈 | InfoQ</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1006367" target="_blank" rel="noopener">热迁移、RTC 计时与安全增强…腾讯云 KVM 性能优化实践经验谈 | 腾讯云+社区</a></li>
+<li><a href="https://blog.csdn.net/jasonLee_lijiaqi/article/details/79611293" target="_blank" rel="noopener">内存管理之：页和页框&amp;地址变换结构 | CSDN</a></li>
+<li><a href="https://www.icode9.com/content-4-266351.html" target="_blank" rel="noopener">KVM 虚拟迁移 | ICode9</a></li>
+<li><a href="https://blog.didiyun.com/index.php/2019/03/07/qemu-multifd/" target="_blank" rel="noopener">浅析 QEMU 热迁移特性 - Multifd | 滴滴云</a></li>
+<li><a href="https://blog.didiyun.com/index.php/2018/12/05/qemu-bitmap/" target="_blank" rel="noopener">QEMU 中 Bitmap 的应用 | 滴滴云</a></li>
+<li><a href="http://m.qudong.com/pcarticle/336809" target="_blank" rel="noopener">美团云“零感知”在线迁移解决方案 | 驱动中国</a></li>
+<li><a href="https://patchwork.ozlabs.org/patch/222131/" target="_blank" rel="noopener">docs: Fix generating qemu-doc.html with texinfo 5 | QEMU Development</a></li>
+<li><a href="https://stackoverflow.com/questions/30728390/errors-in-makefile-for-qemu-0-14-1-in-ubuntu-15-04-64-bit" target="_blank" rel="noopener">Errors in makefile for qemu 0.14.1 in ubuntu 15.04 64 bit | StackOverflow</a></li>
+<li><a href="https://www.codetd.com/article/2621736" target="_blank" rel="noopener">Windows 虚拟机对应的 QEMU 进程 CPU 占有率 116% | 代码天地</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/09/02/virtio-in-kvm/">半虚拟化 I/O 框架 virtio</a></li><li><a href="https://abelsu7.top/2019/08/26/compile-kvm-module/">单独编译 KVM 内核模块</a></li><li><a href="https://abelsu7.top/2019/08/11/kvm-api-overview/">Kernel 2.6.32 中的 KVM API 概述</a></li><li><a href="https://abelsu7.top/2019/08/11/qemu-main-func/">QEMU 1.2.0 入口 main() 函数调用流程分析</a></li><li><a href="http://www.borgor.cn/2017-10-23/16f315c1.html">迁移 VMware 虚拟机到 KVM</a></li><li><a href="https://zsnmwy.net/47278.html">微星B350M 虚拟化开启 AMD-V</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-10-31T08:15:29.454Z" itemprop="dateUpdated">2019-10-31 16:15:29</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/07/07/qemu-kvm-live-migration/" target="_blank" rel="external">https://abelsu7.top/2019/07/07/qemu-kvm-live-migration/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/KVM/">KVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QEMU/">QEMU</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/热迁移/">热迁移</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/虚拟化/">虚拟化</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/07/07/qemu-kvm-live-migration/&title=《QEMU-KVM 热迁移：Live Migration》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/07/07/qemu-kvm-live-migration/&title=《QEMU-KVM 热迁移：Live Migration》 — Keep Coding&source=
+QEMU-KVM 热迁移原理及相关源码分析
+
+
+                
+                    
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/07/07/qemu-kvm-live-migration/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《QEMU-KVM 热迁移：Live Migration》 — Keep Coding&url=https://abelsu7.top/2019/07/07/qemu-kvm-live-migration/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/07/07/qemu-kvm-live-migration/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/07/07/shell-io-redirection/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Shell 输入/输出重定向：1&gt;/dev/null、2&gt;&amp;1</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/07/03/windows-fluent-terminal/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Fluent Terminal：Windows 下的炫酷终端</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/07/07/qemu-kvm-live-migration/&title=《QEMU-KVM 热迁移：Live Migration》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/07/07/qemu-kvm-live-migration/&title=《QEMU-KVM 热迁移：Live Migration》 — Keep Coding&source=
+QEMU-KVM 热迁移原理及相关源码分析
+
+
+                
+                    
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/07/07/qemu-kvm-live-migration/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《QEMU-KVM 热迁移：Live Migration》 — Keep Coding&url=https://abelsu7.top/2019/07/07/qemu-kvm-live-migration/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/07/07/qemu-kvm-live-migration/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJUlEQVR42u3aQW7DMAwEwPz/0+61h1TZldwAlkanonVkTQoQpMjXK17XrzV+5q/nx3/N37K0MDAwHsu4hit5wfhT42eSHcZnw8DAOIeRBNDxp9rD5YF7/AwGBgZGcsQ2HUyexMDAwFhhFFuX4RUDAwNjzMgDYhuO82N9qRbHwMB4ICO/df/+z//S38DAwHgU4yrXXbwkQBenwsDA2JqRB7j2smxlz/azGBgYezPG4S8/VjJUsTIW9uE3GBgYxzDy487VynmKWQ98YGBgbM1oy8hxSE1GLnJkG+gxMDB2Zcw1LFeGJPLgW4RgDAyMrRlJiJwbmFgvgOvwjYGBcTAjP3oeIufSxw8ZLgYGxqaM9fIyT/LmauuoVMbAwDiM0Y47tGE0H7AoSlwMDIytGW1L4K7iM2k5tJd9GBgYezPya/2VcnSuITr5P8HAwNiI0YbFvG05t8/ciAYGBsY5jLtKyjZBbNufb86JgYGxNaO9mk9SxrYBuYJ5tVkkBgbGYxkrqdvchVqePhZlLQYGxgGMolkYNzWTr+mGZgAGBsZhjJVEcK7xuZ5KYmBg7M24yrVefK5Eyw+XaxgYGJsy5oJdW5q2Tcpkt0kYBgbGYxl5kM2v5+5qGBQ7YGBgHMCYKzjb8Yg2+BZfDQYGBkbQSlzJQG+YFsHAwMCIw+hcwtfW3G/2wcDAOIAx1wzIX9YOkOXtUgwMjBMY32wx5pd0/9LUxMDAeB7jB4xZ5PNTNBlQAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

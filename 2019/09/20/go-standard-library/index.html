@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Go 语言标准库学习 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Go,标准库">
+    <meta name="description" content="打开 Golang 开发的百宝箱，更新中…">
+<meta name="keywords" content="Go,标准库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go 语言标准库学习">
+<meta property="og:url" content="https://abelsu7.top/2019/09/20/go-standard-library/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="打开 Golang 开发的百宝箱，更新中…">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/09/20/go-standard-library/cover.jpg">
+<meta property="og:updated_time" content="2019-10-15T12:11:42.636Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go 语言标准库学习">
+<meta name="twitter:description" content="打开 Golang 开发的百宝箱，更新中…">
+<meta name="twitter:image" content="https://abelsu7.top/2019/09/20/go-standard-library/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Go 语言标准库学习</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Go 语言标准库学习</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-09-20T02:20:56.000Z" itemprop="datePublished" class="page-time">
+  2019-09-20
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-fmt"><span class="post-toc-text">1. fmt</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-strings"><span class="post-toc-text">2. strings</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-sort"><span class="post-toc-text">3. sort</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-ioutil"><span class="post-toc-text">4. ioutil</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-sync"><span class="post-toc-text">5. sync</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#例-1：读取整行输入"><span class="post-toc-text">例 1：读取整行输入</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-知乎专栏"><span class="post-toc-text">1. 知乎专栏</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-51CTO"><span class="post-toc-text">2. 51CTO</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-标准库相关"><span class="post-toc-text">3. 标准库相关</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-Github-项目"><span class="post-toc-text">4. Github 项目</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-设计模式"><span class="post-toc-text">5. 设计模式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-开发常用库"><span class="post-toc-text">6. 开发常用库</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-go-standard-library"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Go 语言标准库学习</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-09-20 10:20:56" datetime="2019-09-20T02:20:56.000Z"  itemprop="datePublished">2019-09-20</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>打开 Golang 开发的百宝箱，更新中…</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/09/20/go-standard-library/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<blockquote>
+<p><strong>强烈推荐：</strong></p>
+<ul>
+<li><a href="https://books.studygolang.com/The-Golang-Standard-Library-by-Example/" target="_blank" rel="noopener">《Go语言标准库》The Golang Standard Library by Example | GitBook</a></li>
+<li><a href="https://github.com/polaris1119/The-Golang-Standard-Library-by-Example" target="_blank" rel="noopener">The-Golang-Standard-Library-by-Example - Golang 标准库 | Github</a></li>
+</ul>
+</blockquote>
+<h3 id="1-fmt"><a href="#1-fmt" class="headerlink" title="1. fmt"></a>1. fmt</h3><blockquote>
+<p>参见 <a href="https://github.com/astaxie/gopkg/tree/master/fmt" target="_blank" rel="noopener">fmt 包函数列表 - gopkg| Github</a></p>
+</blockquote>
+<pre><code class="lang-go">// Print/Sprint/Fprint
+func index(w http.ResponseWriter, r *http.Request) {
+    fmt.Println(&quot;Inside handler: index&quot;)
+    name := fmt.Sprintf(&quot;%s&quot;, &quot;abel&quot;)
+    fmt.Fprintf(w, &quot;Hello %s!\n&quot;, name)
+}
+</code></pre>
+<h3 id="2-strings"><a href="#2-strings" class="headerlink" title="2. strings"></a>2. strings</h3><blockquote>
+<p>参见 <a href="https://github.com/polaris1119/The-Golang-Standard-Library-by-Example/blob/master/chapter02/02.1.md" target="_blank" rel="noopener">2.1 strings — 字符串操作 | The-Golang-Standard-Library-by-Example</a></p>
+</blockquote>
+<pre><code class="lang-go">// 字符串分割
+array := strings.Split(s, &quot;,&quot;)
+
+// 字符串清理
+func stringsClean(value string) string {
+    newReplacer := strings.NewReplacer(&quot;\n&quot;, &quot; &quot;,&quot;\t&quot;, &quot; &quot;)
+    newValue := newReplacer.Replace(value)
+    return strings.TrimSpace(newValue)
+}
+</code></pre>
+<h3 id="3-sort"><a href="#3-sort" class="headerlink" title="3. sort"></a>3. sort</h3><pre><code class="lang-go">// 数组排序
+sort.Slice(prev, func(i, j int) bool {
+    return prev[i] &gt; prev[j]
+})
+</code></pre>
+<h3 id="4-ioutil"><a href="#4-ioutil" class="headerlink" title="4. ioutil"></a>4. ioutil</h3><ul>
+<li><a href="https://blog.csdn.net/wangshubo1989/article/details/74777112" target="_blank" rel="noopener">golang 中读写文件的几种方式 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/wangshubo1989/article/details/69395568" target="_blank" rel="noopener">Go 语言学习之 ioutil 包 (The way to go) | CSDN</a></li>
+<li><a href="https://blog.csdn.net/wangshubo1989/article/details/70597835" target="_blank" rel="noopener">Go 语言学习之 os 包中文件相关的操作 (The way to go) | CSDN</a></li>
+</ul>
+<h3 id="5-sync"><a href="#5-sync" class="headerlink" title="5. sync"></a>5. sync</h3><ul>
+<li><a href="https://tyloafer.github.io/posts/61660/" target="_blank" rel="noopener">Sync.Pool 浅析 | TY·Loafer</a></li>
+</ul>
+<hr>
+<h3 id="例-1：读取整行输入"><a href="#例-1：读取整行输入" class="headerlink" title="例 1：读取整行输入"></a>例 1：读取整行输入</h3><pre><code class="lang-go">package main
+
+import (
+    &quot;bufio&quot;
+    &quot;fmt&quot;
+    &quot;os&quot;
+    &quot;strings&quot;
+)
+
+func main() {
+    r := bufio.NewReader(os.Stdin)
+
+    line, _, err := r.ReadLine()
+    if err != nil {
+        fmt.Printf(&quot;error happend: %s\n&quot;, err)
+    }
+
+    s := string(line)
+    s = strings.TrimFunc(s, func(r rune) bool {
+        if r == &#39;[&#39; || r == &#39;]&#39; {
+            return true
+        }
+        return false
+    })
+    fmt.Println(s)
+
+    array := strings.Split(s, &quot;, &quot;)
+    fmt.Println(array)
+}
+
+
+------
+[1, 2, 3, 4, 5]
+
+1, 2, 3, 4, 5
+[1 2 3 4 5]
+</code></pre>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://github.com/wuxiaoxiaoshen/Gopher-By-Example" target="_blank" rel="noopener">Go 上手指南 - 谢伟 | Github</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/65613337" target="_blank" rel="noopener">对比学习：Golang VS Python3 | 知乎</a></li>
+<li><a href="https://draveness.me/golang/" target="_blank" rel="noopener">浅谈 Go 语言实现原理 - Draveness | GitBook</a></li>
+</ol>
+</blockquote>
+<h4 id="1-知乎专栏"><a href="#1-知乎专栏" class="headerlink" title="1. 知乎专栏"></a>1. 知乎专栏</h4><blockquote>
+<p>推荐一个知乎专栏作者：<a href="https://www.zhihu.com/people/wu-xiao-shen-16" target="_blank" rel="noopener">谢伟</a>，知乎专栏<a href="https://zhuanlan.zhihu.com/c_185086376" target="_blank" rel="noopener">『Gopher』- Go 上手指南</a></p>
+</blockquote>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/48171845" target="_blank" rel="noopener">Go 内置库第一季：strings - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/48267436" target="_blank" rel="noopener">Go 内置库第一季：strconv - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/48535925" target="_blank" rel="noopener">Go 内置库第一季：reflect - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/48753969" target="_blank" rel="noopener">Go 内置库第一季：json - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/48993595" target="_blank" rel="noopener">Go 内置库第一季：error - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/49638425" target="_blank" rel="noopener">Go 内置库第一季：time - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/50453972" target="_blank" rel="noopener">Go 内置库第一季：net/url - 谢伟 | 知乎</a></li>
+<li><a href="https://golangtc.com/t/5136f43d320b522742000004" target="_blank" rel="noopener">请教：FieldsFunc 函数的用法 | Golang 中国</a></li>
+<li><a href="https://itimetraveler.github.io/2016/09/07/【Go语言】基本类型排序和%20slice%20排序/" target="_blank" rel="noopener">【Go语言】基本类型排序和 slice 排序 | iTimeTraveler</a></li>
+</ul>
+<blockquote>
+<p>其他不错的文章：</p>
+</blockquote>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/70051432" target="_blank" rel="noopener">Go Web 教程 - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/75894765" target="_blank" rel="noopener">Go GraphQL 教程 - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/55975116" target="_blank" rel="noopener">Go 与 Error 的前世今生 - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/51195816" target="_blank" rel="noopener">自己构建节假日 API - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/55798977" target="_blank" rel="noopener">打造一款 emoji 表情库 - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/51396376" target="_blank" rel="noopener">写给程序员看的“幻灯片”制作教程 - 谢伟 | 知乎</a></li>
+</ul>
+<h4 id="2-51CTO"><a href="#2-51CTO" class="headerlink" title="2. 51CTO"></a>2. 51CTO</h4><ul>
+<li><a href="https://blog.51cto.com/9291927/2138691" target="_blank" rel="noopener">Go 语言开发学习教程 - 天山老妖S | 51CTO</a></li>
+<li><a href="https://blog.51cto.com/9291927/2294270" target="_blank" rel="noopener">Go 语言常用标准库一 - 天山老妖S | 51CTO</a></li>
+<li><a href="https://blog.51cto.com/9291927/2294279" target="_blank" rel="noopener">Go 语言常用标准库二 - 天山老妖S | 51CTO</a></li>
+<li><a href="https://blog.51cto.com/9291927/2343533" target="_blank" rel="noopener">Go 语言常用标准库三 - 天山老妖S | 51CTO</a></li>
+<li><a href="https://blog.51cto.com/9291927/2343535" target="_blank" rel="noopener">Go 语言常用标准库四 - 天山老妖S | 51CTO</a></li>
+<li><a href="https://blog.51cto.com/9291927/2344665" target="_blank" rel="noopener">Go 语言常用标准库五 - 天山老妖S | 51CTO</a></li>
+<li><a href="https://blog.51cto.com/9291927/2344741" target="_blank" rel="noopener">Go 语言常用标准库六 - 天山老妖S | 51CTO</a></li>
+<li><a href="https://blog.51cto.com/9291927/2344802" target="_blank" rel="noopener">Go 语言 MySQL 数据库操作 - 天山老妖S | 51CTO</a></li>
+<li><a href="https://blog.51cto.com/9291927/2344747" target="_blank" rel="noopener">Go 语言 database/sql 接口 - 天山老妖S | 51CTO</a></li>
+</ul>
+<h4 id="3-标准库相关"><a href="#3-标准库相关" class="headerlink" title="3. 标准库相关"></a>3. 标准库相关</h4><ul>
+<li><a href="https://books.studygolang.com/The-Golang-Standard-Library-by-Example/" target="_blank" rel="noopener">《Go语言标准库》The Golang Standard Library by Example | GitBook</a></li>
+<li><a href="https://github.com/polaris1119/The-Golang-Standard-Library-by-Example" target="_blank" rel="noopener">The-Golang-Standard-Library-by-Example - Golang 标准库 | Github</a></li>
+<li><a href="https://github.com/astaxie/gopkg" target="_blank" rel="noopener">gopkg - astaxie | Github</a></li>
+<li><a href="https://www.huweihuang.com/article/golang/golang-packages/#%E6%8E%A8%E8%8D%90%E6%96%87%E7%AB%A0" target="_blank" rel="noopener">Golang 常用包 | 胡伟煌</a></li>
+<li><a href="https://blog.csdn.net/mrbuffoon/article/details/85070408" target="_blank" rel="noopener">Go 常用标准包介绍 - Mr_buffoon | CSDN</a></li>
+<li><a href="https://tonybai.com/2012/09/08/a-brief-tour-of-go-standard-library/" target="_blank" rel="noopener">Go 语言标准库概览 | Tony Bai</a></li>
+</ul>
+<h4 id="4-Github-项目"><a href="#4-Github-项目" class="headerlink" title="4. Github 项目"></a>4. Github 项目</h4><ul>
+<li><a href="https://github.com/GopherCoder/cos-storager" target="_blank" rel="noopener">cos-storager - Go 开发的免费图床 | Github</a></li>
+<li><a href="https://github.com/hwholiday/learning_tools" target="_blank" rel="noopener">learning_tools - Go 实用工具类 | Github</a></li>
+<li><a href="https://github.com/jroimartin/gocui" target="_blank" rel="noopener">gocui - Minimalist Go package aimed at creating Console User Interfaces | Github</a></li>
+<li><a href="https://github.com/liyue201/lazyredis" target="_blank" rel="noopener">lazyredis - 基于 gocui 实现的 redis 命令行客户端 | Github</a></li>
+</ul>
+<h4 id="5-设计模式"><a href="#5-设计模式" class="headerlink" title="5. 设计模式"></a>5. 设计模式</h4><ul>
+<li><a href="https://github.com/sevenelevenlee/go-patterns" target="_blank" rel="noopener">go-patterns - Golang 设计模式 | Github</a></li>
+<li><a href="https://github.com/senghoo/golang-design-pattern" target="_blank" rel="noopener">golang-design-pattern - 设计模式 Golang 实现 | Github</a></li>
+</ul>
+<h4 id="6-开发常用库"><a href="#6-开发常用库" class="headerlink" title="6. 开发常用库"></a>6. 开发常用库</h4><ul>
+<li><a href="https://swagger.io" target="_blank" rel="noopener">Swagger - API Development for Everyone</a></li>
+<li><a href="https://segmentfault.com/a/1190000020377098#articleHeader3" target="_blank" rel="noopener">聊一聊 Go 的那些处理命令行参数和配置文件的库 | SegmentFault</a></li>
+</ul>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/">使用 Gogs 自建 Git 服务</a></li><li><a href="https://abelsu7.top/2019/10/31/go-gin-swagger/">在 Gin 中使用 swaggo 自动生成 RESTful API 文档</a></li><li><a href="https://abelsu7.top/2019/10/24/go-build-compress-using-upx/">使用 upx 压缩 go build 打包的可执行文件</a></li><li><a href="https://abelsu7.top/2019/10/24/go-cross-compile/">Go 程序的交叉编译、选择性编译</a></li><li><a href="chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li><li><a href="www.chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-10-15T12:11:42.636Z" itemprop="dateUpdated">2019-10-15 20:11:42</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/09/20/go-standard-library/" target="_blank" rel="external">https://abelsu7.top/2019/09/20/go-standard-library/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/标准库/">标准库</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/09/20/go-standard-library/&title=《Go 语言标准库学习》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/09/20/go-standard-library/&title=《Go 语言标准库学习》 — Keep Coding&source=
+打开 Golang 开发的百宝箱，更新中…
+
+
+                
+                    
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/09/20/go-standard-library/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go 语言标准库学习》 — Keep Coding&url=https://abelsu7.top/2019/09/20/go-standard-library/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/09/20/go-standard-library/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/09/25/micro-service-orchestration-and-container-schedule/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">微服务编排与容器调度</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/09/18/micro-service-notes/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">微服务学习资料汇总</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/09/20/go-standard-library/&title=《Go 语言标准库学习》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/09/20/go-standard-library/&title=《Go 语言标准库学习》 — Keep Coding&source=
+打开 Golang 开发的百宝箱，更新中…
+
+
+                
+                    
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/09/20/go-standard-library/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go 语言标准库学习》 — Keep Coding&url=https://abelsu7.top/2019/09/20/go-standard-library/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/09/20/go-standard-library/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJklEQVR42u3aMZLkIAwF0L7/pb1pB2PmSxpvleERddlu4CUqhPT5xOP6GnfPv99eNyOf7fPEwMDAeC3jWo7eN70nvXUxMDDOYdxFsOSb3ubWkTPfGwYGBsbd7+Rgl/CStTAwMDDmjHXyuT7SJTNjYGBg5AnqeuE84UwwD+biGBgYL2Tkt+7///cj9Q0MDIxXMa7iqM6Wb+saDAwMjL0Z82Xytozky8l/MTAw9mbkh8Jee0SvIJonvRgYGHszeosl1/3V8JoXRH94i4GBsTXjiWSyemibJ88YGBh7M9bhtfr2r5ozRt0iGBgYmzLyNotqzjhpIEvWwsDAOIeR38wliWi15at50f89AwYGxgGMaojshcv88i4/IGJgYJzJmLdcVMGFZHXdLYKBgbEpo3qAy9/miXFyQCz0jGBgYGzHyENe3hKRz1MtXt4+wcDA2JqRL5Nj8k0n/y33iWBgYBzAmJQt883lhdJCDxgGBsYxjDmgF9bzC75RywUGBsbLGXkaWU1684u2/Hj6y6UbBgbGAYxem0Wvday83V5sxsDA2IIR1TlbgTWfp9fwgYGBsTejV1CsfjMvTozOthgYGC9nVOuD1cv6vPw5b1DDwMDYm5EH0KRgMA+LedmgXBjAwMB4OaOaZE7A8yQWAwMD44lyY/Xo+XjAxcDAOIDRKwP0gm+ExMDAOIDRu+ivtlnkITu54MPAwDiHMSkxVqsN+RZ7CTMGBsZ2jH8sktE/oDB4iwAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

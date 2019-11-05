@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>HTML5 词云 wordcloud2.js 初体验 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="JavaScript,HTML5,wordcloud2.js">
+    <meta name="description" content="在信息爆炸、效率为先的今天，分析整理数据的能力对每个人来说都至关重要。由此也衍生出各种数据可视化技术，帮助开发者及用户便捷高效的掌握数据中蕴含的重要信息。 词云就是一种常见的数据可视化格式，它将词语彼此排列堆叠，以词云（又称标签云）的形式将数据直观的呈现给用户。作为开发者，在日常也会有大量制作词云图片的需求。 目前业界已经有ECharts和wordcloud2.js两大利器支持词云组件的编写。前者">
+<meta name="keywords" content="JavaScript,HTML5,wordcloud2.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTML5 词云 wordcloud2.js 初体验">
+<meta property="og:url" content="https://abelsu7.top/2018/03/19/wordcloud2/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="在信息爆炸、效率为先的今天，分析整理数据的能力对每个人来说都至关重要。由此也衍生出各种数据可视化技术，帮助开发者及用户便捷高效的掌握数据中蕴含的重要信息。 词云就是一种常见的数据可视化格式，它将词语彼此排列堆叠，以词云（又称标签云）的形式将数据直观的呈现给用户。作为开发者，在日常也会有大量制作词云图片的需求。 目前业界已经有ECharts和wordcloud2.js两大利器支持词云组件的编写。前者">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2018/03/19/wordcloud2/wordcloud2.png">
+<meta property="og:image" content="https://abelsu7.top/2018/03/19/wordcloud2/wordcloud2-rotate.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.788Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTML5 词云 wordcloud2.js 初体验">
+<meta name="twitter:description" content="在信息爆炸、效率为先的今天，分析整理数据的能力对每个人来说都至关重要。由此也衍生出各种数据可视化技术，帮助开发者及用户便捷高效的掌握数据中蕴含的重要信息。 词云就是一种常见的数据可视化格式，它将词语彼此排列堆叠，以词云（又称标签云）的形式将数据直观的呈现给用户。作为开发者，在日常也会有大量制作词云图片的需求。 目前业界已经有ECharts和wordcloud2.js两大利器支持词云组件的编写。前者">
+<meta name="twitter:image" content="https://abelsu7.top/2018/03/19/wordcloud2/wordcloud2.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">HTML5 词云 wordcloud2.js 初体验</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">HTML5 词云 wordcloud2.js 初体验</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-03-19T11:26:47.000Z" itemprop="datePublished" class="page-time">
+  2018-03-19
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/前端/">前端</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#开始前的准备"><span class="post-toc-text">开始前的准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#引入相关JS库"><span class="post-toc-text">引入相关JS库</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#定义canvas容器"><span class="post-toc-text">定义canvas容器</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#检查浏览器是否支持"><span class="post-toc-text">检查浏览器是否支持</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#定义options并调用WordCloud"><span class="post-toc-text">定义options并调用WordCloud</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-wordcloud2"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">HTML5 词云 wordcloud2.js 初体验</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-03-19 19:26:47" datetime="2018-03-19T11:26:47.000Z"  itemprop="datePublished">2018-03-19</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/前端/">前端</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>在信息爆炸、效率为先的今天，分析整理数据的能力对每个人来说都至关重要。由此也衍生出各种数据可视化技术，帮助开发者及用户便捷高效的掌握数据中蕴含的重要信息。</p>
+<p><strong>词云</strong>就是一种常见的数据可视化格式，它将词语彼此排列堆叠，以词云（又称<strong>标签云</strong>）的形式将数据直观的呈现给用户。作为开发者，在日常也会有大量制作词云图片的需求。</p>
+<p>目前业界已经有<a href="http://echarts.baidu.com" target="_blank" rel="noopener">ECharts</a>和<a href="https://github.com/timdream/wordcloud2.js" target="_blank" rel="noopener">wordcloud2.js</a>两大利器支持词云组件的编写。前者是百度出品的可视化图表库，词云只是其中的一类图表，相信大部分开发者已经体验过<strong>Echarts</strong>的魅力，本文不再赘述。今天就来尝试一下专注于词云的<strong>wordcloud2.js</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/03/19/wordcloud2/wordcloud2.png" alt="wordcloud2.js生成的词云" title>
+                </div>
+                <div class="image-caption">wordcloud2.js生成的词云</div>
+            </figure>
+<a id="more"></a>
+<h2 id="开始前的准备"><a href="#开始前的准备" class="headerlink" title="开始前的准备"></a>开始前的准备</h2><p>首先页面必须是以<strong>HTML5</strong>规范编写。以下是在<strong>VSCode</strong>中以<strong>Emmet</strong>语句<code>html:5</code>展开得到的页面示例</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="引入相关JS库"><a href="#引入相关JS库" class="headerlink" title="引入相关JS库"></a>引入相关JS库</h2><p>随后需要引入<a href="http://www.bootcdn.cn/jquery/" target="_blank" rel="noopener">jQuery</a>和<a href="http://www.bootcdn.cn/wordcloud2.js/" target="_blank" rel="noopener">wordcloud2.js</a></p>
+<pre><code class="lang-javascript">&lt;script src=&quot;https://cdn.bootcss.com/wordcloud2.js/1.1.0/wordcloud2.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<h2 id="定义canvas容器"><a href="#定义canvas容器" class="headerlink" title="定义canvas容器"></a>定义canvas容器</h2><p>在<code>body</code>中定义一个<code>canvas</code>容器用来显示词云</p>
+<pre><code class="lang-html">&lt;div id=&quot;canvas-container&quot; align=&quot;center&quot;&gt;
+    &lt;canvas id=&quot;canvas&quot; width=&quot;600px&quot; height=&quot;400px&quot;&gt;&lt;/canvas&gt;
+&lt;/div&gt;
+</code></pre>
+<h2 id="检查浏览器是否支持"><a href="#检查浏览器是否支持" class="headerlink" title="检查浏览器是否支持"></a>检查浏览器是否支持</h2><p><strong>wordcloud2.js</strong>提供了验证是否可被当前浏览器支持的API。若当前浏览器不支持运行，则以下语句将返回<code>false</code></p>
+<pre><code class="lang-javascript">&gt; WordCloud.isSupported
+true
+</code></pre>
+<h2 id="定义options并调用WordCloud"><a href="#定义options并调用WordCloud" class="headerlink" title="定义options并调用WordCloud"></a>定义options并调用WordCloud</h2><blockquote>
+<p>具体API可参考<a href="https://github.com/timdream/wordcloud2.js/blob/gh-pages/API.md" target="_blank" rel="noopener">wordcloud2.js官方文档</a></p>
+</blockquote>
+<pre><code class="lang-javascript">&lt;script&gt;
+    var options = eval({
+        &quot;list&quot;: [
+            [&#39;Google&#39;, 10],
+            [&#39;Tencent&#39;, 9],
+            [&#39;Alibaba&#39;, 7],
+            [&#39;Baidu&#39;, 6],
+            [&#39;NetEase&#39;, 4],
+            [&#39;JD&#39;, 5],
+            [&#39;Youku&#39;, 4],
+            [&#39;Meituan&#39;, 3],
+            [&#39;Douban&#39;, 3]
+        ],
+        &quot;gridSize&quot;: 16, // size of the grid in pixels
+        &quot;weightFactor&quot;: 10, // number to multiply for size of each word in the list
+        &quot;fontWeight&quot;: &#39;normal&#39;, // &#39;normal&#39;, &#39;bold&#39; or a callback
+        &quot;fontFamily&quot;: &#39;Times, serif&#39;, // font to use
+        &quot;color&quot;: &#39;random-light&#39;, // &#39;random-dark&#39; or &#39;random-light&#39;
+        &quot;backgroundColor&quot;: &#39;#333&#39;, // the color of canvas
+        &quot;rotateRatio&quot;: 1 // probability for the word to rotate. 1 means always rotate
+    });
+    var canvas = document.getElementById(&#39;canvas&#39;);
+    WordCloud(canvas, options);
+&lt;/script&gt;
+</code></pre>
+<p>至此，一个美观大方的词云就制作完成了。Just enjoy it！</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/03/19/wordcloud2/wordcloud2-rotate.png" alt="上述代码生成的词云" title>
+                </div>
+                <div class="image-caption">上述代码生成的词云</div>
+            </figure>
+<blockquote>
+<p><strong>参考文章</strong></p>
+<ol>
+<li><a href="https://cosx.org/2016/08/wordcloud2" target="_blank" rel="noopener">可能是目前最好的词云解决方案wordcloud2 | 统计之都</a></li>
+<li><a href="http://ibruce.info/2014/02/10/the-most-beautiful-word-cloud/" target="_blank" rel="noopener">简单美观的文字标签云组件 | 不如</a></li>
+<li><a href="https://timdream.org/wordcloud/" target="_blank" rel="noopener">HTML5 Word Cloud | timdream.org</a></li>
+<li><a href="https://timdream.org/wordcloud2.js/#love" target="_blank" rel="noopener">wordcloud2.js Demo | timdream.org</a></li>
+<li><a href="https://github.com/timdream/wordcloud" target="_blank" rel="noopener">wordcloud | Github</a></li>
+<li><a href="https://github.com/timdream/wordcloud2.js" target="_blank" rel="noopener">wordcloud2.js | Github</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2018/09/19/js-get-dom-height-and-width/">JavaScript获取网页滚动距离及DOM元素宽高属性</a></li><li><a href="https://jarrychen.xyz/archives/efa8ef13.html">归并排序(递归)</a></li><li><a href="https://jarrychen.xyz/archives/57361fba.html">快速排序(递归)</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.788Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/03/19/wordcloud2/" target="_blank" rel="external">https://abelsu7.top/2018/03/19/wordcloud2/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML5/">HTML5</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wordcloud2-js/">wordcloud2.js</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/03/19/wordcloud2/&title=《HTML5 词云 wordcloud2.js 初体验》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/03/19/wordcloud2/&title=《HTML5 词云 wordcloud2.js 初体验》 — Keep Coding&source=在信息爆炸、效率为先的今天，分析整理数据的能力对每个人来说都至关重要。由此也衍生出各种数据可视化技术，帮助开发者及用户便捷高效的掌握数据中蕴含的重要信息。..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/03/19/wordcloud2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《HTML5 词云 wordcloud2.js 初体验》 — Keep Coding&url=https://abelsu7.top/2018/03/19/wordcloud2/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/03/19/wordcloud2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/03/27/linux-shell-interview/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Linux Shell 脚本面试25问</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/03/16/thunderspeed-task-error/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">迅雷极速版任务出错的解决办法</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/03/19/wordcloud2/&title=《HTML5 词云 wordcloud2.js 初体验》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/03/19/wordcloud2/&title=《HTML5 词云 wordcloud2.js 初体验》 — Keep Coding&source=在信息爆炸、效率为先的今天，分析整理数据的能力对每个人来说都至关重要。由此也衍生出各种数据可视化技术，帮助开发者及用户便捷高效的掌握数据中蕴含的重要信息。..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/03/19/wordcloud2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《HTML5 词云 wordcloud2.js 初体验》 — Keep Coding&url=https://abelsu7.top/2018/03/19/wordcloud2/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/03/19/wordcloud2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABwklEQVR42u3awa7CMAwEQP7/p3kS1yfStd0EkCYnVJVmerGcdR+PeD1f692V/7+rV25euLi4Y+5zudag5PoanRtwcXHPc9fFKy8965KX0C9suLi4X8Zd9xvzxggXF/cXuUlJirbExcX9EW5y+KlGIb2g5LazGi4u7oBbDUx3/N6Y7+Li4ha5z+JKoo31/aPdcXFxj3DziLPX1lQjkqjM4eLiHufmD83D0F7MGg1ZcXFxN3DzNqXX4uT3JLEsLi7uSW41EKnGmr3WJzr24OLiHuHmUchk1NEMX3BxcY9w5y1L/hFG9QUKf8DFxT3ITR7XK3nJLri4uJ/l9sKL6ivlTdLFjri4uAe51YLSe4H8+ISLi/sp7iQwrTZG+RD3rQEXF/cIN//Aolkjx4OZi4EKLi7uBm7vEJK8Xl4cCzvi4uIe5M7D02YFLY5YcHFxT3LvCi96zVBz2oOLi7uNWy0okzalemTKD1S4uLg7uHmDUm1WqgPXZGSLi4t7ktsbouQfY+UVNPowCxcX92u41VFr0riUoxlcXNyv5Obj2HmoiouL+1lu/qC8iZm0OzfEIri4uANuNTCtbl9tgPLIFRcXdwP3D9ZcTdSl6kxmAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

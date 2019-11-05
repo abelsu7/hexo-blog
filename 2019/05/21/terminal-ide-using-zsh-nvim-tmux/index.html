@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Oh My Zsh/NeoVim/Tmux 打造终端 IDE | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="终端,zsh,Vim,tmux,NeoVim">
+    <meta name="description" content="The only thing you need is just a termimal.">
+<meta name="keywords" content="终端,zsh,Vim,tmux,NeoVim">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oh My Zsh&#x2F;NeoVim&#x2F;Tmux 打造终端 IDE">
+<meta property="og:url" content="https://abelsu7.top/2019/05/21/terminal-ide-using-zsh-nvim-tmux/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="The only thing you need is just a termimal.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/05/21/terminal-ide-using-zsh-nvim-tmux/cover.jpg">
+<meta property="og:updated_time" content="2019-10-24T08:14:40.800Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oh My Zsh&#x2F;NeoVim&#x2F;Tmux 打造终端 IDE">
+<meta name="twitter:description" content="The only thing you need is just a termimal.">
+<meta name="twitter:image" content="https://abelsu7.top/2019/05/21/terminal-ide-using-zsh-nvim-tmux/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Oh My Zsh/NeoVim/Tmux 打造终端 IDE</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Oh My Zsh/NeoVim/Tmux 打造终端 IDE</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-05-21T03:26:02.000Z" itemprop="datePublished" class="page-time">
+  2019-05-21
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Vim/">Vim</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Vim-教程"><span class="post-toc-text">Vim 教程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Vim-快捷键"><span class="post-toc-text">Vim 快捷键</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#NeoVim"><span class="post-toc-text">NeoVim</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SpaceVim"><span class="post-toc-text">SpaceVim</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Emacs"><span class="post-toc-text">Emacs</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Tmux"><span class="post-toc-text">Tmux</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#True-Color-相关"><span class="post-toc-text">True Color 相关</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Vim-插件"><span class="post-toc-text">Vim 插件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Tmux-插件"><span class="post-toc-text">Tmux 插件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#dotfiles-收集"><span class="post-toc-text">dotfiles 收集</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#TimothyYe-的程序员内功系列"><span class="post-toc-text">TimothyYe 的程序员内功系列</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-terminal-ide-using-zsh-nvim-tmux"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Oh My Zsh/NeoVim/Tmux 打造终端 IDE</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-05-21 11:26:02" datetime="2019-05-21T03:26:02.000Z"  itemprop="datePublished">2019-05-21</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Vim/">Vim</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>The only thing you need is just a termimal.</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/05/21/terminal-ide-using-zsh-nvim-tmux/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<p><strong><em>待更新… (立了好多 Flag 溜了溜了</em></strong></p>
+<ul>
+<li>Leader 键：<code>&lt;Space&gt;</code></li>
+<li><code>&lt;Space&gt;+1/2/3...</code>：切换 Tab</li>
+<li><code>Ctrl+W</code></li>
+</ul>
+<h3 id="Vim-教程"><a href="#Vim-教程" class="headerlink" title="Vim 教程"></a>Vim 教程</h3><ul>
+<li><a href="https://www.cnblogs.com/chijianqiang/archive/2012/10/30/vim-1.html" target="_blank" rel="noopener">谁说 Vim 不是 IDE（一）| 池建强</a></li>
+<li><a href="https://www.cnblogs.com/chijianqiang/archive/2012/10/31/vim-2.html" target="_blank" rel="noopener">谁说 Vim 不是 IDE（二）| 池建强</a></li>
+<li><a href="https://www.cnblogs.com/chijianqiang/archive/2012/11/06/vim-3.html" target="_blank" rel="noopener">谁说 Vim 不是 IDE（三）| 池建强</a></li>
+<li><a href="https://www.cnblogs.com/chijianqiang/archive/2012/12/17/vim-4.html" target="_blank" rel="noopener">谁说 Vim 不是 IDE（四）| 池建强</a></li>
+<li><a href="https://vim.wxnacy.com" target="_blank" rel="noopener">Vim 练级手册</a></li>
+<li><a href="https://harttle.land/vim-practice.html" target="_blank" rel="noopener">Vim 修行之路 | Harttle Land</a></li>
+<li><a href="https://coolshell.cn/articles/7166.html" target="_blank" rel="noopener">游戏：VIM 大冒险 | 酷壳 CoolShell</a></li>
+<li><a href="https://www.openvim.com" target="_blank" rel="noopener">OpenVim | 交互式学习 Vim</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/20198847" target="_blank" rel="noopener">从「什么是Vim」开始、その一 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/20198935" target="_blank" rel="noopener">从「什么是Vim」开始、その二 | 知乎</a></li>
+<li><a href="https://github.com/wsdjeg/vim-galore-zh_cn" target="_blank" rel="noopener">Vim 从入门到精通 - wsdjeg | Github</a></li>
+<li><a href="http://blog.jobbole.com/86132/" target="_blank" rel="noopener">Vim 入门教程 | 伯乐在线</a></li>
+<li><a href="http://www.vimgolf.com" target="_blank" rel="noopener">VimGolf | Vim 趣题</a></li>
+<li><a href="http://lunny.info/2013/2/27/VIM快捷键大全.html" target="_blank" rel="noopener">VIM 快捷键大全 | 风笑痴</a></li>
+<li><a href="https://github.com/Unknwon/wuwen.org/issues/7" target="_blank" rel="noopener">配置 VIM 的 Go 语言开发环境 | 无闻</a></li>
+<li><a href="https://www.zhihu.com/question/19989337" target="_blank" rel="noopener">有哪些编程必备的 Vim 配置？| 知乎</a></li>
+<li><a href="https://blog.csdn.net/ghostyusheng/article/details/77893780" target="_blank" rel="noopener">Vim 切换 tab 标签快捷键 | CSDN</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/25946307" target="_blank" rel="noopener">Vim 学习笔记 多标签页（Tabs）| 知乎</a></li>
+<li><a href="http://blog.webinno.cn/article/view/44" target="_blank" rel="noopener">Vim(2):多标签切换|窗口拆分 | fxs_2008 的专栏</a></li>
+<li><a href="https://harttle.land/2015/11/17/vim-buffer.html" target="_blank" rel="noopener">Vim 多文件编辑：缓冲区 | Harttle Land</a></li>
+<li><a href="https://imweb.io/topic/5958a55ddaf3ba1f60007724" target="_blank" rel="noopener">Vim 进阶技巧 - 刘志龙 | IMWeb 前端博客</a></li>
+<li><a href="https://harttle.land/2015/07/18/vim-cpp.html" target="_blank" rel="noopener">在 VIM 下写 C++ 能有多爽？| Harttle Land</a></li>
+<li><a href="https://coolshell.cn/articles/5479.html" target="_blank" rel="noopener">给程序员的 VIM 速查卡 | 酷壳 CoolShell</a></li>
+<li><a href="https://coolshell.cn/articles/3125.html" target="_blank" rel="noopener">主流文本编辑器学习曲线 | 酷壳 CoolShell</a></li>
+<li><a href="https://coolshell.cn/articles/5426.html" target="_blank" rel="noopener">简明 VIM 练级攻略 | 酷壳 CoolShell</a></li>
+</ul>
+<h3 id="Vim-快捷键"><a href="#Vim-快捷键" class="headerlink" title="Vim 快捷键"></a>Vim 快捷键</h3><ul>
+<li><a href="https://blog.csdn.net/JasonDing1354/article/details/45372007#" target="_blank" rel="noopener">Vim 使用 map 自定义快捷键 | CSDN</a></li>
+</ul>
+<h3 id="NeoVim"><a href="#NeoVim" class="headerlink" title="NeoVim"></a>NeoVim</h3><ul>
+<li><a href="https://gqqnbig.me/2018/03/04/neovim初体验/" target="_blank" rel="noopener">NeoVim 初体验 | GQQNBIG 的专栏</a></li>
+<li><a href="https://www.jianshu.com/p/b566b4a5bf7b" target="_blank" rel="noopener">安装使用配置 NeoVim | 简书</a></li>
+<li><a href="https://www.jianshu.com/p/c382222e5151" target="_blank" rel="noopener">安装使用配置 NeoVim - 配置 | 简书</a></li>
+<li><a href="https://dongpi.yunlinshan.com/blog/Article/Linux/neovim/Install_Use_Configure_Neovim/Install_Use_Configure_Neovim.html" target="_blank" rel="noopener">安装使用配置 Neovim | 冻皮博客</a></li>
+<li><a href="https://dongpi.yunlinshan.com/blog/Article/Linux/neovim/Install_Use_Configure_Neovim_Configure/Install_Use_Configure_Neovim_Configure.html" target="_blank" rel="noopener">安装使用配置 Neovim - 配置 | 冻皮博客</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1338344" target="_blank" rel="noopener">如何安装 NeoVim 和使用 vim-plug 安装相关插件？| 腾讯云+社区</a></li>
+<li><a href="http://www.liuhaihua.cn/archives/246029.html" target="_blank" rel="noopener">用 NeoVim 取代 Vim | Harries Blog</a></li>
+</ul>
+<h3 id="SpaceVim"><a href="#SpaceVim" class="headerlink" title="SpaceVim"></a>SpaceVim</h3><ul>
+<li><a href="https://spacevim.org" target="_blank" rel="noopener">SpaceVim 官网</a></li>
+<li><a href="https://github.com/SpaceVim/SpaceVim" target="_blank" rel="noopener">SpaceVim | Github</a></li>
+</ul>
+<h3 id="Emacs"><a href="#Emacs" class="headerlink" title="Emacs"></a>Emacs</h3><ul>
+<li><a href="http://wenshanren.org/?p=386" target="_blank" rel="noopener">著名 Emacs 用户列表 | Wenshan’s Blog</a></li>
+</ul>
+<h3 id="Tmux"><a href="#Tmux" class="headerlink" title="Tmux"></a>Tmux</h3><ul>
+<li><a href="https://harttle.land/2015/11/06/tmux-startup.html#header-9" target="_blank" rel="noopener">优雅地使用命令行：Tmux 终端复用 | Harttle Land</a></li>
+<li><a href="https://blog.einverne.info/post/2017/07/tmux-introduction.html" target="_blank" rel="noopener">Tmux 使用介绍 | Verne in Github</a></li>
+<li><a href="https://blog.51cto.com/wangqh/1782102" target="_blank" rel="noopener">CentOS 下 tmux 打造完美终端管理工具 | 51CTO</a></li>
+<li><a href="https://blog.csdn.net/scdxmoe/article/details/49329925" target="_blank" rel="noopener">CentOS Tmux 安装与配置 | CSDN</a></li>
+<li><a href="http://blog.xeonxu.info/blog/2012/11/04/shi-yong-tmuxgai-jin-zhong-duan-ti-yan/" target="_blank" rel="noopener">使用 Tmux 改进终端体验 | 徐至强</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1095535" target="_blank" rel="noopener">Tmux 入门指南 | 腾讯云+社区</a></li>
+</ul>
+<h3 id="True-Color-相关"><a href="#True-Color-相关" class="headerlink" title="True Color 相关"></a>True Color 相关</h3><ul>
+<li><a href="https://lotabout.me/2018/true-color-for-tmux-and-vim/" target="_blank" rel="noopener">为 vim + tmux 开启真彩色(true color) | 三点水</a></li>
+<li><a href="https://sunaku.github.io/tmux-24bit-color.html" target="_blank" rel="noopener">Adding 24-bit TrueColor RGB escape sequences to tmux</a></li>
+<li><a href="https://github.com/gnachman/iTerm2/blob/master/tests/24-bit-color.sh" target="_blank" rel="noopener">24-bit-color.sh | Github</a></li>
+<li><a href="https://gist.github.com/XVilka/8346728#now-supporting-truecolour" target="_blank" rel="noopener">Terminal Colors | Github</a></li>
+<li><a href="https://blog.csdn.net/dulq_/article/details/80469633" target="_blank" rel="noopener">让 Tmux 支持 True Color | CSDN</a></li>
+<li><a href="https://blog.csdn.net/weixin_40539892/article/details/80801094" target="_blank" rel="noopener">开发工具 Vim 在 bash 中的显示与 tmux 中的显示不同 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/QuantumEnergy/article/details/79940014" target="_blank" rel="noopener">vim配色主题在tmux中显示异常解决方案（macOS+iterm2+zsh）| CSDN</a></li>
+<li><a href="https://blog.csdn.net/qq_37521235/article/details/68952879" target="_blank" rel="noopener">tmux 与 vim 冲突问题的解决方法 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/WoBenZiYou/article/details/66974120" target="_blank" rel="noopener">使用 tmux 时 vim 主题（theme）失效的解决 | CSDN</a></li>
+</ul>
+<h3 id="Vim-插件"><a href="#Vim-插件" class="headerlink" title="Vim 插件"></a>Vim 插件</h3><ul>
+<li><a href="https://vimawesome.com/?q=cat%3Acommand" target="_blank" rel="noopener">Vim Awesome</a></li>
+<li><a href="http://vim-scripts.org" target="_blank" rel="noopener">Vim Scripts | Vim 官网插件的镜像</a></li>
+<li><a href="http://vim.spf13.com" target="_blank" rel="noopener">spf13-vim</a></li>
+<li><a href="https://medium.com/@zyshang/vim-%E7%9A%84%E6%8F%92%E4%BB%B6-3733761ce204" target="_blank" rel="noopener">Vim 的插件 | Medium.com</a></li>
+<li><a href="https://github.com/fatih/vim-go" target="_blank" rel="noopener">vim-go | Github</a></li>
+<li><a href="http://www.vimkid.com/zh/3.html" target="_blank" rel="noopener">Vim 插件之 MRU</a></li>
+<li><a href="https://github.com/vim-scripts/mru.vim/blob/master/plugin/mru.vim" target="_blank" rel="noopener">mru.vim | Github</a></li>
+<li><a href="https://github.com/mhinz/vim-startify/blob/master/plugin/startify.vim" target="_blank" rel="noopener">startify.vim | Github</a></li>
+<li><a href="https://github.com/kien/ctrlp.vim" target="_blank" rel="noopener">ctrlp.vim | Github</a></li>
+<li><a href="https://github.com/skywind3000/asyncrun.vim" target="_blank" rel="noopener">skywind3000/asyncrun.vim | Github</a></li>
+<li><a href="https://github.com/powerline/powerline" target="_blank" rel="noopener">powerline | Github</a></li>
+<li><a href="http://www.wklken.me/posts/2015/06/07/vim-plugin-airline.html" target="_blank" rel="noopener">VIM 插件: AIRLINE[状态栏增强] | WKLKEN BUILDING</a></li>
+<li><a href="https://github.com/vim-airline/vim-airline" target="_blank" rel="noopener">vim-airline | Github</a></li>
+<li><a href="https://wxnacy.com/2017/09/25/vim-plugin-artline/" target="_blank" rel="noopener">Vim 插件 vim-airline 状态栏增强显示 | 温欣爸比</a></li>
+<li><a href="https://blog.csdn.net/panderang/article/details/54175475" target="_blank" rel="noopener">Vim-airline 插件安装配置 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/the_victory/article/details/50638810" target="_blank" rel="noopener">VIM 配置:vim-airline 插件安装 | CSDN</a></li>
+<li><a href="https://github.com/bcicen/vim-vice" target="_blank" rel="noopener">vim-vice - Dark and vibrant colorscheme for vim | Github</a></li>
+</ul>
+<h3 id="Tmux-插件"><a href="#Tmux-插件" class="headerlink" title="Tmux 插件"></a>Tmux 插件</h3><ul>
+<li><a href="https://github.com/erikw/tmux-powerline" target="_blank" rel="noopener">tmux-powerline | Github</a></li>
+<li><a href="https://github.com/odedlaz/tmux-onedark-theme" target="_blank" rel="noopener">tmux-onedark-theme | Github</a></li>
+<li><a href="https://github.com/seebi/tmux-colors-solarized" target="_blank" rel="noopener">tmux-colors-solarized | Github</a></li>
+</ul>
+<h3 id="dotfiles-收集"><a href="#dotfiles-收集" class="headerlink" title="dotfiles 收集"></a>dotfiles 收集</h3><ul>
+<li><a href="https://github.com/int32bit/dotfiles" target="_blank" rel="noopener">int32bit/dotfiles - vim/zsh/git/tmux dotfiles | Github</a></li>
+<li><a href="https://github.com/jusonalien/ourvim" target="_blank" rel="noopener">ourvim - jusonalien| Github</a></li>
+<li><a href="https://github.com/TimothyYe/mydotfiles" target="_blank" rel="noopener">TimothyYe/mydotfiles | Github</a></li>
+<li><a href="https://github.com/amix/vimrc" target="_blank" rel="noopener">amix/vimrc | Github</a></li>
+<li><a href="https://github.com/wsdjeg/DotFiles" target="_blank" rel="noopener">wsdjeg/DotFiles | Github</a></li>
+<li><a href="https://github.com/barretlee/autoconfig-mac-vimrc" target="_blank" rel="noopener">barretlee/autoconfig-mac-vimrc | Github</a></li>
+</ul>
+<h3 id="TimothyYe-的程序员内功系列"><a href="#TimothyYe-的程序员内功系列" class="headerlink" title="TimothyYe 的程序员内功系列"></a>TimothyYe 的程序员内功系列</h3><ul>
+<li><a href="https://xiaozhou.net/learn-the-command-line-preface-2017-05-12.html" target="_blank" rel="noopener">程序员内功系列 - 序篇 | iTimothy</a></li>
+<li><a href="https://xiaozhou.net/learn-the-command-line-iterm-and-zsh-2017-06-23.html" target="_blank" rel="noopener">程序员内功系列 - iTerm 与 Zsh 篇 | iTimothy</a></li>
+<li><a href="https://xiaozhou.net/learn-the-command-line-tmux-2018-04-27.html" target="_blank" rel="noopener">程序员内功系列 - Tmux 篇 | iTimothy</a></li>
+<li><a href="https://xiaozhou.net/learn-the-command-line-vim-2018-08-08.html" target="_blank" rel="noopener">程序员内功系列 - Vim 篇 | iTimothy</a></li>
+<li><a href="https://xiaozhou.net/learn-the-command-line-tools-md-2018-10-11.html" target="_blank" rel="noopener">程序员内功系列 - 常用命令行工具篇 | iTimothy</a></li>
+</ul>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://ohmyz.sh/" target="_blank" rel="noopener">Oh My Zsh</a></li>
+<li><a href="https://neovim.io/" target="_blank" rel="noopener">Neovim</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/21364426" target="_blank" rel="noopener">NeoVim 科普，21 世纪的 Vim | 知乎</a></li>
+<li><a href="https://github.com/tmux-plugins/tpm" target="_blank" rel="noopener">tpm - Tmux Plugin Manager | Github</a></li>
+<li><a href="https://github.com/NHDaly/tmux-better-mouse-mode" target="_blank" rel="noopener">Tmux Better Mouse Mode | Github</a></li>
+<li><a href="https://github.com/TimothyYe/mydotfiles" target="_blank" rel="noopener">mydotfiles - TimothyYe | Github</a></li>
+<li><a href="http://blog.kompaz.win/2017/03/08/Tmux%20配置使用/" target="_blank" rel="noopener">Tmux 配置使用 | Kompass</a></li>
+<li><a href="https://github.com/wklken/k-vim" target="_blank" rel="noopener">k-vim - wklken | Github</a></li>
+<li><a href="https://github.com/laixintao/myrc" target="_blank" rel="noopener">myrc - laixintao | Github</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/">Linux 终端修改 ls 命令目录显示颜色</a></li><li><a href="https://abelsu7.top/2019/07/07/shell-io-redirection/">Shell 输入/输出重定向：1>/dev/null、2>&1</a></li><li><a href="https://abelsu7.top/2019/07/03/windows-fluent-terminal/">Fluent Terminal：Windows 下的炫酷终端</a></li><li><a href="https://abelsu7.top/2019/06/13/chrome-extension-vimium/">Chrome 插件 Vimium：键盘党的胜利</a></li><li><a href="https://atomrq.gitee.io/2019-09-day/2019-09-16-zsh/">zsh安装配置</a></li><li><a href="https://atomrq.com/2019-09-day/2019-09-16-zsh/">zsh安装配置</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-10-24T08:14:40.800Z" itemprop="dateUpdated">2019-10-24 16:14:40</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/05/21/terminal-ide-using-zsh-nvim-tmux/" target="_blank" rel="external">https://abelsu7.top/2019/05/21/terminal-ide-using-zsh-nvim-tmux/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NeoVim/">NeoVim</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim/">Vim</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tmux/">tmux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zsh/">zsh</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/终端/">终端</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/05/21/terminal-ide-using-zsh-nvim-tmux/&title=《Oh My Zsh/NeoVim/Tmux 打造终端 IDE》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/05/21/terminal-ide-using-zsh-nvim-tmux/&title=《Oh My Zsh/NeoVim/Tmux 打造终端 IDE》 — Keep Coding&source=
+The only thing you need is just a termimal.
+
+
+                
+             ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/05/21/terminal-ide-using-zsh-nvim-tmux/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Oh My Zsh/NeoVim/Tmux 打造终端 IDE》 — Keep Coding&url=https://abelsu7.top/2019/05/21/terminal-ide-using-zsh-nvim-tmux/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/05/21/terminal-ide-using-zsh-nvim-tmux/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/05/21/ubuntu-aptitude/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">解决 Ubuntu apt-get install 错误：未满足的依赖关系</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/05/21/rsshub-and-ttrss/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">RSSHub + Awesome TTRSS 搭建 RSS 阅读器</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/05/21/terminal-ide-using-zsh-nvim-tmux/&title=《Oh My Zsh/NeoVim/Tmux 打造终端 IDE》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/05/21/terminal-ide-using-zsh-nvim-tmux/&title=《Oh My Zsh/NeoVim/Tmux 打造终端 IDE》 — Keep Coding&source=
+The only thing you need is just a termimal.
+
+
+                
+             ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/05/21/terminal-ide-using-zsh-nvim-tmux/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Oh My Zsh/NeoVim/Tmux 打造终端 IDE》 — Keep Coding&url=https://abelsu7.top/2019/05/21/terminal-ide-using-zsh-nvim-tmux/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/05/21/terminal-ide-using-zsh-nvim-tmux/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACnklEQVR42u3aSXLDMAwEQP//084LGA0AwnGqWieXF4nNAwkP8XrF1/twTT6d3PPyhYeHh3dp6KeHnX57uvPpnepw8ynDw8PD+wwvuV0y6NPj8+n4fSrzMePh4eF9D6+6iJ9gSaH8+zTh4eHh/RfeZOGeJwl4eHh438NLwoj8kXlskce161kLHh4eXszrRah/+3rlfA8PDw9vfKreW3CrR2JVXmG0eHh4eAu8fMHN2dWiOY8YquPEw8PD2+BNBtc7NrvbpvAwZXh4eHhrvCoyPxKr/rY3cVE+jYeHh7fGqxbNyTd7+Pn2gIeHh7fHq5a/vQaC3sF/r3DHw8PD+wyvx642Y+VPz1vBClkLHh4e3iVeEj3kEcAkeO21HRw/xcPDw1vm5cjeHarLeo6MYlw8PDy8S7zecPNIYl5e9z59iCfw8PDwBrzJEVcPMNkeypExHh4e3hovL0/zVoMqPq+EC8U0Hh4e3gKvGhlMmgYmDVg5Mkpc8PDw8Aa8/EbVmHVeIidbxcME4eHh4S3w7i7o5eOoYkTbO07Dw8PD2+aVl91Wk0FeRk+CEjw8PLw9XhJMzAeXbw/Rcn+r6QoPDw9vbUvoDWgebeRPrHRj4eHh4fV5vc0gjyqSdq7q6+pGhYeHh/dJ3q2St7p5VMv0qLMMDw8Pb4GXNwFMyuteFDL6Ph4eHt4HeQlgUkDfCikeLHh4eHhXee/iVY1le60G5baq06d4eHh4C7zqgttrI5hHt6MDMDw8PLwFXr4ZTKKKaiNXNTJ+CCPw8PDwFni9JqdeOZ6fUjXzFTw8PLwv4+UF9LwtoBcQ4+Hh4X0nb/6vPynKqwHxtY0BDw8P79Kw8pvmw6puFeWx4eHh4S3wen/4kzK3904e2r5uXXh4eHgp7wfi15xxZPuJlgAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

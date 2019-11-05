@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>排序算法 1：冒泡排序、插入排序、选择排序 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Java,算法,Go,排序">
+    <meta name="description" content="摘自  数据结构与算法之美 | 极客时间">
+<meta name="keywords" content="Java,算法,Go,排序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排序算法 1：冒泡排序、插入排序、选择排序">
+<meta property="og:url" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自  数据结构与算法之美 | 极客时间">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/jikeshijian.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/cover.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/sort-complexity.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/bubble-5.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/bubble-1.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/bubble-2.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/bubble-3.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/bubble-4.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/bubble-6.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/insert-1.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/insert-2.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/insert-3.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/selection-1.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/summary.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/jikeshijian.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/star.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/wechat.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/star.svg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.673Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="排序算法 1：冒泡排序、插入排序、选择排序">
+<meta name="twitter:description" content="摘自  数据结构与算法之美 | 极客时间">
+<meta name="twitter:image" content="https://abelsu7.top/2019/03/08/sort-algo-in-go/jikeshijian.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">排序算法 1：冒泡排序、插入排序、选择排序</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">排序算法 1：冒泡排序、插入排序、选择排序</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-03-08T02:56:06.000Z" itemprop="datePublished" class="page-time">
+  2019-03-08
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/算法/">算法</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-排序算法基础"><span class="post-toc-text">1. 排序算法基础</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-1-常见排序算法的时间复杂度"><span class="post-toc-text">1.1 常见排序算法的时间复杂度</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-2-如何分析一个排序算法"><span class="post-toc-text">1.2 如何分析一个排序算法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-3-排序算法的内存消耗"><span class="post-toc-text">1.3 排序算法的内存消耗</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-4-排序算法的稳定性"><span class="post-toc-text">1.4 排序算法的稳定性</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-5-有序度-逆序度"><span class="post-toc-text">1.5 有序度/逆序度</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-冒泡排序"><span class="post-toc-text">2. 冒泡排序</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-基本思路"><span class="post-toc-text">2.1 基本思路</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-优化技巧"><span class="post-toc-text">2.2 优化技巧</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-3-算法分析"><span class="post-toc-text">2.3 算法分析</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-4-Java-实现"><span class="post-toc-text">2.4 Java 实现</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-5-Go-实现"><span class="post-toc-text">2.5 Go 实现</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-插入排序"><span class="post-toc-text">3. 插入排序</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-基本思路"><span class="post-toc-text">3.1 基本思路</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-算法分析"><span class="post-toc-text">3.2 算法分析</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-3-Java-实现"><span class="post-toc-text">3.3 Java 实现</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-4-Go-实现"><span class="post-toc-text">3.4 Go 实现</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-选择排序"><span class="post-toc-text">4. 选择排序</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-1-基本思路"><span class="post-toc-text">4.1 基本思路</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-2-算法分析"><span class="post-toc-text">4.2 算法分析</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-3-Java-实现"><span class="post-toc-text">4.3 Java 实现</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-4-Go-实现"><span class="post-toc-text">4.4 Go 实现</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-为何插入比冒泡更受欢迎"><span class="post-toc-text">5. 为何插入比冒泡更受欢迎</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-小结"><span class="post-toc-text">6. 小结</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-sort-algo-in-go"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">排序算法 1：冒泡排序、插入排序、选择排序</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-03-08 10:56:06" datetime="2019-03-08T02:56:06.000Z"  itemprop="datePublished">2019-03-08</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/算法/">算法</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>摘自 <img src="/2019/03/08/sort-algo-in-go/jikeshijian.png" width="16"> <a href="https://time.geekbang.org/column/126" target="_blank" rel="noopener">数据结构与算法之美 | 极客时间</a></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/08/sort-algo-in-go/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#1-排序算法基础">1. 排序算法基础</a><ul>
+<li><a href="#1-1-常见排序算法的时间复杂度">1.1 常见排序算法的时间复杂度</a></li>
+<li><a href="#1-2-如何分析一个排序算法">1.2 如何分析一个排序算法</a></li>
+<li><a href="#1-3-排序算法的内存消耗">1.3 排序算法的内存消耗</a></li>
+<li><a href="#1-4-排序算法的稳定性">1.4 排序算法的稳定性</a></li>
+<li><a href="#1-5-有序度-逆序度">1.5 有序度/逆序度</a></li>
+</ul>
+</li>
+<li><a href="#2-冒泡排序">2. 冒泡排序</a><ul>
+<li><a href="#2-1-基本思路">2.1 基本思路</a></li>
+<li><a href="#2-2-优化技巧">2.2 优化技巧</a></li>
+<li><a href="#2-3-算法分析">2.3 算法分析</a></li>
+<li><a href="#2-4-Java-实现">2.4 Java 实现</a></li>
+<li><a href="#2-5-Go-实现">2.5 Go 实现</a></li>
+</ul>
+</li>
+<li><a href="#3-插入排序">3. 插入排序</a><ul>
+<li><a href="#3-1-基本思路">3.1 基本思路</a></li>
+<li><a href="#3-2-算法分析">3.2 算法分析</a></li>
+<li><a href="#3-3-Java-实现">3.3 Java 实现</a></li>
+<li><a href="#3-4-Go-实现">3.4 Go 实现</a></li>
+</ul>
+</li>
+<li><a href="#4-选择排序">4. 选择排序</a><ul>
+<li><a href="#4-1-基本思路">4.1 基本思路</a></li>
+<li><a href="#4-2-算法分析">4.2 算法分析</a></li>
+<li><a href="#4-3-Java-实现">4.3 Java 实现</a></li>
+<li><a href="#4-4-Go-实现">4.4 Go 实现</a></li>
+</ul>
+</li>
+<li><a href="#5-为何插入比冒泡更受欢迎">5. 为何插入比冒泡更受欢迎</a></li>
+<li><a href="#6-小结">6. 小结</a></li>
+<li><a href="#参考文章">参考文章</a></li>
+</ul>
+<h3 id="1-排序算法基础"><a href="#1-排序算法基础" class="headerlink" title="1. 排序算法基础"></a>1. 排序算法基础</h3><h4 id="1-1-常见排序算法的时间复杂度"><a href="#1-1-常见排序算法的时间复杂度" class="headerlink" title="1.1 常见排序算法的时间复杂度"></a>1.1 常见排序算法的时间复杂度</h4><p><strong>排序算法</strong>有很多种，<strong>最常用</strong>的包括：<strong>冒泡排序、插入排序、选择排序、归并排序、快速排序、计数排序、基数排序、桶排序</strong>。按照<strong>时间复杂度</strong>可分为<strong>三类</strong>：<code>O(n^2)</code>、<code>O(nlogn)</code>、<code>O(n)</code>，如下图所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/08/sort-algo-in-go/sort-complexity.jpg" alt="常见排序算法的时间复杂度" title>
+                </div>
+                <div class="image-caption">常见排序算法的时间复杂度</div>
+            </figure>
+<h4 id="1-2-如何分析一个排序算法"><a href="#1-2-如何分析一个排序算法" class="headerlink" title="1.2 如何分析一个排序算法"></a>1.2 如何分析一个排序算法</h4><ol>
+<li><strong>最好情况、最坏情况、平均时间复杂度</strong></li>
+<li>时间复杂度的<strong>系数、常数、低阶</strong></li>
+<li><strong>比较次数</strong>和<strong>交换</strong>（或移动）<strong>次数</strong></li>
+</ol>
+<h4 id="1-3-排序算法的内存消耗"><a href="#1-3-排序算法的内存消耗" class="headerlink" title="1.3 排序算法的内存消耗"></a>1.3 排序算法的内存消耗</h4><p><strong>算法的内存消耗</strong>可以通过<strong>空间复杂度</strong>来衡量。不过，<strong>针对排序算法的空间复杂度</strong>，我们还引入了一个新的概念，<strong>原地排序（Sorted in Place）</strong>。原地排序算法，就是<strong>特指空间复杂度是</strong><code>O(1)</code><strong>的算法</strong>。</p>
+<blockquote>
+<p>本文提到的<strong>冒泡、插入、选择排序</strong>，都是<strong>原地排序算法</strong></p>
+</blockquote>
+<h4 id="1-4-排序算法的稳定性"><a href="#1-4-排序算法的稳定性" class="headerlink" title="1.4 排序算法的稳定性"></a>1.4 排序算法的稳定性</h4><p>仅仅用<strong>执行效率</strong>和<strong>内存消耗</strong>来衡量排序算法的好坏是不够的。针对排序算法，还有一个重要的度量指标，<strong>稳定性</strong>。这个概念是说，如果待排序的序列中<strong>存在值相等的元素</strong>，经过排序之后，<strong>相等元素之间原有的先后顺序不变</strong>，那么<strong>这个算法就是稳定的</strong>。</p>
+<h4 id="1-5-有序度-逆序度"><a href="#1-5-有序度-逆序度" class="headerlink" title="1.5 有序度/逆序度"></a>1.5 有序度/逆序度</h4><p><strong><em>1. 有序度</em></strong></p>
+<p><strong>有序度</strong>是数组中<strong>具有有序关系</strong>的<strong>元素对</strong>的个数：</p>
+<pre><code class="lang-go">有序元素对：a[i] &lt;= a[j], 如果 i &lt; j
+</code></pre>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/08/sort-algo-in-go/bubble-5.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>同理，对于一个<strong>倒序排列</strong>的数组，例如<code>6, 5, 4, 3, 2, 1</code>，<strong>有序度是</strong><code>0</code>；对于一个<strong>完全有序</strong>的数组，例如<code>1, 2, 3, 4, 5, 6</code>，<strong>有序度是</strong><code>n*(n-1)/2</code>，也就是<code>15</code>，又称<strong>满有序度</strong>。</p>
+<p><strong><em>2. 逆序度</em></strong></p>
+<p><strong>逆序度</strong>的定义正好跟有序度相反：</p>
+<pre><code class="lang-go">逆序元素对：a[i] &gt; a[j], 如果 i &lt; j
+</code></pre>
+<p><strong><em>3. 有序度和逆序度之间的关系</em></strong></p>
+<p>关于<strong>有序度、逆序度、满有序度</strong>这三个概念，还可以得到一个<strong>计算公式</strong>：</p>
+<pre><code class="lang-go">逆序度 = 满有序度 - 有序度
+</code></pre>
+<p>本质上，<strong>排序</strong>的过程就是一种<strong>增加有序度、减少逆序度、最后达到满有序度</strong>的过程。</p>
+<h3 id="2-冒泡排序"><a href="#2-冒泡排序" class="headerlink" title="2. 冒泡排序"></a>2. 冒泡排序</h3><h4 id="2-1-基本思路"><a href="#2-1-基本思路" class="headerlink" title="2.1 基本思路"></a>2.1 基本思路</h4><p><strong>冒泡排序（Bubble Sort）</strong>只会<strong>比较相邻的两个元素</strong>，看<strong>是否满足大小关系要求</strong>，如果<strong>不满足</strong>就让他俩<strong>交换</strong>。<strong>一次冒泡</strong>会让<strong>至少一个元素移动到它应该在的位置</strong>，重复<code>n</code>次，就完成了<code>n</code>个数据的排序工作。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/08/sort-algo-in-go/bubble-1.jpg" alt="元素 6 冒泡到了数组末端" title>
+                </div>
+                <div class="image-caption">元素 6 冒泡到了数组末端</div>
+            </figure>
+<p>可以看到，经过一次冒泡操作之后，<code>6</code>这个元素已经<strong>存储在正确的位置上</strong>。要想完成<strong>所有数据的排序</strong>，只需要<strong>进行</strong><code>n</code><strong>次这样的冒泡操作</strong>就可以：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/08/sort-algo-in-go/bubble-2.jpg" alt="6 次冒泡后，所有数据排序完成" title>
+                </div>
+                <div class="image-caption">6 次冒泡后，所有数据排序完成</div>
+            </figure>
+<h4 id="2-2-优化技巧"><a href="#2-2-优化技巧" class="headerlink" title="2.2 优化技巧"></a>2.2 优化技巧</h4><p>实际上，上述冒泡的过程还可以进行<strong>优化</strong>。当<strong>某次冒泡操作</strong>已经<strong>没有数据交换</strong>的时候，就说明已经达到了<strong>完全有序</strong>，<strong>不用再继续执行后续的冒泡操作</strong>了。如下图的例子，<code>6</code>个元素只需要进行<code>4</code>次冒泡：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/08/sort-algo-in-go/bubble-3.jpg" alt="四次冒泡后达到完全有序" title>
+                </div>
+                <div class="image-caption">四次冒泡后达到完全有序</div>
+            </figure>
+<h4 id="2-3-算法分析"><a href="#2-3-算法分析" class="headerlink" title="2.3 算法分析"></a>2.3 算法分析</h4><ol>
+<li>冒泡的过程<strong>只涉及相邻数据的交换操作</strong>，只需要<strong>常量级的临时空间</strong>，所以它的<strong>空间复杂度</strong>为<code>O(1)</code>，是一个<strong>原地排序算法</strong></li>
+<li>在冒泡排序中，<strong>只有交换才可以改变两个元素的前后顺序</strong>。为了保证冒泡排序算法的稳定性，<strong>当有相邻的两个元素大小相等的时候，我们不做交换</strong>，相同大小的数据在排序前后不会改变顺序，因此<strong>冒泡排序是稳定的排序算法</strong></li>
+<li>冒泡排序的<strong>最好情况</strong>是要排序的数据<strong>已经是有序的了</strong>，只需要进行<strong>一次冒泡操作</strong>，时间复杂度为<code>O(n)</code>。而<strong>最坏情况</strong>是要排序的数据<strong>刚好都是倒序的</strong>，需要进行<code>n</code><strong>次冒泡操作</strong>，所以最坏情况时间复杂度为<code>O(n^2)</code></li>
+</ol>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/08/sort-algo-in-go/bubble-4.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>再来分析一下<strong>平均情况</strong>：要排序的数组<strong>初始状态</strong>下的<strong>有序度</strong>为<code>3</code>，<strong>元素个数</strong><code>n=6</code>。所以排序完成之后<strong>终态</strong>的<strong>满有序度</strong>为<code>n*(n-1)/2=15</code>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/08/sort-algo-in-go/bubble-6.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>冒泡排序</strong>包含了<strong>两个操作原子</strong>：<strong>比较</strong>和<strong>交换</strong>。<strong>每交换一次，有序度就加 1</strong>。所以不管算法怎么改进，<strong>交换次数总是确定的，即为逆序度</strong>。上图的例子中就是<code>12</code>，所以要进行 12 次交换操作。</p>
+<ul>
+<li><strong>最坏情况</strong>下，初始状态的<strong>有序度为</strong><code>0</code>，要<strong>进行</strong><code>n*(n-1)/2</code><strong>次交换</strong></li>
+<li><strong>最好情况</strong>下，初始状态的<strong>有序度为</strong><code>n*(n-1)/2</code>，<strong>不需要进行交换</strong></li>
+<li>取两者中间值<code>n*(n-1)/4</code>，来表示<strong>初始有序度既不是很高也不是很低</strong>的<strong>平均情况</strong></li>
+</ul>
+<p>所以<strong>平均情况下</strong>，需要<code>n*(n-1)/4</code><strong>次交换操作</strong>。比较操作肯定要比交换操作多，而<strong>复杂度的上限</strong>是<code>O(n^2)</code>，所以经过<strong>不严格的推导</strong>可得出，<strong>冒泡排序平均情况下的时间复杂度</strong>为<code>O(n^2)</code>。</p>
+<h4 id="2-4-Java-实现"><a href="#2-4-Java-实现" class="headerlink" title="2.4 Java 实现"></a>2.4 Java 实现</h4><pre><code class="lang-java">// 冒泡排序，a 表示数组，n 表示数组大小
+public void bubbleSort(int[] a, int n) {
+    if (n &lt;= 1) return;
+
+    for (int i = 0; i &lt; n; ++i) {
+        // 提前退出冒泡循环的标志位
+        boolean flag = false;
+        for (int j = 0; j &lt; n - i - 1; ++j) {
+            if (a[j] &gt; a[j+1]) { // 交换
+                int tmp = a[j];
+                    a[j] = a[j+1];
+                    a[j+1] = tmp;
+                    flag = true;  // 表示有数据交换      
+            }
+        }
+        if (!flag) break;  // 没有数据交换，提前退出
+    }
+}
+</code></pre>
+<h4 id="2-5-Go-实现"><a href="#2-5-Go-实现" class="headerlink" title="2.5 Go 实现"></a>2.5 Go 实现</h4><blockquote>
+<p>注：<strong>Go 语言</strong>提供了<strong>交换操作</strong>的<strong>语法糖</strong>：<code>a[j], a[j+1] = a[j+1], a[j]</code> </p>
+</blockquote>
+<pre><code class="lang-go">// 冒泡排序，a 表示数组，n 表示数组大小
+func BubbleSort(a []int, n int) {
+    if n &lt;= 1 {
+        return
+    }
+    for i := 0; i &lt; n; i++ {
+        // 提前退出标志
+        flag := false
+        for j := 0; j &lt; n-i-1; j++ {
+            if a[j] &gt; a[j+1] {
+                a[j], a[j+1] = a[j+1], a[j]
+                //此次冒泡有数据交换
+                flag = true
+            }
+        }
+            // 如果没有交换数据，提前退出
+            if !flag {
+                break
+            }
+    }
+}
+</code></pre>
+<h3 id="3-插入排序"><a href="#3-插入排序" class="headerlink" title="3. 插入排序"></a>3. 插入排序</h3><h4 id="3-1-基本思路"><a href="#3-1-基本思路" class="headerlink" title="3.1 基本思路"></a>3.1 基本思路</h4><p>对于一个<strong>有序的数组</strong>，为了<strong>继续保持数据有序</strong>，我们只需要<strong>遍历数组</strong>，<strong>找到数据应该插入的位置</strong>将其插入即可：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/08/sort-algo-in-go/insert-1.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>插入排序（Insertion Sort）</strong>正是借助上面的思想来实现排序。首先，我们将数组中的数据分为两个区间：<strong>已排序区间</strong>和<strong>未排序区间</strong>。<strong>初始已排序区间</strong>只有<strong>数组的第一个元素</strong>。插入算法的<strong>核心思想</strong>就是<strong>取未排序区间中的元素</strong>，在已排序区间中<strong>找到合适的插入位置并将其插入</strong>，重复这个过程<strong>直到未排序区间中元素为空</strong>，算法结束：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/08/sort-algo-in-go/insert-2.jpg" alt="左侧为已排序区间，右侧为未排序区间" title>
+                </div>
+                <div class="image-caption">左侧为已排序区间，右侧为未排序区间</div>
+            </figure>
+<p><strong>插入排序</strong>也包含<strong>两种操作原子</strong>：元素的<strong>比较</strong>和<strong>移动</strong>。</p>
+<ul>
+<li>对于<strong>不同的查找插入点方法</strong>（从头到尾、从尾到头），<strong>元素的比较次数是有区别的</strong></li>
+<li>但<strong>对于一个给定的初始序列</strong>，<strong>移动操作的次数总是固定的</strong>，就等于<strong>逆序度</strong>：</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/08/sort-algo-in-go/insert-3.jpg" alt="插入排序中，数据移动的次数等于逆序度" title>
+                </div>
+                <div class="image-caption">插入排序中，数据移动的次数等于逆序度</div>
+            </figure>
+<h4 id="3-2-算法分析"><a href="#3-2-算法分析" class="headerlink" title="3.2 算法分析"></a>3.2 算法分析</h4><ol>
+<li><strong>插入排序算法</strong>的运行并<strong>不需要额外的存储空间</strong>，<strong>空间复杂度</strong>为<code>O(1)</code>，也是一个<strong>原地排序算法</strong></li>
+<li>对于<strong>值相同的元素</strong>，我们可以选择<strong>将后面出现的元素，插入到前面出现元素的后面</strong>，这样就可以<strong>保持原有的前后顺序不变</strong>，所以插入排序也是<strong>稳定的排序算法</strong></li>
+<li><strong>最好情况下</strong>，数据<strong>全部有序</strong>，只需要<strong>从尾到头遍历所有数据</strong>，时间复杂度为<code>O(n)</code>。<strong>最坏情况下</strong>，数据<strong>全部逆序</strong>，时间复杂度为<code>O(n^2)</code>。总的来看，<strong>平均时间复杂度</strong>为<code>O(n^2)</code></li>
+</ol>
+<h4 id="3-3-Java-实现"><a href="#3-3-Java-实现" class="headerlink" title="3.3 Java 实现"></a>3.3 Java 实现</h4><pre><code class="lang-java">// 插入排序，a 表示数组，n 表示数组大小
+public void insertionSort(int[] a, int n) {
+    if (n &lt;= 1) return;
+
+    for (int i = 1; i &lt; n; ++i) {
+        int value = a[i];
+        int j = i - 1;
+        // 查找插入的位置
+        for (; j &gt;= 0; --j) {
+            if (a[j] &gt; value) {
+                a[j+1] = a[j];  // 数据移动
+            } else {
+                break;
+            }
+        }
+        a[j+1] = value; // 插入数据
+    }
+}
+</code></pre>
+<h4 id="3-4-Go-实现"><a href="#3-4-Go-实现" class="headerlink" title="3.4 Go 实现"></a>3.4 Go 实现</h4><pre><code class="lang-go">// 插入排序，a 表示数组，n 表示数组大小
+func InsertionSort(a []int, n int) {
+    if n &lt;= 1 {
+        return
+    }
+    for i := 1; i &lt; n; i++ {
+        value := a[i]
+        j := i - 1
+        // 查找要插入的位置并移动数据
+        for ; j &gt;= 0; j-- {
+            if a[j] &gt; value {
+                a[j+1] = a[j]
+            } else {
+                break
+            }
+        }
+        a[j+1] = value
+    }
+}
+</code></pre>
+<h3 id="4-选择排序"><a href="#4-选择排序" class="headerlink" title="4. 选择排序"></a>4. 选择排序</h3><h4 id="4-1-基本思路"><a href="#4-1-基本思路" class="headerlink" title="4.1 基本思路"></a>4.1 基本思路</h4><p><strong>选择排序（Selection Sort）</strong>的实现思路类似于插入排序：也是分为<strong>已排序区间</strong>和<strong>未排序区间</strong>，但是选择排序每次会<strong>从未排序区间中找到最小的元素</strong>，将其<strong>放到已排序区间的末尾</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/08/sort-algo-in-go/selection-1.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h4 id="4-2-算法分析"><a href="#4-2-算法分析" class="headerlink" title="4.2 算法分析"></a>4.2 算法分析</h4><ol>
+<li><strong>选择排序</strong>的<strong>空间复杂度</strong>为<code>O(1)</code>，也是一种<strong>原地排序算法</strong></li>
+<li><strong>最好、最坏、平均时间复杂度</strong>都为<code>O(n^2)</code></li>
+<li><strong>选择排序</strong>是一种<strong>不稳定的排序算法</strong>，原因在于每次都要找剩余未排序元素中的最小值，并和前面的元素<strong>交换位置</strong>，这样<strong>破坏了稳定性</strong></li>
+</ol>
+<blockquote>
+<p>例如<code>5, 8, 5, 2, 9</code>这组数据，如果使用<strong>选择排序算法</strong>来排序的话，第一次找到最小元素为<code>2</code>，与第一个<code>5</code>交换位置，<strong>导致第一个</strong><code>5</code><strong>和中间的</strong><code>5</code><strong>前后顺序发生改变</strong>，所以就<strong>不稳定</strong>了</p>
+</blockquote>
+<h4 id="4-3-Java-实现"><a href="#4-3-Java-实现" class="headerlink" title="4.3 Java 实现"></a>4.3 Java 实现</h4><pre><code class="lang-java">// 选择排序，a 表示数组，n 表示数组大小
+public static void selectionSort(int[] a, int n) {
+    if (n &lt;= 1) return;
+
+    for (int i = 0; i &lt; n - 1; ++i) {
+        // 查找最小值
+        int minIndex = i;
+        for (int j = i + 1; j &lt; n; ++j) {
+            if (a[j] &lt; a[minIndex]) {
+                minIndex = j;
+            }
+        }
+        // 交换
+        if (minIndex != i) {
+            int tmp = a[i];
+            a[i] = a[minIndex];
+            a[minIndex] = tmp;
+        }
+    }
+}
+</code></pre>
+<h4 id="4-4-Go-实现"><a href="#4-4-Go-实现" class="headerlink" title="4.4 Go 实现"></a>4.4 Go 实现</h4><pre><code class="lang-go">// 选择排序，a 表示数组，n 表示数组大小
+func SelectionSort(a []int, n int) {
+    if n &lt;= 1 {
+        return
+    }
+    for i := 0; i &lt; n; i++ {
+        // 查找最小值
+        minIndex := i
+        for j := i + 1; j &lt; n; j++ {
+            if a[j] &lt; a[minIndex] {
+                minIndex = j
+            }
+        }
+        // 交换
+        if minIndex != i {
+            a[i], a[minIndex] = a[minIndex], a[i]
+        }
+    }
+}
+</code></pre>
+<h3 id="5-为何插入比冒泡更受欢迎"><a href="#5-为何插入比冒泡更受欢迎" class="headerlink" title="5. 为何插入比冒泡更受欢迎"></a>5. 为何插入比冒泡更受欢迎</h3><ul>
+<li><strong>冒泡排序</strong>和<strong>插入排序</strong>不管怎样优化，其<strong>元素交换次数</strong>是一个<strong>固定值</strong>，即<strong>原始数据的逆序度</strong></li>
+<li>从<strong>代码实现</strong>上来看，冒泡排序的<strong>数据交换比</strong>插入排序的<strong>数据移动要更复杂</strong>，<strong>交换</strong>需要<code>3</code><strong>个赋值操作</strong>，而<strong>移动只需要</strong><code>1</code><strong>个</strong>：</li>
+</ul>
+<pre><code class="lang-java">// 冒泡排序中数据的交换操作：
+if (a[j] &gt; a[j+1]) { // 交换
+    int tmp = a[j];
+    a[j] = a[j+1];
+    a[j+1] = tmp;
+    flag = true;
+}
+
+// 插入排序中数据的移动操作：
+if (a[j] &gt; value) {
+    a[j+1] = a[j];  // 数据移动
+} else {
+    break;
+}
+</code></pre>
+<p>因此，虽然<strong>冒泡排序</strong>和<strong>插入排序</strong>的<strong>时间复杂度都为</strong><code>O(n^2)</code>，但是如果我们希望把<strong>性能优化</strong>做到极致，就<strong>首选插入排序</strong>。</p>
+<blockquote>
+<p><strong>插入排序的算法思路</strong>也有很大的<strong>优化空间</strong>，可以参考 <a href="https://zh.wikipedia.org/wiki/希尔排序" target="_blank" rel="noopener">希尔排序 | Wikipedia</a></p>
+</blockquote>
+<h3 id="6-小结"><a href="#6-小结" class="headerlink" title="6. 小结"></a>6. 小结</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/08/sort-algo-in-go/summary.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><img src="/2019/03/08/sort-algo-in-go/jikeshijian.png" width="16"><a href="https://time.geekbang.org/column/126" target="_blank" rel="noopener">数据结构与算法之美 | 极客时间</a><img src="/2019/03/08/sort-algo-in-go/star.svg"></li>
+<li><img src="/2019/03/08/sort-algo-in-go/wechat.svg"><a href="https://mp.weixin.qq.com/s/vn3KiV-ez79FmbZ36SX9lg" target="_blank" rel="noopener">十大经典排序算法动画与解析，看我就够了！（配代码完全版）| 五分钟学算法</a><img src="/2019/03/08/sort-algo-in-go/star.svg"></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/">使用 Gogs 自建 Git 服务</a></li><li><a href="https://abelsu7.top/2019/10/31/go-gin-swagger/">在 Gin 中使用 swaggo 自动生成 RESTful API 文档</a></li><li><a href="https://abelsu7.top/2019/10/24/go-build-compress-using-upx/">使用 upx 压缩 go build 打包的可执行文件</a></li><li><a href="https://abelsu7.top/2019/10/24/go-cross-compile/">Go 程序的交叉编译、选择性编译</a></li><li><a href="https://jarrychen.xyz/archives/efa8ef13.html">归并排序(递归)</a></li><li><a href="https://jarrychen.xyz/archives/57361fba.html">快速排序(递归)</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.673Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/03/08/sort-algo-in-go/" target="_blank" rel="external">https://abelsu7.top/2019/03/08/sort-algo-in-go/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/排序/">排序</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/08/sort-algo-in-go/&title=《排序算法 1：冒泡排序、插入排序、选择排序》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/08/sort-algo-in-go/&title=《排序算法 1：冒泡排序、插入排序、选择排序》 — Keep Coding&source=
+摘自  数据结构与算法之美 | 极客时间
+
+
+                
+                    
+               ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/08/sort-algo-in-go/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《排序算法 1：冒泡排序、插入排序、选择排序》 — Keep Coding&url=https://abelsu7.top/2019/03/08/sort-algo-in-go/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/08/sort-algo-in-go/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/03/08/go-input-format/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Go 语言几种常见的格式化输入</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/03/06/network-protocol-4-tcp/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">网络协议笔记 4：传输层之 TCP 协议</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/08/sort-algo-in-go/&title=《排序算法 1：冒泡排序、插入排序、选择排序》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/08/sort-algo-in-go/&title=《排序算法 1：冒泡排序、插入排序、选择排序》 — Keep Coding&source=
+摘自  数据结构与算法之美 | 极客时间
+
+
+                
+                    
+               ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/08/sort-algo-in-go/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《排序算法 1：冒泡排序、插入排序、选择排序》 — Keep Coding&url=https://abelsu7.top/2019/03/08/sort-algo-in-go/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/08/sort-algo-in-go/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJElEQVR42u3awU7lMAwFUP7/p4s0KxC0XNt9aHBPVk9lJsnJwortvL3F4/g3zn5/HGffz2b4usrZX28YGBgYf5ZxXI7q1s82lG8xOY5v5sHAwHgAI5/uOgRXA3S+yg97xsDAwIh/51+q82NgYGBMrmj5FbB3DcXAwMDobS5f4IjHL+XiGBgYf5Axbwy87vev9jcwMDD+S8ZRHNftxuvl77o+frMrDAyM1YykrH+9QA6btzB/OCwMDIxHMvKkcf4UI/leuL1iYGAsYiQBdPIve5fC6qFjYGDsZlSDXXWL84cX5SsmBgbGOkavZPbqi+DomQUGBsZSRu/BVt5VzI+g+lDsU38DAwNjNSMJbfNrX7VhmQAwMDCeyaiW2JLks0qqNlMxMDB2M6qPHnqFufw4kjkxMDAwrv9znqA2uxODEIyBgbGVUU07q0/Eqo/GmjNjYGA8klH9MiHNWwsYGBi7GZOiWJ6Ozr9E5TkMDIzVjGrC2Qujd/GijBwDA2MRo1e+75HuKrGdltswMDBWM6rNy3kLodfyPD1oDAyM1Yx808mkSdrZ7KkmzQMMDIyljKM4qid0HTqT7UYhHgMDYzWjGuzy8tkrUtZeWMfAwNjByBPIXpGuetVrnjcGBsYDGNV2Zp7ulrPqVmjGwMDAuHfJPKAXVsfAwMCIn1lMCnOjtTAwMB7A6D10qFb18ktkObnFwMBYzahe9Xpp6uRxWG8PGBgYKxjvxH+JhxmJ3fgAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

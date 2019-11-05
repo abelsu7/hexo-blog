@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>微服务学习资料汇总 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="容器,Docker,Kubernetes,微服务">
+    <meta name="description" content="相关资料整理，更新中…">
+<meta name="keywords" content="容器,Docker,Kubernetes,微服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微服务学习资料汇总">
+<meta property="og:url" content="https://abelsu7.top/2019/09/18/micro-service-notes/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="相关资料整理，更新中…">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/09/18/micro-service-notes/cover.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/kubernetes-diagram-902x416.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/kubernetes-diagram-2-824x437.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/kubernetes-control-plane.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/1678d73cccde86ab.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/1678d75eadde3ac8.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/3581-1518281425958.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/2852-1518281425019.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/00704eQkgy1frlc9gw4y0j30u00bm122.jpg">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/service-mesh.jpg">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/traditional-microsvc-network.jpg">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/service-mesh-core-module.jpg">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/service-mesh-control-plane.jpg">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/1678d780632d088f.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/1678d73cccde86ab.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/163yun-qingzhou.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/20190923213022.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/20190923213206.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/20190923213624.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/20190923214006.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/20190923214041.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/20190923215021.png">
+<meta property="og:updated_time" content="2019-10-20T09:35:20.955Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微服务学习资料汇总">
+<meta name="twitter:description" content="相关资料整理，更新中…">
+<meta name="twitter:image" content="https://abelsu7.top/2019/09/18/micro-service-notes/cover.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">微服务学习资料汇总</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">微服务学习资料汇总</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-09-18T04:35:24.000Z" itemprop="datePublished" class="page-time">
+  2019-09-18
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/微服务/">微服务</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-精选文章"><span class="post-toc-text">1. 精选文章</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-Kubernetes"><span class="post-toc-text">2. Kubernetes</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-K8s-各组件之间的网络通信协议"><span class="post-toc-text">2.1 K8s 各组件之间的网络通信协议</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-K8s-架构图"><span class="post-toc-text">2.2 K8s 架构图</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-微服务"><span class="post-toc-text">3. 微服务</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-微服务简介"><span class="post-toc-text">3.1 微服务简介</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-微服务架构"><span class="post-toc-text">3.2 微服务架构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#一、核心模块"><span class="post-toc-text">一、核心模块</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#二、技术体系"><span class="post-toc-text">二、技术体系</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#三、服务框架选型"><span class="post-toc-text">三、服务框架选型</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#四、运行时支撑服务选型"><span class="post-toc-text">四、运行时支撑服务选型</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-3-参考文章"><span class="post-toc-text">3.3 参考文章</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-Service-Mesh"><span class="post-toc-text">4. Service Mesh</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-1-微服务-vs-K8s"><span class="post-toc-text">4.1 微服务 vs K8s</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-2-Service-Mesh-简介"><span class="post-toc-text">4.2 Service Mesh 简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#一、什么是-Service-Mesh"><span class="post-toc-text">一、什么是 Service Mesh</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#二、为什么需要-Service-Mesh"><span class="post-toc-text">二、为什么需要 Service Mesh</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#三、Service-Mesh-的原理与应用"><span class="post-toc-text">三、Service Mesh 的原理与应用</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-3-参考文章"><span class="post-toc-text">4.3 参考文章</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-编排调度"><span class="post-toc-text">5. 编排调度</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-1-Apache-Mesos"><span class="post-toc-text">5.1 Apache Mesos</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-2-K8s"><span class="post-toc-text">5.2 K8s</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-3-服务雪崩、降级与熔断"><span class="post-toc-text">5.3 服务雪崩、降级与熔断</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-企业分享"><span class="post-toc-text">6. 企业分享</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-企业案例"><span class="post-toc-text">7. 企业案例</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-1-网易云轻舟微服务"><span class="post-toc-text">7.1 网易云轻舟微服务</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#一、产品介绍"><span class="post-toc-text">一、产品介绍</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#二、产品全景"><span class="post-toc-text">二、产品全景</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#三、产品优势"><span class="post-toc-text">三、产品优势</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#四、产品功能"><span class="post-toc-text">四、产品功能</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-2-腾讯云微服务平台-TSF"><span class="post-toc-text">7.2 腾讯云微服务平台 TSF</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#一、产品介绍-1"><span class="post-toc-text">一、产品介绍</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#二、产品特性"><span class="post-toc-text">二、产品特性</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#三、应用场景"><span class="post-toc-text">三、应用场景</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-3-华为云微服务引擎-CSE"><span class="post-toc-text">7.3 华为云微服务引擎 CSE</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#一、产品介绍-2"><span class="post-toc-text">一、产品介绍</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#二、功能描述"><span class="post-toc-text">二、功能描述</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#三、应用场景-1"><span class="post-toc-text">三、应用场景</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8-相关论文"><span class="post-toc-text">8. 相关论文</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#9-参考资料"><span class="post-toc-text">9. 参考资料</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#开源框架"><span class="post-toc-text">开源框架</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#相关文章"><span class="post-toc-text">相关文章</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-micro-service-notes"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">微服务学习资料汇总</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-09-18 12:35:24" datetime="2019-09-18T04:35:24.000Z"  itemprop="datePublished">2019-09-18</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/微服务/">微服务</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>相关资料整理，更新中…</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/09/18/micro-service-notes/cover.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#1-精选文章">1. 精选文章</a></li>
+<li><a href="#2-Kubernetes">2. Kubernetes</a><ul>
+<li><a href="#2-1-K8s-各组件之间的网络通信协议">2.1 K8s 各组件之间的网络通信协议</a></li>
+<li><a href="#2-2-K8s-架构图">2.2 K8s 架构图</a></li>
+</ul>
+</li>
+<li><a href="#3-微服务">3. 微服务</a><ul>
+<li><a href="#3-1-微服务简介">3.1 微服务简介</a></li>
+<li><a href="#3-2-微服务架构">3.2 微服务架构</a></li>
+<li><a href="#3-3-参考文章">3.3 参考文章</a></li>
+</ul>
+</li>
+<li><a href="#4-Service-Mesh">4. Service Mesh</a><ul>
+<li><a href="#4-1-微服务-vs-K8s">4.1 微服务 vs K8s</a></li>
+<li><a href="#4-2-Service-Mesh-简介">4.2 Service Mesh 简介</a></li>
+<li><a href="#4-3-参考文章">4.3 参考文章</a></li>
+</ul>
+</li>
+<li><a href="#5-编排调度">5. 编排调度</a><ul>
+<li><a href="#5-1-Apache-Mesos">5.1 Apache Mesos</a></li>
+<li><a href="#5-2-K8s">5.2 K8s</a></li>
+<li><a href="#5-3-服务雪崩、降级与熔断">5.3 服务雪崩、降级与熔断</a></li>
+</ul>
+</li>
+<li><a href="#6-企业分享">6. 企业分享</a></li>
+<li><a href="#7-企业案例">7. 企业案例</a><ul>
+<li><a href="#7-1-网易云轻舟微服务">7.1 网易云轻舟微服务</a></li>
+<li><a href="#7-2-腾讯云微服务平台-TSF">7.2 腾讯云微服务平台 TSF</a></li>
+<li><a href="#7-3-华为云微服务引擎-CSE">7.3 华为云微服务引擎 CSE</a></li>
+</ul>
+</li>
+<li><a href="#8-相关论文">8. 相关论文</a></li>
+<li><a href="#9-其他参考资料">9. 其他参考资料</a></li>
+</ul>
+<h3 id="1-精选文章"><a href="#1-精选文章" class="headerlink" title="1. 精选文章"></a>1. 精选文章</h3><ul>
+<li><a href="https://mp.weixin.qq.com/s/GOrFL7hGuzXGiO83qfy9pA" target="_blank" rel="noopener">轻量级微服务架构及其最佳实践 | DevOps时代</a></li>
+<li><a href="http://www.jintiankansha.me/t/k8sjs4l2Bi" target="_blank" rel="noopener">为什么 kubernetes 天然适合微服务 | 网易云</a></li>
+<li><a href="https://mp.weixin.qq.com/s/3QtukcDRvyuzIaGpYs7pGg" target="_blank" rel="noopener">为什么 kubernetes 天然适合微服务 | 网易云基础服务</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/60657997" target="_blank" rel="noopener">Kubernetes 如何打赢容器之战？| 阿里云栖社区</a></li>
+<li><a href="https://www.rowkey.me/blog/2019/05/30/msa/" target="_blank" rel="noopener">微服务杂谈 | 后端技术杂谈</a></li>
+<li><a href="https://juejin.im/entry/59eed426f265da432e5b30cb" target="_blank" rel="noopener">微服务编排之道 | 掘金</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/36062500" target="_blank" rel="noopener">编排的艺术：K8S 中的容器编排和应用编排 - Kuberneteschina | 知乎专栏</a></li>
+<li><a href="https://www.jianshu.com/p/54e2e223dbac" target="_blank" rel="noopener">微服务核心研究之编排 | 简书</a></li>
+<li><a href="https://www.infoq.cn/article/container-layout-design-and-practice" target="_blank" rel="noopener">新浪微博混合云架构实践挑战之容器编排设计与实践 | InfoQ</a></li>
+<li><a href="https://blog.qiniu.com/archives/4887" target="_blank" rel="noopener">容器 SDN 技术与微服务架构实践 | 七牛云</a></li>
+<li><a href="https://www.infoq.cn/article/micro-service-technology-stack" target="_blank" rel="noopener">微服务架构技术栈选型手册 - 杨波 | InfoQ</a></li>
+<li><a href="https://static.geekbang.org/PDF-修改版-极客时间-图片-杨波-微服务架构.pdf" target="_blank" rel="noopener">《微服务架构核心20讲 》PPT - 杨波 | 极客时间</a></li>
+<li><a href="https://mp.weixin.qq.com/s/3eenTonWL7_aubNrfEC3HA" target="_blank" rel="noopener">最全的微服务知识科普 | Docker</a></li>
+<li><a href="https://mp.weixin.qq.com/s/EJwi6BRAVRwu-aGP5aZDsw" target="_blank" rel="noopener">容器、容器云与Kubernetes技术漫谈 | K8S中文社区</a></li>
+<li><a href="https://www.servicemesher.com/blog/deepin-service-mesh-tech-details/" target="_blank" rel="noopener">深入解读 Service Mesh 背后的技术细节 - 刘超 | ServiceMesher</a></li>
+</ul>
+<h3 id="2-Kubernetes"><a href="#2-Kubernetes" class="headerlink" title="2. Kubernetes"></a>2. Kubernetes</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/kubernetes-diagram-902x416.png" alt="kubernetes-diagram-902x416.png" title>
+                </div>
+                <div class="image-caption">kubernetes-diagram-902x416.png</div>
+            </figure>
+<blockquote>
+<p><a href="https://zhuanlan.zhihu.com/p/29232090" target="_blank" rel="noopener">Kubernetes 是什么？ - Linux 中国 | 知乎</a></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/kubernetes-diagram-2-824x437.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ul>
+<li><a href="https://mp.weixin.qq.com/s/3QtukcDRvyuzIaGpYs7pGg" target="_blank" rel="noopener">为什么 kubernetes 天然适合微服务 | 网易云基础服务</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzA4OTMxODQwNA==&amp;mid=2650979463&amp;idx=1&amp;sn=a78fc29e05c239b28aa1d0e49442916f&amp;chksm=8beaa9ecbc9d20fa76dafefbfa1c56b1e53f4ee48c7605f0c6ac19bb14cb524e150903bb9fc6&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">容器平台选型的十大模式：Docker、DC/OS、K8S 谁与当先？| 网易云基础服务</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/60657997" target="_blank" rel="noopener">Kubernetes 如何打赢容器之战？| 阿里云栖社区</a></li>
+<li><a href="https://kubernetes.io/blog/2018/07/18/11-ways-not-to-get-hacked/" target="_blank" rel="noopener">11 Ways (Not) to Get Hacked | kubernetes.io</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/" target="_blank" rel="noopener">What is Kubernetes | kubernetes.io</a></li>
+<li><a href="https://zhaohuabing.com/post/2019-06-25-kubecon-cncf-oss-2019/" target="_blank" rel="noopener">2019 KubeCon + ClondNativeCon + Open Source Summit有感 | 赵化冰</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzU5MTg0MDI3NA==&amp;mid=2247484201&amp;idx=1&amp;sn=d8f277ff15f258eee0cd9f79d373a543&amp;chksm=fe299654c95e1f42f764779e0f5f1991b06736ebb843184fd8942e1cf882be5af13ebc8b8fa0&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">Kubernetes 架构学习笔记 | kubernetes中文社区</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzU5MTg0MDI3NA==&amp;mid=2247484579&amp;idx=1&amp;sn=d12f2503f1d3716b04774ee1e90abd8c&amp;chksm=fe2991dec95e18c8f356ca4dc35ea055b3b3e7ad700b54953d6ef88064232736f1ce302f5f2b&amp;mpshare=1&amp;scene=24&amp;srcid=&amp;sharer_sharetime=1568864168204&amp;sharer_shareid=69698090ba0773774ede0b7b27c5fd3e#rd" target="_blank" rel="noopener">kubernetes 常用命令总结 | kubernetes中文社区</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzU5MTg0MDI3NA==&amp;mid=2247484587&amp;idx=1&amp;sn=0f129e2c4847172e1f8b6d38402e8d46&amp;chksm=fe2991d6c95e18c0fb3989c162fdee76ce1a3089874c94787fab9787184aef358427cb75bc28&amp;mpshare=1&amp;scene=24&amp;srcid=&amp;sharer_sharetime=1568864186868&amp;sharer_shareid=69698090ba0773774ede0b7b27c5fd3e#rd" target="_blank" rel="noopener">在 Kubernetes 中，如何动态配置本地存储？ | kubernetes中文社区</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/65461031" target="_blank" rel="noopener">外部访问 kubernetes 的三种模式 - kubernetes 社区 | 知乎</a></li>
+<li><a href="https://mp.weixin.qq.com/s/OW7zvGhPgGAnBuo4A_SXFw" target="_blank" rel="noopener">从零入门 K8s：人人都能看懂 Pod 与容器设计模式 | 阿里巴巴云原生</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1361203" target="_blank" rel="noopener">Kubernetes vs Docker Swarm：完整的比较指南 | 腾讯云+社区</a></li>
+<li><a href="https://juejin.im/entry/587c0c841b69e6006befe550" target="_blank" rel="noopener">Kubernetes：过去、现在与未来 | 掘金</a></li>
+</ul>
+<h4 id="2-1-K8s-各组件之间的网络通信协议"><a href="#2-1-K8s-各组件之间的网络通信协议" class="headerlink" title="2.1 K8s 各组件之间的网络通信协议"></a>2.1 K8s 各组件之间的网络通信协议</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/kubernetes-control-plane.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h4 id="2-2-K8s-架构图"><a href="#2-2-K8s-架构图" class="headerlink" title="2.2 K8s 架构图"></a>2.2 K8s 架构图</h4><blockquote>
+<p>参考 <a href="https://www.kubernetes.org.cn/kubernetes设计架构" target="_blank" rel="noopener">Kubernetes 设计架构 | kubernetes 中文社区</a></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/1678d73cccde86ab.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h3 id="3-微服务"><a href="#3-微服务" class="headerlink" title="3. 微服务"></a>3. 微服务</h3><h4 id="3-1-微服务简介"><a href="#3-1-微服务简介" class="headerlink" title="3.1 微服务简介"></a>3.1 微服务简介</h4><ul>
+<li><a href="https://www.rowkey.me/blog/2019/05/30/msa/" target="_blank" rel="noopener">微服务杂谈 | 后端技术杂谈</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzU5MTg0MDI3NA==&amp;mid=2247484571&amp;idx=1&amp;sn=e3d4dabccfd0ee0fc213f5bf79b63c65&amp;chksm=fe2991e6c95e18f006c8b89a9ff0020085a3f774bb6609193ff698ba48e1aa6f671cc98f77b1&amp;mpshare=1&amp;scene=24&amp;srcid=&amp;sharer_sharetime=1568864161900&amp;sharer_shareid=69698090ba0773774ede0b7b27c5fd3e#rd" target="_blank" rel="noopener">微服务杂谈 | kubernetes中文社区</a></li>
+<li><a href="https://yq.aliyun.com/articles/2764" target="_blank" rel="noopener">微服务（Microservice）那点事 | 阿里云栖社区</a></li>
+<li><a href="http://dockone.io/article/394" target="_blank" rel="noopener">微服务实战（一）：微服务架构的优势与不足 | DockOne.io</a></li>
+<li><a href="https://zhaohuabing.com/2018/03/29/what-is-service-mesh-and-istio/" target="_blank" rel="noopener">谈谈微服务架构中的基础设施：Service Mesh 与 Istio | 赵化冰</a></li>
+<li><a href="https://youzhixueyuan.com/micro-service-technology-architecture.html" target="_blank" rel="noopener">阿里P8架构师谈：微服务技术架构、监控、Docker、服务治理等体系 | 优知学院</a></li>
+</ul>
+<h4 id="3-2-微服务架构"><a href="#3-2-微服务架构" class="headerlink" title="3.2 微服务架构"></a>3.2 微服务架构</h4><blockquote>
+<p>参考资料：</p>
+</blockquote>
+<ul>
+<li><a href="https://www.infoq.cn/article/micro-service-technology-stack" target="_blank" rel="noopener">微服务架构技术栈选型手册 - 杨波 | InfoQ</a></li>
+<li><a href="https://static.geekbang.org/PDF-修改版-极客时间-图片-杨波-微服务架构.pdf" target="_blank" rel="noopener">《微服务架构核心20讲 》PPT - 杨波 | 极客时间</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1391169" target="_blank" rel="noopener">微服务架构本质论 | 腾讯云+社区</a></li>
+<li><a href="https://juejin.im/post/5c0ba2bef265da614d08fefe" target="_blank" rel="noopener">微服务核心架构梳理 | 掘金</a></li>
+<li><a href="https://www.cnblogs.com/imyalost/p/6792724.html" target="_blank" rel="noopener">微服务架构 | cnblogs</a></li>
+<li><a href="http://dockone.io/article/3687" target="_blank" rel="noopener">一篇文章快速理解微服务架构 | dockone.io</a></li>
+<li><a href="http://dockone.io/article/394" target="_blank" rel="noopener">微服务架构的优势与不足 | dockone.io</a></li>
+<li><a href="https://yq.aliyun.com/articles/2764" target="_blank" rel="noopener">微服务（Microservice）那点事 | 阿里云栖社区</a></li>
+<li><a href="http://blog.didispace.com/tags/微服务/" target="_blank" rel="noopener">微服务相关文章 | 程序猿 DD</a></li>
+</ul>
+<p>大部分公司在使用的微服务技术架构体系示意图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/1678d75eadde3ac8.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h5 id="一、核心模块"><a href="#一、核心模块" class="headerlink" title="一、核心模块"></a>一、核心模块</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/3581-1518281425958.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>微服务基础架构的核心模块包括：</p>
+<ul>
+<li>服务框架</li>
+<li>运行时支撑服务</li>
+<li>后台服务</li>
+<li>服务安全</li>
+<li>服务容错</li>
+<li>服务监控</li>
+<li>服务部署平台</li>
+</ul>
+<h5 id="二、技术体系"><a href="#二、技术体系" class="headerlink" title="二、技术体系"></a>二、技术体系</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/2852-1518281425019.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>其中粉红色标注的模块是和微服务关系最密切的模块</p>
+<h5 id="三、服务框架选型"><a href="#三、服务框架选型" class="headerlink" title="三、服务框架选型"></a>三、服务框架选型</h5><ul>
+<li>Sping Boot、Spring Cloud：可认为是一种 RESTful 框架，序列化协议采用基于文本的 JSON，通讯协议一般基于 HTTP</li>
+<li>Apache Dubbo：本质上是一套基于 Java 的 RPC 框架，主要面向 Java 技术栈</li>
+<li>Motan ：新浪微博开源，功能与 Dubbo 类似，可以认为是一个轻量裁剪版的 Dubbo</li>
+</ul>
+<h5 id="四、运行时支撑服务选型"><a href="#四、运行时支撑服务选型" class="headerlink" title="四、运行时支撑服务选型"></a>四、运行时支撑服务选型</h5><blockquote>
+<p><strong><em>待更新…</em></strong></p>
+</blockquote>
+<h4 id="3-3-参考文章"><a href="#3-3-参考文章" class="headerlink" title="3.3 参考文章"></a>3.3 参考文章</h4><ul>
+<li><a href="https://www.infoq.cn/article/micro-service-architecture-from-zero" target="_blank" rel="noopener">Re：从 0 开始的微服务架构：（一）重识微服务架构 - 苏槐 | InfoQ</a></li>
+<li><a href="https://www.infoq.cn/article/micro-service-architecture-from-zero-part02" target="_blank" rel="noopener">Re：从 0 开始的微服务架构：（二）如何快速体验微服务架构？- 苏槐 | InfoQ</a></li>
+<li><a href="https://www.infoq.cn/article/micro-service-architecture-from-zero-part03" target="_blank" rel="noopener">Re：从 0 开始的微服务架构：（三）微服务架构 API 的开发与治理 - 苏槐 | InfoQ</a></li>
+<li><a href="https://www.infoq.cn/article/micro-service-architecture-from-zero-part04" target="_blank" rel="noopener">Re：从 0 开始的微服务架构：（四）如何保障微服务架构下的数据一致性 - 苏槐 | InfoQ</a></li>
+<li><a href="https://www.infoq.cn/article/micro-service-architecture-from-zero-part05" target="_blank" rel="noopener">Re：从 0 开始的微服务架构：（五）代码给你，看如何用 Docker 支撑微服务 - 苏槐 | InfoQ</a></li>
+<li><a href="https://mp.weixin.qq.com/s/wgOHelRYpxhtAh2PH0TU2g" target="_blank" rel="noopener">微服务的 4 个设计原则和 19 个解决方案 | EAWorld</a></li>
+<li><a href="https://mp.weixin.qq.com/s/LaI8K-Z7RTGPYiE_-NC-MA" target="_blank" rel="noopener">微服务化的十个设计要点 - 刘超 | 架构师社区</a></li>
+<li><a href="https://mp.weixin.qq.com/s/Ei37OIxOT2jrUWPWWirEBg" target="_blank" rel="noopener">亿级规模的高可用微服务系统，如何轻松设计？| 51CTO技术栈</a></li>
+<li><a href="https://mp.weixin.qq.com/s/B3szLMqBguO45P1xHYJfqQ" target="_blank" rel="noopener">大规模微服务单元化与高可用设计 | 刘超的通俗云计算</a></li>
+<li><a href="https://mp.weixin.qq.com/s/GOrFL7hGuzXGiO83qfy9pA" target="_blank" rel="noopener">轻量级微服务架构及其最佳实践 | DevOps时代</a></li>
+</ul>
+<h3 id="4-Service-Mesh"><a href="#4-Service-Mesh" class="headerlink" title="4. Service Mesh"></a>4. Service Mesh</h3><blockquote>
+<p>参见 <a href="https://www.servicemesher.com/blog/deepin-service-mesh-tech-details/" target="_blank" rel="noopener">深入解读 Service Mesh 背后的技术细节 - 刘超 | ServiceMesher</a></p>
+</blockquote>
+<h4 id="4-1-微服务-vs-K8s"><a href="#4-1-微服务-vs-K8s" class="headerlink" title="4.1 微服务 vs K8s"></a>4.1 微服务 vs K8s</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/00704eQkgy1frlc9gw4y0j30u00bm122.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>微服务设计</th>
+<th>Kubernetes 功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. API 网关</td>
+<td>Ingress</td>
+</tr>
+<tr>
+<td>2. 无状态化，区分有状态化和无状态的应用</td>
+<td>无状态对应 Deployment，有状态对应 StatefulSet</td>
+</tr>
+<tr>
+<td>3. 数据库的横向扩展</td>
+<td>headless service 指向 PaaS 服务，或者 StatefulSet 部署</td>
+</tr>
+<tr>
+<td>4. 缓存</td>
+<td>headless service 指向 PaaS 服务，或者 StatefulSet 部署</td>
+</tr>
+<tr>
+<td>5. 服务拆分和服务发现</td>
+<td>Service</td>
+</tr>
+<tr>
+<td>6. 服务编排与弹性伸缩</td>
+<td>Deployment 的 Replicas</td>
+</tr>
+<tr>
+<td>7. 统一配置中心</td>
+<td>ConfigMap</td>
+</tr>
+<tr>
+<td>8. 统一日志中心</td>
+<td>DaemonSet 部署日志 Agent</td>
+</tr>
+<tr>
+<td>9. 熔断、限流、降级</td>
+<td>Service Mesh</td>
+</tr>
+<tr>
+<td>10. 全方位的监控（智能管控？）</td>
+<td>Cadvisor, DaemonSet 部署监控 Agent</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>在我们微服务设计的十个要点中，我们会发现Kubernetes都能够有相应的组件和概念，提供相应的支持。</p>
+<p>其中最后的一块拼图就是<strong>服务发现</strong>，与<strong>熔断限流降级</strong>。</p>
+<p>众所周知，Kubernetes 的服务发现是通过<code>Service</code>来实现的，服务之间的转发是通过<code>kube-proxy</code>下发 iptables 规则来实现的，这个只能实现最基本的服务发现和转发能力，不能满足高并发应用下的高级的服务特性，比较 SpringCloud 和 Dubbo 有一定的差距，于是 Service Mesh 诞生了，他期望<strong>将熔断，限流，降级等特性，从应用层，下沉到基础设施层去实现</strong>，从而使得 Kubernetes 和容器全面接管微服务。</p>
+<blockquote>
+<p><strong><em>待更新…</em></strong></p>
+</blockquote>
+<h4 id="4-2-Service-Mesh-简介"><a href="#4-2-Service-Mesh-简介" class="headerlink" title="4.2 Service Mesh 简介"></a>4.2 Service Mesh 简介</h4><blockquote>
+<p>参见 <a href="https://mp.weixin.qq.com/s/lXZPsgpdMv99q0OoCZwsNw" target="_blank" rel="noopener">微服务架构之「 下一代微服务 Service Mesh 」| 不止思考</a></p>
+</blockquote>
+<h5 id="一、什么是-Service-Mesh"><a href="#一、什么是-Service-Mesh" class="headerlink" title="一、什么是 Service Mesh"></a>一、什么是 Service Mesh</h5><p><code>Service Mesh</code>中文名称为<strong>服务网格</strong>，因为它的部署图看起来就像一个网格：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/service-mesh.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<blockquote>
+<p>图中的绿色小块可以理解为<strong>微服务应用</strong>，蓝色小块可以理解为 Service Mesh 的<strong>轻量级网络代理</strong></p>
+</blockquote>
+<p>简单来说：<code>Service Mesh</code>就是一个<strong>基础设施层</strong>，它是用于<strong>处理微服务中服务与服务之间通信</strong>的一种技术。</p>
+<p>有了 Service Mesh 之后，在微服务框架中，服务与服务之间的通信就是靠这些网络代理模块来保障。</p>
+<h5 id="二、为什么需要-Service-Mesh"><a href="#二、为什么需要-Service-Mesh" class="headerlink" title="二、为什么需要 Service Mesh"></a>二、为什么需要 Service Mesh</h5><p>在传统的微服务架构中，随着业务越来越复杂，拆分的服务实例也越来越多，那么<strong>各个服务之间的依赖就变成了非常复杂的网络拓扑结构</strong>，类似下图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/traditional-microsvc-network.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>在如此复杂的分布式部署架构下，微服务中<strong>服务依赖调用</strong>和<strong>数据传输</strong>所面临的问题也成倍增加，<strong>极大的提高了服务治理的难度</strong>。</p>
+<p>同时，由于容器化技术的成熟和规模化，微服务都会采用容器化，并朝着云原生应用的方向发展。而传统的微服务架构中，虽然也有服务治理的组件，但是这些组件大多需要在应用代码里进行集成，并不符合云原生的思想。因此，急需一个<strong>标准化、能高效部署和运维的微服务体系方案</strong>。</p>
+<p>因此，Service Mesh 就应运而生了——其目的就是用来<strong>解决微服务架构中服务间可靠调用、服务治理等问题</strong>。</p>
+<h5 id="三、Service-Mesh-的原理与应用"><a href="#三、Service-Mesh-的原理与应用" class="headerlink" title="三、Service Mesh 的原理与应用"></a>三、Service Mesh 的原理与应用</h5><p>Service Mesh 由两个核心模块组成，<code>SideCar</code>和<code>Control Plane</code>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/service-mesh-core-module.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong><em>1. Sidecar：</em></strong></p>
+<p><code>Sidecar</code>即上面提到的与服务部署在一起的<strong>轻量级网络代理</strong>，它的作用就是实现服务框架的各项功能，这样就可以<strong>让服务 (Service A 或 B) 回归业务本质</strong>。</p>
+<blockquote>
+<p>传统的微服务架构中，各种服务框架的功能 (例如服务发现、负载均衡、限流熔断等) 的代码逻辑或多或少都需要耦合到服务实例的代码中，给服务实例增加了很多业务无关的代码，也提升了复杂度</p>
+</blockquote>
+<p>有了<code>Sidecar</code>之后，<strong>服务节点只做业务逻辑自身的功能</strong>，服务之间的调用交给了<code>Sidecar</code>，由<code>Sidecar</code>去<strong>注册服务</strong>、去做<strong>服务发现</strong>、去做<strong>请求路由</strong>、去实现<strong>熔断限流</strong>、去做<strong>日志统计</strong>。</p>
+<p>在这种新的微服务架构中，所有的<code>Sidecar</code>组合在一起，就是一个服务网格了。不过，这个大型的服务网格并不是完全自治的，它还需要一个<strong>统一的控制节点</strong>，也就是<code>Control Plane</code>。</p>
+<p><strong><em>2. Control Plane：</em></strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/service-mesh-control-plane.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><code>Control Plane</code>是用来从全局的角度控制<code>Sidecar</code>的。例如它负责所有<code>Sidecar</code>的注册，并存储一个<strong>统一的路由表</strong>，帮助各个<code>Sidecar</code>进行<strong>负载均衡</strong>和<strong>请求调度</strong>。</p>
+<p>此外，<code>Control Plane</code>还会收集所有<code>Sidecar</code>的<strong>监控信息</strong>和<strong>日志数据</strong>，<strong>相当于</strong><code>Service Mesh</code><strong>架构的大脑</strong>。<code>Control Plane</code>控制着<code>Sidecar</code>来实现<strong>服务治理</strong>的各项功能。</p>
+<h4 id="4-3-参考文章"><a href="#4-3-参考文章" class="headerlink" title="4.3 参考文章"></a>4.3 参考文章</h4><ul>
+<li><a href="https://www.servicemesher.com/blog/deepin-service-mesh-tech-details/" target="_blank" rel="noopener">深入解读 Service Mesh 背后的技术细节 - 刘超 | ServiceMesher</a></li>
+<li><a href="https://www.servicemesher.com/blog/service-mesh-rebuild-microservice-market/" target="_blank" rel="noopener">Service Mesh：重塑微服务市场 - 敖小剑 | ServiceMesher</a></li>
+<li><a href="https://www.servicemesher.com/blog/istio-service-mesh-tutorial/" target="_blank" rel="noopener">Istio Service Mesh 教程 - 宋净超 | ServiceMesher</a></li>
+<li><a href="https://mp.weixin.qq.com/s/lXZPsgpdMv99q0OoCZwsNw" target="_blank" rel="noopener">微服务架构之「 下一代微服务 Service Mesh 」| 不止思考</a></li>
+</ul>
+<h3 id="5-编排调度"><a href="#5-编排调度" class="headerlink" title="5. 编排调度"></a>5. 编排调度</h3><ul>
+<li><a href="https://juejin.im/entry/59eed426f265da432e5b30cb" target="_blank" rel="noopener">微服务编排之道 | 掘金</a></li>
+<li><a href="https://www.jianshu.com/p/54e2e223dbac" target="_blank" rel="noopener">微服务核心研究之编排 | 简书</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/36062500" target="_blank" rel="noopener">编排的艺术：K8S 中的容器编排和应用编排 - Kuberneteschina | 知乎专栏</a></li>
+<li><a href="https://www.neohope.org/2017/02/16/几种常见的微服务编排模式/" target="_blank" rel="noopener">几种常见的微服务编排模式 | Neohope’s Blog</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1004400" target="_blank" rel="noopener">kubernetes 容器编排系统介绍 | 腾讯云+社区</a></li>
+<li><a href="https://blog.csdn.net/peterwanghao/article/details/80679436" target="_blank" rel="noopener">容器编排的作用和要实现的内容 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/horsefoot/article/details/51577402" target="_blank" rel="noopener">从 kubernetes 看如何设计超大规模资源调度系统 | CSDN</a></li>
+<li><a href="https://www.kubernetes.org.cn/757.html?spm=a2c4e.10696291.0.0.147619a4k8lb8h" target="_blank" rel="noopener">编排管理成容器云关键 Kubernetes（K8s）和Swarm对比分析 | kubernetes 中文社区</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/cloud/library/cl-cloud-orchestration-technologies-trs/index.html" target="_blank" rel="noopener">云编排技术：探索您的选择 | IBM Developer</a></li>
+<li><a href="https://medium.com/netflix-techblog/netflix-conductor-a-microservices-orchestrator-2e8d4771bf40" target="_blank" rel="noopener">Netflix Conductor: A microservices orchestrator | Medium.com</a></li>
+</ul>
+<h4 id="5-1-Apache-Mesos"><a href="#5-1-Apache-Mesos" class="headerlink" title="5.1 Apache Mesos"></a>5.1 Apache Mesos</h4><p>Mesos 基于 master/slave 架构，框架决定如何利用资源，master 负责管理机器，slave 会定期的将机器情况报告给 master，master再将信息给框架。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/1678d780632d088f.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h4 id="5-2-K8s"><a href="#5-2-K8s" class="headerlink" title="5.2 K8s"></a>5.2 K8s</h4><blockquote>
+<p>可参考 <a href="https://www.kubernetes.org.cn/kubernetes设计架构" target="_blank" rel="noopener">Kubernetes 设计架构 | kubernetes 中文社区</a></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/1678d73cccde86ab.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h4 id="5-3-服务雪崩、降级与熔断"><a href="#5-3-服务雪崩、降级与熔断" class="headerlink" title="5.3 服务雪崩、降级与熔断"></a>5.3 服务雪崩、降级与熔断</h4><ul>
+<li><a href="https://www.cnblogs.com/rjzheng/p/10340176.html" target="_blank" rel="noopener">谈谈服务雪崩、降级与熔断 | 博客园</a></li>
+<li><a href="https://yq.aliyun.com/articles/7443" target="_blank" rel="noopener">微服务熔断与隔离 | 阿里云栖社区</a></li>
+<li><a href="https://juejin.im/post/5ad05373518825619d4d2f00" target="_blank" rel="noopener">漫画：什么是服务熔断？- 程序员小灰 | 掘金</a></li>
+</ul>
+<h3 id="6-企业分享"><a href="#6-企业分享" class="headerlink" title="6. 企业分享"></a>6. 企业分享</h3><ul>
+<li><a href="https://www.infoq.cn/article/weibo-DCP1/" target="_blank" rel="noopener">新浪微博混合云架构实践挑战之概述篇 | InfoQ</a></li>
+<li><a href="https://www.infoq.cn/article/sina-weibo-cloud-architecture-non-variable-infrastructure/" target="_blank" rel="noopener">新浪微博混合云架构实践挑战之不可变基础设施 | InfoQ</a></li>
+<li><a href="https://www.infoq.cn/article/sina-weibo-hybrid-cloud-architecture/" target="_blank" rel="noopener">新浪微博混合云架构实践挑战之镜像分发实战 | InfoQ</a></li>
+<li><a href="https://www.infoq.cn/article/container-layout-design-and-practice" target="_blank" rel="noopener">新浪微博混合云架构实践挑战之容器编排设计与实践 | InfoQ</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzIzNjUxMzk2NQ==&amp;mid=2247489056&amp;idx=1&amp;sn=8047d8317367590e8a50a7316d9ea47b&amp;chksm=e8d7e9e2dfa060f425884a13cc2e88513d3d216b3553c8e06034f3898756efe6d0ff492de9ec&amp;scene=27#wechat_redirect" target="_blank" rel="noopener">新浪微博混合云，容器编排设计与实践 | 高效开发运维</a></li>
+<li><a href="https://my.oschina.net/u/1777263/blog/827661" target="_blank" rel="noopener">来自京东、唯品会对微服务编排、API网关、持续集成的实践分享（上）| 开源中国</a></li>
+<li><a href="https://my.oschina.net/u/1777263/blog/833103" target="_blank" rel="noopener">来自京东、宅急送对微服务编排、API网关、持续集成的实践分享（下）</a></li>
+<li><a href="https://blog.qiniu.com/archives/4887" target="_blank" rel="noopener">容器 SDN 技术与微服务架构实践 | 七牛云</a></li>
+<li><a href="https://www.infoq.cn/article/sdn-stories-distributed-practice" target="_blank" rel="noopener">万台规模下的 SDN 控制器集群部署实践 - H3C | InfoQ</a></li>
+<li><a href="https://static001.geekbang.org/con/30/pdf/1679353362/file/AS深圳2018-《华为容器在Kubernetes上的技术实践之路》-黄毽.pdf" target="_blank" rel="noopener">华为容器在K8S上的技术实践之路 - 黄毽 | InfoQ</a></li>
+<li><a href="https://archsummit.infoq.cn/2018/shenzhen/schedule" target="_blank" rel="noopener">ArchSummit 2018 会议 PPT</a></li>
+<li><a href="https://mp.weixin.qq.com/s/JQ0PPAsO6qiAW-q-rI-Bsg" target="_blank" rel="noopener">蚂蚁金服大规模微服务架构下的 Service Mesh 探索之路 | 蚂蚁金服科技</a></li>
+<li><a href="https://mp.weixin.qq.com/s/Pr7J546caebAQJkdf3NByA" target="_blank" rel="noopener">爱奇艺视频后台从”单兵作战”到”团队协作”的微服务实践 | 爱奇艺技术产品团队</a></li>
+<li><a href="https://mp.weixin.qq.com/s/cRYYqx6zEo5icmVi1vvZZg" target="_blank" rel="noopener">Service Mesh 在有赞的实践与发展 | 有赞coder</a></li>
+</ul>
+<h3 id="7-企业案例"><a href="#7-企业案例" class="headerlink" title="7. 企业案例"></a>7. 企业案例</h3><h4 id="7-1-网易云轻舟微服务"><a href="#7-1-网易云轻舟微服务" class="headerlink" title="7.1 网易云轻舟微服务"></a>7.1 网易云轻舟微服务</h4><blockquote>
+<p>官网地址：<a href="https://www.163yun.com/product-nsf" target="_blank" rel="noopener">轻舟微服务 | 网易云</a></p>
+</blockquote>
+<h5 id="一、产品介绍"><a href="#一、产品介绍" class="headerlink" title="一、产品介绍"></a>一、产品介绍</h5><p><strong>轻舟微服务</strong>是围绕应用和微服务打造的一站式 <strong>PaaS 平台</strong>，帮助用户快速实现<strong>易接入、易运维</strong>的<strong>微服务解决方案</strong>。为致力于数字化转型的企业提供中台服务治理，帮助企业实现建立生态统一标准，优化管理能力及自动化能力。</p>
+<h5 id="二、产品全景"><a href="#二、产品全景" class="headerlink" title="二、产品全景"></a>二、产品全景</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/163yun-qingzhou.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h5 id="三、产品优势"><a href="#三、产品优势" class="headerlink" title="三、产品优势"></a>三、产品优势</h5><p><strong>基于开源、兼容开源：</strong></p>
+<ul>
+<li>全面兼容 <strong>Spring Cloud</strong> 和 <strong>Dubbo</strong> 框架</li>
+<li>基于 <strong>Kubernetes</strong> 的容器调度与编排</li>
+<li>支持已有服务框架的<strong>平滑迁移</strong></li>
+</ul>
+<p><strong>低成本、易接入：</strong></p>
+<ul>
+<li>支持<strong>代码零改动</strong>接入微服务框架</li>
+<li>非侵入式探针，支持<strong>应用拓扑可视化</strong></li>
+<li>支持统一的<strong>平台认证&amp;权限管控</strong></li>
+</ul>
+<p><strong>智能运维&amp;立体化监控：</strong></p>
+<ul>
+<li><strong>实时监控</strong>，精准掌控服务健康状况</li>
+<li><strong>服务拓扑，调用链跟踪</strong>可视化呈现</li>
+<li>多维度<strong>关联分析</strong>，预防系统级故障</li>
+</ul>
+<h5 id="四、产品功能"><a href="#四、产品功能" class="headerlink" title="四、产品功能"></a>四、产品功能</h5><p><strong>微服务治理框架：</strong></p>
+<ul>
+<li>服务注册/发现</li>
+<li>服务治理</li>
+<li>服务鉴权</li>
+<li>动态配置管理</li>
+<li>服务拓扑</li>
+</ul>
+<p><strong>智能 API 网关：</strong></p>
+<ul>
+<li>API 发布管理</li>
+<li>API 鉴权</li>
+<li>流量控制</li>
+<li>降级&amp;熔断</li>
+<li>API 测试</li>
+</ul>
+<p><strong>分布式事务：</strong></p>
+<ul>
+<li>跨服务事务</li>
+<li>跨数据源事务</li>
+<li>混合事务</li>
+<li>事务状态监控</li>
+<li>异常事务处理</li>
+</ul>
+<p><strong>容器应用管理服务：</strong></p>
+<ul>
+<li>应用部署</li>
+<li>弹性扩容</li>
+<li>高效混合云管理</li>
+<li>安全保障</li>
+<li>性能监控</li>
+</ul>
+<p><strong>DevOps：</strong></p>
+<ul>
+<li>流水线管理</li>
+<li>打通应用开发工具链：代码、构建、测试、镜像构建、发布、配置、监控</li>
+</ul>
+<p><strong>AIOps：</strong></p>
+<ul>
+<li>分布式调用链跟踪/查询</li>
+<li>指标异常检测</li>
+<li>告警关联分析</li>
+<li>故障根因分析</li>
+</ul>
+<h4 id="7-2-腾讯云微服务平台-TSF"><a href="#7-2-腾讯云微服务平台-TSF" class="headerlink" title="7.2 腾讯云微服务平台 TSF"></a>7.2 腾讯云微服务平台 TSF</h4><blockquote>
+<p>官网地址：<a href="https://cloud.tencent.com/product/tsf" target="_blank" rel="noopener">腾讯微服务平台 TSF | 腾讯云</a></p>
+</blockquote>
+<h5 id="一、产品介绍-1"><a href="#一、产品介绍-1" class="headerlink" title="一、产品介绍"></a>一、产品介绍</h5><p><strong>腾讯微服务平台</strong>（Tencent Service Framework，<strong>TSF</strong>）是一个围绕应用和微服务的 <strong>PaaS 平台</strong>，提供一站式<strong>应用全生命周期管理能力</strong>和<strong>数据化运营支持</strong>，提供多维度应用和服务的<strong>监控数据</strong>，助力<strong>服务性能优化</strong>。提供基于 <strong>Spring Cloud</strong> 和 <strong>Service Mesh</strong> 两种微服务架构的商业化支持。</p>
+<h5 id="二、产品特性"><a href="#二、产品特性" class="headerlink" title="二、产品特性"></a>二、产品特性</h5><p><strong>拥抱开源社区：</strong></p>
+<ul>
+<li>拥抱 <strong>Spring Cloud</strong> 和 <strong>Istio</strong> 开源社区，提供<strong>高可用、可扩展、灵活</strong>的微服务技术中台商业版支持</li>
+<li>支持<strong>异构系统平滑迁移</strong>到 TSF 上，降低用户迁移到微服务的时间和人力成本</li>
+</ul>
+<p><strong>应用全生命周期管理：</strong></p>
+<ul>
+<li>提供从创建应用到运行应用的<strong>全生命周期管理</strong>，支持<strong>创建、部署、回滚、扩容、下线、启动和停止应用</strong></li>
+<li>提供<strong>虚拟机</strong>和<strong>容器</strong>两种部署方式，满足不同客户的使用需求</li>
+</ul>
+<p><strong>细粒度服务治理：</strong></p>
+<ul>
+<li>提供<strong>服务</strong>和 <strong>API</strong> 级别的<strong>服务治理能力</strong></li>
+<li>支持控制台上配置<strong>服务路由、服务限流、服务鉴权</strong>规则</li>
+<li>支持<strong>分布式配置管理</strong></li>
+</ul>
+<p><strong>分布式事务：</strong></p>
+<ul>
+<li>集成了<strong>分布式事务能力</strong></li>
+<li>支持 TCC 模式分布式事务管理功能，解决<strong>跨数据库</strong>和<strong>跨服务</strong>的事务问题</li>
+</ul>
+<p><strong>灵活运维：</strong></p>
+<ul>
+<li>支持<strong>日志服务、调用链、服务依赖拓扑图</strong></li>
+<li>支持基于监控的<strong>弹性伸缩功能</strong></li>
+</ul>
+<h5 id="三、应用场景"><a href="#三、应用场景" class="headerlink" title="三、应用场景"></a>三、应用场景</h5><p><strong>构建分布式系统：</strong></p>
+<p>金融业务往往有严格合规性要求，用户能够将业务部署在专用宿主机的云服务器上，在<strong>资源共享</strong>的同时保证与其他用户的<strong>子机物理隔离</strong>，满足<strong>敏感业务数据保护、磁盘消磁需求</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/20190923213022.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>应用发布和管理：</strong></p>
+<p>相对于传统的应用发布需要运维人员登录到每一台服务器进行发布和部署，TSF 针对<strong>分布式系统的应用发布和管理</strong>，提供了简单易用的<strong>可视化控制台</strong>。用户通过控制台可以发布应用，包括<strong>创建、部署、启动应用</strong>，也支持<strong>查看应用的部署状态</strong>。除此之外，用户可以<strong>通过控制台管理应用</strong>，包括<strong>回滚应用、扩容、缩容和删除应用</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/20190923213206.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>服务治理：</strong></p>
+<p>支持<strong>服务级别</strong>和 <strong>API 级别</strong>的服务治理能力，包括<strong>服务路由、服务限流、服务鉴权功能</strong>。服务路由功能支持<strong>将请求按权重路由到不同版本的服务上</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/20190923213624.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h4 id="7-3-华为云微服务引擎-CSE"><a href="#7-3-华为云微服务引擎-CSE" class="headerlink" title="7.3 华为云微服务引擎 CSE"></a>7.3 华为云微服务引擎 CSE</h4><blockquote>
+<p>官网地址：<a href="https://www.huaweicloud.com/product/cse.html" target="_blank" rel="noopener">微服务引擎 CSE | 华为云</a></p>
+</blockquote>
+<h5 id="一、产品介绍-2"><a href="#一、产品介绍-2" class="headerlink" title="一、产品介绍"></a>一、产品介绍</h5><p><strong>微服务引擎</strong>（Cloud Service Engine）提供<strong>高性能微服务框架</strong>和一站式<strong>服务注册、服务治理、动态配置</strong>和<strong>分布式事务管理控制台</strong>，帮助用户实现<strong>微服务应用的快速开发</strong>和<strong>高可用运维</strong>；支持 <strong>ServiceComb</strong>、<strong>Spring Cloud</strong> 和 <strong>Service Mesh</strong> 运行环境。</p>
+<h5 id="二、功能描述"><a href="#二、功能描述" class="headerlink" title="二、功能描述"></a>二、功能描述</h5><p><strong>微服务开发框架：</strong></p>
+<ul>
+<li>打包了<strong>微服务注册、发现、通信和治理</strong>等基础能力</li>
+<li>支持 <strong>REST</strong> 和 <strong>RPC</strong> 协议</li>
+</ul>
+<p><strong>微服务治理中心：</strong></p>
+<ul>
+<li>提供微服务<strong>负载均衡、限流、降级、熔断、容错</strong>等治理能力</li>
+</ul>
+<p><strong>微服务安全管控：</strong></p>
+<ul>
+<li>提供<strong>认证鉴权、黑白名单</strong>等能力保障微服务访问安全</li>
+</ul>
+<p><strong>微服务灰度发布：</strong></p>
+<ul>
+<li>支持按<strong>权重</strong>和<strong>接口参数</strong>（例如用户群组或用户所属区域等等）<strong>定义微服务灰度发布规则</strong></li>
+</ul>
+<p><strong>分布式事务管理：</strong></p>
+<ul>
+<li>提供<strong>最终一致性（TCC）</strong>和<strong>强一致性（WSAT）</strong>事务管理框架</li>
+</ul>
+<p><strong>非侵入式接入：</strong></p>
+<ul>
+<li>提供 <strong>Service Mesh</strong> 服务</li>
+<li>可实现<strong>非侵入式接入已有微服务</strong></li>
+</ul>
+<p><strong>统一配置中心：</strong></p>
+<ul>
+<li>支持<strong>微服务配置项</strong>的<strong>发布、变更和通知</strong></li>
+</ul>
+<p><strong>微服务仪表盘：</strong></p>
+<ul>
+<li>提供<strong>微服务实例</strong>和接口级<strong>吞吐量、时延和成功率</strong>的实时<strong>监控仪表盘</strong></li>
+</ul>
+<h5 id="三、应用场景-1"><a href="#三、应用场景-1" class="headerlink" title="三、应用场景"></a>三、应用场景</h5><p><strong>微服务应用高可用运维：</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/20190923214006.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ul>
+<li>低门槛：<strong>通用治理能力沉淀到框架</strong>，开发人员只需聚焦业务</li>
+<li>简单易用：提供 GUI <strong>一站式治理控制台</strong></li>
+<li>准实时：运行状态<strong>实时监控</strong>，配置下发<strong>实时生效</strong></li>
+</ul>
+<p><strong>多语言微服务解决方案：</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/20190923214041.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ul>
+<li><strong>多语言接入</strong>：支持 JAVA、GO、.NET、Node.js、PHP、Python 等等</li>
+<li><strong>高性能低时延</strong>：提供高性能 REST/RPC 协议微服务框架</li>
+<li><strong>开源开放</strong>：微服务核心框架 ServiceComb 已在 Apache 开源</li>
+</ul>
+<p><strong>开源框架微服务应用接入与管理：</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/20190923215021.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ul>
+<li><strong>零成本迁移</strong>：Spring Cloud/Dubbo 应用零修改接入</li>
+<li><strong>兼容主流开源生态</strong>：兼容 Spring Cloud 主流开源社区，与业界生态能力互通</li>
+<li><strong>非侵入解决方案</strong>：提供商业版 Service Mesh</li>
+</ul>
+<h3 id="8-相关论文"><a href="#8-相关论文" class="headerlink" title="8. 相关论文"></a>8. 相关论文</h3><ul>
+<li><a href="http://cjc.ict.ac.cn/quanwenjiansuo/2011-2/whm.pdf" target="_blank" rel="noopener">软件服务的在线演化 - 国防科大计算机学院 | 计算机学报</a></li>
+<li><a href="http://www.wanfangdata.com.cn/details/detail.do?_type=conference&amp;id=7636319" target="_blank" rel="noopener">需求驱动的服务动态自适应与演化方法的研究与实现 | 清华大学软件学院</a></li>
+<li><a href="http://cdmd.cnki.com.cn/Article/CDMD-10337-1019829660.htm" target="_blank" rel="noopener">需求驱动的微服务应用自适应演化框架研究与实现 | 浙江工业大学</a></li>
+<li><a href="http://xueshu.baidu.com/usercenter/paper/show?paperid=1f6102q0k16e0e50qt4t04q0su373983&amp;site=xueshu_se&amp;hitarticle=1" target="_blank" rel="noopener">基于容器云的微服务系统 | 联通软件研究院</a></li>
+<li><a href="http://xueshu.baidu.com/usercenter/paper/show?paperid=51600f52555d6701c80ab4806a1cd051&amp;site=xueshu_se&amp;hitarticle=1&amp;sc_from=scut" target="_blank" rel="noopener">面向 Docker 的微服务部署策略研究 | 厦门大学</a></li>
+<li><a href="https://kns.cnki.net/KCMS/detail/detail.aspx?dbcode=CJFQ&amp;dbname=CJFDPREP&amp;filename=JSJK201908005&amp;uid=WEEvREdxOWJmbC9oM1NjYkZCbDdrdVRVQ2g5Kyt0M21zZmFLc01PZ3VVTnQ=$R1yZ0H6jyaa0en3RxVUd8df-oHi7XMMDo7mtKT6mSmEvTuk11l2gFA!!&amp;v=MTE4MjhIOWpNcDQ5RllZUjhlWDFMdXhZUzdEaDFUM3FUcldNMUZyQ1VSTE9mYnVSdEZ5RGxVNzNPTHo3QlpiRzQ=" target="_blank" rel="noopener">微服务环境下容器编排可视化实践研究 | 北方工业大学</a></li>
+<li><a href="http://xueshu.baidu.com/usercenter/paper/show?paperid=27ec15477c5c7878968c8feddefd6ea5&amp;site=xueshu_se" target="_blank" rel="noopener">云计算环境下基于QoS的服务自适应演化研究 | 东华理工大学</a></li>
+<li><a href="http://xueshu.baidu.com/usercenter/paper/show?paperid=167c78c625852fb8e0ccbd5886e5f198&amp;site=xueshu_se" target="_blank" rel="noopener">基于环境感知的云服务自适应演化研究 | 东华理工大学</a></li>
+<li><a href="http://www.infocomm-journal.com/dxkx/CN/10.11959/j.issn.1000-0801.2019095" target="_blank" rel="noopener">人工智能在网络编排系统中的应用 | 北京邮电大学网络与交换技术国家重点实验室</a></li>
+</ul>
+<h3 id="9-参考资料"><a href="#9-参考资料" class="headerlink" title="9. 参考资料"></a>9. 参考资料</h3><h4 id="开源框架"><a href="#开源框架" class="headerlink" title="开源框架"></a>开源框架</h4><blockquote>
+<ol>
+<li><a href="http://servicecomb.apache.org/cn/" target="_blank" rel="noopener">Apache ServiceComb - 支持多语言的一站式开源微服务解决方案</a></li>
+<li><a href="https://github.com/go-chassis/go-chassis" target="_blank" rel="noopener">go-chassis | Github</a></li>
+<li><a href="https://docs.go-chassis.com" target="_blank" rel="noopener">go-chassis’s Documentation</a></li>
+<li><a href="https://www.infoq.cn/article/ServiceComb-Go-chassis-micro-service" target="_blank" rel="noopener">使用 ServiceComb go-chassis 构建微服务 | InfoQ</a></li>
+<li><a href="https://github.com/go-chassis/go-bmi" target="_blank" rel="noopener">go-chassis/go-bmi | Github</a></li>
+<li><a href="https://juejin.im/post/5c1db06c5188256d98330d88" target="_blank" rel="noopener">使用 go-chassis 管理 RESTful API 文档 | 掘金</a></li>
+<li><a href="https://gitbook.cn/books/5d52a37347def07cd27a5696/index.html" target="_blank" rel="noopener">ServiceComb 服务网格与微服务开发框架融合实践 - 田晓亮 | GitChat</a></li>
+<li><a href="https://mp.weixin.qq.com/s/ibKis-e8m1X39BPK2zIj5w" target="_blank" rel="noopener">华为开源项目 ServiceComb 快速入门 - 李达港 | IT大咖说</a></li>
+</ol>
+</blockquote>
+<h4 id="相关文章"><a href="#相关文章" class="headerlink" title="相关文章"></a>相关文章</h4><blockquote>
+<ol>
+<li><a href="https://mp.weixin.qq.com/s/XmlmN2h7cCguJc6spBoD7w" target="_blank" rel="noopener">推荐 30 个用于微服务的顶级工具 | 高效开发运维</a></li>
+<li><a href="https://github.com/DocsHome/microservices" target="_blank" rel="noopener">《微服务：从设计到部署》 | Github</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/09/25/micro-service-orchestration-and-container-schedule/">微服务编排与容器调度</a></li><li><a href="https://abelsu7.top/2019/03/19/recent-review/">近期复习合集</a></li><li><a href="https://abelsu7.top/2019/03/18/k8s-quick-guides/">Kubernetes 实践简明指南</a></li><li><a href="https://abelsu7.top/2019/03/14/docker-quick-guides/">Docker 实践简明指南</a></li><li><a href="https://xiaobaiai.net/2019/20191024124807.html">Spring Boot从零入门1_详述</a></li><li><a href="https://xiaobaiai.net/2019/20191030204308.html">Spring Boot从零入门4_日志记录及其配置详解</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-10-20T09:35:20.955Z" itemprop="dateUpdated">2019-10-20 17:35:20</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/09/18/micro-service-notes/" target="_blank" rel="external">https://abelsu7.top/2019/09/18/micro-service-notes/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kubernetes/">Kubernetes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/容器/">容器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/微服务/">微服务</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/09/18/micro-service-notes/&title=《微服务学习资料汇总》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/09/18/micro-service-notes/&title=《微服务学习资料汇总》 — Keep Coding&source=
+相关资料整理，更新中…
+
+
+                
+                    
+                    
+   ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/09/18/micro-service-notes/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《微服务学习资料汇总》 — Keep Coding&url=https://abelsu7.top/2019/09/18/micro-service-notes/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/09/18/micro-service-notes/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/09/20/go-standard-library/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Go 语言标准库学习</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/09/06/gopls-guide/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">VS Code 中使用 gopls 补全 Go 代码</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/09/18/micro-service-notes/&title=《微服务学习资料汇总》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/09/18/micro-service-notes/&title=《微服务学习资料汇总》 — Keep Coding&source=
+相关资料整理，更新中…
+
+
+                
+                    
+                    
+   ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/09/18/micro-service-notes/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《微服务学习资料汇总》 — Keep Coding&url=https://abelsu7.top/2019/09/18/micro-service-notes/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/09/18/micro-service-notes/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACIUlEQVR42u3ay26jQBAFUP//TzvbSJbxvdXYEs1hFU0YmsOiUq/HI76eh9f/e47vf/3tu1Me37gwMDAuy8hfMb9en58D8nMxMDDuxngXwVbuSULz+rkYGBgY6697HEDbszAwMDBaRlJ25okjBgYGxjEjb6XlYbd99R/V4hgYGBdk5F333//8lfkGBgbGpRizdn8eFvPXei5cGBgYezPOPaZdmFhJ+zAwMO7DmC1GrKxNzNbCPvwLBgbG1oy2QT8LrMdPSBpwBQYDA+MGjLY1fy5vNhzFwMDYm/GNgeVZwbpISTEwMLZmtP+hLS/zoUK7hLHkxsDAuBQjb8q3AXe2qDH7TBgYGHszhklY2URry9r2I2JgYOzNOCvtaxfCkmBd1+IYGBibMvIAmoTR2fBgPUHEwMDYm5EfcG7ZmX+C6MkYGBhbM2ZrEEnqlqePK+UuBgbGPRntQDEvU2frHUtBFgMDYztGu7y1subVJn95Iw8DA2NXxiy0zYaX+f314AEDA+MGjPx125FkDq5HlStfHQMD47KMtrDMhwrJ89v2X7Q5goGBcXHGSkK2gmnHCR8+AQYGxtaMWbCbrUfksPYPAAYGxh0YdWNrodGflNCzkI2BgXEHxizwtYsX6wVttAqGgYFxe8ZKmE7C/TCIY2BgYJQrXO0odJaGRssWGBgYGzHyYUDbOEtaciesaGBgYGzNmI0YZw2ydiEjH2piYGBsyvgDkWSJh5eBjRYAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>数值分析笔记 4：线性代数方程组数值解法——直接法 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="读书,数值分析">
+    <meta name="description" content="上/下三角矩阵的回代/前推、顺序/列主元消去、矩阵三角分解                                                                                               《应用数值分析》">
+<meta name="keywords" content="读书,数值分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数值分析笔记 4：线性代数方程组数值解法——直接法">
+<meta property="og:url" content="https://abelsu7.top/2018/11/22/math-analysis-4/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="上/下三角矩阵的回代/前推、顺序/列主元消去、矩阵三角分解                                                                                               《应用数值分析》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2018/11/22/math-analysis-4/math-cover.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.520Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数值分析笔记 4：线性代数方程组数值解法——直接法">
+<meta name="twitter:description" content="上/下三角矩阵的回代/前推、顺序/列主元消去、矩阵三角分解                                                                                               《应用数值分析》">
+<meta name="twitter:image" content="https://abelsu7.top/2018/11/22/math-analysis-4/math-cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">数值分析笔记 4：线性代数方程组数值解法——直接法</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">数值分析笔记 4：线性代数方程组数值解法——直接法</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-11-22T12:11:20.000Z" itemprop="datePublished" class="page-time">
+  2018-11-22
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/数学/">数学</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-线性代数方程组数值解法——直接法"><span class="post-toc-text">4. 线性代数方程组数值解法——直接法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-1-线性方程组的一般形式-直接法的基本过程"><span class="post-toc-text">4.1 线性方程组的一般形式/直接法的基本过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-1-1-n-阶线性代数方程组的一般形式"><span class="post-toc-text">4.1.1 $n$ 阶线性代数方程组的一般形式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-1-2-上三角方程组与回代过程"><span class="post-toc-text">4.1.2 上三角方程组与回代过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-1-3-下三角方程组与前推过程"><span class="post-toc-text">4.1.3 下三角方程组与前推过程</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-2-Gauss-消去过程-列主元-Gauss-消去法"><span class="post-toc-text">4.2 $Gauss$ 消去过程/列主元 $Gauss$ 消去法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-2-1-Gauss-消去过程"><span class="post-toc-text">4.2.1 $Gauss$ 消去过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-2-2-顺序-Gauss-消去法"><span class="post-toc-text">4.2.2 顺序 $Gauss$ 消去法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-2-3-列主元-Gauss-消去法"><span class="post-toc-text">4.2.3 列主元 $Gauss$ 消去法</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-3-矩阵三角分解：解方程组的直接三角分解法"><span class="post-toc-text">4.3 矩阵三角分解：解方程组的直接三角分解法</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-math-analysis-4"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">数值分析笔记 4：线性代数方程组数值解法——直接法</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-11-22 20:11:20" datetime="2018-11-22T12:11:20.000Z"  itemprop="datePublished">2018-11-22</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/数学/">数学</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>上/下三角矩阵的回代/前推、顺序/列主元消去、矩阵三角分解</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/22/math-analysis-4/math-cover.jpg" alt="《应用数值分析》" title>
+                </div>
+                <div class="image-caption">《应用数值分析》</div>
+            </figure>
+<a id="more"></a>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#4-线性代数方程组数值解法——直接法">4. 线性代数方程组数值解法——直接法</a><ul>
+<li><a href="#4-1-线性方程组的一般形式-直接法的基本过程">4.1 线性方程组的一般形式/直接法的基本过程</a><ul>
+<li><a href="#4-1-1-n-阶线性代数方程组的一般形式">4.1.1 $n$ 阶线性代数方程组的一般形式</a></li>
+<li><a href="#4-1-2-上三角方程组与回代过程">4.1.2 上三角方程组与回代过程</a></li>
+<li><a href="#4-1-3-下三角方程组与前推过程">4.1.3 下三角方程组与前推过程</a></li>
+</ul>
+</li>
+<li><a href="#4-2-Gauss-消去过程-列主元-Gauss-消去法">4.2 $Gauss$ 消去过程/列主元 $Gauss$ 消去法</a><ul>
+<li><a href="#4-2-1-Gauss-消去过程">4.2.1 $Gauss$ 消去过程</a></li>
+<li><a href="#4-2-2-顺序-Gauss-消去法">4.2.2 顺序 $Gauss$ 消去法</a></li>
+<li><a href="#4-2-3-列主元-Gauss-消去法">4.2.3 列主元 $Gauss$ 消去法</a></li>
+</ul>
+</li>
+<li><a href="#4-3-矩阵三角分解：解方程组的直接三角分解法">4.3 矩阵三角分解：解方程组的直接三角分解法</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="4-线性代数方程组数值解法——直接法"><a href="#4-线性代数方程组数值解法——直接法" class="headerlink" title="4. 线性代数方程组数值解法——直接法"></a>4. 线性代数方程组数值解法——直接法</h2><h3 id="4-1-线性方程组的一般形式-直接法的基本过程"><a href="#4-1-线性方程组的一般形式-直接法的基本过程" class="headerlink" title="4.1 线性方程组的一般形式/直接法的基本过程"></a>4.1 线性方程组的一般形式/直接法的基本过程</h3><h4 id="4-1-1-n-阶线性代数方程组的一般形式"><a href="#4-1-1-n-阶线性代数方程组的一般形式" class="headerlink" title="4.1.1 $n$ 阶线性代数方程组的一般形式"></a>4.1.1 $n$ 阶线性代数方程组的一般形式</h4><p>具有 $n$ 个未知数 $n$ 个方程的 $n$ 阶线性代数方程组的一般形式记为：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n = b_1 \\
+a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n = b_2 \\
+\quad \ \vdots \qquad \quad \ \vdots \qquad \qquad \quad \ \ \vdots \quad \quad \ \ \vdots \\
+a_{n1}x_1 + a_{n2}x_2 + \cdots + a_{nn}x_n = b_n
+\end{cases}</script><p>或写成向量-矩阵形式：</p>
+<script type="math/tex; mode=display">
+\pmb{A}\pmb{x}=\pmb{b}</script><p>其中，</p>
+<script type="math/tex; mode=display">
+\pmb{A}=
+\begin{bmatrix}
+a_{11} &a_{12} &\cdots &a_{1n} \\
+a_{21} &a_{22} &\cdots &a_{2n} \\
+\vdots &\vdots & &\vdots \\
+a_{n1} &a_{n2} &\cdots &a_{nn}
+\end{bmatrix},
+\pmb{x}=
+\begin{bmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_n
+\end{bmatrix}, \pmb{b} =
+\begin{bmatrix}
+b_1 \\
+b_2 \\
+\vdots \\
+b_n  
+\end{bmatrix}.</script><p>$\pmb{A}$ 称为<strong>系数矩阵</strong>，$\pmb{x}$ 称为<strong>解向量</strong>，$\pmb{b}$ 称为<strong>右端常数向量</strong>。实际应用中，主要处理实数情形的方程组，即 $\pmb{A} \in \pmb{R}^{n \times n}$，$\pmb{b} \in \pmb{R}^n$。</p>
+<p>根据 <strong>$Grammer$（克兰姆）法则</strong>，若<strong>系数矩阵 $\pmb{A}$ 非奇异</strong>（或者说 $\pmb{A}$ 的<strong>行列式值 $\det \pmb{A} \neq 0$</strong>），则方程组<strong>存在唯一解</strong>：</p>
+<script type="math/tex; mode=display">
+x_i = \frac{D_i}{D} \quad (i=1,2,\cdots,n).</script><p>其中，$D$ 表示 $\pmb{A}$ 对应的行列式值 $\det \pmb{A}$，$D_i$ 表示在 $D$ 中第 $i$ 列用 $\pmb{b}$ 替换。</p>
+<h4 id="4-1-2-上三角方程组与回代过程"><a href="#4-1-2-上三角方程组与回代过程" class="headerlink" title="4.1.2 上三角方程组与回代过程"></a>4.1.2 上三角方程组与回代过程</h4><p>假如方程组 $\pmb{A}\pmb{x}=\pmb{b}$（$\pmb{A} \in \pmb{R}^{n \times n}$ 非奇异）已被约化为如下形状的上三角方程组：</p>
+<script type="math/tex; mode=display">
+\left \{ \begin{matrix}
+a_{11}x_1 &+ &a_{12}x_2 &+ &\cdots &+ &a_{1n}x_n &= &b_1 \\
+& &a_{22}x_2 &+ &\cdots &+ &a_{2n}x_n &= &b_2 \\
+& & &\ddots & & &\vdots & &\vdots \\
+& & & & & &a_{nn}x_n &= &b_n
+\end{matrix} \right.</script><p>则通过回代过程可求解：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+x_n = b_n / a_{nn} \\
+x_i = (b_i - \sum \limits_{j=i+1}^n a_{ij}x_j)/a_{ii} \quad (i=n-1,\cdots,2,1)
+\end{cases}</script><h4 id="4-1-3-下三角方程组与前推过程"><a href="#4-1-3-下三角方程组与前推过程" class="headerlink" title="4.1.3 下三角方程组与前推过程"></a>4.1.3 下三角方程组与前推过程</h4><p>类似的，假如方程组 $\pmb{A}\pmb{x}=\pmb{b}$（$\pmb{A} \in \pmb{R}^{n \times n}$ 非奇异）已被约化为如下形状的下三角方程组：</p>
+<script type="math/tex; mode=display">
+\left\{\begin{matrix}
+a_{11}x_1 &  &  &  &  &  &  &=  &b_1 \\ 
+a_{21}x_1 &+  &a_{22}x_1  &  &  &  &  &=  &b_2 \\ 
+\vdots &  &\vdots  &  &\ddots  &  &  &  &\vdots \\ 
+a_{n1}x_1 &+  &a_{n2}x_2  &+  &\cdots &+  &a_{nn}x_n  &=  &b_n 
+\end{matrix}\right.</script><p>则通过前推过程可求解：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+x_1 = b_1 / a_{11} \\
+x_i = (b_i - \sum \limits_{j=1}^{i-1} a_{ij}x_j)/a_{ii} \quad (i=2,3,\cdots,n)
+\end{cases}</script><h3 id="4-2-Gauss-消去过程-列主元-Gauss-消去法"><a href="#4-2-Gauss-消去过程-列主元-Gauss-消去法" class="headerlink" title="4.2 $Gauss$ 消去过程/列主元 $Gauss$ 消去法"></a>4.2 $Gauss$ 消去过程/列主元 $Gauss$ 消去法</h3><h4 id="4-2-1-Gauss-消去过程"><a href="#4-2-1-Gauss-消去过程" class="headerlink" title="4.2.1 $Gauss$ 消去过程"></a>4.2.1 $Gauss$ 消去过程</h4><blockquote>
+<p><strong><em>待更新</em></strong></p>
+</blockquote>
+<h4 id="4-2-2-顺序-Gauss-消去法"><a href="#4-2-2-顺序-Gauss-消去法" class="headerlink" title="4.2.2 顺序 $Gauss$ 消去法"></a>4.2.2 顺序 $Gauss$ 消去法</h4><blockquote>
+<p><strong><em>待更新</em></strong></p>
+</blockquote>
+<h4 id="4-2-3-列主元-Gauss-消去法"><a href="#4-2-3-列主元-Gauss-消去法" class="headerlink" title="4.2.3 列主元 $Gauss$ 消去法"></a>4.2.3 列主元 $Gauss$ 消去法</h4><blockquote>
+<p><strong><em>待更新</em></strong></p>
+</blockquote>
+<h3 id="4-3-矩阵三角分解：解方程组的直接三角分解法"><a href="#4-3-矩阵三角分解：解方程组的直接三角分解法" class="headerlink" title="4.3 矩阵三角分解：解方程组的直接三角分解法"></a>4.3 矩阵三角分解：解方程组的直接三角分解法</h3><p>把矩阵 $\pmb{A}$ 分解成两个三角矩阵 $\pmb{L}$ 与 $\pmb{U}$ 的乘积，<strong>$\pmb{A}=\pmb{L}\pmb{U}$</strong>，<strong>消元乘数</strong>为： </p>
+<script type="math/tex; mode=display">
+l_{ik}=a_{ik}^{(k)}/a_{kk}^{(k)} \quad (i=k+1,\cdots,n)</script><p>其中，$\pmb{L}$ 为<strong>单位下三角矩阵</strong>，$\pmb{U}$ 为<strong>上三角矩阵</strong>：</p>
+<script type="math/tex; mode=display">
+\pmb{L} = \begin{bmatrix}
+1 & & & \\ 
+l_{21} &1 & & \\ 
+\vdots &\vdots &\ddots & \\ 
+l_{n1} &l_{n2} &\cdots &1 
+\end{bmatrix},
+\pmb{U} = \begin{bmatrix}
+u_{11} &u_{12} &\cdots &u_{1n} \\
+ &u_{22} &\cdots &u_{2n} \\
+ & &\ddots &\vdots \\
+ & & &u_{nn}
+\end{bmatrix}</script><p>这样一来，解方程组 $\pmb{A}\pmb{x}=\pmb{b}$ 就转化为解方程组 $\pmb{L}\pmb{U}\pmb{x}=\pmb{b}$。令其中 $\pmb{U}\pmb{x}=\pmb{y}$，则解方程组 $\pmb{L}\pmb{U}\pmb{x}=\pmb{b}$ 又相当于依次解两个三角形方程组：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+\pmb{L}\pmb{y}=\pmb{b} \quad \text{(下三角方程组)} \\
+\pmb{U}\pmb{x}=\pmb{y} \quad \text{(上三角方程组)}
+\end{cases}</script><div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/03/18/understanding-linux-kernel/">Linux 内核笔记 1：绪论</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-6/">Java 笔记 6：异常、断言和日志</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-5/">Java 笔记 5：集合</a></li><li><a href="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/">5 分钟 Docker 笔记 5：存储</a></li><li><a href="http://www.hui-wang.info/2018/02/04/%E5%BD%B1%E5%93%8D%E5%8A%9B/">影响力</a></li><li><a href="http://www.hui-wang.info/2017/11/25/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E%EF%BC%9A%E4%B8%8D%E8%83%BD%E5%86%8D%E5%87%91%E4%BA%86/">数学之美：不能再凑了</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.520Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/11/22/math-analysis-4/" target="_blank" rel="external">https://abelsu7.top/2018/11/22/math-analysis-4/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数值分析/">数值分析</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书/">读书</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/11/22/math-analysis-4/&title=《数值分析笔记 4：线性代数方程组数值解法——直接法》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/11/22/math-analysis-4/&title=《数值分析笔记 4：线性代数方程组数值解法——直接法》 — Keep Coding&source=
+上/下三角矩阵的回代/前推、顺序/列主元消去、矩阵三角分解
+
+
+                
+                    
+      ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/11/22/math-analysis-4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数值分析笔记 4：线性代数方程组数值解法——直接法》 — Keep Coding&url=https://abelsu7.top/2018/11/22/math-analysis-4/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/11/22/math-analysis-4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/11/23/math-analysis-5/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">数值分析笔记 5：线性代数方程组数值解法——迭代法</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/11/21/math-analysis-3/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">数值分析笔记 3：曲线拟合/连续函数逼近</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/11/22/math-analysis-4/&title=《数值分析笔记 4：线性代数方程组数值解法——直接法》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/11/22/math-analysis-4/&title=《数值分析笔记 4：线性代数方程组数值解法——直接法》 — Keep Coding&source=
+上/下三角矩阵的回代/前推、顺序/列主元消去、矩阵三角分解
+
+
+                
+                    
+      ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/11/22/math-analysis-4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数值分析笔记 4：线性代数方程组数值解法——直接法》 — Keep Coding&url=https://abelsu7.top/2018/11/22/math-analysis-4/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/11/22/math-analysis-4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACK0lEQVR42u3a22rDMBBFUf//T7uvgWB7nxk14NHWU0lcWasFMbfjwOv8WPyT+88/vyVPLlgyZMh4LeO8XbVnyFu+Gfewqx1kyJCxD4NfheT5dLcrWPAuGTJkyGhcl+luMmTIkNFn1I6SBpEyZMiQUUti7y/ZYvIZXs0LcnEZMmS8kMGr7r//+V/6GzJkyHgV42wsvhsJ8lonkSFDxmgGL3Ldh4MksOtf6zJkyNiZQY7LAbWBDNL+DJJYGTJkDGKkqeP934N8m7YqUcNAhgwZoxn9ca40uEx/lzQhZMiQsQODX5prBzJ4YBonxjJkyBjHSK/CVW2DWov0ocQmQ4aM0YzahZsW7jmAHP0hI5chQ8Y4BimipSUwHgLyhPahdihDhoxxjHiIAfA6aXAaGsqQIWMfBk8ja0MVtaQ0OJsMGTJGM9LLdNXoWGfI7OBLhgwZgxi8GZCmnbXni61QGTJkDGWsKujzoI1foEGCLUOGjA0Y6RgWp9ZIwYCFDBkyNmDwq7A2EsEDx2UBqAwZMsYxyHHTNJXsk16vD2GiDBkyRjPSUI8U8dNgsTPeIUOGjB0YZ7hqJB448iD18v8gQ4aMcYxV4xedsj4JFnm5UIYMGVMZ5JUkKeXJZzoQhtqfMmTI2ICRlsz65ba0hPdwEhkyZMhotB7THVqhoQwZMrZn8BSUfF4MAa/OLEOGjA0YfOujsUizs4aXIUPGbAZ/PZrd+EmDs9XfkCFDxpsYf+DEDyzI3If6AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+<!-- <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script> -->
+<!-- <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script> -->
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

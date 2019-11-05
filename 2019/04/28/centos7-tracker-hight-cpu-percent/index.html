@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>解决 CentOS 7 tracker CPU 占用率 100% | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Linux,CentOS">
+    <meta name="description" content="记一次莫名其妙的 CPU 100% Bug 排查">
+<meta name="keywords" content="Linux,CentOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解决 CentOS 7 tracker CPU 占用率 100%">
+<meta property="og:url" content="https://abelsu7.top/2019/04/28/centos7-tracker-hight-cpu-percent/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="记一次莫名其妙的 CPU 100% Bug 排查">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/04/28/centos7-tracker-hight-cpu-percent/cover.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/04/28/centos7-tracker-hight-cpu-percent/tracker-extract.png">
+<meta property="og:image" content="https://abelsu7.top/2019/04/28/centos7-tracker-hight-cpu-percent/tracker-preferences.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.030Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="解决 CentOS 7 tracker CPU 占用率 100%">
+<meta name="twitter:description" content="记一次莫名其妙的 CPU 100% Bug 排查">
+<meta name="twitter:image" content="https://abelsu7.top/2019/04/28/centos7-tracker-hight-cpu-percent/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">解决 CentOS 7 tracker CPU 占用率 100%</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">解决 CentOS 7 tracker CPU 占用率 100%</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-04-28T07:49:44.000Z" itemprop="datePublished" class="page-time">
+  2019-04-28
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/CentOS/">CentOS</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#问题描述"><span class="post-toc-text">问题描述</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-卸载-tracker（不推荐）"><span class="post-toc-text">1. 卸载 tracker（不推荐）</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-tracker-daemon-k（暂时性）"><span class="post-toc-text">2. tracker daemon -k（暂时性）</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-禁用-tracker-的-autostart"><span class="post-toc-text">3. 禁用 tracker 的 autostart</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-安装-tracker-preferences"><span class="post-toc-text">4. 安装 tracker-preferences</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-centos7-tracker-hight-cpu-percent"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">解决 CentOS 7 tracker CPU 占用率 100%</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-04-28 15:49:44" datetime="2019-04-28T07:49:44.000Z"  itemprop="datePublished">2019-04-28</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/CentOS/">CentOS</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>记一次莫名其妙的 CPU 100% Bug 排查</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/04/28/centos7-tracker-hight-cpu-percent/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><blockquote>
+<p><strong>系统环境</strong><code>CentOS 7.5.1804</code></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/04/28/centos7-tracker-hight-cpu-percent/tracker-extract.png" alt="tracker-extract CPU 占用率 100%" title>
+                </div>
+                <div class="image-caption">tracker-extract CPU 占用率 100%</div>
+            </figure>
+<p>用<code>htop</code>查看系统负载，发现<strong>其中一个 CPU 长时间处于</strong><code>100%</code><strong>状态</strong>，排查后发现罪魁祸首就是<code>/usr/libexec/tracker-extract</code>这个进程。</p>
+<p>直接<code>kill</code>或<code>kill -9</code>后，<strong>进程</strong><code>tracker-extract</code><strong>会自动重启</strong>，并再次达到<code>CPU 100%</code>。</p>
+<pre><code class="lang-bash">&gt; yum info tracker
+
+Installed Packages
+Name        : tracker
+Arch        : x86_64
+Version     : 1.10.5
+Release     : 6.el7
+Size        : 5.6 M
+Repo        : installed
+From repo   : anaconda
+Summary     : Desktop-neutral search tool and indexer
+URL         : https://wiki.gnome.org/Projects/Tracker
+License     : GPLv2+
+Description : Tracker is a powerful desktop-neutral first class object database,
+            : tag/metadata database, search tool and indexer.
+            : 
+            : It consists of a common object database that allows entities to have an
+            : almost infinite number of properties, metadata (both embedded/harvested as
+            : well as user definable), a comprehensive database of keywords/tags and
+            : links to other entities.
+            : 
+            : It provides additional features for file based objects including context
+            : linking and audit trails for a file object.
+            : 
+            : It has the ability to index, store, harvest metadata. retrieve and search
+            : all types of files and other first class objects
+</code></pre>
+<p><code>tracker-extract</code><strong>属于</strong><code>tracker</code><strong>包</strong>，主要用于<strong>桌面索引</strong>，下面介绍几种解决办法。</p>
+<h3 id="1-卸载-tracker（不推荐）"><a href="#1-卸载-tracker（不推荐）" class="headerlink" title="1. 卸载 tracker（不推荐）"></a>1. 卸载 tracker（不推荐）</h3><p>最直接的办法，<strong>卸载</strong><code>tracker</code><strong>包</strong>，不过会同时卸载<code>nautilus</code>、<code>gnome-classic-session</code>等相关依赖包，<strong>不推荐这种方法</strong>。</p>
+<pre><code class="lang-bash">&gt; yum info tracker
+
+Installed Packages
+Name        : tracker
+Arch        : x86_64
+Version     : 1.10.5
+Release     : 6.el7
+Size        : 5.6 M
+Repo        : installed
+From repo   : anaconda
+Summary     : Desktop-neutral search tool and indexer
+URL         : https://wiki.gnome.org/Projects/Tracker
+License     : GPLv2+
+Description : Tracker is a powerful desktop-neutral first class object database,
+            : tag/metadata database, search tool and indexer.
+            : 
+            : It consists of a common object database that allows entities to have an
+            : almost infinite number of properties, metadata (both embedded/harvested as
+            : well as user definable), a comprehensive database of keywords/tags and
+            : links to other entities.
+            : 
+            : It provides additional features for file based objects including context
+            : linking and audit trails for a file object.
+            : 
+            : It has the ability to index, store, harvest metadata. retrieve and search
+            : all types of files and other first class objects
+
+&gt; yum remove tracker
+Dependencies Resolved
+
+=================================================================================
+ Package                    Arch        Version             Repository      Size
+=================================================================================
+Removing:
+ tracker                    x86_64      1.10.5-6.el7        @anaconda      5.6 M
+Removing for dependencies:
+ brasero                    x86_64      3.12.1-2.el7        @anaconda       11 M
+ brasero-nautilus           x86_64      3.12.1-2.el7        @anaconda       47 k
+ evince-nautilus            x86_64      3.22.1-7.el7        @anaconda       19 k
+ gnome-boxes                x86_64      3.22.4-4.el7        @anaconda      5.0 M
+ gnome-classic-session      noarch      3.26.2-3.el7        @anaconda      199 k
+ grilo-plugins              x86_64      0.3.4-3.el7         @anaconda      2.1 M
+ nautilus                   x86_64      3.22.3-5.el7        @anaconda       15 M
+ totem                      x86_64      1:3.22.1-1.el7      @anaconda      6.3 M
+ totem-nautilus             x86_64      1:3.22.1-1.el7      @anaconda       36 k
+ tracker-preferences        x86_64      1.10.5-6.el7        @base          248 k
+
+Transaction Summary
+=================================================================================
+Remove  1 Package (+10 Dependent packages)
+
+Installed size: 45 M
+Is this ok [y/N]: n
+</code></pre>
+<h3 id="2-tracker-daemon-k（暂时性）"><a href="#2-tracker-daemon-k（暂时性）" class="headerlink" title="2. tracker daemon -k（暂时性）"></a>2. tracker daemon -k（暂时性）</h3><p>暂时性的方法，<strong>调用</strong><code>tracker daemon -k</code><strong>杀死所有</strong><code>tracker</code><strong>相关进程</strong>：</p>
+<pre><code class="lang-bash">&gt; tracker
+usage: tracker [--version] [--help]
+               &lt;command&gt; [&lt;args&gt;]
+
+Available tracker commands are:
+   daemon    Start, stop, pause and list processes responsible for indexing content
+   extract   Extract information from a file
+   info      Show information known about local files or items indexed
+   index     Backup, restore, import and (re)index by MIME type or file name
+   reset     Reset or remove index and revert configurations to defaults
+   search    Search for content indexed or show content by type
+   sparql    Query and update the index using SPARQL or search, list and tree the ontology
+   sql       Query the database at the lowest level using SQL
+   status    Show the indexing progress, content statistics and index state
+   tag       Create, list or delete tags for indexed content
+
+See &#39;tracker help &lt;command&gt;&#39; to read about a specific subcommand.
+
+&gt; tracker daemon -k all
+Found 10 PIDs…
+  Killed process 2390 - &#39;tracker-miner-user-guides&#39;
+  Killed process 2395 - &#39;tracker-store&#39;
+  Killed process 2656 - &#39;tracker-miner-apps&#39;
+  Killed process 2705 - &#39;tracker-miner-fs&#39;
+  Killed process 2952 - &#39;tracker-miner-user-guides&#39;
+  Killed process 2962 - &#39;tracker-extract&#39;
+  Killed process 2963 - &#39;tracker-miner-apps&#39;
+  Killed process 2964 - &#39;tracker-miner-fs&#39;
+  Killed process 2987 - &#39;tracker-store&#39;
+  Killed process 13666 - &#39;tracker-extract&#39;
+</code></pre>
+<blockquote>
+<p>可通过<code>tracker daemon -s</code>重新启动<code>tracker</code>相关进程</p>
+</blockquote>
+<h3 id="3-禁用-tracker-的-autostart"><a href="#3-禁用-tracker-的-autostart" class="headerlink" title="3. 禁用 tracker 的 autostart"></a>3. 禁用 tracker 的 autostart</h3><p>在<code>/etc/xdg/autostart/tracker*.desktop</code>文件的末尾添加以下内容：</p>
+<pre><code class="lang-bash">Hidden=true
+</code></pre>
+<p><strong>注销后重新登录生效</strong>。</p>
+<h3 id="4-安装-tracker-preferences"><a href="#4-安装-tracker-preferences" class="headerlink" title="4. 安装 tracker-preferences"></a>4. 安装 tracker-preferences</h3><pre><code class="lang-bash">&gt; yum info tracker-preferences
+Available Packages
+Name        : tracker-preferences
+Arch        : x86_64
+Version     : 1.10.5
+Release     : 6.el7
+Size        : 58 k
+Repo        : base/7/x86_64
+Summary     : Tracker preferences
+URL         : https://wiki.gnome.org/Projects/Tracker
+License     : GPLv2+
+Description : Graphical frontend to tracker configuration.
+
+&gt; yum install tracker-preferences
+</code></pre>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/04/28/centos7-tracker-hight-cpu-percent/tracker-preferences.png" alt="tracker-preferences" title>
+                </div>
+                <div class="image-caption">tracker-preferences</div>
+            </figure>
+<p>打勾的选项全部取消，<strong>注销后重新登录生效</strong>。</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://unix.stackexchange.com/questions/481206/tracker-extract-high-cpu-usage" target="_blank" rel="noopener">tracker-extract high cpu usage | StackExchange</a></li>
+<li><a href="https://www.centos.org/forums/viewtopic.php?t=68593" target="_blank" rel="noopener">tracker-extract process with 100% cpu usage | CentOS</a></li>
+<li><a href="https://forums.opensuse.org/showthread.php/464686-Solved-How-to-disable-tracker-store-processes-that-eat-100-CPU" target="_blank" rel="noopener">[Solved] How to disable tracker-store processes that eat 100% CPU | openSUSE Forum</a></li>
+<li><a href="https://blog.csdn.net/wangfei584521/article/details/40040851" target="_blank" rel="noopener">Ubuntu Gnome 14.04 tracker-extract 占用内存太高 | CSDN</a></li>
+<li><a href="https://www.linuxidc.com/Linux/2013-04/83060.htm" target="_blank" rel="noopener">解决 Linux 中 tracker 大量占用 CPU 的问题 | Linux 公社</a></li>
+<li><a href="http://www.keyboardancer.com/2017/09/13/ubuntu16_04_tracker_issue/" target="_blank" rel="noopener">Ubuntu 16.04 莫名其妙占用 CPU 的 tracker | Paulus.Chen</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7 安装配置 NFS</a></li><li><a href="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/">Linux 系统常用监控命令</a></li><li><a href="https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/">Linux 终端修改 ls 命令目录显示颜色</a></li><li><a href="https://abelsu7.top/2019/07/07/perf-quick-guides/">Linux 下使用 Perf 分析系统性能</a></li><li><a href="http://www.borgor.cn/2019-07-25/81eae861.html">在CentOS上使用certbot为nginx添加https证书</a></li><li><a href="http://www.borgor.cn/2019-07-25/29fa0dd5.html">从零开始搭建CentOS+Python+nodejs开发环境</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.030Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/04/28/centos7-tracker-hight-cpu-percent/" target="_blank" rel="external">https://abelsu7.top/2019/04/28/centos7-tracker-hight-cpu-percent/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/04/28/centos7-tracker-hight-cpu-percent/&title=《解决 CentOS 7 tracker CPU 占用率 100%》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/04/28/centos7-tracker-hight-cpu-percent/&title=《解决 CentOS 7 tracker CPU 占用率 100%》 — Keep Coding&source=
+记一次莫名其妙的 CPU 100% Bug 排查
+
+
+                
+                    
+           ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/04/28/centos7-tracker-hight-cpu-percent/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《解决 CentOS 7 tracker CPU 占用率 100%》 — Keep Coding&url=https://abelsu7.top/2019/04/28/centos7-tracker-hight-cpu-percent/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/04/28/centos7-tracker-hight-cpu-percent/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/04/29/ubuntu-1804-install-nvidia-driver/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Ubuntu 18.04 安装 Nvidia 显卡驱动</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/04/28/setup-remote-ssh-login/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Linux 设置多台主机 SSH 免密登录</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/04/28/centos7-tracker-hight-cpu-percent/&title=《解决 CentOS 7 tracker CPU 占用率 100%》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/04/28/centos7-tracker-hight-cpu-percent/&title=《解决 CentOS 7 tracker CPU 占用率 100%》 — Keep Coding&source=
+记一次莫名其妙的 CPU 100% Bug 排查
+
+
+                
+                    
+           ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/04/28/centos7-tracker-hight-cpu-percent/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《解决 CentOS 7 tracker CPU 占用率 100%》 — Keep Coding&url=https://abelsu7.top/2019/04/28/centos7-tracker-hight-cpu-percent/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/04/28/centos7-tracker-hight-cpu-percent/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACt0lEQVR42u3aQW7jMBAEQP//09lrgF0r3TNk4AVKJ8OOJBYP5KQ5r1d8fX27vn/z7tfn5zx/Tt54+MLDw8NbDP3v6xmQDDGZjucJev77d2PGw8PDu81rF/H8BbMNI/nm+Tl4eHh4n8ZLHt1O0Kygx8PDw/u/eF/lNXsvHh4e3mfykjDiebHeRLfJJnE9a8HDw8OLefkp0ud8vnK+h4eHh7c+Vd9sEu2h2pXyHQ8PD+9aMpCXxUnYeq8vbDhOPDw8vMu8U/FrUtnmv65CXjw8PLxrvCRCbaPb2WRtYtzXbOh4eHh4MW/WFLUJL/Jf8/I9iiHw8PDwDvHaBXrTBLAJiPMDuSLJwMPDwxvxkmJ39jf7uHZ2hPbD+R4eHh7emtceSs2K3ed7801ieDyGh4eHd5S3L6Pz4bZvacvrf4wTDw8P7xrvuVTNl+9960C+IUWTjoeHh3eBl5TLyTJ9ti1gFvv+MNF4eHh4h3j5y/JFvA0pZjHHKn7Bw8PDW/PadqvN0xJ2HTq8uxcPDw/vMi9vfpptG220sdnSoqwFDw8P7xAvb6LaL/d5zNHGwXh4eHi3eXn5OwttZ7nyLCip9yI8PDy8yffFwr0JcPP2rLONBXh4eHhnee1ynBS47eBmExdtMHh4eHgXeG2IsN8Y2pgjb6KNJhQPDw/vEG8TQ7TtAnkw0R65RWEEHh4e3lFeu5S3jHYzaFsZ8PDw8H6ft28XaEONljRsxsLDw8M7ypst/W2I0IatRVvV8114eHh4F3hno9jnR7fh7Ozz8MLDw8MbnafnBe4zYNaAlUe9ycaDh4eH9zu8/DX5cp8v/cNSOBknHh4e3sfwkiG24Wy+FRWbEx4eHt7H8FpA20zQ3nW9pMbDw8MbhRHJAt2Wy6ci3bdvwcPDw7vA2//DP2ucmoUUKwYeHh7elvcHej5UuTMDvtgAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

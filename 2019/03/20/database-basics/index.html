@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>数据库系统原理笔记 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="数据库">
+    <meta name="description" content="摘自 数据库系统原理 | CS-Notes">
+<meta name="keywords" content="数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库系统原理笔记">
+<meta property="og:url" content="https://abelsu7.top/2019/03/20/database-basics/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自 数据库系统原理 | CS-Notes">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/03/20/database-basics/cover.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/20/database-basics/transaction.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/20/database-basics/ACID.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/20/database-basics/update-override.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/20/database-basics/select-dirt.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/20/database-basics/select-again.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/20/database-basics/shadow-select.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.117Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库系统原理笔记">
+<meta name="twitter:description" content="摘自 数据库系统原理 | CS-Notes">
+<meta name="twitter:image" content="https://abelsu7.top/2019/03/20/database-basics/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">数据库系统原理笔记</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">数据库系统原理笔记</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-03-20T02:02:18.000Z" itemprop="datePublished" class="page-time">
+  2019-03-20
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/数据库/">数据库</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一、事务"><span class="post-toc-text">一、事务</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ACID"><span class="post-toc-text">ACID</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-Atomicity-原子性"><span class="post-toc-text">1. Atomicity 原子性</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-Consistency-一致性"><span class="post-toc-text">2. Consistency 一致性</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3-Isolation-隔离性"><span class="post-toc-text">3. Isolation 隔离性</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#4-Durability-持久性"><span class="post-toc-text">4. Durability 持久性</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ACID-之间的关系"><span class="post-toc-text">ACID 之间的关系</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#AUTOCOMMIT"><span class="post-toc-text">AUTOCOMMIT</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#二、并发一致性"><span class="post-toc-text">二、并发一致性</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#丢失修改"><span class="post-toc-text">丢失修改</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#读脏数据"><span class="post-toc-text">读脏数据</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#不可重复读"><span class="post-toc-text">不可重复读</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#幻影读"><span class="post-toc-text">幻影读</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#总结"><span class="post-toc-text">总结</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#三、封锁"><span class="post-toc-text">三、封锁</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#封锁粒度"><span class="post-toc-text">封锁粒度</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#封锁类型"><span class="post-toc-text">封锁类型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-读写锁"><span class="post-toc-text">1. 读写锁</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-意向锁"><span class="post-toc-text">2. 意向锁</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#封锁协议"><span class="post-toc-text">封锁协议</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-三级封锁协议"><span class="post-toc-text">1. 三级封锁协议</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-两段锁协议"><span class="post-toc-text">2. 两段锁协议</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#MySQL-隐式与显式锁定"><span class="post-toc-text">MySQL 隐式与显式锁定</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#四、隔离级别"><span class="post-toc-text">四、隔离级别</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#未提交读-READ-UNCOMMITTED"><span class="post-toc-text">未提交读 READ UNCOMMITTED</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#提交读-READ-COMMITED"><span class="post-toc-text">提交读 READ COMMITED</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#可重复读-REPEATABLE-READ"><span class="post-toc-text">可重复读 REPEATABLE READ</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#可串行化-SERIALIZABLE"><span class="post-toc-text">可串行化 SERIALIZABLE</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#五、多版本并发控制"><span class="post-toc-text">五、多版本并发控制</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#版本号"><span class="post-toc-text">版本号</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#隐藏的列"><span class="post-toc-text">隐藏的列</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Undo-日志"><span class="post-toc-text">Undo 日志</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-database-basics"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">数据库系统原理笔记</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-03-20 10:02:18" datetime="2019-03-20T02:02:18.000Z"  itemprop="datePublished">2019-03-20</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/数据库/">数据库</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>摘自 <a href="https://cyc2018.github.io/CS-Notes/#/notes/数据库系统原理" target="_blank" rel="noopener">数据库系统原理 | CS-Notes</a></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/20/database-basics/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><h3 id="一、事务"><a href="#一、事务" class="headerlink" title="一、事务"></a>一、事务</h3><p><strong>事务</strong>指<strong>满足 ACID 特性的一组操作</strong>，可以<strong>通过</strong><code>Commit</code><strong>提交一个事务</strong>，也可以<strong>通过</strong><code>Rollback</code><strong>进行回滚</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/20/database-basics/transaction.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h4 id="ACID"><a href="#ACID" class="headerlink" title="ACID"></a>ACID</h4><h5 id="1-Atomicity-原子性"><a href="#1-Atomicity-原子性" class="headerlink" title="1. Atomicity 原子性"></a>1. Atomicity 原子性</h5><p><strong>事务</strong>被视为<strong>不可分割的最小单元</strong>，事务的所有操作<strong>要么全部提交成功，要么全部失败回滚</strong>。</p>
+<blockquote>
+<p>使用<strong>回滚日志</strong><code>Undo Log</code>保证<strong>原子性</strong></p>
+</blockquote>
+<h5 id="2-Consistency-一致性"><a href="#2-Consistency-一致性" class="headerlink" title="2. Consistency 一致性"></a>2. Consistency 一致性</h5><p><strong>数据库</strong>在<strong>事务执行前后</strong>都保持<strong>一致性状态</strong>，所有事务对一个数据的<strong>读取结果都是相同的</strong>。</p>
+<h5 id="3-Isolation-隔离性"><a href="#3-Isolation-隔离性" class="headerlink" title="3. Isolation 隔离性"></a>3. Isolation 隔离性</h5><p><strong>一个事务所做的修改</strong>在最终提交以前，<strong>对其他事务不可见</strong>。</p>
+<h5 id="4-Durability-持久性"><a href="#4-Durability-持久性" class="headerlink" title="4. Durability 持久性"></a>4. Durability 持久性</h5><p>一旦<strong>事务提交</strong>，则其<strong>所做的修改将会永远保存到数据库中</strong>，即使系统发生崩溃，事务的执行结果也不能丢失。</p>
+<blockquote>
+<p>使用<strong>重做日志</strong><code>Redo Log</code>保证<strong>持久性</strong></p>
+</blockquote>
+<h4 id="ACID-之间的关系"><a href="#ACID-之间的关系" class="headerlink" title="ACID 之间的关系"></a>ACID 之间的关系</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/20/database-basics/ACID.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ul>
+<li>只有<strong>满足一致性</strong>，事务的<strong>执行结果才是正确的</strong></li>
+<li><strong>无并发</strong>的情况下，事务串行执行，<strong>隔离性一定满足</strong>。此时<strong>只要满足原子性，就可以满足一致性</strong></li>
+<li><strong>有并发</strong>的情况下，多个事务并行执行，事务<strong>不仅要满足原子性，还要满足隔离性</strong>，才能满足一致性</li>
+<li>事务满足<strong>持久性</strong>是为了<strong>应对数据库崩溃</strong>的情况</li>
+</ul>
+<h4 id="AUTOCOMMIT"><a href="#AUTOCOMMIT" class="headerlink" title="AUTOCOMMIT"></a>AUTOCOMMIT</h4><p><strong>MySQL 默认采用自动提交模式</strong>，如果不显式使用<code>START TRANSACTION</code>语句来开始一个事务，那么<strong>每个查询都会被当作一个事务自动提交</strong>。</p>
+<h3 id="二、并发一致性"><a href="#二、并发一致性" class="headerlink" title="二、并发一致性"></a>二、并发一致性</h3><p>在<strong>并发环境</strong>下，<strong>事务的隔离性很难保证</strong>，有可能出现很多并发一致性问题。</p>
+<h4 id="丢失修改"><a href="#丢失修改" class="headerlink" title="丢失修改"></a>丢失修改</h4><p><code>T2</code>的修改覆盖了<code>T1</code>的修改：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/20/database-basics/update-override.jpg" alt="丢失修改" title>
+                </div>
+                <div class="image-caption">丢失修改</div>
+            </figure>
+<h4 id="读脏数据"><a href="#读脏数据" class="headerlink" title="读脏数据"></a>读脏数据</h4><p><code>T1</code>修改一个数据，<code>T2</code>随后读取这个数据，如果<code>T1</code><strong>撤销了这次修改</strong>，那么<code>T2</code><strong>读取的数据</strong>就是<strong>脏数据</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/20/database-basics/select-dirt.jpg" alt="读脏数据" title>
+                </div>
+                <div class="image-caption">读脏数据</div>
+            </figure>
+<h4 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a>不可重复读</h4><p><code>T2</code>读取一个数据，<code>T1</code>对该数据进行了修改。如果<code>T2</code><strong>再次读取这个数据</strong>，结果会<strong>和第一次读取的结果不同</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/20/database-basics/select-again.jpg" alt="不可重复读" title>
+                </div>
+                <div class="image-caption">不可重复读</div>
+            </figure>
+<h4 id="幻影读"><a href="#幻影读" class="headerlink" title="幻影读"></a>幻影读</h4><p><code>T1</code><strong>读取某个范围的数据</strong>，<code>T2</code><strong>在这个范围内插入新的数据</strong>。<code>T1</code>再次读取这个范围的数据，<strong>结果会和第一次读不同</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/20/database-basics/shadow-select.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li><strong>主要原因</strong>：<strong>破坏了</strong>事务的<strong>隔离性</strong></li>
+<li><strong>解决方法</strong>：通过<strong>并发控制</strong>来保证隔离性</li>
+<li><strong>如何实现</strong>：通过<strong>封锁</strong>，但<strong>需要用户自己控制</strong>，相当复杂</li>
+<li><strong>数据库管理系统</strong>提供了<strong>事务的隔离级别</strong>，可以让用户轻松的处理并发一致性问题</li>
+</ul>
+<h3 id="三、封锁"><a href="#三、封锁" class="headerlink" title="三、封锁"></a>三、封锁</h3><h4 id="封锁粒度"><a href="#封锁粒度" class="headerlink" title="封锁粒度"></a>封锁粒度</h4><p><code>MySQL</code>中提供了<strong>两种封锁粒度</strong>：<strong>行级锁</strong>以及<strong>表级锁</strong>。</p>
+<p>应该尽量<strong>只锁定需要修改的那部分数据</strong>。锁定的数据量越少，发生锁争用的可能就越小，系统的并发程度就越高。</p>
+<p>但是<strong>加锁需要消耗资源</strong>，锁的各种操作（包括获取锁、释放锁、检查锁状态）都会增加系统开销。<strong>因此封锁粒度越小，系统开销就越大</strong>。</p>
+<p><strong>在选择锁粒度时，需要在锁开销和并发程度之间做一个权衡</strong>。</p>
+<h4 id="封锁类型"><a href="#封锁类型" class="headerlink" title="封锁类型"></a>封锁类型</h4><h5 id="1-读写锁"><a href="#1-读写锁" class="headerlink" title="1. 读写锁"></a>1. 读写锁</h5><ul>
+<li><strong>排它锁（Exclusive）</strong>：简写为<code>X</code><strong>锁</strong>，又称为<strong>写锁</strong></li>
+<li><strong>共享锁（Shared）</strong>：简写为<code>S</code><strong>锁</strong>，又称为<strong>读锁</strong></li>
+</ul>
+<h5 id="2-意向锁"><a href="#2-意向锁" class="headerlink" title="2. 意向锁"></a>2. 意向锁</h5><p>使用<strong>意向锁（Intention Locks）</strong>可以更容易的支持<strong>多粒度封锁</strong>。</p>
+<p><strong>意向锁</strong>在原来的<code>X/S</code>锁之上引入了<code>IX/IS</code>，都是<strong>表级锁</strong>，用来<strong>表示一个事务想要在表中的某个数据行上加</strong><code>X</code><strong>锁或</strong><code>S</code>**锁。有以下两个规定：</p>
+<ol>
+<li>一个事务在获得某个数据行对象的<code>S</code>锁之前，必须获得表的<code>IS</code>锁或更强的锁</li>
+<li>一个事务在获得某个数据行对象的<code>X</code>锁之前，必须先获得表的<code>IX</code>锁</li>
+</ol>
+<h4 id="封锁协议"><a href="#封锁协议" class="headerlink" title="封锁协议"></a>封锁协议</h4><h5 id="1-三级封锁协议"><a href="#1-三级封锁协议" class="headerlink" title="1. 三级封锁协议"></a>1. 三级封锁协议</h5><p><strong><em>一级封锁协议</em></strong></p>
+<p>事务<code>T</code>要<strong>修改数据</strong><code>A</code>时<strong>必须加</strong><code>X</code><strong>锁</strong>，<strong>直到</strong><code>T</code><strong>结束才释放锁</strong>.</p>
+<blockquote>
+<p>可以<strong>解决丢失修改的问题</strong>，因为<strong>不能同时有两个事务对同一个数据进行修改</strong>，那么事务就不会被覆盖</p>
+</blockquote>
+<p><strong><em>二级封锁协议</em></strong></p>
+<p><strong>在一级的基础上</strong>，要求<strong>读取数据</strong><code>A</code><strong>时必须加</strong><code>S</code><strong>锁</strong>，<strong>读取完马上释放</strong><code>S</code><strong>锁</strong>。</p>
+<blockquote>
+<p>可以<strong>解决读脏数据的问题</strong>，因为如果一个事务在对数据<code>A</code>进行修改，根据一级封锁协议，会加<code>X</code>锁，那么就不能再加<code>S</code>锁了，也就不会读入脏数据</p>
+</blockquote>
+<p><strong><em>三级封锁协议</em></strong></p>
+<p><strong>在二级的基础上</strong>，要求<strong>读取数据</strong><code>A</code><strong>时必须加</strong><code>S</code><strong>锁</strong>，直到<strong>事务结束了才能释放</strong><code>S</code><strong>锁</strong>。</p>
+<blockquote>
+<p>可以解决不可重复读的问题，因为读<code>A</code>时，其他事务不能对<code>A</code>加<code>X</code>锁，从而避免了在读的期间数据发生改变</p>
+</blockquote>
+<h5 id="2-两段锁协议"><a href="#2-两段锁协议" class="headerlink" title="2. 两段锁协议"></a>2. 两段锁协议</h5><p><strong>加锁</strong>和<strong>解锁</strong>分为<strong>两个阶段</strong>进行。</p>
+<p><strong>可串行化调度</strong>是指，通过<strong>并发控制</strong>，使得<strong>并发执行的事务结果</strong>串行执行的事务结果相同**。</p>
+<p><strong>事务遵循两段锁协议是保证可串行化调度的充分条件</strong>。例如以下操作满足两段锁协议，是可串行化调度：</p>
+<pre><code class="lang-sql">lock-x(A)...lock-s(B)...lock-s(C)...unlock(A)...unlock(C)...unlock(B)
+</code></pre>
+<p>但<strong>不是必要条件</strong>，例如以下操作不满足两段锁协议，但它仍是可串行化调度：</p>
+<pre><code class="lang-sql">lock-x(A)...unlock(A)...lock-s(B)...unlock(B)...lock-s(C)...unlock(C)
+</code></pre>
+<h4 id="MySQL-隐式与显式锁定"><a href="#MySQL-隐式与显式锁定" class="headerlink" title="MySQL 隐式与显式锁定"></a>MySQL 隐式与显式锁定</h4><p><code>MySQL</code>的<code>InnoDB</code><strong>存储引擎</strong>采用<strong>两段锁协议</strong>，会<strong>根据隔离级别在需要的时候自动加锁</strong>，并且<strong>所有的锁都是在同一时刻被释放</strong>，这被称为<strong>隐式锁定</strong>。</p>
+<p><code>InnoDB</code>也支持使用特定的语句进行<strong>显式锁定</strong>：</p>
+<pre><code class="lang-sql">SELECT ... LOCK In SHARE MODE;
+SELECT ... FOR UPDATE;
+</code></pre>
+<h3 id="四、隔离级别"><a href="#四、隔离级别" class="headerlink" title="四、隔离级别"></a>四、隔离级别</h3><h4 id="未提交读-READ-UNCOMMITTED"><a href="#未提交读-READ-UNCOMMITTED" class="headerlink" title="未提交读 READ UNCOMMITTED"></a>未提交读 READ UNCOMMITTED</h4><blockquote>
+<p><strong>事务中的修改</strong>，即使<strong>没有提交</strong>，对其他事务也是<strong>可见的</strong></p>
+</blockquote>
+<h4 id="提交读-READ-COMMITED"><a href="#提交读-READ-COMMITED" class="headerlink" title="提交读 READ COMMITED"></a>提交读 READ COMMITED</h4><blockquote>
+<p><strong>一个事务只能读取已经提交事务所做的修改</strong>。也就是说，一个事务所做的修改在提交之前对其他事务是不可见的</p>
+</blockquote>
+<h4 id="可重复读-REPEATABLE-READ"><a href="#可重复读-REPEATABLE-READ" class="headerlink" title="可重复读 REPEATABLE READ"></a>可重复读 REPEATABLE READ</h4><blockquote>
+<p>保证<strong>在同一个事务中多次读取同样数据的结果是一样的</strong></p>
+</blockquote>
+<h4 id="可串行化-SERIALIZABLE"><a href="#可串行化-SERIALIZABLE" class="headerlink" title="可串行化 SERIALIZABLE"></a>可串行化 SERIALIZABLE</h4><blockquote>
+<p><strong>强制事务串行执行</strong></p>
+</blockquote>
+<h3 id="五、多版本并发控制"><a href="#五、多版本并发控制" class="headerlink" title="五、多版本并发控制"></a>五、多版本并发控制</h3><p><strong>多版本并发控制</strong>（Multi-Version Concurrency Control，<strong>MVCC</strong>）是<code>MySQL</code>的<code>InnoDB</code>存储引擎<strong>实现隔离级别</strong>的一种具体方式，用于实现<strong>提交读</strong>和<strong>可重复读</strong>这两种隔离级别。</p>
+<ul>
+<li><strong>未提交读</strong>隔离级别总是<strong>读取最新的数据行</strong>，<strong>无需使用 MVCC</strong></li>
+<li><strong>可串行化</strong>隔离级别需要<strong>对所有读取的行都加锁</strong>，<strong>单纯使用 MVCC 无法实现</strong></li>
+</ul>
+<h4 id="版本号"><a href="#版本号" class="headerlink" title="版本号"></a>版本号</h4><ul>
+<li><strong>系统版本号</strong>：是一个<strong>递增的数字</strong>，<strong>每开始一个新事务</strong>，系统版本号就会<strong>自动递增</strong></li>
+<li><strong>事务版本号</strong>：事务开始时的系统版本号</li>
+</ul>
+<h4 id="隐藏的列"><a href="#隐藏的列" class="headerlink" title="隐藏的列"></a>隐藏的列</h4><p><strong>MVVC</strong> 在<strong>每行记录后</strong>都保存着<strong>两个隐藏的列</strong>，用来<strong>存储两个版本号</strong>：</p>
+<ul>
+<li><strong>创建版本号</strong>：表示<strong>创建一个数据行的快照</strong>时的<strong>系统版本号</strong></li>
+<li><strong>删除版本号</strong>：如果<strong>该快照的删除版本号大于当前事务的版本号</strong>，则该<strong>快照有效</strong>，否则表示该快照已经被删除了</li>
+</ul>
+<h4 id="Undo-日志"><a href="#Undo-日志" class="headerlink" title="Undo 日志"></a>Undo 日志</h4><p><strong>MVCC</strong> 使用到的<strong>快照存储在</strong><code>Undo</code><strong>日志中</strong>，该日志通过<strong>回滚指针</strong>把<strong>一个数据行（Record）的所有快照</strong>连接起来。</p>
+<p><strong><em>更新中…</em></strong></p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/数据库系统原理" target="_blank" rel="noopener">数据库系统原理 | CS-Notes</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/06/05/gorm-notes/">Golang ORM 框架：GORM</a></li><li><a href="https://abelsu7.top/2019/05/31/sql-notes/">SQL 必知必会</a></li><li><a href="https://wiki.hushhw.cn/posts/ac7121e8.html">《数据库系统概论》学习笔记之关系数据库</a></li><li><a href="https://wiki.hushhw.cn/posts/b8222433.html">《数据库系统概论》学习笔记之绪论</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.117Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/03/20/database-basics/" target="_blank" rel="external">https://abelsu7.top/2019/03/20/database-basics/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/20/database-basics/&title=《数据库系统原理笔记》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/20/database-basics/&title=《数据库系统原理笔记》 — Keep Coding&source=
+摘自 数据库系统原理 | CS-Notes
+
+
+                
+                    
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/20/database-basics/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数据库系统原理笔记》 — Keep Coding&url=https://abelsu7.top/2019/03/20/database-basics/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/20/database-basics/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/03/24/go-algo-and-data-structure/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Go 语言常用算法及数据结构汇总</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/03/19/recent-review/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">近期复习合集</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/20/database-basics/&title=《数据库系统原理笔记》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/20/database-basics/&title=《数据库系统原理笔记》 — Keep Coding&source=
+摘自 数据库系统原理 | CS-Notes
+
+
+                
+                    
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/20/database-basics/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数据库系统原理笔记》 — Keep Coding&url=https://abelsu7.top/2019/03/20/database-basics/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/20/database-basics/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACM0lEQVR42u3aQW7jMAwF0N7/0h5gVgU6o/4vJkUtP62MIJHztCBIkR8f8br+rs/Pnz9Zf+fr97/+dr3zyxYGBsZtGddy5S9eUxN8fhz/+D8YGBgPYMyDbBusc/x6TwwMDIw2COZhd70/BgYGxiTg5rw2lcTAwMBYM96XtF3x+qFaHAMD44aMvcbAzzy/vb+BgYHx6xlXuSavzy/v6n+FgYFxNCNpIiavSdLHPKXbS0kxMDBOZeRXY5Og2V6i1Y1SDAyMoxn5hf5eRdkG0DYcY2BgPIGRJHmT5G8yeFE0SjEwMI5m1AMN4yGMPBFsxzUwMDBOZSRX+euSsi2AJwH3v4eFgYFxNKMdC2sL16Q8Tt5VtDAxMDCOYyQvSwJu2/JsL/W+SR8xMDCOZrRNgiSNawFJqG2brxgYGOcx5lsnYbcdDmthGBgYZzP2Rije0Uho969JGBgYN2Rc5WpD5F5ToT0CDAyMsxnrrdurt73mZZI+RskoBgbG0Yy84JyXo3u8tqWKgYFxEqMdsJgEyvkV2zdJIQYGxtGM5Lkd22phbcuzzm0xMDBuy0gGJvIUbX6VNmpOYGBgHMp4bWPgVZV0HnDf0sLEwMD4ZYx22KItaCc75+kjBgbGExhJkG1bm21gfUFIxcDAeAAjb2e27Lqq3grNGBgYGElYTIrPSSu0GAXDwMDAiFubeZCdHBkGBsZzGEmqNxmzSAJrcqybjUwMDIybM9oCsi1687GMvSYBBgbG0Yw/xfxBz+1q5YkAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

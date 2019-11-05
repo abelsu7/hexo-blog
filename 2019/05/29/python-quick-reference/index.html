@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Python 速查 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="编程,学习,Python">
+    <meta name="description" content="C++ 基础速查笔记，摘自 《Python 编程快速上手》">
+<meta name="keywords" content="编程,学习,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 速查">
+<meta property="og:url" content="https://abelsu7.top/2019/05/29/python-quick-reference/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="C++ 基础速查笔记，摘自 《Python 编程快速上手》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/05/29/python-quick-reference/cover.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.612Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python 速查">
+<meta name="twitter:description" content="C++ 基础速查笔记，摘自 《Python 编程快速上手》">
+<meta name="twitter:image" content="https://abelsu7.top/2019/05/29/python-quick-reference/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Python 速查</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Python 速查</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-05-29T07:38:02.000Z" itemprop="datePublished" class="page-time">
+  2019-05-29
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Python/">Python</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-Python-基础"><span class="post-toc-text">1. Python 基础</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-1-数学操作符"><span class="post-toc-text">1.1 数学操作符</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-2-数据类型"><span class="post-toc-text">1.2 数据类型</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-3-字符串连接和复制"><span class="post-toc-text">1.3 字符串连接和复制</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-4-在变量中保存值"><span class="post-toc-text">1.4 在变量中保存值</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-5-变量名"><span class="post-toc-text">1.5 变量名</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-6-常用函数"><span class="post-toc-text">1.6 常用函数</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-控制流"><span class="post-toc-text">2. 控制流</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-布尔值"><span class="post-toc-text">2.1 布尔值</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-操作符"><span class="post-toc-text">2.2 操作符</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-3-if-else-elif"><span class="post-toc-text">2.3 if / else / elif</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-4-while-break-continue"><span class="post-toc-text">2.4 while / break / continue</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-5-for-range"><span class="post-toc-text">2.5 for / range</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-6-import-from-import"><span class="post-toc-text">2.6 import / from import</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-7-sys-exit"><span class="post-toc-text">2.7 sys.exit()</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-函数"><span class="post-toc-text">3. 函数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-def-语句和参数"><span class="post-toc-text">3.1 def 语句和参数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-return-语句和返回值"><span class="post-toc-text">3.2 return 语句和返回值</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-3-None-值"><span class="post-toc-text">3.3 None 值</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-4-print-和关键字参数"><span class="post-toc-text">3.4 print() 和关键字参数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-5-global-语句"><span class="post-toc-text">3.5 global 语句</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-6-异常处理"><span class="post-toc-text">3.6 异常处理</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-列表"><span class="post-toc-text">4. 列表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-字典和结构化数据"><span class="post-toc-text">5. 字典和结构化数据</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-字符串操作"><span class="post-toc-text">6. 字符串操作</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-python-quick-reference"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Python 速查</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-05-29 15:38:02" datetime="2019-05-29T07:38:02.000Z"  itemprop="datePublished">2019-05-29</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Python/">Python</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>C++ 基础速查笔记，摘自 <a href="https://book.douban.com/subject/26836700/" target="_blank" rel="noopener">《Python 编程快速上手》</a></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/05/29/python-quick-reference/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><h3 id="1-Python-基础"><a href="#1-Python-基础" class="headerlink" title="1. Python 基础"></a>1. Python 基础</h3><h4 id="1-1-数学操作符"><a href="#1-1-数学操作符" class="headerlink" title="1.1 数学操作符"></a>1.1 数学操作符</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">操作符</th>
+<th style="text-align:left">操作</th>
+<th style="text-align:left">例子</th>
+<th style="text-align:left">求值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>**</code></td>
+<td style="text-align:left"><strong>指数</strong></td>
+<td style="text-align:left"><code>2 ** 3</code></td>
+<td style="text-align:left"><code>8</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>%</code></td>
+<td style="text-align:left"><strong>取模</strong></td>
+<td style="text-align:left"><code>22 % 8</code></td>
+<td style="text-align:left"><code>6</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>//</code></td>
+<td style="text-align:left"><strong>整除</strong></td>
+<td style="text-align:left"><code>22 // 8</code></td>
+<td style="text-align:left"><code>2</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>/</code></td>
+<td style="text-align:left"><strong>除法</strong></td>
+<td style="text-align:left"><code>22 / 8</code></td>
+<td style="text-align:left"><code>2.75</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>*</code></td>
+<td style="text-align:left"><strong>乘法</strong></td>
+<td style="text-align:left"><code>3 * 5</code></td>
+<td style="text-align:left"><code>15</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>-</code></td>
+<td style="text-align:left"><strong>减法</strong></td>
+<td style="text-align:left"><code>5 - 2</code></td>
+<td style="text-align:left"><code>3</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>+</code></td>
+<td style="text-align:left"><strong>加法</strong></td>
+<td style="text-align:left"><code>2 + 2</code></td>
+<td style="text-align:left"><code>4</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="1-2-数据类型"><a href="#1-2-数据类型" class="headerlink" title="1.2 数据类型"></a>1.2 数据类型</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">数据类型</th>
+<th style="text-align:left">例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>整型</strong> <code>int</code></td>
+<td style="text-align:left"><code>86</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>浮点型</strong> <code>float</code></td>
+<td style="text-align:left"><code>3.14159</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>字符串</strong> <code>str</code></td>
+<td style="text-align:left"><code>&#39;Abel Su&#39;</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="1-3-字符串连接和复制"><a href="#1-3-字符串连接和复制" class="headerlink" title="1.3 字符串连接和复制"></a>1.3 字符串连接和复制</h4><pre><code class="lang-python">&gt;&gt;&gt; &#39;Abel&#39; + &#39;Su&#39;
+&#39;AbelSu&#39;
+&gt;&gt;&gt; &#39;abel&#39; * 5
+&#39;abelabelabelabelabel&#39;
+</code></pre>
+<h4 id="1-4-在变量中保存值"><a href="#1-4-在变量中保存值" class="headerlink" title="1.4 在变量中保存值"></a>1.4 在变量中保存值</h4><pre><code class="lang-python">&gt;&gt;&gt; name = &#39;Abel&#39;
+&gt;&gt;&gt; name
+&#39;Abel&#39;
+&gt;&gt;&gt; name = &#39;Yuki&#39;
+&#39;Yuki&#39;
+</code></pre>
+<h4 id="1-5-变量名"><a href="#1-5-变量名" class="headerlink" title="1.5 变量名"></a>1.5 变量名</h4><ul>
+<li>只能是<strong>一个词</strong></li>
+<li>只能包含<strong>字母、数字、下划线</strong></li>
+<li><strong>不能以数字开头</strong></li>
+</ul>
+<h4 id="1-6-常用函数"><a href="#1-6-常用函数" class="headerlink" title="1.6 常用函数"></a>1.6 常用函数</h4><pre><code class="lang-python">#!/usr/local/bin/python3
+print(&#39;Hello Python!&#39;)
+print(&quot;What&#39;s your name?&quot;) # waiting for input
+name = input()
+print(&#39;The length of your name is: &#39; + str(len(name)))
+</code></pre>
+<ul>
+<li><code>print()</code>：<strong>打印</strong></li>
+<li><code>input()</code>：<strong>读取输入</strong></li>
+<li><code>len()</code>：<strong>返回长度</strong></li>
+<li><code>str()</code>：<strong>转换为字符串</strong></li>
+<li><code>int()</code>：<strong>截断取整</strong></li>
+<li><code>float()</code>：<strong>转换为浮点数</strong></li>
+</ul>
+<h3 id="2-控制流"><a href="#2-控制流" class="headerlink" title="2. 控制流"></a>2. 控制流</h3><h4 id="2-1-布尔值"><a href="#2-1-布尔值" class="headerlink" title="2.1 布尔值"></a>2.1 布尔值</h4><p><strong>首字母大写</strong>：</p>
+<ul>
+<li><code>True</code></li>
+<li><code>False</code></li>
+</ul>
+<h4 id="2-2-操作符"><a href="#2-2-操作符" class="headerlink" title="2.2 操作符"></a>2.2 操作符</h4><pre><code class="lang-python"># 比较操作符
+==
+!=
+&lt;
+&gt;
+&lt;=
+&gt;=
+# 布尔操作符
+and
+or
+not
+</code></pre>
+<h4 id="2-3-if-else-elif"><a href="#2-3-if-else-elif" class="headerlink" title="2.3 if / else / elif"></a>2.3 if / else / elif</h4><pre><code class="lang-python">#!/usr/local/bin/python3
+if name == &#39;Alice&#39;:
+    print(&#39;Hi, Alice.&#39;)
+elif age &lt; 12:
+    print(&#39;You are not Alice, kiddo.&#39;)
+elif age &gt; 2000:
+    print(&#39;Unlike you, Alice is not an undead, immortal vampire.&#39;)
+elif age &gt; 100:
+    print(&#39;You are not Alice, grannie.&#39;)
+else:
+    print(&#39;You are neither Alice nor a little kid&#39;)
+</code></pre>
+<h4 id="2-4-while-break-continue"><a href="#2-4-while-break-continue" class="headerlink" title="2.4 while / break / continue"></a>2.4 while / break / continue</h4><pre><code class="lang-python">#!/usr/local/bin/python3
+name = &#39;&#39;
+while name != &#39;your name&#39;:
+    print(&#39;Please type your name&#39;)
+    name = input()
+print(&#39;Thank you!&#39;)
+</code></pre>
+<p>也可以用<code>break</code><strong>跳出当前循环</strong>：</p>
+<pre><code class="lang-python">#!/usr/local/bin/python3
+name = &#39;&#39;
+while True:
+    print(&#39;Please type your name&#39;)
+    name = input()
+    if name == &#39;your name&#39;:
+        break
+print(&#39;Thank you!&#39;)
+</code></pre>
+<p>还可以用<code>continue</code><strong>跳过之后的语句，进入下一次循环</strong>：</p>
+<pre><code class="lang-python">#!/usr/local/bin/python3
+while True:
+    print(&#39;Who are you?&#39;)
+    name = input()
+    if name != &#39;Joe&#39;:
+        continue
+    print(&#39;Hello, Joe. What is the password?&#39;)
+    password = input()
+    if password == &#39;swordfish&#39;:
+        break
+print(&#39;Access granted.&#39;)
+</code></pre>
+<h4 id="2-5-for-range"><a href="#2-5-for-range" class="headerlink" title="2.5 for / range"></a>2.5 for / range</h4><blockquote>
+<p><code>range()</code>的<strong>三个参数</strong>分别为：<strong>起始</strong>、<strong>停止</strong>、<strong>步长</strong></p>
+</blockquote>
+<pre><code class="lang-python">#!/usr/local/bin/python3
+for i in range(0, 10, 2):
+    print(i)
+</code></pre>
+<h4 id="2-6-import-from-import"><a href="#2-6-import-from-import" class="headerlink" title="2.6 import / from import"></a>2.6 import / from import</h4><pre><code class="lang-python">#!/usr/local/bin/python3
+import random
+
+for i in range(5):
+    print(random.randint(1, 10))
+</code></pre>
+<p>或者使用<code>from import</code>语句，此时调用<code>randint</code>函数<strong>不需要</strong><code>random.</code><strong>前缀</strong>：</p>
+<pre><code class="lang-python">#!/usr/local/bin/python3
+from random import *
+
+for i in range(5):
+    print(randint(1, 10))
+</code></pre>
+<h4 id="2-7-sys-exit"><a href="#2-7-sys-exit" class="headerlink" title="2.7 sys.exit()"></a>2.7 sys.exit()</h4><p>调用<code>sys.exit()</code>函数，可以让程序<strong>提前终止</strong>：</p>
+<pre><code class="lang-python">#!/usr/local/bin/python3
+import sys
+
+while True:
+    print(&#39;Type exit to exit&#39;)
+    response = input()
+    if response == &#39;exit&#39;:
+        sys.exit()
+    print(&#39;You typed &#39; + response + &#39;.&#39;)
+</code></pre>
+<h3 id="3-函数"><a href="#3-函数" class="headerlink" title="3. 函数"></a>3. 函数</h3><h4 id="3-1-def-语句和参数"><a href="#3-1-def-语句和参数" class="headerlink" title="3.1 def 语句和参数"></a>3.1 def 语句和参数</h4><pre><code class="lang-python">#!/usr/local/bin/python3
+def hello(name):
+    print(&#39;Hello &#39; + name)
+
+hello(&#39;Alice&#39;)
+hello(&#39;Bob&#39;)
+</code></pre>
+<h4 id="3-2-return-语句和返回值"><a href="#3-2-return-语句和返回值" class="headerlink" title="3.2 return 语句和返回值"></a>3.2 return 语句和返回值</h4><pre><code class="lang-python">#!/usr/local/bin/python3
+import random
+
+def getAnswer(answerNumber):
+    if answerNumber == 1:
+        return &#39;It is certain&#39;
+    elif answerNumber == 2:
+        return &#39;It is decidedly so&#39;
+    elif answerNumber == 3:
+        return &#39;Yes&#39;
+    elif answerNumber == 4:
+        return &#39;Reply hazy try again&#39;
+    elif answerNumber == 5:
+        return &#39;Ask again later&#39;
+    elif answerNumber == 6:
+        return &#39;Concentrate and ask again&#39;
+    elif answerNumber == 7:
+        return &#39;My reply is no&#39;
+    elif answerNumber == 8:
+        return &#39;Outlook not so good&#39;
+    elif answerNumber == 9:
+        return &#39;Very doubtful&#39;
+
+r = random.randint(1, 9)
+fortune = getAnswer(r)
+print(fortune)
+</code></pre>
+<h4 id="3-3-None-值"><a href="#3-3-None-值" class="headerlink" title="3.3 None 值"></a>3.3 None 值</h4><p><code>None</code>值是<code>NoneType</code>数据类型的唯一值。</p>
+<ul>
+<li>对于所有<strong>没有</strong><code>return</code><strong>语句的函数定义</strong>，Python 都会在<strong>末尾加上</strong><code>return None</code></li>
+<li>如果<code>return</code>语句<strong>不带返回值</strong>，也会<strong>默认返回</strong><code>None</code></li>
+</ul>
+<blockquote>
+<p>这类似于<code>while</code>或<code>for</code>循环隐式的以<code>continue</code>语句结尾</p>
+</blockquote>
+<pre><code class="lang-python">&gt;&gt;&gt; spam = print(&#39;Hello&#39;)
+Hello
+&gt;&gt;&gt; None == spam
+True
+</code></pre>
+<h4 id="3-4-print-和关键字参数"><a href="#3-4-print-和关键字参数" class="headerlink" title="3.4 print() 和关键字参数"></a>3.4 print() 和关键字参数</h4><p><code>print()</code>函数默认在行末<strong>打印换行</strong>，可以<strong>设置</strong><code>end</code><strong>关键字</strong>参数替换行末的换行符：</p>
+<pre><code class="lang-python">&gt;&gt;&gt; print(&#39;Hello&#39;, end=&#39; &#39;)
+Hello &gt;&gt;&gt;
+</code></pre>
+<p>如果向<code>print()</code><strong>传入多个字符串值</strong>，则该函数会自动的用<strong>一个空格</strong>来分隔它们：</p>
+<pre><code class="lang-python">&gt;&gt;&gt; print(&#39;Arsenal&#39;, &#39;Chelsea&#39;, &#39;Liverpool&#39;)
+Arsenal Chelsea Liverpool
+</code></pre>
+<p>传入<code>sep</code><strong>关键字</strong>参数，<strong>替换默认的分隔字符串</strong>：</p>
+<pre><code class="lang-python">&gt;&gt;&gt; print(&#39;Arsenal&#39;, &#39;Chelsea&#39;, &#39;Liverpool&#39;, sep=&#39;,&#39;)
+Arsenal,Chelsea,Liverpool
+</code></pre>
+<h4 id="3-5-global-语句"><a href="#3-5-global-语句" class="headerlink" title="3.5 global 语句"></a>3.5 global 语句</h4><p>如果需要<strong>在一个函数内修改全局变量</strong>，则<strong>使用</strong><code>global</code><strong>语句</strong>：</p>
+<pre><code class="lang-python">#!/usr/local/bin/python3
+def spam():
+    global eggs
+    eggs = &#39;spam&#39;
+
+eggs = &#39;global&#39;
+spam()
+print(eggs)
+</code></pre>
+<h4 id="3-6-异常处理"><a href="#3-6-异常处理" class="headerlink" title="3.6 异常处理"></a>3.6 异常处理</h4><pre><code class="lang-python">#!/usr/local/bin/python3
+def spam(divideBy):
+    try:
+        return 42 / divideBy
+    except ZeroDivisionError:
+        print(&#39;Error: Invalid argument&#39;)
+
+print(spam(2))
+print(spam(12))
+print(spam(0))
+print(spam(1))
+
+------
+21.0
+3.5
+Error: Invalid argument
+None
+42.0
+</code></pre>
+<h3 id="4-列表"><a href="#4-列表" class="headerlink" title="4. 列表"></a>4. 列表</h3><h3 id="5-字典和结构化数据"><a href="#5-字典和结构化数据" class="headerlink" title="5. 字典和结构化数据"></a>5. 字典和结构化数据</h3><h3 id="6-字符串操作"><a href="#6-字符串操作" class="headerlink" title="6. 字符串操作"></a>6. 字符串操作</h3><p><strong><em>更新中…</em></strong></p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://book.douban.com/subject/26836700/" target="_blank" rel="noopener">《Python 编程快速上手》</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/05/24/cpp-quick-reference/">C++ 速查</a></li><li><a href="https://abelsu7.top/2019/05/07/ping-multiple-server-using-pingtop/">使用 pingtop 同时 ping 多台服务器</a></li><li><a href="https://abelsu7.top/2018/12/12/leetcode-118-pascal-triangle/">Leetcode 118. 杨辉三角</a></li><li><a href="https://abelsu7.top/2018/10/26/java-book-list/">Java 语言推荐书单</a></li><li><a href="https://jarrychen.xyz/archives/57361fba.html">快速排序(递归)</a></li><li><a href="https://wiki.hushhw.cn/posts/6adc5586.html">使用virtualenv创建隔离环境</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.612Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/05/29/python-quick-reference/" target="_blank" rel="external">https://abelsu7.top/2019/05/29/python-quick-reference/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习/">学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编程/">编程</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/05/29/python-quick-reference/&title=《Python 速查》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/05/29/python-quick-reference/&title=《Python 速查》 — Keep Coding&source=
+C++ 基础速查笔记，摘自 《Python 编程快速上手》
+
+
+                
+                    
+      ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/05/29/python-quick-reference/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Python 速查》 — Keep Coding&url=https://abelsu7.top/2019/05/29/python-quick-reference/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/05/29/python-quick-reference/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/05/30/kvm-in-action-2/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">《KVM 实战》笔记 2：KVM 管理工具</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/05/24/cpp-quick-reference/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">C++ 速查</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/05/29/python-quick-reference/&title=《Python 速查》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/05/29/python-quick-reference/&title=《Python 速查》 — Keep Coding&source=
+C++ 基础速查笔记，摘自 《Python 编程快速上手》
+
+
+                
+                    
+      ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/05/29/python-quick-reference/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Python 速查》 — Keep Coding&url=https://abelsu7.top/2019/05/29/python-quick-reference/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/05/29/python-quick-reference/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLElEQVR42u3aO3KDQBAFQN3/0nbqwKD3ZrGrtNtEKgSCVjA1v9crPr6CI7n+57f3T3n9xYGBgfGxjOTlkjMzfP7c+z8OAwPjBMbVS9xfsxL3rn45D80YGBgY9w++f3yOTM5jYGBgrDCScJmkj/cJKAYGBkabzN2fWUn1/qkWx8DA+EBGXpr+/+c/mW9gYGB8FGPWrG/L2jZY12+FgYGxNWPWJlsZIayPRS+vxMDA2JrRZlxtoJyVsu3IAQMD4wRG29Jqw2UbsmctPwwMjBMY7ZpFHl6f/VMwMDDOYTwbXttWXfvEN1U4BgbGpoynmvX5+HP2bV3EYmBgbMRoU738kfmaVx5eL4tYDAyMAxh5sz5vfs0Gk3k4/mVnBAMD4zDGLOHLE8f8muguDAyMrRnt6DEJsu2yRZ4gFmsWGBgYGzFWRpV5oMyR7WpFlBpiYGBswZgNI1eGBLMlsDdFLAYGxgGMlXHm+r15OvjLL2BgYGzNmCVzybhxtkiRDzIv220YGBgHMPJUr00H885YG8oxMDDOYczC30qLrVinSJp6GBgYBzDyM7Pi86n1jsu7MDAwNmV8lUfygJWBwXBUgIGBsTUjP/I0caUB92xwx8DA2InRjhjbFbE87K7chYGBcQKjDXyzoeZKII7yXAwMDIx2AaJsw+VjCQwMDIy2gMybZcnLJd/WC6wYGBhbMJIidlayrpTExSoGBgbG1oy2dFwZec5SyceGmhgYGJ/H+AZYQUHPGpWsxgAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

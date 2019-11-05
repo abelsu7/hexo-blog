@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>CentOS 7 安装 Docker CE | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="CentOS,Docker">
+    <meta name="description" content="翻译自 Get Docker CE for CentOS | Docker Docs，以 Docker 官方文档 为准">
+<meta name="keywords" content="CentOS,Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 7 安装 Docker CE">
+<meta property="og:url" content="https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="翻译自 Get Docker CE for CentOS | Docker Docs，以 Docker 官方文档 为准">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/docker-docs.ico">
+<meta property="og:image" content="https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/docker-docs.ico">
+<meta property="og:image" content="https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/docker.png">
+<meta property="og:image" content="https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/centos.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/github.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/docker-docs.ico">
+<meta property="og:image" content="https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/docker-docs.ico">
+<meta property="og:image" content="https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/docker-docs.ico">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.399Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 7 安装 Docker CE">
+<meta name="twitter:description" content="翻译自 Get Docker CE for CentOS | Docker Docs，以 Docker 官方文档 为准">
+<meta name="twitter:image" content="https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/docker-docs.ico">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">CentOS 7 安装 Docker CE</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">CentOS 7 安装 Docker CE</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-01-10T08:56:33.000Z" itemprop="datePublished" class="page-time">
+  2019-01-10
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Docker/">Docker</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装前的准备"><span class="post-toc-text">安装前的准备</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#系统要求"><span class="post-toc-text">系统要求</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#卸载旧版本"><span class="post-toc-text">卸载旧版本</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装-Docker-CE"><span class="post-toc-text">安装 Docker CE</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方法-1：建立-Docker-仓库"><span class="post-toc-text">方法 1：建立 Docker 仓库</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#建立仓库"><span class="post-toc-text">建立仓库</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#安装-Docker-CE-1"><span class="post-toc-text">安装 Docker CE</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#升级-Docker-CE"><span class="post-toc-text">升级 Docker CE</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方法-2：下载-RPM-包手动安装"><span class="post-toc-text">方法 2：下载 RPM 包手动安装</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#安装-Docker-CE-2"><span class="post-toc-text">安装 Docker CE</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#升级-Docker-CE-1"><span class="post-toc-text">升级 Docker CE</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方法-3：通过安装脚本自动安装"><span class="post-toc-text">方法 3：通过安装脚本自动安装</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#卸载-Docker-CE"><span class="post-toc-text">卸载 Docker CE</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-卸载-Docker-安装包"><span class="post-toc-text">1. 卸载 Docker 安装包</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-删除相关文件"><span class="post-toc-text">2. 删除相关文件</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-install-docker-ce-on-centos7"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">CentOS 7 安装 Docker CE</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-01-10 16:56:33" datetime="2019-01-10T08:56:33.000Z"  itemprop="datePublished">2019-01-10</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Docker/">Docker</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>翻译自 <img src="/2019/01/10/install-docker-ce-on-centos7/docker-docs.ico" width="16"><a href="https://docs.docker.com/install/linux/docker-ce/centos/" target="_blank" rel="noopener">Get Docker CE for CentOS | Docker Docs</a>，以 <img src="/2019/01/10/install-docker-ce-on-centos7/docker-docs.ico" width="16"><a href="https://docs.docker.com" target="_blank" rel="noopener">Docker 官方文档</a> 为准</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/01/10/install-docker-ce-on-centos7/docker.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h2 id="安装前的准备"><a href="#安装前的准备" class="headerlink" title="安装前的准备"></a>安装前的准备</h2><h3 id="系统要求"><a href="#系统要求" class="headerlink" title="系统要求"></a>系统要求</h3><ul>
+<li>官方推荐使用 <img src="/2019/01/10/install-docker-ce-on-centos7/centos.svg"><a href="https://www.centos.org/download/" target="_blank" rel="noopener">CentOS 7</a> 的<strong>维护版本</strong>，已经归档的版本<strong>不受支持或未经测试</strong></li>
+<li>需要启用<code>centos-extras</code><strong>repository</strong>。在 CentOS 7 中这个仓库是<strong>默认启用</strong>的，如果之前有将其禁用，则需要<a href="https://wiki.centos.org/AdditionalResources/Repositories" target="_blank" rel="noopener">重新启用</a></li>
+<li>推荐使用<code>overlay2</code>作为 Docker 的<strong>存储驱动</strong></li>
+</ul>
+<h3 id="卸载旧版本"><a href="#卸载旧版本" class="headerlink" title="卸载旧版本"></a>卸载旧版本</h3><p>旧版本的 <strong>Docker</strong> 在 CentOS 中的包名为<code>docker</code>或<code>docker-engine</code>。如果之前安装了 Docker 的旧版本，需要<strong>先卸载旧版 Docker 及相关依赖</strong>：</p>
+<pre><code class="lang-bash">&gt; sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-selinux \
+                  docker-engine-selinux \
+                  docker-engine
+</code></pre>
+<p>若<code>yum</code>提示<strong>卸载成功</strong>或<strong>没有找到相关包</strong>，即可进行下一步操作。</p>
+<p><strong>注意</strong>：<code>/var/lib/docker/</code>目录下的内容，包括<strong>镜像、容器、卷组、网络</strong>等文件将被<strong>保留</strong>。<strong>Docker CE</strong> 的新包名为<code>docker-ce</code>。</p>
+<h2 id="安装-Docker-CE"><a href="#安装-Docker-CE" class="headerlink" title="安装 Docker CE"></a>安装 Docker CE</h2><p>有以下三种方法安装 Docker CE，可根据实际需要选择：</p>
+<ol>
+<li><strong>建立 Docker 仓库</strong>：安装过程及后续的更新方便，<strong>Docker 官方推荐</strong>。</li>
+<li><strong>下载 RPM 包手动安装</strong>：手动管理更新。适合<strong>离线环境</strong>。</li>
+<li><strong>通过安装脚本自动安装</strong>：适合<strong>测试及开发环境</strong>。</li>
+</ol>
+<h3 id="方法-1：建立-Docker-仓库"><a href="#方法-1：建立-Docker-仓库" class="headerlink" title="方法 1：建立 Docker 仓库"></a>方法 1：建立 Docker 仓库</h3><blockquote>
+<p>在<strong>首次安装 Docker CE</strong> 前需要<strong>建立 Docker repository</strong>，之后可通过仓库安装并更新 Docker。</p>
+</blockquote>
+<h4 id="建立仓库"><a href="#建立仓库" class="headerlink" title="建立仓库"></a>建立仓库</h4><p>1.<strong>安装所需软件包</strong>。<code>yum-utils</code>提供了<code>yum-config-manager</code>工具，存储驱动<code>devicemapper</code>则依赖于<code>device-mapper-persistent-data</code>和<code>lvm2</code>：</p>
+<pre><code class="lang-bash">&gt; sudo yum install -y yum-utils \
+  device-mapper-persistent-data \
+  lvm2
+</code></pre>
+<p>2.使用以下命令<strong>建立</strong><code>stable</code><strong>版本的 repository</strong>：</p>
+<pre><code class="lang-bash">&gt; sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+</code></pre>
+<p>3.<strong>可选</strong>：<strong>启用</strong><code>edge</code>和<code>test</code><strong>仓库</strong>。这些仓库包含在<code>docker.repo</code>文件中，但<strong>默认是禁用的</strong>。可以将它们与<code>stable</code>仓库共同启用。</p>
+<pre><code class="lang-bash">&gt; sudo yum-config-manager --enable docker-ce-edge
+&gt; sudo yum-config-manager --enable docker-ce-test
+</code></pre>
+<p>使用带<code>--disable</code>参数的<code>yum-config-manager</code>命令即可<strong>禁用</strong><code>edge</code><strong>或</strong><code>test</code><strong>仓库</strong>，使用<code>--enable</code>参数则会<strong>重新启用</strong>。例如下面的命令将禁用<code>edge</code>仓库：</p>
+<pre><code class="lang-bash">&gt; sudo yum-config-manager --disable docker-ce-edge
+</code></pre>
+<blockquote>
+<p>从 <strong>Docker</strong><code>17.06</code>版本开始，<code>stable</code>仓库的 <strong>releases</strong> 也会推送至<code>edge</code>及<code>test</code>仓库中。<br>点击<a href="https://docs.docker.com/install/" target="_blank" rel="noopener">此处</a>查看 <strong>Docker 官方关于</strong><code>stable</code><strong>和</strong><code>edge</code><strong>的说明</strong>。</p>
+</blockquote>
+<h4 id="安装-Docker-CE-1"><a href="#安装-Docker-CE-1" class="headerlink" title="安装 Docker CE"></a>安装 Docker CE</h4><p>1.使用以下命令<strong>安装最新版 Docker CE</strong>：</p>
+<pre><code class="lang-bash">&gt; sudo yum install docker-ce
+</code></pre>
+<p>如果<strong>提示是否接受 GPG 密钥</strong>，则需<strong>验证密钥指纹是否符合下面的内容</strong>，若符合即可点击 <strong>accept</strong> 继续安装：</p>
+<pre><code class="lang-bash">060A 61C5 1B55 8A7F 742B 77AA C52F EB6B 621E 9F35
+</code></pre>
+<blockquote>
+<p>如果<strong>启用了多个 Docker 仓库</strong>，并且在<code>yum install</code>或<code>yum update</code>命令中<strong>没有指明版本</strong>，则会<strong>安装所有仓库中版本号最新的 Docker</strong>。</p>
+</blockquote>
+<p>2.要<strong>安装指定版本的 Docker CE</strong>，则需要<strong>从仓库中列出所有可用的版本</strong>，再根据需要选择安装：</p>
+<pre><code class="lang-bash">&gt; yum list docker-ce --showduplicates | sort -r
+
+docker-ce.x86_64            18.09.0.ce-1.el7.centos             docker-ce-stable
+</code></pre>
+<p>此时<strong>安装包名</strong>的格式为<code>docker-ce-&lt;VERSION STRING&gt;</code>。例如安装<code>18.03.0</code>版本的 Docker CE：</p>
+<pre><code class="lang-bash">&gt; sudo yum install docker-ce-18.03.0.ce
+</code></pre>
+<p>此时 Docker 应该已经安装完成，但还没有启动。<strong>新的用户组</strong><code>docker</code>也已创建，目前为空。</p>
+<p>3.<strong>启动 Docker</strong>：</p>
+<pre><code class="lang-bash">&gt; sudo systemctl start docker
+</code></pre>
+<p>4.运行<code>hello-world</code>镜像以<strong>验证 Docker 是否正确安装</strong>：</p>
+<pre><code class="lang-bash">&gt; sudo docker run hello-world
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the &quot;hello-world&quot; image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+</code></pre>
+<h4 id="升级-Docker-CE"><a href="#升级-Docker-CE" class="headerlink" title="升级 Docker CE"></a>升级 Docker CE</h4><p>如需<strong>升级 Docker CE</strong>，则可根据上述安装教程，选择安装最新版<code>docker-ce</code>，即可完成升级。</p>
+<h3 id="方法-2：下载-RPM-包手动安装"><a href="#方法-2：下载-RPM-包手动安装" class="headerlink" title="方法 2：下载 RPM 包手动安装"></a>方法 2：下载 RPM 包手动安装</h3><h4 id="安装-Docker-CE-2"><a href="#安装-Docker-CE-2" class="headerlink" title="安装 Docker CE"></a>安装 Docker CE</h4><p>如果无法使用 Docker 仓库，可以<strong>下载</strong><code>.rpm</code><strong>安装包手动安装 Docker CE</strong>。</p>
+<p>1.前往<a href="https://download.docker.com/linux/centos/7/x86_64/stable/Packages/" target="_blank" rel="noopener">https://download.docker.com/linux/centos/7/x86_64/stable/Packages/</a>，<strong>下载对应版本的 RPM 安装包</strong>。</p>
+<p>2.使用<code>yum</code>命令<strong>安装 RPM 包</strong>：</p>
+<pre><code class="lang-bash">&gt; sudo yum install /path/to/package.rpm
+</code></pre>
+<p>3.<strong>启动 Docker</strong>：</p>
+<pre><code class="lang-bash">&gt; sudo systemctl start docker
+</code></pre>
+<p>4.运行<code>hello-world</code>镜像以<strong>验证 Docker 是否正确安装</strong>：</p>
+<pre><code class="lang-bash">&gt; sudo docker run hello-world
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the &quot;hello-world&quot; image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+</code></pre>
+<h4 id="升级-Docker-CE-1"><a href="#升级-Docker-CE-1" class="headerlink" title="升级 Docker CE"></a>升级 Docker CE</h4><p>如需升级，则可下载新版本的 RPM 安装包，使用<code>yum upgrade</code>命令升级：</p>
+<pre><code class="lang-bash">&gt; sudo yum -y upgrade /path/to/package.rpm
+</code></pre>
+<h3 id="方法-3：通过安装脚本自动安装"><a href="#方法-3：通过安装脚本自动安装" class="headerlink" title="方法 3：通过安装脚本自动安装"></a>方法 3：通过安装脚本自动安装</h3><p>通过 Docker 提供的<strong>一键安装脚本</strong>可以在开发环境中快速安装 Docker CE，且无需交互。<a href="https://get.docker.com/" target="_blank" rel="noopener">get.docker.com</a> 及 <a href="https://test.docker.com/" target="_blank" rel="noopener">test.docker.com</a> 分别对应<code>edge</code>和<code>test</code>版本，<strong>脚本源码</strong>存放在 <img src="/2019/01/10/install-docker-ce-on-centos7/github.svg"><a href="https://github.com/docker/docker-install" target="_blank" rel="noopener">docker-install 仓库</a> 中。</p>
+<blockquote>
+<p>Docker 官方<strong>不推荐在生产环境中使用安装脚本</strong></p>
+</blockquote>
+<p>下面的示例将使用 <a href="https://get.docker.com/" target="_blank" rel="noopener">get.docker.com</a> 提供的脚本<strong>安装 Docker CE 的最新发布版本</strong>。如果要安装最新测试版本，只需将脚本替换为 <a href="https://test.docker.com/" target="_blank" rel="noopener">test.docker.com</a>，并将下面示例命令中的<code>get</code>替换为<code>test</code>：</p>
+<pre><code class="lang-bash">&gt; curl -fsSL https://get.docker.com -o get-docker.sh
+&gt; sudo sh get-docker.sh
+
+&lt;output truncated&gt;
+</code></pre>
+<p>如果需要<strong>让非</strong><code>root</code><strong>用户使用 Docker</strong>，则使用以下命令<strong>将用户添加至</strong><code>docker</code><strong>用户组</strong>：</p>
+<pre><code class="lang-bash">&gt; sudo usermod -aG docker your-user
+</code></pre>
+<p><strong>注销并重新登录</strong>，即可生效。之后<strong>启动 Docker</strong>：</p>
+<pre><code class="lang-bash">&gt; sudo systemctl start docker
+</code></pre>
+<p>运行<code>hello-world</code>镜像以<strong>验证 Docker 是否正确安装</strong>：</p>
+<pre><code class="lang-bash">&gt; sudo docker run hello-world
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the &quot;hello-world&quot; image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+</code></pre>
+<h2 id="卸载-Docker-CE"><a href="#卸载-Docker-CE" class="headerlink" title="卸载 Docker CE"></a>卸载 Docker CE</h2><h3 id="1-卸载-Docker-安装包"><a href="#1-卸载-Docker-安装包" class="headerlink" title="1. 卸载 Docker 安装包"></a>1. 卸载 Docker 安装包</h3><pre><code class="lang-bash">&gt; sudo yum remote docker-ce
+</code></pre>
+<h3 id="2-删除相关文件"><a href="#2-删除相关文件" class="headerlink" title="2. 删除相关文件"></a>2. 删除相关文件</h3><p>主机上的<strong>镜像、容器、卷组</strong>以及<strong>自定义的配置文件</strong>需要<strong>手动删除</strong>：</p>
+<pre><code class="lang-bash">&gt; sudo rm -rf /var/lib/docker
+</code></pre>
+<blockquote>
+<p><strong>参考资料</strong></p>
+<ol>
+<li><img src="/2019/01/10/install-docker-ce-on-centos7/docker-docs.ico" width="16"><a href="https://docs.docker.com/install/linux/docker-ce/centos/" target="_blank" rel="noopener">Get Docker CE for CentOS | Docker Docs</a></li>
+<li><img src="/2019/01/10/install-docker-ce-on-centos7/docker-docs.ico" width="16"><a href="https://docs.docker.com/install/linux/linux-postinstall/" target="_blank" rel="noopener">Post-installation steps for Linux | Docker Docs</a></li>
+<li><img src="/2019/01/10/install-docker-ce-on-centos7/docker-docs.ico" width="16"><a href="https://docs.docker.com" target="_blank" rel="noopener">Docker Docs</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7 安装配置 NFS</a></li><li><a href="https://abelsu7.top/2019/09/25/micro-service-orchestration-and-container-schedule/">微服务编排与容器调度</a></li><li><a href="https://abelsu7.top/2019/09/18/micro-service-notes/">微服务学习资料汇总</a></li><li><a href="https://abelsu7.top/2019/04/28/centos7-tracker-hight-cpu-percent/">解决 CentOS 7 tracker CPU 占用率 100%</a></li><li><a href="http://www.borgor.cn/2019-07-25/81eae861.html">在CentOS上使用certbot为nginx添加https证书</a></li><li><a href="http://www.borgor.cn/2019-07-25/29fa0dd5.html">从零开始搭建CentOS+Python+nodejs开发环境</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.399Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/01/10/install-docker-ce-on-centos7/" target="_blank" rel="external">https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/">Docker</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/&title=《CentOS 7 安装 Docker CE》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/&title=《CentOS 7 安装 Docker CE》 — Keep Coding&source=
+翻译自 Get Docker CE for CentOS | Docker Docs，以 Docker 官方文档 为准
+
+
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《CentOS 7 安装 Docker CE》 — Keep Coding&url=https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/01/18/core-java-notes-2/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Java 笔记 2：对象与类</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/01/09/core-java-notes/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Java 笔记 1：Java 的基本程序设计结构</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/&title=《CentOS 7 安装 Docker CE》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/&title=《CentOS 7 安装 Docker CE》 — Keep Coding&source=
+翻译自 Get Docker CE for CentOS | Docker Docs，以 Docker 官方文档 为准
+
+
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《CentOS 7 安装 Docker CE》 — Keep Coding&url=https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACIUlEQVR42u3a24rDMAxF0fz/T2deC8XpuSQDkbefSm71SkG1ZB2HPM6P8X3k8/jq7Pe9yrfcPGDAgPFaxnk57n1Ppzz0ucGAAWMfxuorV9eszipBOXvyjznDgAEDhjk55S494MKAAQNGFnDdRPf6rusnwIABA0YT+JRimVtoezwXhwEDxgsZepns/z8/sr8BAwaMVzGaxNI97gZcY1YwYMAYzegT1KZholn2wYABYx/GveWwLGS7afCRvTkYMGAMYihbktfH3bM3NHzAgAFjNCMLsllJTgnr+l1SSQ4GDBiDGHqwcwNrDzN+BxgwYGzMaBZtbvuFm9zCgAFjH4Y+Obf9QgnczSuTgi8MGDBezlCK/tmCL0uDwz8DGDBgjGa4j1AWbVkT2CMAGDBgjGC4E9UfrfP0JHZ5BAYMGKMZ+qVuyUwJsvqi08DAgAFjHMPdmMxIbunfbu+AAQPGaEa2MdAUzprwGu7KwoABYwRDby3Vw7E+0SZAw4ABYzdGU6bXF3D69qeNgQEDxsYMN6QqpbR+JbvcyIQBA8ZohpvQ9u1fSsJsZOEwYMAYyjjN4bKzEr/eLAsDBowdGFlZP1vANSR38wAGDBjzGE2TVlbWdzc7qz1SGDBgDGJkSawbfJtA/OO/AgYMGDDMa9xp6eH75oALAwaMoYw+oX0kuMOAAWMDRtaY1RT69bPSS4EBA8ZoRpU6Rklp9lLsxSIMGDAmMP4AaeI2lKUSDLgAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

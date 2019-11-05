@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>《CentOS 7 系统管理与运维实战》笔记 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Linux,读书,CentOS,运维">
+    <meta name="description" content="摘自 《CentOS 7系统管理与运维实战》                                                                                               《CentOS 7系统管理与运维实战》">
+<meta name="keywords" content="Linux,读书,CentOS,运维">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《CentOS 7 系统管理与运维实战》笔记">
+<meta property="og:url" content="https://abelsu7.top/2019/01/08/centos7-notes/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自 《CentOS 7系统管理与运维实战》                                                                                               《CentOS 7系统管理与运维实战》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/centos7-notes/douban.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/centos7-notes/centos7-book.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/centos7-notes/favicon.ico">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/centos7-notes/ruanyifeng.ico">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/centos7-notes/star.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/centos7-notes/ruanyifeng.ico">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/centos7-notes/star.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/centos7-notes/wechat.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/centos7-notes/star.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/centos7-notes/wechat.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/centos7-notes/unix-dir.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.022Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《CentOS 7 系统管理与运维实战》笔记">
+<meta name="twitter:description" content="摘自 《CentOS 7系统管理与运维实战》                                                                                               《CentOS 7系统管理与运维实战》">
+<meta name="twitter:image" content="https://abelsu7.top/2019/01/08/centos7-notes/douban.svg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">《CentOS 7 系统管理与运维实战》笔记</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">《CentOS 7 系统管理与运维实战》笔记</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-01-08T14:18:48.000Z" itemprop="datePublished" class="page-time">
+  2019-01-08
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/CentOS/">CentOS</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-预备知识"><span class="post-toc-text">1. 预备知识</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-1-Linux-版本问题"><span class="post-toc-text">1.1 Linux 版本问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Linux-的内核版本"><span class="post-toc-text">Linux 的内核版本</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Linux-的发行版本"><span class="post-toc-text">Linux 的发行版本</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-2-CentOS-之于-Linux"><span class="post-toc-text">1.2 CentOS 之于 Linux</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#CentOS-简介"><span class="post-toc-text">CentOS 简介</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#CentOS-7-的最新改进"><span class="post-toc-text">CentOS 7 的最新改进</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-安装-CentOS-7"><span class="post-toc-text">2. 安装 CentOS 7</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-系统分区"><span class="post-toc-text">2.1 系统分区</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#磁盘分区"><span class="post-toc-text">磁盘分区</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#静态分区的缺点和逻辑卷管理简介"><span class="post-toc-text">静态分区的缺点和逻辑卷管理简介</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-2-安装-CentOS-7"><span class="post-toc-text">2.2 安装 CentOS 7</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-3-Linux-运行级别"><span class="post-toc-text">2.3 Linux 运行级别</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-4-Linux-目录结构"><span class="post-toc-text">2.4 Linux 目录结构</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-CentOS-7-网络管理技能"><span class="post-toc-text">3. CentOS 7 网络管理技能</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-2-网络管理命令"><span class="post-toc-text">3.2 网络管理命令</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-1-ping"><span class="post-toc-text">3.2.1 ping</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-2-ifconfig"><span class="post-toc-text">3.2.2 ifconfig</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-3-route"><span class="post-toc-text">3.2.3 route</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-4-scp"><span class="post-toc-text">3.2.4 scp</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-5-rsync"><span class="post-toc-text">3.2.5 rsync</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-centos7-notes"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">《CentOS 7 系统管理与运维实战》笔记</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-01-08 22:18:48" datetime="2019-01-08T14:18:48.000Z"  itemprop="datePublished">2019-01-08</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/CentOS/">CentOS</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>摘自 <img src="/2019/01/08/centos7-notes/douban.svg"><a href="https://book.douban.com/subject/27071302/" target="_blank" rel="noopener">《CentOS 7系统管理与运维实战》</a></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/01/08/centos7-notes/centos7-book.jpg" alt="《CentOS 7系统管理与运维实战》" title>
+                </div>
+                <div class="image-caption">《CentOS 7系统管理与运维实战》</div>
+            </figure>
+<a id="more"></a>
+<p><strong>更新中~</strong></p>
+<h2 id="1-预备知识"><a href="#1-预备知识" class="headerlink" title="1. 预备知识"></a>1. 预备知识</h2><h3 id="1-1-Linux-版本问题"><a href="#1-1-Linux-版本问题" class="headerlink" title="1.1 Linux 版本问题"></a>1.1 Linux 版本问题</h3><h4 id="Linux-的内核版本"><a href="#Linux-的内核版本" class="headerlink" title="Linux 的内核版本"></a>Linux 的内核版本</h4><p><strong>Linux 内核</strong>由 <strong>C 语言编写</strong>，符合 POSIX 标准。但是 Linux 内核并不能称为操作系统，内核只提供基本的<strong>设备驱动、文件管理、资源管理</strong>等功能，是 Linux 操作系统的<strong>核心组件</strong>。</p>
+<p>Linux 内核版本有<strong>稳定版</strong>和<strong>开发版</strong>两种，<strong>内核版本号</strong>一般由 <strong>3 组数字</strong>组成，比如 <strong>2.6.18</strong> 内核版本：</p>
+<ul>
+<li>第 1 组数字<code>2</code>表示目前发布的<strong>内核主版本</strong></li>
+<li>第 2 组数字<code>6</code>表示稳定版本，如为<strong>奇数</strong>则表示<strong>开发中版本</strong></li>
+<li>第 3 组数字<code>18</code>表示<strong>修改的次数</strong></li>
+</ul>
+<p>前两组数字用于描述<strong>内核系列</strong>，可以通过<code>uname -r</code>查看当前使用的内核版本。</p>
+<h4 id="Linux-的发行版本"><a href="#Linux-的发行版本" class="headerlink" title="Linux 的发行版本"></a>Linux 的发行版本</h4><p>点击查看<img src="/2019/01/08/centos7-notes/favicon.ico" width="16"><a href="https://notes.abelsu7.top/#/develop/linux?id=linux-%E5%8F%91%E8%A1%8C%E7%89%88" target="_blank" rel="noopener">常见的 Linux 发行版</a></p>
+<h3 id="1-2-CentOS-之于-Linux"><a href="#1-2-CentOS-之于-Linux" class="headerlink" title="1.2 CentOS 之于 Linux"></a>1.2 CentOS 之于 Linux</h3><h4 id="CentOS-简介"><a href="#CentOS-简介" class="headerlink" title="CentOS 简介"></a>CentOS 简介</h4><p><strong>CentOS (Community Enterprise Operating System)</strong> 最初是由一个<strong>社区主导的操作系统</strong>，其来源于另一个最重要的发行版 <strong>RHEL (Red Hat Enterprise Linux)</strong>。由于 CentOS 是免费的且得到社区的大力支持，因此得到了市场的青睐。</p>
+<p><strong>2014 年初，CentOS 和 Red Hat 共同宣布，CentOS 将加入 Red Hat</strong>。目前 CentOS 由红帽公司和社区共同维护。</p>
+<h4 id="CentOS-7-的最新改进"><a href="#CentOS-7-的最新改进" class="headerlink" title="CentOS 7 的最新改进"></a>CentOS 7 的最新改进</h4><p>相比与 <strong>CentOS 6</strong>，<strong>CentOS 7</strong> 的主要改进之处在于：</p>
+<ul>
+<li><strong>内核版本</strong>更新为 <strong><code>3.10.0</code></strong>：新版本的内核将对 <strong>swap</strong> 内存空间进行压缩，显著提高了 <strong>I/O 性能</strong>；优化 <strong>KVM 虚拟化</strong>支持；开启<strong>固态硬盘和机械硬盘框架</strong>，同时使用将会提速；更新和改进了<strong>图形、音频驱动</strong>等</li>
+<li><strong>文件系统</strong>方面：默认支持 <strong>XFS</strong> 文件系统，并更新了 <strong>KVM</strong>，使其可以支持 <strong>ext4</strong> 和 <strong>XFS</strong> 快照</li>
+<li><strong>网络</strong>方面：支持 <strong>Firewalld</strong>（动态防火墙）；更新了<strong>高性能网络驱动</strong>等</li>
+<li>支持 <strong>Linux 容器</strong></li>
+<li>使用 <strong>Systemd</strong> 替换 <strong>SysVinit</strong></li>
+</ul>
+<h2 id="2-安装-CentOS-7"><a href="#2-安装-CentOS-7" class="headerlink" title="2. 安装 CentOS 7"></a>2. 安装 CentOS 7</h2><h3 id="2-1-系统分区"><a href="#2-1-系统分区" class="headerlink" title="2.1 系统分区"></a>2.1 系统分区</h3><h4 id="磁盘分区"><a href="#磁盘分区" class="headerlink" title="磁盘分区"></a>磁盘分区</h4><p><strong>Linux 系统</strong>的<strong>磁盘分区类型</strong>包括：</p>
+<ol>
+<li><strong>主分区</strong>：可以<strong>直接用来存放数据</strong>，但一个硬盘上的主分区<strong>最多只能有 4 个</strong>。</li>
+<li><strong>扩展分区</strong>：扩展分区也是一种<strong>主分区</strong>，但<strong>不能用来存放数据</strong>。可以在扩展分区之上再划分可以存放数据的逻辑分区。</li>
+<li><strong>逻辑分区</strong>：逻辑分区是<strong>在扩展分区基础上建立的</strong>，可以用来存放数据。</li>
+</ol>
+<p>明确了分区类型的概念之后，安装 CentOS 时还需要制订一个<strong>分区方案</strong>。在 <strong>Windows</strong> 系统中，不同的分区被 C、D、E 等<strong>盘符</strong>替代。但在 <strong>Linux 系统中没有盘符的概念</strong>，不同的分区被<strong>挂载在不同的目录下</strong>，目录称为<strong>挂载点</strong>。只要进入挂载点目录就进入了相应的分区，这样做的好处是<strong>用户可以根据需求为某个目录单独扩展空间</strong>。</p>
+<p>一个最简单的分区方案如下：</p>
+<ol>
+<li><strong>引导分区</strong> <code>/boot</code>：创建一个约 <strong>300MB~500MB</strong> 的分区挂载到<code>/boot</code>目录下，这个分区主要用来<strong>存放系统引导时使用的文件</strong>。</li>
+<li><strong>交换分区</strong> <code>swap</code>：这个分区<strong>没有挂载点</strong>，大小通常为<strong>内存的 2 倍</strong>。系统运行时，当物理内存不足时，系统会将内存中不常用的数据存放到 <strong>swap</strong> 中，即 <strong>swap</strong> 此时被当作<strong>虚拟内存</strong>。</li>
+<li><strong>根分区</strong> <code>/</code>：根分区的挂载点是<code>/</code>，这个目录是<strong>系统的起点</strong>，可以将剩余的空间都分到这个分区中。</li>
+<li><strong>家目录</strong> <code>/home</code>：用户的<strong>家目录</strong>，可根据实际需求划分适当容量的分区空间。</li>
+</ol>
+<h4 id="静态分区的缺点和逻辑卷管理简介"><a href="#静态分区的缺点和逻辑卷管理简介" class="headerlink" title="静态分区的缺点和逻辑卷管理简介"></a>静态分区的缺点和逻辑卷管理简介</h4><p>对于普通用户而言，<strong>直接对硬盘分区然后挂载这种使用静态分区</strong>的方法几乎没有什么问题。但对于某些特定的生产环境而言，这种方法弊大于利。</p>
+<blockquote>
+<p>例如要求不间断运行的数据库中心，这类服务会随着时间增加而逐渐占用大量硬盘空间。如果使用静态分区方案，这类服务会在硬盘空间耗尽后自动停止，即使运维工程师及早发现，也会在更换硬盘时停止服务。因此这类<strong>要求不间断运行的服务，最好不要使用静态分区方案</strong>。</p>
+</blockquote>
+<p>为了<strong>防止需要不间断运行的服务因硬盘空间耗尽而停止</strong>，应该采用更加先进的<strong>逻辑卷管理（Logical Volume Manager，LVM）</strong>方案。<strong>LVM</strong> 先将硬盘分区转化为<strong>物理卷 PV</strong>，然后将 <strong>PV</strong> 组成<strong>卷组 VG</strong>，然后在卷组的基础上再划分<strong>逻辑卷 LV</strong>，最后就可以<strong>使用逻辑卷来存放数据</strong>。</p>
+<p>使用 <strong>LVM</strong> 有以下优点：</p>
+<ul>
+<li>可以解决<strong>硬盘空间不足，需要停止服务迁移数据</strong>的问题。扩容过程是在线进行的，无需停止服务。即使卷组中没有剩余空间，也可以向卷组添加新物理卷为卷组扩容。</li>
+<li>当硬盘空间不足时，<strong>可以添加更大的硬盘，从而将卷组中那些容量较小的硬盘移出卷组</strong>，这个过程也可以在线进行，无需关闭服务。</li>
+<li><strong>可以为逻辑卷添加快照卷</strong>，利用这一功能可实现数据备份等操作，而无需担心数据的一致性受到影响。</li>
+</ul>
+<h3 id="2-2-安装-CentOS-7"><a href="#2-2-安装-CentOS-7" class="headerlink" title="2.2 安装 CentOS 7"></a>2.2 安装 CentOS 7</h3><blockquote>
+<p>安装 CentOS 7 可搜索网上教程，<strong>此处略</strong></p>
+</blockquote>
+<h3 id="2-3-Linux-运行级别"><a href="#2-3-Linux-运行级别" class="headerlink" title="2.3 Linux 运行级别"></a>2.3 Linux 运行级别</h3><p>如果想切换到<strong>命令模式</strong>，可在进入系统后在终端输入<code>init 3</code>，即可完成<strong>运行级别</strong>的转变。<strong>Linux 运行级别</strong>如下表所示：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><strong>级别</strong></th>
+<th style="text-align:center"><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">停机</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">单用户模式</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">多用户模式</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">完全多用户模式，服务器一般运行在此级别</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">一般不用，仅在一些特殊情况下使用</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">X11 模式，一般发行版的默认运行级别，可以启动图形桌面系统</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">重新启动</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="2-4-Linux-目录结构"><a href="#2-4-Linux-目录结构" class="headerlink" title="2.4 Linux 目录结构"></a>2.4 Linux 目录结构</h3><blockquote>
+<p><strong>推荐阅读</strong></p>
+<ol>
+<li><img src="/2019/01/08/centos7-notes/ruanyifeng.ico" width="16"><a href="http://www.ruanyifeng.com/blog/2012/02/a_history_of_unix_directory_structure.html" target="_blank" rel="noopener">Unix 目录结构的来历 | 阮一峰</a><img src="/2019/01/08/centos7-notes/star.svg"></li>
+<li><img src="/2019/01/08/centos7-notes/ruanyifeng.ico" width="16"><a href="http://www.ruanyifeng.com/blog/2013/08/linux_boot_process.html" target="_blank" rel="noopener">Linux 的启动流程 | 阮一峰</a><img src="/2019/01/08/centos7-notes/star.svg"></li>
+<li><img src="/2019/01/08/centos7-notes/wechat.svg"><a href="https://mp.weixin.qq.com/s?__biz=MzIzNjUxMzk2NQ==&amp;mid=2247484956&amp;idx=1&amp;sn=3bc323c5a11af462be2ac0d601c8f439&amp;chksm=e8d7f9dedfa070c8a5eefe750fe8ce5798c43b205147228eddc2f1cd425c8551b80cf03a835c&amp;scene=27#wechat_redirect" target="_blank" rel="noopener">比起Windows，怎样解读Linux的文件系统与目录结构？| 高效开发运维</a><img src="/2019/01/08/centos7-notes/star.svg"></li>
+<li><img src="/2019/01/08/centos7-notes/wechat.svg"><a href="https://mp.weixin.qq.com/s?src=3&amp;timestamp=1547024869&amp;ver=1&amp;signature=9f4rYV9MBZ2kbADkjAGQaHVrpS8WOUrpbzC12pflTBHXGYxFRgPD2fcKNgGIY9Kub69ilzwIRN*jeHgJZyh4Wz4YTZtVeskStrXErWko4kA23-lVcaF0IlXXuziRV370s0nWMn7zlkbLFacmbFoIKA==" target="_blank" rel="noopener">Linux 目录结构 | 程序猿</a></li>
+</ol>
+</blockquote>
+<p>Linux 的目录类似<strong>树形结构</strong>，任何目录、文件和设备都在<strong>根目录</strong><code>/</code>之下。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/01/08/centos7-notes/unix-dir.jpg" alt="UNIX 中的树形目录结构" title>
+                </div>
+                <div class="image-caption">UNIX 中的树形目录结构</div>
+            </figure>
+<p><strong>Linux 常见目录</strong>如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong>路径</strong></th>
+<th style="text-align:left"><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>/</code></td>
+<td style="text-align:left"><strong>根目录</strong>，文件系统的最顶端。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>/bin</code></td>
+<td style="text-align:left">存放<strong>系统所需的重要命令</strong>。另外 /usr/bin 也存放了一些系统命令，这些命令对应的文件都是<strong>可执行的</strong>。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>/boot</code></td>
+<td style="text-align:left">存放 Linux 启动时<strong>内核</strong>及<strong>引导系统程序</strong>所需的核心文件。内核文件和 <strong>grub</strong> 系统引导管理器都位于此目录。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>/dev</code></td>
+<td style="text-align:left">存放 Linux 系统下的<strong>设备文件</strong>。访问该目录下的某个文件相当于访问某个硬件设备，常用的是挂载光驱。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>/etc</code></td>
+<td style="text-align:left">一般存放<strong>系统的配置文件</strong>，作为一些软件启动<strong>默认配置文件的读取目录</strong>，例如 /etc/fstab 存放系统分区信息。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>/home</code></td>
+<td style="text-align:left">系统默认的<strong>用户主目录</strong>，可以用 <strong>HOME</strong> 环境变量表示当前用户的主目录。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>/lib</code></td>
+<td style="text-align:left">主要存放<strong>动态链接库</strong><code>.so</code>文件，在 <strong>64 位系统</strong>中还有 /lib64 目录。类似的目录有 /usr/lib、usr/local/lib 等。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>/lost_found</code></td>
+<td style="text-align:left">存放一些当系统<strong>意外崩溃</strong>或<strong>意外关机</strong>时产生的<strong>文件碎片</strong>。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>/mnt</code></td>
+<td style="text-align:left">用于存放<strong>挂载存储设备的目录</strong>，如光驱、共享存储等。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>/proc</code></td>
+<td style="text-align:left">存放<strong>操作系统运行时的运行信息</strong>，如进程信息、内核信息、网络信息等。此目录的内容<strong>存在于内存中，实际不占用磁盘空间</strong>。如 /proc/cpuinfo 存放 CPU 的相关信息。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>/root</code></td>
+<td style="text-align:left">Linux 超级权限用户 <strong>root</strong> 的<strong>主目录</strong>。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>/sbin</code></td>
+<td style="text-align:left">存放一些<strong>系统管理命令</strong>，一般只能由 <strong>root</strong> 用户执行。大多数命令普通用户无权限执行，类似 /sbin/ifconfig，不过使用绝对路径也可执行。类似的目录有 /usr/sbin、/usr/local/sbin。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>/tmp</code></td>
+<td style="text-align:left"><strong>临时文件目录</strong>，任何人都可以访问。系统软件或用户运行程序时产生的临时文件都存放在这里。此目录数据需要<strong>定期清除</strong>。此目录空间不宜过小。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>/usr</code></td>
+<td style="text-align:left">应用程序存放目录，如命令、帮助文件等。安装 Linux 软件包会默认安装到 /usr/local 目录下，例如 /usr/share/fonts 存放系统字体，/usr/share/man 存放帮助文档，/usr/include 存放软件的头文件等。/usr/local 目录建议单独分区并设置较大的磁盘空间。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>/var</code></td>
+<td style="text-align:left">这个目录的内容是<strong>经常变动</strong>的，/var/log 用于存放系统日志，/var/lib 存放系统库文件等。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>/sys</code></td>
+<td style="text-align:left">目录与<code>/proc</code>类似，是一个虚拟的文件系统，主要记录<strong>与系统核心相关的信息</strong>，如系统当前已经载入的模块信息等。类似的，这个目录<strong>实际不占用磁盘空间</strong>。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="3-CentOS-7-网络管理技能"><a href="#3-CentOS-7-网络管理技能" class="headerlink" title="3. CentOS 7 网络管理技能"></a>3. CentOS 7 网络管理技能</h2><h3 id="3-2-网络管理命令"><a href="#3-2-网络管理命令" class="headerlink" title="3.2 网络管理命令"></a>3.2 网络管理命令</h3><h4 id="3-2-1-ping"><a href="#3-2-1-ping" class="headerlink" title="3.2.1 ping"></a>3.2.1 ping</h4><p><strong>ping</strong> 用来测试<strong>目标主机或域名是否可达</strong>。</p>
+<pre><code class="lang-bash">&gt; ping abelsu7.top
+&gt; ping 192.168.3.100
+&gt; ping -c 3 192.168.3.100 # -c 指定次数
+&gt; ping -c 3 -i 0.01 192.168.3.100 # -i 指定间隔
+</code></pre>
+<h4 id="3-2-2-ifconfig"><a href="#3-2-2-ifconfig" class="headerlink" title="3.2.2 ifconfig"></a>3.2.2 ifconfig</h4><p><strong>ifconfig</strong> 命令用于<strong>查看、配置、启用或禁用指定网络接口</strong>。语法如下：</p>
+<pre><code class="lang-bash">&gt; ifconfig interface [[-net -host] address [parameters]]
+</code></pre>
+<p>例如：</p>
+<pre><code class="lang-bash">&gt; ifconfig docker0
+docker0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+        inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
+        inet6 fe80::42:77ff:fefe:d330  prefixlen 64  scopeid 0x20&lt;link&gt;
+        ether 02:42:77:fe:d3:30  txqueuelen 0  (Ethernet)
+        RX packets 5607  bytes 2293055 (2.1 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 6232  bytes 10143929 (9.6 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+</code></pre>
+<p>输出信息说明：</p>
+<ul>
+<li>第 1 行：<strong>UP</strong> 表示此网络接口为<strong>启用状态</strong>，<strong>RUNNING</strong> 表示网卡设备<strong>已连接</strong>，<strong>MULTICAST</strong> 表示<strong>支持组播</strong>，<strong>MTU</strong> 为<strong>数据包最大传输单元</strong></li>
+<li>第 2 行：依次为<strong>网卡 IP</strong>、<strong>子网掩码</strong>、<strong>广播地址</strong></li>
+<li>第 3 行：<strong>IPv6 地址</strong></li>
+<li>第 4 行：<code>Ethernet</code>（以太网）表示<strong>连接类型</strong>，<code>ether</code>为网卡 <strong>MAC 地址</strong></li>
+<li>第 5 行：<strong>接收数据包</strong>个数、大小统计</li>
+<li>第 6 行：<strong>异常接受包</strong>的数量，如丢包量、错误等</li>
+<li>第 7 行：<strong>发送数据包</strong>个数、大小统计信息</li>
+<li>第 8 行：<strong>异常发送包</strong>的数量，如丢包量、错误等</li>
+</ul>
+<p><strong>设置 IP 地址</strong>使用以下命令：</p>
+<pre><code class="lang-bash">&gt; ifconfig eno1 192.168.100.100 netmask 255.255.255.0
+&gt; ifconfig eno1 hw ether 00:0c:29:0b:07:77 # 更改网卡的 MAC 地址
+&gt; ifconfig eno1 192.168.100.170/24 UP
+&gt; ifconfig eno1 down
+</code></pre>
+<blockquote>
+<p>在 <strong>CentOS</strong> 和 <strong>RHEL</strong> 中使用命令<code>ifup</code>和<code>ifdown</code>加<strong>网络接口名</strong>，可以<strong>启用、禁用对应的网络接口</strong>。</p>
+</blockquote>
+<h4 id="3-2-3-route"><a href="#3-2-3-route" class="headerlink" title="3.2.3 route"></a>3.2.3 route</h4><p><strong>route</strong> 命令用于<strong>查看或编辑计算机的 IP 路由表</strong>，语法如下：</p>
+<pre><code class="lang-bash">&gt; route
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+default         gateway         0.0.0.0         UG    100    0        0 enp5s0
+116.56.129.0    0.0.0.0         255.255.255.0   U     100    0        0 enp5s0
+172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 docker0
+192.168.122.0   0.0.0.0         255.255.255.0   U     0      0        0 virbr0
+
+# 添加一条路由：发往 192.168.60.0 网段的全部要经过网关 192.168.19.1
+&gt; route add -net 192.168.60.0 netmask 255.255.255.0 gw 192.168.19.1
+
+# 删除一条路由，删除的时候不需要指明网关
+&gt; route del -net 192.168.60.0 netmask 255.255.255.0
+</code></pre>
+<h4 id="3-2-4-scp"><a href="#3-2-4-scp" class="headerlink" title="3.2.4 scp"></a>3.2.4 scp</h4><p><strong>scp</strong> 命令可以<strong>将本地文件传送到远程主机</strong>或<strong>从远程主机拉取文件到本地</strong>。常用参数如下：</p>
+<ul>
+<li><code>-P</code>：指定<strong>远程连接端口</strong></li>
+<li><code>-q</code>：把<strong>进度参数</strong>关掉</li>
+<li><code>-r</code>：<strong>递归</strong>的复制整个文件夹</li>
+<li><code>-V</code>：<strong>Verbose</strong>。打印排错信息方便问题定位</li>
+</ul>
+<pre><code class="lang-bash"># 将本地文件传送至远程主机 192.168.3.100 的 /usr 路径下
+&gt; scp -P 12345 myfile root@192.168.3.100:/usr
+
+# 拉取远程主机文件至本地路径
+&gt; scp -P 12345 root@192.168.3.100:/etc/hosts ./
+
+# 使用参数 -r 传送目录
+&gt; scp -r -P 12345 root@192.168.3.100:/usr/local/apache2 ./
+
+# 将本地目录传送至远程主机指定目录
+&gt; scp -r apache2 root@192.168.3.100:/data
+</code></pre>
+<h4 id="3-2-5-rsync"><a href="#3-2-5-rsync" class="headerlink" title="3.2.5 rsync"></a>3.2.5 rsync</h4><p><strong>rsync</strong> 是 Linux 系统下常用的<strong>数据镜像备份工具</strong>，用于在不同的主机之间同步文件。</p>
+<p>除了单个文件，rsync 还可以<strong>镜像保存整个目录树和文件系统</strong>，支持<strong>增量同步</strong>，并<strong>保持文件原有的属性</strong>（如权限、时间戳等）。</p>
+<p>另外，rsync 的<strong>数据传输过程</strong>是<strong>加密的</strong>，可以保证数据的安全性。</p>
+<pre><code class="lang-bash">
+
+</code></pre>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7 安装配置 NFS</a></li><li><a href="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/">Linux 系统常用监控命令</a></li><li><a href="https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/">Linux 终端修改 ls 命令目录显示颜色</a></li><li><a href="https://abelsu7.top/2019/07/07/perf-quick-guides/">Linux 下使用 Perf 分析系统性能</a></li><li><a href="http://www.borgor.cn/2019-07-25/81eae861.html">在CentOS上使用certbot为nginx添加https证书</a></li><li><a href="http://www.borgor.cn/2019-07-25/29fa0dd5.html">从零开始搭建CentOS+Python+nodejs开发环境</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.022Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/01/08/centos7-notes/" target="_blank" rel="external">https://abelsu7.top/2019/01/08/centos7-notes/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书/">读书</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/运维/">运维</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/01/08/centos7-notes/&title=《《CentOS 7 系统管理与运维实战》笔记》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/01/08/centos7-notes/&title=《《CentOS 7 系统管理与运维实战》笔记》 — Keep Coding&source=
+摘自 《CentOS 7系统管理与运维实战》
+
+
+                
+                    
+             ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/01/08/centos7-notes/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《CentOS 7 系统管理与运维实战》笔记》 — Keep Coding&url=https://abelsu7.top/2019/01/08/centos7-notes/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/01/08/centos7-notes/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/01/08/explore-kvm-notes-1/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">《深度实践 KVM》笔记</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/01/04/quickgo-notes/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">《快学 Go 语言》笔记</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/01/08/centos7-notes/&title=《《CentOS 7 系统管理与运维实战》笔记》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/01/08/centos7-notes/&title=《《CentOS 7 系统管理与运维实战》笔记》 — Keep Coding&source=
+摘自 《CentOS 7系统管理与运维实战》
+
+
+                
+                    
+             ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/01/08/centos7-notes/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《CentOS 7 系统管理与运维实战》笔记》 — Keep Coding&url=https://abelsu7.top/2019/01/08/centos7-notes/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/01/08/centos7-notes/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJklEQVR42u3ay24CMQwFUP7/p6dSV11AuLaHSiQnKzRUIWcWrh95POJ1/a7k+fVnrZ9fy/X4xMLAwPhaRrJdftxXe1bPUKZiYGAcwFgH0/XWvUi4fkHVQI+BgYGRh9fkFfQ+Y2BgYOQBt/eXSfKHgYGBsWYkCdw6Kby3ZP1gLY6BgfGFjOpg4D8/f3C+gYGB8SWMq7XmiWN1qPDmPBgYGFszqild7yerw4akuH0kPT8MDIyNGGvMvGTtjR+qowgMDIwTGNUCMgmpk5bZbW01DAyML2ckpWnvEtg8KCf7PKnFMTAwNmVUE8HqsLP6PP/1KMZjYGBsx6gGu+qhJxndy+cYGBhbM3rlaPJtkhr2wjcGBsZpjHnIm1ywyC9zvGkLYmBgbM2YNMV6AXfejCv/38DAwNiCkTTl19v1mv55UE5OhYGBsSsjT/uqw8vq1Y0cg4GBgTEPrNXBZPWFPvkWAwNja0beGsvDaHXAUL2O9iZBxMDAOIDRC5pJuMyP1buogYGBcQJjnrrlh0heX7kMxsDAOIAxb6IV0rhiglhoumFgYGzKSMrXhDq5kDofHmBgYOzKuIqrV7hO0tAo4GJgYGzNqIa5yYBzQkoSRwwMjL0ZeZDNR4y9Rlv1BWFgYJzGyBv0eUPthnZ/3M7DwMDAuPciVy8pjPqFGBgYxzOqSWEOmxS9GBgY5zAmw4DqblV2c7aJgYGxEWM+GKgWq/de7MDAwNia8QP0D2qY7ERJ5QAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

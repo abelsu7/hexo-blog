@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>数值分析笔记 3：曲线拟合/连续函数逼近 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="读书,数值分析">
+    <meta name="description" content="最小二乘拟合、法方程的矩阵形式                                                                                               《应用数值分析》">
+<meta name="keywords" content="读书,数值分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数值分析笔记 3：曲线拟合&#x2F;连续函数逼近">
+<meta property="og:url" content="https://abelsu7.top/2018/11/21/math-analysis-3/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="最小二乘拟合、法方程的矩阵形式                                                                                               《应用数值分析》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2018/11/21/math-analysis-3/math-cover.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.519Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数值分析笔记 3：曲线拟合&#x2F;连续函数逼近">
+<meta name="twitter:description" content="最小二乘拟合、法方程的矩阵形式                                                                                               《应用数值分析》">
+<meta name="twitter:image" content="https://abelsu7.top/2018/11/21/math-analysis-3/math-cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">数值分析笔记 3：曲线拟合/连续函数逼近</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">数值分析笔记 3：曲线拟合/连续函数逼近</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-11-21T01:28:34.000Z" itemprop="datePublished" class="page-time">
+  2018-11-21
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/数学/">数学</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-曲线拟合-连续函数逼近"><span class="post-toc-text">3. 曲线拟合/连续函数逼近</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-1-拟合问题与逼近问题"><span class="post-toc-text">3.1 拟合问题与逼近问题</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-2-曲线拟合的（线性）最小二乘法"><span class="post-toc-text">3.2 曲线拟合的（线性）最小二乘法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-1-最小二乘拟合问题的提法"><span class="post-toc-text">3.2.1 最小二乘拟合问题的提法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-2-最小二乘解的解法：法方程"><span class="post-toc-text">3.2.2 最小二乘解的解法：法方程</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-3-最小二乘的相关问题及例"><span class="post-toc-text">3.3 最小二乘的相关问题及例</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-3-1-指数模型与双曲线模型的线性化拟合"><span class="post-toc-text">3.3.1 指数模型与双曲线模型的线性化拟合</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-3-2-算术平均：最小二乘意义下误差最小"><span class="post-toc-text">3.3.2 算术平均：最小二乘意义下误差最小</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-3-3-超定方程组（矛盾方程组）的最小二乘解"><span class="post-toc-text">3.3.3 超定方程组（矛盾方程组）的最小二乘解</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-3-4-法方程的矩阵形式"><span class="post-toc-text">3.3.4 法方程的矩阵形式</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-math-analysis-3"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">数值分析笔记 3：曲线拟合/连续函数逼近</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-11-21 09:28:34" datetime="2018-11-21T01:28:34.000Z"  itemprop="datePublished">2018-11-21</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/数学/">数学</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>最小二乘拟合、法方程的矩阵形式</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/11/21/math-analysis-3/math-cover.jpg" alt="《应用数值分析》" title>
+                </div>
+                <div class="image-caption">《应用数值分析》</div>
+            </figure>
+<a id="more"></a>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#3-曲线拟合-连续函数逼近">3. 曲线拟合/连续函数逼近</a><ul>
+<li><a href="#3-1-拟合问题与逼近问题">3.1 拟合问题与逼近问题</a></li>
+<li><a href="#3-2-曲线拟合的（线性）最小二乘法">3.2 曲线拟合的（线性）最小二乘法</a><ul>
+<li><a href="#3-2-1-最小二乘拟合问题的提法">3.2.1 最小二乘拟合问题的提法</a></li>
+<li><a href="#3-2-2-最小二乘解的解法：法方程">3.2.2 最小二乘解的解法：法方程</a></li>
+</ul>
+</li>
+<li><a href="#3-3-最小二乘的相关问题及例">3.3 最小二乘的相关问题及例</a><ul>
+<li><a href="#3-3-1-指数模型与双曲线模型的线性化拟合">3.3.1 指数模型与双曲线模型的线性化拟合</a></li>
+<li><a href="#3-3-2-算术平均：最小二乘意义下误差最小">3.3.2 算术平均：最小二乘意义下误差最小</a></li>
+<li><a href="#3-3-3-超定方程组（矛盾方程组）的最小二乘解">3.3.3 超定方程组（矛盾方程组）的最小二乘解</a></li>
+<li><a href="#3-3-4-法方程的矩阵形式">3.3.4 法方程的矩阵形式</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-曲线拟合-连续函数逼近"><a href="#3-曲线拟合-连续函数逼近" class="headerlink" title="3. 曲线拟合/连续函数逼近"></a>3. 曲线拟合/连续函数逼近</h2><h3 id="3-1-拟合问题与逼近问题"><a href="#3-1-拟合问题与逼近问题" class="headerlink" title="3.1 拟合问题与逼近问题"></a>3.1 拟合问题与逼近问题</h3><ul>
+<li><strong>最小二乘拟合问题</strong>实际上就是<strong>针对已知的离散数据的平方逼近问题</strong></li>
+<li><strong>插值问题</strong>就是针对已知的离散函数点，要求<strong>以插值函数在离散点的值与已知离散点的函数值相等为逼近标准</strong>的<strong>逼近问题</strong></li>
+</ul>
+<h3 id="3-2-曲线拟合的（线性）最小二乘法"><a href="#3-2-曲线拟合的（线性）最小二乘法" class="headerlink" title="3.2 曲线拟合的（线性）最小二乘法"></a>3.2 曲线拟合的（线性）最小二乘法</h3><h4 id="3-2-1-最小二乘拟合问题的提法"><a href="#3-2-1-最小二乘拟合问题的提法" class="headerlink" title="3.2.1 最小二乘拟合问题的提法"></a>3.2.1 最小二乘拟合问题的提法</h4><p>设 $f$ 是在 $m+1$ 个节点 $x_j\in [a,b]$ 上给定的离散函数，即<strong>给定离散数据</strong></p>
+<script type="math/tex; mode=display">
+(x_j,f(x_j)) \quad j=0,1,\cdots,n</script><p>要在某个指定空间 $\Phi$ 中，找出一个函数 <script type="math/tex">s^*(x_j)\in \Phi</script> 作为 $f$ 的近似的连续模型，要求 <script type="math/tex">s^*</script> 在 $x_j$ 处的值 <script type="math/tex">s^*(x_j)</script> 与 $f(x_j)$ 的误差</p>
+<script type="math/tex; mode=display">
+\delta_j=f(x_j) - s^*(x_j) \quad (j=0,1,\cdots,m)</script><p>的<strong>平方和最小</strong>，即记 $\pmb{\delta}=(\delta_0,\delta_1,\cdots,\delta_m)^T$，有</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\left \| \pmb{\delta} \right \|_2^2 &= \sum_{j=0}^m \delta_j^2 \\
+&= \sum_{j=0}^m \left[ f(x_j)-s^*(x_j) \right]^2 \\
+&= \min_{s \in \Phi} \sum_{j=0}^m
+\left[ f(x_j)-s(x_j) \right]^2\end{aligned}</script><p>或为了体现数据的重要性不同，引入对应 $[a,b]$ 上不同点 $x_j$ 的权函数值 $\rho(x_j)&gt;0$，从而将上式改写成更一般的<strong>带权形式</strong></p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\left \| \pmb{\delta} \right \|_2^2 &= \sum_{j=0}^m \rho(x_j) \left[ f(x_j)-s^*(x_j) \right]^2 \\
+&= \min_{s \in \Phi} \sum_{j=0}^m
+\rho(x_j) \left[ f(x_j)-s(x_j) \right]^2\end{aligned}</script><p>这就是<strong>最小二乘拟合问题</strong>，<strong>$s^*(x)$</strong> 称为 $f$ 在 $m+1$ 个节点 $x_j \ (j=0,1,\cdots,m)$ 上的<strong>最小二乘解</strong>，或称为<strong>拟合曲线</strong>或<strong>经验公式</strong>或<strong>回归线</strong>。</p>
+<p>通常，在简单情形下，选择 $\Phi$ 为多项式空间（或其子空间），$\Phi = P_n = Span\{1,x,\cdots,x^n\}$，这时，若 $s(x) \in P_n$，则 $s(x)$ 的形式为</p>
+<script type="math/tex; mode=display">
+s(x) = a_0 + a_1x + \cdots + a_nx^n</script><p>在一般情形下，选择 $\Phi$ 为线性空间 $\Phi = Span\{ \varphi_0(x),\varphi_1(x),\cdots,\varphi_n(x) \}$，其中 $\varphi_i(x)$ 是 $[a,b]$ 上已知的线性无关组，这时，若 $s(x)\in \Phi$，则有</p>
+<script type="math/tex; mode=display">
+s(x) = a_0\varphi_0(x) + a_1\varphi_1(x) + \cdots + a_n\varphi_n(x) = \sum_{i=0}^n a_i\varphi_i(x)</script><p>两式中关于待定参数（也称回归系数）$a_0,a_1,\cdots,a_n$ 都是一次的，所以 $s(x)$ 是一种线性模型，而上述问题称为<strong>线性最小二乘拟合</strong>。</p>
+<h4 id="3-2-2-最小二乘解的解法：法方程"><a href="#3-2-2-最小二乘解的解法：法方程" class="headerlink" title="3.2.2 最小二乘解的解法：法方程"></a>3.2.2 最小二乘解的解法：法方程</h4><p><strong><em>法方程及平方误差</em></strong></p>
+<p><strong>法方程</strong>（组）或<strong>正则方程</strong>（组）可表示如下：</p>
+<script type="math/tex; mode=display">
+\left[ \begin{matrix}
+(\varphi_0,\varphi_0) &(\varphi_0,\varphi_1) &\cdots &(\varphi_0,\varphi_n) \\ 
+(\varphi_1,\varphi_0) &(\varphi_1,\varphi_1) &\cdots &(\varphi_1,\varphi_n) \\
+\vdots &\vdots & &\vdots \\ 
+(\varphi_n,\varphi_0) &(\varphi_n,\varphi_1) &\cdots &(\varphi_n,\varphi_n) 
+\end{matrix} \right]
+\left[ \begin{matrix}
+a_0 \\ 
+a_1 \\ 
+\vdots \\
+a_n
+\end{matrix} \right]=
+\left[ \begin{matrix}
+(\varphi_0,f) \\ 
+(\varphi_1,f) \\
+\vdots \\
+(\varphi_n,f)
+\end{matrix} \right]</script><p>对 <script type="math/tex">s^*(x)</script> 的误差估计，可使用<strong>平方误差</strong>：</p>
+<script type="math/tex; mode=display">
+\left \| f-s^* \right \|_2^2 = \sum_{j=0}^m \rho_j \left[ f(x_j)-s^*(x_j) \right]^2</script><p>或<strong>均方误差</strong>：</p>
+<script type="math/tex; mode=display">
+\left \| f-s^* \right \|_2 = \sqrt{\sum_{j=0}^m \rho_j \left[ f(x_j)-s^*(x_j) \right]^2}</script><p>其中，<strong>平方误差</strong>还可导出另一种表示形式：</p>
+<script type="math/tex; mode=display">
+\left \| f-s^* \right \|_2^2 = \left \| f \right \|_2^2-\sum_{i=0}^n a_i^*(\varphi_i,f)</script><blockquote>
+<p>这种表示的优点是，<strong>计算平方误差时可以直接利用求解法方程过程中的信息</strong>，而<strong>无需调用计算 $s^*(x)$ 的子程序</strong>。</p>
+</blockquote>
+<p><strong><em>求最小二乘拟合曲线的主要步骤</em></strong></p>
+<p>根据已知数据求最小二乘拟合曲线有两个主要步骤：</p>
+<ul>
+<li><strong>选定拟合模型的形式</strong>，即选定空间 $\Phi$ 的<strong>基函数 $\varphi_0,\varphi_1,\cdots,\varphi_n$</strong></li>
+<li><strong>求最小二乘解 $s^*(x)$</strong>，即求出拟合曲线，它转化为<strong>求解相应的法方程</strong></li>
+</ul>
+<p><strong><em>二次多项式模型及权函数 $\rho_j \equiv 1$ 时对应的法方程</em></strong></p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+\sum \limits_{j=0}^m 1 &\sum \limits_{j=0}^m x_j &\sum \limits_{j=0}^m x_j^2 \\ 
+\sum \limits_{j=0}^m x_j &\sum \limits_{j=0}^m x_j^2 &\sum \limits_{j=0}^m x_j^3 \\
+\sum \limits_{j=0}^m x_j^2 &\sum \limits_{j=0}^m x_j^3 &\sum \limits_{j=0}^m x_j^4 
+\end{bmatrix}
+\begin{bmatrix}
+a_0 \\
+a_1 \\
+a_2 
+\end{bmatrix}=
+\left[ \begin{matrix}
+\sum \limits_{j=0}^m f_j \\ 
+\sum \limits_{j=0}^m x_jf_j \\
+\sum \limits_{j=0}^m x_j^2 f_j
+\end{matrix} \right]</script><h3 id="3-3-最小二乘的相关问题及例"><a href="#3-3-最小二乘的相关问题及例" class="headerlink" title="3.3 最小二乘的相关问题及例"></a>3.3 最小二乘的相关问题及例</h3><h4 id="3-3-1-指数模型与双曲线模型的线性化拟合"><a href="#3-3-1-指数模型与双曲线模型的线性化拟合" class="headerlink" title="3.3.1 指数模型与双曲线模型的线性化拟合"></a>3.3.1 指数模型与双曲线模型的线性化拟合</h4><p><strong>1. 指数模型：$s(x)=ae^{bx}$</strong></p>
+<p>对模型 $s(x)=ae^{bx}$，两边取对数</p>
+<script type="math/tex; mode=display">
+\ln{s(x)} = \ln{a} + bx</script><p>令 $Y=\ln{s(x)}$，$A=\ln{a}$，则上式为</p>
+<script type="math/tex; mode=display">
+Y = A +bx</script><p>并将原数据变化为 $(x_j,\ln{f(x_j)})$</p>
+<p><strong>2. 指数模型：$s(x)=ae^{\frac{b}{x}}$</strong></p>
+<p>对模型 $s(x)=ae^{\frac{b}{x}}$，两边取对数</p>
+<script type="math/tex; mode=display">
+\ln{s(x)} = \ln{a} + \frac{b}{x}</script><p>令 $Y=\ln{s(x)}$，$A=\ln{a}$，$X=\displaystyle{\frac{1}{x}}$，则上式为</p>
+<script type="math/tex; mode=display">
+Y = A +bX</script><p>并将原数据变化为 $(\displaystyle{\frac{1}{x_j}},\ln{f(x_j)})$</p>
+<p><strong>3. 对数模型：$s(x)=\displaystyle{\frac{1}{a+bx}}$</strong></p>
+<p>对模型 $s(x)=\displaystyle{\frac{1}{a+bx}}$，取倒数为 $\displaystyle{\frac{1}{s(x)}}=a+bx$。令 $Y=\displaystyle{\frac{1}{s(x)}}$ ，即有一次拟合模型</p>
+<script type="math/tex; mode=display">
+Y = a + bx</script><p>并将原数据变化为 $\left( x_j, \displaystyle{\frac{1}{f(x_j)}} \right)$</p>
+<p><strong>4. 对数模型：$s(x)=\displaystyle{\frac{x}{ax+b}}$</strong></p>
+<p>对模型 $s(x)=\displaystyle{\frac{x}{ax+b}}$，取倒数为 $\displaystyle{\frac{1}{s(x)}}=a+b\displaystyle{\frac{1}{x}}$。令 $Y=\displaystyle{\frac{1}{s(x)}}$，$X=\displaystyle{\frac{1}{x}}$，即有一次拟合模型</p>
+<script type="math/tex; mode=display">
+Y = a + bX</script><p>并将原数据变化为 $\left( \displaystyle{\frac{1}{x_j}}, \displaystyle{\frac{1}{f(x_j)}} \right)$</p>
+<h4 id="3-3-2-算术平均：最小二乘意义下误差最小"><a href="#3-3-2-算术平均：最小二乘意义下误差最小" class="headerlink" title="3.3.2 算术平均：最小二乘意义下误差最小"></a>3.3.2 算术平均：最小二乘意义下误差最小</h4><ul>
+<li>取<strong>算术平均值</strong>是在<strong>最小二乘意义下误差达到最小</strong></li>
+</ul>
+<h4 id="3-3-3-超定方程组（矛盾方程组）的最小二乘解"><a href="#3-3-3-超定方程组（矛盾方程组）的最小二乘解" class="headerlink" title="3.3.3 超定方程组（矛盾方程组）的最小二乘解"></a>3.3.3 超定方程组（矛盾方程组）的最小二乘解</h4><p><strong>超定方程组</strong>（或称矛盾方程组）即<strong>独立方程个数多余未知数个数</strong>的方程组，解超定方程组的一种方法是采用最小二乘原理求其近似解。</p>
+<p>例如求下列超定方程组的近似解：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+x_1 - x_2 = 1 \\
+-x_1 + x_2 = 2 \\ 
+2x_1 - 2x_2 = 3 \\
+-3x_1 + x_2 = 4
+\end{cases}</script><p>显然，如果方程组中<strong>每个方程的左、右两端</strong>不相等而是近似，则<strong>相差越小，方程组近似解越精确</strong>。为此，记各方程左、右两端之差（即误差）为：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}  
+\delta_1 &= (x_1 - x_2) - 1 \\
+\delta_2 &= (-x_1 + x_2) - 2 \\
+\delta_3 &= (2x_1 - 2x_2) - 3 \\
+\delta_4 &= (-3x_1 + x_2) - 4
+\end{aligned}</script><p>按最小二乘原理，作误差平方和：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+J(x_1, x_2) = \sum_{j=0}^3 \delta_j^2 = &(x_1 - x_2 - 1)^2 + (-x_1 + x_2 - 2)^2 + \\
+&(2x_1 - 2x_2 - 3)^2 + (-3x_1 + x_2 -4)^2
+\end{aligned}</script><p>求最小值，即令</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+\displaystyle{\frac{\partial J}{\partial x_1}} = &2(x_1 - x_2 -1) - 2(-x_1 + x_2 -2) + \\
+&4(2x_1 - 2x_2 - 3) - 6(-3x_1 + x_2 -4) \\
+&=0 \\
+\displaystyle{\frac{\partial J}{\partial x_2}} = &-2(x_1 - x_2 -1) + 2(-x_1 + x_2 -2) - \\
+&4(2x_1 - 2x_2 - 3) + 2(-3x_1 + x_2 -4) \\
+&=0
+\end{cases}</script><p>化简得法方程</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+15x_1 - 9x_2 = -7 \\
+-9x_1 + 7x_2 = -1
+\end{cases}</script><p>解之得超定方程组的近似解 <script type="math/tex">x_1^* = -\displaystyle{\frac{29}{12}} \approx -2.4167</script>，<script type="math/tex">x_2^* = -\displaystyle{\frac{39}{12}} \approx -3.25</script>，它们也称为<strong>超定方程的最小二乘解</strong>。</p>
+<h4 id="3-3-4-法方程的矩阵形式"><a href="#3-3-4-法方程的矩阵形式" class="headerlink" title="3.3.4 法方程的矩阵形式"></a>3.3.4 法方程的矩阵形式</h4><p>一般的，若对数据 $(x_j,f_j),j=0,1,\cdots,m$，取最小二乘拟合模型为</p>
+<script type="math/tex; mode=display">
+s(x) = a_0\varphi_0(x) + a_1\varphi_1(x) + \cdots + a_n\varphi_n(x)</script><p>并引入矩阵 $\pmb{A}$</p>
+<script type="math/tex; mode=display">
+\pmb{A} = 
+\begin{bmatrix}
+\varphi_0(x_0) &\varphi_1(x_0) &\cdots &\varphi_n(x_0) \\
+\varphi_0(x_1) &\varphi_1(x_1) &\cdots &\varphi_n(x_1) \\
+\vdots &\vdots & &\vdots \\
+\varphi_0(x_m) &\varphi_1(x_m) &\cdots &\varphi_n(x_m)
+\end{bmatrix}_{(m+1) \times (n+1)}</script><p>向量 $\pmb{\alpha}=(a_0,a_1,\cdots,a_n)^T$，$\pmb{d}=(f_0,f_1,\cdots,f_m)^T$，则求最小二乘解的法方程的矩阵形式为</p>
+<script type="math/tex; mode=display">
+\pmb{A}^T\pmb{A}\pmb{\alpha}=\pmb{A}^T\pmb{d}</script><div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/03/18/understanding-linux-kernel/">Linux 内核笔记 1：绪论</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-6/">Java 笔记 6：异常、断言和日志</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-5/">Java 笔记 5：集合</a></li><li><a href="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/">5 分钟 Docker 笔记 5：存储</a></li><li><a href="http://www.hui-wang.info/2018/02/04/%E5%BD%B1%E5%93%8D%E5%8A%9B/">影响力</a></li><li><a href="http://www.hui-wang.info/2017/11/25/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E%EF%BC%9A%E4%B8%8D%E8%83%BD%E5%86%8D%E5%87%91%E4%BA%86/">数学之美：不能再凑了</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.519Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/11/21/math-analysis-3/" target="_blank" rel="external">https://abelsu7.top/2018/11/21/math-analysis-3/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数值分析/">数值分析</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书/">读书</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/11/21/math-analysis-3/&title=《数值分析笔记 3：曲线拟合/连续函数逼近》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/11/21/math-analysis-3/&title=《数值分析笔记 3：曲线拟合/连续函数逼近》 — Keep Coding&source=
+最小二乘拟合、法方程的矩阵形式
+
+
+                
+                    
+                    ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/11/21/math-analysis-3/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数值分析笔记 3：曲线拟合/连续函数逼近》 — Keep Coding&url=https://abelsu7.top/2018/11/21/math-analysis-3/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/11/21/math-analysis-3/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/11/22/math-analysis-4/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">数值分析笔记 4：线性代数方程组数值解法——直接法</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/11/19/math-analysis-2/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">数值分析笔记 2：函数插值方法</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/11/21/math-analysis-3/&title=《数值分析笔记 3：曲线拟合/连续函数逼近》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/11/21/math-analysis-3/&title=《数值分析笔记 3：曲线拟合/连续函数逼近》 — Keep Coding&source=
+最小二乘拟合、法方程的矩阵形式
+
+
+                
+                    
+                    ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/11/21/math-analysis-3/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数值分析笔记 3：曲线拟合/连续函数逼近》 — Keep Coding&url=https://abelsu7.top/2018/11/21/math-analysis-3/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/11/21/math-analysis-3/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMUlEQVR42u3aS3LDQAgFQN//0k5Vto6lB8ipBLVWKn/k6VlgBng84uv5fb3ev/vk62deX38eXo9PXBgYGP+WkTzueFnVd99tzYiKgYFxA0YeZJOwmCzleIPytWFgYGAcJ3b5u5Mtw8DAwJgH3DwRPE4lMTAwMI4ZSQJXfSWvjF1QksPAwFjNmDQGPn3/S/0NDAyMP8x4jq9kEfMk8mQNGBgYqxnVlG4y5zA5GEeBGAMDYyljMuBVTeMmg2Inz8TAwFjNyENbXlxLRsR6QbkQ9TEwMBYxegfO6mhFcljtPeft/wYGBsY6Rh5eq2fGPO1LQnDUg8XAwFjKSH4+X0qvAVBtav7Q38DAwFjNSAJutQxXfU4ecDEwMO7JyAPuVZlYng4ma8DAwNjNqLYK8oQvT/6qox6Fb2FgYKxgVAca8uDbe07zWIuBgXEbRm8MYpLA5clilOFiYGCsZvSKX/lG9DbleCMwMDDuw8ivyTBE9ZX86IuBgXEfRlK47xXdeuMX+UH3JM/FwMBYx+gNUvTGLPJvFf4lMDAwbsDoDYHlAXQSXsvZKwYGxjrGJO2rJnD5rzRnRjAwMNYxri3rT8LoqJGJgYGxmlENc8n9J0iXdTkwMDD+LSMJsnnDoHp8Leewx5MjGBgYqxm9IHtVca1XFsTAwMCoMvIEsZcURvVCDAyM2zMmIxfz8H0SpjEwMG7AqLYek0Xkzc4L0kcMDIzVjGpjoFek641r9MZBMDAwFjG+AAuyGQYwLOYMAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+<!-- <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script> -->
+<!-- <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script> -->
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

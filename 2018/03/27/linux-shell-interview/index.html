@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Linux Shell 脚本面试25问 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Linux,Shell,面试">
+    <meta name="description" content="掌握Shell脚本的编写和使用是Linux工程师和运维人员的必备技能，也是企业面试的必考点，以下是一些在面试过程中经常会遇到的Shell脚本面试问题及解答。 Shell脚本是什么，它是必需的吗？一个Shell脚本是一个文本文件，包含一个或多个命令。作为系统管理员，我们经常需要使用多个命令来完成一项任务，我们可以在一个文本文件（Shell）脚本中添加所有这些命令来完成日常工作任务。 什么是默认登录S">
+<meta name="keywords" content="Linux,Shell,面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux Shell 脚本面试25问">
+<meta property="og:url" content="https://abelsu7.top/2018/03/27/linux-shell-interview/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="掌握Shell脚本的编写和使用是Linux工程师和运维人员的必备技能，也是企业面试的必考点，以下是一些在面试过程中经常会遇到的Shell脚本面试问题及解答。 Shell脚本是什么，它是必需的吗？一个Shell脚本是一个文本文件，包含一个或多个命令。作为系统管理员，我们经常需要使用多个命令来完成一项任务，我们可以在一个文本文件（Shell）脚本中添加所有这些命令来完成日常工作任务。 什么是默认登录S">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.510Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux Shell 脚本面试25问">
+<meta name="twitter:description" content="掌握Shell脚本的编写和使用是Linux工程师和运维人员的必备技能，也是企业面试的必考点，以下是一些在面试过程中经常会遇到的Shell脚本面试问题及解答。 Shell脚本是什么，它是必需的吗？一个Shell脚本是一个文本文件，包含一个或多个命令。作为系统管理员，我们经常需要使用多个命令来完成一项任务，我们可以在一个文本文件（Shell）脚本中添加所有这些命令来完成日常工作任务。 什么是默认登录S">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Linux Shell 脚本面试25问</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Linux Shell 脚本面试25问</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-03-27T12:37:37.000Z" itemprop="datePublished" class="page-time">
+  2018-03-27
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Shell/">Shell</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Shell脚本是什么，它是必需的吗？"><span class="post-toc-text">Shell脚本是什么，它是必需的吗？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#什么是默认登录Shell，如何改变指定用户的登录Shell？"><span class="post-toc-text">什么是默认登录Shell，如何改变指定用户的登录Shell？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#可以在Shell脚本中使用哪些类型的变量？"><span class="post-toc-text">可以在Shell脚本中使用哪些类型的变量？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何将标准输出和错误输出同时重定向到同一位置？"><span class="post-toc-text">如何将标准输出和错误输出同时重定向到同一位置？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Shell脚本中if语法如何嵌套？"><span class="post-toc-text">Shell脚本中if语法如何嵌套？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Shell脚本中“-”标记的用途是什么？"><span class="post-toc-text">Shell脚本中“$?”标记的用途是什么？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#在Shell脚本中如何比较两个数字？"><span class="post-toc-text">在Shell脚本中如何比较两个数字？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Shell脚本中break命令的作用？"><span class="post-toc-text">Shell脚本中break命令的作用？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Shell脚本中continue命令的作用？"><span class="post-toc-text">Shell脚本中continue命令的作用？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Shell脚本中case语句的语法？"><span class="post-toc-text">Shell脚本中case语句的语法？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Shell脚本中for循环语法？"><span class="post-toc-text">Shell脚本中for循环语法？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Shell脚本中while循环语法？"><span class="post-toc-text">Shell脚本中while循环语法？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#do-while语句的基本格式？"><span class="post-toc-text">do-while语句的基本格式？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何使脚本可执行？"><span class="post-toc-text">如何使脚本可执行？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#“-bin-bash”的作用？"><span class="post-toc-text">“#!/bin/bash”的作用？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何调试Shell脚本？"><span class="post-toc-text">如何调试Shell脚本？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Shell脚本如何比较字符串？"><span class="post-toc-text">Shell脚本如何比较字符串？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Bourne-Shell（bash）中有哪些特殊的变量？"><span class="post-toc-text">Bourne Shell（bash）中有哪些特殊的变量？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#在Shell脚本中如何测试文件？"><span class="post-toc-text">在Shell脚本中如何测试文件？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#在Shell脚本中如何写入注释？"><span class="post-toc-text">在Shell脚本中如何写入注释？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何让Shell脚本得到来自终端的输入？"><span class="post-toc-text">如何让Shell脚本得到来自终端的输入？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何取消变量或取消变量赋值？"><span class="post-toc-text">如何取消变量或取消变量赋值？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何执行算术运算？"><span class="post-toc-text">如何执行算术运算？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何在Shell脚本中定义函数？"><span class="post-toc-text">如何在Shell脚本中定义函数？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何在-Shell-脚本中使用-BC（bash计算器）？"><span class="post-toc-text">如何在 Shell 脚本中使用 BC（bash计算器）？</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-linux-shell-interview"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Linux Shell 脚本面试25问</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-03-27 20:37:37" datetime="2018-03-27T12:37:37.000Z"  itemprop="datePublished">2018-03-27</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Shell/">Shell</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>掌握<strong>Shell脚本的编写和使用</strong>是Linux工程师和运维人员的必备技能，也是企业面试的必考点，以下是一些在面试过程中经常会遇到的<strong>Shell脚本面试问题及解答</strong>。</p>
+<h3 id="Shell脚本是什么，它是必需的吗？"><a href="#Shell脚本是什么，它是必需的吗？" class="headerlink" title="Shell脚本是什么，它是必需的吗？"></a>Shell脚本是什么，它是必需的吗？</h3><p>一个Shell脚本是一个文本文件，包含一个或多个命令。作为系统管理员，我们经常需要使用多个命令来完成一项任务，我们可以在一个文本文件（Shell）脚本中添加所有这些命令来完成日常工作任务。</p>
+<h3 id="什么是默认登录Shell，如何改变指定用户的登录Shell？"><a href="#什么是默认登录Shell，如何改变指定用户的登录Shell？" class="headerlink" title="什么是默认登录Shell，如何改变指定用户的登录Shell？"></a>什么是默认登录Shell，如何改变指定用户的登录Shell？</h3><p>在Linux操作系统中，<code>/bin/bash</code>是默认登录Shell，在创建用户时分配。使用<code>chsh</code>命令可以改变默认的Shell，如下所示：</p>
+<pre><code class="lang-bash">chsh &lt;用户名&gt; -s &lt;新shell&gt;
+chsh abelsu7 -s /bin/sh
+</code></pre>
+<a id="more"></a>
+<h3 id="可以在Shell脚本中使用哪些类型的变量？"><a href="#可以在Shell脚本中使用哪些类型的变量？" class="headerlink" title="可以在Shell脚本中使用哪些类型的变量？"></a>可以在Shell脚本中使用哪些类型的变量？</h3><p>在Shell脚本中，我们可以使用两种类型的变量：<strong>系统定义变量</strong>和<strong>用户定义变量</strong>。</p>
+<p><strong>系统变量</strong>是由系统自己创建的，这些变量通常由大写字母组成，可通过<code>set</code>命令查看。</p>
+<p><strong>用户变量</strong>是由系统用户生成并定义的，变量的值可以通过命令<code>echo $&lt;变量名&gt;</code>查看。</p>
+<h3 id="如何将标准输出和错误输出同时重定向到同一位置？"><a href="#如何将标准输出和错误输出同时重定向到同一位置？" class="headerlink" title="如何将标准输出和错误输出同时重定向到同一位置？"></a>如何将标准输出和错误输出同时重定向到同一位置？</h3><p>这里有两个方法可以实现：</p>
+<pre><code class="lang-bash"># 方法一 2&gt;&amp;1
+ls /usr/share/doc &gt; out.txt 2&gt;&amp;1
+# 方法二 &amp;&gt;
+ls /usr/share/doc &amp;&gt; out.txt
+</code></pre>
+<h3 id="Shell脚本中if语法如何嵌套？"><a href="#Shell脚本中if语法如何嵌套？" class="headerlink" title="Shell脚本中if语法如何嵌套？"></a>Shell脚本中if语法如何嵌套？</h3><p>基础语法如下：</p>
+<pre><code class="lang-shell">if [ 条件 ]
+  then
+  命令1
+  命令2
+  ...
+else
+  if [ 条件 ]
+    then
+    命令1
+    命令2
+    ...
+    else
+    命令1
+    命令2
+    ...
+  fi
+fi
+</code></pre>
+<h3 id="Shell脚本中“-”标记的用途是什么？"><a href="#Shell脚本中“-”标记的用途是什么？" class="headerlink" title="Shell脚本中“$?”标记的用途是什么？"></a>Shell脚本中“$?”标记的用途是什么？</h3><p>在编写Shell脚本时，如果你想要检查上一条命令是否执行成功，在<code>if</code>条件中使用<code>$?</code>可以来检查上一条命令的结束状态。简单的例子如下：</p>
+<pre class="command-line" data-user="root" data-host="ubuntu" data-output="2,4">
+<code class="language-bash">ls /usr/bin/shuf
+/usr/bin/shuf
+echo $?
+0</code>
+</pre>
+
+<p>如果结束状态是<code>0</code>，说明上一条命令执行成功。</p>
+<pre class="command-line" data-user="root" data-host="ubuntu" data-output="2,4">
+<code class="language-bash">ls /usr/bin/share
+ls: cannot access /usr/bin/share: No such file or directory
+echo $?
+2</code>
+</pre>
+
+<p>如果结束状态不是<code>0</code>，说明执行失败。</p>
+<h3 id="在Shell脚本中如何比较两个数字？"><a href="#在Shell脚本中如何比较两个数字？" class="headerlink" title="在Shell脚本中如何比较两个数字？"></a>在Shell脚本中如何比较两个数字？</h3><p>在<code>if-then</code>中使用测试命令如<code>-gt</code>来比较两个数字：</p>
+<pre><code class="lang-shell">#!/bin/bash
+x=10
+y=20
+if [ $x -gt $y ]
+  then
+  echo &quot;x is greater than y&quot;
+  else
+  echo &quot;y is greater than x&quot;
+fi
+</code></pre>
+<h3 id="Shell脚本中break命令的作用？"><a href="#Shell脚本中break命令的作用？" class="headerlink" title="Shell脚本中break命令的作用？"></a>Shell脚本中break命令的作用？</h3><p><code>break</code>命令一个简单的用途是退出执行中的循环，我们可以在<code>while</code>和<code>until</code>循环中使用<code>break</code>命令跳出循环。</p>
+<h3 id="Shell脚本中continue命令的作用？"><a href="#Shell脚本中continue命令的作用？" class="headerlink" title="Shell脚本中continue命令的作用？"></a>Shell脚本中continue命令的作用？</h3><p><code>continue</code>命令不同于<code>break</code>命令，它只跳出<strong>当前循环的迭代</strong>，而不是整个循环。<code>continue</code>命令很多时候是非常有用的——例如当有错误发生，但我们依然希望执行上层循环时。</p>
+<h3 id="Shell脚本中case语句的语法？"><a href="#Shell脚本中case语句的语法？" class="headerlink" title="Shell脚本中case语句的语法？"></a>Shell脚本中case语句的语法？</h3><p>基础语法如下：</p>
+<pre><code class="lang-shell">case 变量 in
+  值1)
+  命令1
+  命令2
+  ...
+  最后命令
+  !! 
+  值2)
+  命令1
+  命令2
+  ...
+  最后命令
+  ;;
+esac
+</code></pre>
+<h3 id="Shell脚本中for循环语法？"><a href="#Shell脚本中for循环语法？" class="headerlink" title="Shell脚本中for循环语法？"></a>Shell脚本中for循环语法？</h3><p>基础语法如下：</p>
+<pre><code class="lang-shell">for 变量 in 循环列表
+  do
+  命令1
+  命令2
+  ...
+  最后命令
+done
+</code></pre>
+<h3 id="Shell脚本中while循环语法？"><a href="#Shell脚本中while循环语法？" class="headerlink" title="Shell脚本中while循环语法？"></a>Shell脚本中while循环语法？</h3><p>如同<code>for</code>循环，<code>while</code>循环只要条件成立就会重复执行命令块。不同于<code>for</code>循环的是，<code>while</code>循环会不断迭代，直到循环条件不为真。</p>
+<pre><code class="lang-shell">while [ 条件 ] do
+  命令...
+done
+</code></pre>
+<p>例如：</p>
+<pre><code class="lang-shell">COUNTER=0
+while [ $COUNTER -lt 5 ]
+do
+  COUNTER=&#39;expr $COUNTER+1&#39;
+  echo $COUNTER
+done
+</code></pre>
+<h3 id="do-while语句的基本格式？"><a href="#do-while语句的基本格式？" class="headerlink" title="do-while语句的基本格式？"></a>do-while语句的基本格式？</h3><p><code>do-while</code>语句类似于<code>while</code>语句，但检查条件语句之前先执行命令（意即<strong>至少执行一次</strong>）：</p>
+<pre><code class="lang-shell">do 
+{
+  命令
+} while (条件)
+</code></pre>
+<h3 id="如何使脚本可执行？"><a href="#如何使脚本可执行？" class="headerlink" title="如何使脚本可执行？"></a>如何使脚本可执行？</h3><p>使用<code>chmod</code>命令为赋予脚本可执行权限：</p>
+<pre><code class="lang-bash">chmod a+x myscript.sh
+</code></pre>
+<h3 id="“-bin-bash”的作用？"><a href="#“-bin-bash”的作用？" class="headerlink" title="“#!/bin/bash”的作用？"></a>“#!/bin/bash”的作用？</h3><p><code>#!/bin/bash</code>是Shell脚本的第一行,称为<strong>释伴（shebang）</strong>行。这里<code>#</code>符号叫做<strong>hash</strong>，而<code>!</code>叫做<strong>bang</strong>。它的意思是命令通过<code>/bin/bash</code>来执行。</p>
+<h3 id="如何调试Shell脚本？"><a href="#如何调试Shell脚本？" class="headerlink" title="如何调试Shell脚本？"></a>如何调试Shell脚本？</h3><p>使用<code>-x</code>参数可以调试Shell脚本：</p>
+<pre><code class="lang-bash">sh -x myscript.sh
+</code></pre>
+<p>另一种方法是使用<code>-nv</code>参数：</p>
+<pre><code class="lang-bash">sh -nv myscript.sh
+</code></pre>
+<h3 id="Shell脚本如何比较字符串？"><a href="#Shell脚本如何比较字符串？" class="headerlink" title="Shell脚本如何比较字符串？"></a>Shell脚本如何比较字符串？</h3><p><code>test</code>命令可以用来比较字符串，测试命令会通过比较字符串中的每一个字符来进行比较。</p>
+<h3 id="Bourne-Shell（bash）中有哪些特殊的变量？"><a href="#Bourne-Shell（bash）中有哪些特殊的变量？" class="headerlink" title="Bourne Shell（bash）中有哪些特殊的变量？"></a>Bourne Shell（bash）中有哪些特殊的变量？</h3><p>下表列出了<code>bash</code>中为命令行设置的特殊变量：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">内建变量</th>
+<th style="text-align:center">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$0</td>
+<td style="text-align:center">命令行中脚本名称</td>
+</tr>
+<tr>
+<td style="text-align:center">$1</td>
+<td style="text-align:center">第一个命令行参数</td>
+</tr>
+<tr>
+<td style="text-align:center">$2</td>
+<td style="text-align:center">第二个命令行参数</td>
+</tr>
+<tr>
+<td style="text-align:center">…</td>
+<td style="text-align:center">…</td>
+</tr>
+<tr>
+<td style="text-align:center">$9</td>
+<td style="text-align:center">第九个命令行参数</td>
+</tr>
+<tr>
+<td style="text-align:center">$#</td>
+<td style="text-align:center">命令行参数的数量</td>
+</tr>
+<tr>
+<td style="text-align:center">$*</td>
+<td style="text-align:center">所有命令行参数，以空格隔开</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="在Shell脚本中如何测试文件？"><a href="#在Shell脚本中如何测试文件？" class="headerlink" title="在Shell脚本中如何测试文件？"></a>在Shell脚本中如何测试文件？</h3><p><code>test</code>命令也可以用来测试文件。下表列出了基础用法：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">test</th>
+<th style="text-align:center">用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-e &lt;文件名&gt;</td>
+<td style="text-align:center">如果文件存在，返回<strong>true</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">-d &lt;文件名&gt;</td>
+<td style="text-align:center">如果文件存在并且是目录，返回<strong>true</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">-f &lt;文件名&gt;</td>
+<td style="text-align:center">如果文件存在并且是普通文件，返回<strong>true</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">-s &lt;文件名&gt;</td>
+<td style="text-align:center">如果文件存在并且不为空，返回<strong>true</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">-r &lt;文件名&gt;</td>
+<td style="text-align:center">如果文件存在并可读，返回<strong>true</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">-w &lt;文件名&gt;</td>
+<td style="text-align:center">如果文件存在并可写，返回<strong>true</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">-x &lt;文件名&gt;</td>
+<td style="text-align:center">如果文件存在并可执行，返回<strong>true</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="在Shell脚本中如何写入注释？"><a href="#在Shell脚本中如何写入注释？" class="headerlink" title="在Shell脚本中如何写入注释？"></a>在Shell脚本中如何写入注释？</h3><p>注释可以用来描述一个脚本可以做什么和它是如何工作的，每一行注释以<code>#</code>开头：</p>
+<pre><code class="lang-shell">#!/bin/bash
+echo &quot;I am logged in as $USER&quot; # This is a command
+</code></pre>
+<h3 id="如何让Shell脚本得到来自终端的输入？"><a href="#如何让Shell脚本得到来自终端的输入？" class="headerlink" title="如何让Shell脚本得到来自终端的输入？"></a>如何让Shell脚本得到来自终端的输入？</h3><p><code>read</code>命令可以读取来自终端（使用键盘输入）的数据。<code>read</code>命令得到用户的输入并置于给定的变量中：</p>
+<pre class="command-line" data-user="root" data-host="ubuntu" data-output="2-5,7-9">
+<code class="language-bash">vi /tmp/test.sh
+#!/bin/bash
+echo "Please enter your name"
+read name
+echo "My Name is $name"
+./test.sh
+Please enter your name
+abelsu7
+My Name is abelsu7</code>
+</pre>
+
+<h3 id="如何取消变量或取消变量赋值？"><a href="#如何取消变量或取消变量赋值？" class="headerlink" title="如何取消变量或取消变量赋值？"></a>如何取消变量或取消变量赋值？</h3><p><code>unset</code>命令可用于取消变量或取消变量赋值：</p>
+<pre><code class="lang-bash">unset &lt;变量名&gt;
+</code></pre>
+<h3 id="如何执行算术运算？"><a href="#如何执行算术运算？" class="headerlink" title="如何执行算术运算？"></a>如何执行算术运算？</h3><p>可以使用<code>expr</code>命令：</p>
+<pre class="command-line" data-user="root" data-host="ubuntu" data-output="2">
+<code class="language-bash">expr 16 + 4
+20</code>
+</pre>
+
+<p>或使用<code>$[ 表达式 ]</code>:</p>
+<pre class="command-line" data-user="root" data-host="ubuntu" data-output="3">
+<code class="language-bash">test = $[ 16 + 4 ]
+echo $test
+20</code>
+</pre>
+
+<h3 id="如何在Shell脚本中定义函数？"><a href="#如何在Shell脚本中定义函数？" class="headerlink" title="如何在Shell脚本中定义函数？"></a>如何在Shell脚本中定义函数？</h3><p>在Shell中可以通过以下两种语法来定义函数，分别如下：</p>
+<pre><code class="lang-shell">function_name ()
+{
+  statement1
+  statement2
+  ....
+  statementn
+}
+</code></pre>
+<p>或者</p>
+<pre><code class="lang-shell">function function_name()
+{
+  statement1
+  statement2
+  ....
+  statementn
+}
+</code></pre>
+<p>当函数定义好了以后，用户就可以通过函数名来调用该函数，函数调用的基本语法如下：</p>
+<pre><code class="lang-bash">function_name param1 param2 ...
+</code></pre>
+<p>下面定义了一个<code>sayhello()</code>方法，并调用：</p>
+<pre><code class="lang-shell">#!/bin/bash
+function sayhello()
+{
+  echo &quot;Hello,World&quot;
+}
+sayhello
+</code></pre>
+<p>代码调用结果</p>
+<pre class="command-line" data-user="root" data-host="ubuntu" data-output="2">
+<code class="language-bash">sh ./hello.sh
+Hello,World</code>
+</pre>
+
+<h3 id="如何在-Shell-脚本中使用-BC（bash计算器）？"><a href="#如何在-Shell-脚本中使用-BC（bash计算器）？" class="headerlink" title="如何在 Shell 脚本中使用 BC（bash计算器）？"></a>如何在 Shell 脚本中使用 BC（bash计算器）？</h3><p>在Shell脚本中使用<code>bc</code>的语法如下：</p>
+<pre><code class="lang-shell">var = `echo &quot;options; expression&quot; | bc`
+</code></pre>
+<p>例如下面计算<code>1+2+3+...+10</code>的计算结果</p>
+<pre class="command-line" data-user="root" data-host="ubuntu" data-output="2">
+<code class="language-bash">echo $(seq -s "+" 10)=`seq -s "+" 10 | bc`
+1+2+3+4+5+6+7+8+9+10=55</code>
+</pre>
+
+<blockquote>
+<p><strong>参考文章</strong></p>
+<ol>
+<li><a href="https://linux.cn/article-5311-1.html" target="_blank" rel="noopener">Linux Shell脚本面试25问 | Linux中国</a></li>
+<li><a href="https://www.linuxtechi.com/linux-shell-scripting-interview-questions-answers/" target="_blank" rel="noopener">25 Linux Shell Scripting Interview Questions and Anwsers | LinuxTechi</a></li>
+<li><a href="https://www.cnblogs.com/newcaoguo/p/5980913.html" target="_blank" rel="noopener">Linux之Shell算术运算 | cnblogs</a></li>
+<li><a href="http://www.runoob.com/linux/linux-shell-test.html" target="_blank" rel="noopener">Shell test命令 | 菜鸟教程</a></li>
+<li><a href="https://blog.csdn.net/waitig1992/article/details/52526579" target="_blank" rel="noopener">Linux Shell系列教程之（十一）Shell while循环 | CSDN</a></li>
+<li><a href="http://smilejay.com/2012/03/linux_shebang/" target="_blank" rel="noopener">LINUX上的SHEBANG符号(#!) | 笑遍世界</a></li>
+<li><a href="https://blog.csdn.net/shuanghujushi/article/details/51405347" target="_blank" rel="noopener">Linux Shell编程学习——test测试比较命令 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/zbw18297786698/article/details/77802037" target="_blank" rel="noopener">Shell中函数的定义和使用 | CSDN</a></li>
+<li><a href="https://www.cnblogs.com/f-ck-need-u/p/7231870.html" target="_blank" rel="noopener">Shell脚本——数学运算和bc命令 | cnblogs</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/10/23/go-exec-shell-command/">Go 语言使用 os/exec 执行 Shell 命令</a></li><li><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7 安装配置 NFS</a></li><li><a href="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/">Linux 系统常用监控命令</a></li><li><a href="https://abelsu7.top/2019/07/28/2019-autumn-offer/">2020 届互联网秋季校园招聘汇总 (2019年秋)</a></li><li><a href="http://ashin.wang/linux-basic/">Linux基础笔记</a></li><li><a href="https://wiki.hushhw.cn/posts/6fbc30d9.html">虚拟机 VMware 中安装 Ubuntu 操作系统</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.510Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/03/27/linux-shell-interview/" target="_blank" rel="external">https://abelsu7.top/2018/03/27/linux-shell-interview/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/面试/">面试</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/03/27/linux-shell-interview/&title=《Linux Shell 脚本面试25问》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/03/27/linux-shell-interview/&title=《Linux Shell 脚本面试25问》 — Keep Coding&source=掌握Shell脚本的编写和使用是Linux工程师和运维人员的必备技能，也是企业面试的必考点，以下是一些在面试过程中经常会遇到的Shell脚本面试问题及解答..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/03/27/linux-shell-interview/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux Shell 脚本面试25问》 — Keep Coding&url=https://abelsu7.top/2018/03/27/linux-shell-interview/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/03/27/linux-shell-interview/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/03/28/o-captain-my-captain/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">《死亡诗社》诗歌赏析</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/03/19/wordcloud2/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">HTML5 词云 wordcloud2.js 初体验</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/03/27/linux-shell-interview/&title=《Linux Shell 脚本面试25问》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/03/27/linux-shell-interview/&title=《Linux Shell 脚本面试25问》 — Keep Coding&source=掌握Shell脚本的编写和使用是Linux工程师和运维人员的必备技能，也是企业面试的必考点，以下是一些在面试过程中经常会遇到的Shell脚本面试问题及解答..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/03/27/linux-shell-interview/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux Shell 脚本面试25问》 — Keep Coding&url=https://abelsu7.top/2018/03/27/linux-shell-interview/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/03/27/linux-shell-interview/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJUlEQVR42u3a0Y7CMAwEQP7/p3uvSEfLbgJITaZPqFc1HpBytuPHI76Of1d+//nO2V+v73/swsDAuC3juLyuw00w16u0X9MpFQMDYwPG2Q428znnJeu+iRkDAwMjSPvyBDGHYWBgYMwzxpa8fhIDAwNjpohNFp6h/qgWx8DAuCEj77r//vNXzjcwMDBuxTjK63th5Zvsi6gwMDCWZrTLtEeVebjtsAUGBsY+jPal7WjXWLs/ac+d/g4YGBjLMa4fau/XO/1EkfzmN8HAwFiaMRNim97lJWuyLgYGxqqMNuh82DRPIvO1iiocAwNjaUY++pAs0O79bSGNgYGxD+Oz2+5MgZps6C/egIGBsTRjbLghLzjzojRvxr1JEDEwMJZjjKVxY6MVY7C6iMXAwFiacQ1LBkyT7ftTjTkMDIx9GPlWmCd2bSGat9WK4TAMDIzlGHkCN9bib8vdvIWHgYGxA6MNtD3gTBLHoi849r8CAwPj5oz6DKFM+MYK0bGyFgMDY23G/GHk2MaaNN2KwwMMDIyNGW2ISejt26JNHAMDYxtG2z7LE8GxZ5LEEQMDY23GUV7tOEUe6ExaiYGBsTaj3eZmUrf8DXnoNQYDA+O2jHwD/Ubyl7T26m8aAwNjUUZR9ZaHi3kLbyZaDAwMjOgQcaLUHBsyw8DAwGg33GQwoi1ci7UwMDA2YMyMXMyUo2M8DAyM3RgzkxptG66F5YeaGBgYizL+AL+V+giyONsmAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

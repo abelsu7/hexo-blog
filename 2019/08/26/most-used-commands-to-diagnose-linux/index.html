@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Linux 系统常用监控命令 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Linux,运维,监控命令">
+    <meta name="description" content="Linux 系统常用监控命令总结">
+<meta name="keywords" content="Linux,运维,监控命令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 系统常用监控命令">
+<meta property="og:url" content="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="Linux 系统常用监控命令总结">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/cover.jpeg">
+<meta property="og:updated_time" content="2019-11-05T03:30:37.652Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux 系统常用监控命令">
+<meta name="twitter:description" content="Linux 系统常用监控命令总结">
+<meta name="twitter:image" content="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/cover.jpeg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Linux 系统常用监控命令</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Linux 系统常用监控命令</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-08-26T10:10:33.000Z" itemprop="datePublished" class="page-time">
+  2019-08-26
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-CPU"><span class="post-toc-text">1. CPU</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-1-steal-time"><span class="post-toc-text">1.1 steal time</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-内存"><span class="post-toc-text">2. 内存</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-free"><span class="post-toc-text">2.1 free</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#各行数据含义"><span class="post-toc-text">各行数据含义</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#缓存-cache"><span class="post-toc-text">缓存 cache</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#缓冲区-buffer"><span class="post-toc-text">缓冲区 buffer</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#交换分区-swap"><span class="post-toc-text">交换分区 swap</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#cache-和-buffer-的区别"><span class="post-toc-text">cache 和 buffer 的区别</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-vmstat"><span class="post-toc-text">2.2 vmstat</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#procs"><span class="post-toc-text">procs</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#memory"><span class="post-toc-text">memory</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#swap"><span class="post-toc-text">swap</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#io"><span class="post-toc-text">io</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#system"><span class="post-toc-text">system</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#cpu"><span class="post-toc-text">cpu</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-网络"><span class="post-toc-text">3. 网络</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-接口"><span class="post-toc-text">3.1 接口</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-端口"><span class="post-toc-text">3.2 端口</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-3-tcpdump"><span class="post-toc-text">3.3 tcpdump</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-I-O-性能"><span class="post-toc-text">4. I/O 性能</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-进程"><span class="post-toc-text">5. 进程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-1-top"><span class="post-toc-text">5.1 top</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-2-lsof"><span class="post-toc-text">5.2 lsof</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-性能测试"><span class="post-toc-text">6. 性能测试</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-用户"><span class="post-toc-text">7. 用户</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8-系统状态"><span class="post-toc-text">8. 系统状态</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#9-硬件设备"><span class="post-toc-text">9. 硬件设备</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#10-文件系统"><span class="post-toc-text">10. 文件系统</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#11-内核、中断"><span class="post-toc-text">11. 内核、中断</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#12-系统日志、内核日志"><span class="post-toc-text">12. 系统日志、内核日志</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#13-cron-定时任务"><span class="post-toc-text">13. cron 定时任务</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#14-调试工具"><span class="post-toc-text">14. 调试工具</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#14-1-perf"><span class="post-toc-text">14.1 perf</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#14-2-strace"><span class="post-toc-text">14.2 strace</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#14-3-ltrace"><span class="post-toc-text">14.3 ltrace</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#15-场景案例"><span class="post-toc-text">15. 场景案例</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#场景-1：连上服务器之后"><span class="post-toc-text">场景 1：连上服务器之后</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#场景-2：-proc-目录有哪些信息"><span class="post-toc-text">场景 2：/proc 目录有哪些信息</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#场景-3：后台执行命令"><span class="post-toc-text">场景 3：后台执行命令</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一些命令"><span class="post-toc-text">一些命令</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#部分资源"><span class="post-toc-text">部分资源</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#复习文章"><span class="post-toc-text">复习文章</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#系统负载"><span class="post-toc-text">系统负载</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#调试工具"><span class="post-toc-text">调试工具</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-most-used-commands-to-diagnose-linux"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Linux 系统常用监控命令</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-08-26 18:10:33" datetime="2019-08-26T10:10:33.000Z"  itemprop="datePublished">2019-08-26</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>Linux 系统常用监控命令总结</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/08/26/most-used-commands-to-diagnose-linux/cover.jpeg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<p><strong><em>To be updated…</em></strong></p>
+<blockquote>
+<p>排查 Linux 问题方法以及常用命令)</p>
+</blockquote>
+<h3 id="1-CPU"><a href="#1-CPU" class="headerlink" title="1. CPU"></a>1. CPU</h3><pre><code class="lang-bash">cat /proc/cpuinfo
+# 物理 CPU 个数
+cat /proc/cpuinfo | grep &#39;physical id&#39; | sort | uniq | wc -l
+# 每个 CPU 核心数
+cat /proc/cpuinfo | grep &#39;core id&#39; | sort | uniq | wc -l
+# 逻辑 CPU
+cat /proc/cpuinfo | grep &#39;processor&#39; | sort | uniq | wc -l
+# mpstat
+mpstat
+mpstat 2 10
+</code></pre>
+<h4 id="1-1-steal-time"><a href="#1-1-steal-time" class="headerlink" title="1.1 steal time"></a>1.1 steal time</h4><ul>
+<li><a href="https://blog.csdn.net/jessysong/article/details/73571878" target="_blank" rel="noopener">理解 CPU steal time - Jessysong | CSDN</a></li>
+<li><a href="https://www.cnblogs.com/menkeyi/p/6732020.html" target="_blank" rel="noopener">理解 CPU steal time | MKY-技术驿站</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/33293033" target="_blank" rel="noopener">谁偷走了我的云主机 CPU 时间：理解 CPU Steal Time | 知乎</a></li>
+</ul>
+<h3 id="2-内存"><a href="#2-内存" class="headerlink" title="2. 内存"></a>2. 内存</h3><pre><code class="lang-bash">cat /proc/meminfo
+free -gt
+df -hT
+du -csh ./*
+</code></pre>
+<p>操作系统 IPC 共享内存/队列：</p>
+<pre><code class="lang-bash">ipcs #(shmems, queues, semaphores)
+</code></pre>
+<p>平时我们经常需要监控内存的使用状态，常用的命令有<code>free</code>、<code>vmstat</code>、<code>top</code>、<code>dstat -m</code>等。</p>
+<h4 id="2-1-free"><a href="#2-1-free" class="headerlink" title="2.1 free"></a>2.1 free</h4><p>推荐阅读： </p>
+<ol>
+<li><a href="https://cizixs.com/2015/10/01/linux-memory-management-through-free/" target="_blank" rel="noopener">通过 free 命令理解 Linux 内存管理 | Cizixs</a></li>
+<li><a href="https://www.cnblogs.com/chenpingzhao/p/5161844.html" target="_blank" rel="noopener">free 命令中 cached 和 buffers 的区别 - 踏雪无痕 | 博客园</a></li>
+</ol>
+<pre><code class="lang-bash">&gt; free -h
+             total       used       free     shared    buffers     cached
+Mem:          7.7G       6.2G       1.5G        17M        33M       184M
+-/+ buffers/cache:       6.0G       1.7G
+Swap:          24G       581M        23G
+</code></pre>
+<h5 id="各行数据含义"><a href="#各行数据含义" class="headerlink" title="各行数据含义"></a>各行数据含义</h5><p>第一行<code>Mem</code>：</p>
+<ul>
+<li><code>total</code>：内存总数<code>7.7G</code>，<strong>物理内存大小</strong>，就是机器实际的内存</li>
+<li><code>used</code>：<strong>已使用内存</strong><code>6.2G</code>，这个值包括了<code>cached</code>和应用程序实际使用的内存</li>
+<li><code>free</code>：<strong>空闲的内存</strong><code>1.5G</code>，未被使用的内存大小</li>
+<li><code>shared</code>：<strong>共享内存</strong>的大小，<code>17M</code></li>
+<li><code>buffers</code>：被<strong>缓冲区</strong>占用的内存大小，<code>33M</code></li>
+<li><code>cached</code>：被<strong>缓存</strong>占用的内存大小，<code>184M</code></li>
+</ul>
+<p>其中有：</p>
+<pre><code class="lang-c">total = used + free
+</code></pre>
+<p>第二行<code>-/+ buffers/cache</code>，代表<strong>应用程序实际使用的内存</strong>：</p>
+<ul>
+<li>前一个值表示<code>used - buffers/cached</code>，表示<strong>应用程序实际使用的内存</strong></li>
+<li>后一个值表示<code>free + buffers/cached</code>，表示<strong>理论上都可以被使用的内存</strong></li>
+</ul>
+<blockquote>
+<p>可以看到，这两个值加起来也是<code>total</code></p>
+</blockquote>
+<p>第三行<code>swap</code>，代表<strong>交换分区的使用情况</strong>：总量、使用的和未使用的</p>
+<h5 id="缓存-cache"><a href="#缓存-cache" class="headerlink" title="缓存 cache"></a>缓存 cache</h5><p><code>cache</code><strong>代表缓存</strong>，当系统<strong>读取文件</strong>时，会先<strong>把数据从硬盘读到内存里</strong>，因为硬盘比内存慢很多，所以这个过程会很耗时。</p>
+<p>为了提高效率，Linux 会把读进来的文件<strong>在内存中缓存下来</strong>（局部性原理），即使程序结束，cache 也不会被自动释放。因此，当有程序进行大量的读文件操作时，就会发现内存使用率升高了。</p>
+<p>当其他程序需要使用内存时，Linux 会根据自己的缓存策略（例如 LRU）将这些没人使用的 cache 释放掉，给其他程序使用，当然也可以手动释放缓存：</p>
+<pre><code class="lang-bash">echo 1 &gt; /proc/sys/vm/drop_caches
+</code></pre>
+<h5 id="缓冲区-buffer"><a href="#缓冲区-buffer" class="headerlink" title="缓冲区 buffer"></a>缓冲区 buffer</h5><p>考虑<strong>内存写文件到硬盘</strong>的场景，因为硬盘太慢了，如果内存要等待数据写完了之后才继续后面的操作，效率会非常低，也会影响程序的运行速度，所以就有了<strong>缓冲区</strong><code>buffer</code>。</p>
+<p>当内存需要写数据到硬盘中时会先放到 buffer 里面，内存很快把数据写到 buffer 中，可以继续其他工作，而硬盘可以在后台慢慢读出 buffer 中的数据并保存起来，这样就提高了读写的效率。</p>
+<blockquote>
+<p>例如把电脑中的文件拷贝到 U 盘时，如果文件特别大，有时会出现这样的情况：明明看到文件已经拷贝完，但系统还是会提示 U 盘正在使用中。这就是 buffer 的原因：拷贝程序虽然已经把数据放到 buffer 中，但是还没有全部写入到 U 盘中</p>
+</blockquote>
+<p>同样的，可以使用<code>sync</code>命令来手动<code>flush buffer</code>中的内容：</p>
+<pre><code class="lang-bash">&gt; sync --help
+
+Usage: sync [OPTION] [FILE]...
+Synchronize cached writes to persistent storage
+
+If one or more files are specified, sync only them,
+or their containing file systems.
+
+  -d, --data             sync only file data, no unneeded metadata
+  -f, --file-system      sync the file systems that contain the files
+      --help     display this help and exit
+      --version  output version information and exit
+
+GNU coreutils online help: &lt;http://www.gnu.org/software/coreutils/&gt;
+Full documentation at: &lt;http://www.gnu.org/software/coreutils/sync&gt;
+or available locally via: info &#39;(coreutils) sync invocation&#39;
+</code></pre>
+<h5 id="交换分区-swap"><a href="#交换分区-swap" class="headerlink" title="交换分区 swap"></a>交换分区 swap</h5><p><strong>交换分区</strong><code>swap</code>是实现虚拟内存的重要概念。<code>swap</code>就是把硬盘上的一部分空间当作内存来使用，正在运行的程序会使用物理内存，把未使用的内存放到硬盘，叫做<code>swap out</code>。而把硬盘交换分区中的内存重新放到物理内存中，叫做<code>swap in</code>。</p>
+<p>交换分区可以在逻辑上扩大内存空间，但是也会拖慢系统速度，因为硬盘的读写速度很慢。Linux 系统会将不经常使用的内存放到交换分区中。</p>
+<h5 id="cache-和-buffer-的区别"><a href="#cache-和-buffer-的区别" class="headerlink" title="cache 和 buffer 的区别"></a>cache 和 buffer 的区别</h5><ul>
+<li><code>cache</code>：作为<code>page cache</code>的内存，是<strong>文件系统的缓存</strong>，在文件层面上的数据会缓存到<code>page cache</code>中</li>
+<li><code>buffer</code>：作为<code>buffer cache</code>的内存，是<strong>磁盘块的缓存</strong>，直接对磁盘进行操作的数据会缓存到 buffer cache 中</li>
+</ul>
+<p>简单来说：<code>page cache</code><strong>用来缓存文件数据</strong>，<code>buffer cache</code><strong>用来缓存磁盘数据</strong>。在有文件系统的情况下，对文件操作，那么数据会缓存到<code>page cache</code>中。如果直接采用<code>dd</code>等工具对磁盘进行读写，那么数据会缓存到<code>buffer cache</code>中。</p>
+<h4 id="2-2-vmstat"><a href="#2-2-vmstat" class="headerlink" title="2.2 vmstat"></a>2.2 vmstat</h4><p><strong>vmstat (Virtual Memory Statics，虚拟内存统计)</strong> 是对系统的整体情况进行统计，包括<strong>内核进程、虚拟内存、磁盘、中断</strong>和 <strong>CPU 活动</strong>的统计信息：</p>
+<pre><code class="lang-bash">&gt; vmstat --help
+
+Usage:
+ vmstat [options] [delay [count]]
+
+Options:
+ -a, --active           active/inactive memory
+ -f, --forks            number of forks since boot
+ -m, --slabs            slabinfo
+ -n, --one-header       do not redisplay header
+ -s, --stats            event counter statistics
+ -d, --disk             disk statistics
+ -D, --disk-sum         summarize disk statistics
+ -p, --partition &lt;dev&gt;  partition specific statistics
+ -S, --unit &lt;char&gt;      define display unit
+ -w, --wide             wide output
+ -t, --timestamp        show timestamp
+
+ -h, --help     display this help and exit
+ -V, --version  output version information and exit
+
+For more details see vmstat(8).
+
+&gt; vmstat -SM 1 100 # 1 表示刷新间隔(秒)，100 表示打印次数，单位 MB
+
+procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
+ 1  0      0    470    188   1154    0    0     0     4    3    0  0  0 99  0  0
+ 0  0      0    470    188   1154    0    0     0     0  112  231  1  1 98  0  0
+ 0  0      0    470    188   1154    0    0     0     0   91  176  0  0 100  0  0
+ 0  0      0    470    188   1154    0    0     0     0  118  229  1  0 99  0  0
+ 0  0      0    470    188   1154    0    0     0     0   78  156  0  0 100  0  0
+ 0  0      0    470    188   1154    0    0     0    64   84  186  0  1 97  2  0
+</code></pre>
+<h5 id="procs"><a href="#procs" class="headerlink" title="procs"></a>procs</h5><ul>
+<li><code>r</code>列：表示<strong>运行和等待 CPU 时间片的进程数</strong>，这个值如果长期大于 CPU 个数，就说明 CPU 资源不足，可以考虑增加 CPU</li>
+<li><code>b</code>列：表示<strong>在等待资源的进程数</strong>，例如正在等待 I/O 或者内存交换</li>
+</ul>
+<h5 id="memory"><a href="#memory" class="headerlink" title="memory"></a>memory</h5><ul>
+<li><code>swpn</code>列：表示<strong>切换到交换分区的内存大小</strong>，如果<code>swpd</code>的值不为 0 或者比较大，且<code>si</code>、<code>so</code>的值长期为 0，那么这种情况暂时不会影响系统性能</li>
+<li><code>free</code>列：当前<strong>空闲的物理内存大小</strong></li>
+<li><code>buff</code>列：表示<code>buffers cache</code><strong>的内存大小</strong>，一般对<strong>块设备的读写</strong>才需要缓冲</li>
+<li><code>cache</code>列：表示<code>page cache</code><strong>的内存大小</strong>，一般作为<strong>文件系统的缓存</strong>，频繁访问的文件都会被 cached。如果 cache 值比较大，就说明 cached 文件数量较多。如果此时 I/O 中的<code>bi</code>比较小，就说明文件系统效率比较好</li>
+</ul>
+<h5 id="swap"><a href="#swap" class="headerlink" title="swap"></a>swap</h5><ul>
+<li><code>si</code>列：表示<code>swap in</code>，即内存由交换分区放入物理内存中</li>
+<li><code>so</code>列：表示<code>swap out</code>，即将未使用的内存放到硬盘的交换分区中</li>
+</ul>
+<h5 id="io"><a href="#io" class="headerlink" title="io"></a>io</h5><ul>
+<li><code>bi</code>列：表示从块设备读取的数据总量，即读磁盘，单位<code>KB/s</code></li>
+<li><code>bo</code>列：表示写入块设备的数据总量，即写磁盘，单位<code>KB/s</code></li>
+</ul>
+<blockquote>
+<p>这里设置的<code>bi+bo</code>参考值为<code>1000</code>，如果超过<code>1000</code>，且<code>wa</code>值比较大，则表示系统磁盘 I/O 性能瓶颈</p>
+</blockquote>
+<h5 id="system"><a href="#system" class="headerlink" title="system"></a>system</h5><ul>
+<li><code>in</code>列：表示在某一时间间隔中观察到的每秒设备中断数</li>
+<li><code>cs</code>列：表示每秒产生的上下文切换次数</li>
+</ul>
+<blockquote>
+<p>上面这两个值越大，内核消耗的 CPU 时间就越多</p>
+</blockquote>
+<h5 id="cpu"><a href="#cpu" class="headerlink" title="cpu"></a>cpu</h5><ul>
+<li><code>us</code>列：表示用户进程消耗 CPU 的时间百分比。<code>us</code>值比较高时，说明用户进程消耗的 CPU 时间多，如果长期大于 50%，可以考虑优化程序</li>
+<li><code>sy</code>列：表示内核进程消耗 CPU 的时间百分比。<code>sy</code>值比较高时，说明内核消耗的 CPU 时间多，如果<code>us+sy</code>超过 80%，就说明 CPU 资源存在不足</li>
+<li><code>id</code>列：表示 CPU 处在空闲状态的时间百分比</li>
+<li><code>wa</code>列：表示 I/O Wait 所占 CPU 的时间百分比。<code>wa</code>值越高，说明 I/O Wait 越严重。如果<code>wa</code>值超过 20%，说明 I/O Wait 严重</li>
+<li><code>st</code>列：表示 CPU Steal Time，针对虚拟机</li>
+</ul>
+<h3 id="3-网络"><a href="#3-网络" class="headerlink" title="3. 网络"></a>3. 网络</h3><h4 id="3-1-接口"><a href="#3-1-接口" class="headerlink" title="3.1 接口"></a>3.1 接口</h4><pre><code class="lang-bash">ifconfig
+iftop
+ethtool
+</code></pre>
+<h4 id="3-2-端口"><a href="#3-2-端口" class="headerlink" title="3.2 端口"></a>3.2 端口</h4><pre><code class="lang-bash"># 端口
+netstat -ntlp # TCP
+netstat -nulp # UDP
+netstat -nxlp # UNIX
+netstat -nalp # 不仅展示监听端口，还展示其他阶段的连接
+lsof -p &lt;PID&gt; -P
+lsof -i :5900
+sar -n DEV 1  # 网络流量
+ss
+ss -s
+</code></pre>
+<h4 id="3-3-tcpdump"><a href="#3-3-tcpdump" class="headerlink" title="3.3 tcpdump"></a>3.3 tcpdump</h4><pre><code class="lang-bash">sudo tcpdump -i any udp port 20112 and ip[0x1f:02]=0x4e91 -XNnvvv
+sudo tcpdump -i any -XNnvvv
+sudo tcpdump -i any udp -XNnvvv
+sudo tcpdump -i any udp port 20112 -XNnvvv
+sudo tcpdump -i any udp port 20112 and ip[0x1f:02]=0x4e91 -XNnvvv
+</code></pre>
+<h3 id="4-I-O-性能"><a href="#4-I-O-性能" class="headerlink" title="4. I/O 性能"></a>4. I/O 性能</h3><pre><code class="lang-bash">iotop
+iostat
+iostat -kx 2
+vmstat -SM
+vmstat 2 10
+dstat
+dstat --top-io --top-bio
+</code></pre>
+<h3 id="5-进程"><a href="#5-进程" class="headerlink" title="5. 进程"></a>5. 进程</h3><pre><code class="lang-bash">top
+top -H
+htop
+ps auxf
+ps -eLf # 展示线程
+ls /proc/&lt;PID&gt;/task
+</code></pre>
+<h4 id="5-1-top"><a href="#5-1-top" class="headerlink" title="5.1 top"></a>5.1 top</h4><p>例如最常用的<code>top</code>命令：</p>
+<pre><code class="lang-bash">Help for Interactive Commands - procps version 3.2.8
+Window 1:Def: Cumulative mode Off.  System: Delay 3.0 secs; Secure mode Off.
+
+  Z,B       Global: &#39;Z&#39; change color mappings; &#39;B&#39; disable/enable bold
+  l,t,m     Toggle Summaries: &#39;l&#39; load avg; &#39;t&#39; task/cpu stats; &#39;m&#39; mem info
+  1,I       Toggle SMP view: &#39;1&#39; single/separate states; &#39;I&#39; Irix/Solaris mode
+
+  f,o     . Fields/Columns: &#39;f&#39; add or remove; &#39;o&#39; change display order
+  F or O  . Select sort field
+  &lt;,&gt;     . Move sort field: &#39;&lt;&#39; next col left; &#39;&gt;&#39; next col right
+  R,H     . Toggle: &#39;R&#39; normal/reverse sort; &#39;H&#39; show threads
+  c,i,S   . Toggle: &#39;c&#39; cmd name/line; &#39;i&#39; idle tasks; &#39;S&#39; cumulative time
+  x,y     . Toggle highlights: &#39;x&#39; sort field; &#39;y&#39; running tasks
+  z,b     . Toggle: &#39;z&#39; color/mono; &#39;b&#39; bold/reverse (only if &#39;x&#39; or &#39;y&#39;)
+  u       . Show specific user only
+  n or #  . Set maximum tasks displayed
+
+  k,r       Manipulate tasks: &#39;k&#39; kill; &#39;r&#39; renice
+  d or s    Set update interval
+  W         Write configuration file
+  q         Quit
+          ( commands shown with &#39;.&#39; require a visible task display window ) 
+Press &#39;h&#39; or &#39;?&#39; for help with Windows,
+any other key to continue
+</code></pre>
+<ul>
+<li><code>1</code>: 显示各个 CPU 的使用情况</li>
+<li><code>c</code>: 显示进程完整路径</li>
+<li><code>H</code>: 显示线程</li>
+<li><code>P</code>: 排序 - CPU 使用率</li>
+<li><code>M</code>: 排序 - 内存使用率</li>
+<li><code>R</code>: 倒序</li>
+<li><code>Z</code>: Change color mappings</li>
+<li><code>B</code>: Disable/enable bold</li>
+<li><code>l</code>: Toggle load avg</li>
+<li><code>t</code>: Toggle task/cpu stats</li>
+<li><code>m</code>: Toggle mem info</li>
+</ul>
+<pre><code class="lang-bash">us - Time spent in user space
+sy - Time spent in kernel space
+ni - Time spent running niced user processes (User defined priority)
+id - Time spent in idle operations
+wa - Time spent on waiting on IO peripherals (eg. disk)
+hi - Time spent handling hardware interrupt routines. (Whenever a peripheral unit want attention form the CPU, it literally pulls a line, to signal the CPU to service it)
+si - Time spent handling software interrupt routines. (a piece of code, calls an interrupt routine...)
+st - Time spent on involuntary waits by virtual cpu while hypervisor is servicing another processor (stolen from a virtual machine)
+</code></pre>
+<h4 id="5-2-lsof"><a href="#5-2-lsof" class="headerlink" title="5.2 lsof"></a>5.2 lsof</h4><pre><code class="lang-bash">lsof -P -p 123
+</code></pre>
+<h3 id="6-性能测试"><a href="#6-性能测试" class="headerlink" title="6. 性能测试"></a>6. 性能测试</h3><pre><code class="lang-bash">stress --cpu 8 \
+       --io 4  \
+       --vm 2  \
+       --vm-bytes 128M \
+       --timeout 60s
+</code></pre>
+<p><code>time</code>命令</p>
+<h3 id="7-用户"><a href="#7-用户" class="headerlink" title="7. 用户"></a>7. 用户</h3><pre><code class="lang-bash">w
+whoami
+</code></pre>
+<h3 id="8-系统状态"><a href="#8-系统状态" class="headerlink" title="8. 系统状态"></a>8. 系统状态</h3><pre><code class="lang-bash">uptime
+htop
+vmstat
+mpstat
+dstat
+</code></pre>
+<h3 id="9-硬件设备"><a href="#9-硬件设备" class="headerlink" title="9. 硬件设备"></a>9. 硬件设备</h3><pre><code class="lang-bash">lspci
+lscpu
+lsblk
+lsblk -fm # 显示文件系统、权限
+lshw -c display
+dmidecode
+</code></pre>
+<h3 id="10-文件系统"><a href="#10-文件系统" class="headerlink" title="10. 文件系统"></a>10. 文件系统</h3><pre><code class="lang-bash"># 挂载
+mount
+umount
+cat /etc/fstab
+# LVM
+pvdisplay
+pvs
+lvdisplay
+lvs
+vgdisplay
+vgs
+df -hT
+lsof
+</code></pre>
+<h3 id="11-内核、中断"><a href="#11-内核、中断" class="headerlink" title="11. 内核、中断"></a>11. 内核、中断</h3><pre><code class="lang-bash">cat /proc/modules
+sysctl -a | grep ...
+cat /proc/interrupts
+</code></pre>
+<h3 id="12-系统日志、内核日志"><a href="#12-系统日志、内核日志" class="headerlink" title="12. 系统日志、内核日志"></a>12. 系统日志、内核日志</h3><pre><code class="lang-bash">dmesg
+less /var/log/messages
+less /var/log/secure
+less /var/log/auth
+</code></pre>
+<h3 id="13-cron-定时任务"><a href="#13-cron-定时任务" class="headerlink" title="13. cron 定时任务"></a>13. cron 定时任务</h3><pre><code class="lang-bash">crontab -l
+crontab -l -u nobody
+ # 查看所有用户的cron
+sudo find /var/spool/cron/ | sudo xargs cat
+</code></pre>
+<h3 id="14-调试工具"><a href="#14-调试工具" class="headerlink" title="14. 调试工具"></a>14. 调试工具</h3><h4 id="14-1-perf"><a href="#14-1-perf" class="headerlink" title="14.1 perf"></a>14.1 perf</h4><h4 id="14-2-strace"><a href="#14-2-strace" class="headerlink" title="14.2 strace"></a>14.2 strace</h4><p><code>strace</code>命令用于<strong>打印系统调用、信号</strong>：</p>
+<pre><code class="lang-bash">strace -p
+strace -p 5191 -f
+strace -e trace=signal -p 5191
+
+-e trace=open
+-e trace=file
+-e trace=process
+-e trace=network
+-e trace=signal
+-e trace=ipc
+-e trace=desc
+-e trace=memory
+</code></pre>
+<h4 id="14-3-ltrace"><a href="#14-3-ltrace" class="headerlink" title="14.3 ltrace"></a>14.3 ltrace</h4><p><code>ltrace</code>命令用于打印动态链接库访问：</p>
+<pre><code class="lang-bash">ltrace -p &lt;PID&gt;
+ltrace -S # syscall
+</code></pre>
+<h3 id="15-场景案例"><a href="#15-场景案例" class="headerlink" title="15. 场景案例"></a>15. 场景案例</h3><h4 id="场景-1：连上服务器之后"><a href="#场景-1：连上服务器之后" class="headerlink" title="场景 1：连上服务器之后"></a>场景 1：连上服务器之后</h4><pre><code class="lang-bash">w       # 显示当前登录的用户、登录 IP、正在执行的进程等
+last    # 看看最近谁登录了服务器、服务器重启时间
+uptime  # 开机时间、登录用户、平均负载
+history # 查看历史命令
+</code></pre>
+<h4 id="场景-2：-proc-目录有哪些信息"><a href="#场景-2：-proc-目录有哪些信息" class="headerlink" title="场景 2：/proc 目录有哪些信息"></a>场景 2：/proc 目录有哪些信息</h4><pre><code class="lang-bash">cat /proc/...
+
+cgroups
+cmdline
+cpuinfo
+crypto
+devices
+diskstats
+filesystems
+iomem
+ioports
+kallsyms
+meminfo
+modules
+partitions
+uptime
+version
+vmstat
+</code></pre>
+<h4 id="场景-3：后台执行命令"><a href="#场景-3：后台执行命令" class="headerlink" title="场景 3：后台执行命令"></a>场景 3：后台执行命令</h4><pre><code class="lang-bash">nohup &lt;command&gt; &amp;&gt;[some.log] &amp;
+</code></pre>
+<h3 id="一些命令"><a href="#一些命令" class="headerlink" title="一些命令"></a>一些命令</h3><pre><code class="lang-bash"># 综合
+top
+htop 
+glances
+dstat &amp; sar
+mpstat
+# 性能分析
+perf
+# 进程
+ps
+pstree -p
+pgrep
+pkill
+pidof
+Ctrl+z &amp; jobs &amp; fg
+# 网络
+ip
+ifconfig
+dig
+ping
+traceroute
+iftop 
+pingtop 
+nload
+netstat
+vnstat
+slurm
+scp
+tcpdump
+# 磁盘 I/O
+iotop 
+iostat
+# 虚拟机
+virt-top
+# 用户
+w
+whoami
+# 运行时间
+uptime
+# 磁盘
+du
+df
+lsblk
+# 权限
+chown
+chmod
+# 服务
+systemctl list-unit-files
+# 定位
+find
+locate
+# 性能测试
+time
+</code></pre>
+<h3 id="部分资源"><a href="#部分资源" class="headerlink" title="部分资源"></a>部分资源</h3><ul>
+<li><a href="https://blog.einverne.info/categories" target="_blank" rel="noopener">每天学习一个命令 | Verne in Github</a></li>
+<li><a href="https://mp.weixin.qq.com/s/63D5TU99wczt-ocnJ6TUxw" target="_blank" rel="noopener">10 分钟教你如何划重点 —— Systemd 最全攻略 | 阿里智能运维</a></li>
+<li><a href="https://10.linuxstory.net/command-line-tools-to-monitor-linux-performance/" target="_blank" rel="noopener">20 个命令行工具监控 Linux 系统性能 | Linux Story</a></li>
+<li><a href="https://blog.51cto.com/11060853/2112772" target="_blank" rel="noopener">vmstat 命令查看虚拟内存 | 51CTO</a></li>
+<li><a href="https://github.com/grafana/grafana" target="_blank" rel="noopener">Grafana | Github</a></li>
+<li><a href="https://coolshell.cn/articles/7829.html" target="_blank" rel="noopener">28 个 UNIX/Linux 的命令行神器 | 酷壳 CoolShell</a></li>
+<li><a href="http://www.chenshake.com/centos-7%E6%9F%A5%E7%9C%8B%E7%BD%91%E7%BB%9C%E5%B8%A6%E5%AE%BD%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5/" target="_blank" rel="noopener">CentOS 7 查看网络带宽使用情况 | 陈沙克日志</a></li>
+<li><a href="https://mp.weixin.qq.com/s/5HpRa__Swn-qSyewXLpxPA" target="_blank" rel="noopener">【必看】Linux 问题故障定位，看这一篇就够了 | 民工哥技术之路</a></li>
+<li><a href="https://www.cnblogs.com/ghj1976/p/5611220.html" target="_blank" rel="noopener">Load Average 的含义 | 博客园</a></li>
+<li><a href="http://www.cpper.cn/2017/06/04/linux/perf/" target="_blank" rel="noopener">Linux 性能调优工具 perf 的使用 | cpper</a></li>
+<li><a href="https://mp.weixin.qq.com/s/7hPQrLhsVlo9Gs7GMElXDA" target="_blank" rel="noopener">10 个非常赞的 Linux 网络监控工具 | Python 网络爬虫与数据挖掘</a></li>
+</ul>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://songlee24.github.io/2015/09/05/linux-monitor-tools/" target="_blank" rel="noopener">常用 Linux 系统监控命令 | 神奕的博客</a></li>
+<li><a href="https://linuxtools-rst.readthedocs.io/zh_CN/latest/#" target="_blank" rel="noopener">Linux 工具快速教程 | Linux Tools Quick Tutorial</a></li>
+<li><a href="https://zorro.gitbooks.io/poor-zorro-s-linux-book/content/" target="_blank" rel="noopener">穷佐罗的 Linux 书 | GitBook</a></li>
+<li><a href="http://www.brendangregg.com/" target="_blank" rel="noopener">Brendan D. Gregg</a></li>
+<li><a href="http://www.brendangregg.com/bpf-performance-tools-book.html" target="_blank" rel="noopener">BPF Performance Tools | Brendan D. Gregg</a></li>
+<li><a href="http://www.brendangregg.com/sysperfbook.html" target="_blank" rel="noopener">Systems Performance: Enterprise and the Cloud | Brendan D. Gregg</a></li>
+<li><a href="https://www.thegeekdiary.com/how-to-use-strace-and-ltrace-commands-in-linux/" target="_blank" rel="noopener">How to use strace and ltrace commands in Linx | The Geek Diary</a></li>
+<li><a href="http://devo.ps/blog/troubleshooting-5minutes-on-a-yet-unknown-box/" target="_blank" rel="noopener">First 5 Minutes Troubleshooting A Server | devo.ps</a></li>
+<li><a href="https://www.linux.com/blog/first-5-commands-when-i-connect-linux-server" target="_blank" rel="noopener">First 5 Commands When I Connect on a Linux Server | Linux.com</a></li>
+<li><a href="https://medium.com/netflix-techblog/linux-performance-analysis-in-60-000-milliseconds-accc10403c55" target="_blank" rel="noopener">Linux Performance Analysis in 60,000 Milliseconds | The Netfilx Tech Blog</a></li>
+<li><a href="http://cgi.di.uoa.gr/~ad/k22/k22-lab-notes4.pdf" target="_blank" rel="noopener">【PPT】Shared Memory Segments and POSIX Semaphores</a></li>
+<li><a href="https://cizixs.com/2015/10/01/linux-memory-management-through-free/" target="_blank" rel="noopener">通过 free 命令理解 Linux 内存管理 | Cizixs</a></li>
+<li><a href="https://www.cnblogs.com/chenpingzhao/p/5161844.html" target="_blank" rel="noopener">free 命令中 cached 和 buffers 的区别 - 踏雪无痕 | 博客园</a></li>
+<li><a href="https://blog.csdn.net/wisgood/article/details/17316663" target="_blank" rel="noopener">Linux du 命令和 df 命令区别 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/qingfengxulai/article/details/80855057" target="_blank" rel="noopener">du 和 df 文件大小不一致问题排查 | CSDN</a></li>
+<li><a href="https://www.cnblogs.com/kongzhongqijing/articles/4313133.html" target="_blank" rel="noopener">Linux CPU 资源高、内存高分析 - milkty | 博客园</a></li>
+</ol>
+</blockquote>
+<h3 id="复习文章"><a href="#复习文章" class="headerlink" title="复习文章"></a>复习文章</h3><ul>
+<li><a href="https://songlee24.github.io/2015/09/05/linux-monitor-tools/" target="_blank" rel="noopener">常用 Linux 系统监控命令 | 神奕的博客</a></li>
+<li><a href="https://www.kawabangga.com/posts/3561" target="_blank" rel="noopener">Linux 文件系统 inode 介绍 | 卡瓦邦噶</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2011/12/inode.html" target="_blank" rel="noopener">理解 inode | 阮一峰</a></li>
+<li><a href="https://segmentfault.com/a/1190000009724931" target="_blank" rel="noopener">文件描述符（File Descriptor）简介 | SegmentFault</a></li>
+<li><a href="https://arthurchiao.github.io/blog/system-call-definitive-guide-zh/" target="_blank" rel="noopener">[译] Linux 系统调用权威指南 | ArthurChiao’s Blog</a></li>
+<li><a href="https://www.nowcoder.com/discuss/58936?type=post&amp;order=time&amp;pos=&amp;page=1" target="_blank" rel="noopener">运维岗秋招之路 | 牛客</a></li>
+<li><a href="https://www.nowcoder.com/discuss/37940?type=post&amp;order=time&amp;pos=&amp;page=1" target="_blank" rel="noopener">运维岗位的面试问题 | 牛客</a></li>
+<li><a href="https://www.kawabangga.com/posts/3636" target="_blank" rel="noopener">Linux 进程的生命周期 | 卡瓦邦噶</a></li>
+<li><a href="https://mp.weixin.qq.com/s/63D5TU99wczt-ocnJ6TUxw" target="_blank" rel="noopener">10 分钟教你如何划重点 —— Systemd 最全攻略 | 阿里智能运维</a></li>
+<li><a href="https://www.cnblogs.com/yaoxiaowen/p/7805661.html#!comments" target="_blank" rel="noopener">什么是内存(一)：存储器层次结构 - eleven_yw | 博客园</a></li>
+<li><a href="https://www.cnblogs.com/yaoxiaowen/p/7805964.html" target="_blank" rel="noopener">什么是内存(二)：虚拟内存 - eleven_yw | 博客园</a></li>
+<li><a href="https://www.cnblogs.com/yaoxiaowen/p/7470460.html" target="_blank" rel="noopener">关于跨平台的一些认识 - eleven_yw | 博客园</a></li>
+<li><a href="https://blog.csdn.net/lkforce/article/details/79308906" target="_blank" rel="noopener">计算机网络的各种基本概念总结（七层模型，TCP，HTTP，socket，RPC等）| CSDN</a></li>
+<li><a href="https://juejin.im/post/59a0472f5188251240632f92" target="_blank" rel="noopener">网络七层模型与四层模型区别 | 掘金</a></li>
+</ul>
+<h3 id="系统负载"><a href="#系统负载" class="headerlink" title="系统负载"></a>系统负载</h3><ul>
+<li><a href="https://lotabout.me/2018/how-system-load-is-calculated/" target="_blank" rel="noopener">理解系统负载 | 三点水</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2011/07/linux_load_average_explained.html" target="_blank" rel="noopener">理解 Linux 系统负荷 | 阮一峰</a></li>
+<li><a href="http://progrom.cn/2017/10/14/the-meaning-and-calculation-of-load-average/" target="_blank" rel="noopener">Linux系统中负载（Load Average）的含义与计算方法 | 尽人事，听天命</a></li>
+</ul>
+<p>关于<code>load average</code>的几点总结：</p>
+<ol>
+<li>系统负载统计的是运行和等待运行的进程/线程数</li>
+<li>Linux 下是<code>5s</code>一采样并计算移动平均</li>
+<li>一分钟指数移动平均用到了不止近一分钟的采样数据</li>
+<li>有<code>n</code>核，满载的负载就是<code>n</code></li>
+</ol>
+<h3 id="调试工具"><a href="#调试工具" class="headerlink" title="调试工具"></a>调试工具</h3><ul>
+<li><a href="https://linuxtools-rst.readthedocs.io/zh_CN/latest/index.html" target="_blank" rel="noopener">【干货】Linux 工具快速教程 | Linux Tools Quick Tutorial</a></li>
+<li><a href="https://riboseyim.gitbooks.io/linux-perf-master/content/" target="_blank" rel="noopener">The Linux Perf Master | Ribose Yim</a></li>
+<li><a href="https://zorro.gitbooks.io/poor-zorro-s-linux-book/content/" target="_blank" rel="noopener">穷佐罗的 Linux 书 | GitBook</a></li>
+<li><a href="http://walkerdu.com/2018/09/13/perf-event/" target="_blank" rel="noopener">性能分析利器之 perf 浅析 - WalkerTalking</a></li>
+<li><a href="https://www.cnblogs.com/arnoldlu/p/6241297.html" target="_blank" rel="noopener">系统级性能分析工具 perf 的介绍与使用 - Arnold Lu | cnblogs</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/22194920" target="_blank" rel="noopener">在 Linux 下做性能分析 3：perf | 知乎专栏 - 软件架构设计</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/22417252" target="_blank" rel="noopener">Linux 性能优化 9：KVM 环境 | 知乎专栏 - 软件架构设计</a></li>
+<li><a href="https://blog.csdn.net/wallwind/article/details/50393546" target="_blank" rel="noopener">使用 gprof 对程序的性能分析（集合贴）| CSDN</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-gnuprof.html" target="_blank" rel="noopener">使用 GNU profiler 来提高代码运行速度 | IBM Developer</a></li>
+<li><a href="https://colobu.com/2019/07/16/a-tcpdump-tutorial-with-examples/" target="_blank" rel="noopener">[译] tcpdump 示例教程 | 鸟窝</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-tsl/index.html" target="_blank" rel="noopener">使用 truss、strace 或 ltrace 诊断软件的”疑难杂症” | IBM Developer</a></li>
+<li><a href="http://lzz5235.github.io/2013/11/22/ltrace-strace-ftrace.html" target="_blank" rel="noopener">调试工具 ltrace strace ftrace 的使用 | JasonLe</a></li>
+<li><a href="https://liujingwen.wordpress.com/2010/08/17/%E4%BD%BF%E7%94%A8ltrace%E8%B7%9F%E8%B8%AA%E5%BA%93%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/" target="_blank" rel="noopener">使用 ltrace 跟踪库函数调用 | Liujingwen’s Blog</a></li>
+<li><a href="https://arthurchiao.github.io/blog/system-call-definitive-guide-zh/" target="_blank" rel="noopener">[译] Linux 系统调用权威指南 | ARTHURCHIAO’S BLOG</a></li>
+<li><a href="https://arthurchiao.github.io/blog/how-does-strace-work-zh/" target="_blank" rel="noopener">[译] strace 是如何工作的 | ARTHURCHIAO’S BLOG</a></li>
+<li><a href="https://arthurchiao.github.io/blog/how-does-ltrace-work-zh/" target="_blank" rel="noopener">[译] ltrace 是如何工作的 | ARTHURCHIAO’S BLOG</a></li>
+<li><a href="https://arthurchiao.github.io/blog/tcpdump-practice-zh/" target="_blank" rel="noopener">tcpdump/wireshark 抓包及分析 | ARTHURCHIAO’S BLOG</a></li>
+</ul>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7 安装配置 NFS</a></li><li><a href="https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/">Linux 终端修改 ls 命令目录显示颜色</a></li><li><a href="https://abelsu7.top/2019/07/07/perf-quick-guides/">Linux 下使用 Perf 分析系统性能</a></li><li><a href="https://abelsu7.top/2019/06/10/linux-shell-examples/">Linux Shell 编程速查</a></li><li><a href="http://ashin.wang/linux-basic/">Linux基础笔记</a></li><li><a href="https://wiki.hushhw.cn/posts/6fbc30d9.html">虚拟机 VMware 中安装 Ubuntu 操作系统</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-11-05T03:30:37.652Z" itemprop="dateUpdated">2019-11-05 11:30:37</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/08/26/most-used-commands-to-diagnose-linux/" target="_blank" rel="external">https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/监控命令/">监控命令</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/运维/">运维</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/&title=《Linux 系统常用监控命令》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/&title=《Linux 系统常用监控命令》 — Keep Coding&source=
+Linux 系统常用监控命令总结
+
+
+                
+                    
+                   ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux 系统常用监控命令》 — Keep Coding&url=https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/09/02/virtio-in-kvm/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">半虚拟化 I/O 框架 virtio</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/08/26/compile-kvm-module/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">单独编译 KVM 内核模块</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/&title=《Linux 系统常用监控命令》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/&title=《Linux 系统常用监控命令》 — Keep Coding&source=
+Linux 系统常用监控命令总结
+
+
+                
+                    
+                   ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux 系统常用监控命令》 — Keep Coding&url=https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACw0lEQVR42u3aQXLCMAwFUO5/6XamK2ZK4H/ZBhYvKyalsV8WlpB0u8XXz991//n+zv/7V9+/uq5W/P+c24kLDw8Pb7T15wsnmF2k9efj4eHhvYc3Cwa7QsjzF5oHCTw8PLxv4yWpc05NXlm+Fh4eHt538laS7+TOV8Q9PDw8vJiX//h/vq2VKmsbhDbXWvDw8PC6CmrdAPvs5+P9PTw8PLxRV709cPOg0g4fDHeLh4eHd4CXFwvaYzpPhVeCULQfPDw8vK289RJAOzowa5LNAgweHh7eCV5bEo0eFxcO1hPr6L/w8PDwtvLywLByWOfPWcmHH6yOh4eHd4yXH+L5AklRY6XxH30TDw8P7y28dvSqLew+DwN5yh6B8fDw8A7wVgat8lQ7Kfu2/5un43h4eHh7eW3Tqy0czNppeYB58cMADw8P7wAvjxv5ndnIVDu2VUQ8PDw8vK28tknfHu7JYFabZOfjX3h4eHgneOtNr3wEqh2iapPpDWVcPDw8vJLXFhFmgwjtK8sDzIsd4uHh4W3izX7qzwat2pS6LSI/2BseHh7eAV6yZDtAkG+rbaflA2FR3MPDw8Mb8doG1ayMu7LFNiTg4eHhvZ8320o7YtUWHWZlXzw8PLwTvLxV3ya47TBWW+DI/4qHh4e3lzdLmmfNsKR4sasQHPX08PDw8DbxVq7ZkNbe1PxFYMDDw8Nb5p0et8oLDevjAkVnDw8PD2+Blze62kJqC1sJUZevBg8PD+8wL7lWxqTaku4sXF0GBjw8PLxNvNnhmye+bZFi/fOGOgoeHh5ewGuDQX58zwq+K4Xdy1oLHh4e3gFeW1ptD/pZKTaPaS+KuXh4eHgf4s2aZG3IyVffHBjw8PDwDvN2pcuzEkOyCh4eHt5pXrKJfCCgnXrKxxTqQQQ8PDy8A7xZAyzZxN4xgrf29/Dw8PAe7+0XpvlBBRoCvJoAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

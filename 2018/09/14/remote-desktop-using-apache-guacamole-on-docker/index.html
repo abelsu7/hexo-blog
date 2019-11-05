@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>【译】使用 Apache Guacamole 连接虚拟云桌面 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Ubuntu,VNC,虚拟化">
+    <meta name="description" content="使用Apache Guacamole连接虚拟云桌面              Apache Guacamole是一款HTML5应用程序，可通过RDP，VNC和其他协议访问远程桌面。您可以创建一个虚拟云桌面，用户通过">
+<meta name="keywords" content="Ubuntu,VNC,虚拟化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【译】使用 Apache Guacamole 连接虚拟云桌面">
+<meta property="og:url" content="https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="使用Apache Guacamole连接虚拟云桌面              Apache Guacamole是一款HTML5应用程序，可通过RDP，VNC和其他协议访问远程桌面。您可以创建一个虚拟云桌面，用户通过">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/Apache_Guacamole.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/guac_login.png">
+<meta property="og:image" content="https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/guac_settings.png">
+<meta property="og:image" content="https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/guac_vnc_config.png">
+<meta property="og:image" content="https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/guac_menu.png">
+<meta property="og:image" content="https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/guac_recent.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.657Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【译】使用 Apache Guacamole 连接虚拟云桌面">
+<meta name="twitter:description" content="使用Apache Guacamole连接虚拟云桌面              Apache Guacamole是一款HTML5应用程序，可通过RDP，VNC和其他协议访问远程桌面。您可以创建一个虚拟云桌面，用户通过">
+<meta name="twitter:image" content="https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/Apache_Guacamole.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">【译】使用 Apache Guacamole 连接虚拟云桌面</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">【译】使用 Apache Guacamole 连接虚拟云桌面</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-09-14T14:54:14.000Z" itemprop="datePublished" class="page-time">
+  2018-09-14
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装Docker"><span class="post-toc-text">安装Docker</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用MySQL初始化Guacamole身份验证"><span class="post-toc-text">使用MySQL初始化Guacamole身份验证</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#在浏览器中访问Guacamole"><span class="post-toc-text">在浏览器中访问Guacamole</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#在Linode上搭建VNC服务器"><span class="post-toc-text">在Linode上搭建VNC服务器</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#在Guacamole中新建连接"><span class="post-toc-text">在Guacamole中新建连接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-remote-desktop-using-apache-guacamole-on-docker"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">【译】使用 Apache Guacamole 连接虚拟云桌面</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-09-14 22:54:14" datetime="2018-09-14T14:54:14.000Z"  itemprop="datePublished">2018-09-14</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/Apache_Guacamole.jpg" alt="使用Apache Guacamole连接虚拟云桌面" title>
+                </div>
+                <div class="image-caption">使用Apache Guacamole连接虚拟云桌面</div>
+            </figure>
+<p>Apache Guacamole是一款HTML5应用程序，可通过RDP，VNC和其他协议访问远程桌面。您可以创建一个虚拟云桌面，用户通过Web浏览器即可访问。本指南将介绍如何通过Docker安装Apache Guacamole，并借助其访问托管在Linode上的远程桌面。</p>
+<a id="more"></a>
+<h2 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h2><p>这里介绍的方法将安装最新版本的Docker。如需安装特定版本Docker，或需要Docker EE环境，请参阅官方文档寻求帮助。</p>
+<p>以下步骤将使用Ubuntu官方软件库安装Docker社区版（Community Edition，CE）。如需在其他Linux发行版上安装，请参阅官网的<a href="https://docs.docker.com/install/" target="_blank" rel="noopener">安装说明</a>。</p>
+<p>1.卸载系统上可能存在的旧版本Docker：</p>
+<pre><code class="lang-bash">sudo apt remove docker docker-engine docker.io
+</code></pre>
+<p>2.确保您已安装了使用Docker仓库所需的如下依赖：</p>
+<pre><code class="lang-bash">sudo apt install apt-transport-https ca-certificates curl software-properties-common
+</code></pre>
+<p>3.添加Docker的GPG密钥：</p>
+<pre><code class="lang-bash">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+</code></pre>
+<p>4.验证GPG密钥指纹：</p>
+<pre><code class="lang-bash">sudo apt-key fingerprint 0EBFCD88
+</code></pre>
+<p>您应该看到类似以下内容的输出：</p>
+<pre><code class="lang-bash">pub   4096R/0EBFCD88 2017-02-22
+      Key fingerprint = 9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88
+uid                  Docker Release (CE deb) &lt;docker@docker.com&gt;
+sub   4096R/F273FCD8 2017-02-22
+</code></pre>
+<p>5.添加Docker<code>stable</code>仓库：</p>
+<pre><code class="lang-bash">sudo add-apt-repository &quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable&quot;
+</code></pre>
+<p>6.更新软件包索引并安装Docker社区版：</p>
+<pre><code class="lang-bash">sudo apt update
+sudo apt install docker-ce
+</code></pre>
+<p>7.将受限的Linux用户账户添加到<code>docker</code>用户组：</p>
+<pre><code class="lang-bash">sudo usermod -aG docker exampleuser
+</code></pre>
+<p>您需要重启Shell会话才能使此更改生效。</p>
+<p>8.运行内置的“Hello World”程序以检查Docker是否成功安装：</p>
+<pre><code class="lang-bash">docker run hello-world
+</code></pre>
+<h2 id="使用MySQL初始化Guacamole身份验证"><a href="#使用MySQL初始化Guacamole身份验证" class="headerlink" title="使用MySQL初始化Guacamole身份验证"></a>使用MySQL初始化Guacamole身份验证</h2><p>本指南将使用MySQL作为参考，但PostgreSQL以及MariaDB也同样适用。</p>
+<p>1.拉取Guacamole服务器、Guacamole客户端和MySQL的Docker镜像：</p>
+<pre><code class="lang-bash">docker pull guacamole/guacamole
+docker pull guacamole/guacd
+docker pull mysql/mysql-server
+</code></pre>
+<p>2.创建数据库初始化脚本以创建用于验证身份的数据表：</p>
+<pre><code class="lang-bash">docker run --rm guacamole/guacamole /opt/guacamole/bin/initdb.sh --mysql &gt; initdb.sql
+</code></pre>
+<p>3.为MySQL的root用户生成一次性密码，可在日志中查看：</p>
+<pre><code class="lang-bash">docker run --name example-mysql -e MYSQL_RANDOM_ROOT_PASSWORD=yes -e MYSQL_ONETIME_PASSWORD=yes -d mysql/mysql-server
+docker logs example-mysql
+</code></pre>
+<p>Docker日志会在终端中打印密码：</p>
+<pre><code class="lang-bash">[Entrypoint] Database initialized
+[Entrypoint] GENERATED ROOT PASSWORD: &lt;password&gt;
+</code></pre>
+<p>4.重命名并将<code>initdb.sql</code>移动到MySQL容器中：</p>
+<pre><code class="lang-bash">docker cp initdb.sql example-mysql:/guac_db.sql
+</code></pre>
+<p>5.在MySQL的Docker容器中打开bash终端：</p>
+<pre><code class="lang-bash">docker exec -it example-mysql bash
+</code></pre>
+<p>6.使用一次性密码登录。在重新设定<code>root</code>用户密码之前，终端不会接受任何命令。创建一个新的数据库和用户，如下所示：</p>
+<pre><code class="lang-sql">bash-4.2# mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 5.7.20
+
+Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
+
+mysql&gt; ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;new_root_password&#39;;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; CREATE DATABASE guacamole_db;
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; CREATE USER &#39;guacamole_user&#39;@&#39;%&#39; IDENTIFIED BY &#39;guacamole_user_password&#39;;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole_db.* TO &#39;guacamole_user&#39;@&#39;%&#39;;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; quit
+Bye
+</code></pre>
+<p>7.在bash终端中，使用初始化脚本为新数据库创建数据表：</p>
+<pre><code class="lang-bash">cat guac_db.sql | mysql -u root -p guacamole_db
+</code></pre>
+<p>验证数据表是否已成功添加。如果<code>guacamole</code>数据库中不存在新建的表，请再次确认之前的步骤均已正确执行。</p>
+<pre><code class="lang-sql">mysql&gt; USE guacamole_db;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql&gt; SHOW TABLES;
++---------------------------------------+
+| Tables_in_guacamole_db                |
++---------------------------------------+
+| guacamole_connection                  |
+| guacamole_connection_group            |
+| guacamole_connection_group_permission |
+| guacamole_connection_history          |
+| guacamole_connection_parameter        |
+| guacamole_connection_permission       |
+| guacamole_sharing_profile             |
+| guacamole_sharing_profile_parameter   |
+| guacamole_sharing_profile_permission  |
+| guacamole_system_permission           |
+| guacamole_user                        |
+| guacamole_user_password_history       |
+| guacamole_user_permission             |
++---------------------------------------+
+13 rows in set (0.00 sec)
+</code></pre>
+<p>退出bash终端：</p>
+<pre><code class="lang-bash">exit
+</code></pre>
+<h2 id="在浏览器中访问Guacamole"><a href="#在浏览器中访问Guacamole" class="headerlink" title="在浏览器中访问Guacamole"></a>在浏览器中访问Guacamole</h2><p>1.在Docker中启动guacd：</p>
+<pre><code class="lang-bash">docker run --name example-guacd -d guacamole/guacd
+</code></pre>
+<p>2.连接容器，以便Guacamole验证存储在MySQL数据库中的凭证：</p>
+<pre><code class="lang-bash">docker run --name example-guacamole --link example-guacd:guacd --link example-mysql:mysql -e MYSQL_DATABASE=&#39;guacamole_db&#39; -e MYSQL_USER=&#39;guacamole_user&#39; -e MYSQL_PASSWORD=&#39;guacamole_user_password&#39; -d -p 127.0.0.1:8080:8080 guacamole/guacamole
+</code></pre>
+<blockquote>
+<p><strong>注意</strong></p>
+<p>可通过以下命令查看所有正在运行和未运行的Docker容器：</p>
+</blockquote>
+<pre><code class="lang-bash">docker ps -a
+</code></pre>
+<p>3.<code>example-guacamole</code>、<code>example-guacd</code>和<code>example-mysql</code>都已运行后，请在浏览器中访问<code>localhost:8080/guacamole/</code>。默认的登录账户是<code>guacadmin</code>，默认登录密码<code>guacadmin</code>。登录后应尽快修改登录账户及密码。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/guac_login.png" alt="登录Apache Guacamole" title>
+                </div>
+                <div class="image-caption">登录Apache Guacamole</div>
+            </figure>
+<h2 id="在Linode上搭建VNC服务器"><a href="#在Linode上搭建VNC服务器" class="headerlink" title="在Linode上搭建VNC服务器"></a>在Linode上搭建VNC服务器</h2><p>在共享远程桌面之前，必须在Linode上安装桌面环境以及VNC服务器。本指南将使用Xfce桌面，因为Xfce是轻量级的，不会过度消耗系统资源。</p>
+<p>1.在Linode上安装Xfce：</p>
+<pre><code class="lang-bash">sudo apt install xfce4 xfce4-goodies
+</code></pre>
+<p>如果系统资源的限制较少，则可使用Unity桌面作为替代：</p>
+<pre><code class="lang-bash">sudo apt install --no-install-recommends ubuntu-desktop gnome-panel gnome-settings-daemon metacity nautilus gnome-terminal
+</code></pre>
+<p>2.安装VNC服务器。启动VNC服务器时，系统将提示用户输入密码：</p>
+<pre><code class="lang-bash">sudo apt install tightvncserver
+vncserver
+</code></pre>
+<p>除了提示输入密码外，系统还会提供“仅可查看”的选项。密码最大长度为8位字符。对于需要更高安全性的设置，我们<a href="https://guacamole.incubator.apache.org/doc/gug/proxying-guacamole.html" target="_blank" rel="noopener">强烈建议您将Guacamole部署为使用SSL加密的反向代理</a>。</p>
+<pre><code class="lang-bash">You will require a password to access your desktops.
+
+Password:
+Verify:
+Would you like to enter a view-only password (y/n)?
+</code></pre>
+<p>3.确保在<code>.vnc/xstartup</code>的最后启动桌面环境，否则只会显示灰色屏幕：</p>
+<pre><code class="lang-bash">echo &#39;startxfce4 &amp;&#39; | tee -a .vnc/xstartup
+</code></pre>
+<p>若使用Unity桌面作为替代，则配置示例如下：</p>
+<pre><code class="lang-shell">#!/bin/sh
+
+xrdb $HOME/.Xresources
+xsetroot -solid grey
+#x-terminal-emulator -geometry 80x24+10+10 -ls -title &quot;$VNCDESKTOP Desktop&quot; &amp;
+#x-window-manager &amp;
+# Fix to make GNOME work
+export XKL_XMODMAP_DISABLE=1
+/etc/X11/Xsession
+
+gnome-panel &amp;
+gnome-settings-daemon &amp;
+metacity &amp;
+nautilus &amp;
+</code></pre>
+<h2 id="在Guacamole中新建连接"><a href="#在Guacamole中新建连接" class="headerlink" title="在Guacamole中新建连接"></a>在Guacamole中新建连接</h2><p>Guacamole支持VNC，RDP，SSH和Telnet协议。本章节将介绍如何在浏览器界面中添加新的连接。</p>
+<p>1.在连接到VNC服务器之前，创建一个SSH隧道，并将<code>user</code>和<code>example.com</code>替换为Linode的用户名和公网IP：</p>
+<pre><code class="lang-shell">ssh -L 5901:localhost:5901 -N -f -l user example.com
+</code></pre>
+<p>2.在Guacamole控制面板中，点击右上角的下拉菜单，然后选择 <strong><em>Settings</em></strong> 。在 <strong><em>Connections</em></strong> 选项卡中，点击 <strong><em>New Connection</em></strong> 按钮。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/guac_settings.png" alt="在Guacamole中新建连接" title>
+                </div>
+                <div class="image-caption">在Guacamole中新建连接</div>
+            </figure>
+<p>3.在 <strong><em>Edit Connection</em></strong> 设置中，输入连接名。在 <strong><em>Parameters</em></strong> 设置中，主机名即为Linode的公网IP地址。端口号为5900 + 显示编号——这里以5901为例。最后输入8位密码。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/guac_vnc_config.png" alt="Guacamole编辑连接设置" title>
+                </div>
+                <div class="image-caption">Guacamole编辑连接设置</div>
+            </figure>
+<p><a href="configuring-guacamole.html#vnc">官方文档</a>详细描述了所有参数的具体含义。</p>
+<blockquote>
+<p><strong>注意</strong></p>
+<p>如果您在同一Linode服务器上有多个VNC连接，请增加连接所用的端口号：5902，5903……以此类推。如果您的远程连接托管在不同的Linode服务器上，则仍应继续使用5901端口。</p>
+</blockquote>
+<p>4.在右上角的下拉菜单中，点击 <strong><em>Home</em></strong>。新建的连接现在应该已经可以使用。</p>
+<p>使用快捷键 <strong>CTRL + ALT + SHIFT</strong> 可以打开剪贴板、键盘/鼠标设置以及导航菜单。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/guac_menu.png" alt="剪贴板及输入设置" title>
+                </div>
+                <div class="image-caption">剪贴板及输入设置</div>
+            </figure>
+<p>5.点击浏览器的后退按钮，回到 <strong><em>Home</em></strong> 菜单。</p>
+<p>6.可以连接至其他桌面，并且可在新的浏览器选项卡中同时连接多个远程桌面。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/guac_recent.png" alt="近期连接入口" title>
+                </div>
+                <div class="image-caption">近期连接入口</div>
+            </figure>
+<p>本指南旨在通过Docker简化安装过程，并演示如何使用Apache Guacamole快速连接至远程桌面。除此之外Apache Guacamole还提供了许多功能，如屏幕录制、Duo双重身份认证、SFTP文件传输等。Guacamole作为Apache的孵化项目，我们期待在不久的将来看到其进一步的发展。</p>
+<blockquote>
+<p><strong>参考文章</strong></p>
+<ol>
+<li><a href="https://www.linode.com/docs/applications/remote-desktop/remote-desktop-using-apache-guacamole-on-docker/" target="_blank" rel="noopener">Virtual Cloud Desktop Using Apache Guacamole | Linode</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1339957" target="_blank" rel="noopener">使用Apache Guacamole连接虚拟云桌面 | 腾讯云+社区</a></li>
+<li><a href="https://guacamole.incubator.apache.org/" target="_blank" rel="noopener">Apache Guacamole</a></li>
+<li><a href="https://tomcat.apache.org/" target="_blank" rel="noopener">Apache Tomcat</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/09/02/virtio-in-kvm/">半虚拟化 I/O 框架 virtio</a></li><li><a href="https://abelsu7.top/2019/08/26/compile-kvm-module/">单独编译 KVM 内核模块</a></li><li><a href="https://abelsu7.top/2019/08/11/kvm-api-overview/">Kernel 2.6.32 中的 KVM API 概述</a></li><li><a href="https://abelsu7.top/2019/08/11/qemu-main-func/">QEMU 1.2.0 入口 main() 函数调用流程分析</a></li><li><a href="https://wiki.hushhw.cn/posts/6fbc30d9.html">虚拟机 VMware 中安装 Ubuntu 操作系统</a></li><li><a href="https://hushhw.cn/posts/tool/6fbc30d9.html">虚拟机 VMware 中安装 Ubuntu 操作系统</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.657Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/" target="_blank" rel="external">https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VNC/">VNC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/虚拟化/">虚拟化</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/&title=《【译】使用 Apache Guacamole 连接虚拟云桌面》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/&title=《【译】使用 Apache Guacamole 连接虚拟云桌面》 — Keep Coding&source=
+                
+                    
+                    
+                
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【译】使用 Apache Guacamole 连接虚拟云桌面》 — Keep Coding&url=https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/09/19/manage-a-docker-cluster-with-k8s/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">【译】使用 Kubernetes 管理 Docker 集群</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/09/13/valine-with-hexo/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">利用 Valine 搭建 Hexo 无后端评论系统</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/&title=《【译】使用 Apache Guacamole 连接虚拟云桌面》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/&title=《【译】使用 Apache Guacamole 连接虚拟云桌面》 — Keep Coding&source=
+                
+                    
+                    
+                
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【译】使用 Apache Guacamole 连接虚拟云桌面》 — Keep Coding&url=https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvElEQVR42u3aQW4cMQwEQP//0w6Q+0y6SWmzh9rTYmCMVTIg0U3+/MSf37+fpye/D5/kJ5PnT2s49sHDw8MbLb1d4js+X3S7Bfma8fDw8G7z3i+D9tXttZG/IV8zHh4e3jfwHg/f1ythVhDPyms8PDy8b+O1BfEs2mgDDjw8PLz/xcsL33aJ72/YBBOHsxY8PDy8mNc2wL7h+8X+Hh4eHt6iq54fvptBgX2R/bhCPDw8vAu8PD7YtPnbwCIJMooLAw8PD+8o7/3w3bTH2lGA/HmxlXh4eHjXeG2Mm7e49uNZsy0eLgIPDw+v5M1aVm0Znby5vQD+UVLj4eHhXea18UHeuGpHBGbxcRHg4uHh4Y14bRCQH+t5lLCZAUg2Gg8PD+8srz2C26N5EwEPL4A8EcHDw8Mb8TaN/NkWvG9ue5FEz/Hw8PAu8JKyOK/NZ4FFG4UkW4OHh4d3g7dp4beRxKm6t1gzHh4e3jXeBrP/nhfZ7egDHh4e3g1eG7Dmh3geNLTjX7NV4eHh4Z3l3QggZu2xNgiOYl88PDy8a7y2VZ+PZ+WNqzzmyEt/PDw8vLO8zSvaS6UdCEiC4OLvhoeHh3eB1/7b37JPDWnlTTU8PDy8z/A2x/1+lGpTxEcXAx4eHt6at7kekjdsRhDa8aw6xsXDw8Nb8Nplvb8oHwuYFe4FBg8PD+8aLy+s8zI3YcxgSdE//L8BDw8Pr+Tlx/07II8q2iBj1QbDw8PDO8S7d3DngWxSgg+3DA8PD+8C79TdshkRaBtmSeH+c/bqxMPDw3vorbeXQdsSa0PYWVlfhBF4eHh4a96sGZaHrWcHCI5NluHh4eF9kJe3wWYhxWbjitEBPDw8vMu8TfuqDYXboS48PDy8z/OSMCIvdvNlzRpaRdmNh4eHd4G3aYAlvybZvs1lsxoawMPDw+t4fwBfWfk+xGswKwAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

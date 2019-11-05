@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Golang ORM 框架：GORM | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Go,数据库,GORM,SQL">
+    <meta name="description" content="GORM is a fantastic ORM library for Golang.">
+<meta name="keywords" content="Go,数据库,GORM,SQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Golang ORM 框架：GORM">
+<meta property="og:url" content="https://abelsu7.top/2019/06/05/gorm-notes/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="GORM is a fantastic ORM library for Golang.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/06/05/gorm-notes/gorm.png">
+<meta property="og:updated_time" content="2019-10-31T10:08:26.827Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Golang ORM 框架：GORM">
+<meta name="twitter:description" content="GORM is a fantastic ORM library for Golang.">
+<meta name="twitter:image" content="https://abelsu7.top/2019/06/05/gorm-notes/gorm.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Golang ORM 框架：GORM</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Golang ORM 框架：GORM</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-06-05T01:36:50.000Z" itemprop="datePublished" class="page-time">
+  2019-06-05
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-快速开始"><span class="post-toc-text">1. 快速开始</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-1-GORM-概述"><span class="post-toc-text">1.1 GORM 概述</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-2-安装"><span class="post-toc-text">1.2 安装</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-3-快速体验"><span class="post-toc-text">1.3 快速体验</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-数据库"><span class="post-toc-text">2. 数据库</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-连接数据库"><span class="post-toc-text">2.1 连接数据库</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#MySQL"><span class="post-toc-text">MySQL</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#PostgreSQL"><span class="post-toc-text">PostgreSQL</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#SQLite3"><span class="post-toc-text">SQLite3</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-迁移-Migrate"><span class="post-toc-text">2.2 迁移 Migrate</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-3-检查表是否存在"><span class="post-toc-text">2.3 检查表是否存在</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-4-创建表"><span class="post-toc-text">2.4 创建表</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-5-删除表"><span class="post-toc-text">2.5 删除表</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-6-修改列"><span class="post-toc-text">2.6 修改列</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-7-删除列"><span class="post-toc-text">2.7 删除列</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-8-添加外键"><span class="post-toc-text">2.8 添加外键</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-9-索引"><span class="post-toc-text">2.9 索引</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-模型"><span class="post-toc-text">3. 模型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-模型定义"><span class="post-toc-text">3.1 模型定义</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-约定"><span class="post-toc-text">3.2 约定</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#gorm-Model-结构体"><span class="post-toc-text">gorm.Model 结构体</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#表名是结构体名的复数"><span class="post-toc-text">表名是结构体名的复数</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#更改默认表名"><span class="post-toc-text">更改默认表名</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#列名是字段名的蛇形小写"><span class="post-toc-text">列名是字段名的蛇形小写</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#字段-ID-为默认主键"><span class="post-toc-text">字段 ID 为默认主键</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#字段-CreatedAt-存储创建时间"><span class="post-toc-text">字段 CreatedAt 存储创建时间</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#字段-UpdatedAt-存储修改时间"><span class="post-toc-text">字段 UpdatedAt 存储修改时间</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#字段-DeletedAt-用于存储删除时间"><span class="post-toc-text">字段 DeletedAt 用于存储删除时间</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-3-关联"><span class="post-toc-text">3.3 关联</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Belongs-To"><span class="post-toc-text">Belongs To</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-Code-Snippets"><span class="post-toc-text">4. Code Snippets</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-高级用法"><span class="post-toc-text">5. 高级用法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-1-错误处理"><span class="post-toc-text">5.1 错误处理</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-2-事务"><span class="post-toc-text">5.2 事务</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-3-SQL-构建"><span class="post-toc-text">5.3 SQL 构建</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#执行原生-SQL"><span class="post-toc-text">执行原生 SQL</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#sql-Row-amp-sql-Rows"><span class="post-toc-text">sql.Row &amp; sql.Rows</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#迭代中使用-sql-Rows-的-Scan"><span class="post-toc-text">迭代中使用 sql.Rows 的 Scan</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-4-通用数据库接口-sql-DB"><span class="post-toc-text">5.4 通用数据库接口 sql.DB</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-5-复合主键"><span class="post-toc-text">5.5 复合主键</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-6-日志"><span class="post-toc-text">5.6 日志</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-gorm-notes"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Golang ORM 框架：GORM</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-06-05 09:36:50" datetime="2019-06-05T01:36:50.000Z"  itemprop="datePublished">2019-06-05</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em><a href="https://gorm.io" target="_blank" rel="noopener">GORM</a> is a fantastic ORM library for Golang.</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/06/05/gorm-notes/gorm.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<p><strong><em>// TODO: To be updated…</em></strong></p>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><h3 id="1-快速开始"><a href="#1-快速开始" class="headerlink" title="1. 快速开始"></a>1. 快速开始</h3><h4 id="1-1-GORM-概述"><a href="#1-1-GORM-概述" class="headerlink" title="1.1 GORM 概述"></a>1.1 GORM 概述</h4><ul>
+<li>全功能 ORM（几乎）</li>
+<li>关联（包含一个/包含多个/属于/多对多/多态）</li>
+<li>Callbacks（在创建/保存/更新/删除/查找之前或之后）</li>
+<li>预加载</li>
+<li>事务</li>
+<li>复合主键</li>
+<li>SQL Builder</li>
+<li>数据库自动迁移</li>
+<li>自定义日志</li>
+<li>可扩展性，可基于 GORM 回调编写插件</li>
+<li>每个功能都有测试</li>
+<li>开发人员友好</li>
+</ul>
+<h4 id="1-2-安装"><a href="#1-2-安装" class="headerlink" title="1.2 安装"></a>1.2 安装</h4><pre><code class="lang-bash">&gt; go get -u github.com/jinzhu/gorm
+</code></pre>
+<h4 id="1-3-快速体验"><a href="#1-3-快速体验" class="headerlink" title="1.3 快速体验"></a>1.3 快速体验</h4><p>以<code>MySQL</code>为例：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+
+    &quot;github.com/jinzhu/gorm&quot;
+    _ &quot;github.com/jinzhu/gorm/dialects/mysql&quot;
+)
+
+type Product struct {
+    gorm.Model
+    Code  string
+    Price uint
+}
+
+func main() {
+    // 初始化 MySQL 连接
+    config := fmt.Sprintf(&quot;%s:%s@tcp(%s)/%s?charset=utf8&amp;parseTime=%t&amp;loc=%s&quot;,
+        &quot;your_username&quot;,
+        &quot;your_password&quot;,
+        &quot;host:port&quot;,
+        &quot;database&quot;,
+        true,
+        &quot;Local&quot;)
+
+    db, err := gorm.Open(&quot;mysql&quot;, config)
+    if err != nil {
+        panic(&quot;Failed to connect database&quot;)
+    }
+    defer db.Close()
+
+    // Migrate the schema
+    db.AutoMigrate(&amp;Product{})
+
+    // 创建
+    db.Create(&amp;Product{
+        Code:  &quot;L1212&quot;,
+        Price: 1000,
+    })
+
+    // 读取
+    var product Product
+    db.First(&amp;product, 1)                   // 查询 ID 为 1 的 Product
+    db.First(&amp;product, &quot;code = ?&quot;, &quot;L1212&quot;) // 查询 code 为 L1212 的 Product
+
+    // 更新 - 更新 product 的 price 为 2000
+    db.Model(&amp;product).Update(&quot;price&quot;, 2000)
+
+    // 删除 - 删除 product
+    db.Delete(&amp;product)
+}
+</code></pre>
+<h3 id="2-数据库"><a href="#2-数据库" class="headerlink" title="2. 数据库"></a>2. 数据库</h3><h4 id="2-1-连接数据库"><a href="#2-1-连接数据库" class="headerlink" title="2.1 连接数据库"></a>2.1 连接数据库</h4><p>首先需要<strong>导入目标数据库的驱动程序</strong>。例如：</p>
+<pre><code class="lang-go">import _ &quot;github.com/go-sql-driver/mysql&quot;
+</code></pre>
+<p>为了方便记住导入路径，<code>GORM</code><strong>包装了一些驱动</strong>：</p>
+<pre><code class="lang-go">import _ &quot;github.com/jinzhu/gorm/dialects/mysql&quot;
+// import _ &quot;github.com/jinzhu/gorm/dialects/postgres&quot;
+// import _ &quot;github.com/jinzhu/gorm/dialects/sqlite&quot;
+// import _ &quot;github.com/jinzhu/gorm/dialects/mssql&quot;
+</code></pre>
+<h5 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h5><p><strong>注意</strong>：为了处理<code>time.Time</code>，需要包括<code>parseTime</code>作为参数。<a href="https://github.com/go-sql-driver/mysql#parameters" target="_blank" rel="noopener">更多支持的参数</a></p>
+<pre><code class="lang-go">import (
+    &quot;github.com/jinzhu/gorm&quot;
+    _ &quot;github.com/jinzhu/gorm/dialects/mysql&quot;
+)
+
+func main() {
+    db, err := gorm.Open(&quot;mysql&quot;, &quot;user:password@/dbname?charset=utf8&amp;parseTime=True&amp;loc=Local&quot;)
+    defer db.Close()
+}
+</code></pre>
+<p>也可以参照之前的形式来写：</p>
+<pre><code class="lang-go">// 初始化 MySQL 连接
+config := fmt.Sprintf(&quot;%s:%s@tcp(%s)/%s?charset=utf8&amp;parseTime=%t&amp;loc=%s&quot;,
+    &quot;your_username&quot;,
+    &quot;your_password&quot;,
+    &quot;host:port&quot;,
+    &quot;database&quot;,
+    true,
+    &quot;Local&quot;)
+
+db, err := gorm.Open(&quot;mysql&quot;, config)
+if err != nil {
+    panic(&quot;Failed to connect database&quot;)
+}
+defer db.Close()
+</code></pre>
+<h5 id="PostgreSQL"><a href="#PostgreSQL" class="headerlink" title="PostgreSQL"></a>PostgreSQL</h5><pre><code class="lang-go">import (
+    &quot;github.com/jinzhu/gorm&quot;
+    _ &quot;github.com/jinzhu/gorm/dialects/postgres&quot;
+)
+
+func main() {
+    db, err := gorm.Open(&quot;postgres&quot;, &quot;host=myhost user=gorm dbname=gorm sslmode=disable password=mypassword&quot;)
+    defer db.Close()
+}
+</code></pre>
+<h5 id="SQLite3"><a href="#SQLite3" class="headerlink" title="SQLite3"></a>SQLite3</h5><pre><code class="lang-go">import (
+    &quot;github.com/jinzhu/gorm&quot;
+    _ &quot;github.com/jinzhu/gorm/dialects/sqlite&quot;
+)
+
+func main() {
+    db, err := gorm.Open(&quot;sqlite3&quot;, &quot;/tmp/gorm.db&quot;)
+    defer db.Close()
+}
+</code></pre>
+<h4 id="2-2-迁移-Migrate"><a href="#2-2-迁移-Migrate" class="headerlink" title="2.2 迁移 Migrate"></a>2.2 迁移 Migrate</h4><p><strong>自动迁移（Auto Migrate）</strong>模式将自动保持更新到最新。</p>
+<blockquote>
+<p><strong>注意</strong>：自动迁移仅仅会<strong>创建表以及缺少的列和索引</strong>，并<strong>不会改变现有列的类型或删除未使用的列</strong>，以保护数据</p>
+</blockquote>
+<pre><code class="lang-go">db.AutoMigrate(&amp;User{})
+
+db.AutoMigrate(&amp;User{}, &amp;Product{}, &amp;Order{})
+
+// 创建表时添加表后缀
+db.Set(&quot;gorm:table_options&quot;, &quot;ENGINE=InnoDB&quot;).AutoMigrate(&amp;Product{})
+</code></pre>
+<h4 id="2-3-检查表是否存在"><a href="#2-3-检查表是否存在" class="headerlink" title="2.3 检查表是否存在"></a>2.3 检查表是否存在</h4><pre><code class="lang-go">// 检查模型`User`对应的表是否存在
+db.HasTable(&amp;User{})
+
+// 检查表`users`是否存在
+db.HasTable(&quot;users&quot;)
+</code></pre>
+<h4 id="2-4-创建表"><a href="#2-4-创建表" class="headerlink" title="2.4 创建表"></a>2.4 创建表</h4><pre><code class="lang-go">// 为模型`User`创建表
+db.CreateTable(&amp;User{})
+
+// 创建表`users`时将&quot;ENGINE=InnoDB&quot;附加到SQL语句
+db.Set(&quot;gorm:table_options&quot;, &quot;ENGINE=InnoDB&quot;).CreateTable(&amp;User{})
+</code></pre>
+<h4 id="2-5-删除表"><a href="#2-5-删除表" class="headerlink" title="2.5 删除表"></a>2.5 删除表</h4><pre><code class="lang-go">// 删除模型`User`的表
+db.DropTable(&amp;User{})
+
+// 删除表`users`
+db.DropTable(&quot;users&quot;)
+
+// 删除模型`User`的表和表`products`
+db.DropTableIfExists(&amp;User{}, &quot;products&quot;)
+</code></pre>
+<h4 id="2-6-修改列"><a href="#2-6-修改列" class="headerlink" title="2.6 修改列"></a>2.6 修改列</h4><pre><code class="lang-go">// 修改模型`User`的description列的数据类型为`text`
+db.Model(&amp;User{}).ModifyColumn(&quot;description&quot;, &quot;text&quot;)
+</code></pre>
+<h4 id="2-7-删除列"><a href="#2-7-删除列" class="headerlink" title="2.7 删除列"></a>2.7 删除列</h4><pre><code class="lang-go">// 删除模型`User`的description列
+db.Model(&amp;User{}).DropColumn(&quot;description&quot;)
+</code></pre>
+<h4 id="2-8-添加外键"><a href="#2-8-添加外键" class="headerlink" title="2.8 添加外键"></a>2.8 添加外键</h4><pre><code class="lang-go">// 添加外键
+// 1st param : 外键字段
+// 2nd param : 外键表(字段)
+// 3rd param : ONDELETE
+// 4th param : ONUPDATE
+db.Model(&amp;Product{}).AddForeignKey(&quot;city_id&quot;, &quot;cities(id)&quot;, &quot;RESTRICT&quot;, &quot;RESTRICT&quot;)
+</code></pre>
+<h4 id="2-9-索引"><a href="#2-9-索引" class="headerlink" title="2.9 索引"></a>2.9 索引</h4><pre><code class="lang-go">// 为`name`列添加索引`idx_user_name`
+db.Model(&amp;User{}).AddIndex(&quot;idx_user_name&quot;, &quot;name&quot;)
+
+// 为`name`, `age`列添加索引`idx_user_name_age`
+db.Model(&amp;User{}).AddIndex(&quot;idx_user_name_age&quot;, &quot;name&quot;, &quot;age&quot;)
+
+// 添加唯一索引
+db.Model(&amp;User{}).AddUniqueIndex(&quot;idx_user_name&quot;, &quot;name&quot;)
+
+// 为多列添加唯一索引
+db.Model(&amp;User{}).AddUniqueIndex(&quot;idx_user_name_age&quot;, &quot;name&quot;, &quot;age&quot;)
+
+// 删除索引
+db.Model(&amp;User{}).RemoveIndex(&quot;idx_user_name&quot;)
+</code></pre>
+<h3 id="3-模型"><a href="#3-模型" class="headerlink" title="3. 模型"></a>3. 模型</h3><h4 id="3-1-模型定义"><a href="#3-1-模型定义" class="headerlink" title="3.1 模型定义"></a>3.1 模型定义</h4><pre><code class="lang-go">package model
+
+import (
+    &quot;database/sql&quot;
+    &quot;time&quot;
+
+    &quot;github.com/jinzhu/gorm&quot;
+)
+
+type User struct {
+    gorm.Model
+    Birthday time.Time
+    Age      int
+    Name     string `gorm:&quot;size:255&quot;`       // string 长度默认为 255
+    Num      int    `gorm:&quot;AUTO_INCREMENT&quot;` // 自增
+
+    CreditCard CreditCard // One-To-One (拥有一个 - CreditCard 表的 UserID 作外键)
+    Emails     []Email    // One-To-Many (拥有多个 - Email 表的 UserID 作外键)
+
+    BillingAddress   Address // One-To-One (属于 - 本表的 BillingAddressID 作外键)
+    BillingAddressID sql.NullInt64
+
+    ShippingAddress   Address // One-To-One (属于 - 本表的 ShippingAddressID 作外键)
+    ShippingAddressId int
+
+    IgnoreMe  int        `gorm:&quot;-&quot;`                         // 忽略这个字段
+    Languages []Language `gorm:&quot;many2many:user_languages；&quot;` // Many-To-Many , `user_languages` 是连接表
+}
+
+type Email struct {
+    ID         int
+    UserID     int    `gorm:&quot;index&quot;`                          // 外键 (属于), tag `index` 是为该列创建索引
+    Email      string `gorm:&quot;type:varchar(100);unique_index&quot;` // `type` 设置 sql 类型，`unique_index` 为该列设置唯一索引
+    Subscribed bool
+}
+
+type Address struct {
+    ID       int
+    Address1 string         `gorm:&quot;not null;unique&quot;` // 设置该字段非空且唯一
+    Address2 string         `gorm:&quot;type:varchar(100);unique&quot;`
+    Post     sql.NullString `gorm:&quot;not null&quot;`
+}
+
+type Language struct {
+    ID   int
+    Name string `gorm:&quot;index:idx_name_code&quot;` // 创建索引并命名，如果找到其他相同名称的索引则创建组合索引
+    Code string `gorm:&quot;index:idx_name_code&quot;` // `unique_index` also works
+}
+
+type CreditCard struct {
+    gorm.Model
+    UserID uint
+    Number string
+}
+</code></pre>
+<h4 id="3-2-约定"><a href="#3-2-约定" class="headerlink" title="3.2 约定"></a>3.2 约定</h4><h5 id="gorm-Model-结构体"><a href="#gorm-Model-结构体" class="headerlink" title="gorm.Model 结构体"></a>gorm.Model 结构体</h5><p><strong>基本模型定义</strong><code>gorm.Model</code>，包括字段<code>ID</code>、<code>CreatedAt</code>、<code>UpdatedAt</code>、<code>DeletedAt</code>。</p>
+<blockquote>
+<p><code>gorm.Model</code>在<code>gorm</code>目录下的<code>model.go</code>中定义：</p>
+</blockquote>
+<pre><code class="lang-go">// Model base model definition, including fields `ID`, `CreatedAt`, `UpdatedAt`, `DeletedAt`, which could be embedded in your models
+//    type User struct {
+//      gorm.Model
+//    }
+type Model struct {
+    ID        uint `gorm:&quot;primary_key&quot;`
+    CreatedAt time.Time
+    UpdatedAt time.Time
+    DeletedAt *time.Time `sql:&quot;index&quot;`
+}
+</code></pre>
+<p>可以将它<strong>嵌入你的模型</strong>，或者<strong>只写需要的字段</strong>：</p>
+<pre><code class="lang-go">// 添加字段 `ID`，`CreatedAt`，`UpdatedAt`，`DeletedAt`
+type User struct {
+    gorm.Model
+    Name string
+}
+
+// 只需要字段 `ID`，`CreatedAt`
+type User struct {
+    ID        uint
+    CreatedAt time.Time
+    Name      string
+}
+</code></pre>
+<h5 id="表名是结构体名的复数"><a href="#表名是结构体名的复数" class="headerlink" title="表名是结构体名的复数"></a>表名是结构体名的复数</h5><pre><code class="lang-go">type User struct {} // 默认表名是 `users`
+
+// 设置 User 的表名为 `profiles`
+func (User) TableName() string {
+    return &quot;profiles&quot;
+}
+
+func (u User) TableName() string {
+    if u.Role == &quot;admin&quot; {
+        return &quot;admin_users&quot;
+    } else {
+        return &quot;users&quot;
+    }
+}
+
+// 全局禁用表名负数
+db.SingularTable(true) // 如果设置为 true,`User` 的默认表名为 `user`，使用 `TableName` 设置的表名不受影响
+</code></pre>
+<h5 id="更改默认表名"><a href="#更改默认表名" class="headerlink" title="更改默认表名"></a>更改默认表名</h5><p>可以通过<strong>定义</strong><code>DefaultTableNameHandler</code><strong>对默认表名应用任何规则</strong>：</p>
+<pre><code class="lang-go">gorm.DefaultTableNameHandler = func (db *gorm.DB, defaultTableName string) string  {
+    return &quot;prefix_&quot; + defaultTableName;
+}
+</code></pre>
+<h5 id="列名是字段名的蛇形小写"><a href="#列名是字段名的蛇形小写" class="headerlink" title="列名是字段名的蛇形小写"></a>列名是字段名的蛇形小写</h5><pre><code class="lang-go">type User struct {
+    ID        uint      // 列名为 `id`
+    Name      string    // 列名为 `name`
+    Birthday  time.Time // 列名为 `birthday`
+    CreatedAt time.Time // 列名为 `created_at`
+}
+
+// 重设列名
+type Animal struct {
+    AnimalID int64     `gorm:&quot;column:beast_id&quot;`         // 设置列名为 `beast_id`
+    Birthday time.Time `gorm:&quot;column:day_of_the_beast&quot;` // 设置列名为 `day_of_the_beast`
+    Age      int64     `gorm:&quot;column:age_of_the_beast&quot;` // 设置列名为 `age_of_the_beast`
+}
+</code></pre>
+<h5 id="字段-ID-为默认主键"><a href="#字段-ID-为默认主键" class="headerlink" title="字段 ID 为默认主键"></a>字段 ID 为默认主键</h5><pre><code class="lang-go">type User struct {
+    ID   uint // 字段 `ID` 为默认主键
+    Name string
+}
+
+// 使用 tag `primary_key` 来设置主键
+type Animal struct {
+    AnimalID int64 `gorm:&quot;primary_key&quot;` // 设置 AnimalID 为主键
+    Name     string
+    Age      int64
+}
+</code></pre>
+<h5 id="字段-CreatedAt-存储创建时间"><a href="#字段-CreatedAt-存储创建时间" class="headerlink" title="字段 CreatedAt 存储创建时间"></a>字段 CreatedAt 存储创建时间</h5><p><strong>创建具有</strong><code>CreatedAt</code><strong>字段的记录</strong>将被<strong>设置为当前时间</strong>：</p>
+<pre><code class="lang-go">db.Create(&amp;user) // 将会设置 `CreatedAt` 为当前时间
+
+// 使用 `Update` 来更改它的值
+db.Model(&amp;user).Update(&quot;created_at&quot;, time.Now())
+</code></pre>
+<h5 id="字段-UpdatedAt-存储修改时间"><a href="#字段-UpdatedAt-存储修改时间" class="headerlink" title="字段 UpdatedAt 存储修改时间"></a>字段 UpdatedAt 存储修改时间</h5><p><strong>保存具有</strong><code>UpdatedAt</code><strong>字段的记录</strong>将被<strong>设置为当前时间</strong>：</p>
+<pre><code class="lang-go">db.Save(&amp;user) // 将会设置 `UpdatedAt` 为当前时间
+db.Model(&amp;user).Update(&quot;name&quot;, &quot;jinzhu&quot;) // 将会设置 `UpdatedAt` 为当前时间
+</code></pre>
+<h5 id="字段-DeletedAt-用于存储删除时间"><a href="#字段-DeletedAt-用于存储删除时间" class="headerlink" title="字段 DeletedAt 用于存储删除时间"></a>字段 DeletedAt 用于存储删除时间</h5><blockquote>
+<p>删除具有<code>DeletedAt</code>字段的记录时，<strong>记录本身不会从数据库中删除</strong>，只是<strong>将字段</strong><code>DeletedAt</code><strong>设置为当前时间</strong>，并且该记录<strong>在查询时无法被找到</strong>，即<a href="http://gorm.book.jasperxu.com/crud.html#15-%E5%88%A0%E9%99%A4%E8%BD%AF%E5%88%A0%E9%99%A4-" target="_blank" rel="noopener">软删除</a>。</p>
+</blockquote>
+<h4 id="3-3-关联"><a href="#3-3-关联" class="headerlink" title="3.3 关联"></a>3.3 关联</h4><h5 id="Belongs-To"><a href="#Belongs-To" class="headerlink" title="Belongs To"></a>Belongs To</h5><blockquote>
+<p>A <code>belongs to</code> association sets up a <strong>one-to-one</strong> connection with another model, such that each instance of the declaring model “belongs to” one instance of the other model.</p>
+</blockquote>
+<p>例如，如果您的应用程序包含用户和配置文件，并且可以将每个配置文件分配给一个用户：</p>
+<pre><code class="lang-go">type User struct {
+    gorm.Model
+    Name string
+}
+
+// `Profile` belongs to `User`, `UserID` is the foreign key
+type Profile struct {
+    gorm.Model
+    UserID int
+    User   User
+    Name   string
+}
+</code></pre>
+<h3 id="4-Code-Snippets"><a href="#4-Code-Snippets" class="headerlink" title="4. Code Snippets"></a>4. Code Snippets</h3><pre><code class="lang-go">// Enable Logger, show detailed log
+db.LogMode(true)
+
+// Disable Logger, don&#39;t show any log
+db.LogMode(false)
+
+// Debug a single operation, show detailed log for this operation
+db.Debug().Where(&quot;name = ?&quot;, &quot;jinzhu&quot;).First(&amp;User{})
+</code></pre>
+<h3 id="5-高级用法"><a href="#5-高级用法" class="headerlink" title="5. 高级用法"></a>5. 高级用法</h3><blockquote>
+<p>参见 <a href="https://jasperxu.github.io/gorm-zh/advanced.html" target="_blank" rel="noopener">1.6. 高级用法 · GORM 中文文档</a></p>
+</blockquote>
+<h4 id="5-1-错误处理"><a href="#5-1-错误处理" class="headerlink" title="5.1 错误处理"></a>5.1 错误处理</h4><p>执行任何操作后，如果发生任何错误，GORM 会将其设置为<code>*DB</code>的<code>Error</code>字段：</p>
+<pre><code class="lang-go">if err := db.Where(&quot;name = ?&quot;, &quot;jinzhu&quot;).First(&amp;user).Error; err != nil {
+    // 错误处理...
+}
+
+// 如果有多个错误发生，用`GetErrors`获取所有的错误，它返回`[]error`
+db.First(&amp;user).Limit(10).Find(&amp;users).GetErrors()
+
+// 检查是否返回 RecordNotFound 错误
+db.Where(&quot;name = ?&quot;, &quot;hello world&quot;).First(&amp;user).RecordNotFound()
+
+if db.Model(&amp;user).Related(&amp;credit_card).RecordNotFound() {
+    // 没有信用卡被发现处理...
+}
+</code></pre>
+<h4 id="5-2-事务"><a href="#5-2-事务" class="headerlink" title="5.2 事务"></a>5.2 事务</h4><p>要在事务中执行一组操作，一般流程如下：</p>
+<pre><code class="lang-go">// 开始事务
+tx := db.Begin()
+
+// 在事务中做一些数据库操作（从这一点使用&#39;tx&#39;，而不是&#39;db&#39;）
+tx.Create(...)
+
+// ...
+
+// 发生错误时回滚事务
+tx.Rollback()
+
+// 或提交事务
+tx.Commit()
+</code></pre>
+<p>一个具体的例子：</p>
+<pre><code class="lang-go">func CreateAnimals(db *gorm.DB) err {
+  tx := db.Begin()
+  // 注意，一旦你在一个事务中，使用tx作为数据库句柄
+
+  if err := tx.Create(&amp;Animal{Name: &quot;Giraffe&quot;}).Error; err != nil {
+     tx.Rollback()
+     return err
+  }
+
+  if err := tx.Create(&amp;Animal{Name: &quot;Lion&quot;}).Error; err != nil {
+     tx.Rollback()
+     return err
+  }
+
+  tx.Commit()
+  return nil
+}
+</code></pre>
+<h4 id="5-3-SQL-构建"><a href="#5-3-SQL-构建" class="headerlink" title="5.3 SQL 构建"></a>5.3 SQL 构建</h4><h5 id="执行原生-SQL"><a href="#执行原生-SQL" class="headerlink" title="执行原生 SQL"></a>执行原生 SQL</h5><pre><code class="lang-go">db.Exec(&quot;DROP TABLE users;&quot;)
+db.Exec(&quot;UPDATE orders SET shipped_at=? WHERE id IN (?)&quot;, time.Now, []int64{11,22,33})
+
+// Scan
+type Result struct {
+    Name string
+    Age  int
+}
+
+var result Result
+db.Raw(&quot;SELECT name, age FROM users WHERE name = ?&quot;, 3).Scan(&amp;result)
+</code></pre>
+<h5 id="sql-Row-amp-sql-Rows"><a href="#sql-Row-amp-sql-Rows" class="headerlink" title="sql.Row &amp; sql.Rows"></a>sql.Row &amp; sql.Rows</h5><p>获取查询结果为<code>*sql.Row</code>或<code>*sql.Rows</code>：</p>
+<pre><code class="lang-go">row := db.Table(&quot;users&quot;).Where(&quot;name = ?&quot;, &quot;jinzhu&quot;).Select(&quot;name, age&quot;).Row() // (*sql.Row)
+row.Scan(&amp;name, &amp;age)
+
+rows, err := db.Model(&amp;User{}).Where(&quot;name = ?&quot;, &quot;jinzhu&quot;).Select(&quot;name, age, email&quot;).Rows() // (*sql.Rows, error)
+defer rows.Close()
+for rows.Next() {
+    ...
+    rows.Scan(&amp;name, &amp;age, &amp;email)
+    ...
+}
+
+// Raw SQL
+rows, err := db.Raw(&quot;select name, age, email from users where name = ?&quot;, &quot;jinzhu&quot;).Rows() // (*sql.Rows, error)
+defer rows.Close()
+for rows.Next() {
+    ...
+    rows.Scan(&amp;name, &amp;age, &amp;email)
+    ...
+}
+</code></pre>
+<h5 id="迭代中使用-sql-Rows-的-Scan"><a href="#迭代中使用-sql-Rows-的-Scan" class="headerlink" title="迭代中使用 sql.Rows 的 Scan"></a>迭代中使用 sql.Rows 的 Scan</h5><pre><code class="lang-go">rows, err := db.Model(&amp;User{}).Where(&quot;name = ?&quot;, &quot;jinzhu&quot;).Select(&quot;name, age, email&quot;).Rows() // (*sql.Rows, error)
+defer rows.Close()
+
+for rows.Next() {
+  var user User
+  db.ScanRows(rows, &amp;user)
+  // do something
+}
+</code></pre>
+<h4 id="5-4-通用数据库接口-sql-DB"><a href="#5-4-通用数据库接口-sql-DB" class="headerlink" title="5.4 通用数据库接口 sql.DB"></a>5.4 通用数据库接口 sql.DB</h4><p>从<code>*gorm.DB</code>连接获取通用数据库接口<code>*sql.DB</code>：</p>
+<pre><code class="lang-go">// 获取通用数据库对象`*sql.DB`以使用其函数
+db.DB()
+
+// Ping
+db.DB().Ping()
+</code></pre>
+<p>设置<strong>连接池</strong>：</p>
+<pre><code class="lang-go">db.DB().SetMaxIdleConns(10)
+db.DB().SetMaxOpenConns(100)
+</code></pre>
+<h4 id="5-5-复合主键"><a href="#5-5-复合主键" class="headerlink" title="5.5 复合主键"></a>5.5 复合主键</h4><p>将<strong>多个字段</strong>设置为主键以启用<strong>复合主键</strong>：</p>
+<pre><code class="lang-go">type Product struct {
+    ID           string `gorm:&quot;primary_key&quot;`
+    LanguageCode string `gorm:&quot;primary_key&quot;`
+}
+</code></pre>
+<h4 id="5-6-日志"><a href="#5-6-日志" class="headerlink" title="5.6 日志"></a>5.6 日志</h4><p>Gorm 有内置的日志记录器支持，默认情况下，它会打印发生的错误：</p>
+<pre><code class="lang-go">// 启用Logger，显示详细日志
+db.LogMode(true)
+
+// 禁用日志记录器，不显示任何日志
+db.LogMode(false)
+
+// 调试单个操作，显示此操作的详细日志
+db.Debug().Where(&quot;name = ?&quot;, &quot;jinzhu&quot;).First(&amp;User{})
+</code></pre>
+<p>也可以<strong>自定义</strong><code>Logger</code>：</p>
+<pre><code class="lang-go">db.SetLogger(gorm.Logger{revel.TRACE})
+db.SetLogger(log.New(os.Stdout, &quot;\r\n&quot;, 0))
+</code></pre>
+<blockquote>
+<p><strong><em>参见： </em></strong></p>
+<ol>
+<li><a href="http://gorm.io/zh_CN/docs/logger.html" target="_blank" rel="noopener">Logger | GORM 文档</a></li>
+<li><a href="https://learnku.com/docs/gorm/2018/logger/3805" target="_blank" rel="noopener">自定义 Logger - GORM 中文文档 | LearnKu</a></li>
+</ol>
+</blockquote>
+<p><strong><em>// TODO: To be updated…</em></strong></p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://gorm.io" target="_blank" rel="noopener">gorm.io</a></li>
+<li><a href="https://gorm.io/docs/" target="_blank" rel="noopener">GORM Guides | gorm.io</a></li>
+<li><a href="https://gorm.io/zh_CN/docs/" target="_blank" rel="noopener">GORM Guides 中文版 | gorm.io</a></li>
+<li><a href="https://godoc.org" target="_blank" rel="noopener">GoDoc | Search for Go Packages</a></li>
+<li><a href="https://learnku.com/docs/gorm/2018" target="_blank" rel="noopener">GORM 中文文档 | LearnKu</a></li>
+<li><a href="http://gorm.book.jasperxu.com/" target="_blank" rel="noopener">GORM 中文文档 | GitBook</a></li>
+<li><a href="https://www.cnblogs.com/kissdodog/p/3344929.html" target="_blank" rel="noopener">逻辑数据库设计 - 多态关联 | 博客园</a></li>
+<li><a href="http://gorm.io/zh_CN/docs/logger.html" target="_blank" rel="noopener">Logger | GORM 文档</a></li>
+<li><a href="https://learnku.com/docs/gorm/2018/logger/3805" target="_blank" rel="noopener">自定义 Logger - GORM 中文文档 | LearnKu</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/">使用 Gogs 自建 Git 服务</a></li><li><a href="https://abelsu7.top/2019/10/31/go-gin-swagger/">在 Gin 中使用 swaggo 自动生成 RESTful API 文档</a></li><li><a href="https://abelsu7.top/2019/10/24/go-build-compress-using-upx/">使用 upx 压缩 go build 打包的可执行文件</a></li><li><a href="https://abelsu7.top/2019/10/24/go-cross-compile/">Go 程序的交叉编译、选择性编译</a></li><li><a href="chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li><li><a href="www.chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-10-31T10:08:26.827Z" itemprop="dateUpdated">2019-10-31 18:08:26</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/06/05/gorm-notes/" target="_blank" rel="external">https://abelsu7.top/2019/06/05/gorm-notes/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GORM/">GORM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL/">SQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/06/05/gorm-notes/&title=《Golang ORM 框架：GORM》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/06/05/gorm-notes/&title=《Golang ORM 框架：GORM》 — Keep Coding&source=
+GORM is a fantastic ORM library for Golang.
+
+
+                
+             ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/06/05/gorm-notes/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Golang ORM 框架：GORM》 — Keep Coding&url=https://abelsu7.top/2019/06/05/gorm-notes/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/06/05/gorm-notes/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/06/06/go-module-using-goproxy-io/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Go Modules 配置 GOPROXY</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/06/04/qemu-src-notes/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">QEMU 3.1.0 源码学习</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/06/05/gorm-notes/&title=《Golang ORM 框架：GORM》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/06/05/gorm-notes/&title=《Golang ORM 框架：GORM》 — Keep Coding&source=
+GORM is a fantastic ORM library for Golang.
+
+
+                
+             ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/06/05/gorm-notes/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Golang ORM 框架：GORM》 — Keep Coding&url=https://abelsu7.top/2019/06/05/gorm-notes/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/06/05/gorm-notes/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABw0lEQVR42u3aO27DMBAFwNz/0k6bRvJ7XJFxgmFlGDI5crHYD7++4vX6sa6+yZ+8+u1jCxcXd8x93a4El+x/dVZuwMXFPc9Njsljy9rfcW/AxcX9K9w80bnfExcX939w82TlPtHBxcX9ZG6bgrQJ0C/Uari4uANu3qXc93lLfxcXF3eJ+yrXWtBpd7jcGRcX9wi3HYe0RcskMbrcBxcXdzN3PiJdS1/ywLf4v+Li4j7KbcelbdhqL3K9CWS4uLgbuGvFSR7gkpevR7C4uLibuZMBxmTU0b4SLi7uSW6buMwbrKPiBxcX9yA3uQ5Vh5ulxspiuMTFxd3MTUqUpOXRlklJowQXF/cMd1LwrAWgUYjExcU9wt03Jml3qK9o4OLibuZOCpI8e5oMbN40THFxcbdxJ32UvPjJR6pvZsK4uLhHuJOWaJ1PlZOROsXBxcUdcCdD06TN0Y5VRrc2cHFxH+KuXaWqI2UwpMlLJlxc3DPcSfBqB6uTFi0uLu557qRt0RZRD9RquLi4H8ZdG40kYauo2HBxcT+emzzZhrPL53FxcQ9y23CTH7nWTKmHrLi4uI9y146cjEDy5umov4uLi7vC/QbAr1LBqxP+CQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

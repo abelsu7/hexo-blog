@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>基于 Golang Web 框架 Gin 搭建 RESTful API 服务 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Go,Gin,RESTful,Web 开发">
+    <meta name="description" content="摘自 《基于 Go 语言构建企业级的 RESTful API 服务》| 掘金小册，更新中…">
+<meta name="keywords" content="Go,Gin,RESTful,Web 开发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于 Golang Web 框架 Gin 搭建 RESTful API 服务">
+<meta property="og:url" content="https://abelsu7.top/2019/03/11/go-restful-api-using-gin/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自 《基于 Go 语言构建企业级的 RESTful API 服务》| 掘金小册，更新中…">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/03/11/go-restful-api-using-gin/cover.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/11/go-restful-api-using-gin/overview.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/11/go-restful-api-using-gin/rpc.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/11/go-restful-api-using-gin/apiserver-start.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/11/go-restful-api-using-gin/http-request-handle.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/11/go-restful-api-using-gin/http-post.jpg">
+<meta property="og:updated_time" content="2019-10-23T15:06:26.422Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于 Golang Web 框架 Gin 搭建 RESTful API 服务">
+<meta name="twitter:description" content="摘自 《基于 Go 语言构建企业级的 RESTful API 服务》| 掘金小册，更新中…">
+<meta name="twitter:image" content="https://abelsu7.top/2019/03/11/go-restful-api-using-gin/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">基于 Golang Web 框架 Gin 搭建 RESTful API 服务</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">基于 Golang Web 框架 Gin 搭建 RESTful API 服务</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-03-11T01:38:21.000Z" itemprop="datePublished" class="page-time">
+  2019-03-11
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-账号系统-API-功能简介"><span class="post-toc-text">1. 账号系统 API 功能简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#技术雷达"><span class="post-toc-text">技术雷达</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#业务功能"><span class="post-toc-text">业务功能</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#运行环境"><span class="post-toc-text">运行环境</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-RESTful-API-简介"><span class="post-toc-text">2. RESTful API 简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#REST-简介"><span class="post-toc-text">REST 简介</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#RPC-简介"><span class="post-toc-text">RPC 简介</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#REST-vs-RPC"><span class="post-toc-text">REST vs RPC</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#媒体类型选择"><span class="post-toc-text">媒体类型选择</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-API-流程和代码结构"><span class="post-toc-text">3. API 流程和代码结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#HTTP-API-服务器启动流程"><span class="post-toc-text">HTTP API 服务器启动流程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#HTTP-请求处理流程"><span class="post-toc-text">HTTP 请求处理流程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#HTTP-请求和响应格式介绍"><span class="post-toc-text">HTTP 请求和响应格式介绍</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#目录结构"><span class="post-toc-text">目录结构</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-go-restful-api-using-gin"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">基于 Golang Web 框架 Gin 搭建 RESTful API 服务</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-03-11 09:38:21" datetime="2019-03-11T01:38:21.000Z"  itemprop="datePublished">2019-03-11</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>摘自 <a href="https://juejin.im/book/5b0778756fb9a07aa632301e" target="_blank" rel="noopener">《基于 Go 语言构建企业级的 RESTful API 服务》| 掘金小册</a>，更新中…</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/11/go-restful-api-using-gin/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><h3 id="1-账号系统-API-功能简介"><a href="#1-账号系统-API-功能简介" class="headerlink" title="1. 账号系统 API 功能简介"></a>1. 账号系统 API 功能简介</h3><h4 id="技术雷达"><a href="#技术雷达" class="headerlink" title="技术雷达"></a>技术雷达</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/11/go-restful-api-using-gin/overview.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h4 id="业务功能"><a href="#业务功能" class="headerlink" title="业务功能"></a>业务功能</h4><p>小册构建了一个<strong>账号系统</strong><code>apiserver</code>，功能如下：</p>
+<ul>
+<li>API 服务器状态检查</li>
+<li>登录用户</li>
+<li>新增用户</li>
+<li>删除用户</li>
+<li>更新用户</li>
+<li>获取指定用户的详细信息</li>
+<li>获取用户列表</li>
+</ul>
+<h4 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h4><p>CentOS 7.5.1804</p>
+<h3 id="2-RESTful-API-简介"><a href="#2-RESTful-API-简介" class="headerlink" title="2. RESTful API 简介"></a>2. RESTful API 简介</h3><p>要实现一个 <strong>API 服务器</strong>，首先要考虑两个方面：<strong>API 风格</strong>和<strong>媒体类型</strong>。<strong>Go 语言</strong>中常用的 <strong>API 风格</strong>是<code>RPC</code>和<code>REST</code>，常用的<strong>媒体类型</strong>是<code>JSON</code>、<code>XML</code>和<code>Protobuf</code>。在 <strong>Go API 开发</strong>中常用的组合是<code>gRPC + Protobuf</code>和<code>REST + JSON</code>。  </p>
+<h4 id="REST-简介"><a href="#REST-简介" class="headerlink" title="REST 简介"></a>REST 简介</h4><p><strong>REST</strong> 代表<strong>表现层状态转移</strong>（<strong>RE</strong>presentational <strong>S</strong>tate <strong>T</strong>ransfer），是一种<strong>软件架构风格</strong>，不是技术框架。</p>
+<p><strong>REST 有一系列规范</strong>，满足这些规范的 API 均可称为 <strong>RESTful API</strong>，核心规范如下：</p>
+<ol>
+<li><strong>REST</strong> 中一切<strong>实体</strong>都被<strong>抽象成资源</strong>，每个资源有一个<strong>唯一的标识</strong><code>URI</code>，所有行为都应该是在资源上的<code>CRUD</code>操作</li>
+<li>使用<strong>标准的方法</strong>来<strong>更改资源的状态</strong>，常见的操作有：资源的<strong>增删改查</strong>操作</li>
+<li><strong>无状态</strong>：这里的无状态是指<strong>每个</strong><code>RESTful API</code><strong>请求都包含了所有足够完成本次操作的信息</strong>，<strong>服务端无需保持 Session</strong></li>
+</ol>
+<blockquote>
+<p><strong>无状态</strong>对于<strong>服务端的弹性扩容</strong>来说至关重要</p>
+</blockquote>
+<p>在实际开发中，REST 由于天生和 HTTP 协议相辅相成，因此 <strong>HTTP 协议</strong>已经成为<strong>实现 RESTful API 的事实标准</strong>。在 HTTP 协议中<strong>通过</strong><code>POST</code>、<code>DELETE</code>、<code>PUT</code>、<code>GET</code><strong>方法来对应 REST 资源的</strong><code>CRUD</code><strong>操作</strong>，具体对应关系如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><strong>HTTP 方法</strong></th>
+<th style="text-align:center"><strong>行为</strong></th>
+<th style="text-align:center"><strong>URI</strong></th>
+<th style="text-align:center"><strong>示例说明</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">GET</td>
+<td style="text-align:center">获取资源列表</td>
+<td style="text-align:center">/users</td>
+<td style="text-align:center">获取用户列表</td>
+</tr>
+<tr>
+<td style="text-align:center">GET</td>
+<td style="text-align:center">获取一个具体的资源</td>
+<td style="text-align:center">/users/admin</td>
+<td style="text-align:center">获取 admin 用户的详细信息</td>
+</tr>
+<tr>
+<td style="text-align:center">POST</td>
+<td style="text-align:center">创建一个新的资源</td>
+<td style="text-align:center">/users</td>
+<td style="text-align:center">创建一个新用户</td>
+</tr>
+<tr>
+<td style="text-align:center">PUT</td>
+<td style="text-align:center">以整体的方式更新一个资源</td>
+<td style="text-align:center">/users/1</td>
+<td style="text-align:center">更新 id 为 1 的用户</td>
+</tr>
+<tr>
+<td style="text-align:center">DELETE</td>
+<td style="text-align:center">删除服务器上的一个资源</td>
+<td style="text-align:center">/users/1</td>
+<td style="text-align:center">删除 id 为 1 的用户</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="RPC-简介"><a href="#RPC-简介" class="headerlink" title="RPC 简介"></a>RPC 简介</h4><p><strong>远程过程调用（Remote Procedure Call，RPC）</strong>是一个计算机<strong>通信协议</strong>，它<strong>允许运行于一台计算机的程序调用另一台计算机的子程序</strong>，而程序员无需额外为这个交互操作编程。</p>
+<p><strong>RPC 的调用过程</strong>如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/11/go-restful-api-using-gin/rpc.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ol>
+<li><code>Client</code>通过<strong>本地调用</strong>，调用<code>Client Stub</code></li>
+<li><code>Client Stub</code>将参数打包（也叫<strong>序列化</strong><code>Marshalling</code>）成一个消息，然后发送这个消息</li>
+<li><code>Client</code>所在的 <strong>OS 将消息发送给</strong><code>Server</code></li>
+<li><code>Server</code>端接收到消息后，将消息传递给<code>Server Stub</code></li>
+<li><code>Server Stub</code>将消息解包（也叫<strong>反序列化</strong><code>Unmarshalling</code>）得到参数</li>
+<li><code>Server Stub</code><strong>调用服务端的子程序（函数）</strong>，处理完后，将最终结果按照相反的步骤返回给<code>Client</code></li>
+</ol>
+<h4 id="REST-vs-RPC"><a href="#REST-vs-RPC" class="headerlink" title="REST vs RPC"></a>REST vs RPC</h4><p><strong>RPC 相比于 REST 的优点</strong>主要有以下三点：</p>
+<ol>
+<li><code>RPC+Protobuf</code>采用 <strong>TCP</strong> 做传输协议，而<code>REST</code>直接使用 <strong>HTTP</strong> 做应用层协议，导致<code>REST</code><strong>在调用性能上会比</strong><code>RPC+Protobuf</code><strong>低</strong></li>
+<li>对于一些<strong>很难抽象成资源的操作</strong>例如登录操作，在实际开发中<strong>并不能严格按照</strong><code>REST</code><strong>规范编写 API</strong>，而<code>RPC</code>就不存在这个问题</li>
+<li><code>RPC</code><strong>屏蔽网络细节、易用</strong>，和本地调用类似</li>
+</ol>
+<p>而 <strong>REST 相比于 RPC</strong> 也有很多优势：</p>
+<ol>
+<li><code>REST</code><strong>轻量级</strong>，简单易用，<strong>维护性和扩展性</strong>都比较好</li>
+<li><code>REST</code><strong>只要语言支持 HTTP 协议就可以对接</strong>，更适合对外。而<code>RPC</code>会有<strong>语言限制</strong>，不同语言的<code>RPC</code>调用起来很麻烦</li>
+<li><code>JSON</code><strong>格式可读性更强</strong>，开发调试都很方便</li>
+<li>如果严格按照<code>REST</code>规范来编写 API，那么最终 API 看起来会<strong>更加清晰</strong>，<strong>更容易被其他人理解</strong></li>
+</ol>
+<h4 id="媒体类型选择"><a href="#媒体类型选择" class="headerlink" title="媒体类型选择"></a>媒体类型选择</h4><p>选择<code>JSON</code>。</p>
+<h3 id="3-API-流程和代码结构"><a href="#3-API-流程和代码结构" class="headerlink" title="3. API 流程和代码结构"></a>3. API 流程和代码结构</h3><h4 id="HTTP-API-服务器启动流程"><a href="#HTTP-API-服务器启动流程" class="headerlink" title="HTTP API 服务器启动流程"></a>HTTP API 服务器启动流程</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/11/go-restful-api-using-gin/apiserver-start.jpg" alt="HTTP API 服务器启动流程" title>
+                </div>
+                <div class="image-caption">HTTP API 服务器启动流程</div>
+            </figure>
+<h4 id="HTTP-请求处理流程"><a href="#HTTP-请求处理流程" class="headerlink" title="HTTP 请求处理流程"></a>HTTP 请求处理流程</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http-request-handle.jpg" alt="一次完整的 HTTP 请求处理流程" title>
+                </div>
+                <div class="image-caption">一次完整的 HTTP 请求处理流程</div>
+            </figure>
+<h4 id="HTTP-请求和响应格式介绍"><a href="#HTTP-请求和响应格式介绍" class="headerlink" title="HTTP 请求和响应格式介绍"></a>HTTP 请求和响应格式介绍</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http-post.jpg" alt="HTTP 请求报文 的一般格式" title>
+                </div>
+                <div class="image-caption">HTTP 请求报文 的一般格式</div>
+            </figure>
+<ul>
+<li>第一行必须是一个<strong>请求行</strong><code>request line</code>，用来说明<strong>请求类型</strong>、<strong>要访问的资源</strong>以及<strong>所使用的 HTTP 版本</strong></li>
+<li>紧接着是一个<strong>头部</strong><code>header</code><strong>小节</strong>，用来说明服务器要使用的<strong>附加信息</strong></li>
+<li>之后是一个<strong>空行</strong></li>
+<li>再后面即为<strong>主体</strong><code>body</code>，可以添加任意的其他数据</li>
+</ul>
+<blockquote>
+<p><strong>HTTP 响应格式</strong>与请求格式类似，也是由四部分组成：<strong>状态行</strong>、<strong>消息报头</strong>、<strong>空行</strong>和<strong>响应数据</strong></p>
+</blockquote>
+<h4 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h4><pre><code class="lang-bash">├── admin.sh                     # 进程的start|stop|status|restart控制文件
+├── conf                         # 配置文件统一存放目录
+│   ├── config.yaml              # 配置文件
+│   ├── server.crt               # TLS配置文件
+│   └── server.key
+├── config                       # 专门用来处理配置和配置文件的Go package
+│   └── config.go                 
+├── db.sql                       # 在部署新环境时，可以登录MySQL客户端，执行source db.sql创建数据库和表
+├── docs                         # swagger文档，执行 swag init 生成的
+│   ├── docs.go
+│   └── swagger
+│       ├── swagger.json
+│       └── swagger.yaml
+├── handler                      # 类似MVC架构中的C，用来读取输入，并将处理流程转发给实际的处理函数，最后返回结果
+│   ├── handler.go
+│   ├── sd                       # 健康检查handler
+│   │   └── check.go 
+│   └── user                     # 核心：用户业务逻辑handler
+│       ├── create.go            # 新增用户
+│       ├── delete.go            # 删除用户
+│       ├── get.go               # 获取指定的用户信息
+│       ├── list.go              # 查询用户列表
+│       ├── login.go             # 用户登录
+│       ├── update.go            # 更新用户
+│       └── user.go              # 存放用户handler公用的函数、结构体等
+├── main.go                      # Go程序唯一入口
+├── Makefile                     # Makefile文件，一般大型软件系统都是采用make来作为编译工具
+├── model                        # 数据库相关的操作统一放在这里，包括数据库初始化和对表的增删改查
+│   ├── init.go                  # 初始化和连接数据库
+│   ├── model.go                 # 存放一些公用的go struct
+│   └── user.go                  # 用户相关的数据库CURD操作
+├── pkg                          # 引用的包
+│   ├── auth                     # 认证包
+│   │   └── auth.go
+│   ├── constvar                 # 常量统一存放位置
+│   │   └── constvar.go
+│   ├── errno                    # 错误码存放位置
+│   │   ├── code.go
+│   │   └── errno.go
+│   ├── token
+│   │   └── token.go
+│   └── version                  # 版本包
+│       ├── base.go
+│       ├── doc.go
+│       └── version.go
+├── README.md                    # API目录README
+├── router                       # 路由相关处理
+│   ├── middleware               # API服务器用的是Gin Web框架，Gin中间件存放位置
+│   │   ├── auth.go 
+│   │   ├── header.go
+│   │   ├── logging.go
+│   │   └── requestid.go
+│   └── router.go
+├── service                      # 实际业务处理函数存放位置
+│   └── service.go
+├── util                         # 工具类函数存放目录
+│   ├── util.go 
+│   └── util_test.go
+└── vendor                         # vendor目录用来管理依赖包
+    ├── github.com
+    ├── golang.org
+    ├── gopkg.in
+    └── vendor.json
+</code></pre>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://juejin.im/book/5b0778756fb9a07aa632301e" target="_blank" rel="noopener">《基于 Go 语言构建企业级的 RESTful API 服务》| 掘金小册</a></li>
+<li><a href="https://learnku.com/golang/t/24598" target="_blank" rel="noopener">教程：使用 go 的 gin 和 gorm 框架来构建 RESTful API 微服务 | LearnKu</a></li>
+<li><a href="https://medium.com/@thedevsaddam/build-restful-api-service-in-golang-using-gin-gonic-framework-85b1a6e176f3" target="_blank" rel="noopener">Build RESTful API service in golang using gin-gonic framework | Medium</a></li>
+<li><a href="https://blog.yumaojun.net/2017/10/03/restful-vs-soap/" target="_blank" rel="noopener">对比 RESTful 与 SOAP，深入理解 RESTful | 紫川秀的博客</a></li>
+<li><a href="https://blog.yumaojun.net/2017/01/06/rest-api-design/" target="_blank" rel="noopener">RESTful API 设计规范 | 紫川秀的博客</a></li>
+<li><a href="https://blog.yumaojun.net/2017/01/05/api-design-swagger/" target="_blank" rel="noopener">如何使用 swagger 设计出漂亮的 RESTful API | 紫川秀的博客</a></li>
+<li><a href="https://razeencheng.com/post/go-swagger.html" target="_blank" rel="noopener">Go 学习笔记 (六) - 使用 swaggo 自动生成 Restful API 文档 | Razeen’s Blog</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/">使用 Gogs 自建 Git 服务</a></li><li><a href="https://abelsu7.top/2019/10/31/go-gin-swagger/">在 Gin 中使用 swaggo 自动生成 RESTful API 文档</a></li><li><a href="https://abelsu7.top/2019/10/24/go-build-compress-using-upx/">使用 upx 压缩 go build 打包的可执行文件</a></li><li><a href="https://abelsu7.top/2019/10/24/go-cross-compile/">Go 程序的交叉编译、选择性编译</a></li><li><a href="chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li><li><a href="www.chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-10-23T15:06:26.422Z" itemprop="dateUpdated">2019-10-23 23:06:26</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/03/11/go-restful-api-using-gin/" target="_blank" rel="external">https://abelsu7.top/2019/03/11/go-restful-api-using-gin/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gin/">Gin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RESTful/">RESTful</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web-开发/">Web 开发</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/11/go-restful-api-using-gin/&title=《基于 Golang Web 框架 Gin 搭建 RESTful API 服务》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/11/go-restful-api-using-gin/&title=《基于 Golang Web 框架 Gin 搭建 RESTful API 服务》 — Keep Coding&source=
+摘自 《基于 Go 语言构建企业级的 RESTful API 服务》| 掘金小册，更新中…
+
+
+                
+           ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/11/go-restful-api-using-gin/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于 Golang Web 框架 Gin 搭建 RESTful API 服务》 — Keep Coding&url=https://abelsu7.top/2019/03/11/go-restful-api-using-gin/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/11/go-restful-api-using-gin/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/03/11/core-java-notes-6/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Java 笔记 6：异常、断言和日志</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/03/08/go-input-format/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Go 语言几种常见的格式化输入</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/11/go-restful-api-using-gin/&title=《基于 Golang Web 框架 Gin 搭建 RESTful API 服务》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/11/go-restful-api-using-gin/&title=《基于 Golang Web 框架 Gin 搭建 RESTful API 服务》 — Keep Coding&source=
+摘自 《基于 Go 语言构建企业级的 RESTful API 服务》| 掘金小册，更新中…
+
+
+                
+           ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/11/go-restful-api-using-gin/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于 Golang Web 框架 Gin 搭建 RESTful API 服务》 — Keep Coding&url=https://abelsu7.top/2019/03/11/go-restful-api-using-gin/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/11/go-restful-api-using-gin/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACI0lEQVR42u3aQW6EMAwF0N7/0nRbqYX5jkMlzMtqNMMALwvLsf31Fa/jx6p+//ua6t22LQwMjMcyjst1dk31wfmdk1//eCIGBsYLGGcPvv6c/Ovs5fI7XF+DgYGBkbxcEnaPYGFgYGDcwegnjsmdMTAwMPYGwbMi2u3BHQMDYzQjr7r//+db+hsYGBiPYhzFlVM7qV75rTAwMEYz8gDXTxzXpiMKwx8YGBijGbsyriq1OmSWlAgxMDDmMfKCfieJXCv0FzYCAwNjNGOtuJazq43M/NC7oUaIgYHxEEZhlCEInbtSw1umRTAwMMYxroNgzq6epBdbCxgYGKMZ/TSuWuhfSx+j7zEwMIYy+oX+aqlu7Rz6IRBjYGC8krFWFMubBNV2QjQtgoGBMZRRHXTIy/fVpHDbzAgGBsZrGEnjMB/qSu6fb03UJMDAwHgBoxM686PvYgMg2V0MDIxBjLy41mlM5sfgtVQVAwNjNiMJeWvhsjOEsXZsxsDAmM3oDGnlmVu/tfABg4GB8QJGP2jm4bKaLEYbioGB8QLGWoktCdP9K6NNwcDAGMo4imttLGNv+hglhRgYGIMY/QZnB1Yt/a+1IjAwMGYw8iBbbQNUR806/8LAwHgDI0nXqg+7YwjsQw8WAwMDI/i8q4h2e8DFwMAYzUgKZNXXqp65oxYmBgbGOEb+EtUxiLU7J1uMgYHxHkZ/MKJ6KK2W87Y1MjEwMJ7H+AaigpNhRPA/ZgAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

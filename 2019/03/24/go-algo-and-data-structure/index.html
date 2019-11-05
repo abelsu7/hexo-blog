@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Go 语言常用算法及数据结构汇总 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="算法,数据结构,Go">
+    <meta name="description" content="Keep calm and use Go.">
+<meta name="keywords" content="算法,数据结构,Go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go 语言常用算法及数据结构汇总">
+<meta property="og:url" content="https://abelsu7.top/2019/03/24/go-algo-and-data-structure/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="Keep calm and use Go.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/03/24/go-algo-and-data-structure/cover.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/24/go-algo-and-data-structure/sort-algo-complexity.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.246Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go 语言常用算法及数据结构汇总">
+<meta name="twitter:description" content="Keep calm and use Go.">
+<meta name="twitter:image" content="https://abelsu7.top/2019/03/24/go-algo-and-data-structure/cover.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Go 语言常用算法及数据结构汇总</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Go 语言常用算法及数据结构汇总</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-03-24T07:49:11.000Z" itemprop="datePublished" class="page-time">
+  2019-03-24
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一、排序算法"><span class="post-toc-text">一、排序算法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-冒泡排序"><span class="post-toc-text">1. 冒泡排序</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-插入排序"><span class="post-toc-text">2. 插入排序</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-选择排序"><span class="post-toc-text">3. 选择排序</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-归并排序"><span class="post-toc-text">4. 归并排序</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-快速排序"><span class="post-toc-text">5. 快速排序</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-计数排序"><span class="post-toc-text">6. 计数排序</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-堆排序"><span class="post-toc-text">7. 堆排序</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#二、二分查找"><span class="post-toc-text">二、二分查找</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#三、数据结构"><span class="post-toc-text">三、数据结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-二叉树"><span class="post-toc-text">1. 二叉树</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-链表"><span class="post-toc-text">2. 链表</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#单链表"><span class="post-toc-text">单链表</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#链表常用操作"><span class="post-toc-text">链表常用操作</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-栈"><span class="post-toc-text">3. 栈</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#栈的接口"><span class="post-toc-text">栈的接口</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#基于数组的栈"><span class="post-toc-text">基于数组的栈</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#基于链表的栈"><span class="post-toc-text">基于链表的栈</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-队列"><span class="post-toc-text">4. 队列</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#基于数组的队列"><span class="post-toc-text">基于数组的队列</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-堆"><span class="post-toc-text">5. 堆</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#结构体声明"><span class="post-toc-text">结构体声明</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-go-algo-and-data-structure"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Go 语言常用算法及数据结构汇总</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-03-24 15:49:11" datetime="2019-03-24T07:49:11.000Z"  itemprop="datePublished">2019-03-24</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>Keep calm and use Go.</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/24/go-algo-and-data-structure/cover.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#一、排序算法">一、排序算法</a><ul>
+<li><a href="#1-冒泡排序">1. 冒泡排序</a></li>
+<li><a href="#2-插入排序">2. 插入排序</a></li>
+<li><a href="#3-选择排序">3. 选择排序</a></li>
+<li><a href="#4-归并排序">4. 归并排序</a></li>
+<li><a href="#5-快速排序">5. 快速排序</a></li>
+<li><a href="#6-计数排序">6. 计数排序</a></li>
+<li><a href="#7-堆排序">7. 堆排序</a></li>
+</ul>
+</li>
+<li><a href="#二、二分查找">二、二分查找</a></li>
+<li><a href="#三、数据结构">三、数据结构</a><ul>
+<li><a href="#1-二叉树">1. 二叉树</a></li>
+<li><a href="#2-链表">2. 链表</a></li>
+<li><a href="#3-栈">3. 栈</a></li>
+<li><a href="#4-队列">4. 队列</a></li>
+<li><a href="#5-堆">5. 堆</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="一、排序算法"><a href="#一、排序算法" class="headerlink" title="一、排序算法"></a>一、排序算法</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/24/go-algo-and-data-structure/sort-algo-complexity.jpg" alt="常用排序算法汇总" title>
+                </div>
+                <div class="image-caption">常用排序算法汇总</div>
+            </figure>
+<h4 id="1-冒泡排序"><a href="#1-冒泡排序" class="headerlink" title="1. 冒泡排序"></a>1. 冒泡排序</h4><pre><code class="lang-go">//冒泡排序，a是数组，n表示数组大小
+func BubbleSort(a []int, n int) {
+    if n &lt;= 1 {
+        return
+    }
+    for i := 0; i &lt; n; i++ {
+        // 提前退出标志
+        flag := false
+        for j := 0; j &lt; n-i-1; j++ {
+            if a[j] &gt; a[j+1] {
+                a[j], a[j+1] = a[j+1], a[j]
+                //此次冒泡有数据交换
+                flag = true
+            }
+        }
+        // 如果没有交换数据，提前退出
+        if !flag {
+            break
+        }
+    }
+}
+</code></pre>
+<h4 id="2-插入排序"><a href="#2-插入排序" class="headerlink" title="2. 插入排序"></a>2. 插入排序</h4><pre><code class="lang-go">// 插入排序，a表示数组，n表示数组大小
+func InsertionSort(a []int, n int) {
+    if n &lt;= 1 {
+        return
+    }
+    for i := 1; i &lt; n; i++ {
+        value := a[i]
+        j := i - 1
+        //查找要插入的位置并移动数据
+        for ; j &gt;= 0; j-- {
+            if a[j] &gt; value {
+                a[j+1] = a[j]
+            } else {
+                break
+            }
+        }
+        a[j+1] = value
+    }
+}
+</code></pre>
+<h4 id="3-选择排序"><a href="#3-选择排序" class="headerlink" title="3. 选择排序"></a>3. 选择排序</h4><pre><code class="lang-go">// 选择排序，a表示数组，n表示数组大小
+func SelectionSort(a []int, n int) {
+    if n &lt;= 1 {
+        return
+    }
+    for i := 0; i &lt; n; i++ {
+        // 查找最小值
+        minIndex := i
+        for j := i + 1; j &lt; n; j++ {
+            if a[j] &lt; a[minIndex] {
+                minIndex = j
+            }
+        }
+        // 交换
+        a[i], a[minIndex] = a[minIndex], a[i]
+
+    }
+}
+</code></pre>
+<h4 id="4-归并排序"><a href="#4-归并排序" class="headerlink" title="4. 归并排序"></a>4. 归并排序</h4><pre><code class="lang-go">// 归并排序
+func MergeSort(a []int, n int) {
+    if n &lt;= 1 {
+        return
+    }
+    mergeSort(a, 0, n-1)
+}
+
+func mergeSort(a []int, start, end int) {
+    if start &gt;= end {
+        return
+    }
+    mid := (start + end) / 2
+    mergeSort(a, start, mid)
+    mergeSort(a, mid+1, end)
+    merge(a, start, mid, end)
+}
+
+func merge(a []int, start, mid, end int) {
+    tmpArr := make([]int, end-start+1)
+
+    i := start
+    j := mid + 1
+    k := 0
+
+    for ; i &lt;= mid &amp;&amp; j &lt;= end; k++ {
+        if a[i] &lt; a[j] {
+            tmpArr[k] = a[i]
+            i++
+        } else {
+            tmpArr[k] = a[j]
+            j++
+        }
+    }
+
+    for ; i &lt;= mid; i++ {
+        tmpArr[k] = a[i]
+        k++
+    }
+    for ; j &lt;= end; j++ {
+        tmpArr[k] = a[j]
+        j++
+    }
+    copy(a[start:end+1], tmpArr)
+}
+</code></pre>
+<h4 id="5-快速排序"><a href="#5-快速排序" class="headerlink" title="5. 快速排序"></a>5. 快速排序</h4><pre><code class="lang-go">func QuickSort(a []int, n int) {
+    separateSort(a, 0, n-1)
+}
+
+func separateSort(a []int, start, end int) {
+    if start &gt;= end {
+        return
+    }
+    i := partition(a, start, end)
+    separateSort(a, start, i-1)
+    separateSort(a, i+1, end)
+}
+
+func partition(a []int, start, end int) int {
+    // 选取最后一位当对比数字
+    pivot := a[end]
+
+    i := start
+    for j := start; j &lt; end; j++ {
+        if a[j] &lt; pivot {
+            if !(i == j) {
+                // 交换位置
+                a[i], a[j] = a[j], a[i]
+            }
+            i++
+        }
+    }
+    a[i], a[end] = a[end], a[i]
+    return i
+}
+</code></pre>
+<h4 id="6-计数排序"><a href="#6-计数排序" class="headerlink" title="6. 计数排序"></a>6. 计数排序</h4><pre><code class="lang-go">func CountingSort(a []int, n int) {
+    if n &lt;= 1 {
+        return
+    }
+
+    var max = math.MinInt32
+    for i := range a {
+        if a[i] &gt; max {
+            max = a[i]
+        }
+    }
+
+    c := make([]int, max+1)
+    for i := range a {
+        c[a[i]]++
+    }
+    for i := 1; i &lt;= max; i++ {
+        c[i] += c[i-1]
+    }
+
+    r := make([]int, n)
+    for i := range a {
+        index := c[a[i]] - 1
+        r[index] = a[i]
+        c[a[i]]--
+    }
+    copy(a, r)
+}
+</code></pre>
+<h4 id="7-堆排序"><a href="#7-堆排序" class="headerlink" title="7. 堆排序"></a>7. 堆排序</h4><ul>
+<li><strong>父节点</strong>：<code>(x-1)/2</code></li>
+<li><strong>左子节点</strong>：<code>2x+1</code></li>
+<li><strong>右子节点</strong>：<code>2x+2</code></li>
+<li>堆中<strong>最后一个父节点</strong>：<code>(n/2)-1</code></li>
+</ul>
+<pre><code class="lang-go">func HeapSort(arr []int, n int) {
+    // 1. 建立一个大顶堆
+    buildMaxHeap(arr, n)
+    length := n
+    // 2. 交换堆顶元素与堆尾，并对剩余的元素重新建堆
+    for i := n - 1; i &gt; 0; i-- {
+        swap(arr, 0, i)
+        length--
+        heapify(arr, 0, length)
+    }
+    // 3. 返回堆排序后的数组
+    return
+}
+
+func buildMaxHeap(arr []int, n int) {
+    for i := n/2 - 1; i &gt;= 0; i-- {
+        heapify(arr, i, n)
+    }
+}
+
+// 从上至下堆化
+func heapify(arr []int, i int, n int) {
+    left := 2*i + 1
+    right := 2*i + 2
+    largest := i
+
+    if left &lt; n &amp;&amp; arr[left] &gt; arr[largest] {
+        largest = left
+    }
+    if right &lt; n &amp;&amp; arr[right] &gt; arr[largest] {
+        largest = right
+    }
+    if largest != i {
+        swap(arr, i, largest)
+        heapify(arr, largest, n)
+    }
+}
+
+func swap(arr []int, i int, j int) {
+    arr[i], arr[j] = arr[j], arr[i]
+}
+</code></pre>
+<h3 id="二、二分查找"><a href="#二、二分查找" class="headerlink" title="二、二分查找"></a>二、二分查找</h3><pre><code class="lang-go">func BinarySearch(a []int, v int) int {
+    n := len(a)
+    if n == 0 {
+        return -1
+    }
+    low := 0
+    high := n - 1
+    for low &lt;= high {
+        mid := (low + high) / 2
+        if a[mid] == v {
+            return mid
+        } else if a[mid] &gt; v {
+            high = mid - 1
+        } else {
+            low = mid + 1
+        }
+    }
+    return -1
+}
+
+// 递归写法
+func BinarySearchRecursive(a []int, v int) int {
+    n := len(a)
+    if n == 0 {
+        return -1
+    }
+    return bs(a, v, 0, n-1)
+}
+
+func bs(a []int, v int, low, high int) int {
+    if low &gt; high {
+        return -1
+    }
+    mid := (low + high) / 2
+    if a[mid] == v {
+        return mid
+    } else if a[mid] &gt; v {
+        return bs(a, v, low, mid-1)
+    } else {
+        return bs(a, v, mid+1, high)
+    }
+}
+
+// 查找第一个等于给定值的元素
+func BinarySearchFirst(a []int, v int) int {
+    n := len(a)
+    if n == 0 {
+        return -1
+    }
+
+    low := 0
+    high := n - 1
+
+    for low &lt;= high {
+        mid := low + (high-low)&gt;&gt;1
+        if a[mid] &gt; v {
+            high = mid - 1
+        } else if a[mid] &lt; v {
+            low = mid + 1
+        } else {
+            if mid == 0 || a[mid-1] != v {
+                return mid
+            } else {
+                high = mid - 1
+            }
+        }
+    }
+    return -1
+}
+
+// 查找最后一个值等于给定值的元素
+func BinarySearchLast(a []int, v int) int {
+    n := len(a)
+    if n == 0 {
+        return -1
+    }
+
+    low := 0
+    high := n - 1
+
+    for low &lt;= high {
+        mid := low + (high-low)&gt;&gt;1
+        if a[mid] &gt; v {
+            high = mid - 1
+        } else if a[mid] &lt; v {
+            low = mid + 1
+        } else {
+            if mid == n-1 || a[mid+1] != v {
+                return mid
+            } else {
+                low = mid + 1
+            }
+        }
+    }
+
+    return -1
+}
+
+// 查找第一个大于等于给定值的元素
+func BinarySearchFirstGT(a []int, v int) int {
+    n := len(a)
+    if n == 0 {
+        return -1
+    }
+
+    low := 0
+    high := n - 1
+    for low &lt;= high {
+        mid := (high + low) &gt;&gt; 1
+        if a[mid] &gt; v {
+            high = mid - 1
+        } else if a[mid] &lt; v {
+            low = mid + 1
+        } else {
+            if mid != n-1 &amp;&amp; a[mid+1] &gt; v {
+                return mid + 1
+            } else {
+                low = mid + 1
+            }
+        }
+    }
+
+    return -1
+}
+
+// 查找最后一个小于等于给定值的元素
+func BinarySearchLastLT(a []int, v int) int {
+    n := len(a)
+    if n == 0 {
+        return -1
+    }
+
+    low := 0
+    high := n - 1
+    for low &lt;= high {
+        mid := (low + high) &gt;&gt; 1
+        if a[mid] &gt; v {
+            high = mid - 1
+        } else if a[mid] &lt; v {
+            low = mid + 1
+        } else {
+            if mid == 0 || a[mid-1] &lt; v {
+                return mid - 1
+            } else {
+                high = mid - 1
+            }
+        }
+    }
+
+    return -1
+}
+</code></pre>
+<h3 id="三、数据结构"><a href="#三、数据结构" class="headerlink" title="三、数据结构"></a>三、数据结构</h3><h4 id="1-二叉树"><a href="#1-二叉树" class="headerlink" title="1. 二叉树"></a>1. 二叉树</h4><pre><code class="lang-go">type Node struct {
+    data interface{}
+    left *Node
+    right *Node
+}
+
+func NewNode(data interface{}) *Node {
+    return &amp;Node{data: data}
+}
+
+func (this *Node) String() string {
+    return fmt.Sprintf(&quot;v:%+v, left:%+v, right:%+v&quot;, this.data, this.left, this.right)
+}
+</code></pre>
+<h4 id="2-链表"><a href="#2-链表" class="headerlink" title="2. 链表"></a>2. 链表</h4><h5 id="单链表"><a href="#单链表" class="headerlink" title="单链表"></a>单链表</h5><pre><code class="lang-go">package _6_linkedlist
+
+import &quot;fmt&quot;
+
+/*
+单链表基本操作
+author:leo
+*/
+
+type ListNode struct {
+    next  *ListNode
+    value interface{}
+}
+
+type LinkedList struct {
+    head   *ListNode
+    length uint
+}
+
+func NewListNode(v interface{}) *ListNode {
+    return &amp;ListNode{nil, v}
+}
+
+func (this *ListNode) GetNext() *ListNode {
+    return this.next
+}
+
+func (this *ListNode) GetValue() interface{} {
+    return this.value
+}
+
+func NewLinkedList() *LinkedList {
+    return &amp;LinkedList{NewListNode(0), 0}
+}
+
+//在某个节点后面插入节点
+func (this *LinkedList) InsertAfter(p *ListNode, v interface{}) bool {
+    if nil == p {
+        return false
+    }
+    newNode := NewListNode(v)
+    oldNext := p.next
+    p.next = newNode
+    newNode.next = oldNext
+    this.length++
+    return true
+}
+
+//在某个节点前面插入节点
+func (this *LinkedList) InsertBefore(p *ListNode, v interface{}) bool {
+    if nil == p || p == this.head {
+        return false
+    }
+    cur := this.head.next
+    pre := this.head
+    for nil != cur {
+        if cur == p {
+            break
+        }
+        pre = cur
+        cur = cur.next
+    }
+    if nil == cur {
+        return false
+    }
+    newNode := NewListNode(v)
+    pre.next = newNode
+    newNode.next = cur
+    this.length++
+    return true
+}
+
+//在链表头部插入节点
+func (this *LinkedList) InsertToHead(v interface{}) bool {
+    return this.InsertAfter(this.head, v)
+}
+
+//在链表尾部插入节点
+func (this *LinkedList) InsertToTail(v interface{}) bool {
+    cur := this.head
+    for nil != cur.next {
+        cur = cur.next
+    }
+    return this.InsertAfter(cur, v)
+}
+
+//通过索引查找节点
+func (this *LinkedList) FindByIndex(index uint) *ListNode {
+    if index &gt;= this.length {
+        return nil
+    }
+    cur := this.head.next
+    var i uint = 0
+    for ; i &lt; index; i++ {
+        cur = cur.next
+    }
+    return cur
+}
+
+//删除传入的节点
+func (this *LinkedList) DeleteNode(p *ListNode) bool {
+    if nil == p {
+        return false
+    }
+    cur := this.head.next
+    pre := this.head
+    for nil != cur {
+        if cur == p {
+            break
+        }
+        pre = cur
+        cur = cur.next
+    }
+    if nil == cur {
+        return false
+    }
+    pre.next = p.next
+    p = nil
+    this.length--
+    return true
+}
+
+//打印链表
+func (this *LinkedList) Print() {
+    cur := this.head.next
+    format := &quot;&quot;
+    for nil != cur {
+        format += fmt.Sprintf(&quot;%+v&quot;, cur.GetValue())
+        cur = cur.next
+        if nil != cur {
+            format += &quot;-&gt;&quot;
+        }
+    }
+    fmt.Println(format)
+}
+</code></pre>
+<h5 id="链表常用操作"><a href="#链表常用操作" class="headerlink" title="链表常用操作"></a>链表常用操作</h5><pre><code class="lang-go">package _7_linkedlist
+
+import &quot;fmt&quot;
+
+//单链表节点
+type ListNode struct {
+    next  *ListNode
+    value interface{}
+}
+
+//单链表
+type LinkedList struct {
+    head *ListNode
+}
+
+//打印链表
+func (this *LinkedList) Print() {
+    cur := this.head.next
+    format := &quot;&quot;
+    for nil != cur {
+        format += fmt.Sprintf(&quot;%+v&quot;, cur.value)
+        cur = cur.next
+        if nil != cur {
+            format += &quot;-&gt;&quot;
+        }
+    }
+    fmt.Println(format)
+}
+
+/*
+单链表反转
+时间复杂度：O(N)
+*/
+func (this *LinkedList) Reverse() {
+    if nil == this.head || nil == this.head.next || nil == this.head.next.next {
+        return
+    }
+
+    var pre *ListNode = nil
+    cur := this.head.next
+    for nil != cur {
+        tmp := cur.next
+        cur.next = pre
+        pre = cur
+        cur = tmp
+    }
+
+    this.head.next = pre
+}
+
+/*
+判断单链表是否有环
+*/
+func (this *LinkedList) HasCycle() bool {
+    if nil != this.head {
+        slow := this.head
+        fast := this.head
+        for nil != fast &amp;&amp; nil != fast.next {
+            slow = slow.next
+            fast = fast.next.next
+            if slow == fast {
+                return true
+            }
+        }
+    }
+    return false
+}
+
+/*
+两个有序单链表合并
+*/
+func MergeSortedList(l1, l2 *LinkedList) *LinkedList {
+    if nil == l1 || nil == l1.head || nil == l1.head.next {
+        return l2
+    }
+    if nil == l2 || nil == l2.head || nil == l2.head.next {
+        return l1
+    }
+
+    l := &amp;LinkedList{head: &amp;ListNode{}}
+    cur := l.head
+    curl1 := l1.head.next
+    curl2 := l2.head.next
+    for nil != curl1 &amp;&amp; nil != curl2 {
+        if curl1.value.(int) &gt; curl2.value.(int) {
+            cur.next = curl2
+            curl2 = curl2.next
+        } else {
+            cur.next = curl1
+            curl1 = curl1.next
+        }
+        cur = cur.next
+    }
+
+    if nil != curl1 {
+        cur.next = curl1
+    } else if nil != curl2 {
+        cur.next = curl2
+    }
+
+    return l
+}
+
+/*
+删除倒数第N个节点
+*/
+func (this *LinkedList) DeleteBottomN(n int) {
+    if n &lt;= 0 || nil == this.head || nil == this.head.next {
+        return
+    }
+
+    fast := this.head
+    for i := 1; i &lt;= n &amp;&amp; fast != nil; i++ {
+        fast = fast.next
+    }
+
+    if nil == fast {
+        return
+    }
+
+    slow := this.head
+    for nil != fast.next {
+        slow = slow.next
+        fast = fast.next
+    }
+    slow.next = slow.next.next
+}
+
+/*
+获取中间节点
+*/
+func (this *LinkedList) FindMiddleNode() *ListNode {
+    if nil == this.head || nil == this.head.next {
+        return nil
+    }
+    if nil == this.head.next.next {
+        return this.head.next
+    }
+
+    slow, fast := this.head, this.head
+    for nil != fast &amp;&amp; nil != fast.next {
+        slow = slow.next
+        fast = fast.next.next
+    }
+    return slow
+}
+</code></pre>
+<h4 id="3-栈"><a href="#3-栈" class="headerlink" title="3. 栈"></a>3. 栈</h4><h5 id="栈的接口"><a href="#栈的接口" class="headerlink" title="栈的接口"></a>栈的接口</h5><pre><code class="lang-go">type Stack interface {
+    Push(v interface{})
+    Pop(v interface{})
+    IsEmpty() bool
+    Top() interface{}
+    Flush()
+}
+</code></pre>
+<h5 id="基于数组的栈"><a href="#基于数组的栈" class="headerlink" title="基于数组的栈"></a>基于数组的栈</h5><pre><code class="lang-go">type ArrayStack struct {
+    // 数据
+    data []interface{}
+    // 栈顶指针
+    top int
+}
+
+func NewArrayStack() *ArrayStack {
+    return &amp;ArrayStack{
+        data: make([]interface{}, 0, 32),
+        top: -1,
+    }
+}
+
+func (this *ArrayStack) IsEmpty() bool {
+    if this.top &lt; 0 {
+        return true
+    }
+    return false
+}
+
+func (this *ArrayStack) Push(v interface{}) {
+    if this.top &lt; 0 {
+        this.top = 0
+    } else {
+        this.top += 1
+    }
+
+    if this.top &gt; len(this.data)-1 {
+        this.data = append(this.data, v)
+    } else {
+        this.data[this.top] = v
+    }
+}
+
+func (this *ArrayStack) Pop() interface{} {
+    if this.IsEmpty() {
+        return nil
+    }
+    v := this.data[this.top]
+    this.top -= 1
+    return v
+}
+
+func (this *ArrayStack) Top() interface{} {
+    if this.IsEmpty() {
+        return nil
+    }
+    return this.data[this.top]
+}
+
+func (this *ArrayStack) Flush() {
+    this.top = -1
+}
+
+func (this *ArrayStack) Print() {
+    if this.IsEmpty() {
+        fmt.Println(&quot;empty stack&quot;)
+    } else {
+        for i:= this.top; i&gt;=0; i-- {
+            fmt.Println(this.data[i])
+        }
+    }
+}
+</code></pre>
+<h5 id="基于链表的栈"><a href="#基于链表的栈" class="headerlink" title="基于链表的栈"></a>基于链表的栈</h5><pre><code class="lang-go">package _8_stack
+
+import &quot;fmt&quot;
+
+/*
+基于链表实现的栈
+*/
+
+type node struct {
+    next *node
+    val interface{}
+}
+
+type LinkedListStack struct {
+    topNode *node
+}
+
+func NewLinkedListStack() *LinkedListStack {
+    return &amp;LinkedListStack{nil}
+}
+
+func (this *LinkedListStack) IsEmpty() bool {
+    if this.topNode == nil {
+        return true
+    }
+    return false
+}
+
+func (this *LinkedListStack) Push(v interface{}) {
+    this.topNode = &amp;node{next: this.topNode, val: v}
+}
+
+func (this *LinkedListStack) Pop() interface{} {
+    if this.IsEmpty() {
+        return nil
+    }
+    v := this.topNode.val
+    this.topNode = this.topNode.next
+    return v
+}
+
+func (this *LinkedListStack) Top() interface{} {
+    if this.IsEmpty() {
+        return nil
+    }
+    return this.topNode.val
+}
+
+func (this *LinkedListStack) Flush() {
+    this.topNode = nil
+}
+
+func (this *LinkedListStack) Print() {
+    if this.IsEmpty() {
+        fmt.Println(&quot;empty stack&quot;)
+    } else {
+        cur := this.topNode
+        for nil != cur {
+            fmt.Println(cur.val)
+            cur = cur.next
+        }
+    }
+}
+</code></pre>
+<h4 id="4-队列"><a href="#4-队列" class="headerlink" title="4. 队列"></a>4. 队列</h4><h5 id="基于数组的队列"><a href="#基于数组的队列" class="headerlink" title="基于数组的队列"></a>基于数组的队列</h5><pre><code class="lang-go">package queue
+
+import &quot;fmt&quot;
+
+type ArrayQueue struct {
+    q        []interface{}
+    capacity int
+    head     int
+    tail     int
+}
+
+func NewArrayQueue(n int) *ArrayQueue {
+    return &amp;ArrayQueue{make([]interface{}, n), n, 0, 0}
+}
+
+func (this *ArrayQueue) EnQueue(v interface{}) bool {
+
+    if this.tail == this.capacity {
+        // head == 0 &amp;&amp; tail == capacity 表示整个队列都占满了
+        if this.head == 0 {
+            return false
+        }
+        // 数据搬移
+        for i := this.head; i &lt; this.tail; i++ {
+            this.q[i-this.head] = this.q[this.tail]
+        }
+        // 搬移完之后，更新 head 和 tail
+        this.tail -= this.head
+        this.head = 0
+    }
+
+    this.q[this.tail] = v
+    this.tail++
+    return true
+}
+
+func (this *ArrayQueue) DeQueue() interface{} {
+    if this.head == this.tail {
+        return nil
+    }
+    v := this.q[this.head]
+    this.head++
+    return v
+}
+
+func (this *ArrayQueue) String() string {
+    if this.head == this.tail {
+        return &quot;empty queue&quot;
+    }
+    result := &quot;head&quot;
+    for i := this.head; i &lt;= this.tail-1; i++ {
+        result += fmt.Sprintf(&quot;&lt;-%+v&quot;, this.q[i])
+    }
+    result += &quot;&lt;-tail&quot;
+    return result
+}
+</code></pre>
+<h4 id="5-堆"><a href="#5-堆" class="headerlink" title="5. 堆"></a>5. 堆</h4><h5 id="结构体声明"><a href="#结构体声明" class="headerlink" title="结构体声明"></a>结构体声明</h5><pre><code class="lang-go">type Heap struct {
+    a     []int
+    n     int
+    count int
+}
+</code></pre>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/">使用 Gogs 自建 Git 服务</a></li><li><a href="https://abelsu7.top/2019/10/31/go-gin-swagger/">在 Gin 中使用 swaggo 自动生成 RESTful API 文档</a></li><li><a href="https://abelsu7.top/2019/10/24/go-build-compress-using-upx/">使用 upx 压缩 go build 打包的可执行文件</a></li><li><a href="https://abelsu7.top/2019/10/24/go-cross-compile/">Go 程序的交叉编译、选择性编译</a></li><li><a href="https://1379post.github.io/2019/【数据结构】线段树/">【数据结构】线段树</a></li><li><a href="chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.246Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/03/24/go-algo-and-data-structure/" target="_blank" rel="external">https://abelsu7.top/2019/03/24/go-algo-and-data-structure/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/24/go-algo-and-data-structure/&title=《Go 语言常用算法及数据结构汇总》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/24/go-algo-and-data-structure/&title=《Go 语言常用算法及数据结构汇总》 — Keep Coding&source=
+Keep calm and use Go.
+
+
+                
+                    
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/24/go-algo-and-data-structure/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go 语言常用算法及数据结构汇总》 — Keep Coding&url=https://abelsu7.top/2019/03/24/go-algo-and-data-structure/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/24/go-algo-and-data-structure/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/03/28/kvm-review/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">KVM 虚拟化相关知识点汇总</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/03/20/database-basics/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">数据库系统原理笔记</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/24/go-algo-and-data-structure/&title=《Go 语言常用算法及数据结构汇总》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/24/go-algo-and-data-structure/&title=《Go 语言常用算法及数据结构汇总》 — Keep Coding&source=
+Keep calm and use Go.
+
+
+                
+                    
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/24/go-algo-and-data-structure/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go 语言常用算法及数据结构汇总》 — Keep Coding&url=https://abelsu7.top/2019/03/24/go-algo-and-data-structure/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/24/go-algo-and-data-structure/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMElEQVR42u3aS27DMAxF0ex/0y7QUQHX9n2kUjTU1SjIR/bxgCEpvl54Hd/r5+vzO+fvn9fV9692XrxkyJDxsYzjdt0zrr7J97x6BPzeZMiQsQ+DB1kSXtPb4qH88n0ZMmTICJM/nrndX0uGDBkyagH3HkbKURkyZMioMdLS9H5TEo5r111Qi8uQIeMDGbWDgb95/fbzDRkyZPx7xhEu3objoXPBXcmQIWM0g5Sj5P3OgAUJvmgfGTJkbMPgRWNalPImGr+WDBky9mR0mv7pjfZ3kCFDxj4MEkDTJLI/YME/lSFDxg6MWuM+bajVHkFQSMuQIWMoIx2JIEkeGYZYNWDxcL4hQ4aMEYy0+V4rPtNUj5fQMmTI2IHBm/v920qpwQOVIUPGaEYnRHaSvNpRgQwZMvZkpAVnfKDI81PcdHtot8mQIWM0oxYWO+NiqwbRZMiQMZtB0sHawARvnPGAi9qCMmTIGM3gQxir0j6e3fH2nAwZMqYy+k389HV6IBr8Y8iQIWMcIx3q4qleLdIXW3syZMjYgMEPKVf9dtWvZMiQsQODp1+8WO3celroypAhYwfGES7CrhW0/Kn/8qkMGTJGM9LGfe1os99uI0MbMmTImM3oDFX0W2xxJls7BZUhQ8YIBg+ypGVP0rtXuB72kSFDhoxSYlej1hJNGTJkyOCbxqMSpUd2WcTKkCFjNIMfBvDmPi9WeSIYnMTKkCFjEKNTQPKLdRp2aVEtQ4aMQYwvLn9gvnlZ56AAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

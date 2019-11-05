@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Linux LVM 配置 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Linux,LVM">
+    <meta name="description" content="Linux LVM配置              LVM原理LVM是Logical Volume Manager的简写，是建立在硬盘和分区之间的逻辑层，用来提高磁盘分区管理的灵活性 LVM设计的主要目标是实现文件系">
+<meta name="keywords" content="Linux,LVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux LVM 配置">
+<meta property="og:url" content="https://abelsu7.top/2018/04/20/linux-LVM/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="Linux LVM配置              LVM原理LVM是Logical Volume Manager的简写，是建立在硬盘和分区之间的逻辑层，用来提高磁盘分区管理的灵活性 LVM设计的主要目标是实现文件系">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2018/04/20/linux-LVM/LVM-content.PNG">
+<meta property="og:image" content="https://abelsu7.top/2018/04/20/linux-LVM/LVM.PNG">
+<meta property="og:image" content="https://abelsu7.top/2018/04/20/linux-LVM/VG-LV-PE.PNG">
+<meta property="og:image" content="https://abelsu7.top/2018/04/20/linux-LVM/LVM-config.PNG">
+<meta property="og:image" content="https://abelsu7.top/2018/04/20/linux-LVM/lvm-remove.PNG">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.489Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux LVM 配置">
+<meta name="twitter:description" content="Linux LVM配置              LVM原理LVM是Logical Volume Manager的简写，是建立在硬盘和分区之间的逻辑层，用来提高磁盘分区管理的灵活性 LVM设计的主要目标是实现文件系">
+<meta name="twitter:image" content="https://abelsu7.top/2018/04/20/linux-LVM/LVM-content.PNG">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Linux LVM 配置</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Linux LVM 配置</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-04-20T03:52:40.000Z" itemprop="datePublished" class="page-time">
+  2018-04-20
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LVM原理"><span class="post-toc-text">LVM原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LVM架构"><span class="post-toc-text">LVM架构</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#VG、LV和PE的关系"><span class="post-toc-text">VG、LV和PE的关系</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LVM的优点"><span class="post-toc-text">LVM的优点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LVM使用要点"><span class="post-toc-text">LVM使用要点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LVM配置流程"><span class="post-toc-text">LVM配置流程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#物理卷（PV）管理相关命令"><span class="post-toc-text">物理卷（PV）管理相关命令</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#卷组（VG）管理相关命令"><span class="post-toc-text">卷组（VG）管理相关命令</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#逻辑卷（LV）管理相关命令"><span class="post-toc-text">逻辑卷（LV）管理相关命令</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#管理文件系统空间"><span class="post-toc-text">管理文件系统空间</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-linux-LVM"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Linux LVM 配置</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-04-20 11:52:40" datetime="2018-04-20T03:52:40.000Z"  itemprop="datePublished">2018-04-20</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/20/linux-LVM/LVM-content.PNG" alt="Linux LVM配置" title>
+                </div>
+                <div class="image-caption">Linux LVM配置</div>
+            </figure>
+<h3 id="LVM原理"><a href="#LVM原理" class="headerlink" title="LVM原理"></a>LVM原理</h3><p>LVM是<strong>Logical Volume Manager</strong>的简写，是建立在硬盘和分区之间的逻辑层，用来提高磁盘分区管理的灵活性</p>
+<p>LVM设计的主要目标是实现<strong>文件系统存储容量的可扩展性</strong>，使对容量的调整更为简易</p>
+<a id="more"></a>
+<h3 id="LVM架构"><a href="#LVM架构" class="headerlink" title="LVM架构"></a>LVM架构</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/20/linux-LVM/LVM.PNG" alt="LVM架构" title>
+                </div>
+                <div class="image-caption">LVM架构</div>
+            </figure>
+<ul>
+<li><strong>PP（Physical Partition）</strong>：物理分区，LVM正是构建在物理分区之上的</li>
+<li><strong>PV（Physical Volumn）</strong>：物理卷，是PP的LVM抽象，维护了PP的基本信息，是组成PG的基本逻辑单元，一般一个PV对应一个PP</li>
+<li><strong>PE（Physical Extends）</strong>：物理扩展单元，每个PV都会以PE为基本单元划分，是LVM的最小存储单元</li>
+<li><strong>VG（Volumn Group）</strong>：卷组，即LVM的卷组，可以由一个或者数个PV组成，可以看成是LVM组成的大磁盘</li>
+<li><strong>LE（Logical Extends）</strong>：逻辑扩展单元，是组成LV的基本单元，一个LE对应一个PE</li>
+<li><strong>LV（Logical Volumn）</strong>：逻辑卷，建立在VG之上，文件系统之下，由若干个LE组成，文件系统就是基于逻辑卷的</li>
+</ul>
+<h3 id="VG、LV和PE的关系"><a href="#VG、LV和PE的关系" class="headerlink" title="VG、LV和PE的关系"></a>VG、LV和PE的关系</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/20/linux-LVM/VG-LV-PE.PNG" alt="VG、LV和PE的关系" title>
+                </div>
+                <div class="image-caption">VG、LV和PE的关系</div>
+            </figure>
+<p>LVM是通过<strong>交换PE</strong>的方式来达到<strong>弹性变更文件系统大小</strong>的功能</p>
+<ul>
+<li>将LV中原来的PE移除，就能减小LV的容量</li>
+<li>将VG中其他PE添加到LV中，就能扩充LV的容量</li>
+<li>可以通过<strong>增加PV</strong>的方式来<strong>扩充VG</strong></li>
+<li>一般LVM默认PE的大小是4M，而LVM最多能有65534个PE，所以<strong>LVM的VG最大为256G</strong></li>
+<li>PE是LVM最小的存储区块，类似文件系统的block，所以<strong>PE的大小会影响到VG的容量</strong></li>
+<li>LV和磁盘的<code>/dev/sda2</code>分区类似，是能够用来格式化的单位</li>
+<li>对文件系统而言，对LV的操作与原先对partition的操作是没有区别的</li>
+</ul>
+<blockquote>
+<p>当对LV进行写入操作时，LVM定位相应的LE，通过<strong>PV头部的映射表</strong>将数据写入到相应的PE上</p>
+<p>LV实现的关键在于<strong>PE与LE间建立的映射关系</strong>，不同的映射规则就决定了不同的LVM存储模型</p>
+</blockquote>
+<h3 id="LVM的优点"><a href="#LVM的优点" class="headerlink" title="LVM的优点"></a>LVM的优点</h3><ul>
+<li>文件系统可以跨多个磁盘，大小不会受物理磁盘限制</li>
+<li>可系统运行的情况下动态地扩展文件系统大小</li>
+<li>可增加新磁盘到LVM的存储池中</li>
+</ul>
+<h3 id="LVM使用要点"><a href="#LVM使用要点" class="headerlink" title="LVM使用要点"></a>LVM使用要点</h3><ul>
+<li>按需分配文件系统大小</li>
+<li>把不同数据放在不同的卷组中</li>
+</ul>
+<h3 id="LVM配置流程"><a href="#LVM配置流程" class="headerlink" title="LVM配置流程"></a>LVM配置流程</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/20/linux-LVM/LVM-config.PNG" alt="LVM配置流程" title>
+                </div>
+                <div class="image-caption">LVM配置流程</div>
+            </figure>
+<ol>
+<li><strong>物理分区阶段</strong>：首先通过<code>fdisk</code>将System ID修改为LVM标记（8e）</li>
+<li><strong>PV阶段</strong>：再通过<code>pvcreate</code>、<code>pvdisplay</code>将Linux分区处理成物理卷PV</li>
+<li><strong>VG阶段</strong>：接下来通过<code>vgcreate</code>、<code>vgdisplay</code>将创建好的物理卷PV处理成卷组VG</li>
+<li><strong>LV阶段</strong>：通过<code>lvcreate</code>将卷组分成若干个逻辑卷LV</li>
+<li><strong>操作系统使用阶段</strong>：再通过<code>mkfs</code>将LV格式化，最后通过<code>fdisk</code>、<code>mount</code>挂载格式化后的LV到文件系统</li>
+</ol>
+<h3 id="物理卷（PV）管理相关命令"><a href="#物理卷（PV）管理相关命令" class="headerlink" title="物理卷（PV）管理相关命令"></a>物理卷（PV）管理相关命令</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">命令</th>
+<th style="text-align:center">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">pvcreate</td>
+<td style="text-align:center">创建物理卷</td>
+</tr>
+<tr>
+<td style="text-align:center">pvscan</td>
+<td style="text-align:center">查看物理卷信息</td>
+</tr>
+<tr>
+<td style="text-align:center">pvdisplay</td>
+<td style="text-align:center">查看各个物理卷的详细参数</td>
+</tr>
+<tr>
+<td style="text-align:center">pvremove</td>
+<td style="text-align:center">删除物理卷</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>pvcreate</strong></p>
+<pre><code class="lang-bash"># 将普通的分区加上PV属性
+# 例如：将分区/dev/sda6创建为物理卷
+pvcreate /dev/sda6
+</code></pre>
+<p><strong>pvremove</strong></p>
+<pre><code class="lang-bash"># 删除分区的PV属性
+# 例如：删除分区/dev/sda6的物理卷属性
+pvremove /dev/sda6
+</code></pre>
+<p><strong>pvscan、pvdisplay</strong></p>
+<ul>
+<li>都是用来查看PV的信息</li>
+<li><code>pvdisplay</code>更为详细</li>
+</ul>
+<h3 id="卷组（VG）管理相关命令"><a href="#卷组（VG）管理相关命令" class="headerlink" title="卷组（VG）管理相关命令"></a>卷组（VG）管理相关命令</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">命令</th>
+<th style="text-align:center">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">vgcreate</td>
+<td style="text-align:center">创建卷组</td>
+</tr>
+<tr>
+<td style="text-align:center">vgscan</td>
+<td style="text-align:center">查看卷组信息</td>
+</tr>
+<tr>
+<td style="text-align:center">vgdisplay</td>
+<td style="text-align:center">查看卷组的详细参数</td>
+</tr>
+<tr>
+<td style="text-align:center">vgreduce</td>
+<td style="text-align:center">缩小卷组，把物理卷从卷组中删除</td>
+</tr>
+<tr>
+<td style="text-align:center">vgextend</td>
+<td style="text-align:center">扩展卷组，把某个物理卷添加到卷组中</td>
+</tr>
+<tr>
+<td style="text-align:center">vgremove</td>
+<td style="text-align:center">删除卷组</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="逻辑卷（LV）管理相关命令"><a href="#逻辑卷（LV）管理相关命令" class="headerlink" title="逻辑卷（LV）管理相关命令"></a>逻辑卷（LV）管理相关命令</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">命令</th>
+<th style="text-align:center">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">lvcreate</td>
+<td style="text-align:center">创建逻辑卷</td>
+</tr>
+<tr>
+<td style="text-align:center">lvscan</td>
+<td style="text-align:center">查看逻辑卷信息</td>
+</tr>
+<tr>
+<td style="text-align:center">lvdisplay</td>
+<td style="text-align:center">查看逻辑卷的具体参数</td>
+</tr>
+<tr>
+<td style="text-align:center">lvextend</td>
+<td style="text-align:center">增大逻辑卷大小</td>
+</tr>
+<tr>
+<td style="text-align:center">lvreduce</td>
+<td style="text-align:center">减小逻辑卷大小</td>
+</tr>
+<tr>
+<td style="text-align:center">lvremove</td>
+<td style="text-align:center">删除逻辑卷</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/20/linux-LVM/lvm-remove.PNG" alt="逻辑卷LV管理命令" title>
+                </div>
+                <div class="image-caption">逻辑卷LV管理命令</div>
+            </figure>
+<h3 id="管理文件系统空间"><a href="#管理文件系统空间" class="headerlink" title="管理文件系统空间"></a>管理文件系统空间</h3><p><strong>1. 增大文件系统空间</strong></p>
+<ul>
+<li>先卸载逻辑卷</li>
+<li>然后通过<code>vgextend</code>，<code>lvextend</code>等命令增大LV的空间</li>
+<li>再使用<code>resize2fs</code>将逻辑卷容量增加</li>
+<li>最后将逻辑卷挂载到目录树</li>
+</ul>
+<p><strong>2. 缩小文件系统空间</strong></p>
+<ul>
+<li>先卸载逻辑卷</li>
+<li>然后使用<code>resize2fs</code>将逻辑卷容量减小</li>
+<li>再通过<code>lvreduce</code>等命令减小LV的空间</li>
+<li>最后将逻辑卷挂载到目录树</li>
+</ul>
+<blockquote>
+<p><strong>参考文章</strong></p>
+<ol>
+<li><a href="https://www.linuxprobe.com/one-picture-to-learn-lvm.html" target="_blank" rel="noopener">一张图让你学会LVM | LinuxProbe</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/LVM" target="_blank" rel="noopener">LVM | archLinux</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7 安装配置 NFS</a></li><li><a href="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/">Linux 系统常用监控命令</a></li><li><a href="https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/">Linux 终端修改 ls 命令目录显示颜色</a></li><li><a href="https://abelsu7.top/2019/07/07/perf-quick-guides/">Linux 下使用 Perf 分析系统性能</a></li><li><a href="http://ashin.wang/linux-basic/">Linux基础笔记</a></li><li><a href="https://wiki.hushhw.cn/posts/6fbc30d9.html">虚拟机 VMware 中安装 Ubuntu 操作系统</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.489Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/04/20/linux-LVM/" target="_blank" rel="external">https://abelsu7.top/2018/04/20/linux-LVM/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LVM/">LVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/04/20/linux-LVM/&title=《Linux LVM 配置》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/04/20/linux-LVM/&title=《Linux LVM 配置》 — Keep Coding&source=
+                
+                    
+                    
+                
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/04/20/linux-LVM/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux LVM 配置》 — Keep Coding&url=https://abelsu7.top/2018/04/20/linux-LVM/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/04/20/linux-LVM/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/04/20/linux-network/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Linux 网络管理</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/04/16/try-cloud-studio/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">腾讯云携手 CODING，云端 IDE —— Cloud Studio 初体验</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/04/20/linux-LVM/&title=《Linux LVM 配置》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/04/20/linux-LVM/&title=《Linux LVM 配置》 — Keep Coding&source=
+                
+                    
+                    
+                
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/04/20/linux-LVM/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux LVM 配置》 — Keep Coding&url=https://abelsu7.top/2018/04/20/linux-LVM/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/04/20/linux-LVM/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABwklEQVR42u3aS27DMAwFQN//0i7QVTdWHqlPjGK0CgLHHmdBUHy6rnjdv+vp+7/r6frkmmULFxd3mnsP1/jx+d3Gf0FiwMXFPc9Nbjd+TFJ5qkUNFxf3/dxxiak2Ori4uP+Dm29akmKHi4v7fm6y+ckbnaTYbd+r4eLiTnCrA9MdnzfOd3FxcYvcu7XGJak3Uomei4uLe4SbDz3XRrNT4SsuLu5m7kyYOjMGHd//8RtcXNwvcZPSlr/e/MGOx44MFxd3G7cahVbD1zwsyUeuuLi4u7nlN4uj2d7AtDAQwcXFPcLtbWySQHRBaIqLi/sCbrIdqkIXbK5wcXEPcqusamsyM0LFxcX9FjcvZ9U4JNlW5YczcHFxz3CTwKPapswMTKPYFRcX9wi3GqKs2tKU41VcXNzj3Gqjk6Or0OgvwMXFPcKtth35YKW3oSr8ChcXdyn3Lq5qaFo91PWhncLFxT3C7VW+fADaG6Dg4uK+gZsXr14cMh+3XEmii4uLu4FbLV7zG6dlZ0ZwcXFfwM1Hmb3jXB96MVxc3Jdxq83Q4sMWuLi4x7m9IWn1ml7DhIuLe57bS2V7g9H8Wcvmu7i4uDXuDxA3D/bicAw7AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

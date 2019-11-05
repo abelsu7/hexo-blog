@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>《KVM 实战》笔记 2：KVM 管理工具 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="KVM,libvirt,virsh,virt-manager">
+    <meta name="description" content="摘自 《KVM实战：原理、进阶与性能调优》                                                                                               《KVM实战：原理、进阶与性能调优》">
+<meta name="keywords" content="KVM,libvirt,virsh,virt-manager">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《KVM 实战》笔记 2：KVM 管理工具">
+<meta property="og:url" content="https://abelsu7.top/2019/05/30/kvm-in-action-2/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自 《KVM实战：原理、进阶与性能调优》                                                                                               《KVM实战：原理、进阶与性能调优》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/05/30/kvm-in-action-2/cover.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/05/30/kvm-in-action-2/libvirt-2.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/05/30/kvm-in-action-2/libvirt-1.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.429Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《KVM 实战》笔记 2：KVM 管理工具">
+<meta name="twitter:description" content="摘自 《KVM实战：原理、进阶与性能调优》                                                                                               《KVM实战：原理、进阶与性能调优》">
+<meta name="twitter:image" content="https://abelsu7.top/2019/05/30/kvm-in-action-2/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">《KVM 实战》笔记 2：KVM 管理工具</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">《KVM 实战》笔记 2：KVM 管理工具</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-05-30T03:11:46.000Z" itemprop="datePublished" class="page-time">
+  2019-05-30
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/KVM/">KVM</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-libvirt"><span class="post-toc-text">1. libvirt</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-1-libvirt-简介"><span class="post-toc-text">1.1 libvirt 简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#什么是-libvirt"><span class="post-toc-text">什么是 libvirt</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#主要模块"><span class="post-toc-text">主要模块</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#层次结构"><span class="post-toc-text">层次结构</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#重要概念"><span class="post-toc-text">重要概念</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#管理功能"><span class="post-toc-text">管理功能</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-2-libvirt-的安装与配置"><span class="post-toc-text">1.2 libvirt 的安装与配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#安装-libvirt"><span class="post-toc-text">安装 libvirt</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#libvirt-的配置文件"><span class="post-toc-text">libvirt 的配置文件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#1-etc-libvirt-libvirt-conf"><span class="post-toc-text">(1) /etc/libvirt/libvirt.conf</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#2-etc-libvirt-libvirtd-conf"><span class="post-toc-text">(2) /etc/libvirt/libvirtd.conf</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#3-etc-libvirt-qemu-conf"><span class="post-toc-text">(3) /etc/libvirt/qemu.conf</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#4-etc-libvirt-qemu-目录"><span class="post-toc-text">(4) /etc/libvirt/qemu 目录</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#libvirtd-的使用"><span class="post-toc-text">libvirtd 的使用</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#libvirtd-常用的命令行参数"><span class="post-toc-text">libvirtd 常用的命令行参数</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-3-域的-XML-配置文件"><span class="post-toc-text">1.3 域的 XML 配置文件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#配置文件格式示例"><span class="post-toc-text">配置文件格式示例</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#CPU、内存、启动顺序等基本配置"><span class="post-toc-text">CPU、内存、启动顺序等基本配置</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#网络的配置"><span class="post-toc-text">网络的配置</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-kvm-in-action-2"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">《KVM 实战》笔记 2：KVM 管理工具</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-05-30 11:11:46" datetime="2019-05-30T03:11:46.000Z"  itemprop="datePublished">2019-05-30</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/KVM/">KVM</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>摘自 <a href="https://book.douban.com/subject/30544350/" target="_blank" rel="noopener">《KVM实战：原理、进阶与性能调优》</a></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/05/30/kvm-in-action-2/cover.jpg" alt="《KVM实战：原理、进阶与性能调优》" title>
+                </div>
+                <div class="image-caption">《KVM实战：原理、进阶与性能调优》</div>
+            </figure>
+<a id="more"></a>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><h3 id="1-libvirt"><a href="#1-libvirt" class="headerlink" title="1. libvirt"></a>1. libvirt</h3><h4 id="1-1-libvirt-简介"><a href="#1-1-libvirt-简介" class="headerlink" title="1.1 libvirt 简介"></a>1.1 libvirt 简介</h4><h5 id="什么是-libvirt"><a href="#什么是-libvirt" class="headerlink" title="什么是 libvirt"></a>什么是 libvirt</h5><p><a href="https://libvirt.org" target="_blank" rel="noopener">libvirt</a> 是目前使用最为广泛的<strong>对 KVM 虚拟机进行管理的工具和 API</strong>，主要作为连接<strong>底层 Hypervisor</strong> 和<strong>上层应用程序</strong>的一个<strong>中间适配层</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/05/30/kvm-in-action-2/libvirt-2.jpg" alt="libvirt 支持多种 Hypervisor" title>
+                </div>
+                <div class="image-caption">libvirt 支持多种 Hypervisor</div>
+            </figure>
+<h5 id="主要模块"><a href="#主要模块" class="headerlink" title="主要模块"></a>主要模块</h5><p><strong>libvirt</strong> 主要包含<strong>三个模块</strong>：</p>
+<ul>
+<li><strong>守护进程</strong><code>libvirtd</code>：接收并处理 API 请求</li>
+<li><strong>API 库</strong>：可基于此 API 开发管理工具，例如<code>virt-manager</code></li>
+<li><code>virsh</code>是经常会使用到的 <strong>KVM 命令行管理工具</strong></li>
+</ul>
+<h5 id="层次结构"><a href="#层次结构" class="headerlink" title="层次结构"></a>层次结构</h5><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/05/30/kvm-in-action-2/libvirt-1.png" alt="libvirt 的层次结构" title>
+                </div>
+                <div class="image-caption">libvirt 的层次结构</div>
+            </figure>
+<p><strong>libvirt</strong> 总体上可分为<strong>三个层次</strong>：</p>
+<ul>
+<li><strong>公共接口层</strong>（Public API Layer）</li>
+<li><strong>驱动接口层</strong>（Driver API Layer）</li>
+<li><strong>驱动实现层</strong>（Driver Implementation Layer）</li>
+</ul>
+<h5 id="重要概念"><a href="#重要概念" class="headerlink" title="重要概念"></a>重要概念</h5><p>另外，在<strong>libvirt</strong> 中涉及到以下几个<strong>重要概念</strong>：</p>
+<ul>
+<li><strong>节点</strong><code>Node</code>：是一个<strong>物理机器</strong>，上面可能运行着多个虚拟客户机。<code>Hypervisor</code><strong>和</strong><code>Domain</code><strong>都运行在节点上</strong></li>
+<li><code>Hypervisor</code>：也称<strong>虚拟机监控器（VMM）</strong>，如 KVM、Xen、VMWare、Hyper-V 等，是虚拟化中的一个<strong>底层软件层</strong>，它可以<strong>虚拟化一个节点使其运行多个虚拟客户机</strong></li>
+<li><strong>域</strong><code>Domain</code>：是在<code>Hypervisor</code>上运行的一个<strong>客户机操作系统实例</strong>。域也被称为<strong>实例（instance）</strong>、<strong>客户机操作系统（Guest OS）</strong>或<strong>虚拟机（VM）</strong>，它们都是同一个概念</li>
+</ul>
+<h5 id="管理功能"><a href="#管理功能" class="headerlink" title="管理功能"></a>管理功能</h5><p><strong>libvirt 的管理功能</strong>主要包含以下<strong>五个部分</strong>：</p>
+<ol>
+<li><strong>域的管理</strong>：包括对节点上的域的各个<strong>生命周期</strong>的管理，如启动、停止、暂停、保存、恢复和动态迁移，以及对多种设备类型的<strong>热拔插操作</strong></li>
+<li><strong>远程节点的管理</strong>：只要<strong>物理节点上运行了</strong><code>libvirtd</code><strong>守护进程</strong>，远程的管理程序就可以<strong>连接到该节点进行管理操作</strong>。libvirt 支持多种网络远程传输类型，如 <strong>SSH</strong>、<strong>TCP 套接字</strong>、<strong>Unix domain socket</strong>、<strong>TLS 的加密传输</strong>等。例如，可通过<code>virsh -c qemu+ssh://root@example.com/system</code>连接到<code>example.com</code>上，从而管理其上的域</li>
+<li><strong>存储的管理</strong>：任何运行了<code>libvirtd</code>守护进程的主机，都可以<strong>通过 libvirt 来管理不同类型的存储</strong>，如创建不同格式的客户机镜像、挂载 NFS、查看现有的 LVM 卷组、创建新的 LVM 卷组和逻辑卷、对磁盘设备分区、挂载 iSCSI 共享存储、使用 Ceph 系统支持的 RBD 远程存储等</li>
+<li><strong>网络的管理</strong>：列出现有的网络接口、配置网络接口、创建虚拟网络接口、桥接、VLAN 管理、NAT 网络设置、为客户机分配虚拟网络等</li>
+<li>提供一个<strong>稳定、可靠、高效的 API</strong>，以便可以完成前面的四个管理功能</li>
+</ol>
+<h4 id="1-2-libvirt-的安装与配置"><a href="#1-2-libvirt-的安装与配置" class="headerlink" title="1.2 libvirt 的安装与配置"></a>1.2 libvirt 的安装与配置</h4><h5 id="安装-libvirt"><a href="#安装-libvirt" class="headerlink" title="安装 libvirt"></a>安装 libvirt</h5><p>在<code>CentOS 7.5</code>中，部分 <strong>libvirt 相关的包</strong>如下所示：</p>
+<pre><code class="lang-bash">&gt; yum install libvirt
+
+&gt; rpm -qa | grep libvirt
+libvirt-daemon-driver-network-4.5.0-10.el7_6.6.x86_64
+libvirt-daemon-driver-storage-mpath-4.5.0-10.el7_6.6.x86_64
+libvirt-libs-4.5.0-10.el7_6.6.x86_64
+libvirt-daemon-config-network-4.5.0-10.el7_6.6.x86_64
+libvirt-python-4.5.0-1.el7.x86_64
+libvirt-daemon-driver-storage-rbd-4.5.0-10.el7_6.6.x86_64
+libvirt-daemon-kvm-4.5.0-10.el7_6.6.x86_64
+libvirt-gconfig-1.0.0-1.el7.x86_64
+libvirt-bash-completion-4.5.0-10.el7_6.6.x86_64
+libvirt-glib-1.0.0-1.el7.x86_64
+libvirt-daemon-driver-secret-4.5.0-10.el7_6.6.x86_64
+libvirt-daemon-driver-lxc-4.5.0-10.el7_6.6.x86_64
+libvirt-daemon-driver-storage-4.5.0-10.el7_6.6.x86_64
+libvirt-daemon-driver-nwfilter-4.5.0-10.el7_6.6.x86_64
+libvirt-daemon-driver-storage-gluster-4.5.0-10.el7_6.6.x86_64
+libvirt-4.5.0-10.el7_6.6.x86_64
+libvirt-daemon-4.5.0-10.el7_6.6.x86_64
+libvirt-daemon-driver-storage-iscsi-4.5.0-10.el7_6.6.x86_64
+libvirt-daemon-driver-interface-4.5.0-10.el7_6.6.x86_64
+libvirt-daemon-config-nwfilter-4.5.0-10.el7_6.6.x86_64
+libvirt-daemon-driver-storage-scsi-4.5.0-10.el7_6.6.x86_64
+libvirt-devel-4.5.0-10.el7_6.6.x86_64
+libvirt-client-4.5.0-10.el7_6.6.x86_64
+libvirt-gobject-1.0.0-1.el7.x86_64
+libvirt-daemon-driver-nodedev-4.5.0-10.el7_6.6.x86_64
+libvirt-daemon-driver-qemu-4.5.0-10.el7_6.6.x86_64
+libvirt-daemon-driver-storage-disk-4.5.0-10.el7_6.6.x86_64
+libvirt-daemon-driver-storage-core-4.5.0-10.el7_6.6.x86_64
+libvirt-daemon-driver-storage-logical-4.5.0-10.el7_6.6.x86_64
+</code></pre>
+<h5 id="libvirt-的配置文件"><a href="#libvirt-的配置文件" class="headerlink" title="libvirt 的配置文件"></a>libvirt 的配置文件</h5><p>首先查看<code>libvirtd</code>的使用说明：</p>
+<pre><code class="lang-bash">&gt; libvirtd --help
+
+Usage:
+  libvirtd [options]
+
+Options:
+  -h | --help            Display program help:
+  -v | --verbose         Verbose messages.
+  -d | --daemon          Run as a daemon &amp; write PID file.
+  -l | --listen          Listen for TCP/IP connections.
+  -t | --timeout &lt;secs&gt;  Exit after timeout period.
+  -f | --config &lt;file&gt;   Configuration file.
+  -V | --version         Display version information.
+  -p | --pid-file &lt;file&gt; Change name of PID file.
+
+libvirt management daemon:
+
+  Default paths:
+
+    Configuration file (unless overridden by -f):
+      /etc/libvirt/libvirtd.conf
+
+    Sockets:
+      /var/run/libvirt/libvirt-sock
+      /var/run/libvirt/libvirt-sock-ro
+
+    TLS:
+      CA certificate:     /etc/pki/CA/cacert.pem
+      Server certificate: /etc/pki/libvirt/servercert.pem
+      Server private key: /etc/pki/libvirt/private/serverkey.pem
+
+    PID file (unless overridden by -p):
+      /var/run/libvirtd.pid
+</code></pre>
+<p>以<code>CentOS 7.5</code>为例，<strong>libvirt 的相关配置文件都在</strong><code>/etc/libvirt/</code><strong>目录中</strong>：</p>
+<pre><code class="lang-bash">/etc/libvirt &gt; ls -hl
+total 80K
+-rw-r--r--  1 root root  450 Mar 14 18:25 libvirt-admin.conf
+-rw-r--r--  1 root root  547 Mar 14 18:25 libvirt.conf
+-rw-r--r--  1 root root  17K Mar 14 18:25 libvirtd.conf
+-rw-r--r--  1 root root 1.2K Mar 14 18:25 lxc.conf
+drwx------. 2 root root 4.0K Apr 24 16:29 nwfilter
+drwx------. 3 root root   55 May 30 11:18 qemu
+-rw-r--r--  1 root root  30K Mar 14 18:25 qemu.conf
+-rw-r--r--  1 root root 2.2K Mar 14 18:25 qemu-lockd.conf
+drwx------. 2 root root    6 Nov 13  2018 secrets
+drwxr-xr-x  3 root root  116 Apr 25 09:22 storage
+-rw-r--r--  1 root root 3.2K Mar 14 18:25 virtlockd.conf
+-rw-r--r--  1 root root 3.2K Mar 14 18:25 virtlogd.conf
+
+/etc/libvirt &gt; cd qemu
+
+/etc/libvirt/qemu &gt; ls -hl
+total 16K
+drwx------. 3 root root   42 Apr 25 10:23 networks
+-rw-------  1 root root 4.1K May 30 11:18 win10.xml
+-rw-------  1 root root 4.5K Apr 25 10:21 win7.xml
+</code></pre>
+<p>其中几个<strong>重要的配置文件和目录</strong>介绍如下：</p>
+<h6 id="1-etc-libvirt-libvirt-conf"><a href="#1-etc-libvirt-libvirt-conf" class="headerlink" title="(1) /etc/libvirt/libvirt.conf"></a>(1) /etc/libvirt/libvirt.conf</h6><p><code>libvirt.conf</code>文件用于配置<strong>本地默认的</strong><code>URI</code><strong>连接</strong>以及一些<strong>常用</strong><code>libvirt</code><strong>远程连接</strong>的别名：</p>
+<pre><code class="lang-bash">#
+# This can be used to setup URI aliases for frequently
+# used connection URIs. Aliases may contain only the
+# characters  a-Z, 0-9, _, -.
+#
+# Following the &#39;=&#39; may be any valid libvirt connection
+# URI, including arbitrary parameters
+
+#uri_aliases = [
+#  &quot;hail=qemu+ssh://root@hail.cloud.example.com/system&quot;,
+#  &quot;sleet=qemu+ssh://root@sleet.cloud.example.com/system&quot;,
+#]
+
+#
+# These can be used in cases when no URI is supplied by the application
+# (@uri_default also prevents probing of the hypervisor driver).
+#
+#uri_default = &quot;qemu:///system&quot;
+uri_aliases = [
+        &quot;abelsu7-ubuntu=qemu+ssh://root@abelsu7-ubuntu/system&quot;,
+        &quot;centos-1=qemu+ssh://root@centos-1/system&quot;
+]
+</code></pre>
+<p><strong>配置别名</strong>后，即可<strong>使用</strong><code>abelsu7-ubuntu</code><strong>来替代</strong><code>qemu+ssh://root@abelsu7-ubuntu/system</code><strong>远程的</strong><code>libvirt</code><strong>连接</strong>：</p>
+<pre><code class="lang-bash">&gt; systemctl reload libvirtd # 重启 libvirtd
+
+&gt; virsh -c abelsu7-ubuntu # 使用别名连接至远程 libvirt
+Welcome to virsh, the virtualization interactive terminal.
+
+Type:  &#39;help&#39; for help with commands
+       &#39;quit&#39; to quit
+
+virsh # hostname
+abelsu7-ubuntu
+
+virsh #
+</code></pre>
+<p>当然<strong>在代码中也可以使用这个别名</strong>，例如以下 <strong>Go 代码</strong>：</p>
+<pre><code class="lang-go">package main
+
+import (
+    libvirt &quot;github.com/libvirt/libvirt-go&quot;
+)
+
+func main() {
+    // conn, err := libvirt.NewConnect(&quot;qemu+ssh://root@abelsu7-ubuntu/system&quot;)
+    conn, err := libvirt.NewConnect(&quot;abelsu7-ubuntu&quot;)
+    ...
+    ...
+}
+</code></pre>
+<h6 id="2-etc-libvirt-libvirtd-conf"><a href="#2-etc-libvirt-libvirtd-conf" class="headerlink" title="(2) /etc/libvirt/libvirtd.conf"></a>(2) /etc/libvirt/libvirtd.conf</h6><p><code>libvirtd.conf</code>是 libvirt 的<strong>守护进程</strong><code>libvirtd</code><strong>的配置文件</strong>，被修改后需要让 libvirtd <strong>重新加载配置文件</strong>或<strong>重启 libvirtd</strong> 才会生效。</p>
+<blockquote>
+<p>在<code>libvirtd.conf</code>中配置了<code>libvirtd</code>启动时的许多设置，包括<strong>是否建立 TCP、UNIX domain socket 等连接方式</strong>及其<strong>最大连接数</strong>，以及这些连接的<strong>认证机制</strong>，<strong>设置</strong><code>libvirtd</code><strong>的日志级别</strong>等</p>
+</blockquote>
+<p>例如修改<code>libvirtd.conf</code>中的以下配置：</p>
+<pre><code class="lang-bash">listen_tls = 0     # 关闭 TLS 安全认证的连接（默认是打开的）
+listen_tcp = 1     # 打开 TCP 连接（默认是关闭的）
+tcp_port = &quot;16666&quot; # 设置 TCP 监听的端口
+unix_sock_dir = &quot;/var/run/libvirt&quot; # 设置 UNIX domain socket 的保存目录
+auth_tcp = &quot;none&quot;  # TCP 连接不使用认证授权方式
+</code></pre>
+<blockquote>
+<p>要让 <strong>TCP、TLS</strong> 等连接生效，需要<strong>在启动</strong><code>libvirtd</code><strong>时加上</strong><code>--listen</code><strong>参数</strong></p>
+</blockquote>
+<p>修改完成后，使用<code>systemctl</code>命令<strong>重启</strong><code>libvirtd</code><strong>服务</strong>：</p>
+<pre>
+<code class="language-bash">> systemctl daemon-reload
+
+> systemctl restart libvirtd
+
+> systemctl status libvirtd
+● libvirtd.service - Virtualization daemon
+   Loaded: loaded (/usr/lib/systemd/system/libvirtd.service; enabled; vendor preset: enabled)
+   Active: active (running) since Mon 2019-06-03 11:08:57 CST; 8s ago
+     Docs: man:libvirtd(8)
+           https://libvirt.org
+ Main PID: 12192 (libvirtd)
+    Tasks: 19 (limit: 32768)
+   Memory: 13.6M
+   CGroup: /system.slice/libvirtd.service
+           ├─ 1827 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro --dhcp-script=/usr/libexec/libvirt_leaseshelper
+           ├─ 1828 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro --dhcp-script=/usr/libexec/libvirt_leaseshelper
+           └─12192 /usr/sbin/libvirtd <mark>--listen</mark>
+
+Jun 03 11:08:57 centos-2 systemd[1]: Starting Virtualization daemon...
+Jun 03 11:08:57 centos-2 systemd[1]: Started Virtualization daemon.
+Jun 03 11:08:57 centos-2 dnsmasq[1827]: read /etc/hosts - 5 addresses
+Jun 03 11:08:57 centos-2 dnsmasq[1827]: read /var/lib/libvirt/dnsmasq/default.addnhosts - 0 addresses
+Jun 03 11:08:57 centos-2 dnsmasq-dhcp[1827]: read /var/lib/libvirt/dnsmasq/default.hostsfile</code>
+</pre>
+
+<p>可以看到<code>libvirtd</code>的启动命令已经<strong>添加了</strong><code>--listen</code><strong>参数</strong>。测试一下 <strong>TCP 连接</strong>是否可用：</p>
+<pre>
+<code class="language-bash">> virsh -c <mark>qemu+tcp://localhost:16666/system</mark>
+Welcome to virsh, the virtualization interactive terminal.
+
+Type:  'help' for help with commands
+       'quit' to quit
+
+virsh # exit
+
+> ll /var/run/libvirt/
+total 0
+drwxr-xr-x 2 root root 100 Jun  3 11:08 network
+srwx------ 1 root root   0 Jun  3 11:08 libvirt-admin-sock
+srwxrwxrwx 1 root root   0 Jun  3 11:08 <mark>libvirt-sock</mark>
+srwxrwxrwx 1 root root   0 Jun  3 11:08 libvirt-sock-ro
+drwxr-xr-x 2 root root  40 May 30 11:32 qemu
+srw-rw-rw- 1 root root   0 May 30 11:19 virtlogd-admin-sock
+drwxr-xr-x 2 root root  40 May 29 09:47 lxc
+drwxr-xr-x 2 root root  40 May 29 09:47 hostdevmgr
+drwx------ 2 root root  40 May 29 09:47 nwfilter-binding
+drwxr-xr-x 2 root root  40 May 29 09:47 storage
+srw-rw-rw- 1 root root   0 May 29 09:47 virtlockd-sock
+srw-rw-rw- 1 root root   0 May 29 09:47 virtlogd-sock</code>
+</pre>
+
+<h6 id="3-etc-libvirt-qemu-conf"><a href="#3-etc-libvirt-qemu-conf" class="headerlink" title="(3) /etc/libvirt/qemu.conf"></a>(3) /etc/libvirt/qemu.conf</h6><p><code>qemu.conf</code>是 libvirt 对 <a href="qemu.org">QEMU</a> 的驱动配置文件，包括 <strong>VNC、SPICE</strong> 等，以及连接它们时采用的<strong>权限认证方式</strong>的配置，也包括<strong>内存大页、SELinux、Cgroups</strong> 等相关配置。</p>
+<h6 id="4-etc-libvirt-qemu-目录"><a href="#4-etc-libvirt-qemu-目录" class="headerlink" title="(4) /etc/libvirt/qemu 目录"></a>(4) /etc/libvirt/qemu 目录</h6><p>在<code>qemu</code>目录下存放的是使用 QEMU 驱动的<strong>域的配置文件</strong>，查看<code>qemu</code>目录如下：</p>
+<pre><code class="lang-bash">&gt; ls -l
+total 16
+drwx------. 3 root root   42 Apr 25 10:23 networks
+-rw-------  1 root root 4165 May 30 11:18 win10.xml
+-rw-------  1 root root 4560 Apr 25 10:21 win7.xml
+</code></pre>
+<p>其中包括了两个域的 <strong>XML 配置文件</strong>（<code>win10.xml</code>和<code>win7.xml</code>），这是使用<code>virt-manager</code>工具创建的两个域，默认会将其保存到<code>/etc/libvirt/qemu/</code>目录下。</p>
+<p>另一个<code>networks</code>目录则保存了创建一个域时默认使用的<strong>网络配置</strong>。</p>
+<h5 id="libvirtd-的使用"><a href="#libvirtd-的使用" class="headerlink" title="libvirtd 的使用"></a>libvirtd 的使用</h5><p><code>libvirtd</code>是虚拟化管理系统中<strong>服务端的守护进程</strong>。要想让某个节点能够<strong>利用 libvirt 进行管理</strong>，就需要<strong>在这个节点上运行</strong><code>libvirtd</code><strong>守护进程</strong>，以便让其他上层管理工具可以连接到该节点。</p>
+<p>在<code>RHEL 7.3</code>和<code>CentOS 7.5</code>中，<code>libvirtd</code>是作为一个<strong>服务</strong>配置在系统中的：</p>
+<pre><code class="lang-bash">&gt; systemctl list-unit-files | grep libvirtd
+libvirtd.service                              enabled
+
+&gt; systemctl is-enabled libvirtd
+enabled
+
+&gt; systemctl is-active libvirtd
+active
+
+&gt; systemctl status libvirtd
+● libvirtd.service - Virtualization daemon
+   Loaded: loaded (/usr/lib/systemd/system/libvirtd.service; enabled; vendor preset: enabled)
+   Active: active (running) since Mon 2019-06-03 11:08:57 CST; 22h ago
+     Docs: man:libvirtd(8)
+           https://libvirt.org
+ Main PID: 12192 (libvirtd)
+    Tasks: 20 (limit: 32768)
+   Memory: 23.2M
+   CGroup: /system.slice/libvirtd.service
+           ├─ 1827 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro --dhcp-script=/usr/libexec/libvirt_leaseshelper
+           ├─ 1828 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro --dhcp-script=/usr/libexec/libvirt_leaseshelper
+           └─12192 /usr/sbin/libvirtd --listen
+
+Jun 03 17:19:33 centos-2 libvirtd[12192]: 2019-06-03 09:19:33.679+0000: 12195: warning : qemuProcessVerifyHypervFeatures:3936 : host doesn&#39;t support hyper...d&#39; feature
+Jun 03 17:19:33 centos-2 libvirtd[12192]: 2019-06-03 09:19:33.679+0000: 12195: warning : qemuProcessVerifyHypervFeatures:3936 : host doesn&#39;t support hyper...c&#39; feature
+Jun 03 17:19:33 centos-2 libvirtd[12192]: 2019-06-03 09:19:33.679+0000: 12195: warning : qemuProcessVerifyHypervFeatures:3936 : host doesn&#39;t support hyper...s&#39; feature
+Jun 03 17:20:41 centos-2 dnsmasq-dhcp[1827]: DHCPDISCOVER(virbr0) 192.168.122.176 52:54:00:b1:88:3b
+Jun 03 17:20:41 centos-2 dnsmasq-dhcp[1827]: DHCPOFFER(virbr0) 192.168.122.176 52:54:00:b1:88:3b
+Jun 03 17:20:41 centos-2 dnsmasq-dhcp[1827]: DHCPREQUEST(virbr0) 192.168.122.176 52:54:00:b1:88:3b
+Jun 03 17:20:41 centos-2 dnsmasq-dhcp[1827]: DHCPACK(virbr0) 192.168.122.176 52:54:00:b1:88:3b DESKTOP-RKPPR8A
+Jun 03 17:20:46 centos-2 dnsmasq-dhcp[1827]: DHCPREQUEST(virbr0) 192.168.122.176 52:54:00:b1:88:3b
+Jun 03 17:20:46 centos-2 dnsmasq-dhcp[1827]: DHCPACK(virbr0) 192.168.122.176 52:54:00:b1:88:3b DESKTOP-RKPPR8A
+Jun 03 17:31:35 centos-2 libvirtd[12192]: 2019-06-03 09:31:35.081+0000: 12192: error : qemuMonitorIO:718 : internal error: End of file from qemu monitor
+Hint: Some lines were ellipsized, use -l to show in full.
+</code></pre>
+<ul>
+<li>默认情况下，libvirt 监听一个本地的 <strong>Unix domain socket</strong>，而没有监听基于网络的 <strong>TCP/IP socket</strong>，需要使用<code>-l</code>或者<code>--listen</code>的<strong>命令行参数</strong>来开启对<code>libvirtd.conf</code>配置文件中<code>TCP/IP socket</code>的监听</li>
+<li><code>libvirtd</code>守护进程的启动或停止，并<strong>不会直接影响正在运行中的客户机</strong></li>
+<li><code>libvirtd</code>在启动或重启完成时，只要客户机的 XML 配置文件是存在的，<code>libvirtd</code>就会<strong>自动加载这些客户机的配置，获取它们的信息</strong></li>
+<li>如果客户机<strong>没有基于</strong><code>libvirt</code><strong>格式的 XML 文件来运行</strong>（例如直接通过<code>qemu</code>命令行启动的客户机），<code>libvirtd</code><strong>就不会自动发现它们</strong></li>
+</ul>
+<h5 id="libvirtd-常用的命令行参数"><a href="#libvirtd-常用的命令行参数" class="headerlink" title="libvirtd 常用的命令行参数"></a>libvirtd 常用的命令行参数</h5><p><code>libvirtd</code><strong>常用的命令行参数</strong>如下：</p>
+<ul>
+<li><code>-d</code>或<code>--daemon</code>：作为<strong>守护进程</strong>在<strong>后台运行</strong></li>
+<li><code>-f</code>或<code>--config FILE</code>：指定<strong>配置文件</strong>为<code>FILE</code>，默认为<code>/etc/libvirt/libvirtd.conf</code></li>
+<li><code>-l</code>或<code>--listen</code>：监听配置文件中的 <strong>TCP Socket</strong></li>
+<li><code>-p</code>或<code>--pid-file FILE</code>：将<code>libvirtd</code>进程的 <strong>PID 写入</strong><code>FILE</code><strong>文件中</strong>，默认为<code>/var/run/libvirtd.pid</code></li>
+<li><code>-t</code>或<code>--timeout SECONDS</code>：设置<strong>超时时间</strong>为<code>SECONDS</code>秒</li>
+<li><code>-v</code>或<code>--verbose</code>：调整<strong>日志级别</strong>为<code>Verbose</code></li>
+<li><code>-V</code>或<code>--version</code>：<strong>版本号</strong></li>
+</ul>
+<pre><code class="lang-bash">&gt; libvirtd --help
+
+Usage:
+  libvirtd [options]
+
+Options:
+  -h | --help            Display program help:
+  -v | --verbose         Verbose messages.
+  -d | --daemon          Run as a daemon &amp; write PID file.
+  -l | --listen          Listen for TCP/IP connections.
+  -t | --timeout &lt;secs&gt;  Exit after timeout period.
+  -f | --config &lt;file&gt;   Configuration file.
+  -V | --version         Display version information.
+  -p | --pid-file &lt;file&gt; Change name of PID file.
+
+libvirt management daemon:
+
+  Default paths:
+
+    Configuration file (unless overridden by -f):
+      /etc/libvirt/libvirtd.conf
+
+    Sockets:
+      /var/run/libvirt/libvirt-sock
+      /var/run/libvirt/libvirt-sock-ro
+
+    TLS:
+      CA certificate:     /etc/pki/CA/cacert.pem
+      Server certificate: /etc/pki/libvirt/servercert.pem
+      Server private key: /etc/pki/libvirt/private/serverkey.pem
+
+    PID file (unless overridden by -p):
+      /var/run/libvirtd.pid
+</code></pre>
+<h4 id="1-3-域的-XML-配置文件"><a href="#1-3-域的-XML-配置文件" class="headerlink" title="1.3 域的 XML 配置文件"></a>1.3 域的 XML 配置文件</h4><h5 id="配置文件格式示例"><a href="#配置文件格式示例" class="headerlink" title="配置文件格式示例"></a>配置文件格式示例</h5><p>在 libvirt 中，<strong>客户机（即域）的配置是采用 XML 格式来描述的</strong>。例如下面是我使用<code>virt-manager</code>创建的客户机配置文件<code>fedora-30.xml</code>：</p>
+<pre><code class="lang-xml">&lt;!--
+WARNING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE
+OVERWRITTEN AND LOST. Changes to this xml configuration should be made using:
+  virsh edit fedora-30
+or other application using the libvirt API.
+--&gt;
+
+&lt;domain type=&#39;kvm&#39;&gt;
+  &lt;name&gt;fedora-30&lt;/name&gt;
+  &lt;uuid&gt;70b8f58a-1589-4b83-bfd1-90dfd0cc8a56&lt;/uuid&gt;
+  &lt;memory unit=&#39;KiB&#39;&gt;16777216&lt;/memory&gt;
+  &lt;currentMemory unit=&#39;KiB&#39;&gt;16777216&lt;/currentMemory&gt;
+  &lt;vcpu placement=&#39;static&#39;&gt;4&lt;/vcpu&gt;
+  &lt;os&gt;
+    &lt;type arch=&#39;x86_64&#39; machine=&#39;pc-i440fx-2.11&#39;&gt;hvm&lt;/type&gt;
+    &lt;boot dev=&#39;hd&#39;/&gt;
+  &lt;/os&gt;
+  &lt;features&gt;
+    &lt;acpi/&gt;
+    &lt;apic/&gt;
+    &lt;vmport state=&#39;off&#39;/&gt;
+  &lt;/features&gt;
+  &lt;cpu mode=&#39;host-model&#39; check=&#39;partial&#39;&gt;
+    &lt;model fallback=&#39;allow&#39;/&gt;
+  &lt;/cpu&gt;
+  &lt;clock offset=&#39;utc&#39;&gt;
+    &lt;timer name=&#39;rtc&#39; tickpolicy=&#39;catchup&#39;/&gt;
+    &lt;timer name=&#39;pit&#39; tickpolicy=&#39;delay&#39;/&gt;
+    &lt;timer name=&#39;hpet&#39; present=&#39;no&#39;/&gt;
+  &lt;/clock&gt;
+  &lt;on_poweroff&gt;destroy&lt;/on_poweroff&gt;
+  &lt;on_reboot&gt;restart&lt;/on_reboot&gt;
+  &lt;on_crash&gt;destroy&lt;/on_crash&gt;
+  &lt;pm&gt;
+    &lt;suspend-to-mem enabled=&#39;no&#39;/&gt;
+    &lt;suspend-to-disk enabled=&#39;no&#39;/&gt;
+  &lt;/pm&gt;
+  &lt;devices&gt;
+    &lt;emulator&gt;/usr/bin/kvm-spice&lt;/emulator&gt;
+    &lt;disk type=&#39;file&#39; device=&#39;disk&#39;&gt;
+      &lt;driver name=&#39;qemu&#39; type=&#39;qcow2&#39;/&gt;
+      &lt;source file=&#39;/var/lib/libvirt/images/generic.qcow2&#39;/&gt;
+      &lt;target dev=&#39;hda&#39; bus=&#39;ide&#39;/&gt;
+      &lt;address type=&#39;drive&#39; controller=&#39;0&#39; bus=&#39;0&#39; target=&#39;0&#39; unit=&#39;0&#39;/&gt;
+    &lt;/disk&gt;
+    &lt;disk type=&#39;file&#39; device=&#39;cdrom&#39;&gt;
+      &lt;driver name=&#39;qemu&#39; type=&#39;raw&#39;/&gt;
+      &lt;target dev=&#39;hdb&#39; bus=&#39;ide&#39;/&gt;
+      &lt;readonly/&gt;
+      &lt;address type=&#39;drive&#39; controller=&#39;0&#39; bus=&#39;0&#39; target=&#39;0&#39; unit=&#39;1&#39;/&gt;
+    &lt;/disk&gt;
+    &lt;controller type=&#39;usb&#39; index=&#39;0&#39; model=&#39;ich9-ehci1&#39;&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x05&#39; function=&#39;0x7&#39;/&gt;
+    &lt;/controller&gt;
+    &lt;controller type=&#39;usb&#39; index=&#39;0&#39; model=&#39;ich9-uhci1&#39;&gt;
+      &lt;master startport=&#39;0&#39;/&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x05&#39; function=&#39;0x0&#39; multifunction=&#39;on&#39;/&gt;
+    &lt;/controller&gt;
+    &lt;controller type=&#39;usb&#39; index=&#39;0&#39; model=&#39;ich9-uhci2&#39;&gt;
+      &lt;master startport=&#39;2&#39;/&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x05&#39; function=&#39;0x1&#39;/&gt;
+    &lt;/controller&gt;
+    &lt;controller type=&#39;usb&#39; index=&#39;0&#39; model=&#39;ich9-uhci3&#39;&gt;
+      &lt;master startport=&#39;4&#39;/&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x05&#39; function=&#39;0x2&#39;/&gt;
+    &lt;/controller&gt;
+    &lt;controller type=&#39;pci&#39; index=&#39;0&#39; model=&#39;pci-root&#39;/&gt;
+    &lt;controller type=&#39;ide&#39; index=&#39;0&#39;&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x01&#39; function=&#39;0x1&#39;/&gt;
+    &lt;/controller&gt;
+    &lt;controller type=&#39;virtio-serial&#39; index=&#39;0&#39;&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x06&#39; function=&#39;0x0&#39;/&gt;
+    &lt;/controller&gt;
+    &lt;interface type=&#39;network&#39;&gt;
+      &lt;mac address=&#39;52:54:00:36:59:c3&#39;/&gt;
+      &lt;source network=&#39;default&#39;/&gt;
+      &lt;model type=&#39;rtl8139&#39;/&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x03&#39; function=&#39;0x0&#39;/&gt;
+    &lt;/interface&gt;
+    &lt;serial type=&#39;pty&#39;&gt;
+      &lt;target type=&#39;isa-serial&#39; port=&#39;0&#39;&gt;
+        &lt;model name=&#39;isa-serial&#39;/&gt;
+      &lt;/target&gt;
+    &lt;/serial&gt;
+    &lt;console type=&#39;pty&#39;&gt;
+      &lt;target type=&#39;serial&#39; port=&#39;0&#39;/&gt;
+    &lt;/console&gt;
+    &lt;channel type=&#39;spicevmc&#39;&gt;
+      &lt;target type=&#39;virtio&#39; name=&#39;com.redhat.spice.0&#39;/&gt;
+      &lt;address type=&#39;virtio-serial&#39; controller=&#39;0&#39; bus=&#39;0&#39; port=&#39;1&#39;/&gt;
+    &lt;/channel&gt;
+    &lt;input type=&#39;mouse&#39; bus=&#39;ps2&#39;/&gt;
+    &lt;input type=&#39;keyboard&#39; bus=&#39;ps2&#39;/&gt;
+    &lt;graphics type=&#39;spice&#39; autoport=&#39;yes&#39; listen=&#39;0.0.0.0&#39;&gt;
+      &lt;listen type=&#39;address&#39; address=&#39;0.0.0.0&#39;/&gt;
+      &lt;image compression=&#39;off&#39;/&gt;
+    &lt;/graphics&gt;
+    &lt;sound model=&#39;ich6&#39;&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x04&#39; function=&#39;0x0&#39;/&gt;
+    &lt;/sound&gt;
+    &lt;video&gt;
+      &lt;model type=&#39;qxl&#39; ram=&#39;65536&#39; vram=&#39;65536&#39; vgamem=&#39;16384&#39; heads=&#39;1&#39; primary=&#39;yes&#39;/&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x02&#39; function=&#39;0x0&#39;/&gt;
+    &lt;/video&gt;
+    &lt;redirdev bus=&#39;usb&#39; type=&#39;spicevmc&#39;&gt;
+      &lt;address type=&#39;usb&#39; bus=&#39;0&#39; port=&#39;1&#39;/&gt;
+    &lt;/redirdev&gt;
+    &lt;redirdev bus=&#39;usb&#39; type=&#39;spicevmc&#39;&gt;
+      &lt;address type=&#39;usb&#39; bus=&#39;0&#39; port=&#39;2&#39;/&gt;
+    &lt;/redirdev&gt;
+    &lt;memballoon model=&#39;virtio&#39;&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x07&#39; function=&#39;0x0&#39;/&gt;
+    &lt;/memballoon&gt;
+  &lt;/devices&gt;
+&lt;/domain&gt;
+</code></pre>
+<blockquote>
+<p>如需编辑<code>fedora-30.xml</code>，请使用<code>virsh edit fedora-30</code>命令</p>
+</blockquote>
+<p>在该域的 XML 文件中，<strong>所有的有效配置都在</strong><code>&lt;domain&gt;</code><strong>和</strong><code>&lt;/domain&gt;</code><strong>标签之间</strong>，这表明该配置文件是一个域的配置。</p>
+<p>通过 libvirt 启动客户机，经过<strong>文件解析</strong>和<strong>命令参数的转换</strong>，最终也会<strong>调用</strong><code>qemu</code><strong>命令行工具来实际完成客户机的创建</strong>。该命令行参数非常详尽冗长，通过<code>ps</code>命令查询到的创建命令如下：</p>
+<pre><code class="lang-bash">&gt; ps -ef | grep qemu | grep fedora-30
+libvirt+ 20817     1  0 10:23 ?        00:02:39 
+qemu-system-x86_64 
+    -enable-kvm 
+    -name guest=fedora-30,debug-threads=on 
+    -S -object secret,id=masterKey0,format=raw,file=/var/lib/libvirt/qemu/domain-35-fedora-30/master-key.aes 
+    -machine pc-i440fx-2.11,accel=kvm,usb=off,vmport=off,dump-guest-core=off 
+    -cpu Skylake-Client-IBRS,ss=on,vmx=on,hypervisor=on,tsc_adjust=on,clflushopt=on,ssbd=on,xsaves=on,pdpe1gb=on 
+    -m 16384 -realtime mlock=off 
+    -smp 4,sockets=4,cores=1,threads=1 
+    -uuid 70b8f58a-1589-4b83-bfd1-90dfd0cc8a56
+    -no-user-config -nodefaults 
+    -chardev socket,id=charmonitor,path=/var/lib/libvirt/qemu/domain-35-fedora-30/monitor.sock,server,nowait 
+    -mon chardev=charmonitor,id=monitor,mode=control 
+    -rtc base=utc,driftfix=slew 
+    -global kvm-pit.lost_tick_policy=delay 
+    -no-hpet 
+    -no-shutdown 
+    -global PIIX4_PM.disable_s3=1 
+    -global PIIX4_PM.disable_s4=1 
+    -boot strict=on 
+    -device ich9-usb-ehci1,id=usb,bus=pci.0,addr=0x5.0x7 
+    -device ich9-usb-uhci1,masterbus=usb.0,firstport=0,bus=pci.0,multifunction=on,addr=0x5 
+    -device ich9-usb-uhci2,masterbus=usb.0,firstport=2,bus=pci.0,addr=0x5.0x1 
+    -device ich9-usb-uhci3,masterbus=usb.0,firstport=4,bus=pci.0,addr=0x5.0x2 
+    -device virtio-serial-pci,id=virtio-serial0,bus=pci.0,addr=0x6 
+    -drive file=/var/lib/libvirt/images/generic.qcow2,format=qcow2,if=none,id=drive-ide0-0-0 
+    -device ide-hd,bus=ide.0,unit=0,drive=drive-ide0-0-0,id=ide0-0-0,bootindex=1 
+    -drive if=none,id=drive-ide0-0-1,readonly=on 
+    -device ide-cd,bus=ide.0,unit=1,drive=drive-ide0-0-1,id=ide0-0-1 
+    -netdev tap,fd=27,id=hostnet0 
+    -device rtl8139,netdev=hostnet0,id=net0,mac=52:54:00:36:59:c3,bus=pci.0,addr=0x3 
+    -chardev pty,id=charserial0
+    -device isa-serial,chardev=charserial0,id=serial0 
+    -chardev spicevmc,id=charchannel0,name=vdagent 
+    -device virtserialport,bus=virtio-serial0.0,nr=1,chardev=charchannel0,id=channel0,name=com.redhat.spice.0 
+    -spice port=5900,addr=0.0.0.0,disable-ticketing,image-compression=off,seamless-migration=on 
+    -device qxl-vga,id=video0,ram_size=67108864,vram_size=67108864,vram64_size_mb=0,vgamem_mb=16,max_outputs=1,bus=pci.0,addr=0x2 
+    -device intel-hda,id=sound0,bus=pci.0,addr=0x4 
+    -device hda-duplex,id=sound0-codec0,bus=sound0.0,cad=0 
+    -chardev spicevmc,id=charredir0,name=usbredir 
+    -device usb-redir,chardev=charredir0,id=redir0,bus=usb.0,port=1 
+    -chardev spicevmc,id=charredir1,name=usbredir 
+    -device usb-redir,chardev=charredir1,id=redir1,bus=usb.0,port=2 
+    -device virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x7
+    -msg timestamp=on
+</code></pre>
+<h5 id="CPU、内存、启动顺序等基本配置"><a href="#CPU、内存、启动顺序等基本配置" class="headerlink" title="CPU、内存、启动顺序等基本配置"></a>CPU、内存、启动顺序等基本配置</h5><p>关于 <strong>CPU</strong> 的配置如下：</p>
+<pre><code class="lang-xml">&lt;vcpu placement=&#39;static&#39;&gt;4&lt;/vcpu&gt;
+&lt;features&gt;
+  &lt;acpi/&gt;
+  &lt;apic/&gt;
+&lt;/features&gt;
+&lt;cpu mode=&#39;custom&#39; match=&#39;exact&#39;&gt;
+  &lt;model fallback=&#39;allow&#39;&gt;Haswell-noTSX&lt;/model&gt;
+&lt;/cpu&gt;
+</code></pre>
+<p>关于<strong>内存</strong>的配置如下：</p>
+<pre><code class="lang-xml">&lt;domain&gt;
+  ...
+  &lt;memory unit=&#39;KiB&#39;&gt;16777216&lt;/memory&gt;
+  &lt;currentMemory unit=&#39;KiB&#39;&gt;16777216&lt;/currentMemory&gt;
+  ...
+&lt;/domain&gt;
+</code></pre>
+<p>关于<strong>客户机类型</strong>和<strong>启动顺序</strong>配置如下：</p>
+<pre><code class="lang-xml">&lt;os&gt;
+  &lt;type arch=&#39;x86_64&#39; machine=&#39;pc-i440fx-2.11&#39;&gt;hvm&lt;/type&gt;
+  &lt;boot dev=&#39;hd&#39;/&gt;
+  &lt;boot dev=&#39;cdrom&#39;/&gt;
+&lt;/os&gt;
+</code></pre>
+<h5 id="网络的配置"><a href="#网络的配置" class="headerlink" title="网络的配置"></a>网络的配置</h5><p><strong><em>更新中…</em></strong></p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://book.douban.com/subject/30544350/" target="_blank" rel="noopener">《KVM实战：原理、进阶与性能调优》</a></li>
+<li><a href="https://libvirt.org" target="_blank" rel="noopener">libvirt</a></li>
+<li><a href="https://libvirt.org/format.html" target="_blank" rel="noopener">XML Format | libvirt</a></li>
+<li><a href="qemu.org">QEMU</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/09/02/virtio-in-kvm/">半虚拟化 I/O 框架 virtio</a></li><li><a href="https://abelsu7.top/2019/08/26/compile-kvm-module/">单独编译 KVM 内核模块</a></li><li><a href="https://abelsu7.top/2019/08/11/kvm-api-overview/">Kernel 2.6.32 中的 KVM API 概述</a></li><li><a href="https://abelsu7.top/2019/08/11/qemu-main-func/">QEMU 1.2.0 入口 main() 函数调用流程分析</a></li><li><a href="http://www.borgor.cn/2017-10-23/16f315c1.html">迁移 VMware 虚拟机到 KVM</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.429Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/05/30/kvm-in-action-2/" target="_blank" rel="external">https://abelsu7.top/2019/05/30/kvm-in-action-2/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/KVM/">KVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/libvirt/">libvirt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/virsh/">virsh</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/virt-manager/">virt-manager</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/05/30/kvm-in-action-2/&title=《《KVM 实战》笔记 2：KVM 管理工具》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/05/30/kvm-in-action-2/&title=《《KVM 实战》笔记 2：KVM 管理工具》 — Keep Coding&source=
+摘自 《KVM实战：原理、进阶与性能调优》
+
+
+                
+                    
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/05/30/kvm-in-action-2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《KVM 实战》笔记 2：KVM 管理工具》 — Keep Coding&url=https://abelsu7.top/2019/05/30/kvm-in-action-2/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/05/30/kvm-in-action-2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/05/31/sql-notes/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">SQL 必知必会</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/05/29/python-quick-reference/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Python 速查</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/05/30/kvm-in-action-2/&title=《《KVM 实战》笔记 2：KVM 管理工具》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/05/30/kvm-in-action-2/&title=《《KVM 实战》笔记 2：KVM 管理工具》 — Keep Coding&source=
+摘自 《KVM实战：原理、进阶与性能调优》
+
+
+                
+                    
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/05/30/kvm-in-action-2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《KVM 实战》笔记 2：KVM 管理工具》 — Keep Coding&url=https://abelsu7.top/2019/05/30/kvm-in-action-2/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/05/30/kvm-in-action-2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJ0lEQVR42u3aQW7DMAwFUd//0i6QbVFlPqkUMTVaBa3j6HFBUCKvC6/7tf76vP4LefL3uj6xZMiQ8VgGeR3ZOmGvn2lRZciQcQAjTbJpgiYBqoVAhgwZMtYJMWXvCpkMGTJkkNfVkOsjrgwZMmSsGaSAI1dpvHDkpM1ncRkyZDyQ0W8MfO7zv/Y3ZMiQ8ZWMu7E6IeCJG+1EhgwZoxnr8QiS38gm+gdjlIhlyJAxmsG30knBnUGxOPQyZMgYx+CX73yQKy340mELFCcZMmSMZqSJj5d36XeDMlGGDBkHMDplGU/EJE0XwypDhoyhDLJRnjR5A4CHA71ZhgwZoxnpaBdPmrw0TN/55s0yZMg4gFFLu2lRWEu46BpOhgwZ4xid4ys/jnbKRxQsGTJkHMaoXcOlwxbkt4J2pgwZMkYzaq3H/hE0rVuDwMmQIWMoIz127hq5IA3O4LpNhgwZQxm7jpFp4Ziy34RShgwZoxmkKUgak/yZdHSDH3dlyJAxm8ETbqclkDZNyfMX/7IMGTJGMDrb7TQDdt3wy5AhYzaDJ7u0DUkKxA3DFjJkyBjNuMOV5jpe/NXaEjJkyDiBwVeNUTuykjI0TdMyZMh4OqMz4MXbCel/4ws7GTJkHMDgl2W18jEYmKiVnjJkyJARDmHwEGyrbWXIkCEDXPTzIo8Xna1hCxkyZIxjdFqP/Pn0d4uVowwZMsYxao2BfjLtNBK29TdkyJDx7Ywf7xVBz7IvyEQAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

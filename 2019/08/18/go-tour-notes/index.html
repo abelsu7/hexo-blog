@@ -1,0 +1,3053 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Go Tour 笔记 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Go,Web 开发">
+    <meta name="description" content="摘自 Go 语言之旅">
+<meta name="keywords" content="Go,Web 开发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go Tour 笔记">
+<meta property="og:url" content="https://abelsu7.top/2019/08/18/go-tour-notes/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自 Go 语言之旅">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/08/18/go-tour-notes/cover.png">
+<meta property="og:updated_time" content="2019-10-10T13:20:54.173Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go Tour 笔记">
+<meta name="twitter:description" content="摘自 Go 语言之旅">
+<meta name="twitter:image" content="https://abelsu7.top/2019/08/18/go-tour-notes/cover.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Go Tour 笔记</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Go Tour 笔记</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-08-18T09:46:57.000Z" itemprop="datePublished" class="page-time">
+  2019-08-18
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-包、变量和函数"><span class="post-toc-text">1. 包、变量和函数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-1-包"><span class="post-toc-text">1.1 包</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-2-导入"><span class="post-toc-text">1.2 导入</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-3-导出名"><span class="post-toc-text">1.3 导出名</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-4-函数"><span class="post-toc-text">1.4 函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-5-基本类型"><span class="post-toc-text">1.5 基本类型</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-6-零值"><span class="post-toc-text">1.6 零值</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-7-类型转换"><span class="post-toc-text">1.7 类型转换</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-8-类型推导"><span class="post-toc-text">1.8 类型推导</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-9-常量"><span class="post-toc-text">1.9 常量</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-10-数值常量"><span class="post-toc-text">1.10 数值常量</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-流程控制语句"><span class="post-toc-text">2. 流程控制语句</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-for-循环"><span class="post-toc-text">2.1 for 循环</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-2-if-else-语句"><span class="post-toc-text">2.2 if else 语句</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-3-switch-分支"><span class="post-toc-text">2.3 switch 分支</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-4-defer-栈"><span class="post-toc-text">2.4 defer 栈</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-struct、slice、map"><span class="post-toc-text">3. struct、slice、map</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-1-指针"><span class="post-toc-text">3.1 指针</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-2-结构体"><span class="post-toc-text">3.2 结构体</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-3-数组"><span class="post-toc-text">3.3 数组</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-4-切片"><span class="post-toc-text">3.4 切片</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#切片文法"><span class="post-toc-text">切片文法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#默认行为"><span class="post-toc-text">默认行为</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#长度和容量"><span class="post-toc-text">长度和容量</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#nil-切片"><span class="post-toc-text">nil 切片</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用-make-创建切片"><span class="post-toc-text">使用 make 创建切片</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#切片的切片"><span class="post-toc-text">切片的切片</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#append-追加切片元素"><span class="post-toc-text">append 追加切片元素</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-5-Range"><span class="post-toc-text">3.5 Range</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-6-映射"><span class="post-toc-text">3.6 映射</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#映射的文法"><span class="post-toc-text">映射的文法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#修改映射"><span class="post-toc-text">修改映射</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-7-函数值"><span class="post-toc-text">3.7 函数值</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-8-函数的闭包"><span class="post-toc-text">3.8 函数的闭包</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-方法和接口"><span class="post-toc-text">4. 方法和接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-1-方法"><span class="post-toc-text">4.1 方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#指针接收者"><span class="post-toc-text">指针接收者</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方法与指针重定向"><span class="post-toc-text">方法与指针重定向</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#选择值或指针作为接收者"><span class="post-toc-text">选择值或指针作为接收者</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-2-接口"><span class="post-toc-text">4.2 接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#接口的隐式实现"><span class="post-toc-text">接口的隐式实现</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#接口值"><span class="post-toc-text">接口值</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#底层值为-nil-的接口值"><span class="post-toc-text">底层值为 nil 的接口值</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#nil-接口值"><span class="post-toc-text">nil 接口值</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#空接口"><span class="post-toc-text">空接口</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-3-类型断言"><span class="post-toc-text">4.3 类型断言</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-4-类型选择"><span class="post-toc-text">4.4 类型选择</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-5-Stringer"><span class="post-toc-text">4.5 Stringer</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-6-错误"><span class="post-toc-text">4.6 错误</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-7-Reader"><span class="post-toc-text">4.7 Reader</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-8-图像"><span class="post-toc-text">4.8 图像</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-并发"><span class="post-toc-text">5. 并发</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-1-协程-goroutine"><span class="post-toc-text">5.1 协程 goroutine</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-2-通道-channel"><span class="post-toc-text">5.2 通道 channel</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-3-带缓冲的通道"><span class="post-toc-text">5.3 带缓冲的通道</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-4-range-和-close"><span class="post-toc-text">5.4 range 和 close</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-5-select-语句"><span class="post-toc-text">5.5 select 语句</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-6-sync-Mutex"><span class="post-toc-text">5.6 sync.Mutex</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-常用代码"><span class="post-toc-text">6. 常用代码</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-1-标准库"><span class="post-toc-text">6.1 标准库</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-2-内建函数"><span class="post-toc-text">6.2 内建函数</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-练习解答"><span class="post-toc-text">7. 练习解答</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-1-循环与函数：牛顿法求平方根"><span class="post-toc-text">7.1 循环与函数：牛顿法求平方根</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-2-切片：图像灰度值"><span class="post-toc-text">7.2 切片：图像灰度值</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-3-映射：单词统计"><span class="post-toc-text">7.3 映射：单词统计</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-4-闭包：斐波那契数列"><span class="post-toc-text">7.4 闭包：斐波那契数列</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-5-Stringer"><span class="post-toc-text">7.5 Stringer</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-6-错误"><span class="post-toc-text">7.6 错误</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-7-Reader"><span class="post-toc-text">7.7 Reader</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-8-rot13Reader"><span class="post-toc-text">7.8 rot13Reader</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-9-图像"><span class="post-toc-text">7.9 图像</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-10-等价二叉查找树"><span class="post-toc-text">7.10 等价二叉查找树</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-11-Web-爬虫"><span class="post-toc-text">7.11 Web 爬虫</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#8-参考文章"><span class="post-toc-text">8. 参考文章</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#官方文档"><span class="post-toc-text">官方文档</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Go-Blog"><span class="post-toc-text">Go Blog</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Go-Tour-题解"><span class="post-toc-text">Go Tour 题解</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Go-标准库"><span class="post-toc-text">Go 标准库</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#51CTO-上的一个系列教程"><span class="post-toc-text">51CTO 上的一个系列教程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#设计模式"><span class="post-toc-text">设计模式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#演讲-PPT"><span class="post-toc-text">演讲 PPT</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Web-编程"><span class="post-toc-text">Web 编程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#开源图书"><span class="post-toc-text">开源图书</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#博客框架"><span class="post-toc-text">博客框架</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#游戏"><span class="post-toc-text">游戏</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-go-tour-notes"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Go Tour 笔记</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-08-18 17:46:57" datetime="2019-08-18T09:46:57.000Z"  itemprop="datePublished">2019-08-18</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>摘自 <a href="https://tour.go-zh.org/welcome/1" target="_blank" rel="noopener">Go 语言之旅</a></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/08/18/go-tour-notes/cover.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#1-包、变量和函数">1. 包、变量和函数</a><ul>
+<li><a href="#1-1-包">1.1 包</a></li>
+<li><a href="#1-2-导入">1.2 导入</a></li>
+<li><a href="#1-3-导出名">1.3 导出名</a></li>
+<li><a href="#1-4-函数">1.4 函数</a></li>
+<li><a href="#1-5-基本类型">1.5 基本类型</a></li>
+<li><a href="#1-6-零值">1.6 零值</a></li>
+<li><a href="#1-7-类型转换">1.7 类型转换</a></li>
+<li><a href="#1-8-类型推导">1.8 类型推导</a></li>
+<li><a href="#1-9-常量">1.9 常量</a></li>
+<li><a href="#1-10-数值常量">1.10 数值常量</a></li>
+</ul>
+</li>
+<li><a href="#2-流程控制语句">2. 流程控制语句</a><ul>
+<li><a href="#2-1-for-循环">2.1 for 循环</a></li>
+<li><a href="#2-2-if-else-语句">2.2 if else 语句</a></li>
+<li><a href="#2-3-switch-分支">2.3 switch 分支</a></li>
+<li><a href="#2-4-defer-栈">2.4 defer 栈</a></li>
+</ul>
+</li>
+<li><a href="#3-struct、slice、map">3. struct、slice、map</a><ul>
+<li><a href="#3-1-指针">3.1 指针</a></li>
+<li><a href="#3-2-结构体">3.2 结构体</a></li>
+<li><a href="#3-3-数组">3.3 数组</a></li>
+<li><a href="#3-4-切片">3.4 切片</a></li>
+<li><a href="#3-5-Range">3.5 Range</a></li>
+<li><a href="#3-6-映射">3.6 映射</a></li>
+<li><a href="#3-7-函数值">3.7 函数值</a></li>
+<li><a href="#3-8-函数的闭包">3.8 函数的闭包</a></li>
+</ul>
+</li>
+<li><a href="#4-方法和接口">4. 方法和接口</a><ul>
+<li><a href="#4-1-方法">4.1 方法</a></li>
+<li><a href="#4-2-接口">4.2 接口</a></li>
+<li><a href="#4-3-类型断言">4.3 类型断言</a></li>
+<li><a href="#4-4-类型选择">4.4 类型选择</a></li>
+<li><a href="#4-5-Stringer">4.5 Stringer</a></li>
+<li><a href="#4-6-错误">4.6 错误</a></li>
+<li><a href="#4-7-Reader">4.7 Reader</a></li>
+<li><a href="#4-8-图像">4.8 图像</a></li>
+</ul>
+</li>
+<li><a href="#5-并发">5. 并发</a><ul>
+<li><a href="#5-1-协程-goroutine">5.1 协程 goroutine</a></li>
+<li><a href="#5-2-通道-channel">5.2 通道 channel</a></li>
+<li><a href="#5-3-带缓冲的通道">5.3 带缓冲的通道</a></li>
+<li><a href="#5-4-range-和-close">5.4 range 和 close</a></li>
+<li><a href="#5-5-select-语句">5.5 select 语句</a></li>
+<li><a href="#5-6-sync-Mutex">5.6 sync.Mutex</a></li>
+</ul>
+</li>
+<li><a href="#6-常用代码">6. 常用代码</a><ul>
+<li><a href="#6-1-标准库">6.1 标准库</a></li>
+<li><a href="#6-2-内建函数">6.2 内建函数</a></li>
+</ul>
+</li>
+<li><a href="#7-练习解答">7. 练习解答</a><ul>
+<li><a href="#7-1-循环与函数：牛顿法求平方根">7.1 循环与函数：牛顿法求平方根</a></li>
+<li><a href="#7-2-切片：图像灰度值">7.2 切片：图像灰度值</a></li>
+<li><a href="#7-3-映射：单词统计">7.3 映射：单词统计</a></li>
+<li><a href="#7-4-闭包：斐波那契数列">7.4 闭包：斐波那契数列</a></li>
+<li><a href="#7-5-Stringer">7.5 Stringer</a></li>
+<li><a href="#7-6-错误">7.6 错误</a></li>
+<li><a href="#7-7-Reader">7.7 Reader</a></li>
+<li><a href="#7-8-rot13Reader">7.8 rot13Reader</a></li>
+<li><a href="#7-9-图像">7.9 图像</a></li>
+<li><a href="#7-10-等价二叉查找树">7.10 等价二叉查找树</a></li>
+<li><a href="#7-11-Web-爬虫">7.11 Web 爬虫</a></li>
+</ul>
+</li>
+<li><a href="#8-参考文章">8. 参考文章</a><ul>
+<li><a href="#官方文档">官方文档</a></li>
+<li><a href="#Go-Blog">Go Blog</a></li>
+<li><a href="#Go-Tour-题解">Go Tour 题解</a></li>
+<li><a href="#标准库">标准库</a></li>
+<li><a href="#51CTO-上的一个系列教程">51CTO 上的一个系列教程</a></li>
+<li><a href="#演讲-PPT">演讲 PPT</a></li>
+<li><a href="#Web-编程">Web 编程</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="1-包、变量和函数"><a href="#1-包、变量和函数" class="headerlink" title="1. 包、变量和函数"></a>1. 包、变量和函数</h2><h3 id="1-1-包"><a href="#1-1-包" class="headerlink" title="1.1 包"></a>1.1 包</h3><ul>
+<li>每个 Go 程序都是由包构成的</li>
+<li>程序从<code>main</code>包开始运行</li>
+<li>包名与导入路径的最后一个元素一致</li>
+</ul>
+<h3 id="1-2-导入"><a href="#1-2-导入" class="headerlink" title="1.2 导入"></a>1.2 导入</h3><pre><code class="lang-go">import (
+    // 标准库
+    &quot;fmt&quot;
+    &quot;math&quot;
+
+    // 本地包
+    &quot;apiserver/model&quot;
+    &quot;apiserver/log&quot;
+
+    // 外部包
+    &quot;github.com/spf13/viper&quot;
+)
+</code></pre>
+<h3 id="1-3-导出名"><a href="#1-3-导出名" class="headerlink" title="1.3 导出名"></a>1.3 导出名</h3><p>导出名以<strong>大写字母</strong>开头：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;math&quot;
+)
+
+func main() {
+    fmt.Println(math.Pi)
+}
+
+------
+3.141592653589793
+</code></pre>
+<h3 id="1-4-函数"><a href="#1-4-函数" class="headerlink" title="1.4 函数"></a>1.4 函数</h3><p>函数可以有多个返回值：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func swap(x, y string) (string, string) {
+    return y, x
+}
+
+func main() {
+    a, b := swap(&quot;Hello&quot;, &quot;world&quot;)
+    fmt.Println(a, b)
+}
+
+------
+world Hello
+</code></pre>
+<p>也可以分别为返回值命名：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func split(sum int) (x, y int) {
+    x = sum * 4 / 9
+    y = sum - x
+    return
+}
+
+func main() {
+    fmt.Println(split(26))
+}
+
+------
+11 15
+</code></pre>
+<h3 id="1-5-基本类型"><a href="#1-5-基本类型" class="headerlink" title="1.5 基本类型"></a>1.5 基本类型</h3><p>Go 语言的基本类型如下：</p>
+<pre><code class="lang-go">bool
+
+string
+
+int  int8  int16  int32  int64
+uint uint8 uint16 uint32 uint64 uintptr
+
+byte // uint8 的别名
+
+rune // int32 的别名, 表示一个 Unicode 码点
+
+float32 float64
+
+complex64 complex128
+</code></pre>
+<p>测试一下：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;math/cmplx&quot;
+)
+
+var (
+    ToBe   bool       = false
+    MaxInt uint64     = 1&lt;&lt;64 - 1
+    z      complex128 = cmplx.Sqrt(-5 + 12i)
+)
+
+func main() {
+    fmt.Printf(&quot;Type: %T Value: %v\n&quot;, ToBe, ToBe)
+    fmt.Printf(&quot;Type: %T Value: %v\n&quot;, MaxInt, MaxInt)
+    fmt.Printf(&quot;Type: %T Value: %v\n&quot;, z, z)
+}
+
+------
+Type: bool Value: false
+Type: uint64 Value: 18446744073709551615
+Type: complex128 Value: (2+3i)
+</code></pre>
+<h3 id="1-6-零值"><a href="#1-6-零值" class="headerlink" title="1.6 零值"></a>1.6 零值</h3><ul>
+<li>数值：<code>0</code></li>
+<li>布尔：<code>false</code></li>
+<li>字符串：<code>&quot;&quot;</code></li>
+</ul>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    var i int
+    var f float64
+    var b bool
+    var s string
+    fmt.Printf(&quot;%v %v %v %q\n&quot;, i, f, b, s)
+}
+
+------
+0 0 false &quot;&quot;
+</code></pre>
+<h3 id="1-7-类型转换"><a href="#1-7-类型转换" class="headerlink" title="1.7 类型转换"></a>1.7 类型转换</h3><p>表达式<code>T(v)</code>将值<code>v</code>转换为类型<code>T</code>：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;math&quot;
+)
+
+func main() {
+    var x, y int = 3, 4
+    var f float64 = math.Sqrt(float64(x*x + y*y))
+    var z uint = uint(f)
+    fmt.Println(x, y, z)
+}
+
+------
+3 4 5
+</code></pre>
+<h3 id="1-8-类型推导"><a href="#1-8-类型推导" class="headerlink" title="1.8 类型推导"></a>1.8 类型推导</h3><pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    v1 := 42
+    fmt.Printf(&quot;v1 is of type %T\n&quot;, v1)
+
+    v2 := 3.1415926
+    fmt.Printf(&quot;v2 is of type %T\n&quot;, v2)
+
+    v3 := 0.867 + 0.5i
+    fmt.Printf(&quot;v3 is of type %T\n&quot;, v3)
+}
+
+------
+v1 is of type int
+v2 is of type float64
+v3 is of type complex128
+</code></pre>
+<h3 id="1-9-常量"><a href="#1-9-常量" class="headerlink" title="1.9 常量"></a>1.9 常量</h3><p>常量使用<code>const</code>关键字声明，可以是字符、字符、布尔值或数值，且不能用<code>:=</code>语法声明：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+const Pi = 3.14
+
+func main() {
+    const World = &quot;世界&quot;
+    fmt.Println(&quot;Hello&quot;, World)
+    fmt.Println(&quot;Happy&quot;, Pi, &quot;Day&quot;)
+
+    const Truth = true
+    fmt.Println(&quot;Go rules?&quot;, Truth)
+}
+
+------
+Hello 世界
+Happy 3.14 Day
+Go rules? true
+</code></pre>
+<h3 id="1-10-数值常量"><a href="#1-10-数值常量" class="headerlink" title="1.10 数值常量"></a>1.10 数值常量</h3><p>数值常量是高精度的值，一个未指定类型的常量由上下文来决定其类型：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+const (
+    // 将 1 左移 100 位来创建一个非常大的数字
+    // 即这个数的二进制是 1 后面跟着 100 个 0
+    Big = 1 &lt;&lt; 100
+    // 再往右移 99 位，即 Small = 1 &lt;&lt; 1，或者说 Small = 2
+    Small = Big &gt;&gt; 99
+)
+
+func needInt(x int) int { 
+    return x * 10 + 1 
+}
+
+func needFloat(x float64) float64 {
+    return x * 0.1
+}
+
+func main() {
+    fmt.Println(needInt(Small))
+    fmt.Println(needFloat(Small))
+    fmt.Println(needFloat(Big))
+}
+
+------
+21
+0.2
+1.2676506002282295e+29
+</code></pre>
+<h2 id="2-流程控制语句"><a href="#2-流程控制语句" class="headerlink" title="2. 流程控制语句"></a>2. 流程控制语句</h2><h3 id="2-1-for-循环"><a href="#2-1-for-循环" class="headerlink" title="2.1 for 循环"></a>2.1 for 循环</h3><pre><code class="lang-go">for i := 0; i &lt; 10; i++ {
+    sum += i
+}
+</code></pre>
+<p>省略初始语句及后置语句，可用作<code>while</code>：</p>
+<pre><code class="lang-go">for sum &lt; 1000 {
+    sum += sum
+}
+</code></pre>
+<p>无限循环：</p>
+<pre><code class="lang-go">for {
+    // do something
+}
+</code></pre>
+<h3 id="2-2-if-else-语句"><a href="#2-2-if-else-语句" class="headerlink" title="2.2 if else 语句"></a>2.2 if else 语句</h3><pre><code class="lang-go">if v := math.Pow(x, n); v &lt;lim {
+    return v
+} else {
+    fmt.Printf(&quot;%g &gt;= %g\n&quot;, v, lim)
+}
+return lim
+</code></pre>
+<h3 id="2-3-switch-分支"><a href="#2-3-switch-分支" class="headerlink" title="2.3 switch 分支"></a>2.3 switch 分支</h3><p><code>switch</code>的<code>case</code>语句从上到下顺次执行，直到匹配成功时停止：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;runtime&quot;
+)
+
+func main() {
+    fmt.Print(&quot;Go runs on &quot;)
+    switch os := runtime.GOOS; os {
+    case &quot;windows&quot;:
+        fmt.Println(&quot;Windows.&quot;)
+    case &quot;darwin&quot;:
+        fmt.Println(&quot;OS X.&quot;)
+    case &quot;linux&quot;:
+        fmt.Println(&quot;Linux.&quot;)
+    default:
+        fmt.Printf(&quot;%s.\n&quot;, os)
+    }
+}
+</code></pre>
+<p>没有条件的<code>switch</code>同<code>switch true</code>一样，可以将一长串的<code>if-else</code>写得更清晰：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
+
+func main() {
+    t := time.Now()
+
+    switch {
+    case t.Hour() &lt; 12:
+        fmt.Println(&quot;Good morning!&quot;)
+    case t.Hour() &lt; 17:
+        fmt.Println(&quot;Good afternoon!&quot;)
+    default:
+        fmt.Println(&quot;Good evening!&quot;)
+    }
+}
+</code></pre>
+<h3 id="2-4-defer-栈"><a href="#2-4-defer-栈" class="headerlink" title="2.4 defer 栈"></a>2.4 defer 栈</h3><p><code>defer</code>语句会将函数<strong>推迟到外层函数返回之后执行</strong>：</p>
+<blockquote>
+<p>推迟调用的函数其<strong>参数会立即求值</strong>，但直到外层函数返回之前，该函数都不会被调用</p>
+</blockquote>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    defer fmt.Println(&quot;world&quot;)
+
+    fmt.Println(&quot;Hello&quot;)
+}
+
+------
+Hello
+world
+</code></pre>
+<p>推迟的函数调用会被<strong>压入栈中</strong>。当外层函数返回时，被推迟的函数会按照<strong>后进先出</strong>的顺序调用：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    fmt.Println(&quot;counting&quot;)
+
+    for i := 0; i &lt; 10; i++ {
+        defer fmt.Println(i)
+    }
+
+    fmt.Println(&quot;done&quot;)
+}
+
+------
+counting
+done
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+</code></pre>
+<blockquote>
+<p>更多内容参见 <a href="https://blog.go-zh.org/defer-panic-and-recover" target="_blank" rel="noopener">Defer, Panic, and Recover | The Go Blog</a></p>
+</blockquote>
+<h2 id="3-struct、slice、map"><a href="#3-struct、slice、map" class="headerlink" title="3. struct、slice、map"></a>3. struct、slice、map</h2><h3 id="3-1-指针"><a href="#3-1-指针" class="headerlink" title="3.1 指针"></a>3.1 指针</h3><p>指针保存了值的内存地址，类型<code>*T</code>是指向<code>T</code>类型值的指针，其零值为<code>nil</code>：</p>
+<pre><code class="lang-go">var p *int
+fmt.Println(p)
+------
+0xc000062070&lt;nil&gt;
+</code></pre>
+<p>与 C 不同，<strong>Go 没有指针运算</strong>。</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    i, j := 42, 2701
+
+    p := &amp;i         // 指向 i
+    fmt.Println(*p) // 通过指针读取 i 的值
+    *p = 21         // 通过指针设置 i 的值
+    fmt.Println(i)  // 查看 i 的值
+
+    p = &amp;j         // 指向
+    *p = *p / 37   // 通过指针对 j 进行除法运算
+    fmt.Println(j) // 查看 j 的值
+    fmt.Print(p)   // 查看 j 的地址
+}
+
+------
+42
+21
+73
+0xc000062070
+</code></pre>
+<h3 id="3-2-结构体"><a href="#3-2-结构体" class="headerlink" title="3.2 结构体"></a>3.2 结构体</h3><p>一个结构体<code>struct</code>就是一组字段<code>field</code>。当有一个指向结构体的指针<code>p</code>时，Go 允许使用隐式间接引用，直接通过<code>p.X</code>访问其字段：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+type Vertex struct {
+    X int
+    Y int
+}
+
+func main() {
+    v := Vertex{
+        X: 1,
+        Y: 2,
+    }
+    p := &amp;v
+    p.X = 1e9
+    fmt.Println(v)
+}
+
+------
+{1000000000 2}
+</code></pre>
+<p>结构体文法通过直接列出字段的值来新分配一个结构体，使用<code>Name:</code>语法可以仅列出部分字段，特殊的前缀<code>&amp;</code>返回一个指向结构体的指针：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+type Vertex struct {
+    X int
+    Y int
+}
+
+var (
+    v1 = Vertex{1, 2}
+    v2 = Vertex{
+        X: 1,
+        Y: 6,
+    }
+    v3 = Vertex{}
+    p  = &amp;Vertex{1, 2}
+)
+
+func main() {
+    fmt.Println(v1, p, v2, v3)
+}
+
+------
+{1 2} &amp;{1 2} {1 6} {0 0}
+</code></pre>
+<h3 id="3-3-数组"><a href="#3-3-数组" class="headerlink" title="3.3 数组"></a>3.3 数组</h3><p>类型<code>[n]T</code>是独立的类型：</p>
+<pre><code class="lang-go">var a [10]int
+</code></pre>
+<p>即<strong>数组的长度是其类型的一部分</strong>，因此数组不能改变大小。</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    var a [2]string
+    a[0] = &quot;Hello&quot;
+    a[1] = &quot;World&quot;
+    fmt.Println(a[0], a[1])
+    fmt.Println(a)
+
+    primes := [6]int{2, 3, 5, 7, 11, 13}
+    fmt.Println(primes)
+}
+
+------
+Hello World
+[Hello World]
+[2 3 5 7 11 13]
+</code></pre>
+<h3 id="3-4-切片"><a href="#3-4-切片" class="headerlink" title="3.4 切片"></a>3.4 切片</h3><p>每个数组的大小都是固定的，而切片则为数组元素提供动态大小的灵活视角。</p>
+<p>类型<code>[]T</code>表示一个元素类型为<code>T</code>的切片，通过上界和下界来界定：</p>
+<pre><code class="lang-go">a[low:high]
+</code></pre>
+<p>这是一个<strong>左开右闭</strong>区间，两个下标均可以省略：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    primes := [6]int{2, 3, 5, 7, 11, 13}
+    fmt.Println(primes, len(primes), cap(primes))
+
+    var s1 = primes[1:4]
+    fmt.Println(s1, len(s1), cap(s1))
+
+    var s2 = primes[:]
+    fmt.Println(s2, len(s2), cap(s2))
+}
+
+------
+[2 3 5 7 11 13] 6 6
+[3 5 7] 3 5
+[2 3 5 7 11 13] 6 6
+</code></pre>
+<blockquote>
+<p><strong>切片</strong>就像<strong>数组的引用</strong></p>
+</blockquote>
+<ul>
+<li>切片并不存储任何数据，它只是<strong>描述了底层数组中的一段</strong></li>
+<li>更改切片的元素会<strong>修改其底层数组中对应的元素</strong></li>
+<li>与它<strong>共享底层数组</strong>的切片都会<strong>观测到这些修改</strong></li>
+</ul>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    names := [4]string{
+        &quot;John&quot;,
+        &quot;Paul&quot;,
+        &quot;George&quot;,
+        &quot;Ringo&quot;,
+    }
+    fmt.Println(&quot;The original array:&quot;, names)
+
+    a := names[0:2]
+    b := names[1:3]
+    fmt.Println(&quot;\nSlice a:&quot;, a)
+    fmt.Println(&quot;Slice b:&quot;, b)
+
+    b[0] = &quot;XXX&quot;
+    fmt.Println(&quot;\nNow slice a:&quot;, a)
+    fmt.Println(&quot;Now slice b:&quot;, b)
+    fmt.Println(&quot;\nThe modified array:&quot;, names)
+}
+
+------
+The original array: [John Paul George Ringo]
+
+Slice a: [John Paul]
+Slice b: [Paul George]
+
+Now slice a: [John XXX]
+Now slice b: [XXX George]
+
+The modified array: [John XXX George Ringo]
+</code></pre>
+<h4 id="切片文法"><a href="#切片文法" class="headerlink" title="切片文法"></a>切片文法</h4><p>切片文法类似于没有长度的数组文法：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    q := []int{2, 3, 5, 7, 11, 13}
+    fmt.Println(q)
+
+    r := []bool{true, false, true, true, false, true}
+    fmt.Println(r)
+
+    s := []struct {
+        i int
+        b bool
+    }{
+        {2, true},
+        {3, false},
+        {5, true},
+        {7, true},
+        {11, false},
+        {13, true},
+    }
+    fmt.Println(s)
+}
+
+------
+[2 3 5 7 11 13]
+[true false true true false true]
+[{2 true} {3 false} {5 true} {7 true} {11 false} {13 true}]
+</code></pre>
+<h4 id="默认行为"><a href="#默认行为" class="headerlink" title="默认行为"></a>默认行为</h4><p>切片下界默认值为<code>0</code>，上界则是该切片的长度。</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;unsafe&quot;
+)
+
+func main() {
+    s := []int{2, 3, 5, 7, 11, 13}
+    fmt.Println(&quot; s:&quot;, s)
+
+    s1 := s[1:4]
+    fmt.Println(&quot;s1:  &quot;, s1)
+
+    s2 := s1[:2]
+    fmt.Println(&quot;s2:  &quot;, s2)
+
+    s3 := s2[1:]
+    fmt.Println(&quot;s3:    &quot;, s3)
+
+    s3[0] = 0
+    fmt.Println(&quot;\nSizeof int on a 64-bit machine:&quot;, unsafe.Sizeof(s[0]))
+
+    fmt.Println(&quot;\ns[0] location:&quot;, &amp;s[0])
+    fmt.Println(&quot;s[1] location:&quot;, &amp;s[1])
+    fmt.Println(&quot;s[2] location:&quot;, &amp;s[2])
+    fmt.Println(&quot;s[3] location:&quot;, &amp;s[3])
+}
+
+------
+ s: [2 3 5 7 11 13]
+s1:   [3 5 7]
+s2:   [3 5]
+s3:     [5]
+
+Sizeof int on a 64-bit machine: 8
+
+s[0] location: 0xc00008c030
+s[1] location: 0xc00008c038
+s[2] location: 0xc00008c040
+s[3] location: 0xc00008c048
+</code></pre>
+<h4 id="长度和容量"><a href="#长度和容量" class="headerlink" title="长度和容量"></a>长度和容量</h4><p>切片拥有<strong>长度</strong>和<strong>容量</strong>：</p>
+<ul>
+<li>长度就是它所<strong>包含的元素个数</strong></li>
+<li>容量是从它的第一个元素开始数，到其底层数组元素末尾的个数</li>
+</ul>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    s := []int{2, 3, 5, 7, 11, 13}
+    printSlice(s)
+
+    // 截取切片使其长度为 0
+    s = s[:0]
+    printSlice(s)
+
+    // 拓展其长度
+    s = s[:4]
+    printSlice(s)
+
+    // 舍弃前两个值
+    s = s[2:]
+    printSlice(s)
+}
+
+func printSlice(s []int) {
+    fmt.Printf(&quot;len=%d cap=%d %v\n&quot;, len(s), cap(s), s)
+}
+
+------
+len=6 cap=6 [2 3 5 7 11 13]
+len=0 cap=6 []
+len=4 cap=6 [2 3 5 7]
+len=2 cap=4 [5 7]
+</code></pre>
+<h4 id="nil-切片"><a href="#nil-切片" class="headerlink" title="nil 切片"></a>nil 切片</h4><p>切片的零值是<code>nil</code>，长度和容量均为<code>0</code>且没有底层数组：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    var s []int
+    fmt.Println(s, len(s), cap(s))
+    if s == nil {
+        fmt.Println(&quot;nil!&quot;)
+    }
+}
+
+------
+[] 0 0
+nil!
+</code></pre>
+<h4 id="使用-make-创建切片"><a href="#使用-make-创建切片" class="headerlink" title="使用 make 创建切片"></a>使用 make 创建切片</h4><p>切片可以用内建函数<code>make</code>来创建，<code>make</code>函数会分配一个元素为零值的数组并返回一个引用它的切片：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    a := make([]int, 5)
+    printSlice(&quot;a&quot;, a)
+
+    b := make([]int, 0, 5)
+    printSlice(&quot;b&quot;, b)
+
+    c := b[:2]
+    printSlice(&quot;c&quot;, c)
+
+    d := c[2:5]
+    printSlice(&quot;d&quot;, d)
+}
+
+func printSlice(s string, x []int) {
+    fmt.Printf(&quot;%s len=%d cap=%d %v\n&quot;,
+        s, len(x), cap(x), x)
+}
+
+------
+a len=5 cap=5 [0 0 0 0 0]
+b len=0 cap=5 []
+c len=2 cap=5 [0 0]
+d len=3 cap=3 [0 0 0]
+</code></pre>
+<h4 id="切片的切片"><a href="#切片的切片" class="headerlink" title="切片的切片"></a>切片的切片</h4><p>切片可以包含切片，类似二维切片的概念：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;strings&quot;
+)
+
+func main() {
+    board := [][]string{
+        []string{&quot;_&quot;, &quot;_&quot;, &quot;_&quot;},
+        []string{&quot;_&quot;, &quot;_&quot;, &quot;_&quot;},
+        []string{&quot;_&quot;, &quot;_&quot;, &quot;_&quot;},
+    }
+
+    board[0][0] = &quot;X&quot;
+    board[2][2] = &quot;O&quot;
+    board[1][2] = &quot;X&quot;
+    board[1][0] = &quot;O&quot;
+    board[0][2] = &quot;X&quot;
+
+    for i := 0; i &lt; len(board); i++ {
+        fmt.Printf(&quot;%s\n&quot;, strings.Join(board[i], &quot; &quot;))
+    }
+}
+
+------
+X _ X
+O _ X
+_ _ O
+</code></pre>
+<h4 id="append-追加切片元素"><a href="#append-追加切片元素" class="headerlink" title="append 追加切片元素"></a>append 追加切片元素</h4><blockquote>
+<p>参见 <a href="https://blog.go-zh.org/go-slices-usage-and-internals" target="_blank" rel="noopener">Go 切片：用法和本质 | Go Blog</a></p>
+</blockquote>
+<p>Go 提供了内建的<code>append()</code>函数，用于向切片追加新元素：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    var s []int
+    printSlice(s)
+
+    // 向切片添加一个 0
+    s = append(s, 0)
+    printSlice(s)
+
+    // 这个切片会按需增长
+    s = append(s, 1)
+    printSlice(s)
+
+    // 可以一次性添加多个元素
+    s = append(s, 2, 3, 4)
+    printSlice(s)
+}
+
+func printSlice(s []int) {
+    fmt.Printf(&quot;len=%d cap=%d %v\n&quot;, len(s), cap(s), s)
+}
+
+------
+len=0 cap=0 []
+len=1 cap=2 [0]
+len=2 cap=2 [0 1]
+len=5 cap=8 [0 1 2 3 4]
+
+// go1.12.6 windows/amd64:
+len=5 cap=6 [0 1 2 3 4]
+</code></pre>
+<blockquote>
+<p>当切片长度不超过<code>1024</code>时，每次扩容为原切片长度的两倍（有待考证）</p>
+</blockquote>
+<h3 id="3-5-Range"><a href="#3-5-Range" class="headerlink" title="3.5 Range"></a>3.5 Range</h3><p><code>for</code>循环的<code>range</code>形式可遍历切片<code>slice</code>或映射<code>map</code>：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
+
+func main() {
+    for i, v := range pow {
+        fmt.Printf(&quot;2^%d = %d\n&quot;, i, v)
+    }
+}
+
+------
+2^0 = 1
+2^1 = 2
+2^2 = 4
+2^3 = 8
+2^4 = 16
+2^5 = 32
+2^6 = 64
+2^7 = 128
+</code></pre>
+<p>当使用<code>for range</code>遍历时，每次迭代都会返回两个值：</p>
+<ul>
+<li>前者<code>i</code>为当前元素的<strong>下标</strong></li>
+<li>后者<code>v</code>为该下标<strong>对应元素</strong>的一份<strong>副本</strong></li>
+</ul>
+<blockquote>
+<p>因此，通过下标<code>s[i]</code>取值比直接通过<code>v</code>效率更高</p>
+</blockquote>
+<p>可以将下标或值赋予<code>_</code>表示忽略：</p>
+<pre><code class="lang-go">for i, _ := range pow
+for _, value := range pow
+</code></pre>
+<p>若只需要索引，忽略第二个变量即可：</p>
+<pre><code class="lang-go">for i := range pow
+</code></pre>
+<h3 id="3-6-映射"><a href="#3-6-映射" class="headerlink" title="3.6 映射"></a>3.6 映射</h3><p>映射<code>map</code>将键映射到值。映射的文法与结构体相似，不过必须有键名：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+type Vertex struct {
+    Lat, Long float64
+}
+
+var m = map[string]Vertex{
+    &quot;Bell Labs&quot;: Vertex{
+        40.68433, -74.39967,
+    },
+    &quot;Google&quot;: Vertex{
+        37.42202, -122.08408,
+    },
+}
+
+func main() {
+    fmt.Println(m)
+}
+
+------
+map[Bell Labs:{40.68433 -74.39967} Google:{37.42202 -122.08408}]
+</code></pre>
+<h4 id="映射的文法"><a href="#映射的文法" class="headerlink" title="映射的文法"></a>映射的文法</h4><p>可以直接省略顶级类型的类型名：</p>
+<pre><code class="lang-go">var m = map[string]Vertex{
+    &quot;Bell Labs&quot;: {40.68433, -74.39967},
+    &quot;Google&quot;:    {37.42202, -122.08408},
+}
+</code></pre>
+<h4 id="修改映射"><a href="#修改映射" class="headerlink" title="修改映射"></a>修改映射</h4><p>当从映射中读取某个不存在的键时，结果是映射的元素类型的零值。</p>
+<pre><code class="lang-go">// 插入或修改元素
+m[key] = elem
+// 删除元素
+delete(m, key)
+// 通过双赋值检测某个键是否存在
+elem, ok := m[key]
+</code></pre>
+<h3 id="3-7-函数值"><a href="#3-7-函数值" class="headerlink" title="3.7 函数值"></a>3.7 函数值</h3><p>函数也是值，可以向其他值一样传递。</p>
+<p>函数值可以用作函数的参数或返回值：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;math&quot;
+)
+
+func compute(fn func(float64, float64) float64) float64 {
+    return fn(3, 4)
+}
+
+func main() {
+    hypot := func(x, y float64) float64 {
+        return math.Sqrt(x*x + y*y)
+    }
+    fmt.Println(hypot(5, 12))
+
+    fmt.Println(compute(hypot))
+    fmt.Println(compute(math.Pow))
+}
+
+------
+13
+5
+81
+</code></pre>
+<h3 id="3-8-函数的闭包"><a href="#3-8-函数的闭包" class="headerlink" title="3.8 函数的闭包"></a>3.8 函数的闭包</h3><p>Go 的函数可以是一个闭包<code>clojure</code>。</p>
+<p><strong>闭包</strong>是一个<strong>函数值</strong>，它<strong>引用了其函数体之外的变量</strong>。该函数可以访问并赋予其引用的变量的值，换句话说，该函数被这些变量“绑定”在一起。</p>
+<p>例如，函数<code>adder()</code>返回一个闭包，每个闭包都被绑定在其各自的<code>sum</code>变量上：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func adder() func(int) int {
+    sum := 0
+    return func(x int) int {
+        sum += x
+        return sum
+    }
+}
+
+func main() {
+    pos, neg := adder(), adder()
+    for i := 0; i &lt; 10; i++ {
+        fmt.Println(
+            pos(i),
+            neg(-2*i),
+        )
+    }
+}
+
+------
+0 0
+1 -2
+3 -6
+6 -12
+10 -20
+15 -30
+21 -42
+28 -56
+36 -72
+45 -90
+</code></pre>
+<h2 id="4-方法和接口"><a href="#4-方法和接口" class="headerlink" title="4. 方法和接口"></a>4. 方法和接口</h2><h3 id="4-1-方法"><a href="#4-1-方法" class="headerlink" title="4.1 方法"></a>4.1 方法</h3><p>Go 没有类，不过可以<strong>为结构体类型定义方法</strong>。</p>
+<p>方法就是一类带特殊的<strong>接收者参数</strong>的函数，接收者位于<code>func</code><strong>关键字和方法名之间</strong>：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;math&quot;
+)
+
+type Vertex struct {
+    X, Y float64
+}
+
+func (v Vertex) Abs() float64 {
+    return math.Sqrt(v.X*v.X + v.Y*v.Y)
+}
+
+func main() {
+    v := Vertex{3, 4}
+    fmt.Println(v.Abs())
+}
+
+------
+5
+</code></pre>
+<p>也可以为非结构体类型声明方法，例如在下面的例子中看到了一个带<code>Abs()</code>方法的数值类型<code>MyFloat</code>：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;math&quot;
+)
+
+type MyFloat float64
+
+func (f MyFloat) Abs() float64 {
+    if f &lt; 0 {
+        return float64(-f)
+    }
+    return float64(f)
+}
+
+func main() {
+    f := MyFloat(-math.Sqrt2)
+    fmt.Println(f.Abs())
+}
+
+------
+1.4142135623730951
+</code></pre>
+<p>需要注意：</p>
+<ul>
+<li>接收者（例如<code>MyFloat</code>）的<strong>类型定义</strong>和<strong>方法声明</strong>必须在<strong>同一包内</strong></li>
+<li>不能为内建类型声明方法</li>
+</ul>
+<h4 id="指针接收者"><a href="#指针接收者" class="headerlink" title="指针接收者"></a>指针接收者</h4><p>可以为<strong>指针接收者</strong>声明方法，这意味着<strong>方法内部可以修改接收者指向的值</strong>：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;math&quot;
+)
+
+type Vertex struct {
+    X, Y float64
+}
+
+func (v Vertex) Abs() float64 {
+    return math.Sqrt(v.X*v.X + v.Y*v.Y)
+}
+
+func (v *Vertex) Scale(f float64) {
+    v.X *= f
+    v.Y *= f
+}
+
+func main() {
+    v := Vertex{3, 4}
+    v.Scale(10)
+    fmt.Println(v.Abs())
+}
+
+------
+50
+</code></pre>
+<h4 id="方法与指针重定向"><a href="#方法与指针重定向" class="headerlink" title="方法与指针重定向"></a>方法与指针重定向</h4><p>带指针参数的函数必须接受一个指针：</p>
+<pre><code class="lang-go">var v Vertex
+ScaleFunc(v, 5)  // 编译错误！
+ScaleFunc(&amp;v, 5) // OK
+</code></pre>
+<p>而<strong>以指针为接收者的方法</strong>被调用时，<strong>接收者既能为值又能为指针</strong>：</p>
+<pre><code class="lang-go">var v Vertex
+v.Scale(5)  // OK
+p := &amp;v
+p.Scale(10) // OK
+</code></pre>
+<p>这是因为 Go 会对语句做以下翻译：</p>
+<pre><code class="lang-go">v.Scale(5)
+// 以上语句解释为：
+(&amp;v).Scale(5)
+</code></pre>
+<p>同样的，<strong>以值为接收者的方法</strong>被调用时，<strong>接收者既能为值又能为指针</strong>：</p>
+<pre><code class="lang-go">var v Vertex
+fmt.Println(v.Abs()) // OK
+p := &amp;v
+fmt.Println(p.Abs()) // OK
+</code></pre>
+<p>同样会做以下翻译：</p>
+<pre><code class="lang-go">p.Abs()
+// 以上语句翻译为
+(*p).Abs()
+</code></pre>
+<h4 id="选择值或指针作为接收者"><a href="#选择值或指针作为接收者" class="headerlink" title="选择值或指针作为接收者"></a>选择值或指针作为接收者</h4><blockquote>
+<p>通常来说，所有给定类型的方法都应该有值或指针接收者，但<strong>不应该二者混用</strong></p>
+</blockquote>
+<p>使用<strong>指针接收者</strong>的原因有二：</p>
+<ol>
+<li>方法能够<strong>修改其接收者指向的值</strong></li>
+<li>可以<strong>避免在每次调用方法时复制该值</strong>。若值的类型为<strong>大型结构体</strong>时，这样做会<strong>更加高效</strong></li>
+</ol>
+<p>例如在下面的示例中，<code>Scale()</code>和<code>Abs()</code>接收者的类型均为<code>*Vertex</code>，即便<code>Abs()</code>并不需要修改其接收者：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;math&quot;
+)
+
+type Vertex struct {
+    X, Y float64
+}
+
+func (v *Vertex) Scale(f float64) {
+    v.X = v.X * f
+    v.Y = v.Y * f
+}
+
+func (v *Vertex) Abs() float64 {
+    return math.Sqrt(v.X*v.X + v.Y*v.Y)
+}
+
+func main() {
+    v := &amp;Vertex{3, 4}
+    fmt.Printf(&quot;Before scaling: %+v, Abs: %v\n&quot;, v, v.Abs())
+    v.Scale(5)
+    fmt.Printf(&quot;After scaling: %+v, Abs: %v\n&quot;, v, v.Abs())
+}
+
+------
+Before scaling: &amp;{X:3 Y:4}, Abs: 5
+After scaling: &amp;{X:15 Y:20}, Abs: 25
+</code></pre>
+<h3 id="4-2-接口"><a href="#4-2-接口" class="headerlink" title="4.2 接口"></a>4.2 接口</h3><p><strong>接口类型</strong>是由一组<strong>方法签名</strong>定义的<strong>集合</strong>，接口类型的变量可以保存任何实现了这些方法的值：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;math&quot;
+)
+
+type Abser interface {
+    Abs() float64
+}
+
+func main() {
+    var a Abser
+    f := MyFloat(-math.Sqrt2)
+    v := Vertex{3, 4}
+
+    a = f // a MyFloat 实现了 Abser
+    fmt.Println(a.Abs())
+
+    a = &amp;v // a *Vertex 实现了 Abser
+    fmt.Println(a.Abs())
+}
+
+type MyFloat float64
+
+func (f MyFloat) Abs() float64 {
+    if f &lt; 0 {
+        return float64(-f)
+    }
+    return float64(f)
+}
+
+type Vertex struct {
+    X, Y float64
+}
+
+func (v *Vertex) Abs() float64 {
+    return math.Sqrt(v.X*v.X + v.Y*v.Y)
+}
+
+------
+1.4142135623730951
+5
+</code></pre>
+<h4 id="接口的隐式实现"><a href="#接口的隐式实现" class="headerlink" title="接口的隐式实现"></a>接口的隐式实现</h4><p>在 Go 中，<strong>接口是隐式实现的</strong>，即类型通过实现一个接口的所有方法来实现该接口。</p>
+<p>既然无需专门显式声明，也就没有<code>implements</code>关键字。</p>
+<h4 id="接口值"><a href="#接口值" class="headerlink" title="接口值"></a>接口值</h4><ul>
+<li><strong>接口也是值</strong>，可以像其他值一样传递</li>
+<li><strong>接口值</strong>可以用作<strong>函数的参数或返回值</strong></li>
+<li>在内部，接口值可以看做<strong>包含值和具体类型的元组</strong>：<code>(value, type)</code></li>
+<li>接口值保存了一个具体底层类型的具体值</li>
+<li>接口值调用方法时会执行其底层类型的同名方法</li>
+</ul>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;math&quot;
+)
+
+type I interface {
+    M()
+}
+
+type T struct {
+    S string
+}
+
+func (t *T) M() {
+    fmt.Println(t.S)
+}
+
+type F float64
+
+func (f F) M() {
+    fmt.Println(f)
+}
+
+func main() {
+    var i I
+
+    i = &amp;T{&quot;Hello&quot;}
+    describe(i)
+    i.M()
+
+    i = F(math.Pi)
+    describe(i)
+    i.M()
+}
+
+func describe(i I) {
+    fmt.Printf(&quot;(%v, %T)\n&quot;, i, i)
+}
+
+------
+(&amp;{Hello}, *main.T)
+Hello
+(3.141592653589793, main.F)
+3.141592653589793
+</code></pre>
+<h4 id="底层值为-nil-的接口值"><a href="#底层值为-nil-的接口值" class="headerlink" title="底层值为 nil 的接口值"></a>底层值为 nil 的接口值</h4><p>即便接口内的具体值为<code>nil</code>，方法仍然会被<code>nil</code>接收者调用：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+type I interface {
+    M()
+}
+
+type T struct {
+    S string
+}
+
+func (t *T) M() {
+    if t == nil {
+        fmt.Println(&quot;&lt;nil&gt;&quot;)
+        return
+    }
+    fmt.Println(t.S)
+}
+
+func main() {
+    var i I
+
+    var t *T
+    i = t
+    describe(i)
+    i.M()
+
+    i = &amp;T{&quot;hello&quot;}
+    describe(i)
+    i.M()
+}
+
+func describe(i I) {
+    fmt.Printf(&quot;(%v, %T)\n&quot;, i, i)
+}
+
+------
+(&lt;nil&gt;, *main.T)
+&lt;nil&gt;
+(&amp;{hello}, *main.T)
+hello
+</code></pre>
+<blockquote>
+<p>注意：保存了<code>nil</code>具体值的接口，其自身并不为<code>nil</code></p>
+</blockquote>
+<h4 id="nil-接口值"><a href="#nil-接口值" class="headerlink" title="nil 接口值"></a>nil 接口值</h4><ul>
+<li><code>nil</code>接口值既不保存值也不保存具体类型</li>
+<li>为<code>nil</code>接口调用方法会产生<strong>运行时错误</strong></li>
+</ul>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+type I interface {
+    M()
+}
+
+func main() {
+    var i I
+    describe(i)
+    i.M()
+}
+
+func describe(i I) {
+    fmt.Printf(&quot;(%v, %T)\n&quot;, i, i)
+}
+
+------
+(&lt;nil&gt;, &lt;nil&gt;)
+panic: runtime error: invalid memory address or nil pointer dereference
+[signal SIGSEGV: segmentation violation code=0xffffffff addr=0x0 pc=0xd9864]
+
+goroutine 1 [running]:
+main.main()
+    /tmp/sandbox062767685/prog.go:12 +0x84
+</code></pre>
+<h4 id="空接口"><a href="#空接口" class="headerlink" title="空接口"></a>空接口</h4><p>指定了<strong>零个方法</strong>的接口值被称为<strong>空接口</strong>：</p>
+<pre><code class="lang-go">interface{}
+</code></pre>
+<ul>
+<li>空接口可以用来保存任何类型的值，因为每个类型都至少实现了零个方法</li>
+<li>空接口被用来处理未知类型的值</li>
+</ul>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    var i interface{}
+    describe(i)
+
+    i = 42
+    describe(i)
+
+    i = &quot;hello&quot;
+    describe(i)
+}
+
+func describe(i interface{}) {
+    fmt.Printf(&quot;(%v, %T)\n&quot;, i, i)
+}
+
+------
+(&lt;nil&gt;, &lt;nil&gt;)
+(42, int)
+(hello, string)
+</code></pre>
+<h3 id="4-3-类型断言"><a href="#4-3-类型断言" class="headerlink" title="4.3 类型断言"></a>4.3 类型断言</h3><p><strong>类型断言</strong>提供了访问接口值底层具体值的方式：</p>
+<pre><code class="lang-go">t, ok := i.(T)
+</code></pre>
+<ul>
+<li>若<code>i</code>保存了一个<code>T</code>，那么<code>t</code>将会是其底层值，而<code>ok</code>为<code>true</code></li>
+<li>否则，<code>ok</code>将为<code>false</code>，而<code>t</code>将为<code>T</code>类型的零值，程序并不会产生<code>panic</code></li>
+</ul>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    var i interface{} = &quot;hello&quot;
+
+    s := i.(string)
+    fmt.Println(s)
+
+    s, ok := i.(string)
+    fmt.Println(s, ok)
+
+    f, ok := i.(float64)
+    fmt.Println(f, ok)
+
+    f = i.(float64) // 报错(panic)
+    fmt.Println(f)
+}
+
+------
+hello
+hello true
+0 false
+panic: interface conversion: interface {} is string, not float64
+
+goroutine 1 [running]:
+main.main()
+    /tmp/sandbox590758285/prog.go:17 +0x220
+</code></pre>
+<h3 id="4-4-类型选择"><a href="#4-4-类型选择" class="headerlink" title="4.4 类型选择"></a>4.4 类型选择</h3><p><strong>类型选择</strong>是一种按顺序从几个类型断言中选择分支的结构：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func do(i interface{}) {
+    switch v := i.(type) {
+    case int:
+        fmt.Printf(&quot;Twice %v is %v\n&quot;, v, v*2)
+    case string:
+        fmt.Printf(&quot;%q is %v bytes long\n&quot;, v, len(v))
+    default:
+        fmt.Printf(&quot;I don&#39;t know about type %T!\n&quot;, v)
+    }
+}
+
+func main() {
+    do(21)
+    do(&quot;hello&quot;)
+    do(true)
+}
+
+------
+Twice 21 is 42
+&quot;hello&quot; is 5 bytes long
+I don&#39;t know about type bool!
+</code></pre>
+<h3 id="4-5-Stringer"><a href="#4-5-Stringer" class="headerlink" title="4.5 Stringer"></a>4.5 Stringer</h3><p><code>fmt</code>包中定义的<code>Stringer</code>接口是最普遍的接口之一：</p>
+<pre><code class="lang-go">type Stringer interface {
+    String() string
+}
+</code></pre>
+<p>因此只要实现了<code>String()</code>方法，就可以打印结构体的信息：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+type Person struct {
+    Name string
+    Age  int
+}
+
+func (p Person) String() string {
+    return fmt.Sprintf(&quot;%v (%v years)&quot;, p.Name, p.Age)
+}
+
+func main() {
+    a := Person{&quot;Arthur Dent&quot;, 42}
+    z := Person{&quot;Zaphod Beeblebrox&quot;, 9001}
+    fmt.Println(a, z)
+}
+
+------
+Arthur Dent (42 years) Zaphod Beeblebrox (9001 years)
+</code></pre>
+<h3 id="4-6-错误"><a href="#4-6-错误" class="headerlink" title="4.6 错误"></a>4.6 错误</h3><p>Go 程序使用<code>error</code>值来表示错误状态。与<code>fmt.Stringer</code>类似，<code>error</code>类型也是一个内建接口：</p>
+<pre><code class="lang-go">type error interface {
+    Error() string
+}
+</code></pre>
+<p>通常函数会返回一个<code>error</code>值，调用它的代码应当判断这个错误是否等于<code>nil</code>来进行错误处理：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
+
+type MyError struct {
+    When time.Time
+    What string
+}
+
+func (e *MyError) Error() string {
+    return fmt.Sprintf(&quot;at %v, %s&quot;, e.When, e.What)
+}
+
+func run() error {
+    return &amp;MyError{
+        time.Now(),
+        &quot;it didn&#39;t work&quot;,
+    }
+}
+
+func main() {
+    if err := run(); err != nil {
+        fmt.Println(err)
+    }
+}
+
+------
+at 2019-08-18 12:53:38.540727 +0800 CST m=+0.002985501, it didn&#39;t work
+</code></pre>
+<h3 id="4-7-Reader"><a href="#4-7-Reader" class="headerlink" title="4.7 Reader"></a>4.7 Reader</h3><p><code>io</code>包指定了<code>io.Reader</code>接口，它表示从数据流的末尾进行读取。</p>
+<p><code>io.Reader</code>接口有一个<code>Read</code>方法：</p>
+<pre><code class="lang-go">func (T) Read(b []byte) (n int, err error)
+</code></pre>
+<p>该方法用数据填充给定的字节切片，并返回填充的字节数和错误值。在遇到数据流的结尾时，会返回一个<code>io.EOF</code>错误：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;io&quot;
+    &quot;strings&quot;
+)
+
+func main() {
+    r := strings.NewReader(&quot;Hello, Reader!&quot;)
+
+    b := make([]byte, 8)
+    for {
+        n, err := r.Read(b)
+        fmt.Printf(&quot;n = %v err = %v b = %v\n&quot;, n, err, b)
+        fmt.Printf(&quot;b[:n] = %q\n&quot;, b[:n])
+        if err == io.EOF {
+            break
+        }
+    }
+}
+
+------
+n = 8 err = &lt;nil&gt; b = [72 101 108 108 111 44 32 82]
+b[:n] = &quot;Hello, R&quot;
+n = 6 err = &lt;nil&gt; b = [101 97 100 101 114 33 32 82]
+b[:n] = &quot;eader!&quot;
+n = 0 err = EOF b = [101 97 100 101 114 33 32 82]
+b[:n] = &quot;&quot;
+</code></pre>
+<h3 id="4-8-图像"><a href="#4-8-图像" class="headerlink" title="4.8 图像"></a>4.8 图像</h3><p><code>image</code>包定义了<code>Image</code>接口：</p>
+<pre><code class="lang-go">package image
+
+type Image interface {
+    ColorModel() color.Model
+    Bounds() Rectangle
+    At(x, y int) color.Color
+}
+</code></pre>
+<p>这些接口和类型由<code>image/color</code>包定义：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;image&quot;
+)
+
+func main() {
+    m := image.NewRGBA(image.Rect(0, 0, 100, 100))
+    fmt.Println(m.Bounds())
+    fmt.Println(m.At(0, 0).RGBA())
+}
+
+------
+(0,0)-(100,100)
+0 0 0 0
+</code></pre>
+<h2 id="5-并发"><a href="#5-并发" class="headerlink" title="5. 并发"></a>5. 并发</h2><h3 id="5-1-协程-goroutine"><a href="#5-1-协程-goroutine" class="headerlink" title="5.1 协程 goroutine"></a>5.1 协程 goroutine</h3><p>Go 程<code>goroutine</code>是由 Go 运行时管理的轻量级线程：</p>
+<pre><code class="lang-go">go f(x, y, z)
+</code></pre>
+<p>上面的语句会启动一个新的 Go 程并执行：</p>
+<pre><code class="lang-go">f(x, y, z)
+</code></pre>
+<ul>
+<li><code>f, x, y, z</code>的<strong>求值</strong>发生在<strong>当前 Go 程中</strong></li>
+<li><code>f</code>的<strong>执行</strong>发生在<strong>新的 Go 程中</strong></li>
+</ul>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
+
+func say(s string) {
+    for i := 0; i &lt; 5; i++ {
+        time.Sleep(100 * time.Millisecond)
+        fmt.Println(s)
+    }
+}
+
+func main() {
+    go say(&quot;world&quot;)
+    say(&quot;hello&quot;)
+}
+
+------
+hello
+world
+world
+hello
+world
+hello
+world
+hello
+hello
+</code></pre>
+<p>Go 程在相同的地址空间中运行，因此在访问共享的内存时必须进行同步。<code>sync</code>包提供了这种能力，不过也可以利用其它方式实现。</p>
+<h3 id="5-2-通道-channel"><a href="#5-2-通道-channel" class="headerlink" title="5.2 通道 channel"></a>5.2 通道 channel</h3><p>信道<code>channel</code>是<strong>带有类型的管道</strong>，可以通过它使用信道操作符<code>&lt;-</code>来发送或者接收值：</p>
+<pre><code class="lang-go">ch &lt;- v    // 将 v 发送至信道 ch
+v := &lt;-ch  // 从 ch 接收值并赋予 v
+</code></pre>
+<p>根据箭头在信道的方向，<strong>左读右写</strong>。</p>
+<p>和映射与切片一样，信道在使用前必须创建：</p>
+<pre><code class="lang-go">ch := make(chan int)
+</code></pre>
+<p>默认情况下是阻塞的，这使得 Go 程序可以在没有显式的锁或竞态变量的情况下进行同步：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func sum(s []int, c chan int) {
+    sum := 0
+    for i := range s {
+        sum += s[i]
+    }
+    c &lt;- sum // 将和送入 c
+}
+
+func main() {
+    s := []int{7, 2, 8, -9, 4, 0}
+
+    c := make(chan int)
+    go sum(s[:len(s)/2], c)
+    go sum(s[len(s)/2:], c)
+
+    x, y := &lt;-c, &lt;-c // 从 c 中接收
+
+    fmt.Println(x, y, x+y)
+}
+
+------
+-5 17 12
+</code></pre>
+<h3 id="5-3-带缓冲的通道"><a href="#5-3-带缓冲的通道" class="headerlink" title="5.3 带缓冲的通道"></a>5.3 带缓冲的通道</h3><p>信道可以是<strong>带缓冲的</strong>：</p>
+<pre><code class="lang-go">ch := make(chan int, 100)
+</code></pre>
+<p>仅当信道的缓冲区填满后，向其发送数据时才会阻塞。当缓冲区为空时，接收方会阻塞。</p>
+<h3 id="5-4-range-和-close"><a href="#5-4-range-和-close" class="headerlink" title="5.4 range 和 close"></a>5.4 range 和 close</h3><p>发送者可<strong>通过</strong><code>close</code><strong>关闭一个信道</strong>来表示<strong>没有需要发送的值了</strong>。</p>
+<p>接收者可通过以下语句判断信道是否已被关闭：</p>
+<pre><code class="lang-go">v, ok := &lt;-ch // 关闭时 v 为默认零值，ok 为 false
+</code></pre>
+<p>循环<code>for i := range c</code>会不断从信道接收值，直到它被关闭：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+)
+
+func fibonacci(n int, c chan int) {
+    x, y := 0, 1
+    for i := 0; i &lt; n; i++ {
+        c &lt;- x
+        x, y = y, x+y
+    }
+    close(c)
+}
+
+func main() {
+    c := make(chan int, 10)
+    go fibonacci(cap(c), c)
+    for i := range c {
+        fmt.Println(i)
+    }
+    v, ok := &lt;-c
+    fmt.Println(v, ok)
+}
+
+------
+0
+1
+1
+2
+3
+5
+8
+13
+21
+34
+0 false
+</code></pre>
+<ul>
+<li>只有<strong>发送者才能关闭信道</strong>，而接收者不能</li>
+<li><strong>向一个已经关闭的信道发送数据</strong>会引发<code>panic</code></li>
+<li><strong>重复关闭信道</strong>会引发<code>panic</code></li>
+<li>信道与文件不同，通常情况下无需关闭，只有在<strong>必须告诉接收者不再有需要发送的值时</strong>才有必要关闭，例如<strong>终止一个</strong><code>range</code><strong>循环</strong></li>
+</ul>
+<h3 id="5-5-select-语句"><a href="#5-5-select-语句" class="headerlink" title="5.5 select 语句"></a>5.5 select 语句</h3><p><code>select</code>语句使一个 Go 程可以等待多个通信操作。</p>
+<p><code>select</code>会阻塞到某个分支可以继续执行为止，这时就会执行该分支。当多个分支都准备好时，会随机选择一个执行：</p>
+<pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+func fibonacci(c, quit chan int) {
+    x, y := 0, 1
+    for {
+        select {
+        case c &lt;- x:
+            x, y = y, x+y
+        case &lt;-quit:
+            fmt.Println(&quot;quit&quot;)
+            return
+        }
+    }
+}
+
+func main() {
+    c := make(chan int)
+    quit := make(chan int)
+    go func() {
+        for i := 0; i &lt; 10; i++ {
+            fmt.Println(&lt;-c)
+        }
+        quit &lt;- 0
+    }()
+    fibonacci(c, quit)
+}
+
+------
+0
+1
+1
+2
+3
+5
+8
+13
+21
+34
+quit
+</code></pre>
+<p>当<code>select</code>中的其他分支都没有准备好时，<code>default</code>分支就会执行：</p>
+<pre><code class="lang-go">select {
+case i := &lt;-c:
+    // 使用 i
+default:
+    // 从 c 中接收会阻塞时执行
+}
+</code></pre>
+<p>为了在尝试发送或者接收时不发生阻塞，可使用<code>default</code>分支：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
+
+func main() {
+    tick := time.Tick(100 * time.Millisecond)
+    boom := time.After(500 * time.Millisecond)
+
+    for {
+        select {
+        case &lt;-tick:
+            fmt.Println(&quot;tick.&quot;)
+        case &lt;-boom:
+            fmt.Println(&quot;BOOM!&quot;)
+        default:
+            fmt.Println(&quot;    .&quot;)
+            time.Sleep(50 * time.Millisecond)
+        }
+    }
+}
+
+------
+    .
+    .
+tick.
+    .
+    .
+tick.
+    .
+    .
+tick.
+    .
+    .
+tick.
+    .
+    .
+BOOM!
+</code></pre>
+<h3 id="5-6-sync-Mutex"><a href="#5-6-sync-Mutex" class="headerlink" title="5.6 sync.Mutex"></a>5.6 sync.Mutex</h3><p>Go 标准库中提供了<code>sync.Mutex</code>互斥锁类型及其两个方法：<code>Lock()</code>、<code>Unlock()</code>：</p>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;sync&quot;
+    &quot;time&quot;
+)
+
+// SafeCounter 的并发使用是安全的
+type SafeCounter struct {
+    v   map[string]int
+    mux sync.Mutex
+}
+
+// Inc 增加给定 key 的计数器的值
+func (c *SafeCounter) Inc(key string) {
+    c.mux.Lock()
+    c.v[key]++
+    c.mux.Unlock()
+}
+
+// Value 返回给定 key 的计数器的当前值
+func (c *SafeCounter) Value(key string) int {
+    c.mux.Lock()
+    defer c.mux.Unlock()
+    return c.v[key]
+}
+
+func main() {
+    c := SafeCounter{
+        v: make(map[string]int),
+    }
+
+    for i := 0; i &lt; 1000; i++ {
+        go c.Inc(&quot;somekey&quot;)
+    }
+
+    time.Sleep(time.Second)
+    fmt.Println(c.Value(&quot;somekey&quot;))
+}
+
+------
+1000
+</code></pre>
+<ul>
+<li>可以通过在代码前调用<code>Lock()</code>方法、在代码后调用<code>Unlock()</code>方法来保证一段代码的互斥执行</li>
+<li>也可以用<code>defer</code>语句来保证互斥锁一定会被解锁</li>
+</ul>
+<h2 id="6-常用代码"><a href="#6-常用代码" class="headerlink" title="6. 常用代码"></a>6. 常用代码</h2><h3 id="6-1-标准库"><a href="#6-1-标准库" class="headerlink" title="6.1 标准库"></a>6.1 标准库</h3><pre><code class="lang-go">// fmt
+fmt.Errorf(&quot;%s&quot;, &quot;db connect fail&quot;)
+
+// io
+
+// math
+math.Pi
+
+// sync
+
+// strings
+strings.Join(board[i], &quot; &quot;)
+fileds := strings.Fileds(s)
+
+// strconv
+
+// net/http
+// net/url
+
+// log
+
+// types
+
+// json
+
+// xml
+
+// rand
+fmt.Println(&quot;My favorite number is&quot;, rand.Intn(10))
+
+ %d 整型
+ %s 字符串
+ %f 浮点数
+ %T 类型
+ %v 值，例如 {3 4}
+%+v 域+值，例如 {X:3 Y:4}
+ %q 带引号的字符串, &quot;s&quot;
+
+
+// time
+time.Now()
+time.Now().Hour()
+time.Sleep(time.Second)
+
+
+// unsafe
+unsafe.Sizeof()
+
+// runtime
+runtime.GOOS
+runtime.GOARCH
+runtime.Version()
+fmt.Println(runtime.GOMAXPROCS(0))
+
+// errors
+errors.New()
+
+// os.Open()
+</code></pre>
+<h3 id="6-2-内建函数"><a href="#6-2-内建函数" class="headerlink" title="6.2 内建函数"></a>6.2 内建函数</h3><pre><code class="lang-go">make([]int, 4, 8)
+
+// 切片 slice
+len()
+cap()
+append()
+copy()
+
+// 映射 map
+delete(m, key)
+
+
+// 内建接口
+type error interface {
+    Error()
+}
+
+type Stringer interface {
+    String() string
+}
+
+// 通道
+for i := range ch
+close(ch)
+</code></pre>
+<h2 id="7-练习解答"><a href="#7-练习解答" class="headerlink" title="7. 练习解答"></a>7. 练习解答</h2><blockquote>
+<p>参见 <a href="https://blog.csdn.net/vinson0526/article/details/52279076" target="_blank" rel="noopener">Golang 官方指导练习 - 掠雪墨影 | CSDN</a></p>
+</blockquote>
+<h3 id="7-1-循环与函数：牛顿法求平方根"><a href="#7-1-循环与函数：牛顿法求平方根" class="headerlink" title="7.1 循环与函数：牛顿法求平方根"></a>7.1 循环与函数：牛顿法求平方根</h3><pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;math&quot;
+)
+
+func sqrt(x float64) float64 {
+    z := float64(1)
+    for {
+        y := z - (z*z-x)/(2*z)
+        if math.Abs(y-z) &lt; 1e-10 {
+            return y
+        }
+        z = y
+    }
+}
+
+func main() {
+    fmt.Println(sqrt(2))
+    fmt.Println(math.Sqrt(2))
+}
+
+------
+1.4142135623730951
+1.4142135623730951
+</code></pre>
+<h3 id="7-2-切片：图像灰度值"><a href="#7-2-切片：图像灰度值" class="headerlink" title="7.2 切片：图像灰度值"></a>7.2 切片：图像灰度值</h3><pre><code class="lang-go">package main
+
+import (
+    &quot;golang.org/x/tour/pic&quot;
+)
+
+func Pic(dx, dy int) [][]uint8 {
+    ret := make([][]uint8, dy)
+    for x := 0; x &lt; dy; x++ {
+        ret[x] = make([]uint8, dx)
+        for y := 0; y &lt; dx; y++ {
+            ret[x][y] = uint8(x ^ y)
+            // ret[x][y] = uint8((x + y) / 2)
+            // ret[x][y] = uint8(x * y)
+            // ret[x][y] = uint8(float64(x) * math.Log(float64(y)))
+            // ret[x][y] = uint8(x % (y + 1))
+        }
+    }
+    return ret
+}
+
+func main() {
+    pic.Show(Pic)
+}
+</code></pre>
+<h3 id="7-3-映射：单词统计"><a href="#7-3-映射：单词统计" class="headerlink" title="7.3 映射：单词统计"></a>7.3 映射：单词统计</h3><pre><code class="lang-go">package main
+
+import (
+    &quot;strings&quot;
+
+    &quot;golang.org/x/tour/wc&quot;
+)
+
+func WordCount(s string) map[string]int {
+    count := make(map[string]int)
+
+    for _, word := range strings.Fields(s) {
+        count[word]++
+    }
+
+    return count
+}
+
+func main() {
+    wc.Test(WordCount)
+}
+</code></pre>
+<h3 id="7-4-闭包：斐波那契数列"><a href="#7-4-闭包：斐波那契数列" class="headerlink" title="7.4 闭包：斐波那契数列"></a>7.4 闭包：斐波那契数列</h3><pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+// 返回一个“返回int的函数”
+func fibonacci() func() int {
+    one := 0
+    two := 1
+    return func() int {
+        three := one + two
+        one = two
+        two = three
+        return three
+    }
+}
+
+func main() {
+    f := fibonacci()
+    for i := 0; i &lt; 10; i++ {
+        fmt.Println(f())
+    }
+}
+
+------
+1
+2
+3
+5
+8
+13
+21
+34
+55
+89
+</code></pre>
+<h3 id="7-5-Stringer"><a href="#7-5-Stringer" class="headerlink" title="7.5 Stringer"></a>7.5 Stringer</h3><pre><code class="lang-go">package main
+
+import &quot;fmt&quot;
+
+type IPAddr [4]byte
+
+func (ip IPAddr) String() string {
+    return fmt.Sprintf(&quot;%v.%v.%v.%v&quot;, ip[0], ip[1], ip[2], ip[3])
+}
+
+func main() {
+    hosts := map[string]IPAddr{
+        &quot;loopback&quot;:  {127, 0, 0, 1},
+        &quot;googleDNS&quot;: {8, 8, 8, 8},
+    }
+    for name, ip := range hosts {
+        fmt.Printf(&quot;%v: %v\n&quot;, name, ip)
+    }
+}
+
+------
+loopback: 127.0.0.1
+googleDNS: 8.8.8.8
+</code></pre>
+<h3 id="7-6-错误"><a href="#7-6-错误" class="headerlink" title="7.6 错误"></a>7.6 错误</h3><pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;math&quot;
+)
+
+type ErrNegativeSqrt float64
+
+func (e ErrNegativeSqrt) Error() string {
+    return fmt.Sprintf(&quot;cannot Sqrt negative number: %v&quot;, float64(e))
+}
+
+func sqrt(x float64) (float64, error) {
+    if x &lt; 0 {
+        return 0, ErrNegativeSqrt(x)
+    }
+    z := float64(1)
+    for {
+        y := z - (z*z-x)/(2*z)
+        if math.Abs(y-z) &lt; 1e-10 {
+            return y, nil
+        }
+        z = y
+    }
+}
+
+func main() {
+    fmt.Println(sqrt(2))
+    fmt.Println(sqrt(-2))
+}
+
+------
+1.4142135623730951 &lt;nil&gt;
+0 cannot Sqrt negative number: -2
+</code></pre>
+<h3 id="7-7-Reader"><a href="#7-7-Reader" class="headerlink" title="7.7 Reader"></a>7.7 Reader</h3><pre><code class="lang-go">package main
+
+import (
+    &quot;strings&quot;
+
+    &quot;golang.org/x/tour/reader&quot;
+)
+
+type MyReader struct{}
+
+func (MyReader) Read(b []byte) (int, error) {
+    r := strings.NewReader(&quot;A&quot;)
+    n, err := r.Read(b)
+    return n, err
+}
+
+func main() {
+    reader.Validate(MyReader{})
+}
+</code></pre>
+<h3 id="7-8-rot13Reader"><a href="#7-8-rot13Reader" class="headerlink" title="7.8 rot13Reader"></a>7.8 rot13Reader</h3><pre><code class="lang-go">package main
+
+import (
+    &quot;io&quot;
+    &quot;os&quot;
+    &quot;strings&quot;
+)
+
+type rot13Reader struct {
+    r io.Reader
+}
+
+func (self rot13Reader) Read(buf []byte) (int, error) {
+    length, err := self.r.Read(buf)
+    if err != nil {
+        return length, err
+    }
+
+    for i := 0; i &lt; length; i++ {
+        v := buf[i]
+        switch {
+        case &#39;a&#39; &lt;= v &amp;&amp; v &lt;= &#39;m&#39;:
+            fallthrough
+        case &#39;A&#39; &lt;= v &amp;&amp; v &lt;= &#39;M&#39;:
+            buf[i] = v + 13
+        case &#39;n&#39; &lt;= v &amp;&amp; v &lt;= &#39;z&#39;:
+            fallthrough
+        case &#39;N&#39; &lt;= v &amp;&amp; v &lt;= &#39;Z&#39;:
+            buf[i] = v - 13
+        }
+    }
+    return length, nil
+}
+
+func main() {
+    s := strings.NewReader(&quot;Lbh penpxrq gur pbqr!&quot;)
+    r := rot13Reader{s}
+    io.Copy(os.Stdout, &amp;r)
+}
+
+------
+You cracked the code!
+</code></pre>
+<h3 id="7-9-图像"><a href="#7-9-图像" class="headerlink" title="7.9 图像"></a>7.9 图像</h3><pre><code class="lang-go">package main
+
+import (
+    &quot;image&quot;
+    &quot;image/color&quot;
+
+    &quot;golang.org/x/tour/pic&quot;
+)
+
+type Image struct {
+    w int
+    h int
+}
+
+func (self Image) ColorModel() color.Model {
+    return color.RGBAModel
+}
+
+func (self Image) Bounds() image.Rectangle {
+    return image.Rect(0, 0, self.w, self.h)
+}
+
+func (self Image) At(x, y int) color.Color {
+    r := (uint8)((float64)(x) / (float64)(self.w) * 255.0)
+    g := (uint8)((float64)(y) / (float64)(self.h) * 255.0)
+    b := (uint8)((float64)(x*y) / (float64)(self.w*self.h) * 255.0)
+    return color.RGBA{r, g, b, 255}
+}
+
+func main() {
+    m := Image{255, 255}
+    pic.ShowImage(m)
+}
+</code></pre>
+<h3 id="7-10-等价二叉查找树"><a href="#7-10-等价二叉查找树" class="headerlink" title="7.10 等价二叉查找树"></a>7.10 等价二叉查找树</h3><pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+
+    &quot;golang.org/x/tour/tree&quot;
+)
+
+// Walk 步进 tree t 将所有的值从 tree 发送到 channel ch。
+func Walk(t *tree.Tree, ch chan int) {
+    if t == nil {
+        return
+    }
+    Walk(t.Left, ch)
+    ch &lt;- t.Value
+    Walk(t.Right, ch)
+}
+
+// Same 检测树 t1 和 t2 是否含有相同的值。
+func Same(t1, t2 *tree.Tree) bool {
+    ch1 := make(chan int)
+    ch2 := make(chan int)
+    go Walk(t1, ch1)
+    go Walk(t2, ch2)
+    for i := 0; i &lt; 10; i++ {
+        x, y := &lt;-ch1, &lt;-ch2
+        fmt.Println(x, y)
+        if x != y {
+            return false
+        }
+    }
+    return true
+
+}
+
+func main() {
+    fmt.Println(Same(tree.New(1), tree.New(1)))
+}
+
+------
+1 1
+2 2
+3 3
+4 4
+5 5
+6 6
+7 7
+8 8
+9 9
+10 10
+true
+</code></pre>
+<h3 id="7-11-Web-爬虫"><a href="#7-11-Web-爬虫" class="headerlink" title="7.11 Web 爬虫"></a>7.11 Web 爬虫</h3><pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;sync&quot;
+)
+
+type Fetcher interface {
+    // Fetch 返回 URL 的 body 内容，并且将在这个页面上找到的 URL 放到一个 slice 中。
+    Fetch(url string) (body string, urls []string, err error)
+}
+
+// Crawl 使用 fetcher 从某个 URL 开始递归的爬取页面，直到达到最大深度。
+func Crawl(url string, depth int, fetcher Fetcher, crawled Crawled, out chan string, end chan bool) {
+    // TODO: 并行的抓取 URL。
+    // TODO: 不重复抓取页面。
+    // 下面并没有实现上面两种情况：
+    if depth &lt;= 0 {
+        end &lt;- true
+        return
+    }
+
+    crawled.mux.Lock()
+    if _, ok := crawled.crawled[url]; ok {
+        crawled.mux.Unlock()
+        end &lt;- true
+        return
+    }
+
+    crawled.crawled[url] = 1
+    crawled.mux.Unlock()
+
+    _, urls, err := fetcher.Fetch(url)
+    if err != nil {
+        fmt.Println(err)
+        end &lt;- true
+        return
+    }
+
+    out &lt;- url
+    //fmt.Println(&quot;found: &quot;, url, body)
+    for _, u := range urls {
+        go Crawl(u, depth-1, fetcher, crawled, out, end)
+    }
+
+    for i := 0; i &lt; len(urls); i++ {
+        &lt;-end
+    }
+
+    end &lt;- true
+    return
+}
+
+type Crawled struct {
+    crawled map[string]int
+    mux     sync.Mutex
+}
+
+func main() {
+    crawled := Crawled{make(map[string]int), sync.Mutex{}}
+    out := make(chan string)
+    end := make(chan bool)
+    go Crawl(&quot;http://golang.org/&quot;, 4, fetcher, crawled, out, end)
+
+    for {
+        select {
+        case url := &lt;-out:
+            fmt.Println(&quot;found: &quot;, url)
+        case &lt;-end:
+            return
+        }
+    }
+}
+
+// fakeFetcher 是返回若干结果的 Fetcher。
+type fakeFetcher map[string]*fakeResult
+
+type fakeResult struct {
+    body string
+    urls []string
+}
+
+func (f fakeFetcher) Fetch(url string) (string, []string, error) {
+    if res, ok := f[url]; ok {
+        return res.body, res.urls, nil
+    }
+    return &quot;&quot;, nil, fmt.Errorf(&quot;not found: %s&quot;, url)
+}
+
+// fetcher 是填充后的 fakeFetcher。
+var fetcher = fakeFetcher{
+    &quot;http://golang.org/&quot;: &amp;fakeResult{
+        &quot;The Go Programming Language&quot;,
+        []string{
+            &quot;http://golang.org/pkg/&quot;,
+            &quot;http://golang.org/cmd/&quot;,
+        },
+    },
+    &quot;http://golang.org/pkg/&quot;: &amp;fakeResult{
+        &quot;Packages&quot;,
+        []string{
+            &quot;http://golang.org/&quot;,
+            &quot;http://golang.org/cmd/&quot;,
+            &quot;http://golang.org/pkg/fmt/&quot;,
+            &quot;http://golang.org/pkg/os/&quot;,
+        },
+    },
+    &quot;http://golang.org/pkg/fmt/&quot;: &amp;fakeResult{
+        &quot;Package fmt&quot;,
+        []string{
+            &quot;http://golang.org/&quot;,
+            &quot;http://golang.org/pkg/&quot;,
+        },
+    },
+    &quot;http://golang.org/pkg/os/&quot;: &amp;fakeResult{
+        &quot;Package os&quot;,
+        []string{
+            &quot;http://golang.org/&quot;,
+            &quot;http://golang.org/pkg/&quot;,
+        },
+    },
+}
+
+------
+found:  http://golang.org/
+found:  http://golang.org/pkg/
+found:  http://golang.org/pkg/os/
+found:  http://golang.org/pkg/fmt/
+not found: http://golang.org/cmd/
+</code></pre>
+<h2 id="8-参考文章"><a href="#8-参考文章" class="headerlink" title="8. 参考文章"></a>8. 参考文章</h2><h3 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h3><ul>
+<li><a href="https://tour.go-zh.org/welcome/1" target="_blank" rel="noopener">Go Tour | Golang.org</a></li>
+<li><a href="https://github.com/golang/go/wiki" target="_blank" rel="noopener">Go Wiki | Github</a></li>
+<li><a href="https://go-zh.org/doc/effective_go.html" target="_blank" rel="noopener">实效 Go 编程 | Golang.org</a></li>
+<li><a href="https://golang.org/doc/effective_go.html" target="_blank" rel="noopener">Effective Go | Golang.org</a></li>
+<li><a href="https://go-zh.org/pkg/builtin/" target="_blank" rel="noopener">Package builtin - 内建函数 | Golang.org</a></li>
+<li><a href="https://go-zh.org/pkg/" target="_blank" rel="noopener">Packages - 标准库 | Golang.org</a></li>
+<li><a href="https://godoc.org" target="_blank" rel="noopener">GoDoc | Search for Go Packages</a></li>
+</ul>
+<h3 id="Go-Blog"><a href="#Go-Blog" class="headerlink" title="Go Blog"></a>Go Blog</h3><ul>
+<li><a href="https://blog.go-zh.org/defer-panic-and-recover" target="_blank" rel="noopener">Defer, Panic, and Recover | Go Blog</a></li>
+<li><a href="https://blog.go-zh.org/go-slices-usage-and-internals" target="_blank" rel="noopener">Go 切片：用法和本质 | Go Blog</a></li>
+</ul>
+<h3 id="Go-Tour-题解"><a href="#Go-Tour-题解" class="headerlink" title="Go Tour 题解"></a>Go Tour 题解</h3><ul>
+<li><a href="https://blog.csdn.net/vinson0526/article/details/52279076" target="_blank" rel="noopener">Golang 官方指导练习 - 掠雪墨影 | CSDN</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html" target="_blank" rel="noopener">学习 Javascript 闭包 (Closure) | 阮一峰</a></li>
+</ul>
+<h3 id="Go-标准库"><a href="#Go-标准库" class="headerlink" title="Go 标准库"></a>Go 标准库</h3><ul>
+<li><a href="https://github.com/astaxie/gopkg" target="_blank" rel="noopener">gopkg - astaxie | Github</a></li>
+<li><a href="https://www.huweihuang.com/article/golang/golang-packages/#%E6%8E%A8%E8%8D%90%E6%96%87%E7%AB%A0" target="_blank" rel="noopener">Golang 常用包 | 胡伟煌</a></li>
+<li><a href="https://blog.csdn.net/mrbuffoon/article/details/85070408" target="_blank" rel="noopener">Go 常用标准包介绍 - Mr_buffoon | CSDN</a></li>
+<li><a href="https://tonybai.com/2012/09/08/a-brief-tour-of-go-standard-library/" target="_blank" rel="noopener">Go 语言标准库概览 | Tony Bai</a></li>
+</ul>
+<blockquote>
+<p>推荐一个知乎专栏作者：<a href="https://www.zhihu.com/people/wu-xiao-shen-16" target="_blank" rel="noopener">谢伟</a>，知乎专栏<a href="https://zhuanlan.zhihu.com/c_185086376" target="_blank" rel="noopener">『Gopher』- Go 上手指南</a></p>
+</blockquote>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/48171845" target="_blank" rel="noopener">Go 内置库第一季：strings - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/48267436" target="_blank" rel="noopener">Go 内置库第一季：strconv - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/48535925" target="_blank" rel="noopener">Go 内置库第一季：reflect - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/48753969" target="_blank" rel="noopener">Go 内置库第一季：json - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/48993595" target="_blank" rel="noopener">Go 内置库第一季：error - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/49638425" target="_blank" rel="noopener">Go 内置库第一季：time - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/50453972" target="_blank" rel="noopener">Go 内置库第一季：net/url - 谢伟 | 知乎</a></li>
+<li><a href="https://golangtc.com/t/5136f43d320b522742000004" target="_blank" rel="noopener">请教：FieldsFunc 函数的用法 | Golang 中国</a></li>
+<li><a href="https://itimetraveler.github.io/2016/09/07/【Go语言】基本类型排序和%20slice%20排序/" target="_blank" rel="noopener">【Go语言】基本类型排序和 slice 排序 | iTimeTraveler</a></li>
+</ul>
+<blockquote>
+<p>其他不错的文章：</p>
+</blockquote>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/70051432" target="_blank" rel="noopener">Go Web 教程 - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/75894765" target="_blank" rel="noopener">Go GraphQL 教程 - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/55975116" target="_blank" rel="noopener">Go 与 Error 的前世今生 - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/51195816" target="_blank" rel="noopener">自己构建节假日 API - 谢伟 | 知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/55798977" target="_blank" rel="noopener">打造一款 emoji 表情库 - 谢伟 | 知乎</a></li>
+</ul>
+<h3 id="51CTO-上的一个系列教程"><a href="#51CTO-上的一个系列教程" class="headerlink" title="51CTO 上的一个系列教程"></a>51CTO 上的一个系列教程</h3><ul>
+<li><a href="https://blog.51cto.com/9291927/2138691" target="_blank" rel="noopener">Go 语言开发学习教程 - 天山老妖S | 51CTO</a></li>
+<li><a href="https://blog.51cto.com/9291927/2294270" target="_blank" rel="noopener">Go 语言常用标准库一 - 天山老妖S | 51CTO</a></li>
+<li><a href="https://blog.51cto.com/9291927/2294279" target="_blank" rel="noopener">Go 语言常用标准库二 - 天山老妖S | 51CTO</a></li>
+<li><a href="https://blog.51cto.com/9291927/2343533" target="_blank" rel="noopener">Go 语言常用标准库三 - 天山老妖S | 51CTO</a></li>
+<li><a href="https://blog.51cto.com/9291927/2343535" target="_blank" rel="noopener">Go 语言常用标准库四 - 天山老妖S | 51CTO</a></li>
+<li><a href="https://blog.51cto.com/9291927/2344665" target="_blank" rel="noopener">Go 语言常用标准库五 - 天山老妖S | 51CTO</a></li>
+<li><a href="https://blog.51cto.com/9291927/2344741" target="_blank" rel="noopener">Go 语言常用标准库六 - 天山老妖S | 51CTO</a></li>
+<li><a href="https://blog.51cto.com/9291927/2344802" target="_blank" rel="noopener">Go 语言 MySQL 数据库操作 - 天山老妖S | 51CTO</a></li>
+<li><a href="https://blog.51cto.com/9291927/2344747" target="_blank" rel="noopener">Go 语言 database/sql 接口 - 天山老妖S | 51CTO</a></li>
+</ul>
+<h3 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h3><ul>
+<li><a href="https://github.com/sevenelevenlee/go-patterns" target="_blank" rel="noopener">go-patterns - Golang 设计模式 | Github</a></li>
+</ul>
+<h3 id="演讲-PPT"><a href="#演讲-PPT" class="headerlink" title="演讲 PPT"></a>演讲 PPT</h3><ul>
+<li><a href="https://talks.go-zh.org/2012/simple.slide#1" target="_blank" rel="noopener">Go: a simple programming environment - Andrew Gerrand | Google</a></li>
+<li><a href="https://talks.go-zh.org/2012/concurrency.slide#1" target="_blank" rel="noopener">Go Concurrency Patterns - Rob Pike | Google</a></li>
+</ul>
+<h3 id="Web-编程"><a href="#Web-编程" class="headerlink" title="Web 编程"></a>Web 编程</h3><ul>
+<li><a href="https://github.com/astaxie/build-web-application-with-golang" target="_blank" rel="noopener">build-web-application-with-golang - astaxie | Github</a></li>
+<li><a href="https://go-zh.org/doc/articles/wiki/" target="_blank" rel="noopener">Writing Web Applications | golang.org</a></li>
+<li><a href="https://beego.me/" target="_blank" rel="noopener">Beego Framework</a></li>
+<li><a href="https://developer.okta.com/blog/2018/10/23/build-a-single-page-app-with-go-and-vue" target="_blank" rel="noopener">Build a Single-Page App with Go and Vue | okta</a></li>
+<li><a href="https://github.com/tdewolff/go-vue-template" target="_blank" rel="noopener">Go Vue Template - tdewolff | Github</a></li>
+</ul>
+<h3 id="开源图书"><a href="#开源图书" class="headerlink" title="开源图书"></a>开源图书</h3><ul>
+<li><a href="https://github.com/chai2010/go2-book" target="_blank" rel="noopener">go2-book - Go 2 编程指南 | Github</a></li>
+<li><a href="https://github.com/feixiao/advanced-go-programming-book" target="_blank" rel="noopener">advanced-go-programming-book - Go 语言高级编程 | Github</a></li>
+</ul>
+<h3 id="博客框架"><a href="#博客框架" class="headerlink" title="博客框架"></a>博客框架</h3><ul>
+<li><a href="https://github.com/louyan/go-vue-blog" target="_blank" rel="noopener">go-vue-blog - beego + vue 前后端分离个人博客 | Github</a></li>
+<li><a href="https://github.com/1920853199/go-blog" target="_blank" rel="noopener">go-blog - go 版个人博客 | Github</a></li>
+</ul>
+<h3 id="游戏"><a href="#游戏" class="headerlink" title="游戏"></a>游戏</h3><ul>
+<li><a href="https://cloud.tencent.com/developer/labs/lab/10480" target="_blank" rel="noopener">Ubuntu 搭建《太鼓达人》在线模拟器 Taiko Web | 腾讯云开发者实验室</a></li>
+<li><a href="https://dev.tencent.com/u/purerosefallen/p/taiko-web/git" target="_blank" rel="noopener">taiko-web - Taiko Web mirror on Tencent | 腾讯云开发者平台</a></li>
+<li><a href="https://sausheong.github.io/posts/cross-platform-games-with-go/" target="_blank" rel="noopener">Create a simple cross-platform desktop game with Go - sausheong’s space</a></li>
+<li><a href="https://sausheong.github.io/posts/space-invaders-with-go/" target="_blank" rel="noopener">Writing Space Invaders with Go - sausheong’s space</a></li>
+</ul>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/">使用 Gogs 自建 Git 服务</a></li><li><a href="https://abelsu7.top/2019/10/31/go-gin-swagger/">在 Gin 中使用 swaggo 自动生成 RESTful API 文档</a></li><li><a href="https://abelsu7.top/2019/10/24/go-build-compress-using-upx/">使用 upx 压缩 go build 打包的可执行文件</a></li><li><a href="https://abelsu7.top/2019/10/24/go-cross-compile/">Go 程序的交叉编译、选择性编译</a></li><li><a href="chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li><li><a href="www.chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-10-10T13:20:54.173Z" itemprop="dateUpdated">2019-10-10 21:20:54</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/08/18/go-tour-notes/" target="_blank" rel="external">https://abelsu7.top/2019/08/18/go-tour-notes/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web-开发/">Web 开发</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/08/18/go-tour-notes/&title=《Go Tour 笔记》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/08/18/go-tour-notes/&title=《Go Tour 笔记》 — Keep Coding&source=
+摘自 Go 语言之旅
+
+
+                
+                    
+                    
+    ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/08/18/go-tour-notes/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go Tour 笔记》 — Keep Coding&url=https://abelsu7.top/2019/08/18/go-tour-notes/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/08/18/go-tour-notes/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/08/26/compile-kvm-module/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">单独编译 KVM 内核模块</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/08/15/go-web-programming/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Go Web 编程笔记</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/08/18/go-tour-notes/&title=《Go Tour 笔记》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/08/18/go-tour-notes/&title=《Go Tour 笔记》 — Keep Coding&source=
+摘自 Go 语言之旅
+
+
+                
+                    
+                    
+    ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/08/18/go-tour-notes/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Go Tour 笔记》 — Keep Coding&url=https://abelsu7.top/2019/08/18/go-tour-notes/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/08/18/go-tour-notes/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACNUlEQVR42u3a226DQAyE4X3/l6a3lRLojGepZO/PVUQo7Eckd31YSz6uj+Pu/O9vP6+5u7Ny5YYDBgwYbRnX43H3sLsH58tVXtOXv4UBA8YBDPfBz4FVWfTzeX1tMGDAgOEuJf8MAwYMGAlDCYiXeejPhQEDBgwlidUXodzhuW72Yi4OAwaMhgy96v7/n1/pb8CAAaMV49p06EU0PUwbT4cBA8ZoxhuFMDc9rm1Pv9wHBgwYxzD0or8bKJUU1x1KM94ZDBgw2jLccn9SVquNYmz7jwEDBowRDDfg7oVFrQUYMGCMZrgNgFpYTDaI7quEAQPGPIZbMtPT1KSQZ6fTMGDAGM1wi/5JA3JXUF6RFQYMGHMYbpKpbByV87X0GAYMGCcw3BHSvWMWtTaq3c6EAQNGW8au7WCyT3OT2OIvAAMGjLYM/SIl8OUFOOX+K7HCgAGjIUNJQWvFsiSJtV83DBgwRjPcW+hjGe6VetpcBMCAAaMtw21Juo0BPezWVgIDBowTGHlLQC+W6TMSxQ0lDBgwhjKU4pc7WuEGX3eYw2hhwoABYwTDLau5bUh9U6gPcBjTbTBgwBjBqIU2vVWptzbdjuTKIzQMGDCaMJL2YZLu5o0EGDBgnMZwg6zb2qwFbnewAwYMGCcw8hZj7aW4Y15/5OIwYMA4nuG2BPR0t7aJLAZcGDBgjGbUZhv00p77ymDAgHEaI1lEbUOpt0vtTiwMGDDGMdzUUT/vludqd4ABA8Zoxg+QlqOJDtgKIQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

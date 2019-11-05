@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>C++ 速查 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="编程,学习,CPP">
+    <meta name="description" content="C++ 基础速查笔记">
+<meta name="keywords" content="编程,学习,CPP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ 速查">
+<meta property="og:url" content="https://abelsu7.top/2019/05/24/cpp-quick-reference/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="C++ 基础速查笔记">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/05/24/cpp-quick-reference/cover.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.105Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++ 速查">
+<meta name="twitter:description" content="C++ 基础速查笔记">
+<meta name="twitter:image" content="https://abelsu7.top/2019/05/24/cpp-quick-reference/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">C++ 速查</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">C++ 速查</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-05-24T03:39:13.000Z" itemprop="datePublished" class="page-time">
+  2019-05-24
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/C-C/">C/C++</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-绪论"><span class="post-toc-text">1. 绪论</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-C-程序结构"><span class="post-toc-text">2. C++ 程序结构</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-变量与常量"><span class="post-toc-text">3. 变量与常量</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-变量"><span class="post-toc-text">3.1 变量</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#变量名规范"><span class="post-toc-text">变量名规范</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#命名约定"><span class="post-toc-text">命名约定</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#常用变量类型"><span class="post-toc-text">常用变量类型</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#sizeof-确定变量长度"><span class="post-toc-text">sizeof 确定变量长度</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#列表初始化-缩窄转换"><span class="post-toc-text">列表初始化/缩窄转换</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#auto-自动推断"><span class="post-toc-text">auto 自动推断</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#typedef-定义变量类型"><span class="post-toc-text">typedef 定义变量类型</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-常量"><span class="post-toc-text">3.2 常量</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#字面常量"><span class="post-toc-text">字面常量</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#const-定义常量"><span class="post-toc-text">const 定义常量</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#constexpr-定义常量表达式"><span class="post-toc-text">constexpr 定义常量表达式</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#enum-枚举"><span class="post-toc-text">enum 枚举</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-数组与字符串"><span class="post-toc-text">4. 数组与字符串</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-1-静态数组"><span class="post-toc-text">4.1 静态数组</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-2-多维数组"><span class="post-toc-text">4.2 多维数组</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-3-动态数组"><span class="post-toc-text">4.3 动态数组</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-4-C-风格字符串"><span class="post-toc-text">4.4 C 风格字符串</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-5-C-字符串-std-string"><span class="post-toc-text">4.5 C++ 字符串 std::string</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-语句与运算符"><span class="post-toc-text">5. 语句与运算符</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-1-语句"><span class="post-toc-text">5.1 语句</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-2-前缀-后缀运算符"><span class="post-toc-text">5.2 前缀/后缀运算符</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-3-逻辑运算符"><span class="post-toc-text">5.3 逻辑运算符</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-4-位运算符"><span class="post-toc-text">5.4 位运算符</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-控制程序流程"><span class="post-toc-text">6. 控制程序流程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-1-if-else"><span class="post-toc-text">6.1 if else</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-2-switch-case"><span class="post-toc-text">6.2 switch case</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-3-三目运算符"><span class="post-toc-text">6.3 三目运算符</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-4-while"><span class="post-toc-text">6.4 while</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-5-do-while"><span class="post-toc-text">6.5 do while</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-6-for"><span class="post-toc-text">6.6 for</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-7-for-range"><span class="post-toc-text">6.7 for range</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-8-continue-和-break"><span class="post-toc-text">6.8 continue 和 break</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-函数"><span class="post-toc-text">7. 函数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-1-函数原型与函数定义"><span class="post-toc-text">7.1 函数原型与函数定义</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-2-函数重载"><span class="post-toc-text">7.2 函数重载</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-3-按引用传递参数"><span class="post-toc-text">7.3 按引用传递参数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-4-函数调用"><span class="post-toc-text">7.4 函数调用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#inline-内联函数"><span class="post-toc-text">inline 内联函数</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#auto-自动推断返回类型"><span class="post-toc-text">auto 自动推断返回类型</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#lambda-函数"><span class="post-toc-text">lambda 函数</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8-指针和引用"><span class="post-toc-text">8. 指针和引用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#8-1-什么是指针"><span class="post-toc-text">8.1 什么是指针</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#8-2-动态内存分配"><span class="post-toc-text">8.2 动态内存分配</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#new-和-delete-运算符"><span class="post-toc-text">new 和 delete 运算符</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#指针递增或递减"><span class="post-toc-text">指针递增或递减</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#将关键字-const-用于指针"><span class="post-toc-text">将关键字 const 用于指针</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-cpp-quick-reference"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">C++ 速查</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-05-24 11:39:13" datetime="2019-05-24T03:39:13.000Z"  itemprop="datePublished">2019-05-24</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/C-C/">C/C++</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>C++ 基础速查笔记</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/05/24/cpp-quick-reference/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<p><strong><em>更新中…</em></strong></p>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><h3 id="1-绪论"><a href="#1-绪论" class="headerlink" title="1. 绪论"></a>1. 绪论</h3><ul>
+<li><strong>C++</strong> 最初由 <strong>Bjarne Stroustroup</strong> 于<code>1979</code>年在<strong>贝尔实验室</strong>开发</li>
+<li>C++ 是一种<strong>面向对象</strong>的语言，实现了<strong>继承、封装、多态</strong>等概念</li>
+<li><code>1998</code>年，第一个 <strong>C++ 标准</strong>获得了 <strong>ISO 标准委员会</strong>的批准，俗称<code>C++98</code></li>
+<li><code>C++11</code>、<code>C++14</code>、<code>C++17</code></li>
+</ul>
+<pre><code class="lang-cpp">#include &lt;iostream&gt;
+
+int main()
+{
+    std::cout&lt;&lt; &quot;Hello World!&quot; &lt;&lt; std::endl;
+    return 0;
+}
+</code></pre>
+<h3 id="2-C-程序结构"><a href="#2-C-程序结构" class="headerlink" title="2. C++ 程序结构"></a>2. C++ 程序结构</h3><ul>
+<li><code>#include</code>：<strong>预处理器编译</strong>指令，在<strong>编译前</strong>运行</li>
+<li><code>&lt; &gt;</code>：包含<strong>标准头文件</strong></li>
+<li><code>&quot; &quot;</code>：包含<strong>自定义头文件</strong></li>
+<li><code>main()</code>：<strong>程序的主体</strong></li>
+<li><code>std::count</code>：<strong>命名空间</strong>，即<code>namespace</code></li>
+<li>C++ <strong>区分大小写</strong></li>
+<li><strong>注释</strong>会被编译器<strong>忽略</strong></li>
+</ul>
+<pre><code class="lang-cpp">int main(int argc, char* argv[])
+</code></pre>
+<h3 id="3-变量与常量"><a href="#3-变量与常量" class="headerlink" title="3. 变量与常量"></a>3. 变量与常量</h3><h4 id="3-1-变量"><a href="#3-1-变量" class="headerlink" title="3.1 变量"></a>3.1 变量</h4><h5 id="变量名规范"><a href="#变量名规范" class="headerlink" title="变量名规范"></a>变量名规范</h5><ul>
+<li><strong>变量名</strong>可包含<strong>数字、字母、下划线</strong></li>
+<li>但<strong>不能以数字开头</strong></li>
+<li>变量名<strong>不能是保留的关键字</strong></li>
+<li>可在<strong>同一行初始化多个相同类型的变量</strong></li>
+</ul>
+<pre><code class="lang-cpp">int first = 0, second = 0, third = 0;
+</code></pre>
+<h5 id="命名约定"><a href="#命名约定" class="headerlink" title="命名约定"></a>命名约定</h5><ul>
+<li><strong>变量名小写字母开头</strong></li>
+<li><strong>函数名</strong>等其他元素<strong>大写字母开头</strong></li>
+<li>驼峰命名法</li>
+</ul>
+<h5 id="常用变量类型"><a href="#常用变量类型" class="headerlink" title="常用变量类型"></a>常用变量类型</h5><blockquote>
+<p><code>C++14</code>新增了用<code>&#39;</code>表示的<strong>组块分隔符</strong><code>chunking separator</code>，可以<strong>提高数字的可读性</strong></p>
+</blockquote>
+<pre><code class="lang-cpp">int totalCash = 0;
+bool isLampOn = false;
+char userInput = &#39;Y&#39;;
+
+short int gradesInMath = -5;
+int moneyInBank = -7&#39;0000;
+long populationChange = -8&#39;5000;
+long long countryGDPChange = -700&#39;0000;
+
+unsigned short int numColorsInRainbow = 7;
+unsigned int unmEggsInBasket = 24;
+unsigned long numCarsInNewYork = 70&#39;0000;
+unsigned long long countryMedicareExpense = 7&#39;0000&#39;0000;
+
+float pi = 3.14;
+double morePrecisePi = 22.0 / 7;
+</code></pre>
+<h5 id="sizeof-确定变量长度"><a href="#sizeof-确定变量长度" class="headerlink" title="sizeof 确定变量长度"></a>sizeof 确定变量长度</h5><pre><code class="lang-cpp">cout &lt;&lt; &quot;Size of an int: &quot; &lt;&lt; sizeof(int);
+</code></pre>
+<h5 id="列表初始化-缩窄转换"><a href="#列表初始化-缩窄转换" class="headerlink" title="列表初始化/缩窄转换"></a>列表初始化/缩窄转换</h5><p><code>C++11</code>引入了<strong>列表初始化</strong>来<strong>禁止缩窄转换</strong>：</p>
+<pre><code class="lang-cpp">int largeNum = 700&#39;0000;
+short smallNum{largeNum};
+</code></pre>
+<h5 id="auto-自动推断"><a href="#auto-自动推断" class="headerlink" title="auto 自动推断"></a>auto 自动推断</h5><p><code>C++11</code>或更高版本可<strong>不显式指定变量的类型</strong>，而使用<strong>关键字</strong><code>auto</code>：</p>
+<pre><code class="lang-cpp">auto coinFlippedHeads = true;
+</code></pre>
+<blockquote>
+<p><strong>注意</strong>：如果<strong>将变量类型声明为</strong><code>auto</code>，但<strong>不对其进行初始化</strong>，将出现<strong>编译错误</strong></p>
+</blockquote>
+<h5 id="typedef-定义变量类型"><a href="#typedef-定义变量类型" class="headerlink" title="typedef 定义变量类型"></a>typedef 定义变量类型</h5><p>使用<strong>关键字</strong><code>typedef</code><strong>定义变量类型</strong>：</p>
+<pre><code class="lang-cpp">typedef unsigned int STRICTLY_POSITIVE_INTEGER;
+STRICTLY_POSITIVE_INTEGER numEggsInBasket = 4532;
+</code></pre>
+<h4 id="3-2-常量"><a href="#3-2-常量" class="headerlink" title="3.2 常量"></a>3.2 常量</h4><p>在<code>C++</code>中，常量可以是：</p>
+<ul>
+<li><strong>字面常量</strong></li>
+<li>使用<strong>关键字</strong><code>const</code>声明的<strong>常量</strong></li>
+<li>使用<strong>关键字</strong><code>constexpr</code>声明的<strong>表达式</strong>（<code>C++11</code>新增）</li>
+<li>使用<strong>关键字</strong><code>enum</code>声明的<strong>枚举常量</strong></li>
+<li><del>使用关键字<code>#define</code>定义的常量（<strong>已废弃</strong>）</del></li>
+</ul>
+<h5 id="字面常量"><a href="#字面常量" class="headerlink" title="字面常量"></a>字面常量</h5><p><strong>字面常量可以是任何类型</strong>。从<code>C++14</code>开始，还可以使用<strong>二进制字面常量</strong>：</p>
+<pre><code class="lang-cpp">int someNumber = 10;
+int someNumber = 012; // 八进制
+int someNumber = 0b1010; // 二进制
+</code></pre>
+<h5 id="const-定义常量"><a href="#const-定义常量" class="headerlink" title="const 定义常量"></a>const 定义常量</h5><p>使用<strong>关键字</strong><code>const</code><strong>定义常量</strong>，常量定义后<strong>不可修改</strong>：</p>
+<pre><code class="lang-cpp">const double pi = 22.0 / 7;
+</code></pre>
+<h5 id="constexpr-定义常量表达式"><a href="#constexpr-定义常量表达式" class="headerlink" title="constexpr 定义常量表达式"></a>constexpr 定义常量表达式</h5><p><strong>常量表达式</strong>提供了<strong>编译阶段优化</strong>的可能性。</p>
+<blockquote>
+<p>只要<strong>编译器能够从常量表达式计算出常量</strong>，就会<strong>在编译阶段将其替换为常量</strong>，避免了在代码运行时进行计算。</p>
+</blockquote>
+<pre><code class="lang-cpp">const double GetPi()
+{
+    return 22.0 / 7;
+}
+
+const double TwicePi()
+{
+    return 2 * GetPi();
+}
+</code></pre>
+<h5 id="enum-枚举"><a href="#enum-枚举" class="headerlink" title="enum 枚举"></a>enum 枚举</h5><p>可使用<strong>关键字</strong><code>enum</code><strong>声明枚举</strong>，枚举由一组称为<strong>枚举量</strong><code>emumerator</code>的常量组成：</p>
+<pre><code class="lang-cpp">enum RainbowColors
+{
+    Violet,     // 0
+    Indigo,     // 1
+    Blue,       // 2
+    Green = 4,  // 4, 显式初始化
+    Yellow,     // 5
+    Orange = 1, // 1, 显式初始化
+    Red         // 2
+};
+</code></pre>
+<ul>
+<li>编译器<strong>将枚举量转换为整数</strong>，每个枚举量都比前一个大<code>1</code></li>
+<li>如果没有指定起始值，<strong>编译器默认起始值为</strong><code>0</code></li>
+<li>可以通过<strong>显式初始化</strong>为每个枚举量指定值</li>
+</ul>
+<h3 id="4-数组与字符串"><a href="#4-数组与字符串" class="headerlink" title="4. 数组与字符串"></a>4. 数组与字符串</h3><h4 id="4-1-静态数组"><a href="#4-1-静态数组" class="headerlink" title="4.1 静态数组"></a>4.1 静态数组</h4><p><strong>静态数组的长度</strong>在<strong>编译阶段</strong>就已确定，因此其<strong>占据的内存也是固定的</strong>。</p>
+<blockquote>
+<p><strong>编译器</strong>为静态数组<strong>预留的内存量</strong>为<code>sizeof(element-type)*length</code></p>
+</blockquote>
+<pre><code class="lang-cpp">const int ARRAY_LENGTH = 5;
+int myNumbers[ARRAY_LENGTH] = {34, 21, -56, 5002, 1314};
+int myNumbers[ARRAY_LENGTH] = {}; // {0, 0, 0, 0, 0}
+int myNumbers[ARRAY_LENGTH] = {34, 21}; // {34, 21, 0, 0, 0,}
+</code></pre>
+<h4 id="4-2-多维数组"><a href="#4-2-多维数组" class="headerlink" title="4.2 多维数组"></a>4.2 多维数组</h4><pre><code class="lang-cpp">int solarPanels[2][3] = {{0, 1, 2},
+                         {3, 4, 5}};
+</code></pre>
+<h4 id="4-3-动态数组"><a href="#4-3-动态数组" class="headerlink" title="4.3 动态数组"></a>4.3 动态数组</h4><blockquote>
+<p>需要包含头文件<code>#include &lt;vector&gt;</code></p>
+</blockquote>
+<pre><code class="lang-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+using namespace std;
+
+int main()
+{
+    vector&lt;int&gt; dynArray(3); // dynamic array of int
+
+    dynArray[0] = 365;
+    dynArray[1] = -421;
+    dynArray[2] = 789;
+
+    cout &lt;&lt; &quot;Number of integers in array: &quot; &lt;&lt; dynArray.size() &lt;&lt; endl;
+
+    cout &lt;&lt; &quot;Enter another element to insert: &quot;;
+    int newValue = 0;
+    cin &gt;&gt; newValue;
+    dynArray.push_back(newValue);
+
+    cout &lt;&lt; &quot;Number of integers in array: &quot; &lt;&lt; dynArray.size() &lt;&lt; endl;
+    cout &lt;&lt; &quot;Last element in array: &quot;;
+    cout &lt;&lt; dynArray[dynArray.size() - 1] &lt;&lt; endl;
+
+    return 0;
+}
+
+------
+Number of integers in array: 3
+Enter another element to insert: 4
+Number of integers in array: 4
+Last element in array: 4
+</code></pre>
+<h4 id="4-4-C-风格字符串"><a href="#4-4-C-风格字符串" class="headerlink" title="4.4 C 风格字符串"></a>4.4 C 风格字符串</h4><ul>
+<li><strong>最后一个字符</strong>为空字符<code>\0</code>，即<strong>终止空字符</strong></li>
+<li>数组中间插入<code>\0</code>不会改变数组的长度，只会导致<strong>字符串处理到这个位置结束</strong></li>
+</ul>
+<pre><code class="lang-cpp">#include &lt;iostream&gt;
+
+using namespace std;
+
+int main()
+{
+    char sayHello[] = {&#39;H&#39;, &#39;e&#39;, &#39;l&#39;, &#39;l&#39;, &#39;o&#39;, &#39;\0&#39;};
+    cout &lt;&lt; sayHello &lt;&lt; endl;
+    cout &lt;&lt; &quot;Size of sayHello: &quot; &lt;&lt; sizeof(sayHello);
+    return 0;
+}
+
+------
+Hello
+Size of sayHello: 6
+</code></pre>
+<h4 id="4-5-C-字符串-std-string"><a href="#4-5-C-字符串-std-string" class="headerlink" title="4.5 C++ 字符串 std::string"></a>4.5 C++ 字符串 std::string</h4><p>不同于字符数组（C 风格字符串实现），<code>std::string</code><strong>是动态的</strong>，在需要存储更多数据时其容量会增大。</p>
+<pre><code class="lang-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+using namespace std;
+
+int main()
+{
+    string greetStr(&quot;Hello std::string!&quot;);
+    cout &lt;&lt; greetStr &lt;&lt; endl;
+
+    cout &lt;&lt; &quot;Enter a line of text:&quot; &lt;&lt; endl;
+    string firstLine;
+    getline(cin, firstLine);
+
+    cout &lt;&lt; &quot;Enter another:&quot; &lt;&lt; endl;
+    string secondLine;
+    getline(cin, secondLine);
+
+    cout &lt;&lt; &quot;Result of concatenation:&quot; &lt;&lt; endl;
+    string concatStr = firstLine + &quot; &quot; + secondLine;
+    cout &lt;&lt; concatStr &lt;&lt; endl;
+
+    cout &lt;&lt; &quot;Copy of concatenated string:&quot; &lt;&lt; endl;
+    string aCopy;
+    aCopy = concatStr;
+    cout &lt;&lt; aCopy &lt;&lt; endl;
+
+    cout &lt;&lt; &quot;Length of concat string: &quot; &lt;&lt; concatStr.length() &lt;&lt; endl;
+
+    return 0;
+}
+
+------
+Hello std::string!
+Enter a line of text:
+this is the first line
+Enter another:
+this is the second line
+Result of concatenation:
+this is the first line this is the second line
+Copy of concatenated string:
+this is the first line this is the second line
+Length of concat string: 46
+</code></pre>
+<h3 id="5-语句与运算符"><a href="#5-语句与运算符" class="headerlink" title="5. 语句与运算符"></a>5. 语句与运算符</h3><h4 id="5-1-语句"><a href="#5-1-语句" class="headerlink" title="5.1 语句"></a>5.1 语句</h4><p>当<strong>编译器</strong>注意到有<strong>两个相邻的字符串字面量</strong>后，会将其<strong>拼接成一个</strong>：</p>
+<pre><code class="lang-cpp">cout &lt;&lt; &quot;The first line of content&quot;
+        &quot;The second line of content&quot;
+        &quot;The third line of content&quot;
+     &lt;&lt; endl;
+</code></pre>
+<h4 id="5-2-前缀-后缀运算符"><a href="#5-2-前缀-后缀运算符" class="headerlink" title="5.2 前缀/后缀运算符"></a>5.2 前缀/后缀运算符</h4><ul>
+<li><strong>后缀运算符</strong><code>num1++</code>先将右值赋给左值，再将右值递增或递减</li>
+<li><strong>前缀运算符</strong><code>++num1</code>先将右值递增或递减，再将结果赋给左值</li>
+<li><strong>理论上</strong>，<code>++startValue</code><strong>优于</strong><code>startValue++</code>，因为使用<strong>后缀运算符</strong>时，<strong>编译器需要临时存储初始值</strong>，以防需要将其赋给其他变量</li>
+</ul>
+<pre><code class="lang-cpp">int num1 = 101;
+int num2 = num1++; // num1 = 102, num2 = 101
+int num3 = ++num1; // num1 = 103, num3 = 103
+</code></pre>
+<h4 id="5-3-逻辑运算符"><a href="#5-3-逻辑运算符" class="headerlink" title="5.3 逻辑运算符"></a>5.3 逻辑运算符</h4><ul>
+<li><strong>NOT</strong>：<code>!</code></li>
+<li><strong>AND</strong>：<code>&amp;&amp;</code></li>
+<li><strong>OR</strong>：<code>||</code></li>
+</ul>
+<h4 id="5-4-位运算符"><a href="#5-4-位运算符" class="headerlink" title="5.4 位运算符"></a>5.4 位运算符</h4><ul>
+<li><strong>NOT</strong>：<code>~</code></li>
+<li><strong>AND</strong>：<code>&amp;</code></li>
+<li><strong>OR</strong>：<code>|</code></li>
+<li><strong>XOR</strong>：<code>^</code></li>
+<li><strong>左移</strong>：<code>&lt;&lt;</code>，相当于<strong>乘以</strong><code>2^n</code></li>
+<li><strong>右移</strong>：<code>&gt;&gt;</code>，相当于<strong>除以</strong><code>2^n</code></li>
+</ul>
+<h3 id="6-控制程序流程"><a href="#6-控制程序流程" class="headerlink" title="6. 控制程序流程"></a>6. 控制程序流程</h3><h4 id="6-1-if-else"><a href="#6-1-if-else" class="headerlink" title="6.1 if else"></a>6.1 if else</h4><pre><code class="lang-cpp">if (condition)
+{
+    do something...
+}
+else
+{
+    do something else...
+}
+</code></pre>
+<h4 id="6-2-switch-case"><a href="#6-2-switch-case" class="headerlink" title="6.2 switch case"></a>6.2 switch case</h4><pre><code class="lang-cpp">switch (expression)
+{
+case /* constant-expression */:
+    /* code */
+    break;
+
+default:
+    break;
+}
+</code></pre>
+<h4 id="6-3-三目运算符"><a href="#6-3-三目运算符" class="headerlink" title="6.3 三目运算符"></a>6.3 三目运算符</h4><pre><code class="lang-cpp">int max = (num1 &gt; num2) ? num1 : num2;
+</code></pre>
+<h4 id="6-4-while"><a href="#6-4-while" class="headerlink" title="6.4 while"></a>6.4 while</h4><pre><code class="lang-cpp">while (/* condition */)
+{
+    /* code */
+}
+</code></pre>
+<h4 id="6-5-do-while"><a href="#6-5-do-while" class="headerlink" title="6.5 do while"></a>6.5 do while</h4><pre><code class="lang-cpp">do
+{
+    /* code */
+} while (/* condition */);
+</code></pre>
+<h4 id="6-6-for"><a href="#6-6-for" class="headerlink" title="6.6 for"></a>6.6 for</h4><pre><code class="lang-cpp">for (size_t i = 0; i &lt; count; i++)
+{
+    /* code */
+}
+</code></pre>
+<h4 id="6-7-for-range"><a href="#6-7-for-range" class="headerlink" title="6.7 for range"></a>6.7 for range</h4><pre><code class="lang-cpp">for (VarType varName : sequence)
+{
+    do something...
+}
+</code></pre>
+<p>可以使用<strong>关键字</strong><code>auto</code><strong>自动推断变量的类型</strong>：</p>
+<pre><code class="lang-cpp">for (auto anElement : elements)
+</code></pre>
+<h4 id="6-8-continue-和-break"><a href="#6-8-continue-和-break" class="headerlink" title="6.8 continue 和 break"></a>6.8 continue 和 break</h4><ul>
+<li><code>continue</code>：<strong>跳转到循环开头</strong>，跳过本次循环之后的代码，<strong>进入下一次循环</strong></li>
+<li><code>break</code>：<strong>退出循环块，结束当前循环</strong></li>
+</ul>
+<h3 id="7-函数"><a href="#7-函数" class="headerlink" title="7. 函数"></a>7. 函数</h3><h4 id="7-1-函数原型与函数定义"><a href="#7-1-函数原型与函数定义" class="headerlink" title="7.1 函数原型与函数定义"></a>7.1 函数原型与函数定义</h4><ul>
+<li><strong>函数原型</strong>：指出了<strong>函数的名称</strong>、接受的<strong>参数列表</strong>以及<strong>返回值的类型</strong></li>
+<li><strong>函数定义</strong>：也即函数的<strong>实现代码</strong></li>
+</ul>
+<pre><code class="lang-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+const double Pi = 3.14159265;
+
+// Function Declarations (Prototypes)
+double Area(double radius);
+double Circumference(double radius);
+
+int main(int argc, char const *argv[])
+{
+    cout &lt;&lt; &quot;Enter radius: &quot;;
+    double radius = 0;
+    cin &gt;&gt; radius;
+
+    // Call function &quot;Area&quot;
+    cout &lt;&lt; &quot;Area is: &quot; &lt;&lt; Area(radius) &lt;&lt; endl;
+
+    // Call function &quot;Circumference&quot;
+    cout &lt;&lt; &quot;Circumference is: &quot; &lt;&lt; Circumference(radius) &lt;&lt; endl;
+
+    return 0;
+}
+
+// Function definitions (Implementations)
+double Area(double radius)
+{
+    return Pi * radius * radius;
+}
+
+double Circumference(double radius)
+{
+    return 2 * Pi * radius;
+}
+
+------
+Enter radius: 10
+Area is: 314.159
+Circumference is: 62.8319
+</code></pre>
+<p>在<strong>函数原型</strong>中可以添加<strong>函数参数的默认值</strong>：</p>
+<pre><code class="lang-cpp">double Area(double radius, double Pi = 3.14);
+</code></pre>
+<h4 id="7-2-函数重载"><a href="#7-2-函数重载" class="headerlink" title="7.2 函数重载"></a>7.2 函数重载</h4><pre><code class="lang-cpp">// for circle
+double Area(double radius)
+{
+    return Pi * radius * radius;
+}
+
+// overloaded for cylinder
+double Area(double radius, double height)
+{
+    // reuse the area of circle
+    return 2 * Area(radius) + 2 * Pi * radius * height;
+}
+</code></pre>
+<h4 id="7-3-按引用传递参数"><a href="#7-3-按引用传递参数" class="headerlink" title="7.3 按引用传递参数"></a>7.3 按引用传递参数</h4><p>当希望<strong>函数修改的变量在其外部中也可用</strong>时，可将<strong>形参的类型</strong>声明为<strong>引用</strong>：</p>
+<pre><code class="lang-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+const double Pi = 3.14159265;
+
+// output parameter result by reference
+void Area(double radius, double &amp;result)
+{
+    result = Pi * radius * radius;
+}
+
+int main(int argc, char const *argv[])
+{
+    cout &lt;&lt; &quot;Enter radius: &quot;;
+    double radius = 0;
+    cin &gt;&gt; radius;
+
+    double areaFetched = 0;
+    Area(radius, areaFetched);
+
+    cout &lt;&lt; &quot;The area is: &quot; &lt;&lt; areaFetched &lt;&lt; endl;
+
+    return 0;
+}
+
+------
+Enter radius: 10
+The area is: 314.159
+</code></pre>
+<h4 id="7-4-函数调用"><a href="#7-4-函数调用" class="headerlink" title="7.4 函数调用"></a>7.4 函数调用</h4><p><strong>函数调用</strong>意味着：</p>
+<ul>
+<li>微处理器<strong>跳转到属于被调用函数的下一条指令处执行</strong>，对应<code>CALL</code>指令</li>
+<li>执行完函数的指令后，将<strong>返回最初离开的地方</strong>，对应<code>RET</code>语句</li>
+</ul>
+<h5 id="inline-内联函数"><a href="#inline-内联函数" class="headerlink" title="inline 内联函数"></a>inline 内联函数</h5><p><strong>常规函数调用被转换为</strong><code>CALL</code><strong>指令</strong>，这会导致<strong>栈操作</strong>、<strong>微处理器跳转到函数处执行</strong>等。但如果函数<strong>非常简单</strong>：</p>
+<pre><code class="lang-cpp">double GetPi()
+{
+    return 3.14159;
+}
+</code></pre>
+<p>相对于实际执行<code>GetPi()</code>的时间，<strong>执行函数调用的开销可能非常高</strong>。使用关键字<code>inline</code>可以让函数在<strong>被调用时就地展开</strong>：</p>
+<pre><code class="lang-cpp">inline double GetPi()
+{
+    return 3.14159;
+}
+</code></pre>
+<blockquote>
+<p>仅当函数<strong>非常简单</strong>，需要<strong>降低开销</strong>时，才应使用<code>inline</code>关键字</p>
+</blockquote>
+<h5 id="auto-自动推断返回类型"><a href="#auto-自动推断返回类型" class="headerlink" title="auto 自动推断返回类型"></a>auto 自动推断返回类型</h5><p>从<code>C++14</code>起，<code>auto</code>也适用于<strong>函数返回类型的自动推断</strong>：</p>
+<pre><code class="lang-cpp">auto Area(double radius)
+{
+    return Pi * radius * radius;
+}
+</code></pre>
+<h5 id="lambda-函数"><a href="#lambda-函数" class="headerlink" title="lambda 函数"></a>lambda 函数</h5><p>语法如下，后续会详细介绍：</p>
+<pre><code class="lang-cpp">[optional parameters](parameter list){ statements; }
+</code></pre>
+<h3 id="8-指针和引用"><a href="#8-指针和引用" class="headerlink" title="8. 指针和引用"></a>8. 指针和引用</h3><h4 id="8-1-什么是指针"><a href="#8-1-什么是指针" class="headerlink" title="8.1 什么是指针"></a>8.1 什么是指针</h4><ul>
+<li>指针是<strong>存储内存地址的变量</strong></li>
+<li><strong>指针包含的值</strong>被解读为<strong>内存地址</strong></li>
+<li><strong>内存单元地址</strong>通常使用<strong>十六进制</strong>表示，如<code>0x60fe80</code></li>
+<li>使用<strong>引用运算符</strong><code>&amp;</code>获取变量的地址</li>
+<li>使用<strong>解除引用运算符</strong><code>*</code>访问指针指向的数据</li>
+<li><code>32</code><strong>位</strong>系统，指针变量为<code>4</code><strong>字节</strong>，<code>64</code><strong>位</strong>系统为<code>8</code><strong>字节</strong></li>
+</ul>
+<pre><code class="lang-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main(int argc, char const *argv[])
+{
+    int dogsAge = 30;
+    cout &lt;&lt; &quot;Initialize dogsAge = &quot; &lt;&lt; dogsAge &lt;&lt; endl;
+
+    int *pointsToAnAge = &amp;dogsAge;
+    cout &lt;&lt; &quot;pointsToAnAge points to dogsAge&quot; &lt;&lt; endl;
+
+    cout &lt;&lt; &quot;Enter an age for your dog: &quot;;
+
+    // store input at the memory pointed to by pointsToAnAge
+    cin &gt;&gt; *pointsToAnAge;
+
+    // Displaying the address where age is stored
+    cout &lt;&lt; &quot;Integer stored at &quot; &lt;&lt; hex &lt;&lt; pointsToAnAge &lt;&lt; endl;
+
+    cout &lt;&lt; &quot;Integer dogsAge = &quot; &lt;&lt; dec &lt;&lt; dogsAge &lt;&lt; endl;
+
+    return 0;
+}
+
+------
+Initialize dogsAge = 30
+pointsToAnAge points to dogsAge
+Enter an age for your dog: 14
+Integer stored at 0x60fe88
+Integer dogsAge = 14
+</code></pre>
+<h4 id="8-2-动态内存分配"><a href="#8-2-动态内存分配" class="headerlink" title="8.2 动态内存分配"></a>8.2 动态内存分配</h4><h5 id="new-和-delete-运算符"><a href="#new-和-delete-运算符" class="headerlink" title="new 和 delete 运算符"></a>new 和 delete 运算符</h5><p>使用<code>new</code>来<strong>分配新的内存块</strong>，最终都需<strong>使用对应的</strong><code>delete</code><strong>进行释放</strong>：</p>
+<pre><code class="lang-cpp">int *pNum = new int; // get a pointer to an integer
+int *pNums = new int[10]; // pointer to a block of 10 integers
+
+delete pNum;
+delete[] pNums;
+</code></pre>
+<blockquote>
+<p>对于使用<code>new[...]</code>分配的内存块，需要<strong>使用</strong><code>delete[]</code><strong>进行释放</strong></p>
+</blockquote>
+<p><strong>不再使用分配的内存</strong>后，如果<strong>不释放</strong>它们，这些内存<strong>仍被预留并分配给应用程序</strong>，这将减少系统内存量，甚至降低应用程序的执行速度，即<strong>内存泄露</strong>。</p>
+<pre><code class="lang-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main(int argc, char const *argv[])
+{
+    // Request for memory space for an int
+    int *pointsToAnAge = new int;
+
+    // Use the allocated memory to store a number
+    cout &lt;&lt; &quot;Enter your dog&#39;s age: &quot;;
+    cin &gt;&gt; *pointsToAnAge;
+
+    // Use indirection operator* to access value
+    cout &lt;&lt; &quot;Age &quot; &lt;&lt; *pointsToAnAge &lt;&lt; &quot; is stored at &quot; &lt;&lt; hex &lt;&lt; pointsToAnAge &lt;&lt; endl;
+
+    // Release memory
+    delete pointsToAnAge;
+
+    return 0;
+}
+
+------
+Enter your dog&#39;s age: 14
+Age 14 is stored at 0xf518c0
+</code></pre>
+<p>而对于<strong>使用</strong><code>new[...]</code><strong>分配的内存</strong>，应<strong>使用</strong><code>delete[]</code><strong>来释放</strong>：</p>
+<pre><code class="lang-cpp">int *myNumbers = new int[numEntries];
+...
+// de-allocate before existing
+delete[] myNumbers;
+</code></pre>
+<h5 id="指针递增或递减"><a href="#指针递增或递减" class="headerlink" title="指针递增或递减"></a>指针递增或递减</h5><p>将<strong>指针递增</strong>或<strong>递减</strong>时，其包含的<strong>地址将增加或减少</strong><code>sizeof(Type)</code>。</p>
+<p>例如声明了如下指针：</p>
+<pre><code class="lang-cpp">Type *pType = Address;
+</code></pre>
+<p>则执行<code>++pType</code>后，<code>pType</code>将指向<code>Address + sizeof(Type)</code>。</p>
+<blockquote>
+<p>将<code>++</code>用于该指针，相当于<strong>告诉编译器</strong>，希望它<strong>指向下一个</strong><code>int</code></p>
+</blockquote>
+<pre><code class="lang-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main(int argc, char const *argv[])
+{
+    cout &lt;&lt; &quot;How many integers you wish to enter? &quot;;
+    int numEntries = 0;
+    cin &gt;&gt; numEntries;
+
+    int *pointsToInts = new int[numEntries];
+
+    cout &lt;&lt; &quot;Allocated for &quot; &lt;&lt; numEntries &lt;&lt; &quot; integers&quot; &lt;&lt; endl;
+    for (int counter = 0; counter &lt; numEntries; ++counter)
+    {
+        cout &lt;&lt; &quot;Enter number &quot; &lt;&lt; counter &lt;&lt; &quot;: &quot;;
+        cin &gt;&gt; *(pointsToInts + counter);
+    }
+
+    cout &lt;&lt; &quot;Displaying all numbers entered: &quot; &lt;&lt; endl;
+    for (int counter = 0; counter &lt; numEntries; ++counter)
+    {
+        cout &lt;&lt; *(pointsToInts++) &lt;&lt; &quot; &quot;;
+    }
+    cout &lt;&lt; endl;
+
+    // return pointer to initial position
+    pointsToInts -= numEntries;
+    cout &lt;&lt; *pointsToInts;
+
+    // done with using memory? release
+    delete[] pointsToInts;
+
+    return 0;
+}
+
+------
+How many integers you wish to enter? 5
+Allocated for 5 integers
+Enter number 0: 10
+Enter number 1: 29
+Enter number 2: 35
+Enter number 3: -3
+Enter number 4: 918
+Displaying all numbers entered:
+10 29 35 -3 918
+10
+</code></pre>
+<h5 id="将关键字-const-用于指针"><a href="#将关键字-const-用于指针" class="headerlink" title="将关键字 const 用于指针"></a>将关键字 const 用于指针</h5><div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/05/29/python-quick-reference/">Python 速查</a></li><li><a href="https://abelsu7.top/2018/10/26/java-book-list/">Java 语言推荐书单</a></li><li><a href="https://abelsu7.top/2018/10/25/c-book-list/">C 语言推荐书单</a></li><li><a href="https://abelsu7.top/2018/09/21/how-to-learn-coding/">程序员学习之路</a></li><li><a href="chunlife.top/2018/12/24/技术博客的重要性/">技术博客的重要性</a></li><li><a href="www.chunlife.top/2018/12/24/技术博客的重要性/">技术博客的重要性</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.105Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/05/24/cpp-quick-reference/" target="_blank" rel="external">https://abelsu7.top/2019/05/24/cpp-quick-reference/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CPP/">CPP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习/">学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编程/">编程</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/05/24/cpp-quick-reference/&title=《C++ 速查》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/05/24/cpp-quick-reference/&title=《C++ 速查》 — Keep Coding&source=
+C++ 基础速查笔记
+
+
+                
+                    
+                    
+    ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/05/24/cpp-quick-reference/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《C++ 速查》 — Keep Coding&url=https://abelsu7.top/2019/05/24/cpp-quick-reference/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/05/24/cpp-quick-reference/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/05/29/python-quick-reference/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Python 速查</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/05/22/go-get-using-proxy/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">配置终端代理解决 go get 命令国内无法使用</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/05/24/cpp-quick-reference/&title=《C++ 速查》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/05/24/cpp-quick-reference/&title=《C++ 速查》 — Keep Coding&source=
+C++ 基础速查笔记
+
+
+                
+                    
+                    
+    ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/05/24/cpp-quick-reference/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《C++ 速查》 — Keep Coding&url=https://abelsu7.top/2019/05/24/cpp-quick-reference/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/05/24/cpp-quick-reference/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKElEQVR42u3ay24CMRAEQP7/p4mUa8LSPd5Ewi6fEOzDxaFlj+fxiMfze+TXPF+M66f9vPLmgYGB8bGM5+W4nuL6N7O/45d7MTAwDmDkj8sjeBbELRUDAwPj1TXXk0ti9zrQMTAwMFYCNx/JThMDAwMjZ+SLtutIbetg7Xtv2ItjYGB8IGO2Ef2fz394voGBgfEhjJUQvA7ileJdPSsMDIytGUkpLUm2dnJtoEdxjIGBsSmjjbykkastqCVtYW8WixgYGFsz7t3czmJ3VrzDwMA4jdG2R6xvd9tyW3QlBgbGpowkLv8uZGfB+rJqiIGBsSljdg44m+hKA0exGcbAwDiMkYds8mtbsGuPJTAwMHZl5DfPKnZtK8awXQMDA+MARtGXUbZc5IG70vaBgYGxNyO/YSVSk43rSmkPAwPjBEZ7lJiX4fJ2ivbviE5iMTAwtmC0JbP1LetsAfqmMIeBgbE1oy20rbR8Jb+2i0gMDIyTGUn5bLbdnbVZRC1lGBgYmzLyx82OM2cBWi9SMTAwDmCsTCU/zmyL/gUVAwNja0YSuyuwvNyWN5y9fAsGBsamjGc52raMu9rOMDAwTmbkI9+Oti/It8p5rGNgYOzHWAnZ9QXfbZGKgYFxAKNttkgm8bh1vHk7BgYGxmWM5uDkmUmLWHGQiYGBcSSjLeW3x5nDWMfAwDiAkbdN5E1j6wcAxeYWAwNja8bsYKA9NmgXhcPmMAwMjN0YX6+DQc8hcbzsAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

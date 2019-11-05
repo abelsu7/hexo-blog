@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>5 分钟 Docker 笔记 5：存储 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="读书,容器,Docker">
+    <meta name="description" content="Bind Mount 与 Data Volume、共享数据、Volume 生命周期管理                                                                                               《每天5分钟玩转Docker容器技术》">
+<meta name="keywords" content="读书,容器,Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5 分钟 Docker 笔记 5：存储">
+<meta property="og:url" content="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="Bind Mount 与 Data Volume、共享数据、Volume 生命周期管理                                                                                               《每天5分钟玩转Docker容器技术》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/cover.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/docker-layer.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/volume-1.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/volume-2.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/volume-3.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/volume-4.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/volume-share-1.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/vc-1.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/vc-2.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/datapacked-vc.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/datapacked-vc-2.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/datapacked-vc-3.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/rm-volume-1.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/rm-volume-2.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.160Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="5 分钟 Docker 笔记 5：存储">
+<meta name="twitter:description" content="Bind Mount 与 Data Volume、共享数据、Volume 生命周期管理                                                                                               《每天5分钟玩转Docker容器技术》">
+<meta name="twitter:image" content="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">5 分钟 Docker 笔记 5：存储</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">5 分钟 Docker 笔记 5：存储</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-02-15T07:35:43.000Z" itemprop="datePublished" class="page-time">
+  2019-02-15
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Docker/">Docker</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#第-6-章-Docker-存储"><span class="post-toc-text">第 6 章 Docker 存储</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-1-Docker-的两类存储资源"><span class="post-toc-text">6.1 Docker 的两类存储资源</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-1-1-Storage-Driver"><span class="post-toc-text">6.1.1 Storage Driver</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-1-2-Data-Volume"><span class="post-toc-text">6.1.2 Data Volume</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#bind-mount"><span class="post-toc-text">bind mount</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#docker-managed-volume"><span class="post-toc-text">docker managed volume</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#bing-mount-和-docker-managed-volume-对比"><span class="post-toc-text">bing mount 和 docker managed volume 对比</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-2-共享数据"><span class="post-toc-text">6.2 共享数据</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-2-1-容器与-host-共享数据"><span class="post-toc-text">6.2.1 容器与 host 共享数据</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-2-2-容器之间共享数据"><span class="post-toc-text">6.2.2 容器之间共享数据</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-2-3-使用-volume-container-共享数据"><span class="post-toc-text">6.2.3 使用 volume container 共享数据</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-2-4-data-packed-volume-container"><span class="post-toc-text">6.2.4 data-packed volume container</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-3-volume-生命周期管理"><span class="post-toc-text">6.3 volume 生命周期管理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-3-1-volume-备份"><span class="post-toc-text">6.3.1 volume 备份</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-3-2-volume-恢复"><span class="post-toc-text">6.3.2 volume 恢复</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-3-3-volume-迁移"><span class="post-toc-text">6.3.3 volume 迁移</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-3-4-volume-销毁"><span class="post-toc-text">6.3.4 volume 销毁</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-4-小结"><span class="post-toc-text">6.4 小结</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-docker-5mins-notes-5"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">5 分钟 Docker 笔记 5：存储</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-02-15 15:35:43" datetime="2019-02-15T07:35:43.000Z"  itemprop="datePublished">2019-02-15</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Docker/">Docker</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>Bind Mount 与 Data Volume、共享数据、Volume 生命周期管理</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/15/docker-5mins-notes-5/cover.jpg" alt="《每天5分钟玩转Docker容器技术》" title>
+                </div>
+                <div class="image-caption">《每天5分钟玩转Docker容器技术》</div>
+            </figure>
+<a id="more"></a>
+<h2 id="第-6-章-Docker-存储"><a href="#第-6-章-Docker-存储" class="headerlink" title="第 6 章 Docker 存储"></a>第 6 章 Docker 存储</h2><h3 id="6-1-Docker-的两类存储资源"><a href="#6-1-Docker-的两类存储资源" class="headerlink" title="6.1 Docker 的两类存储资源"></a>6.1 Docker 的两类存储资源</h3><p><strong>Docker</strong> 为容器提供了<strong>两种存放数据的资源</strong>：</p>
+<ol>
+<li>由 Storage Driver 管理的<strong>镜像层</strong>和<strong>容器层</strong></li>
+<li><strong>Data Volume</strong></li>
+</ol>
+<h4 id="6-1-1-Storage-Driver"><a href="#6-1-1-Storage-Driver" class="headerlink" title="6.1.1 Storage Driver"></a>6.1.1 Storage Driver</h4><p>先来回顾一下 <strong>Docker 镜像的分层结构</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/15/docker-5mins-notes-5/docker-layer.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>容器由最上面一个<strong>可写的容器层</strong>，以及<strong>若干只读的镜像层</strong>组成，容器的数据就存放在这些层中。这样的分层结构最大的特性是 <strong>Copy-on-Write</strong>：</p>
+<ol>
+<li><strong>新数据</strong>会直接存放在<strong>最上面的容器层</strong></li>
+<li><strong>修改现有数据</strong>会<strong>先从镜像层将数据复制到容器层</strong>，修改后的数据<strong>直接保存在容器层中，镜像层保持不变</strong></li>
+<li>如果多个层中有命名相同的文件，用户<strong>只能看到最上面那层中的文件</strong></li>
+</ol>
+<p>分层结构使镜像和容器的创建、共享以及分发变得非常高效，而这些都要归功于 <strong>Docker Storage Driver</strong>。正是 storage driver <strong>实现了多层数据的堆叠并为用户提供一个单一的合并之后的统一视图</strong>。</p>
+<blockquote>
+<p>Docker 会默认<strong>优先使用 Linux 发行版默认的 Storage Driver</strong>。</p>
+</blockquote>
+<p><strong>Docker 安装时会根据当前系统的配置选择默认的 driver</strong>。默认 driver 具有最好的稳定性，因为默认 driver 在发行版上经过了严格的测试。</p>
+<p>运行<code>docker info</code>可查看 Storage Driver 的相关信息：</p>
+<pre><code class="lang-bash">[root@localhost ~]# docker info
+Containers: 3
+ Running: 0
+ Paused: 0
+ Stopped: 3
+Images: 4
+Server Version: 18.09.2
+Storage Driver: overlay2
+ Backing Filesystem: xfs
+ Supports d_type: true
+ Native Overlay Diff: true
+Logging Driver: json-file
+Cgroup Driver: cgroupfs
+Plugins:
+ Volume: local
+ Network: bridge host macvlan null overlay
+ Log: awslogs fluentd gcplogs gelf journald json-file local logentries splunk syslog
+Swarm: inactive
+Runtimes: runc
+Default Runtime: runc
+Init Binary: docker-init
+containerd version: 9754871865f7fe2f4e74d43e2fc7ccd237edcbce
+runc version: 09c8266bf2fcf9519a651b04ae54c967b9ab86ec
+init version: fec3683
+Security Options:
+ seccomp
+  Profile: default
+Kernel Version: 3.10.0-957.el7.x86_64
+Operating System: CentOS Linux 7 (Core)
+OSType: linux
+Architecture: x86_64
+CPUs: 6
+Total Memory: 7.487GiB
+Name: localhost.localdomain
+ID: ZUUO:D7MX:3YFL:D67V:Y3DR:B57B:JAVB:IN7B:ZMWO:Q2SN:YNP4:TXP5
+Docker Root Dir: /var/lib/docker
+Debug Mode (client): false
+Debug Mode (server): false
+Registry: https://index.docker.io/v1/
+Labels:
+Experimental: false
+Insecure Registries:
+ 127.0.0.0/8
+Live Restore Enabled: false
+Product License: Community Engine
+</code></pre>
+<h4 id="6-1-2-Data-Volume"><a href="#6-1-2-Data-Volume" class="headerlink" title="6.1.2 Data Volume"></a>6.1.2 Data Volume</h4><p><strong>Data Volume</strong> 本质上是 <strong>Docker Host 文件系统中的目录或文件</strong>，能够<strong>直接被 mount 到容器的文件系统中</strong>。</p>
+<p>Data Volume 有以下特点：</p>
+<ol>
+<li><strong>Data Volume 是目录或文件</strong>，而非没有格式化的磁盘（块设备）</li>
+<li>容器<strong>可以读写 volume 中的数据</strong></li>
+<li><strong>volume 数据可以被永久的保存</strong>，即使使用它的容器已经被销毁</li>
+</ol>
+<p>在具体使用中应遵循这样的原则：</p>
+<ol>
+<li><strong>无状态的数据</strong>存放在<strong>数据层中，作为镜像一部分</strong>；</li>
+<li><strong>有状态的数据</strong>存放在 <strong>Data Volume</strong> 中，因为这是<strong>需要持久化</strong>的数据，并且应该<strong>与镜像分开存放</strong>。</li>
+</ol>
+<p>在具体使用上，Docker 提供了<strong>两种类型的 volume</strong>：<strong>bind mount</strong> 和 <strong>Docker managed volume</strong>。</p>
+<h5 id="bind-mount"><a href="#bind-mount" class="headerlink" title="bind mount"></a>bind mount</h5><p>bing mount 是<strong>将 host 上已存在的目录或文件 mount 到容器</strong>。</p>
+<p>例如 <strong>Docker host</strong> 上有目录<code>$HOME/htdocs</code>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/15/docker-5mins-notes-5/volume-1.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>通过<code>-v</code>将其 <strong>mount 到 httpd 容器</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/15/docker-5mins-notes-5/volume-2.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>参数<code>-v</code>的格式为<code>&lt;host_path&gt;:&lt;container_path&gt;</code>，原有的<strong>同名目录会被隐藏起来</strong>，这与 Linux 系统中的<code>mount</code>命令的行为是一致的。</p>
+<blockquote>
+<p><strong>bind mount 可以让 host 与容器共享数据</strong>，这在管理上是非常方便的。</p>
+</blockquote>
+<p>另外，<strong>使用 bind mount 时还可以指定数据的读写权限，默认是可读可写</strong>，可指定为只读：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/15/docker-5mins-notes-5/volume-3.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<blockquote>
+<p><code>ro</code>设置了<strong>只读权限</strong>。<strong>在容器中是无法对 bind mount 数据进行修改的，只有 host 有权修改数据</strong>，提高了安全性。</p>
+</blockquote>
+<p>除了 bind mount 目录，还可以<strong>单独指定一个文件</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/15/docker-5mins-notes-5/volume-4.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>使用 bind mount 单个文件的场景是：<strong>只需要向容器添加文件，不希望覆盖整个目录</strong>。</p>
+<blockquote>
+<p>使用单一文件有一点要注意：<strong>host 中的源文件必须要存在，不然会当作一个新目录 bind mount 给容器</strong>。</p>
+</blockquote>
+<p>bind mount 的使用直观高效，易于理解，但它也有不足的地方：<strong>bind mount 需要指定 host 文件系统的特定路径，这就限制了容器的可移植性</strong>，当需要将容器迁移到其他 host，而该 host 没有要 mount 的数据或者数据不在相同的路径时，操作会失败。</p>
+<p><strong>移植性更好的方式是 docker managed volume</strong>。</p>
+<h5 id="docker-managed-volume"><a href="#docker-managed-volume" class="headerlink" title="docker managed volume"></a>docker managed volume</h5><p>docker managed volume 与 bind mount 在使用上的最大区别是<strong>不需要指定 mount 源，指明 mount point 就行了</strong>。</p>
+<p>以 httpd 容器为例：</p>
+<pre><code class="lang-bash">[root@localhost ~]# docker run -d -p 80:80 -v /usr/local/apache2/htdocs httpd
+2e973f7246b72d60c42e0a124d8bcb4e8ba053c4eb946de6c6d2ec5d2fb29cdd
+</code></pre>
+<p>上述命令通过<code>-v</code>告诉 Docker 需要一个 data volume，并将其 mount 到<code>/usr/local/apache2/htdocs</code>。</p>
+<p>执行<code>docker inspect</code>命令：</p>
+<pre><code class="lang-bash">[root@localhost ~]# docker inspect 2e97
+...
+        &quot;Mounts&quot;: [
+            {
+                &quot;Type&quot;: &quot;volume&quot;,
+                &quot;Name&quot;: &quot;bb76558c26ec96b8f2fd9aced58105495b610119520dbe84c3f83bc347bc2209&quot;,
+                &quot;Source&quot;: &quot;/var/lib/docker/volumes/bb76558c26ec96b8f2fd9aced58105495b610119520dbe84c3f83bc347bc2209/_data&quot;,
+                &quot;Destination&quot;: &quot;/usr/local/apache2/htdocs&quot;,
+                &quot;Driver&quot;: &quot;local&quot;,
+                &quot;Mode&quot;: &quot;&quot;,
+                &quot;RW&quot;: true,
+                &quot;Propagation&quot;: &quot;&quot;
+            }
+        ],
+...
+</code></pre>
+<p>可以看到<code>Source</code>就是该 Volume 在 host 上的目录。<strong>每当容器申请一个 docker managed volume 时，Docker 都会在</strong><code>/var/lib/docker/volumes</code><strong>下生成一个目录，这个目录就是 mount 源</strong>。查看该 volume 下的文件内容：</p>
+<pre><code class="lang-bash">[root@localhost ~]# ls /var/lib/docker/volumes/bb76558c26ec96b8f2fd9aced58105495b610119520dbe84c3f83bc347bc2209/_data
+index.html
+</code></pre>
+<p>总结一下 <strong>docker managed volume 的创建过程</strong>：</p>
+<ol>
+<li>容器启动时，简单的告诉 docker “我需要一个 volume 存放数据，帮我 mount 到目录 <code>/abc</code>“。</li>
+<li>docker 在<code>/var/lib/docker/volumes</code>中生成一个随机目录作为 mount 源</li>
+<li>如果<code>/abc</code>已经存在，则将数据复制到 mount 源</li>
+<li>将 volume mount 到<code>/abc</code></li>
+</ol>
+<p>还<strong>可以通过</strong><code>docker volume</code><strong>命令查看 docker managed volume</strong>，不过<strong>看不到 bing mount</strong>，而且也<strong>无法知道 volume 对应的容器</strong>：</p>
+<pre><code class="lang-bash">[root@localhost ~]# docker volume ls
+DRIVER              VOLUME NAME
+local               bb76558c26ec96b8f2fd9aced58105495b610119520dbe84c3f83bc347bc2209
+</code></pre>
+<h5 id="bing-mount-和-docker-managed-volume-对比"><a href="#bing-mount-和-docker-managed-volume-对比" class="headerlink" title="bing mount 和 docker managed volume 对比"></a>bing mount 和 docker managed volume 对比</h5><p><strong>相同点</strong>：都是 <strong>host 文件系统中的某个路径</strong></p>
+<p><strong>不同点</strong>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left"><strong>bind mount</strong></th>
+<th style="text-align:left"><strong>docker managed volume</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>volume 位置</strong></td>
+<td style="text-align:left">可任意指定</td>
+<td style="text-align:left">/var/lib/docker/volumes/…</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>对已有 mount point 影响</strong></td>
+<td style="text-align:left">隐藏并替换为 volume</td>
+<td style="text-align:left">原有数据复制到 volume</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>是否支持单个文件</strong></td>
+<td style="text-align:left">支持</td>
+<td style="text-align:left">不支持，只能是目录</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>权限控制</strong></td>
+<td style="text-align:left">可设置为只读，默认为读写权限</td>
+<td style="text-align:left">无控制，均为读写权限</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>移植性</strong></td>
+<td style="text-align:left">移植性弱，与 host path 绑定</td>
+<td style="text-align:left">移植性强，无需指定 host 目录</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="6-2-共享数据"><a href="#6-2-共享数据" class="headerlink" title="6.2 共享数据"></a>6.2 共享数据</h3><h4 id="6-2-1-容器与-host-共享数据"><a href="#6-2-1-容器与-host-共享数据" class="headerlink" title="6.2.1 容器与 host 共享数据"></a>6.2.1 容器与 host 共享数据</h4><p><strong>bing mount</strong> 与 <strong>docker managed volume</strong> 均可实现<strong>在容器与 host 之间共享数据</strong>。</p>
+<p>用 <strong>bind mount</strong> 来共享数据非常简单：<strong>直接将要共享的目录 mount 到容器</strong>。</p>
+<p>而对与 <strong>docker managed volume</strong>，由于 <strong>volume 位于 host 中的目录，是在容器启动时才生成</strong>，所以需要<strong>使用</strong><code>docker cp</code><strong>将共享数据拷贝到 volume 中</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/15/docker-5mins-notes-5/volume-share-1.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h4 id="6-2-2-容器之间共享数据"><a href="#6-2-2-容器之间共享数据" class="headerlink" title="6.2.2 容器之间共享数据"></a>6.2.2 容器之间共享数据</h4><p>第一种方法是<strong>将共享数据放在 bind mount 中，然后将其 mount 到多个容器</strong>。</p>
+<p>另一种在容器之间共享数据的方式是<strong>使用 volume container</strong>。</p>
+<h4 id="6-2-3-使用-volume-container-共享数据"><a href="#6-2-3-使用-volume-container-共享数据" class="headerlink" title="6.2.3 使用 volume container 共享数据"></a>6.2.3 使用 volume container 共享数据</h4><p><strong>volume container</strong> 是<strong>专门为其他容器提供 volume 的容器</strong>。它提供的卷<strong>可以是 bind mount，也可以是 docker managed volume</strong>。下面我们创建一个 volume container：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/15/docker-5mins-notes-5/vc-1.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>将容器命名为<code>vc_data</code>。这里执行的是<code>docker create</code>命令，这是因为 <strong>volume container 的作用只是提供数据，它本身不需要处于运行状态</strong>。容器 mount 了两个 volume：</p>
+<ol>
+<li>bing mount，存放 web server 的静态文件</li>
+<li>docker managed volume，存放一些实用工具</li>
+</ol>
+<p>其他容器可以通过<code>--volumes-from</code>使用<code>vc_data</code>这个 volume container：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/15/docker-5mins-notes-5/vc-2.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>volume container 的特点</strong>如下：</p>
+<ol>
+<li>与 bind mount 相比，<strong>不必为每一个容器指定 host path，所有的 path 都在 volume container 中定义好了</strong>，容器只需要与 volume container 关联，这样就<strong>实现了容器与 host 的解耦</strong></li>
+<li><strong>使用 volume container 的容器其 mount point 是一致的，有利于配置的规范和标准化</strong>，但也带来一定的局限，使用时需要综合考虑。</li>
+</ol>
+<h4 id="6-2-4-data-packed-volume-container"><a href="#6-2-4-data-packed-volume-container" class="headerlink" title="6.2.4 data-packed volume container"></a>6.2.4 data-packed volume container</h4><p>之前的例子中 volume container 的数据还是在 host 上，其实还可以<strong>将数据打包到镜像中，然后通过 docker managed volume 共享</strong>。通常我们称这种容器为 <strong>data-packed volume container</strong>。</p>
+<p>首先<strong>使用下面的 Dockerfile 构建镜像</strong>：</p>
+<pre><code class="lang-docker">FROM busybox:latest
+ADD htdocs /usr/local/apache2/htdocs
+VOLUME /usr/local/apache2/htdocs
+</code></pre>
+<p>之后<strong>构建新镜像 datapacked</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/15/docker-5mins-notes-5/datapacked-vc.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>用新镜像<strong>创建 data-packed volume container</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/15/docker-5mins-notes-5/datapacked-vc-2.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>因为在 Dockerfile 中已经使用了<code>VOLUME</code>指令，这里就不需要指定 volume 的 mount point 了。<strong>启动 httpd 容器并使用 data-packed volume container</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/15/docker-5mins-notes-5/datapacked-vc-3.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>容器能够正确读取 volume 中的数据。<strong>data-packed volume container 是自包含的，不依赖 host 提供数据，具有很强的移植性，非常适合只使用静态数据的场景</strong>，比如应用的配置信息、web server 的静态文件等。</p>
+<h3 id="6-3-volume-生命周期管理"><a href="#6-3-volume-生命周期管理" class="headerlink" title="6.3 volume 生命周期管理"></a>6.3 volume 生命周期管理</h3><h4 id="6-3-1-volume-备份"><a href="#6-3-1-volume-备份" class="headerlink" title="6.3.1 volume 备份"></a>6.3.1 volume 备份</h4><p>因为 <strong>volume 实际上是 host 文件系统中的目录和文件</strong>，所以 <strong>volume 的备份</strong>实际上是<strong>对文件系统的备份</strong>。</p>
+<p>所有的本地镜像都存在 host 的<code>/myregistry</code>目录中，我们要做的就是<strong>定期备份这个目录</strong>。</p>
+<h4 id="6-3-2-volume-恢复"><a href="#6-3-2-volume-恢复" class="headerlink" title="6.3.2 volume 恢复"></a>6.3.2 volume 恢复</h4><p><strong>volume 的恢复</strong>也很简单，如果数据损坏了，直接<strong>用之前备份的数据拷贝到</strong><code>/myregistry</code><strong>就可以了</strong>。</p>
+<h4 id="6-3-3-volume-迁移"><a href="#6-3-3-volume-迁移" class="headerlink" title="6.3.3 volume 迁移"></a>6.3.3 volume 迁移</h4><p>如果想<strong>使用更新版本的 Registry</strong>，就涉及到<strong>数据迁移</strong>：</p>
+<ol>
+<li><code>docker stop</code>当前 Registry 容器</li>
+<li>启动新版本容器并 <strong>mount 原有 volume</strong>：</li>
+</ol>
+<pre><code class="lang-bash">docker run -d -p 5000:5000 -v /myregistry:/var/lib/registry registry:latest
+</code></pre>
+<p>在启用新容器前要<strong>确认新版本的默认数据路径是否发生变化</strong>。</p>
+<h4 id="6-3-4-volume-销毁"><a href="#6-3-4-volume-销毁" class="headerlink" title="6.3.4 volume 销毁"></a>6.3.4 volume 销毁</h4><p>Docker 不会销毁 bind mount。<strong>删除 bind mount 数据的工作只能由 host 负责</strong>。</p>
+<p>对于 docker managed volume，在执行<code>docker rm</code>删除容器时可以加上<code>-v</code>参数，<strong>Docker 会将容器使用到的 volume 一并删除，但前提是没有容器 mount 该 volume</strong>。</p>
+<p>如果<strong>在删除容器时没有带</strong><code>-v</code>，就会产生<strong>孤儿 volume</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/15/docker-5mins-notes-5/rm-volume-1.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>可以使用<code>docker volome rm</code>删除这些孤儿 volume：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/15/docker-5mins-notes-5/rm-volume-2.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>如果想批量删除孤儿 volume，可以使用以下命令：</p>
+<pre><code class="lang-bash">docker volume rm $(docker volume ls -q)
+</code></pre>
+<h3 id="6-4-小结"><a href="#6-4-小结" class="headerlink" title="6.4 小结"></a>6.4 小结</h3><p>本章包括以下内容：</p>
+<ol>
+<li>Docker 为容器提供了<strong>两种存储资源：数据层和 data volume</strong></li>
+<li>数据层包括<strong>镜像层</strong>和<strong>容器层</strong>，由 <strong>storage driver</strong> 管理</li>
+<li>Data Volume 有两种类型：<strong>bind mount</strong> 和 <strong>docker managed volume</strong></li>
+<li><strong>bing mount</strong> 可以实现<strong>容器与 host 之间、容器与容器之间共享数据</strong></li>
+<li><strong>volume container</strong> 是一种具有更好移植性的<strong>容器间数据共享方案</strong>，特别是 <strong>data-packed volume container</strong></li>
+<li><strong>volume 生命周期管理</strong>包括<strong>备份、恢复、迁移和销毁 Data Volume</strong></li>
+</ol>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/09/25/micro-service-orchestration-and-container-schedule/">微服务编排与容器调度</a></li><li><a href="https://abelsu7.top/2019/09/18/micro-service-notes/">微服务学习资料汇总</a></li><li><a href="https://abelsu7.top/2019/03/19/recent-review/">近期复习合集</a></li><li><a href="https://abelsu7.top/2019/03/18/understanding-linux-kernel/">Linux 内核笔记 1：绪论</a></li><li><a href="http://www.hui-wang.info/2018/02/04/%E5%BD%B1%E5%93%8D%E5%8A%9B/">影响力</a></li><li><a href="http://www.hui-wang.info/2017/11/25/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E%EF%BC%9A%E4%B8%8D%E8%83%BD%E5%86%8D%E5%87%91%E4%BA%86/">数学之美：不能再凑了</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.160Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/02/15/docker-5mins-notes-5/" target="_blank" rel="external">https://abelsu7.top/2019/02/15/docker-5mins-notes-5/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/容器/">容器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书/">读书</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/02/15/docker-5mins-notes-5/&title=《5 分钟 Docker 笔记 5：存储》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/02/15/docker-5mins-notes-5/&title=《5 分钟 Docker 笔记 5：存储》 — Keep Coding&source=
+Bind Mount 与 Data Volume、共享数据、Volume 生命周期管理
+
+
+                
+             ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/02/15/docker-5mins-notes-5/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《5 分钟 Docker 笔记 5：存储》 — Keep Coding&url=https://abelsu7.top/2019/02/15/docker-5mins-notes-5/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/02/15/docker-5mins-notes-5/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/02/16/centos7-install-mysql57/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">CentOS 7 安装 MySQL 5.7</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/02/13/docker-5mins-notes-4/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">5 分钟 Docker 笔记 4：网络</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/02/15/docker-5mins-notes-5/&title=《5 分钟 Docker 笔记 5：存储》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/02/15/docker-5mins-notes-5/&title=《5 分钟 Docker 笔记 5：存储》 — Keep Coding&source=
+Bind Mount 与 Data Volume、共享数据、Volume 生命周期管理
+
+
+                
+             ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/02/15/docker-5mins-notes-5/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《5 分钟 Docker 笔记 5：存储》 — Keep Coding&url=https://abelsu7.top/2019/02/15/docker-5mins-notes-5/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/02/15/docker-5mins-notes-5/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACHUlEQVR42u3aO3LDMAwFQN//0k6bRsp7gpQZkcvKI+u3LmCAwOcTr2+wjs7/feTo2/Pjty0MDIzXMpKXS45ce8rRt/m7YWBg7MM4evD55/bMyd3+eGcMDAyM03POg28e0DEwMDCeY+TpY1vcYmBgYEwCYl7QTgL3I7U4BgbGCxn5Ztn/f36kv4GBgfEqxrdc58F30pL8DhYGBsbajDzAtU3HNk5O2BgYGPsw8tLxPLBeG91IjhfbbRgYGIsyrgXH9iXaAY58LAMDA2NVRtuYvDYkkSR8kzQRAwNjbUbeaMy329pUsihTk78HDAyMRRlFFlkG7nbYq006MTAw9mS0idq1Ma88fczvgIGBsSqjBczL0bYoTX4mDAyMfRjn4e+JAJoUukkQx8DA2IGRX5CH0XtbCFEPFgMDY1FGEgrzIYx72fl+GgYGxtqMySBXncANks6oiMXAwFia0W6KTRqQbdkcNVwxMDCWZlybVWi379sGZ75JNxq5wMDAeBVjUqy2AXqy6VbPjGBgYCzHuNYkyEvNScEcbc9hYGBsw5jkWvlV7ZnRszAwMBZlfMvVjke0rdB2e67IWzEwMF7LmAS7fHO/ffykgYqBgbEq41qQbfFPX4WBgbED44kN/XY4bFT6YmBgYFx6uaj1WP4ENwdcDAyMzRiTlmdbcx+2MDEwMJZmJEXsXYDzO+cjsxgYGPsw2rzrCeq8hMbAwFiU8QOAqEupnuqKSQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

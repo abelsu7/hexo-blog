@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Kernel 2.6.32 中的 KVM API 概述 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="KVM,虚拟化,内核">
+    <meta name="description" content="KVM API 概述，基于 Kernel 2.6.32">
+<meta name="keywords" content="KVM,虚拟化,内核">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kernel 2.6.32 中的 KVM API 概述">
+<meta property="og:url" content="https://abelsu7.top/2019/08/11/kvm-api-overview/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="KVM API 概述，基于 Kernel 2.6.32">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/08/11/kvm-api-overview/cover.jpeg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.422Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kernel 2.6.32 中的 KVM API 概述">
+<meta name="twitter:description" content="KVM API 概述，基于 Kernel 2.6.32">
+<meta name="twitter:image" content="https://abelsu7.top/2019/08/11/kvm-api-overview/cover.jpeg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Kernel 2.6.32 中的 KVM API 概述</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Kernel 2.6.32 中的 KVM API 概述</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-08-11T07:26:48.000Z" itemprop="datePublished" class="page-time">
+  2019-08-11
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/KVM/">KVM</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-字符设备-dev-kvm"><span class="post-toc-text">1. 字符设备 /dev/kvm</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-KVM-API-功能分类"><span class="post-toc-text">2. KVM API 功能分类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-KVM-API-操作流程"><span class="post-toc-text">3. KVM API 操作流程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-KVM-API-概览"><span class="post-toc-text">4. KVM API 概览</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-1-System-ioctl"><span class="post-toc-text">4.1 System ioctl</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-2-VM-ioctl"><span class="post-toc-text">4.2 VM ioctl</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-3-vCPU-ioctl"><span class="post-toc-text">4.3 vCPU ioctl</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-API-简单使用示例"><span class="post-toc-text">5. API 简单使用示例</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-kvm-api-overview"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Kernel 2.6.32 中的 KVM API 概述</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-08-11 15:26:48" datetime="2019-08-11T07:26:48.000Z"  itemprop="datePublished">2019-08-11</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/KVM/">KVM</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>KVM API 概述，基于 <a href="https://elixir.bootlin.com/linux/v2.6.32.35/source/Documentation/kvm/api.txt" target="_blank" rel="noopener">Kernel 2.6.32</a></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/08/11/kvm-api-overview/cover.jpeg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#1-字符设备-dev-kvm">1. 字符设备 /dev/kvm</a></li>
+<li><a href="#2-KVM-API-功能分类">2. KVM API 功能分类</a></li>
+<li><a href="#3-KVM-API-操作流程">3. KVM API 操作流程</a></li>
+<li><a href="#4-KVM-API-概览">4. KVM API 概览</a><ul>
+<li><a href="#4-1-System-ioctl">4.1 System ioctl</a></li>
+<li><a href="#4-2-VM-ioctl">4.2 VM ioctl</a></li>
+<li><a href="#4-3-vCPU-ioctl">4.3 vCPU ioctl</a></li>
+</ul>
+</li>
+<li><a href="#5-API-简单使用示例">5. API 简单使用示例</a></li>
+<li><a href="#参考文章">参考文章</a></li>
+</ul>
+<h2 id="1-字符设备-dev-kvm"><a href="#1-字符设备-dev-kvm" class="headerlink" title="1. 字符设备 /dev/kvm"></a>1. 字符设备 /dev/kvm</h2><p>KVM 的 API 是通过<code>/dev/kvm</code>这个字符设备进行访问的：</p>
+<pre><code class="lang-bash">&gt; ls /dev/kvm -l
+crw-rw---- 1 root root 10, 232 Jul 29 16:24 /dev/kvm
+</code></pre>
+<p><code>/dev/kvm</code>作为 Linux 的一个标准字符型设备，可以使用常见的系统调用如<code>open()</code>、<code>close()</code>、<code>ioctl()</code>等指令进行操作。不过在 KVM 字符型设备的实现函数中，并没有包含<code>write()</code>、<code>read()</code>等操作，因此<strong>所有对 KVM 的操作都是通过</strong><code>ioctl()</code><strong>发送相应的控制字实现的</strong>。</p>
+<blockquote>
+<p>内核源码中的<code>Documentation/kvm/api.txt</code>是 KVM API 的说明文档，可以点击 <a href="https://elixir.bootlin.com/linux/v2.6.32.35/source/Documentation/kvm/api.txt" target="_blank" rel="noopener">这里</a> 查看</p>
+</blockquote>
+<h2 id="2-KVM-API-功能分类"><a href="#2-KVM-API-功能分类" class="headerlink" title="2. KVM API 功能分类"></a>2. KVM API 功能分类</h2><p>根据 API 所提供的功能，又可将其分为以下三类：</p>
+<ul>
+<li><code>System ioctl</code>：<strong>系统指令</strong>，针对 KVM 的全局性参数设置，例如通过<code>KVM_CREATE_VM</code>创建虚拟机</li>
+<li><code>VM ioctl</code>：<strong>虚拟机指令</strong>，针对指定的 VM 进行控制，例如创建 vCPU、设置虚拟机内存。需要在创建 VM 的进程中调用 VM 指令，以确保进程安全</li>
+<li><code>vCPU ioctl</code>：<strong>vCPU 指令</strong>，针对指定的 vCPU 进行参数设置，例如寄存器读写、中断控制。需要在创建 vCPU 的线程中调用 vCPU 指令，以确保线程安全</li>
+</ul>
+<h2 id="3-KVM-API-操作流程"><a href="#3-KVM-API-操作流程" class="headerlink" title="3. KVM API 操作流程"></a>3. KVM API 操作流程</h2><p>通常情况下，对于 KVM API 的操作是从打开<code>/dev/kvm</code>设备文件开始的：</p>
+<ol>
+<li>使用<code>open</code>系统调用打开<code>/dev/kvm</code>设备文件后，会获得一个文件描述符<code>fd</code>，然后再通过<code>ioctl</code>发送相应的控制字进行之后的操作</li>
+<li>调用<code>KVM_CREATE_VM</code>指令将创建一个虚拟机并返回该虚拟机对应的<code>fd</code>。然后再根据返回的<code>fd</code>对该虚拟机进行控制</li>
+<li>调用<code>KVM_CREATE_VCPU</code>指令将创建一个 vCPU，并返回该 vCPU 对应的<code>fd</code></li>
+<li>循环调用<code>KVM_RUN</code>，运行 vCPU，启动虚拟机</li>
+</ol>
+<p>需要注意的是，通过<code>fork()</code>调用创建的子进程将继承父进程的文件描述符<code>fd</code>，从而实现多进程访问。而在 KVM API 的内部实现中，并没有针对这种情况进行保护。因此<code>api.txt</code>文档也有提示：VM 指令需要在创建该 VM 的进程中调用，vCPU 指令也需要在创建 vCPU 的线程中调用。</p>
+<p>上述流程的伪代码示例如下所示：</p>
+<pre><code class="lang-c">open(&quot;/dev/kvm&quot;)
+ioctl(KVM_CREATE_VM) // 创建 VM
+ioctl(KVM_CREATE_VCPU) // 为 VM 创建 vCPU
+for (;;) {
+    ioctl(KVM_RUN) // 运行 vCPU，启动 VM
+    switch (exit_reason) { // 捕捉 VM-EXIT 原因进行处理
+        case KVM_EXIT_IO: /* ... */
+        case KVM_EXIT_HLT: /* ... */
+    }
+}
+</code></pre>
+<h2 id="4-KVM-API-概览"><a href="#4-KVM-API-概览" class="headerlink" title="4. KVM API 概览"></a>4. KVM API 概览</h2><h3 id="4-1-System-ioctl"><a href="#4-1-System-ioctl" class="headerlink" title="4.1 System ioctl"></a>4.1 System ioctl</h3><p>System ioctls 用于<strong>控制 KVM 全局的运行环境及参数设置</strong>，例如创建虚拟机、检查扩展支持。</p>
+<p>通过<code>kvm_main.c</code>中的<code>kvm_dev_ioctl()</code>进行处理，与架构相关的指令（例如 x86）则通过<code>x86.c</code>中的<code>kvm_arch_dev_ioctl()</code>进行处理。</p>
+<p>主要指令字如下所示：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">指令字</th>
+<th style="text-align:left">功能说明</th>
+<th style="text-align:left">返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">KVM_GET_API_VERSION</td>
+<td style="text-align:left">查询当前 KVM API 版本</td>
+<td style="text-align:left">当前版本为 12</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>KVM_CREATE_VM</strong></td>
+<td style="text-align:left">创建 KVM 虚拟机</td>
+<td style="text-align:left">返回创建的 KVM 虚拟机 fd</td>
+</tr>
+<tr>
+<td style="text-align:left">KVM_GET_MSR_INDEX_LIST</td>
+<td style="text-align:left">获得 MSR 索引列表</td>
+<td style="text-align:left">返回 kvm_msr_list 类型的链表 msr_list</td>
+</tr>
+<tr>
+<td style="text-align:left">KVM_CHECK_EXTENSION</td>
+<td style="text-align:left">检查扩展支持情况</td>
+<td style="text-align:left">返回 0 则不支持，非 0 则支持</td>
+</tr>
+<tr>
+<td style="text-align:left">KVM_GET_VCPU_MMAP_SIZE</td>
+<td style="text-align:left">返回<code>ioctl(KVM_RUN)</code>与用户空间共享内存区域大小</td>
+<td style="text-align:left">mmap 区域大小，单位 bytes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>其中最重要的是<code>KVM_CREATE_VM</code>。通过该指令字，KVM 将返回一个文件描述符<code>fd</code>，指向内核空间中新创建的 KVM 虚拟机。</p>
+<h3 id="4-2-VM-ioctl"><a href="#4-2-VM-ioctl" class="headerlink" title="4.2 VM ioctl"></a>4.2 VM ioctl</h3><p>VM ioctl 用于<strong>对虚拟机进行控制</strong>，例如内存、vCPU、中断、时钟。</p>
+<p>通过<code>kvm_main.c</code>中的<code>kvm_vm_ioctl()</code>进行处理，与架构相关的指令（例如 x86）则通过<code>x86.c</code>中的<code>kvm_arch_vm_ioctl()</code>进行处理。</p>
+<p>主要指令字如下所示：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">指令字</th>
+<th style="text-align:left">功能说明</th>
+<th style="text-align:left">返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>KVM_CREATE_VCPU</strong></td>
+<td style="text-align:left">为已经创建好的 VM 添加 vCPU</td>
+<td style="text-align:left">成功则返回 vCPU fd，失败 -1</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>KVM_SET_MEMORY_REGION</strong></td>
+<td style="text-align:left">添加或修改 VM 的内存</td>
+<td style="text-align:left">成功 0，失败 -1</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>KVM_SET_USER_MEMORY_REGION</strong></td>
+<td style="text-align:left"><code>api.txt</code>中推荐替代<code>KVM_SET_MEMORY_REGION</code>的新 API</td>
+<td style="text-align:left">成功 0，失败为负</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>KVM_GET_DIRTY_LOG</strong></td>
+<td style="text-align:left">返回上次调用后给定 memory slot 的脏页位图</td>
+<td style="text-align:left">成功 0，失败 -1</td>
+</tr>
+<tr>
+<td style="text-align:left">KVM_SET_MEMORY_ALIAS</td>
+<td style="text-align:left">定义<code>kvm_memory_alias</code></td>
+<td style="text-align:left">成功 0，失败 -1</td>
+</tr>
+<tr>
+<td style="text-align:left">KVM_CREATE_IRQCHIP</td>
+<td style="text-align:left">创建一个虚拟的 APIC，并且之后创建的 vCPU 都将连接到该 APIC</td>
+<td style="text-align:left">成功 0，失败 -1</td>
+</tr>
+<tr>
+<td style="text-align:left">KVM_IRQ_LINE</td>
+<td style="text-align:left">对给定的虚拟 APIC 触发中断信号</td>
+<td style="text-align:left">成功 0，失败 -1</td>
+</tr>
+<tr>
+<td style="text-align:left">KVM_GET_IRQCHIP</td>
+<td style="text-align:left">读取 APIC 的中断标志信息</td>
+<td style="text-align:left">成功 0，失败 -1</td>
+</tr>
+<tr>
+<td style="text-align:left">KVM_SET_IRQCHIP</td>
+<td style="text-align:left">设置 APIC 的中断标志信息</td>
+<td style="text-align:left">成功 0，失败 -1</td>
+</tr>
+<tr>
+<td style="text-align:left">KVM_GET_CLOCK</td>
+<td style="text-align:left">读取当前 VM kvmclock 中的 timestamp</td>
+<td style="text-align:left">成功 0，失败 -1</td>
+</tr>
+<tr>
+<td style="text-align:left">KVM_SET_CLOCK</td>
+<td style="text-align:left">设置当前 VM kvmclock 中的 timestamp</td>
+<td style="text-align:left">成功 0，失败 -1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>VM ioctl 需要借助通过<code>KVM_CREATE_VM</code>返回的 VM fd 进行操作，例如<code>KVM_CREATE_VCPU</code>：</p>
+<pre><code class="lang-c">static long kvm_vm_ioctl(struct file *filp,
+               unsigned int ioctl, unsigned long arg)
+{
+    struct kvm *kvm = filp-&gt;private_data; // VM 对应的 kvm 结构体
+    void __user *argp = (void __user *)arg; // ioctl 入参
+    int r;
+
+    if (kvm-&gt;mm != current-&gt;mm)
+        return -EIO;
+
+    switch (ioctl) {
+    case KVM_CREATE_VCPU:
+        r = kvm_vm_ioctl_create_vcpu(kvm, arg); // 需要借助 kvm 创建 vCPU
+        if (r &lt; 0)
+            goto out;
+        break;
+    /* ... */
+    }
+out:
+    return r;
+}
+</code></pre>
+<h3 id="4-3-vCPU-ioctl"><a href="#4-3-vCPU-ioctl" class="headerlink" title="4.3 vCPU ioctl"></a>4.3 vCPU ioctl</h3><p>vCPU ioctl 用于<strong>对具体的 vCPU 进行配置</strong>，例如执行 vCPU 指令，设置寄存器、中断等。</p>
+<p>通过<code>kvm_main.c</code>中的<code>kvm_vcpu_ioctl()</code>进行处理，与架构相关的指令（例如 x86）则通过<code>x86.c</code>中的<code>kvm_arch_vcpu_ioctl()</code>进行处理。</p>
+<p>主要指令字如下所示：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>指令字</th>
+<th>功能说明</th>
+<th>返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>KVM_RUN</strong></td>
+<td>运行 vCPU</td>
+<td>成功 0，失败 -1</td>
+</tr>
+<tr>
+<td>KVM_GET_REGS</td>
+<td>获取通用寄存器信息</td>
+<td>成功 0，失败 -1</td>
+</tr>
+<tr>
+<td>KVM_SET_REGS</td>
+<td>设置通用寄存器信息</td>
+<td>成功 0，失败 -1</td>
+</tr>
+<tr>
+<td>KVM_GET_SREGS</td>
+<td>获取特殊寄存器信息</td>
+<td>成功 0，失败 -1</td>
+</tr>
+<tr>
+<td>KVM_SET_SREGS</td>
+<td>设置特殊寄存器信息</td>
+<td>成功 0，失败 -1</td>
+</tr>
+<tr>
+<td>KVM_TRANSLATE</td>
+<td>将 GVA 翻译为 GPA</td>
+<td>成功 0，失败 -1</td>
+</tr>
+<tr>
+<td>KVM_INTERRUPT</td>
+<td>通过插入一个中断向量，在 vCPU 上产生中断（当 APIC 无效时）</td>
+<td>成功 0，失败 -1</td>
+</tr>
+<tr>
+<td>KVM_DEBUG_GUEST</td>
+<td>开启 Guest OS 的调试模式</td>
+<td>成功 0，失败 -1</td>
+</tr>
+<tr>
+<td>KVM_GET_MSRS</td>
+<td>获取 MSR 寄存器信息</td>
+<td>成功 0，失败 -1</td>
+</tr>
+<tr>
+<td>KVM_SET_MSRS</td>
+<td>设置 MSR 寄存器信息</td>
+<td>成功 0，失败 -1</td>
+</tr>
+<tr>
+<td>KVM_SET_CPUID</td>
+<td>设置 vCPU 的 CPUID 信息</td>
+<td>成功 0，失败 -1</td>
+</tr>
+<tr>
+<td>KVM_SET_SIGNAL_MASK</td>
+<td>设置 vCPU 的中断信号屏蔽</td>
+<td>成功 0，失败 -1</td>
+</tr>
+<tr>
+<td>KVM_GET_FPU</td>
+<td>获取浮点寄存器信息</td>
+<td>成功 0，失败 -1</td>
+</tr>
+<tr>
+<td>KVM_SET_FPU</td>
+<td>设置浮点寄存器信息</td>
+<td>成功 0，失败 -1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>其中最重要的指令是<code>KVM_RUN</code>。在通过<code>KVM_CREATE_CPU</code>为虚拟机创建 vCPU，并取得 vCPU 对应的 fd 后，就可以调用<code>KVM_RUN</code>启动虚拟机：</p>
+<pre><code class="lang-c">static long kvm_vcpu_ioctl(struct file *filp,
+               unsigned int ioctl, unsigned long arg)
+{
+    struct kvm_vcpu *vcpu = filp-&gt;private_data;
+    void __user *argp = (void __user *)arg;
+    int r;
+
+    /* ... */
+    switch (ioctl) {
+    case KVM_RUN: // 运行 vCPU
+        r = -EINVAL;
+        if (arg)
+            goto out;
+        r = kvm_arch_vcpu_ioctl_run(vcpu, vcpu-&gt;run); // 实际的执行函数
+        break;
+    /* ... */
+    }
+out:
+    kfree(fpu);
+    kfree(kvm_sregs);
+    return r;
+}
+</code></pre>
+<p>可以看到调用<code>kvm_arch_vcpu_ioctl_run()</code>时传递了两个参数：<code>vcpu</code>即为当前的 vCPU，而<code>vcpu-&gt;run</code>则指向一个<code>kvm_run</code>结构体（省略部分字段）：</p>
+<pre><code class="lang-c">/* for KVM_RUN, returned by mmap(vcpu_fd, offset=0) */
+struct kvm_run {
+    /* in */
+    __u8 request_interrupt_window;
+    __u8 padding1[7];
+
+    /* out */
+    __u32 exit_reason;
+    __u8 ready_for_interrupt_injection;
+    __u8 if_flag;
+    __u8 padding2[2];
+
+    /* in (pre_kvm_run), out (post_kvm_run) */
+    __u64 cr8;
+    __u64 apic_base;
+
+    union {
+        /* KVM_EXIT_UNKNOWN */
+        struct {
+            __u64 hardware_exit_reason;
+        } hw;
+        /* KVM_EXIT_FAIL_ENTRY */
+        struct {
+            __u64 hardware_entry_failure_reason;
+        } fail_entry;
+        /* KVM_EXIT_EXCEPTION */
+        struct {
+            __u32 exception;
+            __u32 error_code;
+        } ex;
+        /* KVM_EXIT_IO */
+        struct {
+#define KVM_EXIT_IO_IN  0
+#define KVM_EXIT_IO_OUT 1
+            __u8 direction;
+            __u8 size; /* bytes */
+            __u16 port;
+            __u32 count;
+            __u64 data_offset; /* relative to kvm_run start */
+        } io;
+        struct {
+            struct kvm_debug_exit_arch arch;
+        } debug;
+        /* KVM_EXIT_MMIO */
+        struct {
+            __u64 phys_addr;
+            __u8  data[8];
+            __u32 len;
+            __u8  is_write;
+        } mmio;
+        /* ... */
+    };
+};
+</code></pre>
+<p><code>kvm_run</code>定义在<code>include/linux/kvm.h</code>中，通过读取该结构体可以了解 KVM 内部的运行状态，可以类比为计算机芯片中的寄存器组。</p>
+<h2 id="5-API-简单使用示例"><a href="#5-API-简单使用示例" class="headerlink" title="5. API 简单使用示例"></a>5. API 简单使用示例</h2><pre><code class="lang-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;sys/ioctl.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;linux/kvm.h&gt;
+
+#define KVM_FILE &quot;/dev/kvm&quot;
+
+int main()
+{
+    int dev;
+    int ret;
+    dev = open(KVM_FILE, O_RDWR|O_NDELAY);
+
+    ret = ioctl(dev, KVM_GET_API_VERSION, 0);    
+    printf(&quot;----KVM API version is %d----\n&quot;, ret);
+
+    ret = ioctl(dev, KVM_CHECK_EXTENSION, KVM_CAP_NR_VCPUS);
+    printf(&quot;----KVM supports MAX_VCPUS per guest(VM) is %d----\n&quot;, ret);
+
+    ret = ioctl(dev, KVM_CHECK_EXTENSION, KVM_CAP_NR_MEMSLOTS);
+    printf(&quot;----KVM supports MEMORY_SLOTS per guset(VM) is %d----\n&quot;, ret);
+
+    ret = ioctl(dev, KVM_CHECK_EXTENSION, KVM_CAP_IOMMU);
+    if(ret != 0)
+        printf(&quot;----KVM supports IOMMU (i.e. Intel VT-d or AMD IOMMU).----\n&quot;);
+    else
+        printf(&quot;----KVM doesn&#39;t support IOMMU (i.e. Intel VT-d or AMD IOMMU).----\n&quot;);
+
+    return 0;
+}
+</code></pre>
+<p>编译运行：</p>
+<pre><code class="lang-bash">&gt; vim kvm-api-test.c
+&gt; gcc kvm-api-test.c -o kvm-api-test
+&gt; ./kvm-api-test
+----KVM API version is 12----
+----KVM supports MAX_VCPUS per guest(VM) is 160----
+----KVM supports MEMORY_SLOTS per guset(VM) is 32----
+----KVM doesn&#39;t support IOMMU (i.e. Intel VT-d or AMD IOMMU).----
+</code></pre>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><blockquote>
+<ol>
+<li><a href="https://elixir.bootlin.com/linux/v2.6.32.35/source/Documentation/kvm/api.txt" target="_blank" rel="noopener">Documentation/kvm/api.txt | Kernel 2.6.32.35</a> </li>
+<li><a href="http://oenhan.com/kvm-src-2-vm-run" target="_blank" rel="noopener">KVM 源代码分析 2：虚拟机的创建与运行 | OenHan</a></li>
+<li><a href="http://oenhan.com/kvm-src-3-cpu" target="_blank" rel="noopener">KVM 源代码分析 3：CPU 虚拟化 | OenHan</a></li>
+<li><a href="http://smilejay.com/2013/03/use-kvm-api/" target="_blank" rel="noopener">KVM API 使用实例 - 任永杰 | 笑遍世界</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/09/02/virtio-in-kvm/">半虚拟化 I/O 框架 virtio</a></li><li><a href="https://abelsu7.top/2019/08/26/compile-kvm-module/">单独编译 KVM 内核模块</a></li><li><a href="https://abelsu7.top/2019/08/11/qemu-main-func/">QEMU 1.2.0 入口 main() 函数调用流程分析</a></li><li><a href="https://abelsu7.top/2019/07/07/qemu-nbd/">使用 qemu-nbd 挂载虚拟机镜像</a></li><li><a href="http://www.borgor.cn/2017-10-23/16f315c1.html">迁移 VMware 虚拟机到 KVM</a></li><li><a href="https://zsnmwy.net/47278.html">微星B350M 虚拟化开启 AMD-V</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.422Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/08/11/kvm-api-overview/" target="_blank" rel="external">https://abelsu7.top/2019/08/11/kvm-api-overview/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/KVM/">KVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内核/">内核</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/虚拟化/">虚拟化</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/08/11/kvm-api-overview/&title=《Kernel 2.6.32 中的 KVM API 概述》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/08/11/kvm-api-overview/&title=《Kernel 2.6.32 中的 KVM API 概述》 — Keep Coding&source=
+KVM API 概述，基于 Kernel 2.6.32
+
+
+                
+                    
+        ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/08/11/kvm-api-overview/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Kernel 2.6.32 中的 KVM API 概述》 — Keep Coding&url=https://abelsu7.top/2019/08/11/kvm-api-overview/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/08/11/kvm-api-overview/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/08/15/go-web-programming/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Go Web 编程笔记</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/08/11/qemu-main-func/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">QEMU 1.2.0 入口 main() 函数调用流程分析</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/08/11/kvm-api-overview/&title=《Kernel 2.6.32 中的 KVM API 概述》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/08/11/kvm-api-overview/&title=《Kernel 2.6.32 中的 KVM API 概述》 — Keep Coding&source=
+KVM API 概述，基于 Kernel 2.6.32
+
+
+                
+                    
+        ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/08/11/kvm-api-overview/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Kernel 2.6.32 中的 KVM API 概述》 — Keep Coding&url=https://abelsu7.top/2019/08/11/kvm-api-overview/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/08/11/kvm-api-overview/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACIElEQVR42u3aMVLEMAwF0L3/pUNDQbEbviTDTOznaifBiV8KYUl+veJx3Y77v/955dPd++vLBgYGxmMZyRKTu9W35E+OPh8GBsYBjE8vzn8ndxN28wkYGBgYg8UlYXrBuzAwMDBuA+t94ppcSe5iYGBg5Glqr4g2Ce6Lc3EMDIwHMvKq+////pP+BgYGxqMYV3Ekc6ubxcl6vp+DgYGxNWPSgOy1M1dt+zAwMM5h9FLWfClVapIGv7mCgYGxNSPZxvUwq45fVJsTGBgYJzDyzdy8YTBPd1+T74GBgfEQRlJES4prk1LdgmYnBgbGkYxqglot1RVqgQkPAwPjAEZedJuE4DxhTmBvAi4GBsamjF7yuTYdnRxNw8DAOIexaptYDZR5O6GwxcTAwNiOkTQI8w3fpCE6CfEYGBh7M3LYZFnVpDdZW6Efi4GBsQVjstx8bhJSR4kuBgbGpow8wFUDZXXuqFWAgYGxNSMPgvnuMg+4vQCNgYFxMqPZMhzAVgVfDAyMkxm91mYSXvONYyEZxsDAOICRPCgPl73eYlJV++XIBQYGxnaMqziqJbnq3GYIxsDA2JpR7RJWg2xvKdUNIgYGxgmMPNWcHMjIv1xvFgYGxgmMSUG/2m6sthyi/xUYGBgYxWMTyTYxSVkLiSsGBgZGMU3ttSTznLvQicXAwNiIkR+J6C0r+RC9WRgYGCcwqqlj+cBWcRF5OMbAwDiA8QXw1EHPcg9VPwAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

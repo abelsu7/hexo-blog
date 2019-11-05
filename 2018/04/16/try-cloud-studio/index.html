@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>腾讯云携手 CODING，云端 IDE —— Cloud Studio 初体验 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="腾讯,云计算">
+    <meta name="description" content="Cloud Studio及Coding WebIDE简介4月16日，腾讯云与CODING宣布达成战略合作，共同发布以腾讯云云服务器为基础的国内第一款完全基于云端的IDE工具：Cloud Studio的beta版本。">
+<meta name="keywords" content="腾讯,云计算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="腾讯云携手 CODING，云端 IDE —— Cloud Studio 初体验">
+<meta property="og:url" content="https://abelsu7.top/2018/04/16/try-cloud-studio/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="Cloud Studio及Coding WebIDE简介4月16日，腾讯云与CODING宣布达成战略合作，共同发布以腾讯云云服务器为基础的国内第一款完全基于云端的IDE工具：Cloud Studio的beta版本。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/about.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/coding-qcloud.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/ide.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/container.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/login.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/trial.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/intro.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/multi-env.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/collaboration.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/terminal.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/qcloud.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/2048.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/chat.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/profile.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/env.png">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/general.png">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/appearance.png">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/editor.png">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/keymap.png">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/extension.png">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/host-list.png">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/host.png">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/uname.png">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/htop.png">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/su.png">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/ifconfig.png">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/demo.png">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/demo-src.png">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/python2.png">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/python3.png">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/phpdemo1.png">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/phpdemo2.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/javademo1.png">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/javademo2.png">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/javademo3.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.712Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="腾讯云携手 CODING，云端 IDE —— Cloud Studio 初体验">
+<meta name="twitter:description" content="Cloud Studio及Coding WebIDE简介4月16日，腾讯云与CODING宣布达成战略合作，共同发布以腾讯云云服务器为基础的国内第一款完全基于云端的IDE工具：Cloud Studio的beta版本。">
+<meta name="twitter:image" content="https://abelsu7.top/2018/04/16/try-cloud-studio/about.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">腾讯云携手 CODING，云端 IDE —— Cloud Studio 初体验</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">腾讯云携手 CODING，云端 IDE —— Cloud Studio 初体验</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-04-16T13:30:56.000Z" itemprop="datePublished" class="page-time">
+  2018-04-16
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/云计算/">云计算</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Cloud-Studio及Coding-WebIDE简介"><span class="post-toc-text">Cloud Studio及Coding WebIDE简介</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#注册CODING账号"><span class="post-toc-text">注册CODING账号</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#申请Free-Trial"><span class="post-toc-text">申请Free Trial</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#腾讯云授权"><span class="post-toc-text">腾讯云授权</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#开始使用Cloud-Studio"><span class="post-toc-text">开始使用Cloud Studio</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#查看腾讯云专用主机"><span class="post-toc-text">查看腾讯云专用主机</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#体验终端"><span class="post-toc-text">体验终端</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#体验官方Demo"><span class="post-toc-text">体验官方Demo</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Python-2-Demo"><span class="post-toc-text">Python 2 Demo</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Python-3-Demo"><span class="post-toc-text">Python 3 Demo</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#PHP-Demo"><span class="post-toc-text">PHP Demo</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Java-Demo"><span class="post-toc-text">Java Demo</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#总结一下"><span class="post-toc-text">总结一下</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-try-cloud-studio"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">腾讯云携手 CODING，云端 IDE —— Cloud Studio 初体验</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-04-16 21:30:56" datetime="2018-04-16T13:30:56.000Z"  itemprop="datePublished">2018-04-16</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/云计算/">云计算</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="Cloud-Studio及Coding-WebIDE简介"><a href="#Cloud-Studio及Coding-WebIDE简介" class="headerlink" title="Cloud Studio及Coding WebIDE简介"></a>Cloud Studio及Coding WebIDE简介</h3><p>4月16日，<a href="https://mp.weixin.qq.com/s/HHrr-wvrqCvjdqkGFmGe6g" target="_blank" rel="noopener">腾讯云</a>与<a href="https://mp.weixin.qq.com/s/XQr0qxnAytk4CwKg-9uMUw" target="_blank" rel="noopener">CODING</a>宣布达成战略合作，共同发布以<strong>腾讯云云服务器</strong>为基础的<strong>国内第一款完全基于云端的IDE工具</strong>：<a href="https://studio.coding.net" target="_blank" rel="noopener">Cloud Studio</a>的beta版本。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/about.jpg" alt="4月16日上线的Cloud Studio" title>
+                </div>
+                <div class="image-caption">4月16日上线的Cloud Studio</div>
+            </figure>
+<p>有别于<a href="https://www.heroku.com" target="_blank" rel="noopener">Heroku</a>这样的<strong>PaaS</strong>云计算平台，根据两家在微信推送中的表述，Cloud Studio更接近于<strong>SaaS</strong>的概念——本质上是一款<strong>在线云端开发工具</strong>，减少用户安装IDE的成本，并与腾讯云<strong>IaaS/PaaS</strong>深度结合，从而提供<strong>代码编写、调试、上线</strong>一站式闭环体验。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/coding-qcloud.jpg" alt="Coding提供前端IDE，腾讯云提供后端计算服务" title>
+                </div>
+                <div class="image-caption">Coding提供前端IDE，腾讯云提供后端计算服务</div>
+            </figure>
+<a id="more"></a>
+<p>Cloud Studio的前身正是CODING自主研发的<a href="https://ide.coding.net" target="_blank" rel="noopener">Coding WebIDE</a>，CODING的老用户应该会比较熟悉。在Cloud Studio的登录界面仍然保留了旧版WebIDE的访问入口提示，方便老用户继续访问。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/ide.jpg" alt="Coding WebIDE" title>
+                </div>
+                <div class="image-caption">Coding WebIDE</div>
+            </figure>
+<p>值得注意的是，WebIDE的首页明确提到，其底层基于<strong>容器技术</strong>，可以让系统的预热时间从分钟级降到秒级，配置好的开发环境也可以快捷的保存与分享。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/container.jpg" alt="WebIDE基于容器技术" title>
+                </div>
+                <div class="image-caption">WebIDE基于容器技术</div>
+            </figure>
+<p>而源于Coding WebIDE的<strong>Cloud Studio同样采用了容器技术</strong>，这点可以在腾讯云发布的微信推送中得到印证，以下为部分内容摘抄。</p>
+<blockquote>
+<p>“软件研发效率在不断提升，开发工具也需要同步更新迭代，这就对计算资源提出了更高要求。<strong>每台 Cloud Studio 的背后，都有腾讯云云服务器、容器服务等服务在提供计算支持</strong>，帮助用户升级开发模式、变更应用交付、重构数据管理方式，提速企业应用部署。依托腾讯云的强大弹性能力，还能够做到资源快速伸、容灾等。开发者使用Cloud Studio 时登录浏览器即可进行编程，提供完整的 Linux 环境，并且支持自定义域名指向、动态计算资源调整，可以完成各种应用的开发编译与部署。另外，每个 Cloud Studio 拥有独立的计算资源，支持多环境快速切换、协同编辑、全功能 Terminal 等功能。据悉，下一步，Cloud Studio 将开放调配资源、在线 Terminal 操作云资源等功能。”</p>
+</blockquote>
+<p>话不多说，现在就来初探Cloud Studio吧~</p>
+<h3 id="注册CODING账号"><a href="#注册CODING账号" class="headerlink" title="注册CODING账号"></a>注册CODING账号</h3><p>Cloud Studio是由CODING和腾讯云共同提供的服务，自然需要我们注册这两家的账号。访问<a href="https://studio.coding.net" target="_blank" rel="noopener">https://studio.coding.net</a>，随即跳转至CODING账号登录界面，因为我之前就是CODING的用户，直接登录，进入下一步。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/login.jpg" alt="注册CODING账号" title>
+                </div>
+                <div class="image-caption">注册CODING账号</div>
+            </figure>
+<h3 id="申请Free-Trial"><a href="#申请Free-Trial" class="headerlink" title="申请Free Trial"></a>申请Free Trial</h3><p>登录CODING账户之后，系统会首先检测是否已有云主机。首次登录可以申请<strong>30天的免费试用</strong>。按照官方的说法，到期之后可按低至<strong>9.9元/月</strong>的价格<strong>续费主机</strong>，可以说是很划算了。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/trial.jpg" alt="申请free trial" title>
+                </div>
+                <div class="image-caption">申请free trial</div>
+            </figure>
+<p>该界面还有<strong>产品介绍</strong>和<strong>帮助文档</strong>的访问链接，正式进入Cloud Studio之前不妨先去逛一逛。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/intro.jpg" alt="Cloud Studio产品介绍" title>
+                </div>
+                <div class="image-caption">Cloud Studio产品介绍</div>
+            </figure>
+<p>重点提及的功能包括<strong>多环境切换</strong>、<strong>协同编辑</strong>以及<strong>全功能Terminal</strong>，终端默认使用<strong>oh-my-zsh</strong>，好评~</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/multi-env.jpg" alt="多环境切换" title>
+                </div>
+                <div class="image-caption">多环境切换</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/collaboration.jpg" alt="协同编辑" title>
+                </div>
+                <div class="image-caption">协同编辑</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/terminal.jpg" alt="全功能Terminal，默认oh-my-zsh" title>
+                </div>
+                <div class="image-caption">全功能Terminal，默认oh-my-zsh</div>
+            </figure>
+<p>回到正题，继续我们的Cloud Studio的体验之旅。</p>
+<h3 id="腾讯云授权"><a href="#腾讯云授权" class="headerlink" title="腾讯云授权"></a>腾讯云授权</h3><p>申请Free Trial试用后，系统会自动申请一台<strong>1核1GB，10G空间</strong>的腾讯云主机作为Cloud Studio的后端服务器，如果之前没有绑定腾讯云的账号，此时会跳转至腾讯云的授权页面，点击<strong>授权</strong>即可。如无意外，就会进入Cloud Studio的主界面中。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/qcloud.jpg" alt="腾讯云授权" title>
+                </div>
+                <div class="image-caption">腾讯云授权</div>
+            </figure>
+<h3 id="开始使用Cloud-Studio"><a href="#开始使用Cloud-Studio" class="headerlink" title="开始使用Cloud Studio"></a>开始使用Cloud Studio</h3><p>Cloud Studio有着广阔的使用场景。在其官方介绍中，将<strong>开发微信小程序</strong>作为示例场景进行展示。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/2048.jpg" alt="开发微信小程序" title>
+                </div>
+                <div class="image-caption">开发微信小程序</div>
+            </figure>
+<p>另外Cloud Studio还支持<strong>协同编辑</strong>和<strong>聊天</strong>的功能，以官方介绍图为例。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/chat.jpg" alt="协同编辑与聊天" title>
+                </div>
+                <div class="image-caption">协同编辑与聊天</div>
+            </figure>
+<p>而用户初次进入Cloud Studio会创建默认的workspace，也可以创建空项目或从CODING导入已有项目。可以看到IDE的风格和<a href="https://www.jetbrains.com/idea/" target="_blank" rel="noopener">IntelliJ IDEA</a>很相似。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/profile.jpg" alt="管理Workspaces" title>
+                </div>
+                <div class="image-caption">管理Workspaces</div>
+            </figure>
+<p>Cloud Studio预设了包括<strong>Node.js</strong>、<strong>Jekyll</strong>、<strong>Hexo</strong>、<strong>PHP</strong>、<strong>Ruby</strong>、<strong>Java</strong>、<strong>Python</strong>、<strong>.Net</strong>、<strong>Machine Learning</strong>（是的，你没有看错）等多种开发环境，用户可在<strong>Environments</strong>选项卡中快速切换。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/env.png" alt="快速切换多种预设开发环境" title>
+                </div>
+                <div class="image-caption">快速切换多种预设开发环境</div>
+            </figure>
+<p>在<strong>General Setting</strong>中，可对<strong>界面显示语言</strong>及<strong>文件树隐藏文件</strong>进行设置。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/general.png" alt="General Setting" title>
+                </div>
+                <div class="image-caption">General Setting</div>
+            </figure>
+<p>在<strong>Appearance Setting</strong>中，可<strong>切换亮/暗主题</strong>，并<strong>设置代码高亮配色</strong>，默认为<code>material</code>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/appearance.png" alt="Appearance Setting" title>
+                </div>
+                <div class="image-caption">Appearance Setting</div>
+            </figure>
+<p>在<strong>Editor Setting</strong>中，可设置<strong>缩进风格</strong>与<strong>缩进宽度</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/editor.png" alt="Editor Setting" title>
+                </div>
+                <div class="image-caption">Editor Setting</div>
+            </figure>
+<p>在<strong>Keymap Setting</strong>中，可设置<strong>快捷键风格</strong>，预设包括<code>Default</code>、<code>Sublime</code>、<code>Vim</code>和<code>Emacs</code>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/keymap.png" alt="Keymap Setting" title>
+                </div>
+                <div class="image-caption">Keymap Setting</div>
+            </figure>
+<p>在<strong>Extension Setting</strong>中，可<strong>搜索并安装各类插件</strong>，目前插件数量十分有限，相信日后会逐渐提高数量与质量。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/extension.png" alt="Extension Setting" title>
+                </div>
+                <div class="image-caption">Extension Setting</div>
+            </figure>
+<h3 id="查看腾讯云专用主机"><a href="#查看腾讯云专用主机" class="headerlink" title="查看腾讯云专用主机"></a>查看腾讯云专用主机</h3><p>右上角的<strong>Environments</strong>选项卡中列出了腾讯云专用主机的<strong>公网IP地址</strong>及<strong>硬件参数</strong>，点击<strong>查看我的专用主机</strong>即可跳转至腾讯云主机列表。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/host-list.png" alt="腾讯云主机列表" title>
+                </div>
+                <div class="image-caption">腾讯云主机列表</div>
+            </figure>
+<p>点击该主机查看详细信息，发现其位于<strong>成都机房</strong>，剩余<strong>30天有效期</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/host.png" alt="主机概览" title>
+                </div>
+                <div class="image-caption">主机概览</div>
+            </figure>
+<p>返回Cloud Studio，继续体验之旅。</p>
+<h3 id="体验终端"><a href="#体验终端" class="headerlink" title="体验终端"></a>体验终端</h3><p>接下来通过Cloud Studio中的集成终端来对这台云主机一探究竟，可以看到配色还是比较舒服的。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/uname.png" alt="云主机系统为Ubuntu 16.04.4 LTS" title>
+                </div>
+                <div class="image-caption">云主机系统为Ubuntu 16.04.4 LTS</div>
+            </figure>
+<p>使用<code>df</code>及<code>uname</code>命令，发现该云主机根目录挂载了<strong>40G存储空间</strong>，操作系统为<strong>Ubuntu 16.04.4 LTS</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/htop.png" alt="使用htop命令查看系统进程" title>
+                </div>
+                <div class="image-caption">使用htop命令查看系统进程</div>
+            </figure>
+<p>点击终端右上角的图标，可以快速切换终端运行环境。使用<code>htop</code>命令发现该云主机为<strong>1核CPU、内存1G</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/su.png" alt="获取root权限" title>
+                </div>
+                <div class="image-caption">获取root权限</div>
+            </figure>
+<p>由于用户未设置密码，使用<code>su</code>命令可直接<strong>获取root权限</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/ifconfig.png" alt="查看Java、Python版本" title>
+                </div>
+                <div class="image-caption">查看Java、Python版本</div>
+            </figure>
+<p>可通过<code>ifconfig</code>命令查看网卡信息，但与硬件相关的命令均无法调用。<strong>Java</strong>版本为<code>1.8.0_161</code>，<strong>Python2</strong>版本为<code>2.7.12</code>，<strong>Python3</strong>版本为<code>3.5.2</code>。</p>
+<h3 id="体验官方Demo"><a href="#体验官方Demo" class="headerlink" title="体验官方Demo"></a>体验官方Demo</h3><p>体验完强大的Terminal之后，就来试跑一下官方提供的Demo吧~</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/demo.png" alt="官方Demo说明文档" title>
+                </div>
+                <div class="image-caption">官方Demo说明文档</div>
+            </figure>
+<p>在默认的Workspace中，CODING准备了<strong>Java</strong>、<strong>Python</strong>、<strong>PHP</strong>三种语言的小示例帮助用户<strong>体验Cloud Studio的基本功能</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/demo-src.png" alt="Demo代码结构" title>
+                </div>
+                <div class="image-caption">Demo代码结构</div>
+            </figure>
+<h4 id="Python-2-Demo"><a href="#Python-2-Demo" class="headerlink" title="Python 2 Demo"></a>Python 2 Demo</h4><p>Python 2的Demo功能很简单：<strong>获取当前时间与IP</strong>，<code>hello.py</code>代码如下。</p>
+<pre><code class="lang-python">#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import socket
+import time
+
+def get_time():
+    return time.strftime(&#39;%Y-%m-%d&#39;,time.localtime(time.time()))
+
+def get_host_ip():
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect((&#39;8.8.8.8&#39;, 80))
+        ip = s.getsockname()[0]
+    finally:
+        s.close()
+
+    return ip       
+
+print &quot;您好，欢迎来到 Cloud Studio&quot;
+print &quot;当前时间是：&quot; + get_time()
+print &quot;您的IP是：&quot; + get_host_ip()
+</code></pre>
+<p>进入<code>python</code>目录，运行<code>python hello.py</code>即可。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/python2.png" alt="Python 2 Demo" title>
+                </div>
+                <div class="image-caption">Python 2 Demo</div>
+            </figure>
+<h4 id="Python-3-Demo"><a href="#Python-3-Demo" class="headerlink" title="Python 3 Demo"></a>Python 3 Demo</h4><p>Python 3的Demo要更有趣一些：来自Github上的开源项目<a href="https://github.com/borisuvarov/cursed_snake" target="_blank" rel="noopener">Cursed Snake</a>，这是一个由<a href="https://github.com/borisuvarov" target="_blank" rel="noopener">borisuvarov</a>开发、基于<strong>Python 3</strong>的<strong>控制台贪吃蛇游戏</strong>，<code>snake.py</code>代码如下。</p>
+<pre><code class="lang-python">#!/usr/local/bin/python3
+# -*- coding: utf-8 -*-
+&quot;&quot;&quot;
+Simple Snake console game for Python 3.
+
+From https://github.com/borisuvarov/cursed_snake
+
+Use it as introduction to curses module.
+
+Warning: curses module available only in Unix.
+On Windows use UniCurses (https://pypi.python.org/pypi/UniCurses).
+UniCurses is not installed by default.
+
+&quot;&quot;&quot;
+
+import curses  # https://docs.python.org/3/library/curses.html
+import time
+import random
+
+
+def redraw():  # Redraws game field and it&#39;s content after every turn
+    # win.erase()
+    win.clear()
+    draw_food()  # Draws food on the game field
+    draw_snake()  # Draws snake
+    draw_menu()
+    win.refresh()
+
+
+def draw_menu():
+    win.addstr(0,0, &quot;Score: &quot; + str(len(snake) - 2) + &quot;      Press &#39;q&#39; to quit&quot;, curses.color_pair(5))
+
+
+def draw_snake():
+    try:
+        n = 0  # There can be only one head
+        for pos in snake:  # Snake is the list of [y, x], so we swap them below
+            if n == 0:
+                win.addstr(pos[1], pos[0], &quot;@&quot;, curses.color_pair(ex_foodcolor))  # Draws head
+            else:
+                win.addstr(pos[1], pos[0], &quot;#&quot;, curses.color_pair(ex_foodcolor))  # Draws segment of the body
+            n += 1
+    except Exception as drawingerror:
+        print(drawingerror, str(cols), str(rows))
+
+
+def draw_food():
+    for pos in food:
+        win.addstr(pos[1], pos[0], &quot;+&quot;, curses.color_pair(foodcolor))
+
+
+def drop_food():
+    x = random.randint(1, cols - 2)
+    y = random.randint(1, rows - 2)
+    for pos in snake:  # Do not drop food on snake
+        if pos == [x, y]:
+            drop_food()
+
+    food.append([x, y])
+
+
+def move_snake():
+    global snake  # List
+    global grow_snake  # Boolean
+    global cols, rows  # Integers
+
+    head = snake[0]  # Head is the first element of &quot;snake list&quot;
+    if not grow_snake:  # Remove tail if food was not eaten on this turn
+        snake.pop()
+    else:  # If food was eaten on this turn, we don&#39;t pop last item of list,
+        grow_snake = False  # but we restore default state of grow_snake
+    if direction == DIR_UP:  # Calculate the position of the head
+        head = [head[0], head[1] - 1]  # We will swap x and y in draw_snake()
+        if head[1] == 0:
+            head[1] = rows - 2  # Snake passes through the border
+    elif direction == DIR_DOWN:
+        head = [head[0], head[1] + 1]
+        if head[1] == rows - 1:
+            head[1] = 1
+    elif direction == DIR_LEFT:
+        head = [head[0] - 1, head[1]]
+        if head[0] == 0:
+            head[0] = cols - 2
+    elif direction == DIR_RIGHT:
+        head = [head[0] + 1, head[1]]
+        if head[0] == cols - 1:
+            head[0] = 1
+
+    snake.insert(0, head)  # Insert new head
+
+
+def is_food_collision():
+    for pos in food:
+        if pos == snake[0]:
+            food.remove(pos)
+            global foodcolor
+            global ex_foodcolor
+            ex_foodcolor = foodcolor
+            foodcolor = random.randint(1, 6)  # Pick random color of the next food
+            return True
+    return False
+
+
+def game_over():
+    global is_game_over
+    is_game_over = True
+    win.erase()
+    win.addstr(10, 20, &quot;Game over! Your score is &quot; + str(len(snake)) + &quot;  Press &#39;q&#39; to quit&quot;, curses.color_pair(1))
+
+
+def is_suicide():  # If snake collides with itself, game is over
+    for i in range(1, len(snake)):
+        if snake[i] == snake[0]:
+            return True
+    return False
+
+
+def end_game():
+    curses.nocbreak()
+    win.keypad(0)
+    curses.echo()
+    curses.endwin()
+
+
+# Initialisation starts --------------------------------------------
+DIR_UP = 0  # Snake&#39;s directions, values are not important,
+DIR_RIGHT = 1  # they сan be &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot; or something else
+DIR_DOWN = 2
+DIR_LEFT = 3
+
+is_game_over = False
+grow_snake = False
+
+snake = [[10, 5], [9, 5]]  # Set snake size and position
+direction = DIR_RIGHT
+food = []
+foodcolor = 2
+ex_foodcolor = 3
+
+win = curses.initscr()  # Game field in console initialised with curses module
+curses.start_color()  # Enables colors
+curses.init_pair(1, curses.COLOR_CYAN, curses.COLOR_BLACK)
+curses.init_pair(2, curses.COLOR_BLUE, curses.COLOR_BLACK)
+curses.init_pair(3, curses.COLOR_GREEN, curses.COLOR_BLACK)
+curses.init_pair(4, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
+curses.init_pair(5, curses.COLOR_RED, curses.COLOR_BLACK)
+curses.init_pair(6, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+win.keypad(1)  # Enable arrow keys
+win.nodelay(1)  # Do not wait for keypress
+curses.curs_set(0)  # Hide cursor
+curses.cbreak()  # Read keys instantaneously
+curses.noecho()  # Do not print stuff when keys are pressed
+rows, cols = win.getmaxyx()  # Get terminal window size
+
+#  Initialisation ends ---------------------------------------------
+
+
+#  Main loop starts ------------------------------------------------
+drop_food()
+redraw()
+
+
+while True:
+    if is_game_over is False:
+        redraw()
+    key = win.getch()  # Returns a key, if pressed
+    time.sleep(0.1)  # Speed of the game
+
+    if key != -1:  # win.getch returns -1 if no key is pressed
+        if key == curses.KEY_UP:
+            if direction != DIR_DOWN:  # Snake can&#39;t go up if she goes down
+                direction = DIR_UP
+        elif key == curses.KEY_RIGHT:
+            if direction != DIR_LEFT:
+                direction = DIR_RIGHT
+        elif key == curses.KEY_DOWN:
+            if direction != DIR_UP:
+                direction = DIR_DOWN
+        elif key == curses.KEY_LEFT:
+            if direction != DIR_RIGHT:
+                direction = DIR_LEFT
+        elif chr(key) == &quot;q&quot;:
+            break
+
+    if is_game_over is False:
+        move_snake()
+
+    if is_suicide():
+        game_over()
+
+    if is_food_collision():
+        drop_food()
+        grow_snake = True
+
+end_game()
+#  Main loop ends --------------------------------------------------
+</code></pre>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/python3.png" alt="Python 3 Demo" title>
+                </div>
+                <div class="image-caption">Python 3 Demo</div>
+            </figure>
+<p>真的可以玩哦！不过貌似在Cloud Studio上有延时（毕竟要与服务器交互），感兴趣的不妨在本地跑一跑哈哈~</p>
+<h4 id="PHP-Demo"><a href="#PHP-Demo" class="headerlink" title="PHP Demo"></a>PHP Demo</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/phpdemo1.png" alt="PHP Web Demo" title>
+                </div>
+                <div class="image-caption">PHP Web Demo</div>
+            </figure>
+<p>一个很简单的<strong>PHP Web Demo</strong>，配合Cloud Studio中的<strong>Access URL</strong>选项卡使用，可将来自公网的访问重定向至云主机PHP Web Server的监听端口。这里提示找不到<code>favico.ico</code>，页面图标无法加载，公网通过<strong>重定向链接</strong>可访问PHP服务。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/phpdemo2.jpg" alt="公网访问PHP Server" title>
+                </div>
+                <div class="image-caption">公网访问PHP Server</div>
+            </figure>
+<h4 id="Java-Demo"><a href="#Java-Demo" class="headerlink" title="Java Demo"></a>Java Demo</h4><p>官方提供的Java Demo是一个基于<strong>Maven</strong>构建的<strong>Spring Boot</strong>项目，<code>StudioDemoApplication.java</code>代码如下。</p>
+<pre><code class="lang-java">package com.coding.studiodemo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.RequestMapping;  
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+
+@SpringBootApplication
+@Controller
+public class StudioDemoApplication {
+    @RequestMapping(&quot;/&quot;)  
+    public String greeting(ModelMap map) {  
+        String jreVersion = System.getProperty(&quot;java.specification.version&quot;);
+        map.addAttribute(&quot;jreVersion&quot;, &quot;v&quot; + jreVersion);
+        return &quot;index&quot;;
+    } 
+
+    public static void main(String[] args) {
+        SpringApplication.run(StudioDemoApplication.class, args);
+    }
+}
+</code></pre>
+<p>配置文件<code>pom.xml</code>代码如下</p>
+<pre><code class="lang-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;com.coding&lt;/groupId&gt;
+    &lt;artifactId&gt;studio-demo&lt;/artifactId&gt;
+    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+
+    &lt;name&gt;studio-demo&lt;/name&gt;
+    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;
+
+    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;2.0.1.RELEASE&lt;/version&gt;
+        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
+    &lt;/parent&gt;
+
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
+        &lt;java.version&gt;1.8&lt;/java.version&gt;
+    &lt;/properties&gt;
+
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;  
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;  
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;  
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt; 
+    &lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+
+
+&lt;/project&gt;
+</code></pre>
+<p>查看Maven版本为<code>3.3.9</code>，直接运行<code>mvn spring-boot:run</code>启动服务，由于是第一次运行，需要等待一段时间来下载依赖。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/javademo1.png" alt="启动Maven服务" title>
+                </div>
+                <div class="image-caption">启动Maven服务</div>
+            </figure>
+<p>依赖下载完成后，服务启动成功，<strong>创建Access URL</strong>供公网访问。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/javademo2.png" alt="服务成功启动，创建Access URL" title>
+                </div>
+                <div class="image-caption">服务成功启动，创建Access URL</div>
+            </figure>
+<p>最后访问该链接，成功访问<strong>Java Web Demo Page</strong>，Cloud Studio初体验结束~</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/try-cloud-studio/javademo3.jpg" alt="Java Web Demo" title>
+                </div>
+                <div class="image-caption">Java Web Demo</div>
+            </figure>
+<h3 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h3><p>和传统的云主机相比，基于<strong>容器技术</strong>的<strong>Cloud Studio</strong>更加<strong>轻量快捷</strong>，<strong>可视化IDE</strong>加持大大提升了开发效率，应用场景也更有针对性。如果只是希望在<strong>预搭建的环境</strong>中跑一些服务或进行一些实验，Cloud Studio会是一个不错的选择。</p>
+<p>但是，Free Trial版本中<strong>Access URL的有效期仅为1个小时</strong>（解除有效期限制须升级CODING钻石会员），并且<strong>无法通过公网IP访问腾讯云专用主机</strong>，因此如果需要在公网中提供服务又对图形界面没有太大执念的话，各家的云主机仍是开发的第一选择。</p>
+<blockquote>
+<p><strong>参考文章</strong></p>
+<ol>
+<li><a href="https://mp.weixin.qq.com/s/HHrr-wvrqCvjdqkGFmGe6g" target="_blank" rel="noopener">腾讯云携手 CODING，共同推出云端编辑器 Cloud Studio | 腾讯云</a></li>
+<li><a href="https://mp.weixin.qq.com/s/XQr0qxnAytk4CwKg-9uMUw" target="_blank" rel="noopener">CODING 携手腾讯云：连接，让开发更简单 | 扣钉CODING</a></li>
+<li><a href="https://mp.weixin.qq.com/s/2UJ16Y3lPsPYbpspNQXCEQ" target="_blank" rel="noopener">深入了解 Cloud Studio 开发在云端 | 扣钉CODING</a></li>
+<li><a href="https://studio.coding.net" target="_blank" rel="noopener">Cloud Studio | Coding.net</a></li>
+<li><a href="https://ide.coding.net" target="_blank" rel="noopener">Coding WebIDE | Coding.net</a></li>
+<li><a href="https://coding.net/help/doc/cloud_studio" target="_blank" rel="noopener">Cloud Studio帮助文档 | Coding.net</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/06/04/qemu-src-notes/">QEMU 3.1.0 源码学习</a></li><li><a href="https://abelsu7.top/2019/04/16/kvm-in-action-1/">《KVM 实战》笔记 1：构建 KVM 环境</a></li><li><a href="https://abelsu7.top/2019/04/06/tencent-2019-spring-test/">腾讯暑期实习常规批笔试 Golang 题解</a></li><li><a href="https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/">使用 kubeadm 搭建 Kubernetes 集群</a></li><li><a href="https://blogs.kainy.cn/2017/06/TFC2017参会速记/">TFC2017参会速记</a></li><li><a href="https://blogs.kainy.cn/2014/07/Heyo，Tencent/">Heyo，Tencent</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.712Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/04/16/try-cloud-studio/" target="_blank" rel="external">https://abelsu7.top/2018/04/16/try-cloud-studio/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/云计算/">云计算</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/腾讯/">腾讯</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/04/16/try-cloud-studio/&title=《腾讯云携手 CODING，云端 IDE —— Cloud Studio 初体验》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/04/16/try-cloud-studio/&title=《腾讯云携手 CODING，云端 IDE —— Cloud Studio 初体验》 — Keep Coding&source=Cloud Studio及Coding WebIDE简介4月16日，腾讯云与CODING宣布达成战略合作，共同发布以腾讯云云服务器为基础的国内第一款完全基..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/04/16/try-cloud-studio/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《腾讯云携手 CODING，云端 IDE —— Cloud Studio 初体验》 — Keep Coding&url=https://abelsu7.top/2018/04/16/try-cloud-studio/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/04/16/try-cloud-studio/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/04/20/linux-LVM/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Linux LVM 配置</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/04/16/win10-auto-login/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Windows 10 设置开机自动登录</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/04/16/try-cloud-studio/&title=《腾讯云携手 CODING，云端 IDE —— Cloud Studio 初体验》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/04/16/try-cloud-studio/&title=《腾讯云携手 CODING，云端 IDE —— Cloud Studio 初体验》 — Keep Coding&source=Cloud Studio及Coding WebIDE简介4月16日，腾讯云与CODING宣布达成战略合作，共同发布以腾讯云云服务器为基础的国内第一款完全基..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/04/16/try-cloud-studio/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《腾讯云携手 CODING，云端 IDE —— Cloud Studio 初体验》 — Keep Coding&url=https://abelsu7.top/2018/04/16/try-cloud-studio/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/04/16/try-cloud-studio/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJ0lEQVR42u3aS04DMRAFwNz/0mELQjjv2Q5S7JpVFIaeFEgd9+fxiK9ncP11//d3fr8e/9bmCwMD42MZyYcbPyB5cM7+67njCBgYGDcwxh8uSaltYh1HziNgYGBgzL3Ok+lKTAwMDIw84eYHygSDgYGBsVLEju8fl68rSXlzLY6BgfGBjLzr/v+v3zLfwMDA+CjGs7zecTSc+yQ/4mBgYBzN2DuATKLtOvZhYGDcw5grWVfOZnnaLZY5MDAwjmaMb51r6LfpOCdFPAwMjOMY7YgxP28m6TWJEI0wMTAwjma0p6xd48Y8NSeNOQwMjBsYcwOAdXZ+AI3+AxgYGIcy2rbays5DW6AWYwYMDIxrGHNjg3x1rC1ii5gYGBhHM9pw46DrI89kUBF9JWBgYFzD2NUUy6kbli0wMDAOZawsbM2ta8yNTl+8g4GBcQEjOca1ZedctMmiFwMD41BG28pvx5MryxlFUw8DA+NoRlvWtmODNrHOvYOBgXEDoz2KJakzH0Pm8V+UzRgYGNcw2kbYrgSaJ/qoFsfAwDiUsb5akR8058rRF4UuBgbGoYxnec0199vGWXtAxMDAOJux0nRrRwJ5km2bdxgYGDcw8iTbtsby5Yl2LFp/e2BgYBzB2LbWUK6OrZTBGBgYGPnaxGQrPyhZiz8lBgYGRplw59bF8p9G8w0MDIzjGO8bBsyNB+pVDAwMjKMZc0sSK+sX+T2bh5oYGBifx/gCm2CJhyHEGfoAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

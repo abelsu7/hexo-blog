@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>QEMU 3.1.0 源码学习 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="KVM,虚拟化,QEMU,云计算">
+    <meta name="description" content="QEMU 3.1.0 源码学习，更新中…">
+<meta name="keywords" content="KVM,虚拟化,QEMU,云计算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QEMU 3.1.0 源码学习">
+<meta property="og:url" content="https://abelsu7.top/2019/06/04/qemu-src-notes/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="QEMU 3.1.0 源码学习，更新中…">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/06/04/qemu-src-notes/cover.png">
+<meta property="og:image" content="https://abelsu7.top/2019/06/04/qemu-src-notes/qemu-overview.png">
+<meta property="og:image" content="https://abelsu7.top/2019/06/04/qemu-src-notes/qemu-decomposed-svg.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.627Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="QEMU 3.1.0 源码学习">
+<meta name="twitter:description" content="QEMU 3.1.0 源码学习，更新中…">
+<meta name="twitter:image" content="https://abelsu7.top/2019/06/04/qemu-src-notes/cover.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">QEMU 3.1.0 源码学习</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">QEMU 3.1.0 源码学习</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-06-04T12:39:44.000Z" itemprop="datePublished" class="page-time">
+  2019-06-04
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/KVM/">KVM</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-QEMU-迁移"><span class="post-toc-text">1. QEMU 迁移</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-1-Migration"><span class="post-toc-text">1.1 Migration</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-2-Transports"><span class="post-toc-text">1.2 Transports</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-3-Common-infrastructure"><span class="post-toc-text">1.3 Common infrastructure</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-4-Saving-the-state-of-one-device"><span class="post-toc-text">1.4 Saving the state of one device</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#General-advice-for-device-developers"><span class="post-toc-text">General advice for device developers</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#VMState"><span class="post-toc-text">VMState</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Legacy-way"><span class="post-toc-text">Legacy way</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-QEMU-Detailed-Study"><span class="post-toc-text">2. QEMU Detailed Study</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-源码基本结构"><span class="post-toc-text">2.1 源码基本结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#启动过程"><span class="post-toc-text">启动过程</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#硬件设备的模拟"><span class="post-toc-text">硬件设备的模拟</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Guest-Target-定义"><span class="post-toc-text">Guest (Target) 定义</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Host-TCG-定义"><span class="post-toc-text">Host (TCG) 定义</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#总结一下"><span class="post-toc-text">总结一下</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-main-流程分析"><span class="post-toc-text">2.2 main 流程分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#main-…"><span class="post-toc-text">main(…)</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-QEMU-2-12-1-热迁移"><span class="post-toc-text">3. QEMU 2.12.1 热迁移</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-热迁移的用法"><span class="post-toc-text">3.1 热迁移的用法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-热迁移的基本原理"><span class="post-toc-text">3.2 热迁移的基本原理</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-3-热迁移的前提条件"><span class="post-toc-text">3.3 热迁移的前提条件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-4-热迁移的主要阶段"><span class="post-toc-text">3.4 热迁移的主要阶段</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-5-发送端源码分析"><span class="post-toc-text">3.5 发送端源码分析</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-KVM-Migration-文档"><span class="post-toc-text">4. KVM Migration 文档</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#迁移简介"><span class="post-toc-text">迁移简介</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-qemu-src-notes"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">QEMU 3.1.0 源码学习</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-06-04 20:39:44" datetime="2019-06-04T12:39:44.000Z"  itemprop="datePublished">2019-06-04</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/KVM/">KVM</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>QEMU 3.1.0 源码学习，更新中…</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/06/04/qemu-src-notes/cover.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<p><strong><em>To be updated…</em></strong></p>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#1-QEMU-迁移">1. QEMU 迁移</a><ul>
+<li><a href="#11-Migration">1.1 Migration</a></li>
+<li><a href="#12-Transports">1.2 Transports</a></li>
+<li><a href="#13-Common-infrastructure">1.3 Common infrastructure</a></li>
+<li><a href="#14-Saving-the-state-of-one-device">1.4 Saving the state of one device</a></li>
+</ul>
+</li>
+<li><a href="#2-QEMU-Detailed-Study">2. QEMU Detailed Study</a><ul>
+<li><a href="#2-1-源码基本结构">2.1 源码基本结构</a></li>
+<li><a href="#2-2-main-流程分析">2.2 main 流程分析</a></li>
+</ul>
+</li>
+<li><a href="#参考文章">参考文章</a></li>
+</ul>
+<h3 id="1-QEMU-迁移"><a href="#1-QEMU-迁移" class="headerlink" title="1. QEMU 迁移"></a>1. QEMU 迁移</h3><blockquote>
+<p>摘自<code>qemu-3.1.0/docs/devel/migration.rst</code></p>
+</blockquote>
+<h4 id="1-1-Migration"><a href="#1-1-Migration" class="headerlink" title="1.1 Migration"></a>1.1 Migration</h4><p>QEMU 中关于<strong>保存/恢复正在运行客户机的状态</strong>的代码，有两个相对应的操作：</p>
+<ul>
+<li><code>Saving the state</code></li>
+<li><code>Restoring a guest</code></li>
+</ul>
+<p>因此，QEMU 需要在<strong>目的宿主机</strong>上以<strong>相同的参数</strong>启动客户机，并且<strong>客户机所拥有的设备需要与迁移前保存时所拥有的设备保持一致</strong>。</p>
+<p>当我们可以<strong>保存/恢复客户机</strong>之后，还需要另一项功能，即<strong>迁移</strong><code>Migration</code>：</p>
+<blockquote>
+<p>迁移意味着<strong>源宿主机上运行的 QEMU 可以被迁移至目标宿主机继续运行</strong></p>
+</blockquote>
+<p>而 <strong>KVM 虚拟机的迁移</strong>又可分为以下两种：</p>
+<ul>
+<li><strong>静态迁移</strong><code>static migration</code>，又称<strong>冷迁移</strong><code>cold migration</code></li>
+<li><strong>动态迁移</strong><code>live migration</code>，又称<strong>热迁移</strong><code>hot migration</code></li>
+</ul>
+<p>其中<strong>动态迁移</strong>值得更多关注，因为<strong>运行中的客户机有很多的状态</strong>（例如<code>RAM</code>），而动态迁移可以<strong>保证客户机在保持运行的情况下，将这些状态一并迁移至目标宿主机</strong>。</p>
+<p>当然，客户机并不是真的一直处于运行态。<strong>当客户机所有的相关数据都已迁移至目标宿主机后，源宿主机上的客户机就会停止运行</strong>。而在目标宿主机上的客户机重新运行之前，还会有一段<strong>停机时间</strong><code>service down-time</code>，通常情况下为<strong>几百毫秒以内</strong>。</p>
+<h4 id="1-2-Transports"><a href="#1-2-Transports" class="headerlink" title="1.2 Transports"></a>1.2 Transports</h4><p><strong>迁移的数据流</strong>一般都是<strong>字节流</strong><code>byte stream</code>，可以通过常见的协议进行传递：</p>
+<ul>
+<li><code>tcp migration</code>：使用 <strong>TCP 套接字</strong><code>TCP Sockets</code>完成迁移</li>
+<li><code>unix migration</code>：使用 <strong>UNIX 套接字</strong><code>UNIX Sockets</code>完成迁移</li>
+<li><code>exec migration</code>：使用<strong>进程的标准输入/输出</strong><code>stdin/stdout</code>完成迁移</li>
+<li><code>fd migration</code>：使用传递给 QEMU 的<strong>文件描述符</strong><code>fd</code>完成迁移，并且 QEMU 不需要关心这个<code>fd</code>是如何打开的</li>
+</ul>
+<blockquote>
+<p>In addition, support is included for migration using <code>RDMA</code>, which transports the page data using <code>RDMA</code>, where the <strong>hardware takes care of transporting the pages</strong>, and the <strong>load on the CPU is much lower</strong>. While the internals of <code>RDMA</code> migration are a bit different, this isn’t really visible outside the RAM migration code.</p>
+</blockquote>
+<p>所有的迁移协议使用相同的<code>infrastructure</code>来保存/恢复虚拟机的设备。</p>
+<h4 id="1-3-Common-infrastructure"><a href="#1-3-Common-infrastructure" class="headerlink" title="1.3 Common infrastructure"></a>1.3 Common infrastructure</h4><p>持有<strong>迁移数据流</strong>的<strong>文件、套接字</strong><code>sockets</code><strong>、文件描述符</strong><code>fd</code>都抽象在<code>migration/qemu-file.h</code>中的<code>QEMUFile</code><strong>结构体</strong>中。</p>
+<p><strong>结构体</strong><code>QEMUFile</code>在<code>qemu-file.c</code>中的定义如下：</p>
+<pre><code class="lang-c">#define IOV_MAX 1024 /* 定义在 include/qemu/osdep.h 中 */
+...
+
+#define IO_BUF_SIZE 32768
+#define MAX_IOV_SIZE MIN(IOV_MAX, 64)
+
+struct QEMUFile {
+    const QEMUFileOps *ops;
+    const QEMUFileHooks *hooks;
+    void *opaque;
+
+    int64_t bytes_xfer;
+    int64_t xfer_limit;
+
+    int64_t pos; /* start of buffer when writing, end of buffer
+                    when reading */
+    int buf_index;
+    int buf_size; /* 0 when writing */
+    uint8_t buf[IO_BUF_SIZE];
+
+    DECLARE_BITMAP(may_free, MAX_IOV_SIZE);
+    struct iovec iov[MAX_IOV_SIZE];
+    unsigned int iovcnt;
+
+    int last_error;
+};
+</code></pre>
+<p><strong>结构体</strong><code>QIOChannel</code>在<code>include/io/channel.h</code>中的定义如下：</p>
+<pre><code class="lang-c">/**
+ * QIOChannel:
+ *
+ * The QIOChannel defines the core API for a generic I/O channel
+ * class hierarchy. It is inspired by GIOChannel, but has the
+ * following differences
+ *
+ *  - Use QOM to properly support arbitrary subclassing
+ *  - Support use of iovecs for efficient I/O with multiple blocks
+ *  - None of the character set translation, binary data exclusively
+ *  - Direct support for QEMU Error object reporting
+ *  - File descriptor passing
+ *
+ * This base class is abstract so cannot be instantiated. There
+ * will be subclasses for dealing with sockets, files, and higher
+ * level protocols such as TLS, WebSocket, etc.
+ */
+
+struct QIOChannel {
+    Object parent;
+    unsigned int features; /* bitmask of QIOChannelFeatures */
+    char *name;
+    AioContext *ctx;
+    Coroutine *read_coroutine;
+    Coroutine *write_coroutine;
+#ifdef _WIN32
+    HANDLE event; /* For use with GSource on Win32 */
+#endif
+};
+</code></pre>
+<blockquote>
+<p>大多数情况下，<code>QEMUFile</code>都和<code>QIOChannel</code>的<code>subtype</code>相互关联，例如<code>QIOChannelTLS</code>、<code>QIOChannelFile</code>、<code>QIOChannelSocket</code></p>
+</blockquote>
+<h4 id="1-4-Saving-the-state-of-one-device"><a href="#1-4-Saving-the-state-of-one-device" class="headerlink" title="1.4 Saving the state of one device"></a>1.4 Saving the state of one device</h4><p>对于大多数的设备，只需要调用一次<code>common infrastructure</code>即可，这些被称为<code>non-iterative devices</code>。这些设备的数据<strong>在</strong><code>precopy migration</code><strong>预拷贝迁移阶段的最后被传送</strong>，此时<strong>虚拟机的 CPU 处于暂停状态</strong>。</p>
+<p>而对于<code>iterative devices</code>，<strong>包含的数据量很大</strong>，例如内存<code>RAM</code>或<code>large tables</code>。</p>
+<h5 id="General-advice-for-device-developers"><a href="#General-advice-for-device-developers" class="headerlink" title="General advice for device developers"></a>General advice for device developers</h5><blockquote>
+<p><strong><em>略</em></strong></p>
+</blockquote>
+<h5 id="VMState"><a href="#VMState" class="headerlink" title="VMState"></a>VMState</h5><p>大部分的<strong>设备数据</strong>可以<strong>使用</strong><code>include/migration/vmstate.h</code><strong>中的</strong><code>VMSTATE</code><strong>宏定义来描述</strong>。</p>
+<p>结构体<code>VMStateDescription</code>在<code>include/migration/vmstate.h</code>中定义如下：</p>
+<pre><code class="lang-c">struct VMStateDescription {
+    const char *name;
+    int unmigratable;
+    int version_id;
+    int minimum_version_id;
+    int minimum_version_id_old;
+    MigrationPriority priority;
+    LoadStateHandler *load_state_old;
+    int (*pre_load)(void *opaque);
+    int (*post_load)(void *opaque, int version_id);
+    int (*pre_save)(void *opaque);
+    bool (*needed)(void *opaque);
+    const VMStateField *fields;
+    const VMStateDescription **subsections;
+};
+</code></pre>
+<p>而在<code>hw/input/pckbd.c</code>中，<code>vmstate_kdb</code>定义如下：</p>
+<pre><code class="lang-c">static const VMStateDescription vmstate_kbd = {
+    .name = &quot;pckbd&quot;,
+    .version_id = 3,
+    .minimum_version_id = 3,
+    .post_load = kbd_post_load,
+    .fields = (VMStateField[]) {
+        VMSTATE_UINT8(write_cmd, KBDState),
+        VMSTATE_UINT8(status, KBDState),
+        VMSTATE_UINT8(mode, KBDState),
+        VMSTATE_UINT8(pending, KBDState),
+        VMSTATE_END_OF_LIST()
+    },
+    .subsections = (const VMStateDescription*[]) {
+        &amp;vmstate_kbd_outport,
+        NULL
+    }
+};
+</code></pre>
+<h5 id="Legacy-way"><a href="#Legacy-way" class="headerlink" title="Legacy way"></a>Legacy way</h5><p>与<code>VMState</code>相对应的是 QEMU 早期的实现方式：每个被迁移的设备需要<strong>注册两个函数</strong>，一个用来<strong>保存状态</strong>，另一个用来<strong>恢复状态</strong>。</p>
+<p>函数<code>register_savevm_live</code>在<code>migration/savevm.c</code>中的定义如下：</p>
+<pre><code class="lang-c">/* TODO: Individual devices generally have very little idea about the rest
+   of the system, so instance_id should be removed/replaced.
+   Meanwhile pass -1 as instance_id if you do not already have a clearly
+   distinguishing id for all instances of your device class. */
+int register_savevm_live(DeviceState *dev,
+                         const char *idstr,
+                         int instance_id,
+                         int version_id,
+                         SaveVMHandlers *ops,
+                         void *opaque)
+{
+    SaveStateEntry *se;
+
+    se = g_new0(SaveStateEntry, 1);
+    se-&gt;version_id = version_id;
+    se-&gt;section_id = savevm_state.global_section_id++;
+    se-&gt;ops = ops;
+    se-&gt;opaque = opaque;
+    se-&gt;vmsd = NULL;
+    /* if this is a live_savem then set is_ram */
+    if (ops-&gt;save_setup != NULL) {
+        se-&gt;is_ram = 1;
+    }
+
+    if (dev) {
+        char *id = qdev_get_dev_path(dev);
+        if (id) {
+            if (snprintf(se-&gt;idstr, sizeof(se-&gt;idstr), &quot;%s/&quot;, id) &gt;=
+                sizeof(se-&gt;idstr)) {
+                error_report(&quot;Path too long for VMState (%s)&quot;, id);
+                g_free(id);
+                g_free(se);
+
+                return -1;
+            }
+            g_free(id);
+
+            se-&gt;compat = g_new0(CompatEntry, 1);
+            pstrcpy(se-&gt;compat-&gt;idstr, sizeof(se-&gt;compat-&gt;idstr), idstr);
+            se-&gt;compat-&gt;instance_id = instance_id == -1 ?
+                         calculate_compat_instance_id(idstr) : instance_id;
+            instance_id = -1;
+        }
+    }
+    pstrcat(se-&gt;idstr, sizeof(se-&gt;idstr), idstr);
+
+    if (instance_id == -1) {
+        se-&gt;instance_id = calculate_new_instance_id(se-&gt;idstr);
+    } else {
+        se-&gt;instance_id = instance_id;
+    }
+    assert(!se-&gt;compat || se-&gt;instance_id == 0);
+    savevm_state_handler_insert(se);
+    return 0;
+}
+</code></pre>
+<p>而<code>ops</code>是一个指向<code>SaveVMHanlers</code>的指针对象，结构体<code>SaveVMHandlers</code>在<code>include/migration/register.h</code>中的定义如下：</p>
+<pre><code class="lang-c">typedef struct SaveVMHandlers {
+    /* This runs inside the iothread lock.  */
+    SaveStateHandler *save_state;
+
+    void (*save_cleanup)(void *opaque);
+    int (*save_live_complete_postcopy)(QEMUFile *f, void *opaque);
+    int (*save_live_complete_precopy)(QEMUFile *f, void *opaque);
+
+    /* This runs both outside and inside the iothread lock.  */
+    bool (*is_active)(void *opaque);
+    bool (*has_postcopy)(void *opaque);
+
+    /* is_active_iterate
+     * If it is not NULL then qemu_savevm_state_iterate will skip iteration if
+     * it returns false. For example, it is needed for only-postcopy-states,
+     * which needs to be handled by qemu_savevm_state_setup and
+     * qemu_savevm_state_pending, but do not need iterations until not in
+     * postcopy stage.
+     */
+    bool (*is_active_iterate)(void *opaque);
+
+    /* This runs outside the iothread lock in the migration case, and
+     * within the lock in the savevm case.  The callback had better only
+     * use data that is local to the migration thread or protected
+     * by other locks.
+     */
+    int (*save_live_iterate)(QEMUFile *f, void *opaque);
+
+    /* This runs outside the iothread lock!  */
+    int (*save_setup)(QEMUFile *f, void *opaque);
+    void (*save_live_pending)(QEMUFile *f, void *opaque,
+                              uint64_t threshold_size,
+                              uint64_t *res_precopy_only,
+                              uint64_t *res_compatible,
+                              uint64_t *res_postcopy_only);
+    /* Note for save_live_pending:
+     * - res_precopy_only is for data which must be migrated in precopy phase
+     *     or in stopped state, in other words - before target vm start
+     * - res_compatible is for data which may be migrated in any phase
+     * - res_postcopy_only is for data which must be migrated in postcopy phase
+     *     or in stopped state, in other words - after source vm stop
+     *
+     * Sum of res_postcopy_only, res_compatible and res_postcopy_only is the
+     * whole amount of pending data.
+     */
+
+
+    LoadStateHandler *load_state;
+    int (*load_setup)(QEMUFile *f, void *opaque);
+    int (*load_cleanup)(void *opaque);
+    /* Called when postcopy migration wants to resume from failure */
+    int (*resume_prepare)(MigrationState *s, void *opaque);
+} SaveVMHandlers;
+</code></pre>
+<p>可以看到有以下两个指针对象：</p>
+<pre><code class="lang-c">typedef struct SaveVMHandlers {
+    /* This runs inside the iothread lock.  */
+    SaveStateHandler *save_state;
+    ...
+    LoadStateHandler *load_state;
+    ...
+} SaveVMHandlers;
+</code></pre>
+<p>而在<code>include/qemu/typedefs.h</code>中：</p>
+<pre><code class="lang-c">typedef void SaveStateHandler(QEMUFile *f, void *opaque);
+typedef int LoadStateHandler(QEMUFile *f, void *opaque, int version_id);
+</code></pre>
+<blockquote>
+<p>值得注意的是：<code>load_state</code>需要接收<code>version_id</code>作为参数，以便确认正在接收的状态数据的格式。而<code>save_state</code>不需要<code>version_id</code>参数，因为它总是会保存最新的状态</p>
+</blockquote>
+<p>QEMU 之后应该会逐渐用<code>VMState</code>的方式来替代现有的<code>VMState macros</code>：</p>
+<blockquote>
+<p>Note that because the VMState macros still save the data in a raw format, in many cases it’s possible to replace legacy code with a carefully constructed VMState description that matches the byte layout of the existing code.</p>
+</blockquote>
+<p><strong><em>未完待续…</em></strong></p>
+<h3 id="2-QEMU-Detailed-Study"><a href="#2-QEMU-Detailed-Study" class="headerlink" title="2. QEMU Detailed Study"></a>2. QEMU Detailed Study</h3><blockquote>
+<p>摘自 <a href="https://lists.gnu.org/archive/html/qemu-devel/2011-04/pdfhC5rVdz7U8.pdf" target="_blank" rel="noopener">QEMU Detailed Study | PDF</a></p>
+</blockquote>
+<p>先看一张图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/06/04/qemu-src-notes/qemu-overview.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>QEMU 作为设备模拟器，可以模拟多种处理器架构。其中，<strong>待模拟的架构</strong>称为<code>Target</code>，而 <strong>QEMU 运行的系统环境</strong>称为<code>Host</code>。</p>
+<p>QEMU 中有一个模块叫做<code>Tiny Code Generator</code>，简称<code>TCG</code>，负责<strong>将</strong><code>Target Code</code><strong>动态的翻译为</strong><code>Host Code</code>，也即<code>TCG Target</code>。</p>
+<p>因此我们也可以将<strong>在模拟处理器上运行的代码</strong> (OS + UserTools) 称为<code>Guest Code</code>。<strong>QEMU 的作用</strong>就是<strong>将</strong><code>Guest Code</code><strong>提取出来</strong>，并将其<strong>转换为</strong><code>Host Specific Code</code>。</p>
+<h4 id="2-1-源码基本结构"><a href="#2-1-源码基本结构" class="headerlink" title="2.1 源码基本结构"></a>2.1 源码基本结构</h4><h5 id="启动过程"><a href="#启动过程" class="headerlink" title="启动过程"></a>启动过程</h5><p>QEMU 的启动过程涉及以下几个重要的源文件：</p>
+<ul>
+<li><code>vl.c</code></li>
+<li><code>cpus.c</code></li>
+<li><code>exec.c</code></li>
+<li><code>cpu-exec.c</code></li>
+</ul>
+<p>在<code>vl.c</code>中定义了启动入口<code>main</code>函数，负责根据传入的参数例如<code>RAM</code>、<code>CPU</code>、<code>devices</code>来建立虚拟机的运行环境。CPU 的执行也是从此处开始的。</p>
+<h5 id="硬件设备的模拟"><a href="#硬件设备的模拟" class="headerlink" title="硬件设备的模拟"></a>硬件设备的模拟</h5><p>所有与虚拟硬件设备相关的代码都在<code>hw/</code>目录下。</p>
+<h5 id="Guest-Target-定义"><a href="#Guest-Target-定义" class="headerlink" title="Guest (Target) 定义"></a>Guest (Target) 定义</h5><p>在<code>target/</code>目录下：</p>
+<pre><code class="lang-bash">&gt; pwd
+/kvm/qemu-src/qemu-3.1.0/target
+
+&gt; ll
+total 28K
+drwxr-xr-x 2 ibm ibm  269 Dec 12  2018 alpha
+drwxr-xr-x 2 ibm ibm 4.0K Dec 12  2018 arm
+drwxr-xr-x 2 ibm ibm  296 Dec 12  2018 cris
+drwxr-xr-x 2 ibm ibm  214 Dec 12  2018 hppa
+drwxr-xr-x 3 ibm ibm 4.0K Dec 12  2018 i386
+drwxr-xr-x 2 ibm ibm  219 Dec 12  2018 lm32
+drwxr-xr-x 2 ibm ibm  299 Dec 12  2018 m68k
+drwxr-xr-x 2 ibm ibm  210 Dec 12  2018 microblaze
+drwxr-xr-x 2 ibm ibm 4.0K Dec 12  2018 mips
+drwxr-xr-x 2 ibm ibm  164 Dec 12  2018 moxie
+drwxr-xr-x 2 ibm ibm  166 Dec 12  2018 nios2
+drwxr-xr-x 2 ibm ibm  319 Dec 12  2018 openrisc
+drwxr-xr-x 3 ibm ibm 4.0K Dec 12  2018 ppc
+drwxr-xr-x 2 ibm ibm  243 Dec 12  2018 riscv
+drwxr-xr-x 2 ibm ibm 4.0K Dec 12  2018 s390x
+drwxr-xr-x 2 ibm ibm  192 Dec 12  2018 sh4
+drwxr-xr-x 2 ibm ibm 4.0K Dec 12  2018 sparc
+drwxr-xr-x 2 ibm ibm  168 Dec 12  2018 tilegx
+drwxr-xr-x 2 ibm ibm  223 Dec 12  2018 tricore
+drwxr-xr-x 2 ibm ibm  179 Dec 12  2018 unicore32
+drwxr-xr-x 8 ibm ibm 4.0K Dec 12  2018 xtensa
+</code></pre>
+<h5 id="Host-TCG-定义"><a href="#Host-TCG-定义" class="headerlink" title="Host (TCG) 定义"></a>Host (TCG) 定义</h5><p>在<code>tcg</code>目录下：</p>
+<pre><code class="lang-bash">&gt; pwd
+/kvm/qemu-src/qemu-3.1.0/tcg
+
+&gt; ll
+total 576K
+drwxr-xr-x 2 ibm ibm   74 Dec 12  2018 aarch64
+drwxr-xr-x 2 ibm ibm   50 Dec 12  2018 arm
+drwxr-xr-x 2 ibm ibm   74 Dec 12  2018 i386
+-rw-r--r-- 1 ibm ibm  146 Dec 12  2018 LICENSE
+drwxr-xr-x 2 ibm ibm   50 Dec 12  2018 mips
+-rw-r--r-- 1 ibm ibm  48K Dec 12  2018 optimize.c
+drwxr-xr-x 2 ibm ibm   50 Dec 12  2018 ppc
+-rw-r--r-- 1 ibm ibm  22K Dec 12  2018 README
+drwxr-xr-x 2 ibm ibm   50 Dec 12  2018 s390
+drwxr-xr-x 2 ibm ibm   50 Dec 12  2018 sparc
+-rw-r--r-- 1 ibm ibm 122K Dec 12  2018 tcg.c
+-rw-r--r-- 1 ibm ibm 1.6K Dec 12  2018 tcg-common.c
+-rw-r--r-- 1 ibm ibm 1.8K Dec 12  2018 tcg-gvec-desc.h
+-rw-r--r-- 1 ibm ibm  47K Dec 12  2018 tcg.h
+-rw-r--r-- 1 ibm ibm 3.0K Dec 12  2018 tcg-ldst.inc.c
+-rw-r--r-- 1 ibm ibm 2.0K Dec 12  2018 tcg-mo.h
+-rw-r--r-- 1 ibm ibm  94K Dec 12  2018 tcg-op.c
+-rw-r--r-- 1 ibm ibm  11K Dec 12  2018 tcg-opc.h
+-rw-r--r-- 1 ibm ibm  72K Dec 12  2018 tcg-op-gvec.c
+-rw-r--r-- 1 ibm ibm  15K Dec 12  2018 tcg-op-gvec.h
+-rw-r--r-- 1 ibm ibm  49K Dec 12  2018 tcg-op.h
+-rw-r--r-- 1 ibm ibm  11K Dec 12  2018 tcg-op-vec.c
+-rw-r--r-- 1 ibm ibm 5.2K Dec 12  2018 tcg-pool.inc.c
+drwxr-xr-x 2 ibm ibm   64 Dec 12  2018 tci
+-rw-r--r-- 1 ibm ibm  39K Dec 12  2018 tci.c
+-rw-r--r-- 1 ibm ibm  394 Dec 12  2018 TODO
+</code></pre>
+<h5 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h5><ol>
+<li><code>/vl.c</code>：包含了<code>main</code>函数，负责启动虚拟机、运行 vCPU。<code>main_loop()</code>也存在于此文件中，虚拟机的转换是在这个循环中进行调用的</li>
+<li><code>/target/i386/translate.c</code>：负责提取<code>Guest Code</code>并将其转换为平台无关的<code>TCG ops</code>。转换过程中的单位元是一个<code>TB</code>即<code>Translation Block</code>，只有当一个<code>TB</code>的转换执行结束后，才会轮到下一个<code>TB</code>。这里是 TCG 的前端</li>
+<li><code>/tcg/tcg.c</code>：TCG 的主要实现代码，这里是 TCG 的后端</li>
+<li><code>/tcg/i386/tcg-target.inc.c</code>：将<code>TCG ops</code>转换为<code>Host Code</code></li>
+<li><code>/accel/tcg/cpu-exec.c</code>：函数<code>int cpu_exec(CPUState *cpu)</code>会调用函数<code>tb_find()</code>在 Code Buffer 中查找下一个 TB，这里的 TB 指的是已经翻译成 Host 相关指令的 TB。如果找到了，就会调用<code>cpu_loop_exec_tb()</code>来在 Host 上执行</li>
+</ol>
+<blockquote>
+<p>QEMU 的作用就是，<strong>提取</strong><code>Guest Code</code>，并将其<strong>转换为</strong><code>Host Code</code></p>
+<p>整个转换过程由两部分组成：</p>
+<p><strong>第一步</strong>由<strong>前端</strong>完成，<code>Target Code</code><strong>的代码块</strong><code>TB</code><strong>被转换成</strong><code>TCG-ops</code>（独立于机器的中间代码）</p>
+<p><strong>第二步</strong>由<strong>后端</strong>完成，利用 <strong>Host 架构对应的</strong><code>TCG</code>，把<strong>由</strong><code>TB</code><strong>生成的</strong><code>TCP-ops</code><strong>转换成</strong><code>Host Code</code></p>
+</blockquote>
+<h4 id="2-2-main-流程分析"><a href="#2-2-main-流程分析" class="headerlink" title="2.2 main 流程分析"></a>2.2 main 流程分析</h4><h5 id="main-…"><a href="#main-…" class="headerlink" title="main(…)"></a>main(…)</h5><p>定义在<code>/vl.c</code>中，函数原型如下：</p>
+<pre><code class="lang-c">int main(int argc, char **argv, char **envp);
+</code></pre>
+<p>入口<code>main</code>函数，解析传入 QEMU 的命令行参数，并以此初始化 VM，例如内存大小、磁盘大小、启动盘等。</p>
+<h3 id="3-QEMU-2-12-1-热迁移"><a href="#3-QEMU-2-12-1-热迁移" class="headerlink" title="3. QEMU 2.12.1 热迁移"></a>3. QEMU 2.12.1 热迁移</h3><blockquote>
+<p>部分内容参考 <a href="https://developers.redhat.com/blog/2015/03/24/live-migrating-qemu-kvm-virtual-machines/" target="_blank" rel="noopener">Living Migrating QEMU-KVM Virtual Machines | Red Hat Developer</a></p>
+</blockquote>
+<h4 id="3-1-热迁移的用法"><a href="#3-1-热迁移的用法" class="headerlink" title="3.1 热迁移的用法"></a>3.1 热迁移的用法</h4><p>QEMU/KVM 在早期版本中就引入了热迁移的支持。一般来说，<strong>热迁移需要迁移的</strong><code>src</code><strong>和</strong><code>dst</code><strong>可以同时访问虚拟机镜像</strong>。一个简单的例子，在同一台 Host 上将<code>QEMU VM</code>迁移至另一台<code>QEMU VM</code>。</p>
+<p>首先在<code>src</code>启动一台虚拟机<code>vm1</code>：</p>
+<pre><code class="lang-bash">qemu-system-x86_64 --accel kvm -m 2G -smp 2 -hda fedora30.qcow2
+</code></pre>
+<p>之后在<code>dst</code>以<strong>相同的启动命令</strong>运行另一台虚拟机<code>vm2</code>，<strong>指定相同的镜像文件</strong>，并<strong>添加</strong><code>-incoming</code><strong>参数</strong>：</p>
+<pre><code class="lang-bash">qemu-system-x86_64 --accel kvm -m 2G -smp 2 -hda fedora30.qcow2 -incoming tcp:0:6666
+</code></pre>
+<p>在<code>vm1</code>中的<code>QEMU monitor</code>中输入以下命令：</p>
+<pre><code class="lang-bash">migrate tcp:localhost:6666
+</code></pre>
+<p>大概十几秒之后可以看到<code>vm2</code><strong>以</strong><code>vm1</code><strong>暂停之前的状态继续运行</strong>，迁移成功。</p>
+<h4 id="3-2-热迁移的基本原理"><a href="#3-2-热迁移的基本原理" class="headerlink" title="3.2 热迁移的基本原理"></a>3.2 热迁移的基本原理</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/06/04/qemu-src-notes/qemu-decomposed-svg.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ul>
+<li>现在来看<strong>迁移过程中涉及到的具体数据</strong>。首先我们需要迁移一些<code>Guest</code><strong>的运行现状</strong>——<strong>内存区域</strong>，QEMU 将其视为<code>the entire Guest</code>。不需要翻译任何关于内存区域的内容，这部分会被迁移代码当作一个黑盒<code>Opaque</code>，只需<strong>将这些内容从</strong><code>src</code><strong>发送到</strong><code>dst</code>。这个区域在上图中被标记为灰色</li>
+<li>之后就是左边的区域，表示<code>Devices</code>即<strong>设备状态</strong>，这部分<strong>对</strong><code>Guest</code><strong>来说是可见的</strong>，也即 <strong>QEMU 内部的状态</strong>（因为这些设备由 QEMU 进行模拟并提供给<code>Guest</code>），因此 <strong>QEMU 使用自己的协议发送这部分数据</strong>，其中包含了所有对<code>Guest</code>可见的设备状态</li>
+<li>最后就是右边的部分，<strong>QEMU 本身的状态</strong>也即<code>Host</code>上的 <strong>QEMU 进程状态</strong>（例如通过<code>-smp</code>指定的 CPU 核数、<code>-m</code>指定的内存大小等），这部分由 Host 内核中的 KVM 模块提供，因此<strong>迁移过程不涉及这部分状态</strong>，但需要<strong>在迁移之前确保在</strong><code>src</code><strong>和</strong><code>dst</code><strong>上这部分状态保持一致</strong>，一般以相同的 QEMU 命令行参数启动 QEMU 即可实现</li>
+</ul>
+<h4 id="3-3-热迁移的前提条件"><a href="#3-3-热迁移的前提条件" class="headerlink" title="3.3 热迁移的前提条件"></a>3.3 热迁移的前提条件</h4><p>迁移的<code>src</code>和<code>dst</code>需要满足以下<strong>前提条件</strong>才可实现热迁移：</p>
+<ul>
+<li>使用<strong>共享存储</strong>存储镜像文件，例如<code>NFS</code></li>
+<li>主机<strong>时间同步</strong>（很重要），可通过<code>NTP</code>实现</li>
+<li>主机的<strong>网络配置</strong>必须一致</li>
+<li>主机的<strong>CPU 类型</strong>必须一致</li>
+<li>VM 的<code>machine type</code>（当进行<strong>跨 QEMU 版本的热迁移</strong>时很重要）、<code>RAM</code>大小</li>
+</ul>
+<h4 id="3-4-热迁移的主要阶段"><a href="#3-4-热迁移的主要阶段" class="headerlink" title="3.4 热迁移的主要阶段"></a>3.4 热迁移的主要阶段</h4><p>热迁移主要有以下<strong>三个阶段</strong></p>
+<ul>
+<li><strong>Stage 1</strong>：将<code>Guest</code>的所有<code>RAM</code>标记为<code>dirty</code></li>
+<li><strong>Stage 2</strong>：持续迭代的将所有<code>dirty RAM page</code>发送至<code>dst</code>，直到达到一定的终止条件</li>
+<li><strong>Stage 3</strong>：停止<code>src</code>上的<code>Guest</code>，继续传送剩余的<code>dirty RAM page</code>以及<code>device state</code></li>
+</ul>
+<blockquote>
+<p><strong>阶段一、二</strong>对应上图中的<strong>灰色区域</strong>，<strong>阶段三</strong>对应<strong>灰色区域</strong>和<strong>左边的区域</strong></p>
+</blockquote>
+<p>可以看到热迁移大部分的工作都是在进行<code>RAM</code>传输，尤其是<code>dirty page</code>的传输，所以很多对于热迁移的优化也是针对<code>RAM</code>传输进行优化。</p>
+<blockquote>
+<p><strong>注</strong>：<code>dirty page</code>指的是在迁移过程中产生变化的<code>memory page</code>，内存迁移是先把没有变化的内存传输过去，然后逐渐减小<code>dirty page</code>的大小，最后有短暂的<code>downtime</code>，把剩下的<code>dirty page</code>一并传输过去</p>
+</blockquote>
+<p>之后就可以在<code>dst</code>上继续运行 QEMU 程序了。 </p>
+<blockquote>
+<p><strong>注意</strong>：当从<strong>阶段二向阶段三</strong>过渡时，要做一个很重要的决策，即<code>Guest</code><strong>会在阶段三暂停运行</strong>，所以<strong>在第三阶段要尽可能少的迁移页面</strong>，以减少停机时间</p>
+</blockquote>
+<h4 id="3-5-发送端源码分析"><a href="#3-5-发送端源码分析" class="headerlink" title="3.5 发送端源码分析"></a>3.5 发送端源码分析</h4><p>先来看在<code>QEMU Monitor</code>输入<code>migrate</code>命令后，经过的一些函数：</p>
+<blockquote>
+<p><strong>注意</strong>：除了<code>hmp.c</code>在根目录之外，其他源文件均在<code>migration</code>目录下</p>
+</blockquote>
+<pre><code class="lang-c">void hmp_migrate() /* hmp.c */
+  -&gt; void qmp_migrate() /* migration.c */
+    -&gt; void tcp_start_outgoing_migration() /* socket.c */
+      -&gt; static void socket_start_outgoing_migration() /* socket.c */
+        -&gt; static void socket_outgoing_migration() /* socket.c */
+          -&gt; void migration_channel_connect() /* channel.c */
+            -&gt; QEMUFile *qemu_fopen_channel_output() /* qemu-file-channel.c */
+            -&gt; void migrate_fd_connect() /* migration.c */
+              -&gt; static void *migration_thread() /* migration.c */
+</code></pre>
+<p>在<code>hmp-commands.hx</code>中可以看到<code>migrate</code><strong>命令</strong>对应的<strong>入口函数</strong>为<code>hmp_migrate</code>：</p>
+<pre><code class="lang-haxe">ETEXI
+
+    {
+        .name       = &quot;migrate&quot;,
+        .args_type  = &quot;detach:-d,blk:-b,inc:-i,resume:-r,uri:s&quot;,
+        .params     = &quot;[-d] [-b] [-i] [-r] uri&quot;,
+        .help       = &quot;migrate to URI (using -d to not wait for completion)&quot;
+              &quot;\n\t\t\t -b for migration without shared storage with&quot;
+              &quot; full copy of disk\n\t\t\t -i for migration without &quot;
+              &quot;shared storage with incremental copy of disk &quot;
+              &quot;(base image shared between src and destination)&quot;
+                      &quot;\n\t\t\t -r to resume a paused migration&quot;,
+        .cmd        = hmp_migrate,
+    },
+
+
+STEXI
+@item migrate [-d] [-b] [-i] @var{uri}
+@findex migrate
+Migrate to @var{uri} (using -d to not wait for completion).
+    -b for migration with full copy of disk
+    -i for migration with incremental copy of disk (base image is shared)
+ETEXI
+</code></pre>
+<p>函数<code>hmp_migrate</code>在<code>hmp.c</code>中定义：</p>
+<pre><code class="lang-c">void hmp_migrate(Monitor *mon, const QDict *qdict)
+{
+    /* 省略部分代码 */
+
+    qmp_migrate(uri, !!blk, blk, !!inc, inc, false, false, &amp;err);
+    if (err) {
+        hmp_handle_error(mon, &amp;err);
+        return;
+    }
+
+    /* 省略部分代码 */
+}
+</code></pre>
+<p>进行迁移逻辑处理的函数跳转到了<code>qmp_migrate</code>，在<code>migration.c</code>中定义：</p>
+<pre><code class="lang-c">void qmp_migrate(const char *uri, bool has_blk, bool blk,
+                 bool has_inc, bool inc, bool has_detach, bool detach,
+                 Error **errp)
+{
+    Error *local_err = NULL;
+    MigrationState *s = migrate_get_current();
+    const char *p;
+
+    if (migration_is_setup_or_active(s-&gt;state) ||
+        s-&gt;state == MIGRATION_STATUS_CANCELLING ||
+        s-&gt;state == MIGRATION_STATUS_COLO) {
+        error_setg(errp, QERR_MIGRATION_ACTIVE);
+        return;
+    }
+    if (runstate_check(RUN_STATE_INMIGRATE)) {
+        error_setg(errp, &quot;Guest is waiting for an incoming migration&quot;);
+        return;
+    }
+
+    if (migration_is_blocked(errp)) {
+        return;
+    }
+
+    /* 省略部分代码 */
+
+    migrate_init(s);
+
+    if (strstart(uri, &quot;tcp:&quot;, &amp;p)) {
+        tcp_start_outgoing_migration(s, p, &amp;local_err);
+#ifdef CONFIG_RDMA
+    } else if (strstart(uri, &quot;rdma:&quot;, &amp;p)) {
+        rdma_start_outgoing_migration(s, p, &amp;local_err);
+#endif
+    } else if (strstart(uri, &quot;exec:&quot;, &amp;p)) {
+        exec_start_outgoing_migration(s, p, &amp;local_err);
+    } else if (strstart(uri, &quot;unix:&quot;, &amp;p)) {
+        unix_start_outgoing_migration(s, p, &amp;local_err);
+    } else if (strstart(uri, &quot;fd:&quot;, &amp;p)) {
+        fd_start_outgoing_migration(s, p, &amp;local_err);
+    } else {
+        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, &quot;uri&quot;,
+                   &quot;a valid migration protocol&quot;);
+        migrate_set_state(&amp;s-&gt;state, MIGRATION_STATUS_SETUP,
+                          MIGRATION_STATUS_FAILED);
+        block_cleanup_parameters(s);
+        return;
+    }
+
+    if (local_err) {
+        migrate_fd_error(s, local_err);
+        error_propagate(errp, local_err);
+        return;
+    }
+}
+</code></pre>
+<p>简单说下这个函数：首先通过<code>migrate_get_current()</code>获取当前的<code>MigrationState</code>指针对象，之后检查当前是否已经有迁移进程存在。之后下面的语句：</p>
+<pre><code class="lang-c">if (migration_is_blocked(errp)) {
+    return;
+}
+
+...
+
+/* migration.c 中定义 */
+bool migration_is_blocked(Error **errp)
+{
+    if (qemu_savevm_state_blocked(errp)) {
+        return true;
+    }
+
+    if (migration_blockers) {
+        error_propagate(errp, error_copy(migration_blockers-&gt;data));
+        return true;
+    }
+
+    return false;
+}
+</code></pre>
+<p>这里通过<code>qemu_savevm_state_blocked()</code>来判断当前虚拟机状态适不适合进行迁移。</p>
+<p>最后直接来说上面函数调用栈最下面的<code>migrate_fd_connect()</code>，通过<code>qemu_thread_create</code>调用<code>migration_thread</code>在<code>src</code>上创建一个<strong>迁移线程</strong>：</p>
+<pre><code class="lang-c">void migrate_fd_connect(MigrationState *s, Error *error_in)
+{
+    /* 省略之前的语句 */
+    qemu_thread_create(&amp;s-&gt;thread, &quot;live_migration&quot;, migration_thread, s,
+                       QEMU_THREAD_JOINABLE);
+    s-&gt;migration_thread_running = true;
+}
+</code></pre>
+<p>而<code>migration_thread</code>同样在<code>migration.c</code>中定义：</p>
+<pre><code class="lang-c">/*
+ * Master migration thread on the source VM.
+ * It drives the migration and pumps the data down the outgoing channel.
+ */
+static void *migration_thread(void *opaque)
+{
+    /* 省略部分代码 */
+
+    /* 对应 Stage 1 */
+    qemu_savevm_state_setup(s-&gt;to_dst_file);
+
+    /* 省略部分代码 */
+
+    while (s-&gt;state == MIGRATION_STATUS_ACTIVE ||
+           s-&gt;state == MIGRATION_STATUS_POSTCOPY_ACTIVE) {
+        int64_t current_time;
+
+        if (!qemu_file_rate_limit(s-&gt;to_dst_file)) {
+            /* 对应 Stage 2 */
+            MigIterateState iter_state = migration_iteration_run(s);
+            if (iter_state == MIG_ITERATE_SKIP) {
+                continue;
+            } else if (iter_state == MIG_ITERATE_BREAK) {
+                break;
+            }
+        }
+
+        if (qemu_file_get_error(s-&gt;to_dst_file)) {
+            if (migration_is_setup_or_active(s-&gt;state)) {
+                migrate_set_state(&amp;s-&gt;state, s-&gt;state,
+                                  MIGRATION_STATUS_FAILED);
+            }
+            trace_migration_thread_file_err();
+            break;
+        }
+
+        current_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+
+        migration_update_counters(s, current_time);
+
+        if (qemu_file_rate_limit(s-&gt;to_dst_file)) {
+            /* usleep expects microseconds */
+            g_usleep((s-&gt;iteration_start_time + BUFFER_DELAY -
+                      current_time) * 1000);
+        }
+    }
+
+    trace_migration_thread_after_loop();
+    /* 对应 Stage 3 */
+    migration_iteration_finish(s);
+    rcu_unregister_thread();
+    return NULL;
+}
+</code></pre>
+<p><code>migration_thread</code>主要就是<strong>用来完成热迁移的三个步骤</strong>。</p>
+<p>首先来看<strong>第一个步骤</strong>，<code>qemu_savevm_state_setup</code>将标记所有的<code>RAM</code>为<code>dirty</code>：</p>
+<pre><code class="lang-c">void qemu_savevm_state_setup() /* savevm.c */
+  -&gt; SaveVMHandlers.save_setup /* block-dirty-bitmap.c */
+    -&gt; static int dirty_bitmap_save_setup() /* block-dirty-bitmap.c */
+      -&gt; static int init_dirty_bitmap_migration() /* block-dirty-bitmap.c */
+      -&gt; static void send_bitmap_start() /* block-dirty-bitmap.c */
+      -&gt; static void qemu_put_bitmap_flags() /* block-dirty-bitmap.c */
+</code></pre>
+<p><strong><em>未完待续…</em></strong></p>
+<h3 id="4-KVM-Migration-文档"><a href="#4-KVM-Migration-文档" class="headerlink" title="4. KVM Migration 文档"></a>4. KVM Migration 文档</h3><blockquote>
+<p>参考 <a href="https://www.linux-kvm.org/page/Migration" target="_blank" rel="noopener">Migration | KVM</a></p>
+</blockquote>
+<h4 id="迁移简介"><a href="#迁移简介" class="headerlink" title="迁移简介"></a>迁移简介</h4><p>KVM 目前支持<code>savevm/loadvm</code>即<strong>快照、静态迁移、动态迁移</strong>，可通过快捷键<code>Ctrl+Alt+2</code>调出<code>qemu-monitor</code>，并在其中通过<code>migrate</code>相关命令进行迁移操作。迁移成功完成后，VM 就可以在目标主机上继续运行。</p>
+<blockquote>
+<p>注意：支持在<code>AMD</code>和<code>Intel</code>主机之间进行迁移。通常情况下，64 位的 VM 仅可以被迁移至 64 位的 Host 运行，而 32 位的 VM 则可以迁移至 32 位或 64 位的 Host</p>
+</blockquote>
+<hr>
+<p><strong><em>未完待续…</em></strong></p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://www.qemu.org" target="_blank" rel="noopener">QEMU</a></li>
+<li><a href="https://wiki.qemu.org/Documentation" target="_blank" rel="noopener">QEMU Wiki</a></li>
+<li><a href="https://www.linux-kvm.org/page/Main_Page" target="_blank" rel="noopener">KVM</a></li>
+<li><a href="https://git.kernel.org/pub/scm/virt/kvm/kvm.git/" target="_blank" rel="noopener">kvm/kvm.git</a></li>
+<li><a href="https://www.linux-kvm.org/page/Documents" target="_blank" rel="noopener">KVM Documents</a></li>
+<li><a href="https://planet.virt-tools.org" target="_blank" rel="noopener">Virt Tools | Blogging about open source virtualization</a></li>
+<li><a href="https://www.linux-kvm.org/page/Migration" target="_blank" rel="noopener">Migration | KVM</a></li>
+<li><a href="https://lists.gnu.org/archive/html/qemu-devel/2011-04/pdfhC5rVdz7U8.pdf" target="_blank" rel="noopener">QEMU Detailed Study | PDF</a></li>
+<li><a href="https://blog.csdn.net/ayu_ag/article/details/52808349" target="_blank" rel="noopener">QEMU vl.c 源码学习 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/ayu_ag/article/details/52880416" target="_blank" rel="noopener">QEMU 参数解析 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/sdulibh/article/details/51839410" target="_blank" rel="noopener">qemu-kvm 部分流程/源代码分析 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/robinblog/article/details/8876599" target="_blank" rel="noopener">qemu 学习（一）———— qemu 整体流程解读 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/robinblog/article/details/8878767" target="_blank" rel="noopener">qemu 学习（二）———— qemu 中对处理器大小端的设置 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/robinblog/article/details/8879352" target="_blank" rel="noopener">qemu 学习（三）———— qemu 中反汇编操作解析 | CSDN</a></li>
+<li><a href="http://blog.chinaunix.net/uid-26941022-id-3510672.html" target="_blank" rel="noopener">QEMU 源码架构 | ChinaUnix</a></li>
+<li><a href="http://blog.chinaunix.net/uid-8679615-id-5710883.html" target="_blank" rel="noopener">QEMU 源码分析系列(二) | ChinaUnix</a></li>
+<li><a href="https://blog.51cto.com/dangzhiqiang/1752053" target="_blank" rel="noopener">QEMU-KVM 虚机动态迁移原理 | 51CTO</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/27055555" target="_blank" rel="noopener">虚拟化在线迁移优化实践（一）：KVM虚拟化跨机迁移原理 - UCloud 云计算 | 知乎</a></li>
+<li><a href="http://terenceli.github.io/%E6%8A%80%E6%9C%AF/2018/03/01/qemu-live-migration" target="_blank" rel="noopener">QEMU 热迁移简介 | 不忘初心，方得始终</a></li>
+<li><a href="https://developers.redhat.com/blog/2015/03/24/live-migrating-qemu-kvm-virtual-machines/" target="_blank" rel="noopener">Live Migrating QEMU-KVM Virtual Machines | Red Hat Developer</a></li>
+<li><a href="https://www.hanbaoying.com/2016/05/03/%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%BF%81%E7%A7%BB%E4%B9%8B%E7%83%AD%E8%BF%81%E7%A7%BB%28live_migrate%29.html" target="_blank" rel="noopener">虚拟机迁移之热迁移(live_migrate) | 随便写写</a></li>
+<li><a href="https://www.hanbaoying.com/pages/archive.html" target="_blank" rel="noopener">上面文章博主关于虚拟化的文章列表 | 随便写写</a></li>
+<li><a href="https://www.bbsmax.com/A/GBJrAoWz0e/" target="_blank" rel="noopener">KVM 虚拟机静态和动态迁移 | bbsmax</a></li>
+<li><a href="https://www.cnblogs.com/armlinux/archive/2011/05/10/2390904.html" target="_blank" rel="noopener">虚拟机活迁移揭秘 | 博客园</a></li>
+<li><a href="https://blog.csdn.net/wan_hust/article/details/25805431" target="_blank" rel="noopener">qemu-kvm-1.1.0 源码中关于迁移的代码分析 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/ustc_dylan/article/details/6784876" target="_blank" rel="noopener">QEMU 源码分析系列（一）| CSDN</a></li>
+<li><a href="https://blog.csdn.net/llwszjj/article/details/44805645" target="_blank" rel="noopener">qemu-kvm 虚拟机 live 迁移源代码解读 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/chdhust/article/details/8808731" target="_blank" rel="noopener">QEMU live migration 代码简单剖析 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/chdhust/article/details/8703131" target="_blank" rel="noopener">qemu-kvm savevm/loadvm 流程 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/wangwei222/article/details/81234504" target="_blank" rel="noopener">KVM/QEMU 2.3.0 虚拟机动态迁移分析（一）| CSDN</a></li>
+<li><a href="https://blog.csdn.net/wangwei222/article/details/81263271" target="_blank" rel="noopener">KVM/QEMU 2.3.0 虚拟机动态迁移分析（二）| CSDN</a></li>
+<li><a href="https://blog.csdn.net/wangwei222/article/details/81282442" target="_blank" rel="noopener">KVM/QEMU 2.3.0 虚拟机动态迁移分析（三）| CSDN</a></li>
+<li><a href="https://blog.csdn.net/mrbuffoon/article/details/53606356" target="_blank" rel="noopener">Qemu-KVM 虚拟机初始化及创建过程源码简要分析（一）| CSDN</a></li>
+<li><a href="https://blog.csdn.net/mrbuffoon/article/details/53607038" target="_blank" rel="noopener">Qemu-KVM 虚拟机初始化及创建过程源码简要分析（二）| CSDN</a></li>
+<li><a href="https://blog.csdn.net/llwszjj/article/details/44805645" target="_blank" rel="noopener">qemu-kvm 虚拟机live迁移源代码解读 | CSDN</a></li>
+<li><a href="https://me.csdn.net/u011414616" target="_blank" rel="noopener">北方南方的文章列表 | CSDN</a></li>
+<li><a href="https://www.hanbaoying.com/2017/04/07/qemu-hot-migration.html" target="_blank" rel="noopener">qemu 迁移代码分析 | 随便写写</a></li>
+<li><a href="http://chinaunix.net/uid-25739055-id-4412499.html" target="_blank" rel="noopener">QEMU live migration 代码简单剖析 | ChinaUnix</a></li>
+<li><a href="http://chinaunix.net/uid-25739055-id-4412492.html" target="_blank" rel="noopener">qemu-kvm 虚拟机 live 迁移源代码解读 | ChinaUnix</a></li>
+<li><a href="https://www.cnblogs.com/jusonalien/p/4772618.html" target="_blank" rel="noopener">qemu-kvm 磁盘读写的缓冲(cache)的五种模式 | jusonalien</a></li>
+<li><a href="https://www.cnblogs.com/jusonalien/p/4764798.html" target="_blank" rel="noopener">关于追踪 qemu 源码函数路径的一个方法 | jusonalien</a></li>
+<li><a href="https://blog.csdn.net/stray2b/article/details/81866065" target="_blank" rel="noopener">QEMU main 流程分析 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/heron804/article/details/7392478" target="_blank" rel="noopener">QEMU 翻译块（TB）分析 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/u014022631/article/details/81001263" target="_blank" rel="noopener">我见过最全的剖析 QEMU 原理的文章 | CSDN</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/09/02/virtio-in-kvm/">半虚拟化 I/O 框架 virtio</a></li><li><a href="https://abelsu7.top/2019/08/26/compile-kvm-module/">单独编译 KVM 内核模块</a></li><li><a href="https://abelsu7.top/2019/08/11/kvm-api-overview/">Kernel 2.6.32 中的 KVM API 概述</a></li><li><a href="https://abelsu7.top/2019/08/11/qemu-main-func/">QEMU 1.2.0 入口 main() 函数调用流程分析</a></li><li><a href="http://www.borgor.cn/2017-10-23/16f315c1.html">迁移 VMware 虚拟机到 KVM</a></li><li><a href="https://zsnmwy.net/47278.html">微星B350M 虚拟化开启 AMD-V</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.627Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/06/04/qemu-src-notes/" target="_blank" rel="external">https://abelsu7.top/2019/06/04/qemu-src-notes/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/KVM/">KVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QEMU/">QEMU</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/云计算/">云计算</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/虚拟化/">虚拟化</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/06/04/qemu-src-notes/&title=《QEMU 3.1.0 源码学习》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/06/04/qemu-src-notes/&title=《QEMU 3.1.0 源码学习》 — Keep Coding&source=
+QEMU 3.1.0 源码学习，更新中…
+
+
+                
+                    
+               ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/06/04/qemu-src-notes/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《QEMU 3.1.0 源码学习》 — Keep Coding&url=https://abelsu7.top/2019/06/04/qemu-src-notes/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/06/04/qemu-src-notes/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/06/05/gorm-notes/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Golang ORM 框架：GORM</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/05/31/sql-notes/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">SQL 必知必会</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/06/04/qemu-src-notes/&title=《QEMU 3.1.0 源码学习》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/06/04/qemu-src-notes/&title=《QEMU 3.1.0 源码学习》 — Keep Coding&source=
+QEMU 3.1.0 源码学习，更新中…
+
+
+                
+                    
+               ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/06/04/qemu-src-notes/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《QEMU 3.1.0 源码学习》 — Keep Coding&url=https://abelsu7.top/2019/06/04/qemu-src-notes/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/06/04/qemu-src-notes/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLklEQVR42u3aW27DMAwFUe9/0y7Q38DuXFIOamr0FaTx46gAIT6OA6/zd31+vv/m6qrP319dtXjJkCHjtYzzdl29BPnr/S/JN+TdZMiQsQ+DBNmrW5DH8M3ioVmGDBkySKBMD3xpMJUhQ4aMWsDlR8D0Dmm6K0OGjN0Y6Wvxchs/LH4pF5chQ8YLGZ3GwNOfv9TfkCFDxj9mnOHiZbh+KS14KxkyZIxm8LbiE81LHtDRfWTIkDGUUQuUaQGuc0+00TJkyNiMwcPc/Te8uJYOsKKAK0OGjEGMTlmfNwxqCXA8oCZDhoyhDB400wMfaV7ygbM/rpUhQ8ZoRnqM6ySincEOlNzKkCFjGwb/XCui8TCdjr3KkCFjKqOTvtbYZLIrraTJkCFjHwZ/TNp6LCalfGtkyJCxAYMnnOlL1JqU8ciaDBkyRjPSkNq5qjYo1vrPyJAhYwQjbTHykNrfoCAZliFDxmjG2mS1M1JGmgFky2TIkDGVwdsDZKXBd8GYhQwZMkYzeGgjBzVS4q8lq/EJV4YMGeMYJNjVQicalWgcGWXIkLEDoxN2V5XPDrxkyJCxJ6OToPLAmpb407aoDBkyZjPSYMePbsXKH8an42UyZMh4O4ME2dpARm3nivstQ4aMDRidkSxSUEuLbvwpMmTIkFFLR3mrsjMWVgy4MmTI2IyxdhQDBdarbZIhQ8YGDD5aWgyIYZoaD5bJkCFjNOO5WhZvG/BQW0uAZciQ8VrGD0jQYL7iHpAxAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

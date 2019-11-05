@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>配置终端代理解决 go get 命令国内无法使用 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="终端,Go,Git,代理">
+    <meta name="description" content="注：Golang 从1.13开始默认使用Go Mod，请切换至Go Mod并配置goproxy">
+<meta name="keywords" content="终端,Go,Git,代理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="配置终端代理解决 go get 命令国内无法使用">
+<meta property="og:url" content="https://abelsu7.top/2019/05/22/go-get-using-proxy/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="注：Golang 从1.13开始默认使用Go Mod，请切换至Go Mod并配置goproxy">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/05/22/go-get-using-proxy/bayern.jpg">
+<meta property="og:updated_time" content="2019-10-27T07:57:42.535Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="配置终端代理解决 go get 命令国内无法使用">
+<meta name="twitter:description" content="注：Golang 从1.13开始默认使用Go Mod，请切换至Go Mod并配置goproxy">
+<meta name="twitter:image" content="https://abelsu7.top/2019/05/22/go-get-using-proxy/bayern.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">配置终端代理解决 go get 命令国内无法使用</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">配置终端代理解决 go get 命令国内无法使用</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-05-22T07:04:24.000Z" itemprop="datePublished" class="page-time">
+  2019-05-22
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#问题描述"><span class="post-toc-text">问题描述</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方法-1：使用-Gopm"><span class="post-toc-text">方法 1：使用 Gopm</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方法-2：install-from-Github"><span class="post-toc-text">方法 2：install from Github</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方法-3：配置终端代理"><span class="post-toc-text">方法 3：配置终端代理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#for-Linux"><span class="post-toc-text">for Linux</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#for-Windows"><span class="post-toc-text">for Windows</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-go-get-using-proxy"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">配置终端代理解决 go get 命令国内无法使用</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-05-22 15:04:24" datetime="2019-05-22T07:04:24.000Z"  itemprop="datePublished">2019-05-22</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>注：Golang 从<code>1.13</code>开始默认使用<code>Go Mod</code>，请切换至<code>Go Mod</code>并配置<code>goproxy</code></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/05/22/go-get-using-proxy/bayern.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>国内使用<code>go get</code>命令时，Google 相关的域名例如<code>golang.org</code>经常被墙。</p>
+<h3 id="方法-1：使用-Gopm"><a href="#方法-1：使用-Gopm" class="headerlink" title="方法 1：使用 Gopm"></a>方法 1：使用 Gopm</h3><blockquote>
+<p><strong>注</strong>：<a href="https://github.com/gpmgo/gopm" target="_blank" rel="noopener">Gopm</a> 目前已停止维护</p>
+</blockquote>
+<p>使用<code>gopm get</code>命令替代<code>go get</code>：</p>
+<pre><code class="lang-bash">&gt; go get -u github.com/gpmgo/gopm
+
+&gt; gopm
+NAME:
+   Gopm - Go Package Manager
+
+USAGE:
+   Gopm [global options] command [command options] [arguments...]
+
+VERSION:
+   0.8.8.0307 Beta
+
+COMMANDS:
+   list         list all dependencies of current project
+   gen          generate a gopmfile for current Go project
+   get          fetch remote package(s) and dependencies
+   bin          download and link dependencies and build binary
+   config       configure gopm settings
+   run          link dependencies and go run
+   test         link dependencies and go test
+   build        link dependencies and go build
+   install      link dependencies and go install
+   clean        clean all temporary files
+   update       check and update gopm resources including itself
+   help, h      Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --noterm, -n         disable color output
+   --strict, -s         strict mode
+   --debug, -d          debug mode
+   --help, -h           show help
+   --version, -v        print the version
+</code></pre>
+<h3 id="方法-2：install-from-Github"><a href="#方法-2：install-from-Github" class="headerlink" title="方法 2：install from Github"></a>方法 2：install from Github</h3><blockquote>
+<p>参见 <a href="https://abelsu7.top/2018/12/28/go-vscode-plugin/">解决 VS Code 中 golang.org 被墙导致的 Go 插件安装失败问题</a></p>
+</blockquote>
+<h3 id="方法-3：配置终端代理"><a href="#方法-3：配置终端代理" class="headerlink" title="方法 3：配置终端代理"></a>方法 3：配置终端代理</h3><p>阅读<code>get.go</code>源码会发现，<code>go get</code><strong>命令通过</strong><code>git clone</code><strong>命令将远程仓库的代码拉取到本地</strong>。</p>
+<p>根据官方 <a href="https://github.com/golang/go/wiki/GoGetProxyConfig" target="_blank" rel="noopener">golang/go - GoGetProxyConfig | Github</a> 的说明，需要设置<code>git</code>的代理：</p>
+<pre><code class="lang-bash">&gt; git config [--global] http.proxy http://proxy.example.com:port
+</code></pre>
+<p>然而并没有起作用。。</p>
+<blockquote>
+<p>我在<code>Linux</code>和<code>Windows</code>的机器上都开启了<code>Shadowsocks</code>代理，<strong>本地端口</strong>为<code>1080</code></p>
+</blockquote>
+<p>搜索了一圈之后发现，<strong>需要设置</strong><code>http_proxy</code><strong>和</strong><code>https_proxy</code><strong>这两个环境变量</strong>。</p>
+<h4 id="for-Linux"><a href="#for-Linux" class="headerlink" title="for Linux"></a>for Linux</h4><p>我在<code>CentOS 7.5</code>的机器上<strong>已经使用</strong><code>ProxyChains-NG</code><strong>作为终端命令的代理程序</strong>，这样可以很方便的<strong>在需要代理的时候在命令前加上</strong><code>pc</code><strong>前缀</strong>（之前设置了<code>alias pc=&#39;proxychains4&#39;</code>）。</p>
+<p>而添加<code>http_proxy</code>环境变量后，<strong>所有终端命令的 HTTP 连接都会走代理</strong>，这并非我所期望的。因此不能直接在<code>~/.zshrc</code>中添加环境变量。</p>
+<p>我的解决方案是：<strong>将设置</strong><code>http_proxy</code><strong>与</strong><code>https_proxy</code><strong>环境变量的</strong><code>export</code><strong>命令单独写在 Shell 脚本中</strong>，需要走代理时直接<code>source</code>即可。</p>
+<p>首先以下内容另存为<code>export-http-proxy.sh</code>：</p>
+<pre><code class="lang-shell">#!/bin/bash
+export http_proxy=socks5://127.0.0.1:1080 # 代理地址
+export https_proxy=$http_proxy
+export | grep http
+</code></pre>
+<p>之后<strong>添加执行权限</strong></p>
+<pre><code class="lang-bash">&gt; chmod +x export-http-proxy.sh
+</code></pre>
+<p>最后</p>
+<pre><code class="lang-bash">&gt; source export-http-proxy.sh
+http_proxy=socks5://127.0.0.1:1080
+https_proxy=socks5://127.0.0.1:1080
+</code></pre>
+<p>这样就可以直接<code>go get</code>被墙的包了。</p>
+<h4 id="for-Windows"><a href="#for-Windows" class="headerlink" title="for Windows"></a>for Windows</h4><p>Windows 就非常简单了，<strong>直接设置以下环境变量</strong>：</p>
+<pre><code class="lang-powershell">http_proxy socks5://127.0.0.1:1080  # 代理地址
+https_proxy socks5://127.0.0.1:1080
+</code></pre>
+<p>要想<strong>临时添加代理</strong>，只需将以下内容保存为<code>http-proxy.bat</code>，需要时执行即可：</p>
+<pre><code class="lang-powershell">set http_proxy=socks5://127.0.0.1:1080
+set https_proxy=%http_proxy%
+</code></pre>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://gopm.io" target="_blank" rel="noopener">Gopm Registry</a></li>
+<li><a href="https://github.com/gpmgo/gopm" target="_blank" rel="noopener">Gopm | Github</a></li>
+<li><a href="https://github.com/golang/go/wiki/GoGetProxyConfig" target="_blank" rel="noopener">golang/go - GoGetProxyConfig | Github</a></li>
+<li><a href="https://blog.csdn.net/zhyhang/article/details/78444974" target="_blank" rel="noopener">go get 使用代理 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/ys5773477/article/details/73929161" target="_blank" rel="noopener">go get 命令被墙问题 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/wdy_yx/article/details/53045084" target="_blank" rel="noopener">解决go get timeout | CSDN</a></li>
+<li><a href="https://blog.csdn.net/littlebrain4solving/article/details/78871137" target="_blank" rel="noopener">Golang 依赖包下载时候代理设置 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/ning13481193737/article/details/84749871" target="_blank" rel="noopener">go get 设置代理 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/ys5773477/article/details/73929161" target="_blank" rel="noopener">go get 命令被墙问题 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/jason_cuijiahui/article/details/79305552" target="_blank" rel="noopener">国内的 go get 问题的解决 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/u013710468/article/details/88526200" target="_blank" rel="noopener">go get 国内解决办法汇总 | CSDN</a></li>
+<li><a href="https://blog.csdn.net/windzhu0514/article/details/81001113" target="_blank" rel="noopener">让 go get 显示进度 | CSDN</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/">使用 Gogs 自建 Git 服务</a></li><li><a href="https://abelsu7.top/2019/10/31/go-gin-swagger/">在 Gin 中使用 swaggo 自动生成 RESTful API 文档</a></li><li><a href="https://abelsu7.top/2019/10/24/go-build-compress-using-upx/">使用 upx 压缩 go build 打包的可执行文件</a></li><li><a href="https://abelsu7.top/2019/10/24/go-cross-compile/">Go 程序的交叉编译、选择性编译</a></li><li><a href="chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li><li><a href="www.chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-10-27T07:57:42.535Z" itemprop="dateUpdated">2019-10-27 15:57:42</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/05/22/go-get-using-proxy/" target="_blank" rel="external">https://abelsu7.top/2019/05/22/go-get-using-proxy/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/代理/">代理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/终端/">终端</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/05/22/go-get-using-proxy/&title=《配置终端代理解决 go get 命令国内无法使用》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/05/22/go-get-using-proxy/&title=《配置终端代理解决 go get 命令国内无法使用》 — Keep Coding&source=
+注：Golang 从1.13开始默认使用Go Mod，请切换至Go Mod并配置goproxy
+
+
+                
+         ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/05/22/go-get-using-proxy/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《配置终端代理解决 go get 命令国内无法使用》 — Keep Coding&url=https://abelsu7.top/2019/05/22/go-get-using-proxy/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/05/22/go-get-using-proxy/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/05/24/cpp-quick-reference/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">C++ 速查</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/05/22/temp-notes/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">本周文章汇总</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/05/22/go-get-using-proxy/&title=《配置终端代理解决 go get 命令国内无法使用》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/05/22/go-get-using-proxy/&title=《配置终端代理解决 go get 命令国内无法使用》 — Keep Coding&source=
+注：Golang 从1.13开始默认使用Go Mod，请切换至Go Mod并配置goproxy
+
+
+                
+         ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/05/22/go-get-using-proxy/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《配置终端代理解决 go get 命令国内无法使用》 — Keep Coding&url=https://abelsu7.top/2019/05/22/go-get-using-proxy/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/05/22/go-get-using-proxy/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACNklEQVR42u3aQW7DIBAF0Nz/0q7UVaTU9p+BVjU8Vlaa2DwvfgeG1ysex/d4v37/5Oz7n7/6vL7+1eSBgYHxWMZxOfJJXN8tfx1n3zm7JwYGxj6MPGTPHnwdl8lUrtk3c8bAwMC4jMW84EvCFwMDA2M8cBPq2YSSchMDAwNjZBGbRHC+7OwF8YS1OAYGxgMZvcbA31z/en8DAwPj3zOO4sgLx15kN2eFgYGxNKO3cZZMNJ907ymvZF2LgYGxECPZUEsmkYdjErW9F42BgbEeIy/+qlE4srmWvywMDIx9GHmpl7c2x9uWhSdiYGBsw+gdERvZqruO1/zfAAYGxg6M6nGHakCPL3RvSBgYGNswqsvX8bMQva3/m04sBgbGcoxqCOZFW77QHSlVMTAw9mSUF5DFqM2XxxgYGBjvpWG+cK2y8020oQjGwMDYmNFbmlY32pK/3pAwMDA2YFS3+5MjX9VDG/lBjR/ugIGBsRljPHDz4nLacQ0MDIylGXnDciRq8w24XksVAwNjbUb18fnWWBWQF6aF/gMGBsZCjGrRlj++t2+ftzwxMDB2YEw4qdFqKsw6ulFYxGJgYDyWcRRHUg6ORG1v2YyBgbE2oxp2SRwnvPH7YGBg7MZIQrZ6MKK6xTYhUjEwMDZgVMu+6ufljK/up2FgYGAEgduL4Ou2Zf5CMTAwMEYOoVYbk/mxsAmBi4GB8ShGbxL5ROeWm6eBi4GBsShj1sGIvKQb72BM6G9gYGA8g/EFT9RBz+FokVcAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

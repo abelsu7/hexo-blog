@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Hexo 博客安装 RSS 插件 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Hexo,RSS">
+    <meta name="description" content="RSS介绍RSS（Really Simple Syndication）是一种描述和同步网站内容的格式，是使用最广泛的XML应用。  RSS目前广泛用于网上新闻频道，博客和Wiki，主要的版本有0.91, 1.0, 2.0。使用RSS订阅能更快地获取信息，网络用户可以在客户端借助于支持RSS的聚合工具软件，在不打开网站内容页面的情况下阅读支持RSS输出的网站内容。  下面将介绍如何安装针对Hexo博">
+<meta name="keywords" content="Hexo,RSS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo 博客安装 RSS 插件">
+<meta property="og:url" content="https://abelsu7.top/2018/03/07/hexo-rss/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="RSS介绍RSS（Really Simple Syndication）是一种描述和同步网站内容的格式，是使用最广泛的XML应用。  RSS目前广泛用于网上新闻频道，博客和Wiki，主要的版本有0.91, 1.0, 2.0。使用RSS订阅能更快地获取信息，网络用户可以在客户端借助于支持RSS的聚合工具软件，在不打开网站内容页面的情况下阅读支持RSS输出的网站内容。  下面将介绍如何安装针对Hexo博">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.288Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo 博客安装 RSS 插件">
+<meta name="twitter:description" content="RSS介绍RSS（Really Simple Syndication）是一种描述和同步网站内容的格式，是使用最广泛的XML应用。  RSS目前广泛用于网上新闻频道，博客和Wiki，主要的版本有0.91, 1.0, 2.0。使用RSS订阅能更快地获取信息，网络用户可以在客户端借助于支持RSS的聚合工具软件，在不打开网站内容页面的情况下阅读支持RSS输出的网站内容。  下面将介绍如何安装针对Hexo博">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Hexo 博客安装 RSS 插件</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Hexo 博客安装 RSS 插件</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-03-07T08:54:00.000Z" itemprop="datePublished" class="page-time">
+  2018-03-07
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/前端/">前端</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#RSS介绍"><span class="post-toc-text">RSS介绍</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#安装插件"><span class="post-toc-text">安装插件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#添加配置"><span class="post-toc-text">添加配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#添加主题配置"><span class="post-toc-text">添加主题配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#重新部署"><span class="post-toc-text">重新部署</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-hexo-rss"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Hexo 博客安装 RSS 插件</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-03-07 16:54:00" datetime="2018-03-07T08:54:00.000Z"  itemprop="datePublished">2018-03-07</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/前端/">前端</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h4 id="RSS介绍"><a href="#RSS介绍" class="headerlink" title="RSS介绍"></a>RSS介绍</h4><p><strong>RSS</strong>（<em>Really Simple Syndication</em>）是一种描述和同步网站内容的格式，是使用最广泛的XML应用。</p>
+<blockquote>
+<p><strong>RSS</strong>目前广泛用于网上新闻频道，博客和Wiki，主要的版本有<code>0.91</code>, <code>1.0</code>, <code>2.0</code>。使用RSS订阅能更快地获取信息，网络用户可以在客户端借助于支持RSS的聚合工具软件，在不打开网站内容页面的情况下阅读支持RSS输出的网站内容。</p>
+</blockquote>
+<p>下面将介绍如何安装针对<strong>Hexo</strong>博客的RSS插件，并借助生成<code>atom.xml</code>文件提供RSS订阅服务。</p>
+<blockquote>
+<p><strong>Atom</strong>是一种订阅网志的格式，一种Web feed，与RSS类似但有更大的弹性。值得一提的是，Blogger和Gmail这两个由Google提供的服务都在使用Atom。</p>
+</blockquote>
+<h4 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h4><p>首先打开终端，进入本地<strong>Hexo</strong>根目录，通过<code>npm</code>安装RSS插件：</p>
+<pre><code class="lang-bash">npm install hexo-generator-feed
+</code></pre>
+<a id="more"></a>
+<h4 id="添加配置"><a href="#添加配置" class="headerlink" title="添加配置"></a>添加配置</h4><p>编辑本地<strong>Hexo</strong>根目录下的<code>_config.yml</code>文件，添加以下配置：</p>
+<pre><code class="lang-yaml"># Extensions
+## Plugins: https://hexo.io/plugins/
+# RSS订阅
+plugin:
+  - hexo-generator-feed
+# Feed Atom
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+</code></pre>
+<h4 id="添加主题配置"><a href="#添加主题配置" class="headerlink" title="添加主题配置"></a>添加主题配置</h4><p>在重新执行<code>hexo generate</code>命令渲染<code>Markdown</code>文件后，根目录下的<code>public/</code>目录中已经生成了所需的<code>atom.xml</code>文件。虽然文件已经存在，还需要在页面上添加订阅RSS的按钮。</p>
+<p>不同的<strong>Hexo</strong>主题对RSS的实现方式不尽相同。博主采用的主题是<code>Indigo</code>，可编辑主题目录下的<code>_config.yml</code>文件，添加新菜单项，链接设为<code>/atom.xml</code>即可（<em>对应你<code>atom.xml</code>文件的绝对路径</em> ）。如希望在新页面中打开链接，则需要将<code>target</code>属性设置为<code>_blank</code>：</p>
+<pre><code class="lang-yaml"># 添加新菜单项遵循以下规则
+# menu:
+#  link:               fontawesome图标，省略前缀，本主题前缀为 icon-，必须
+#    text: About       菜单显示的文字，如果省略即默认与图标一致，首字母会转大写
+#    url: /about       链接，绝对或相对路径，必须。
+#    target: _blank    是否跳出，省略则在当前页面打开
+menu:
+  rss:
+    text: RSS
+    url: /atom.xml
+    target: _blank
+</code></pre>
+<h4 id="重新部署"><a href="#重新部署" class="headerlink" title="重新部署"></a>重新部署</h4><p>最后，清空已有的静态文件，重新渲染<code>Markdown</code>文件，部署到服务器或<code>pages</code>服务上，大功告成！</p>
+<pre><code class="lang-bash">hexo clean
+hexo generate # or hexo g
+hexo deploy # or hexo d
+</code></pre>
+<h4 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h4><blockquote>
+<ol>
+<li><a href="http://blog.csdn.net/u011303443/article/details/52333695" target="_blank" rel="noopener">hexo博客安装RSS插件 | CSDN</a></li>
+<li><a href="https://baike.baidu.com/item/rss/24470?fr=aladdin" target="_blank" rel="noopener">RSS（简易信息聚合 | 百度百科）</a></li>
+<li><a href="https://baike.baidu.com/item/atom/353868#9999" target="_blank" rel="noopener">Atom（XML聚合格式）| 百度百科</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/05/21/rsshub-and-ttrss/">RSSHub + Awesome TTRSS 搭建 RSS 阅读器</a></li><li><a href="https://abelsu7.top/2019/02/28/hexo-pin-top/">Hexo 实现自定义文章置顶</a></li><li><a href="https://abelsu7.top/2018/10/29/hexo-mathjax/">在 Hexo 中使用 MathJax 渲染数学公式</a></li><li><a href="https://abelsu7.top/2018/09/13/valine-with-hexo/">利用 Valine 搭建 Hexo 无后端评论系统</a></li><li><a href="https://xugaoxiang.com/2019/09/28/Hexo博客添加网站地图/">Hexo博客文末添加网站地图</a></li><li><a href="http://xugaoxiang.com/2019/09/28/Hexo博客添加网站地图/">Hexo博客文末添加网站地图</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.288Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/03/07/hexo-rss/" target="_blank" rel="external">https://abelsu7.top/2018/03/07/hexo-rss/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RSS/">RSS</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/03/07/hexo-rss/&title=《Hexo 博客安装 RSS 插件》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/03/07/hexo-rss/&title=《Hexo 博客安装 RSS 插件》 — Keep Coding&source=RSS介绍RSS（Really Simple Syndication）是一种描述和同步网站内容的格式，是使用最广泛的XML应用。
+
+RSS目前广泛用于网上..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/03/07/hexo-rss/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hexo 博客安装 RSS 插件》 — Keep Coding&url=https://abelsu7.top/2018/03/07/hexo-rss/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/03/07/hexo-rss/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/03/15/vscode-guide/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">VS Code 使用指南</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/03/05/famous-saying-of-coding/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">那些你不可不知的编程名言</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/03/07/hexo-rss/&title=《Hexo 博客安装 RSS 插件》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/03/07/hexo-rss/&title=《Hexo 博客安装 RSS 插件》 — Keep Coding&source=RSS介绍RSS（Really Simple Syndication）是一种描述和同步网站内容的格式，是使用最广泛的XML应用。
+
+RSS目前广泛用于网上..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/03/07/hexo-rss/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hexo 博客安装 RSS 插件》 — Keep Coding&url=https://abelsu7.top/2018/03/07/hexo-rss/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/03/07/hexo-rss/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAAByUlEQVR42u3aQW7EIAwF0N7/0tNtpTbR/ybQafVYjUgiHrOwsM3HRzxe8fj6/vdvr2YeHri4uMvcfPmrZa6g9/T7+cst4eLiHuReRYz7d662Pfs77g24uLh/hXs/n4c8XFzc/8GdJTzJU1xc3Pfhzsoc96Hql3M1XFzcBW5epdz3e0t9FxcXd8R9lSMJT+3xqFgdFxf3CHdWDE3apbOmS1RewcXFPcJtGyH5NmpEsCIuLu4Zbp6EtCXOWch74IiDi4u7zM0TkpV2y6y0Omyo4OLiPsqdfZwErLZ5EyU/uLi427hJe3V2QMln6uQHFxf3CLeooJQ1ijqxyeu7uLi427h58yM/Eq1wo/IrLi7uNm4bVhJunibVRyhcXNwj3PayRduUXQ+R0d+Hi4u7gVs0MPLgUpZWi4tfuLi4B7krASi5cjH76ocVcXFxj3PzI8hKs2SpCIuLi7uZ+ypHjp4VT+ucDBcXdwO3DS6zKxrtwWiWaOHi4j7LzcsTSUhKnrZJFy4u7m9x85ZGsnCbUNW5Gi4u7ttzZ2nVUsaGi4v7Ztx2A7Nwdvk+Li7uQW57DWKYusToB3I1XFzcBW4bStbbHitXMXBxcTdzPwGc4TPSYthZkwAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

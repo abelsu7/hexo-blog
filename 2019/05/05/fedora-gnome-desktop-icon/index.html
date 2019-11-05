@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Fedora 30 显示桌面图标 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Fedora,Gnome">
+    <meta name="description" content="摘自 解决 fedora 28 桌面图标问题 | cnblog">
+<meta name="keywords" content="Fedora,Gnome">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fedora 30 显示桌面图标">
+<meta property="og:url" content="https://abelsu7.top/2019/05/05/fedora-gnome-desktop-icon/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自 解决 fedora 28 桌面图标问题 | cnblog">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/05/05/fedora-gnome-desktop-icon/cover.png">
+<meta property="og:image" content="https://abelsu7.top/2019/05/05/fedora-gnome-desktop-icon/nemo-desktop.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.235Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Fedora 30 显示桌面图标">
+<meta name="twitter:description" content="摘自 解决 fedora 28 桌面图标问题 | cnblog">
+<meta name="twitter:image" content="https://abelsu7.top/2019/05/05/fedora-gnome-desktop-icon/cover.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Fedora 30 显示桌面图标</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Fedora 30 显示桌面图标</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-05-05T09:46:49.000Z" itemprop="datePublished" class="page-time">
+  2019-05-05
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Fedora/">Fedora</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#问题描述"><span class="post-toc-text">问题描述</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解决办法"><span class="post-toc-text">解决办法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-安装-nemo"><span class="post-toc-text">1. 安装 nemo</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-创建自启动文件"><span class="post-toc-text">2. 创建自启动文件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-注销后重新登录"><span class="post-toc-text">3. 注销后重新登录</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-解决桌面图标无法移动"><span class="post-toc-text">4. 解决桌面图标无法移动</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-Gtk-WARNING-cannot-open-display-0-0"><span class="post-toc-text">5. Gtk-WARNING **: cannot open display: :0.0</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-fedora-gnome-desktop-icon"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Fedora 30 显示桌面图标</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-05-05 17:46:49" datetime="2019-05-05T09:46:49.000Z"  itemprop="datePublished">2019-05-05</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Fedora/">Fedora</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>摘自 <a href="https://www.cnblogs.com/guanine/p/9626418.html" target="_blank" rel="noopener">解决 fedora 28 桌面图标问题 | cnblog</a></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/05/05/fedora-gnome-desktop-icon/cover.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>在 <strong>Fedora 30</strong> 中，<strong>Gnome Desktop 默认是没有桌面图标的</strong>，只会显示背景，然而这样并不是很方便，我们可以根据需要<strong>手动开启桌面图标</strong>。</p>
+<h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><h4 id="1-安装-nemo"><a href="#1-安装-nemo" class="headerlink" title="1. 安装 nemo"></a>1. 安装 nemo</h4><pre><code class="lang-bash">&gt; dnf info nemo
+Available Packages
+Name         : nemo
+Version      : 4.0.6
+Release      : 2.fc30
+Architecture : i686
+Size         : 1.5 M
+Source       : nemo-4.0.6-2.fc30.src.rpm
+Repository   : fedora
+Summary      : File manager for Cinnamon
+URL          : https://github.com/linuxmint/nemo
+License      : GPLv2+ and LGPLv2+
+Description  : Nemo is the file manager and graphical shell for the Cinnamon desktop
+             : that makes it easy to manage your files and the rest of your system.
+             : It allows to browse directories on local and remote filesystems, preview
+             : files and launch applications associated with them.
+             : It is also responsible for handling the icons on the Cinnamon desktop.
+
+&gt; dnf install nemo
+</code></pre>
+<h4 id="2-创建自启动文件"><a href="#2-创建自启动文件" class="headerlink" title="2. 创建自启动文件"></a>2. 创建自启动文件</h4><p>创建<code>~/.config/autostart/nemo-autostart-with-gnome.desktop</code>，并在文件中保存以下内容：</p>
+<pre><code class="lang-bash">&gt; vim ~/.config/autostart/nemo-autostart-with-gnome.desktop
+
+[Desktop Entry]
+Type=Application
+Name=Nemo
+Comment=Start Nemo desktop at log in
+Exec=nemo-desktop
+OnlyShowIn=GNOME;
+AutostartCondition=GSettings org.nemo.desktop show-desktop-icons
+X-GNOME-AutoRestart=true
+NoDisplay=true
+</code></pre>
+<h4 id="3-注销后重新登录"><a href="#3-注销后重新登录" class="headerlink" title="3. 注销后重新登录"></a>3. 注销后重新登录</h4><p>此时已经<strong>配置完成</strong>，这时只需要<strong>注销后重新登录</strong>，或者<strong>直接按</strong><code>Alt+F2</code>，<strong>并输入</strong><code>nemo-desktop</code>，就可以看到熟悉的图标出现在桌面上：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/05/05/fedora-gnome-desktop-icon/nemo-desktop.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h4 id="4-解决桌面图标无法移动"><a href="#4-解决桌面图标无法移动" class="headerlink" title="4. 解决桌面图标无法移动"></a>4. 解决桌面图标无法移动</h4><p>这时虽然桌面已经出现了图标，但是<strong>无法进行拖拽移动等操作</strong>，需要<strong>在终端内输入如下命令</strong>：</p>
+<pre><code class="lang-bash">&gt; gsettings set org.nemo.desktop use-desktop-grid false
+</code></pre>
+<h4 id="5-Gtk-WARNING-cannot-open-display-0-0"><a href="#5-Gtk-WARNING-cannot-open-display-0-0" class="headerlink" title="5. Gtk-WARNING **: cannot open display: :0.0"></a>5. Gtk-WARNING **: cannot open display: :0.0</h4><p>例如以<code>abelsu</code>用户的身份登录系统，之后在终端执行<code>sudo su</code>切换至<code>root</code>用户后，在终端启动应用会报该错误。</p>
+<p>切换回<code>abelsu</code>用户，执行如下命令即可解决：</p>
+<pre><code class="lang-bash">&gt; xhost +
+access control disabled, clients can connect from any host
+</code></pre>
+<ul>
+<li><a href="https://www.linuxidc.com/Linux/2017-10/148145.htm" target="_blank" rel="noopener">sudo gedit 错误：Gtk-WARNING **: cannot open display: :0.0 | Linux 公社</a></li>
+<li><a href="http://www.vuln.cn/2747" target="_blank" rel="noopener">完美解决xhost +报错： unable to open display “” | 漏洞人生</a></li>
+<li><a href="https://czmmiao.iteye.com/blog/2141131" target="_blank" rel="noopener">DISPLAY 变量和 xhost | ITeye</a></li>
+</ul>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://www.cnblogs.com/guanine/p/9626418.html" target="_blank" rel="noopener">解决 fedora 28 桌面图标问题 | cnblog</a></li>
+<li><a href="https://fedoramagazine.org/changes-files-gnome-3-28/" target="_blank" rel="noopener">Changes to Files in GNOME 3.28 | Fedora Magazine</a></li>
+<li><a href="https://gitlab.gnome.org/GNOME/nautilus/issues/158#alternative-solution" target="_blank" rel="noopener">Remove desktop support - Alternative solution | Gnome GitLab</a></li>
+<li><a href="https://www.gnome-look.org/p/1203434/" target="_blank" rel="noopener">Fedora 27 Gnome | Gnome-Look.org</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/35586400" target="_blank" rel="noopener">Fedora 27 Workstation配置改造全记录+常用软件推荐和安装 | 知乎</a></li>
+</ol>
+</blockquote>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.235Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/05/05/fedora-gnome-desktop-icon/" target="_blank" rel="external">https://abelsu7.top/2019/05/05/fedora-gnome-desktop-icon/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Fedora/">Fedora</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gnome/">Gnome</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/05/05/fedora-gnome-desktop-icon/&title=《Fedora 30 显示桌面图标》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/05/05/fedora-gnome-desktop-icon/&title=《Fedora 30 显示桌面图标》 — Keep Coding&source=
+摘自 解决 fedora 28 桌面图标问题 | cnblog
+
+
+                
+                    
+    ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/05/05/fedora-gnome-desktop-icon/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Fedora 30 显示桌面图标》 — Keep Coding&url=https://abelsu7.top/2019/05/05/fedora-gnome-desktop-icon/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/05/05/fedora-gnome-desktop-icon/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/05/06/go-csp-example/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Go 语言 CSP 并发模型编程实例</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/04/30/win10-completely-remove-bluetooth-device/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Windows 10 彻底删除已配对的蓝牙设备</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/05/05/fedora-gnome-desktop-icon/&title=《Fedora 30 显示桌面图标》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/05/05/fedora-gnome-desktop-icon/&title=《Fedora 30 显示桌面图标》 — Keep Coding&source=
+摘自 解决 fedora 28 桌面图标问题 | cnblog
+
+
+                
+                    
+    ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/05/05/fedora-gnome-desktop-icon/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Fedora 30 显示桌面图标》 — Keep Coding&url=https://abelsu7.top/2019/05/05/fedora-gnome-desktop-icon/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/05/05/fedora-gnome-desktop-icon/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLElEQVR42u3ay1LDMAwF0P7/T5dtGUhzJaUMsU9WmZLWPlkI6/F4xNfz5Tr6/PWvR5/8vE9WuezCwMC4LeP59kqeqWJ6r+PoGQwMjH0YRxEsue9t7mj1PDRjYGBg9BhXPYmBgYFxFaP6O8kqGBgYGJMk9n1pLDkyJoW2j+fiGBgYN2TkVfe/v/9IfwMDA+NWjF65/yreZCffdoWBgbE0Iw9w70v/vYGJvMEZ7QcDA2NRRnU8Yh46e2NhJ59gYGBsw0jK973Sf695kJf8MDAwdmBMGpnVkD0/emJgYOzMmAfQ6lhqPoRxsiIGBsbSjElKOQm1k0Gx5qkTAwPjtoy8QZgPQ+ShNgefvA4MDIwNGPkC1fCaj25UQ/MvLUwMDIylGb1UtlC4LzY48+9e0LXAwMD494xJKzE5SiaHy17Si4GBsQ+j+nO9JDaviTXTYwwMjG0Y89JYtW7fPPYlzUsMDIxFGb1S12TAYrJ69H8DAwNjCUYeanvl/jwQ50nsyVoYGBiLMiaDXNXUNEmbm2MfGBgYGzDy4lpvsclBM9obBgbGZox8eKu6cKGbGh8oMTAw1mY8i1fyVnotybwhcRJqMTAwlmNcEK1bm6sW16rNAwwMjPUY8zJZdaPV4Yzm1zAwMJZjVENn3pKcPFlIfTEwMDBaA17VzeWrYGBgYEwCbu/AlySrJ0VADAyMDRi9odU8BPcaCfnhEgMDY21GNXWclNh6pbSkCIiBgbEo4wvdstsZE4C4bgAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

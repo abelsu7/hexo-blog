@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Docker 笔记 1：Docker 基础与搭建第一个 Docker 应用栈 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="读书,容器,Docker,Redis,Django,HAProxy">
+    <meta name="description" content="摘自 《Docker 容器与容器云（第2版）》                                                                                               《Docker 容器与容器云（第2版）》">
+<meta name="keywords" content="读书,容器,Docker,Redis,Django,HAProxy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 笔记 1：Docker 基础与搭建第一个 Docker 应用栈">
+<meta property="og:url" content="https://abelsu7.top/2019/01/08/docker-notes/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自 《Docker 容器与容器云（第2版）》                                                                                               《Docker 容器与容器云（第2版）》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/docker-notes/douban.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/docker-notes/dockerbook.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/docker-notes/cloud-arch.png">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/docker-notes/docker-bio.png">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/docker-notes/coreos.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/docker-notes/favicon.ico">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/docker-notes/segmentfault.ico">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/docker-notes/segmentfault.ico">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/docker-notes/docker-commands.png">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/docker-notes/docker-commands-2.png">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/docker-notes/docker-app-stack.png">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/docker-notes/APP1.png">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/docker-notes/APP2.png">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/docker-notes/helloworld.png">
+<meta property="og:image" content="https://abelsu7.top/2019/01/08/docker-notes/haproxy.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.171Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker 笔记 1：Docker 基础与搭建第一个 Docker 应用栈">
+<meta name="twitter:description" content="摘自 《Docker 容器与容器云（第2版）》                                                                                               《Docker 容器与容器云（第2版）》">
+<meta name="twitter:image" content="https://abelsu7.top/2019/01/08/docker-notes/douban.svg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Docker 笔记 1：Docker 基础与搭建第一个 Docker 应用栈</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Docker 笔记 1：Docker 基础与搭建第一个 Docker 应用栈</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-01-08T14:55:55.000Z" itemprop="datePublished" class="page-time">
+  2019-01-08
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Docker/">Docker</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-从容器到容器云"><span class="post-toc-text">1. 从容器到容器云</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-1-云计算平台"><span class="post-toc-text">1.1 云计算平台</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-2-容器技术生态系统"><span class="post-toc-text">1.2 容器技术生态系统</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-3-从容器到容器云"><span class="post-toc-text">1.3 从容器到容器云</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Docker-基础"><span class="post-toc-text">2. Docker 基础</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-Docker-的安装"><span class="post-toc-text">2.1 Docker 的安装</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-2-Docker-操作参数解读"><span class="post-toc-text">2.2 Docker 操作参数解读</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-Docker-环境信息"><span class="post-toc-text">1. Docker 环境信息</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-容器生命周期管理"><span class="post-toc-text">2. 容器生命周期管理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#docker-run-命令"><span class="post-toc-text">docker run 命令</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#docker-start-stop-restart-命令"><span class="post-toc-text">docker start/stop/restart 命令</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-Docker-registry"><span class="post-toc-text">3. Docker registry</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#docker-pull-命令"><span class="post-toc-text">docker pull 命令</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#docker-push-命令"><span class="post-toc-text">docker push 命令</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-镜像管理"><span class="post-toc-text">4. 镜像管理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#docker-images-命令"><span class="post-toc-text">docker images 命令</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#docker-rmi-rm-命令"><span class="post-toc-text">docker rmi/rm 命令</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-容器运维操作"><span class="post-toc-text">5. 容器运维操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#docker-attach-命令"><span class="post-toc-text">docker attach 命令</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#docker-inspect-命令"><span class="post-toc-text">docker inspect 命令</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#docker-ps-命令"><span class="post-toc-text">docker ps 命令</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-其他子命令"><span class="post-toc-text">6. 其他子命令</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#docker-commit-命令"><span class="post-toc-text">docker commit 命令</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#docker-events-history-logs-命令"><span class="post-toc-text">docker events/history/logs 命令</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-3-搭建第一个-Docker-应用栈"><span class="post-toc-text">2.3 搭建第一个 Docker 应用栈</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-获取应用栈各节点所需镜像"><span class="post-toc-text">1. 获取应用栈各节点所需镜像</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-应用栈容器节点互联"><span class="post-toc-text">2. 应用栈容器节点互联</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-应用栈容器节点启动"><span class="post-toc-text">3. 应用栈容器节点启动</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-应用栈容器节点的配置"><span class="post-toc-text">4. 应用栈容器节点的配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Redis-Master-主数据库容器节点的配置"><span class="post-toc-text">Redis Master 主数据库容器节点的配置</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Redis-Slave-从数据库容器节点的配置"><span class="post-toc-text">Redis Slave 从数据库容器节点的配置</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#APP-容器节点（-Django）的配置"><span class="post-toc-text">APP 容器节点（ Django）的配置</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#HAProxy-容器节点的配置"><span class="post-toc-text">HAProxy 容器节点的配置</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#应用栈访问测试"><span class="post-toc-text">应用栈访问测试</span></a></li></ol></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-docker-notes"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Docker 笔记 1：Docker 基础与搭建第一个 Docker 应用栈</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-01-08 22:55:55" datetime="2019-01-08T14:55:55.000Z"  itemprop="datePublished">2019-01-08</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Docker/">Docker</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>摘自 <img src="/2019/01/08/docker-notes/douban.svg"><a href="https://book.douban.com/subject/26894736/" target="_blank" rel="noopener">《Docker 容器与容器云（第2版）》</a></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/01/08/docker-notes/dockerbook.jpg" alt="《Docker 容器与容器云（第2版）》" title>
+                </div>
+                <div class="image-caption">《Docker 容器与容器云（第2版）》</div>
+            </figure>
+<a id="more"></a>
+<h2 id="1-从容器到容器云"><a href="#1-从容器到容器云" class="headerlink" title="1. 从容器到容器云"></a>1. 从容器到容器云</h2><h3 id="1-1-云计算平台"><a href="#1-1-云计算平台" class="headerlink" title="1.1 云计算平台"></a>1.1 云计算平台</h3><p><strong>经典云计算架构</strong>包括 <strong>IaaS</strong>（Infrastructure as a Service，基础设施即服务）、<strong>PaaS</strong>（Platform as a Service，平台即服务）、<strong>SaaS</strong>（Software as a Service，软件即服务）<strong>三层服务</strong>，如下图所示。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/01/08/docker-notes/cloud-arch.png" alt="云平台经典架构" title>
+                </div>
+                <div class="image-caption">云平台经典架构</div>
+            </figure>
+<h3 id="1-2-容器技术生态系统"><a href="#1-2-容器技术生态系统" class="headerlink" title="1.2 容器技术生态系统"></a>1.2 容器技术生态系统</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/01/08/docker-notes/docker-bio.png" alt="容器技术生态系统" title>
+                </div>
+                <div class="image-caption">容器技术生态系统</div>
+            </figure>
+<p>可以看出，<strong>容器技术生态系统</strong>自上而下分别覆盖了 <strong>IaaS 层</strong>和 <strong>PaaS 层</strong>所涉及的各类问题，包括<strong>资源调度、编排、部署、监控、配置管理、存储网络管理、安全、容器化应用支撑平台</strong>等。容器技术主要带来了以下几点好处：</p>
+<ul>
+<li><strong>持续部署与测试</strong>：容器<strong>消除了</strong>线上线下的<strong>环境差异</strong>，保证了应用生命周期的<strong>环境一致性</strong>和<strong>标准化</strong>。</li>
+<li><strong>跨云平台支持</strong>：越来越多的云平台都已支持容器，用户无需担心受到云平台的捆绑。</li>
+<li><strong>环境标准化和版本控制</strong>：可使用 <strong>Git</strong> 等工具对容器镜像进行版本控制。相比基于代码的版本控制来说，还能够<strong>对整个应用运行环境实现版本控制</strong>，一旦出现故障可以快速回滚。相比以前的虚拟机镜像，<strong>容器压缩和备份速度更快</strong>，镜像启动也像启动一个普通进程一样快速。</li>
+<li><strong>高资源利用率与隔离</strong>：容器没有管理程序的额外开销，<strong>与底层共享操作系统</strong>，性能更优，负载更低。同时，容器拥有不错的<strong>资源隔离与限制能力</strong>，可以精确的对应用分配 CPU、内存等资源，保证应用之间不会相互影响。</li>
+<li><strong>容器跨平台性与镜像</strong>：容器在原有 Linux 容器的基础上进行大胆革新，为容器设定了一整套标准化的配置方法，将<strong>应用及其依赖的运行环境</strong>打包成<strong>镜像</strong>，大大提高了容器的<strong>跨平台性</strong>。</li>
+<li><strong>易于理解且易用</strong>：<strong>Docker</strong> 的英文原意是<strong>处理集装箱的码头工人</strong>，标志是鲸鱼运送一大堆集装箱，<strong>集装箱就是容器</strong>。容器的<strong>易用性</strong>加速了<strong>容器标准化</strong>的步伐。</li>
+<li><strong>应用镜像仓库</strong>：Docker 官方构建了一个<strong>镜像仓库</strong>，已经累积了成千上万的镜像，所有人都可以自由的下载微服务组件，为开发者提供了巨大便利。</li>
+</ul>
+<h3 id="1-3-从容器到容器云"><a href="#1-3-从容器到容器云" class="headerlink" title="1.3 从容器到容器云"></a>1.3 从容器到容器云</h3><p><strong>容器云</strong>以容器为<strong>资源分割和调度的基本单位</strong>，封装整个<strong>软件运行时环境</strong>，为开发者和系统管理员提供用于<strong>构建、发布和运行分布式应用</strong>的平台。</p>
+<blockquote>
+<ul>
+<li>当容器云专注于<strong>资源共享与隔离、容器编排与部署</strong>时，它更接近传统的 <strong>IaaS</strong></li>
+<li>当容器云渗透到<strong>应用支撑与运行时环境</strong>时，它更接近传统的 <strong>PaaS</strong></li>
+</ul>
+</blockquote>
+<p>容器云并不仅限于 Docker，基于 <strong>rkt</strong> 容器的 <img src="/2019/01/08/docker-notes/coreos.svg"><a href="https://coreos.com" target="_blank" rel="noopener">CoreOS</a> 项目也是容器云。Docker 最初发布时只是一个单机下的容器管理工具，随后 Docker 公司发布了 <strong>Compose、Machine、Swarm</strong> 等<strong>编排部署工具</strong>，并收购了 Socketplane 解决<strong>集群化后的网络问题</strong>。</p>
+<p>除了 Docker 公司之外，业界许多云计算厂商也对基于 Docker 的容器云做了巨大的投入。例如 <strong>Fleet、Flynn、Deis</strong> 以及目前成为事实主流标准的 <strong>Kubernetes</strong>，都是基于 Docker 技术构建的广为人知的容器云。</p>
+<h2 id="2-Docker-基础"><a href="#2-Docker-基础" class="headerlink" title="2. Docker 基础"></a>2. Docker 基础</h2><h3 id="2-1-Docker-的安装"><a href="#2-1-Docker-的安装" class="headerlink" title="2.1 Docker 的安装"></a>2.1 Docker 的安装</h3><p><strong>安装 Docker</strong> 的<strong>基本要求</strong>如下：</p>
+<ul>
+<li>只支持 <strong>64 位 CPU 架构</strong>的计算机，目前<strong>不支持 32 位 CPU</strong></li>
+<li>建议系统的 <strong>Linux 内核版本</strong>为<code>3.10</code>及以上</li>
+<li><strong>Linux 内核</strong>需开启 <strong>cgroups</strong> 和 <strong>namespace</strong> 功能</li>
+</ul>
+<p>安装过程可参考 <img src="/2019/01/08/docker-notes/favicon.ico" width="16"><a href="https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/">CentOS 7 安装 Docker CE</a>。</p>
+<h3 id="2-2-Docker-操作参数解读"><a href="#2-2-Docker-操作参数解读" class="headerlink" title="2.2 Docker 操作参数解读"></a>2.2 Docker 操作参数解读</h3><blockquote>
+<p><code>docker</code>命令的执行一般都需要 <strong>root 权限</strong>，因为 Docker 的命令行工具<code>docker</code>与 <strong>Docker daemon</strong> 是同一个<strong>二进制文件</strong>，而 <strong>Docker daemon</strong> 负责接收并执行来自<code>docker</code>的命令，它的运行需要 <strong>root 权限</strong>。同时，从 Docker <code>0.5.2</code> 版本开始，<strong>Docker daemon</strong> 默认绑定一个 <strong>UNIX Socket</strong> 来代替原有的 <strong>TCP</strong> 端口，该 UNIX Socket 默认是属于 root 用户的。</p>
+</blockquote>
+<p>用户在使用 Docker 时，需要使用 <strong>Docker 命令行工具</strong><code>docker</code>与 <strong>Docker daemon</strong> 建立通信。<strong>Docker daemon</strong> 是 Docker <strong>守护进程</strong>，负责<strong>接收并分发执行 Docker 命令</strong>。可以使用<code>docker</code>或<code>docker help</code>命令获取<code>docker</code>的命令清单：</p>
+<pre><code class="lang-bash">&gt; docker
+
+Usage:  docker [OPTIONS] COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default &quot;/root/.docker&quot;)
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level (&quot;debug&quot;|&quot;info&quot;|&quot;warn&quot;|&quot;error&quot;|&quot;fatal&quot;) (default &quot;info&quot;)
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default &quot;/root/.docker/ca.pem&quot;)
+      --tlscert string     Path to TLS certificate file (default &quot;/root/.docker/cert.pem&quot;)
+      --tlskey string      Path to TLS key file (default &quot;/root/.docker/key.pem&quot;)
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  config      Manage Docker configs
+  container   Manage containers
+  image       Manage images
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  secret      Manage Docker secrets
+  service     Manage services
+  stack       Manage Docker stacks
+  swarm       Manage Swarm
+  system      Manage Docker
+  trust       Manage trust on Docker images
+  volume      Manage volumes
+</code></pre>
+<p>例如可以使用<code>docker start --help</code>命令来获取子命令<code>start</code>的详细信息：</p>
+<pre><code class="lang-bash">&gt; docker start --help
+
+Usage:  docker start [OPTIONS] CONTAINER [CONTAINER...]
+
+Start one or more stopped containers
+
+Options:
+  -a, --attach               Attach STDOUT/STDERR and forward signals
+      --detach-keys string   Override the key sequence for detaching a container
+  -i, --interactive          Attach container&#39;s STDIN
+</code></pre>
+<blockquote>
+<p>推荐阅读：</p>
+<ol>
+<li><img src="/2019/01/08/docker-notes/segmentfault.ico" width="16"><a href="https://segmentfault.com/a/1190000000751601" target="_blank" rel="noopener">docker专题(2)：docker常用管理命令（上）| Sean’s Notes</a></li>
+<li><img src="/2019/01/08/docker-notes/segmentfault.ico" width="16"><a href="https://segmentfault.com/a/1190000000759971" target="_blank" rel="noopener">docker专题(2)：docker常用管理命令（下）| Sean’s Notes</a></li>
+</ol>
+</blockquote>
+<p>根据<strong>命令的用途</strong>，可将 <strong>Docker 子命令</strong>进行如下<strong>分类</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/01/08/docker-notes/docker-commands.png" alt="Docker 子命令分类" title>
+                </div>
+                <div class="image-caption">Docker 子命令分类</div>
+            </figure>
+<p>从<code>docker</code><strong>命令的使用</strong>出发，可以梳理出如下的<strong>命令结构图</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/01/08/docker-notes/docker-commands-2.png" alt="Docker 命令结构图" title>
+                </div>
+                <div class="image-caption">Docker 命令结构图</div>
+            </figure>
+<p>下面选择每个功能分类中<strong>常用的子命令</strong>进行<strong>用法和操作参数</strong>的解读。</p>
+<h4 id="1-Docker-环境信息"><a href="#1-Docker-环境信息" class="headerlink" title="1. Docker 环境信息"></a>1. Docker 环境信息</h4><p><code>docker info</code>命令用于<strong>检查 Docker 是否正确安装</strong>。如果 Docker 正确安装，该命令会输出 <strong>Docker 的配置信息</strong>：</p>
+<pre><code class="lang-bash">&gt; docker info
+Containers: 33
+ Running: 20
+ Paused: 0
+ Stopped: 13
+Images: 23
+Server Version: 18.06.1-ce
+Storage Driver: overlay2
+...
+Kernel Version: 4.15.0-38-generic
+Operating System: Ubuntu 18.04.1 LTS
+...
+</code></pre>
+<p><code>docker info</code>命令一般结合<code>docker version</code>命令使用，两者结合能够提取到足够详细的 <strong>Docker 环境信息</strong>：</p>
+<pre><code class="lang-bash">&gt; docker version
+Client:
+ Version:           18.06.1-ce
+ API version:       1.38
+ Go version:        go1.10.3
+ Git commit:        e68fc7a
+ Built:             Tue Aug 21 17:24:56 2018
+ OS/Arch:           linux/amd64
+ Experimental:      false
+
+Server:
+ Engine:
+  Version:          18.06.1-ce
+  API version:      1.38 (minimum version 1.12)
+  Go version:       go1.10.3
+  Git commit:       e68fc7a
+  Built:            Tue Aug 21 17:23:21 2018
+  OS/Arch:          linux/amd64
+  Experimental:     false
+</code></pre>
+<h4 id="2-容器生命周期管理"><a href="#2-容器生命周期管理" class="headerlink" title="2. 容器生命周期管理"></a>2. 容器生命周期管理</h4><p>容器生命周期管理涉及容器启动、停止等功能。</p>
+<h5 id="docker-run-命令"><a href="#docker-run-命令" class="headerlink" title="docker run 命令"></a>docker run 命令</h5><p><code>docker run</code>命令使用方法如下：</p>
+<pre><code class="lang-bash">docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+</code></pre>
+<p><code>docker run</code>命令用来<strong>基于特定的镜像创建一个容器</strong>，并依据选项来控制该容器：</p>
+<pre><code class="lang-bash">&gt; docker run ubuntu echo &quot;Hello Docker&quot;
+Hello Docker
+</code></pre>
+<p>该命令从 <strong>ubuntu</strong> 镜像启动一个容器，并执行<code>echo</code>命令打印 <strong>Hello Docker</strong>。执行完<code>echo</code>命令后，容器将<strong>停止运行</strong>。<code>docker run</code>命令启动的容器会<strong>随机分配</strong>一个<strong>容器 ID</strong><code>CONTAINER ID</code>，用以标识该容器。</p>
+<pre><code class="lang-bash">root@ubuntu:~&gt; docker run -i -t --name mytest ubuntu:latest /bin/bash
+root@eb9dda25b0fe:/&gt;
+</code></pre>
+<p>上例中，<code>docker run</code>命令启动一个容器，并为它分配一个伪终端执行<code>/bin/bash</code>命令，用户可以在该伪终端与容器进行交互。其中：</p>
+<ul>
+<li><code>-i</code>：表示使用<strong>交互模式</strong>，始终<strong>保持输入流开放</strong></li>
+<li><code>-t</code>：表示分配一个<strong>伪终端</strong>，一般两个参数结合时使用<code>-it</code></li>
+<li><code>--name</code>：可以<strong>指定启动的容器的名字</strong>。若无此选项，Docker 将为容器<strong>随机分配</strong>一个名字</li>
+<li><code>-c</code>：用于给运行在容器中的<strong>所有进程</strong>分配 <strong>CPU</strong> 的 <strong>shares</strong> 值，这是一个<strong>相对权重</strong>，实际处理速度还与宿主机的 CPU 有关</li>
+<li><code>-m</code>：用于限制为容器中所有进程分配的<strong>内存总量</strong>，以 <strong>B、K、M、G</strong> 为单位</li>
+<li><code>-v</code>：用于<strong>挂载一个 volume</strong>，可以用多个<code>-v</code>参数同时挂载多个 <strong>volume</strong>。volume 的格式为<code>[host-dir]:[container-dir]:[rw|ro]</code></li>
+<li><code>-p</code>：用于<strong>将容器的端口暴露给宿主机的端口</strong>，其常用格式为<code>hostPort:containerPort</code>。这样外部主机就可以通过宿主机暴露的端口来访问容器内的应用</li>
+</ul>
+<h5 id="docker-start-stop-restart-命令"><a href="#docker-start-stop-restart-命令" class="headerlink" title="docker start/stop/restart 命令"></a>docker start/stop/restart 命令</h5><p>对于<strong>已经存在的容器</strong>，可以通过<code>docker start/stop/restart</code>命令来<strong>启动、停止和重启</strong>，一般利用<code>CONTAINER ID</code>标识来<strong>确定具体容器</strong>，某些情况下也使用<strong>容器名</strong>来确定容器。</p>
+<p><code>docker start</code>命令使用<code>-i</code>选项来开启<strong>交互模式</strong>，并始终保持输入流开放。使用<code>-a</code>选项来附加<strong>标准输入、输出或错误输出</strong>。此外，<code>docker stop</code>和<code>docker restart</code>命令使用<code>-t</code>选项来设定<strong>容器停止前的等待时间</strong>。</p>
+<h4 id="3-Docker-registry"><a href="#3-Docker-registry" class="headerlink" title="3. Docker registry"></a>3. Docker registry</h4><p><strong>Docker registry</strong> 是<strong>存储容器镜像的仓库</strong>，用户可以通过 <strong>Docker client</strong> 与 <strong>Docker registry</strong> 进行通信，以此来完成镜像的搜索、下载和上传等相关操作。</p>
+<blockquote>
+<p><strong>Docker Hub</strong> 是 Docker 公司官方提供的镜像仓库，提供<strong>镜像的公有与私有存储服务</strong>，是目前最主要的镜像来源。除此之外，用户还可以<strong>自行搭建私有服务器</strong>来实现镜像仓库功能。</p>
+</blockquote>
+<h5 id="docker-pull-命令"><a href="#docker-pull-命令" class="headerlink" title="docker pull 命令"></a>docker pull 命令</h5><p>用于从 <strong>Docker registry</strong> 中拉取 <strong>image</strong> 或 <strong>repository</strong>：</p>
+<pre><code class="lang-bash">docker pull [OPTIONS] NAME[:TAG @DIGEST]
+</code></pre>
+<p>使用示例如下：</p>
+<pre><code class="lang-bash"># 从官方 Hub 拉取 ubuntu:latest 镜像
+&gt; docker pull ubuntu
+# 从官方 Hub 拉取指明 &quot;ubuntu 16.04&quot; tag 的镜像
+&gt; docker pull ubuntu:16.04
+# 从特定的仓库拉取 ubuntu 镜像
+&gt; docker pull SEL/ubuntu
+# 从其他服务器拉取镜像
+&gt; docker pull 10.10.103.215:5000/sshd
+</code></pre>
+<h5 id="docker-push-命令"><a href="#docker-push-命令" class="headerlink" title="docker push 命令"></a>docker push 命令</h5><p>用于将本地的 <strong>image</strong> 或 <strong>repository</strong> 推送到 <strong>Docker Hub</strong> 的公共或私有镜像库，以及私有服务器：</p>
+<pre><code class="lang-bash">docker push [OPTIONS] NAME[:TAG]
+</code></pre>
+<p>使用示例如下：</p>
+<pre><code class="lang-bash">&gt; docker push SEL/ubuntu
+</code></pre>
+<h4 id="4-镜像管理"><a href="#4-镜像管理" class="headerlink" title="4. 镜像管理"></a>4. 镜像管理</h4><p>用户可以<strong>在本地保存镜像资源</strong>，为此 Docker 提供了相应的管理子命令。</p>
+<h5 id="docker-images-命令"><a href="#docker-images-命令" class="headerlink" title="docker images 命令"></a>docker images 命令</h5><p>通过<code>docker images</code>命令可以<strong>列出主机上的镜像</strong>，默认只列出最顶层的镜像。使用<code>-a</code>选项可以<strong>显示所有镜像</strong>：</p>
+<pre><code class="lang-bash">docker images [OPTIONS] [REPOSITORY[:TAG]]
+</code></pre>
+<p>使用示例如下：</p>
+<pre><code class="lang-bash">&gt; docker images
+REPOSITORY                    TAG                 IMAGE ID            CREATED             SIZE
+ubuntu                        16.04               b0ef3016420a        11 days ago         117MB
+influxdb                      latest              623f651910b3        7 weeks ago         238MB
+memcached                     latest              8230c836a4b3        7 weeks ago         62.2MB
+mongo                         3.2                 fb885d89ea5c        7 weeks ago         300MB
+mist/mailmock                 latest              95c29bda552f        7 weeks ago         299MB
+mist/docker-socat             latest              f00ed0eed13f        7 weeks ago         7.8MB
+mistce/logstash               v3-3-1              0f90a36d12c8        2 months ago        730MB
+mistce/api                    v3-3-1              4a21b676352f        2 months ago        705MB
+mistce/nginx                  v3-3-1              4f55dd9b39e0        2 months ago        109MB
+mistce/gocky                  v3-3-1              ee93caf66f70        2 months ago        440MB
+mistce/elasticsearch-manage   v3-3-1              10a48b9ea0e1        2 months ago        65.8MB
+mistce/ui                     v3-3-1              b8fdbe0ccb23        2 months ago        626MB
+ubuntu-with-vi-dockerfile     latest              74ba87f80b96        2 months ago        169MB
+ubuntu-with-vi                latest              9d2fac08719d        2 months ago        169MB
+ubuntu                        latest              ea4c82dcd15a        2 months ago        85.8MB
+centos                        latest              75835a67d134        3 months ago        200MB
+hello-world                   latest              4ab4c602aa5e        4 months ago        1.84kB
+elasticsearch                 5.6.10              73e6fdf8bd4f        4 months ago        486MB
+mistce/landing                v3-3-1              b0e433749aa9        5 months ago        532MB
+kibana                        5.6.10              bc661616b61c        5 months ago        389MB
+hello-world                   &lt;none&gt;              2cb0d9787c4d        6 months ago        1.85kB
+traefik                       v1.5                fde722950ccf        9 months ago        49.7MB
+mist/swagger-ui               latest              0b5230f1b6c4        10 months ago       24.8MB
+rabbitmq                      3.6.6-management    c74093aa9895        22 months ago       179MB
+</code></pre>
+<p>上例中，从<code>REPOSITORY</code>属性可以判断出镜像是来自于<strong>官方镜像、私人仓库</strong>还是<strong>私有服务器</strong>。</p>
+<h5 id="docker-rmi-rm-命令"><a href="#docker-rmi-rm-命令" class="headerlink" title="docker rmi/rm 命令"></a>docker rmi/rm 命令</h5><p><code>docker rmi</code>命令用于<strong>删除镜像</strong>，<code>docker rm</code>命令用于<strong>删除容器</strong>。它们可以同时删除多个镜像或容器，也可以按条件来删除：</p>
+<pre><code class="lang-bash">docker rm [OPTIONS] CONTAINER [CONTAINER...]
+docker rmi [OPTIONS] IMAGE [IMAGE...]
+</code></pre>
+<blockquote>
+<p>使用<code>docker rmi</code>命令删除镜像时，如果<strong>已有基于该镜像启动的容器存在</strong>，则<strong>无法直接删除，需要首先删除启动的容器</strong>。当然，这两个子命令都提供了<code>-f</code>选项，可以<strong>强制删除</strong>存在容器的镜像或启动中的容器。</p>
+</blockquote>
+<h4 id="5-容器运维操作"><a href="#5-容器运维操作" class="headerlink" title="5. 容器运维操作"></a>5. 容器运维操作</h4><p>作为 Docker 的核心，容器的操作是重中之重，Docker 也为用户提供了丰富的容器运维操作命令。</p>
+<h5 id="docker-attach-命令"><a href="#docker-attach-命令" class="headerlink" title="docker attach 命令"></a>docker attach 命令</h5><p><code>docker attach</code>命令可以<strong>连接到正在运行的容器</strong>，观察该容器的<strong>运行情况</strong>，或<strong>与容器的主进程进行交互</strong>：</p>
+<pre><code class="lang-bash">docker attach [OPTIONS] CONTAINER
+</code></pre>
+<h5 id="docker-inspect-命令"><a href="#docker-inspect-命令" class="headerlink" title="docker inspect 命令"></a>docker inspect 命令</h5><p><code>docker inspect</code>命令可以<strong>查看镜像和容器的详细信息</strong>，默认会列出全部信息，可以通过<code>--format</code>参数来<strong>指定输出的模板格式</strong>，以便输出特定信息：</p>
+<pre><code class="lang-bash">docker inspect [OPTIONS] CONTAINER|IMAGE [CONTAINER|IMAGE...]
+</code></pre>
+<p>具体示例如下：</p>
+<pre><code class="lang-bash">&gt; docker inspect --format=&#39;{{.NetworkSettings.IPAddress}}&#39; ee36
+172.17.0.8
+</code></pre>
+<h5 id="docker-ps-命令"><a href="#docker-ps-命令" class="headerlink" title="docker ps 命令"></a>docker ps 命令</h5><p><code>docker ps</code>命令可以<strong>查看容器的相关信息</strong>，默认<strong>只显示正在运行的容器</strong>的信息。可以查看到的信息包括<code>CONTAINER ID</code>、<code>NAMES</code>、<code>IMAGE</code>、<code>STATUS</code>、容器启动后执行的<code>COMMAND</code>、创建时间<code>CREATED</code>和绑定开启的端口<code>PORTS</code>：</p>
+<pre><code class="lang-bash">docker ps [OPTIONS]
+</code></pre>
+<p><code>docker ps</code>命令常用的选项有<code>-a</code>和<code>-l</code>。<code>-a</code>选项可以查看所有容器，包括停止的容器。<code>-l</code>选项则只查看最新创建的容器，包括不在运行中的容器。</p>
+<pre><code class="lang-bash">&gt; docker ps -a
+CONTAINER ID        IMAGE                       COMMAND                 CREATED             STATUS                         PORTS               NAMES
+8befe85aa9b2        ubuntu                      &quot;/bin/bash&quot;             4 minutes ago       Exited (0) 4 minutes ago                           elegant_hawking
+eb9dda25b0fe        ubuntu:latest               &quot;/bin/bash&quot;             About an hour ago   Exited (0) About an hour ago                       mytest
+33be0880de8a        ubuntu                      &quot;echo &#39;Hello Docker&#39;&quot;   About an hour ago   Exited (0) About an hour ago                       loving_neumann
+9dbd65001cc2        ubuntu                      &quot;echo hello&quot;            About an hour ago   Exited (0) About an hour ago                       zealous_mendeleev
+ee10555e84be        hello-world                 &quot;/hello&quot;                About an hour ago   Exited (0) About an hour ago                       friendly_mestorf
+4219345c98a0        ubuntu-with-vi-dockerfile   &quot;/bin/bash&quot;             2 months ago        Exited (0) 2 months ago                            ecstatic_wilson
+7257b9828da4        centos                      &quot;/bin/bash&quot;             2 months ago        Exited (0) 2 months ago                            hopeful_chaplygin
+26119a6e11bd        centos                      &quot;/bin/bash&quot;             2 months ago        Exited (0) 2 months ago                            brave_khorana
+f48bc1339340        ubuntu-with-vi              &quot;/bin/bash&quot;             2 months ago        Exited (127) 2 months ago                          agitated_hugle
+1abe6e7341ca        ubuntu                      &quot;/bin/bash&quot;             2 months ago        Exited (0) 2 months ago                            laughing_leavitt
+5c5eabb13be4        hello-world                 &quot;/hello&quot;                2 months ago        Exited (0) 2 months ago                            eloquent_wiles
+8f2f6854078c        2cb0d9787c4d                &quot;/hello&quot;                4 months ago        Exited (0) 4 months ago                            goofy_sinoussi
+
+&gt; docker ps -l
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                     PORTS               NAMES
+8befe85aa9b2        ubuntu              &quot;/bin/bash&quot;         6 minutes ago       Exited (0) 6 minutes ago                       elegant_hawking
+</code></pre>
+<h4 id="6-其他子命令"><a href="#6-其他子命令" class="headerlink" title="6. 其他子命令"></a>6. 其他子命令</h4><h5 id="docker-commit-命令"><a href="#docker-commit-命令" class="headerlink" title="docker commit 命令"></a>docker commit 命令</h5><p><code>docker commit</code>命令可以<strong>将一个容器固化为一个新的镜像</strong>：</p>
+<pre><code class="lang-bash">docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]
+</code></pre>
+<blockquote>
+<p>提交保存时，<strong>只能选用正在运行的容器来制作新的镜像</strong>。在制作特定镜像时，直接使用<code>docker commit</code>命令只是一个临时性的辅助命令，不推荐使用。<strong>官方建议</strong>通过<code>docker build</code>命令结合 <strong>Dockerfile</strong> 来创建和管理镜像。</p>
+</blockquote>
+<h5 id="docker-events-history-logs-命令"><a href="#docker-events-history-logs-命令" class="headerlink" title="docker events/history/logs 命令"></a>docker events/history/logs 命令</h5><p><code>docker events/history/logs</code> 这 3 个命令用于查看 Docker 的系统日志信息。<code>docker events</code>命令会打印出<strong>实时的系统事件</strong>。<code>docker history</code>命令会打印出<strong>指定镜像的历史版本信息</strong>，即构建该镜像的每一层镜像的<strong>命令记录</strong>。<code>docker logs</code>命令会打印出<strong>容器中进程的运行日志</strong>：</p>
+<pre><code class="lang-bash">docker events [OPTIONS]
+docker history [OPTIONS] IMAGE
+docker logs [OPTIONS] CONTAINER
+</code></pre>
+<h3 id="2-3-搭建第一个-Docker-应用栈"><a href="#2-3-搭建第一个-Docker-应用栈" class="headerlink" title="2.3 搭建第一个 Docker 应用栈"></a>2.3 搭建第一个 Docker 应用栈</h3><p><strong>Docker</strong> 的<strong>设计理念</strong>是希望用户能够保证<strong>一个容器只运行一个进程</strong>，即<strong>只提供一种服务</strong>。通常情况下，用户需要利用多个容器，分别提供不同的服务，并在不同容器间互连通信，最后形成一个 <strong>Docker 集群</strong>，以实现特定的功能。</p>
+<blockquote>
+<p>基于 Docker 集群构建的应用称为 <strong>Docker App Stack</strong>，即 <strong>Docker 应用栈</strong>。</p>
+</blockquote>
+<p>以下示例将在<strong>单台机器</strong>上利用 Docker 自带的<strong>命令行工具</strong>，搭建一个 <strong>Docker 应用栈</strong>，利用多个容器来组成一个特定的应用。</p>
+<p>在开始搭建过程前，需要对所要搭建的应用栈进行简单的设计和描述：我们将搭建一个包含 <strong>6 个节点</strong>的 Docker 应用栈，其中包括 <strong>1 个代理节点、2 个 Web 应用节点、1 个主数据库节点及 2 个从数据库节点</strong>。应用栈具体结构如下图所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/01/08/docker-notes/docker-app-stack.png" alt="Docker 应用栈结构图" title>
+                </div>
+                <div class="image-caption">Docker 应用栈结构图</div>
+            </figure>
+<blockquote>
+<p>如图所示，<strong>HAProxy</strong> 是<strong>负载均衡</strong>代理节点。<strong>Redis</strong> 是非关系型的<strong>数据库</strong>，它由一个<strong>主数据库节点</strong>和两个<strong>从数据库节点</strong>组成。<strong>App</strong> 是应用，这里将使用 <strong>Python</strong> 语言、基于 <strong>Django</strong> 架构设计一个访问数据库的基础 Web 应用。</p>
+</blockquote>
+<h4 id="1-获取应用栈各节点所需镜像"><a href="#1-获取应用栈各节点所需镜像" class="headerlink" title="1. 获取应用栈各节点所需镜像"></a>1. 获取应用栈各节点所需镜像</h4><p>在搭建过程中，可以从 <strong>Docker Hub</strong> 获取现有可用的镜像，在这些镜像的基础上启动容器，按照需求进行修改来实现既定的功能。</p>
+<pre><code class="lang-bash">&gt; docker pull ubuntu
+&gt; docker pull django
+&gt; docker pull haproxy
+&gt; docker pull redis
+&gt; docker images
+
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+haproxy             latest              d23194a3929a        40 hours ago        72MB
+redis               latest              5d2989ac9711        12 days ago         95MB
+ubuntu              latest              1d9c17228a9e        12 days ago         86.7MB
+django              latest              eb40dcf64078        2 years ago         436MB
+</code></pre>
+<h4 id="2-应用栈容器节点互联"><a href="#2-应用栈容器节点互联" class="headerlink" title="2. 应用栈容器节点互联"></a>2. 应用栈容器节点互联</h4><p>鉴于在同一主机下搭建容器应用栈的环境，只需要完成容器互联来实现容器间的通信即可，可以采用<code>docker run</code>命令的<code>--link</code>选项<strong>建立容器间的互联关系</strong>。使用示例如下：</p>
+<pre><code class="lang-bash">&gt; docker run --link redis:redis --name console ubuntu bash
+</code></pre>
+<p>上例将在 <strong>ubuntu</strong> 镜像上启动一个容器，并命名为<code>console</code>，同时<strong>将新启动的</strong><code>console</code><strong>容器连接到名为</strong><code>redis</code><strong>的容器上</strong>。</p>
+<blockquote>
+<p>通过<code>--link</code>选项来建立容器间的连接，不但可以<strong>避免容器的 IP 和端口暴露到外网所导致的安全问题</strong>，还可以<strong>防止容器在重启后 IP 地址变化导致的访问失效</strong>，原理类似于 DNS 的域名和地址映射。</p>
+</blockquote>
+<p>回到应用栈的搭建，<strong>应用栈各节点的连接信息</strong>如下：</p>
+<ul>
+<li>启动<code>redis-master</code>容器节点</li>
+<li>两个<code>redis-slave</code>容器节点启动时要连接到<code>redis-master</code>上</li>
+<li>两个 <strong>App</strong> 容器节点启动时要连接到<code>redis-master</code>上</li>
+<li><strong>HAProxy</strong> 容器节点启动时要连接到两个 <strong>App</strong> 节点上</li>
+</ul>
+<p>综上所述，容器的启动顺序为：</p>
+<pre><code class="lang-bash">redis-master --&gt; redis-slave --&gt; APP --&gt; HAProxy
+</code></pre>
+<p>此外，为了能够<strong>从外网访问应用栈</strong>，并通过 <strong>HAProxy</strong> 节点来访问应用栈中的 <strong>App</strong>，在启动 <strong>HAProxy</strong> 容器节点时，需要<strong>利用</strong><code>-p</code><strong>参数暴露端口给主机</strong>，即可从外网访问搭建的应用栈。以下是整个应用栈的搭建流程示例。</p>
+<h4 id="3-应用栈容器节点启动"><a href="#3-应用栈容器节点启动" class="headerlink" title="3. 应用栈容器节点启动"></a>3. 应用栈容器节点启动</h4><pre><code class="lang-bash"># 启动 Redis 容器
+&gt; docker run -it --name redis-master redis /bin/bash
+&gt; docker run -it --name redis-slave1 --link redis-master:master redis /bin/bash
+&gt; docker run -it --name redis-slave2 --link redis-master:master redis /bin/bash
+
+# 启动 Django 容器，即应用
+&gt; docker run -it --name APP1 --link redis-master:db -v ~/Projects/Django/App1:/usr/src/app django /bin/bash
+&gt; docker run -it --name APP2 --link redis-master:db -v ~/Projects/Django/App2:/usr/src/app django /bin/bash
+
+# 启动 HAProxy 容器
+&gt; docker run -it --name HAProxy --link APP1:APP1 --link APP2:APP2 -p 6301:6301 -v ~/Projects/HAProxy:/tmp haproxy /bin/bash
+</code></pre>
+<p>启动的容器信息可以通过<code>docker ps</code>命令查看：</p>
+<pre><code class="lang-bash">&gt; docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+733e71e16ac5        haproxy             &quot;/docker-entrypoint.…&quot;   30 seconds ago      Up 29 seconds       0.0.0.0:6301-&gt;6301/tcp   HAProxy
+3f91ac2a23a6        django              &quot;/bin/bash&quot;              47 seconds ago      Up 46 seconds                                APP2
+e94c7ff2c319        django              &quot;/bin/bash&quot;              3 minutes ago       Up 3 minutes                                 APP1
+5e7994e6ad59        redis               &quot;docker-entrypoint.s…&quot;   5 minutes ago       Up 4 minutes        6379/tcp                 redis-slave2
+6fac6db730c3        redis               &quot;docker-entrypoint.s…&quot;   8 minutes ago       Up 8 minutes        6379/tcp                 redis-slave1
+936c426faa29        redis               &quot;docker-entrypoint.s…&quot;   8 minutes ago       Up 8 minutes        6379/tcp                 redis-master
+</code></pre>
+<p>至此，所有搭建应用栈所需容器的启动工作已经完成。</p>
+<h4 id="4-应用栈容器节点的配置"><a href="#4-应用栈容器节点的配置" class="headerlink" title="4. 应用栈容器节点的配置"></a>4. 应用栈容器节点的配置</h4><h5 id="Redis-Master-主数据库容器节点的配置"><a href="#Redis-Master-主数据库容器节点的配置" class="headerlink" title="Redis Master 主数据库容器节点的配置"></a><strong><em>Redis Master 主数据库容器节点的配置</em></strong></h5><p><strong>Redis Master</strong> 主数据库容器节点启动后，我们需要在容器中<strong>添加 Redis 的启动配置文件</strong>，以<strong>启动 Redis 数据库</strong>。</p>
+<blockquote>
+<p>由于容器的轻量化设计，其中<strong>缺乏相应的文本编辑命令工具</strong>，这时可以利用 <strong>volume</strong> 来实现文件的创建。在容器启动时，<strong>利用</strong><code>-v</code><strong>参数挂载 volume，在主机和容器之间共享数据</strong>，就可以<strong>直接在主机上创建和编辑相关文件</strong>。</p>
+</blockquote>
+<p>在利用 <strong>Redis</strong> 镜像启动容器时，镜像中已经集成了 <strong>volume</strong> 的挂载命令，通过<code>docker inspect</code>命令<strong>查看</strong><code>redis-master</code><strong>所挂载 volume 的情况</strong>：</p>
+<pre><code class="lang-bash">&gt; docker inspect --format &quot;{{.Mounts}}&quot; redis-master
+[{volume a77509a99df7d7a9d78313c1a1bb19619bac98fedadd78dbab17f072a49a905c /var/lib/docker/volumes/a77509a99df7d7a9d78313c1a1bb19619bac98fedadd78dbab17f072a49a905c/_data /data local  true }]
+</code></pre>
+<p>可以发现，该 volume <strong>在主机中的目录</strong>为<code>/var/lib/docker/volumes/a77509a99df7d7a9d78313c1a1bb19619bac98fedadd78dbab17f072a49a905c/_data</code>，<strong>在容器中的目录</strong>为<code>/data</code>。进入主机目录<strong>创建 Redis 的启动配置文件</strong>：</p>
+<pre><code class="lang-bash">&gt; cd /var/lib/docker/volumes/a77509a99df7d7a9d78313c1a1bb19619bac98fedadd78dbab17f072a49a905c/_data
+&gt; cp &lt;your-own-redis-dir&gt;/redis.conf redis.conf
+&gt; vim redis.conf
+</code></pre>
+<p>对于 <strong>Redis 主数据库</strong>，需要修改模板文件中的如下几个参数：</p>
+<pre><code class="lang-bash">daemonize yes
+pidfile /var/run/redis.pid
+protected-mode no # 关闭保护模式
+</code></pre>
+<p>在主机创建好启动配置文件后，切换到容器中的 volume 目录，并<strong>复制</strong><code>redis.conf</code><strong>到 Redis 的执行工作目录</strong>，然后<strong>启动 Redis 服务器</strong>：</p>
+<pre><code class="lang-bash">&gt; cd /data
+&gt; cp redis.conf /usr/local/bin/
+&gt; cd /usr/local/bin/
+&gt; redis-server redis.conf
+</code></pre>
+<h5 id="Redis-Slave-从数据库容器节点的配置"><a href="#Redis-Slave-从数据库容器节点的配置" class="headerlink" title="Redis Slave 从数据库容器节点的配置"></a><strong><em>Redis Slave 从数据库容器节点的配置</em></strong></h5><p>与<code>redis-master</code>容器节点类似，在启动<code>redis-slave</code>容器节点后，首先需要<strong>查看 volume 信息</strong>，然后<strong>将</strong><code>redis.conf</code><strong>复制到对应的目录中</strong>。不同的是，对于 <strong>Redis 从数据库</strong>，需要修改如下几个参数：</p>
+<pre><code class="lang-bash">daemonize yes
+pidfile /var/run/redis.pid
+protected-mode no # 关闭保护模式
+replicaof master 6379 # 之前是 slaveof
+</code></pre>
+<blockquote>
+<p><code>replicaof</code><strong>参数的使用格式</strong>为<code>replicaof &lt;masterip&gt; &lt;masterport&gt;</code></p>
+</blockquote>
+<p>在主机修改好<code>redis.conf</code>配置文件后，切换到容器中的<code>/data</code>目录，并<strong>复制配置文件到 Redis 的执行工作目录</strong>，然后<strong>启动 Redis 服务器</strong>：</p>
+<pre><code class="lang-bash">&gt; cd /data
+&gt; cp redis.conf /usr/local/bin/
+&gt; cd /usr/local/bin/
+&gt; redis-server redis.conf
+594:C 10 Jan 2019 23:10:43.936 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+594:C 10 Jan 2019 23:10:43.936 # Redis version=5.0.3, bits=64, commit=00000000, modified=0, pid=594, just started
+594:C 10 Jan 2019 23:10:43.936 # Configuration loaded
+</code></pre>
+<p>同理，可以完成对另一个 Redis Slave 容器节点的配置。至此，便<strong>完成了所有 Redis 数据库容器节点的配置</strong>。</p>
+<p><strong><em>Redis 数据库容器节点的测试</em></strong></p>
+<p>完成 <strong>Redis Master</strong> 和 <strong>Redis Slave</strong> 容器节点的配置以及服务器的启动后，可以通过启动<code>redis-cli</code>来测试数据库。</p>
+<p>首先，在<code>redis-master</code>容器内，启动<code>redis-cli</code>，并存储一个数据：</p>
+<pre><code class="lang-bash">&gt; redis-cli
+127.0.0.1:6379&gt; info replication
+# Replication
+role:master
+connected_slaves:2
+slave0:ip=172.17.0.3,port=6379,state=online,offset=1260,lag=0
+slave1:ip=172.17.0.4,port=6379,state=online,offset=1260,lag=0
+master_replid:295c948cc1bbdf21eb49fdd8417ba5b4b76fc32b
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:1260
+second_repl_offset:-1
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:1
+repl_backlog_histlen:1260
+127.0.0.1:6379&gt; set master 936c
+OK
+127.0.0.1:6379&gt; get master
+&quot;936c&quot;
+</code></pre>
+<p>随后，在<code>redis-slave1</code>和<code>redis-slave2</code>两个容器中，分别启动<code>redis-cli</code>并<strong>查询先前在</strong><code>redis-master</code><strong>数据库中存储的数据</strong>：</p>
+<pre><code class="lang-bash">&gt; redis-cli
+127.0.0.1:6379&gt; info replication
+# Replication
+role:slave
+master_host:master
+master_port:6379
+master_link_status:up
+master_last_io_seconds_ago:3
+master_sync_in_progress:0
+slave_repl_offset:1330
+slave_priority:100
+slave_read_only:1
+connected_slaves:0
+master_replid:295c948cc1bbdf21eb49fdd8417ba5b4b76fc32b
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:1330
+second_repl_offset:-1
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:127
+repl_backlog_histlen:1204
+127.0.0.1:6379&gt; get master
+&quot;936c&quot;
+</code></pre>
+<p>可以看到<code>redis-master</code><strong>主数据库中的数据已经自动同步到了两个从数据库中</strong>。至此，应用栈的数据库部分已搭建完成，并通过测试。</p>
+<h5 id="APP-容器节点（-Django）的配置"><a href="#APP-容器节点（-Django）的配置" class="headerlink" title="APP 容器节点（ Django）的配置"></a><strong><em>APP 容器节点（ Django）的配置</em></strong></h5><p><strong>Django</strong> 容器启动后，需要利用 <strong>Django</strong> 框架，开发一个简单的 Web 程序。</p>
+<p>为了访问数据库，需要<strong>在容器中安装 Python 语言的 Redis 支持包</strong>：</p>
+<pre><code class="lang-bash">&gt; pip install redis
+</code></pre>
+<p>安装完成后，<strong>验证 Redis 支持包是否安装成功</strong>：</p>
+<pre><code class="lang-python">&gt; python
+Python 3.4.5 (default, Dec 14 2016, 18:54:20) 
+[GCC 4.9.2] on linux
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt; import redis
+&gt;&gt;&gt; print(redis.__file__)
+/usr/local/lib/python3.4/site-packages/redis/__init__.py
+</code></pre>
+<p>如果没有报错，就说明已经可以使用 Python 语言来调用 Redis 数据库。接下来开始创建 Web 程序。以<code>APP1</code>为例，首先<strong>在容器的 volume 目录</strong><code>/usr/src/app/</code><strong>下创建 APP</strong>：</p>
+<pre><code class="lang-bash"># 在容器内
+&gt; cd /usr/src/app/
+&gt; mkdir dockerweb
+&gt; cd dockerweb/
+&gt; django-admin.py startproject redisweb
+&gt; ls
+redisweb
+&gt; cd redisweb
+&gt; ls
+manage.py redisweb
+&gt; python manage.py startapp helloworld
+&gt; ls
+helloworld manage.py redisweb
+</code></pre>
+<p>在容器内创建好 APP 后，切换到主机的 <strong>volume</strong> 目录<code>~/Projects/Django/App1</code>，<strong>进行相应的编辑来配置 APP</strong>：</p>
+<pre><code class="lang-bash"># 在主机内
+&gt; cd ~/Projects/Django/App1
+&gt; ls
+dockerweb
+</code></pre>
+<p>可以看到，<strong>在容器内创建的 APP 文件在主机的 volume 目录下同样可见</strong>。之后修改<code>helloworld</code>应用的<strong>视图文件</strong><code>views.py</code>：</p>
+<pre><code class="lang-bash">&gt; cd dockerweb/redisweb/helloworld
+&gt; ls
+admin.py  __init__.py  models.py  views.py  apps.py   migrations  tests.py
+&gt; vim views.py
+</code></pre>
+<p>为了简化设计，只要求完成 <strong>Redis 数据库信息输出</strong>，以及<strong>从 Redis 数据库存储和读取数据的结果输出</strong>。<code>viwes.py</code>文件如下：</p>
+<pre><code class="lang-python">from django.shortcuts import render
+from django.http import HttpResponse
+
+# Create your views here.
+import redis
+
+def hello(request):
+    str = redis.__file__
+    str += &quot;&lt;br&gt;&quot;
+    r = redis.Redis(host=&quot;db&quot;, port=6379, db=0)
+    info = r.info()
+    str += (&quot;Set Hi &lt;br&gt;&quot;)
+    r.set(&#39;Hi&#39;, &#39;HelloWorld-APP1&#39;)
+    str += (&quot;Get Hi: %s &lt;br&gt;&quot; % r.get(&#39;Hi&#39;))
+    str += (&quot;Redis Info: &lt;br&gt;&quot;)
+    str += (&quot;Key: Info Value&quot;)
+    for key in info:
+        str += (&quot;%s: %s &lt;br&gt;&quot; % (key, info[key]))
+    return HttpResponse(str)
+</code></pre>
+<p>完成<code>views.py</code>文件修改后，接下来<strong>修改</strong><code>redisweb</code><strong>项目的配置文件</strong><code>setting.py</code>，并<strong>添加新建的</strong><code>helloworld</code><strong>应用</strong>：</p>
+<pre><code class="lang-bash">&gt; cd ../redisweb/
+&gt; ls
+__init__.py  __pycache__  settings.py  urls.py  wsgi.py
+&gt; vim settings.py
+</code></pre>
+<p>在<code>settings.py</code>文件中的<code>INSTALLED_APPS</code>选项下添加 <strong>helloworld</strong>，并修改<code>ALLOWED_HOSTS</code>：</p>
+<pre><code class="lang-python"># SECURITY WARNING: don&#39;t run with debug turned on in production!
+DEBUG = True
+
+ALLOWED_HOSTS = [&#39;*&#39;]
+
+
+# Application definition
+
+INSTALLED_APPS = [
+    &#39;django.contrib.admin&#39;,
+    &#39;django.contrib.auth&#39;,
+    &#39;django.contrib.contenttypes&#39;,
+    &#39;django.contrib.sessions&#39;,
+    &#39;django.contrib.messages&#39;,
+    &#39;django.contrib.staticfiles&#39;,
+    &#39;helloworld&#39;
+]
+</code></pre>
+<blockquote>
+<p>此处为了演示方便将<code>ALLOWED_HOSTS</code>设置为<code>[&#39;*&#39;]</code>即<strong>允许所有连接</strong>，在实际开发环境中<strong>请勿按此设置</strong>。另外在<strong>生产环境</strong>中还需<strong>将</strong><code>DEBUG</code><strong>选项设置为</strong><code>False</code>。</p>
+</blockquote>
+<p>最后，修改<code>redisweb</code>项目的 <strong>URL 模式文件</strong><code>urls.py</code>，它将<strong>设置访问应用的 URL 模式</strong>，并为 URL 模式<strong>调用视图函数之间的映射表</strong>：</p>
+<pre><code class="lang-bash">&gt; vim urls.py
+</code></pre>
+<p>在<code>urls.py</code>文件中，引入 <strong>helloworld</strong> 应用的<code>hello</code>视图，并<strong>为</strong><code>hello</code><strong>视图添加一个</strong><code>urlpatterns</code><strong>变量</strong>。<code>urls.py</code>文件内容如下：</p>
+<pre><code class="lang-python">from django.conf.urls import url
+from django.contrib import admin
+from helloworld.views import hello
+
+urlpatterns = [
+    url(r&#39;^admin/&#39;, admin.site.urls),
+    url(r&#39;^helloworld$&#39;, hello),
+]
+</code></pre>
+<p>在主机下修改完成这几个文件后，需要<strong>再次进入</strong><code>APP1</code><strong>容器</strong>，在目录<code>/usr/src/app/dockerweb/redisweb</code>下<strong>完成项目的生成</strong>：</p>
+<pre><code class="lang-bash">&gt; python manage.py makemigrations
+No changes detected
+&gt; python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying sessions.0001_initial... OK
+&gt; python manage.py createsuperuser
+Username (leave blank to use &#39;root&#39;): admin
+Email address: admin@gmail.com
+Password: 
+Password (again): 
+Superuser created successfully.
+</code></pre>
+<blockquote>
+<p><strong>旧版本的 Django</strong> 使用<code>syncdb</code>命令来同步数据库并创建<code>admin</code>账户。在<strong>新版 Django 中</strong><code>syncdb</code><strong>命令已被移除</strong>，使用<code>createsuperuser</code>命令<strong>创建管理员账户</strong>。</p>
+</blockquote>
+<p>至此，<code>APP1</code>容器的所有配置已经完成，另一个<code>APP2</code>容器配置也是同样的过程，这样就完成了<strong>应用栈 APP 部分的全部配置</strong>。</p>
+<p>在启动 APP 的 Web 服务器时，可以<strong>指定服务器的端口和 IP 地址</strong>。为了<strong>通过 HAProxy 容器节点接受外网所有的公共 IP 地址访问</strong>，实现<strong>负载均衡</strong>，需要指定服务器的 IP 地址和端口。对于<code>APP1</code>使用 <strong>8001</strong> 端口，而<code>APP2</code>则使用 <strong>8002</strong> 端口。同时，都使用<code>0.0.0.0</code>地址。以<code>APP1</code>为例，启动服务器的过程如下：</p>
+<pre><code class="lang-bash">&gt; python manage.py runserver 0.0.0.0:8001
+Performing system checks...
+
+System check identified no issues (0 silenced).
+January 11, 2019 - 03:35:58
+Django version 1.10.4, using settings &#39;redisweb.settings&#39;
+Starting development server at http://0.0.0.0:8001/
+Quit the server with CONTROL-C.
+[11/Jan/2019 03:37:01] &quot;GET /helloworld HTTP/1.1&quot; 200 3999
+[11/Jan/2019 03:37:14] &quot;GET /admin/ HTTP/1.1&quot; 200 2779
+...
+</code></pre>
+<h5 id="HAProxy-容器节点的配置"><a href="#HAProxy-容器节点的配置" class="headerlink" title="HAProxy 容器节点的配置"></a><strong><em>HAProxy 容器节点的配置</em></strong></h5><p>在完成了数据库和 APP 部分的应用栈部署后，最后部署一个 <strong>HAProxy 负载均衡代理</strong>的容器节点，<strong>所有对应用栈的访问将通过它来实现负载均衡</strong>。</p>
+<p>首先，将 HAProxy 的<strong>启动配置文件</strong>复制进容器中。在主机的 <strong>volume</strong> 目录<code>~/Projects/HAProxy</code>下，执行以下命令：</p>
+<pre><code class="lang-bash">&gt; cd ~/Projects/HAProxy
+&gt; vim haproxy.cfg
+</code></pre>
+<p>其中，<code>haproxy.cfg</code><strong>配置文件</strong>的内容如下：</p>
+<pre><code class="lang-python">global
+    log 127.0.0.1  local0  # 日志输入配置，所有日志都记录在本机，通过 local0 输出
+    maxconn 4096   # 最大连接数
+    chroot /usr/local/sbin # 改变当前工作目录
+    daemon         # 以后台形式运行 HAProxy 实例
+    nbproc 4       # 启动 4 个 HAProxy 实例
+    pidfile /usr/local/sbin/haproxy.pid  # pid 文件位置
+
+defaults
+    log      127.0.0.1   local3   # 日志文件的输出定向
+    mode     http           # { tcp|http|health } 设定启动实例的协议类型
+    option   dontlognull    # 保证 HAProxy 不记录上级负载均衡发送过来的用于检测状态没有数据的心跳包
+    option   redispatch     # 当 serverId 对应的服务器挂掉后，强制定向到其他健康&gt;的服务器
+    retries  2              # 重试 2 次连接失败就认为服务器不可用，主要通过后面的 check 检查
+    maxconn  2000           # 最大连接数
+    balance roundrobin      # balance 有两个可用选项：roundrobin 和 source，其中,roundrobin 表示
+                            # 轮询，而 source 表示 HAProxy 不采用轮询的策略，而是把来自某个 IP 的请求转发给一个固定 IP 的后端
+    timeout connect 5000ms  # 连接超时时间
+    timeout client 50000ms  # 客户端连接超时时间
+    timeout server 50000ms  # 服务器端连接超时时间
+
+listen redis_proxy 
+    bind 0.0.0.0:6301
+    stats enable
+    stats uri /haproxy-stats
+        server APP1 APP1:8001 check inter 2000 rise 2 fall 5  # 你的均衡节点
+        server APP2 aPP2:8002 check inter 2000 rise 2 fall 5
+</code></pre>
+<p>随后，进入到容器的 <strong>volume</strong> 目录<code>/tmp</code>下，将 <strong>HAProxy</strong> 的<strong>启动配置文件</strong>复制到 <strong>HAProxy</strong> 的<strong>工作目录</strong>中：</p>
+<pre><code class="lang-bash"># 在容器中
+&gt; cd /tmp
+&gt; cp haproxy.cfg /usr/local/sbin/
+&gt; cd /usr/local/sbin/
+&gt; ls
+haproxy  haproxy.cfg
+</code></pre>
+<p>接下来利用该配置文件来<strong>启动 HAProxy 代理</strong>：</p>
+<pre><code class="lang-bash">&gt; haproxy -f haproxy.cfg
+</code></pre>
+<p>另外，如果<strong>修改了配置文件的内容</strong>，需要<strong>先结束所有的 HAProxy 进程</strong>，并<strong>重新启动代理</strong>。Docker 镜像为了精简体积，本身并没有安装<code>ps</code>、<code>killall</code>等<strong>进程管理命令</strong>，需要<strong>手动在容器中安装</strong>：</p>
+<pre><code class="lang-bash">&gt; apt-get update
+&gt; apt-get install procps # ps、pkill
+&gt; apt-get install psmisc # killall
+&gt; killall haproxy
+</code></pre>
+<p>至此，完成了 <strong>HAProxy 容器节点</strong>的全部部署，同时也完成了<strong>整个 Docker 应用栈的部署</strong>。</p>
+<h5 id="应用栈访问测试"><a href="#应用栈访问测试" class="headerlink" title="应用栈访问测试"></a><strong><em>应用栈访问测试</em></strong></h5><p>参考结构图可知，整个<strong>应用栈群的访问</strong>是通过 <strong>HAProxy 代理节点</strong>来进行的。<strong>HAProxy</strong> 在启动时通过<code>-p 6301:6301</code>参数，<strong>映射了容器访问的端口到主机上</strong>，因此可在其他主机上<strong>通过本地主机的 IP 地址和端口</strong>来访问搭建好的应用栈。</p>
+<p>首先在<strong>本地主机</strong>上进行测试。在浏览器中访问<code>http://172.17.0.7:6301/helloworld</code>，可以查看<strong>来自 APP1 或 APP2 的页面内容</strong>，具体访问到的 APP 容器节点会<strong>由 HAProxy 代理进行均衡分配</strong>。其中，<code>172.17.0.7</code>为 <strong>HAProxy 容器的 IP 地址</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/01/08/docker-notes/APP1.png" alt="访问 APP1 容器节点" title>
+                </div>
+                <div class="image-caption">访问 APP1 容器节点</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/01/08/docker-notes/APP2.png" alt="访问 APP2 容器节点" title>
+                </div>
+                <div class="image-caption">访问 APP2 容器节点</div>
+            </figure>
+<p>本地测试通过后，尝试在<strong>其他主机</strong>上通过<strong>应用栈入口主机的 IP 地址</strong>和<strong>暴露的 6301 端口</strong>来访问该应用栈，即访问<code>http://116.56.129.153:6301/helloworld</code>，可看到<strong>来自 APP1 或 APP2 容器节点的页面</strong>，访问<code>http://116.56.129.153:6301/haproxy-stats</code><br>则可看到 <strong>HAProxy 的后台管理页面及统计数据</strong>。其中，<code>116.56.129.153</code>为 <strong>宿主机的 IP 地址</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/01/08/docker-notes/helloworld.png" alt="其他主机访问本地主机" title>
+                </div>
+                <div class="image-caption">其他主机访问本地主机</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/01/08/docker-notes/haproxy.png" alt="HAProxy 后台管理页面" title>
+                </div>
+                <div class="image-caption">HAProxy 后台管理页面</div>
+            </figure>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/09/25/micro-service-orchestration-and-container-schedule/">微服务编排与容器调度</a></li><li><a href="https://abelsu7.top/2019/09/18/micro-service-notes/">微服务学习资料汇总</a></li><li><a href="https://abelsu7.top/2019/03/19/recent-review/">近期复习合集</a></li><li><a href="https://abelsu7.top/2019/03/18/understanding-linux-kernel/">Linux 内核笔记 1：绪论</a></li><li><a href="http://www.borgor.cn/2019-07-10/54af093c.html">在Django中使用migrate初始化数据库数据</a></li><li><a href="http://www.borgor.cn/2019-06-11/168aa3b1.html">使用Django+Vue.js快速构建项目</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.171Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/01/08/docker-notes/" target="_blank" rel="external">https://abelsu7.top/2019/01/08/docker-notes/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django/">Django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HAProxy/">HAProxy</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/容器/">容器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书/">读书</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/01/08/docker-notes/&title=《Docker 笔记 1：Docker 基础与搭建第一个 Docker 应用栈》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/01/08/docker-notes/&title=《Docker 笔记 1：Docker 基础与搭建第一个 Docker 应用栈》 — Keep Coding&source=
+摘自 《Docker 容器与容器云（第2版）》
+
+
+                
+                    
+            ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/01/08/docker-notes/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Docker 笔记 1：Docker 基础与搭建第一个 Docker 应用栈》 — Keep Coding&url=https://abelsu7.top/2019/01/08/docker-notes/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/01/08/docker-notes/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/01/09/core-java-notes/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Java 笔记 1：Java 的基本程序设计结构</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/01/08/explore-kvm-notes-1/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">《深度实践 KVM》笔记</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/01/08/docker-notes/&title=《Docker 笔记 1：Docker 基础与搭建第一个 Docker 应用栈》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/01/08/docker-notes/&title=《Docker 笔记 1：Docker 基础与搭建第一个 Docker 应用栈》 — Keep Coding&source=
+摘自 《Docker 容器与容器云（第2版）》
+
+
+                
+                    
+            ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/01/08/docker-notes/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Docker 笔记 1：Docker 基础与搭建第一个 Docker 应用栈》 — Keep Coding&url=https://abelsu7.top/2019/01/08/docker-notes/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/01/08/docker-notes/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJElEQVR42u3aSW4jMRAEQP//054PuNuZRXoAkdEnQZYohg+F2r6+4uf74Xn/TPv+08nbHgwMjI9lJMe9X/r9zHfMNioGBsYFjKerPL1+v1By8voJGBgYGAkjD9zJg4GBgbHOyFPGJEF8fwcDAwNjVsTmZW1yrc0tOQwMjKMZedf9/7/+k/kGBgbGRzFmRWbe+l8fD0S3wsDAOJoxG2G2KWNb4raDUgwMjBsYe7OsZPGiDdn5mRgYGOcx8nDZtsby5Yk8pD6ejIGBcTRjPYFbifHtORt6hBgYGB/IaL+WhNd6SaIMyr90DTEwMA5l5KVmXsTmqWRCjSpvDAyMCxjrBeSu8WfyyR9qcQwMjEMZK0VsHjrblYsNjTYMDIyDGLOFrbYNlw9K24COgYFxM2NlxJgvk82CexFwMTAwDmLMSsp2eDlbCytSQwwMjEMZedI2WxdbuXpeHmNgYNzAaEeS7XZWG5qHaxkYGBgXMFrArm/NBhK/NN0wMDAuYKw0+vMQ2aaVdcDFwMC4hpE345IyOHlmrToMDIyzGXnS1i5YrJS17U0wMDBOZcxCYd4mW0kZ89UNDAyMsxmzMJc0y/J2f962q1cuMDAwDmK0JWVb4q4UqMU/DgMD4wLGbDCQhMvZZ/KwjoGBgTELgm2amK+FPf4VAwMDo0zU2kQwL4nrSIyBgXEQY72IbRcjkl8swjoGBsbRjJXSsX0/H20m4wEMDIwLGP8APSijiTk39HAAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

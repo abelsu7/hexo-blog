@@ -1,0 +1,1792 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>《KVM 实战》笔记 1：构建 KVM 环境 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="KVM,虚拟化,QEMU,云计算">
+    <meta name="description" content="摘自 《KVM实战：原理、进阶与性能调优》                                                                                               《KVM实战：原理、进阶与性能调优》">
+<meta name="keywords" content="KVM,虚拟化,QEMU,云计算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《KVM 实战》笔记 1：构建 KVM 环境">
+<meta property="og:url" content="https://abelsu7.top/2019/04/16/kvm-in-action-1/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自 《KVM实战：原理、进阶与性能调优》                                                                                               《KVM实战：原理、进阶与性能调优》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/04/16/kvm-in-action-1/cover.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/04/16/kvm-in-action-1/make-menuconfig-1.png">
+<meta property="og:image" content="https://abelsu7.top/2019/04/16/kvm-in-action-1/make-menuconfig-2.png">
+<meta property="og:image" content="https://abelsu7.top/2019/04/16/kvm-in-action-1/install-fedora.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.424Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《KVM 实战》笔记 1：构建 KVM 环境">
+<meta name="twitter:description" content="摘自 《KVM实战：原理、进阶与性能调优》                                                                                               《KVM实战：原理、进阶与性能调优》">
+<meta name="twitter:image" content="https://abelsu7.top/2019/04/16/kvm-in-action-1/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">《KVM 实战》笔记 1：构建 KVM 环境</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">《KVM 实战》笔记 1：构建 KVM 环境</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-04-16T12:50:59.000Z" itemprop="datePublished" class="page-time">
+  2019-04-16
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/KVM/">KVM</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-硬件系统的配置"><span class="post-toc-text">1. 硬件系统的配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-1-BIOS-开启-VT-VT-d"><span class="post-toc-text">1.1 BIOS 开启 VT/VT-d</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-2-重启后查看-CPU-特性标志"><span class="post-toc-text">1.2 重启后查看 CPU 特性标志</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-安装宿主机操作系统"><span class="post-toc-text">2. 安装宿主机操作系统</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-编译和安装-KVM"><span class="post-toc-text">3. 编译和安装 KVM</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-下载-KVM-源代码"><span class="post-toc-text">3.1 下载 KVM 源代码</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-配置-KVM"><span class="post-toc-text">3.2 配置 KVM</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#make-常用命令"><span class="post-toc-text">make 常用命令</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#make-olddefconfig"><span class="post-toc-text">make olddefconfig</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#make-menuconfig"><span class="post-toc-text">make menuconfig</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-3-编译-KVM"><span class="post-toc-text">3.3 编译 KVM</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#编译-kernel"><span class="post-toc-text">编译 kernel</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#编译-bzImage"><span class="post-toc-text">编译 bzImage</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#编译-module"><span class="post-toc-text">编译 module</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-4-安装-KVM"><span class="post-toc-text">3.4 安装 KVM</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#安装-module"><span class="post-toc-text">安装 module</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#安装-kernel-和-initramfs"><span class="post-toc-text">安装 kernel 和 initramfs</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-5-安装后的检查"><span class="post-toc-text">3.5 安装后的检查</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-编译和安装-QEMU"><span class="post-toc-text">4. 编译和安装 QEMU</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-1-下载-QEMU-源代码"><span class="post-toc-text">4.1 下载 QEMU 源代码</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-2-配置和编译-QEMU"><span class="post-toc-text">4.2 配置和编译 QEMU</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#配置-QEMU"><span class="post-toc-text">配置 QEMU</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#编译-QEMU"><span class="post-toc-text">编译 QEMU</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-3-安装-QEMU"><span class="post-toc-text">4.3 安装 QEMU</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-安装客户机"><span class="post-toc-text">5. 安装客户机</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-kvm-in-action-1"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">《KVM 实战》笔记 1：构建 KVM 环境</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-04-16 20:50:59" datetime="2019-04-16T12:50:59.000Z"  itemprop="datePublished">2019-04-16</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/KVM/">KVM</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>摘自 <a href="https://book.douban.com/subject/30544350/" target="_blank" rel="noopener">《KVM实战：原理、进阶与性能调优》</a></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/04/16/kvm-in-action-1/cover.jpg" alt="《KVM实战：原理、进阶与性能调优》" title>
+                </div>
+                <div class="image-caption">《KVM实战：原理、进阶与性能调优》</div>
+            </figure>
+<a id="more"></a>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#1-硬件系统的配置">1. 硬件系统的配置</a><ul>
+<li><a href="#1-1-BIOS-开启-VT-VT-d">1.1 BIOS 开启 VT/VT-d</a></li>
+<li><a href="#1-2-重启后查看-CPU-特性标志">1.2 重启后查看 CPU 特性标志</a></li>
+</ul>
+</li>
+<li><a href="#2-安装宿主机操作系统">2. 安装宿主机操作系统</a></li>
+<li><a href="#3-编译和安装-KVM">3. 编译和安装 KVM</a><ul>
+<li><a href="#3-1-下载-KVM-源代码">3.1 下载 KVM 源代码</a></li>
+<li><a href="#3-2-配置-KVM">3.2 配置 KVM</a></li>
+<li><a href="#3-3-编译-KVM">3.3 编译 KVM</a></li>
+<li><a href="#3-4-安装-KVM">3.4 安装 KVM</a></li>
+<li><a href="#3-5-安装后的检查">3.5 安装后的检查</a></li>
+</ul>
+</li>
+<li><a href="#4-编译和安装-QEMU">4. 编译和安装 QEMU</a><ul>
+<li><a href="#4-1-下载-QEMU-源代码">4.1 下载 QEMU 源代码</a></li>
+<li><a href="#4-2-配置和编译-QEMU">4.2 配置和编译 QEMU</a></li>
+<li><a href="#4-3-安装-QEMU">4.3 安装 QEMU</a></li>
+</ul>
+</li>
+<li><a href="#5-安装客户机">5. 安装客户机</a></li>
+<li><a href="#参考文章">参考文章</a></li>
+</ul>
+<h3 id="1-硬件系统的配置"><a href="#1-硬件系统的配置" class="headerlink" title="1. 硬件系统的配置"></a>1. 硬件系统的配置</h3><p>KVM 从诞生之初就需要<strong>硬件虚拟化扩展</strong>的支持，其最初的开发是<strong>基于</strong><code>x86</code><strong>和</strong><code>x86-64</code><strong>处理器架构上的 Linux 系统</strong>进行的。</p>
+<p>目前，KVM 被移植到多种不同处理器架构上，但在<code>x86-64</code><strong>架构上的支持是最完善的</strong>。</p>
+<blockquote>
+<p>本文<strong>默认基于</strong><code>x86-64</code><strong>的 Linux 系统进行相关操作</strong></p>
+</blockquote>
+<p>在<code>x86-64</code>架构的处理器中，<strong>KVM 需要的硬件虚拟化扩展</strong>分别为：</p>
+<ul>
+<li><strong>Intel VT</strong></li>
+<li><strong>AMD-V</strong></li>
+</ul>
+<h4 id="1-1-BIOS-开启-VT-VT-d"><a href="#1-1-BIOS-开启-VT-VT-d" class="headerlink" title="1.1 BIOS 开启 VT/VT-d"></a>1.1 BIOS 开启 VT/VT-d</h4><ol>
+<li>需要 <strong>CPU 在硬件上支持 VT 技术</strong></li>
+<li>在 BIOS 中<strong>启用</strong><code>VT</code><strong>即</strong><code>Intel(R) Virtualization Technology</code></li>
+<li>在 BIOS 中<strong>启用</strong><code>VT-d</code><strong>即</strong><code>Intel(R) VT for Directed I/O</code></li>
+</ol>
+<h4 id="1-2-重启后查看-CPU-特性标志"><a href="#1-2-重启后查看-CPU-特性标志" class="headerlink" title="1.2 重启后查看 CPU 特性标志"></a>1.2 重启后查看 CPU 特性标志</h4><p>设置好<code>VT</code>和<code>VT-d</code>的相关选项，<strong>保存 BIOS 设置并退出</strong>，系统<strong>重启后生效</strong>。</p>
+<p>可通过<strong>检查</strong><code>/proc/cpuinfo</code><strong>文件</strong>中的 <strong>CPU 特性标志（flags）</strong>来查看 CPU 目前是否支持硬件虚拟化：</p>
+<blockquote>
+<p><strong>Intel CPU</strong> 支持虚拟化的标志为<code>vmx</code><br><strong>AMD CPU</strong> 支持虚拟化的标志为<code>svm</code></p>
+</blockquote>
+<pre><code class="lang-bash">&gt; grep -E &quot;vmx|svm&quot; /proc/cpuinfo
+flags        : ... vmx ... 
+...
+</code></pre>
+<h3 id="2-安装宿主机操作系统"><a href="#2-安装宿主机操作系统" class="headerlink" title="2. 安装宿主机操作系统"></a>2. 安装宿主机操作系统</h3><ul>
+<li>CentOS 7 安装时<strong>不需要选择</strong><code>Virtualization Host</code>，因为后续会<strong>自行编译 KVM 及 QEMU 源码</strong></li>
+<li>CentOS 7 推荐选择<code>Server with GUI</code>、<code>GNOME Desktop</code>以及<code>Development Tools</code></li>
+</ul>
+<blockquote>
+<p>本文实验环境：<strong>OS</strong><code>Ubuntu 18.04 LTS</code>，<strong>CPU</strong><code>i7-6700 * 8</code>，<strong>内存</strong><code>32G</code></p>
+</blockquote>
+<h3 id="3-编译和安装-KVM"><a href="#3-编译和安装-KVM" class="headerlink" title="3. 编译和安装 KVM"></a>3. 编译和安装 KVM</h3><h4 id="3-1-下载-KVM-源代码"><a href="#3-1-下载-KVM-源代码" class="headerlink" title="3.1 下载 KVM 源代码"></a>3.1 下载 KVM 源代码</h4><pre><code class="lang-bash">&gt; git clone git://git.kernel.org/pub/scm/virt/kvm/kvm.git
+# or
+&gt; git clone https://git.kernel.org/pub/scm/virt/kvm/kvm.git
+</code></pre>
+<blockquote>
+<p><strong>内核版本</strong>：本文使用的是<code>kvm.git</code>的<code>4.21.1</code>版本，编译后显示的内核版本为<code>4.20.0-rc6</code><br><strong>源码地址</strong>： <a href="https://git.kernel.org/pub/scm/virt/kvm/kvm.git/tag/?h=kvm-4.21-1" target="_blank" rel="noopener">index: kvm/kvm.git</a>。</p>
+</blockquote>
+<h4 id="3-2-配置-KVM"><a href="#3-2-配置-KVM" class="headerlink" title="3.2 配置 KVM"></a>3.2 配置 KVM</h4><p><strong>KVM</strong> 是作为 <strong>Linux 内核中的一个 module</strong> 而存在的，而<code>kvm.git</code>是一个<strong>包含了最新的 KVM 模块开发中代码</strong>的完整的 Linux 内核源码仓库。它的配置方式<strong>与普通的 Linux 内核配置完全一样</strong>，只是需要注意<strong>将 KVM 相关的配置选择为编译进内核或者编译为模块</strong>。</p>
+<h5 id="make-常用命令"><a href="#make-常用命令" class="headerlink" title="make 常用命令"></a>make 常用命令</h5><p>在<code>kvm.git</code>目录下，运行<code>make help</code>查看关于如何<strong>配置和编译 kernel</strong> 的帮助说明：</p>
+<pre><code class="lang-bash">&gt; make help
+
+Cleaning targets:
+  clean          - Remove most generated files but keep the config and
+                    enough build support to build external modules
+  mrproper      - Remove all generated files + config + various backup files
+  distclean      - mrproper + remove editor backup and patch files
+
+Configuration targets:
+  config      - Update current config utilising a line-oriented program
+  nconfig         - Update current config utilising a ncurses menu based program
+  menuconfig      - Update current config utilising a menu based program
+  xconfig      - Update current config utilising a Qt based front-end
+  gconfig      - Update current config utilising a GTK+ based front-end
+  oldconfig      - Update current config utilising a provided .config as base
+  localmodconfig  - Update current config disabling modules not loaded
+  localyesconfig  - Update current config converting local mods to core
+  defconfig      - New config with default from ARCH supplied defconfig
+  savedefconfig   - Save current config as ./defconfig (minimal config)
+  allnoconfig      - New config where all options are answered with no
+  allyesconfig      - New config where all options are accepted with yes
+  allmodconfig      - New config selecting modules when possible
+  alldefconfig    - New config with all symbols set to default
+  randconfig      - New config with random answer to all options
+  listnewconfig   - List new options
+  olddefconfig      - Same as oldconfig but sets new symbols to their
+                    default value without prompting
+  kvmconfig      - Enable additional options for kvm guest kernel support
+  xenconfig       - Enable additional options for xen dom0 and guest kernel support
+  tinyconfig      - Configure the tiniest possible kernel
+  testconfig      - Run Kconfig unit tests (requires python3 and pytest)
+
+Other generic targets:
+  all          - Build all targets marked with [*]
+* vmlinux      - Build the bare kernel
+* modules      - Build all modules
+  modules_install - Install all modules to INSTALL_MOD_PATH (default: /)
+  dir/            - Build all files in dir and below
+  dir/file.[ois]  - Build specified target only
+  dir/file.ll     - Build the LLVM assembly file
+                    (requires compiler support for LLVM assembly generation)
+  dir/file.lst    - Build specified mixed source/assembly target only
+                    (requires a recent binutils and recent build (System.map))
+  dir/file.ko     - Build module including final link
+  modules_prepare - Set up for building external modules
+  tags/TAGS      - Generate tags file for editors
+  cscope      - Generate cscope index
+  gtags           - Generate GNU GLOBAL index
+  kernelrelease      - Output the release version string (use with make -s)
+  kernelversion      - Output the version stored in Makefile (use with make -s)
+  image_name      - Output the image name (use with make -s)
+  headers_install - Install sanitised kernel headers to INSTALL_HDR_PATH
+                    (default: ./usr)
+
+Static analysers:
+  checkstack      - Generate a list of stack hogs
+  namespacecheck  - Name space analysis on compiled kernel
+  versioncheck    - Sanity check on version.h usage
+  includecheck    - Check for duplicate included header files
+  export_report   - List the usages of all exported symbols
+  headers_check   - Sanity check on exported headers
+  headerdep       - Detect inclusion cycles in headers
+  coccicheck      - Check with Coccinelle
+
+Kernel selftest:
+  kselftest       - Build and run kernel selftest (run as root)
+                    Build, install, and boot kernel before
+                    running kselftest on it
+  kselftest-clean - Remove all generated kselftest files
+  kselftest-merge - Merge all the config dependencies of kselftest to existing
+                    .config.
+
+Userspace tools targets:
+  use &quot;make tools/help&quot;
+  or  &quot;cd tools; make help&quot;
+
+Kernel packaging:
+  rpm-pkg             - Build both source and binary RPM kernel packages
+  binrpm-pkg          - Build only the binary kernel RPM package
+  deb-pkg             - Build both source and binary deb kernel packages
+  bindeb-pkg          - Build only the binary kernel deb package
+  snap-pkg            - Build only the binary kernel snap package (will connect to external hosts)
+  tar-pkg             - Build the kernel as an uncompressed tarball
+  targz-pkg           - Build the kernel as a gzip compressed tarball
+  tarbz2-pkg          - Build the kernel as a bzip2 compressed tarball
+  tarxz-pkg           - Build the kernel as a xz compressed tarball
+  perf-tar-src-pkg    - Build perf-4.20.0-rc6.tar source tarball
+  perf-targz-src-pkg  - Build perf-4.20.0-rc6.tar.gz source tarball
+  perf-tarbz2-src-pkg - Build perf-4.20.0-rc6.tar.bz2 source tarball
+  perf-tarxz-src-pkg  - Build perf-4.20.0-rc6.tar.xz source tarball
+
+Documentation targets:
+ Linux kernel internal documentation in different formats from ReST:
+  htmldocs        - HTML
+  latexdocs       - LaTeX
+  pdfdocs         - PDF
+  epubdocs        - EPUB
+  xmldocs         - XML
+  linkcheckdocs   - check for broken external links (will connect to external hosts)
+  refcheckdocs    - check for references to non-existing files under Documentation
+  cleandocs       - clean all generated files
+
+  make SPHINXDIRS=&quot;s1 s2&quot; [target] Generate only docs of folder s1, s2
+  valid values for SPHINXDIRS are: driver-api networking input core-api userspace-api media gpu process sound crypto vm maintainer sh dev-tools doc-guide filesystems kernel-hacking admin-guide
+
+  make SPHINX_CONF={conf-file} [target] use *additional* sphinx-build
+  configuration. This is e.g. useful to build with nit-picking config.
+
+  Default location for the generated documents is Documentation/output
+
+Architecture specific targets (x86):
+* bzImage      - Compressed kernel image (arch/x86/boot/bzImage)
+  install      - Install kernel using
+                  (your) ~/bin/installkernel or
+                  (distribution) /sbin/installkernel or
+                  install to $(INSTALL_PATH) and run lilo
+  fdimage      - Create 1.4MB boot floppy image (arch/x86/boot/fdimage)
+  fdimage144   - Create 1.4MB boot floppy image (arch/x86/boot/fdimage)
+  fdimage288   - Create 2.8MB boot floppy image (arch/x86/boot/fdimage)
+  isoimage     - Create a boot CD-ROM image (arch/x86/boot/image.iso)
+                  bzdisk/fdimage*/isoimage also accept:
+                  FDARGS=&quot;...&quot;  arguments for the booted kernel
+                  FDINITRD=file initrd for the booted kernel
+
+  i386_defconfig           - Build for i386
+  x86_64_defconfig         - Build for x86_64
+
+  make V=0|1 [targets] 0 =&gt; quiet build (default), 1 =&gt; verbose build
+  make V=2   [targets] 2 =&gt; give reason for rebuild of target
+  make O=dir [targets] Locate all output files in &quot;dir&quot;, including .config
+  make C=1   [targets] Check re-compiled c source with $CHECK (sparse by default)
+  make C=2   [targets] Force check of all c source with $CHECK
+  make RECORDMCOUNT_WARN=1 [targets] Warn about ignored mcount sections
+  make W=n   [targets] Enable extra gcc checks, n=1,2,3 where
+        1: warnings which may be relevant and do not occur too often
+        2: warnings which occur quite often but may still be relevant
+        3: more obscure warnings, can most likely be ignored
+        Multiple levels can be combined with W=12 or W=123
+
+Execute &quot;make&quot; or &quot;make all&quot; to build all targets marked with [*] 
+For further info see the ./README file
+</code></pre>
+<p><strong>对 KVM 进行内核配置</strong>常用的一些<strong>配置命令</strong>如下：</p>
+<ol>
+<li><code>make config</code>：基于<strong>文本</strong>的最为传统也是最为枯燥的一种配置方式，<strong>适用于任何情况</strong></li>
+<li><code>make oldconfig</code>：在现有的内核设置文件基础上建立一个新的设置文件，<strong>只会向用户提供有关新内核特性的问题</strong></li>
+<li><code>make silentoldconfig</code>：和上面的<code>make oldconfig</code>一样，只是额外会<strong>静默更新选项的依赖关系</strong></li>
+<li><code>make olddefconfig</code>：和上面的<code>make silentoldconfig</code>一样，但不需要手动交互，而是<strong>对新选项以其默认值配置</strong></li>
+<li><code>make menuconfig</code>：基于<strong>终端</strong>的一种配置方式，提供了<strong>文本模式的图形用户界面</strong>，用户可以通过移动光标来浏览所支持的各种特性，要求<strong>系统中安装</strong><code>ncurses</code><strong>库</strong></li>
+<li><code>make xconfig</code>：基于 <strong>X Window</strong> 的一种配置方式，只能在 X Server 上运行 X 桌面应用程序时使用，并且<strong>依赖于 QT 库</strong></li>
+<li><code>make gconfig</code>：与<code>make xconfig</code>类似，不同的是它<strong>依赖于 GTK 库</strong></li>
+<li><code>makedefconfig</code>：按照<strong>内核代码</strong>中提供的<strong>默认配置文件</strong>对内核进行配置。例如在<code>Intel x86_64</code>平台上，默认配置为<code>arch/x86/configs/x86_64_defconfig</code>，生成<code>.config</code>文件可以用作初始化配置，然后再使用<code>make menuconfig</code>进行定制化配置</li>
+<li><code>make allmodconfig</code>：尽可能多的使用<code>y</code>输入设置内核选项值，生成的配置中<strong>包含了全部的内核特性</strong></li>
+<li><code>make allnoconfig</code>：除必需的选项外，其他选项一律不选（常用于嵌入式系统的编译）</li>
+<li><code>make allmodconfig</code>：尽可能多的使用<code>m</code>输入设置内核选项值来生成配置文件</li>
+<li><code>make localmodconfig</code>：会执行<code>lsmod</code>命令查看当前系统中加载了哪些模块，并最终将原来的<code>.config</code>中不需要的模块去掉</li>
+</ol>
+<h5 id="make-olddefconfig"><a href="#make-olddefconfig" class="headerlink" title="make olddefconfig"></a>make olddefconfig</h5><p>为了<strong>确保生成的</strong><code>.config</code><strong>文件生成的 Kernel 是实际可以工作的</strong>（直接<code>make defconfig</code>生成的<code>.config</code>文件编译出来的 Kernel 常常是不能工作的），<strong>最佳实践</strong>是<strong>以你当前使用的 config 为基础</strong>，将它<strong>复制到当前编译目录下</strong>，重命名为<code>.config</code>，然后再<strong>通过</strong><code>make olddefconfig</code><strong>更新补充这个设置文件</strong>：</p>
+<pre><code class="lang-bash">&gt; cp /boot/config-3.10.0-862.14.4.el7.x86_64 .config
+cp: overwrite ‘.config’? y
+
+&gt; make olddefconfig
+  HOSTCC  scripts/basic/fixdep
+  HOSTCC  scripts/kconfig/conf.o
+  HOSTCC  scripts/kconfig/confdata.o
+  HOSTCC  scripts/kconfig/expr.o
+  LEX     scripts/kconfig/lexer.lex.c
+  YACC    scripts/kconfig/parser.tab.h
+  HOSTCC  scripts/kconfig/lexer.lex.o
+  YACC    scripts/kconfig/parser.tab.c
+  HOSTCC  scripts/kconfig/parser.tab.o
+  HOSTCC  scripts/kconfig/preprocess.o
+  HOSTCC  scripts/kconfig/symbol.o
+  HOSTLD  scripts/kconfig/conf
+scripts/kconfig/conf  --olddefconfig Kconfig
+.config:676:warning: symbol value &#39;m&#39; invalid for CPU_FREQ_STAT
+.config:755:warning: symbol value &#39;m&#39; invalid for HOTPLUG_PCI_SHPC
+.config:918:warning: symbol value &#39;m&#39; invalid for NF_CT_PROTO_GRE
+.config:946:warning: symbol value &#39;m&#39; invalid for NF_NAT_REDIRECT
+.config:949:warning: symbol value &#39;m&#39; invalid for NF_TABLES_INET
+.config:1111:warning: symbol value &#39;m&#39; invalid for NF_TABLES_IPV4
+.config:1115:warning: symbol value &#39;m&#39; invalid for NF_TABLES_ARP
+.config:1156:warning: symbol value &#39;m&#39; invalid for NF_TABLES_IPV6
+.config:1188:warning: symbol value &#39;m&#39; invalid for NF_TABLES_BRIDGE
+.config:1532:warning: symbol value &#39;m&#39; invalid for NET_DEVLINK
+.config:2958:warning: symbol value &#39;m&#39; invalid for HW_RANDOM_TPM
+.config:3554:warning: symbol value &#39;m&#39; invalid for LIRC
+.config:4104:warning: symbol value &#39;m&#39; invalid for HSA_AMD
+.config:4460:warning: symbol value &#39;m&#39; invalid for SND_X86
+#
+# configuration written to .config
+#
+
+&gt; cat .config | grep KVM
+CONFIG_KVM_GUEST=y
+CONFIG_KVM_DEBUG_FS=y
+CONFIG_HAVE_KVM=y
+CONFIG_HAVE_KVM_IRQCHIP=y
+CONFIG_HAVE_KVM_IRQFD=y
+CONFIG_HAVE_KVM_IRQ_ROUTING=y
+CONFIG_HAVE_KVM_EVENTFD=y
+CONFIG_KVM_MMIO=y
+CONFIG_KVM_ASYNC_PF=y
+CONFIG_HAVE_KVM_MSI=y
+CONFIG_HAVE_KVM_CPU_RELAX_INTERCEPT=y
+CONFIG_KVM_VFIO=y
+CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT=y
+CONFIG_KVM_COMPAT=y
+CONFIG_HAVE_KVM_IRQ_BYPASS=y
+CONFIG_KVM=m
+CONFIG_KVM_INTEL=m
+CONFIG_KVM_AMD=m
+CONFIG_KVM_AMD_SEV=y
+CONFIG_KVM_MMU_AUDIT=y
+CONFIG_PTP_1588_CLOCK_KVM=m
+CONFIG_DRM_I915_GVT_KVMGT=m
+</code></pre>
+<h5 id="make-menuconfig"><a href="#make-menuconfig" class="headerlink" title="make menuconfig"></a>make menuconfig</h5><p>之后使用<code>make menuconfig</code>进行<strong>定制化配置</strong>，首先需要<strong>安装以下依赖项</strong>：</p>
+<pre><code class="lang-bash">&gt; yum install -y ncurses-devel flex bison
+</code></pre>
+<p>之后启动<code>make menuconfig</code>：</p>
+<pre><code class="lang-bash">&gt; make menuconfig
+  HOSTCC  scripts/kconfig/mconf.o
+  HOSTCC  scripts/kconfig/lxdialog/checklist.o
+  HOSTCC  scripts/kconfig/lxdialog/inputbox.o
+  HOSTCC  scripts/kconfig/lxdialog/menubox.o
+  HOSTCC  scripts/kconfig/lxdialog/textbox.o
+  HOSTCC  scripts/kconfig/lxdialog/util.o
+  HOSTCC  scripts/kconfig/lxdialog/yesno.o
+  HOSTLD  scripts/kconfig/mconf
+scripts/kconfig/mconf  Kconfig
+
+
+*** End of the configuration.
+*** Execute &#39;make&#39; to start the build or try &#39;make help&#39;.
+</code></pre>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/04/16/kvm-in-action-1/make-menuconfig-1.png" alt="make menuconfig 命令的选择界面" title>
+                </div>
+                <div class="image-caption">make menuconfig 命令的选择界面</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/04/16/kvm-in-action-1/make-menuconfig-2.png" alt="Virtualization 中的配置选项" title>
+                </div>
+                <div class="image-caption">Virtualization 中的配置选项</div>
+            </figure>
+<p><strong>修改完成后保存</strong><code>Save</code><strong>并退出</strong><code>Exit</code>，可以看到<code>.config</code>中<code>CONFIG_KVM_AMD</code>已被修改：</p>
+<pre><code class="lang-bash">&gt; cat .config | grep KVM
+CONFIG_KVM_GUEST=y
+CONFIG_KVM_DEBUG_FS=y
+CONFIG_HAVE_KVM=y
+CONFIG_HAVE_KVM_IRQCHIP=y
+CONFIG_HAVE_KVM_IRQFD=y
+CONFIG_HAVE_KVM_IRQ_ROUTING=y
+CONFIG_HAVE_KVM_EVENTFD=y
+CONFIG_KVM_MMIO=y
+CONFIG_KVM_ASYNC_PF=y
+CONFIG_HAVE_KVM_MSI=y
+CONFIG_HAVE_KVM_CPU_RELAX_INTERCEPT=y
+CONFIG_KVM_VFIO=y
+CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT=y
+CONFIG_KVM_COMPAT=y
+CONFIG_HAVE_KVM_IRQ_BYPASS=y
+CONFIG_KVM=m
+CONFIG_KVM_INTEL=m
+# CONFIG_KVM_AMD is not set
+CONFIG_KVM_MMU_AUDIT=y
+CONFIG_PTP_1588_CLOCK_KVM=m
+CONFIG_DRM_I915_GVT_KVMGT=m
+</code></pre>
+<h4 id="3-3-编译-KVM"><a href="#3-3-编译-KVM" class="headerlink" title="3.3 编译 KVM"></a>3.3 编译 KVM</h4><p>在对 KVM 源代码进行配置之后，<strong>编译 KVM</strong> 就比较容易了。它的编译过程就是<strong>一个普通的 Linux 内核编译过程</strong>，包括以下三个步骤：</p>
+<ol>
+<li>编译 <strong>kernel</strong></li>
+<li>编译 <strong>bzImage</strong></li>
+<li>编译 <strong>内核模块 modules</strong></li>
+</ol>
+<h5 id="编译-kernel"><a href="#编译-kernel" class="headerlink" title="编译 kernel"></a>编译 kernel</h5><pre><code class="lang-bash">&gt; make vmlinux -j 10
+error: Cannot generate ORC metadata for CONFIG_UNWINDER_ORC=y, please install libelf-dev, libelf-devel or elfutils-libelf-devel
+
+&gt; yum install -y elfutils-libelf-devel
+
+&gt; make vmlinux -j 10
+
+# 此处省略部分编译时的输出信息
+  GEN     .version
+  CHK     include/generated/compile.h
+  UPD     include/generated/compile.h
+  CC      init/version.o
+  AR      init/built-in.a
+  LD      vmlinux.o
+  MODPOST vmlinux.o
+  KSYM    .tmp_kallsyms1.o
+  KSYM    .tmp_kallsyms2.o
+  LD      vmlinux # 这里就是编译、链接后生成的启动所需的 Linux Kernel 文件
+  SORTEX  vmlinux
+  SYSMAP  System.map
+</code></pre>
+<p>其中，<strong>编译命令中的</strong><code>-j</code><strong>参数</strong>不是必需的，他是<strong>允许 make 工具用多任务（job）来进行编译</strong>。例如上面的<code>-j 10</code>，表示 make 工具最多可以创建 20 个 GCC 进程，同时来进行编译任务。</p>
+<p>在一个<strong>比较空闲</strong>的系统上，<code>-j</code><strong>参数的推荐值大约为 2 倍于系统上的 CPU core</strong>。</p>
+<blockquote>
+<p>如果<code>-j</code>后面不跟数字，则 make 会<strong>根据现在系统中的 CPU core 的数量自动安排任务数</strong>，通常<strong>比 core 的数量略多一点</strong></p>
+</blockquote>
+<p><strong>编译完成</strong>后，可看到当前目录下生成了我们所需的<code>vmlinux</code><strong>内核文件</strong>：</p>
+<pre><code class="lang-bash">&gt; ls -hl vmlinux
+-rwxr-xr-x 1 root root 446M Apr 21 18:14 vmlinux
+</code></pre>
+<h5 id="编译-bzImage"><a href="#编译-bzImage" class="headerlink" title="编译 bzImage"></a>编译 bzImage</h5><pre><code class="lang-bash">&gt; make bzImage
+
+  CALL    scripts/checksyscalls.sh
+  CALL    scripts/atomic/check-atomics.sh
+  DESCEND  objtool
+  CHK     include/generated/compile.h
+  HOSTCC  arch/x86/tools/insn_decoder_test
+  HOSTCC  arch/x86/tools/insn_sanity
+  TEST    posttest
+arch/x86/tools/insn_decoder_test: success: Decoded and checked 6299855 instructions
+  TEST    posttest
+arch/x86/tools/insn_sanity: Success: decoded and checked 1000000 random instructions with 0 errors (seed:0x7ffcb19)
+  CC      arch/x86/boot/a20.o
+  AS      arch/x86/boot/bioscall.o
+  CC      arch/x86/boot/cmdline.o
+  AS      arch/x86/boot/copy.o
+  HOSTCC  arch/x86/boot/mkcpustr
+  CPUSTR  arch/x86/boot/cpustr.h
+  CC      arch/x86/boot/cpu.o
+  CC      arch/x86/boot/cpuflags.o
+  CC      arch/x86/boot/cpucheck.o
+  CC      arch/x86/boot/early_serial_console.o
+  CC      arch/x86/boot/edd.o
+  LDS     arch/x86/boot/compressed/vmlinux.lds
+  AS      arch/x86/boot/compressed/head_64.o
+  VOFFSET arch/x86/boot/compressed/../voffset.h
+  CC      arch/x86/boot/compressed/misc.o
+  CC      arch/x86/boot/compressed/string.o
+  CC      arch/x86/boot/compressed/cmdline.o
+  CC      arch/x86/boot/compressed/error.o
+  OBJCOPY arch/x86/boot/compressed/vmlinux.bin
+  RELOCS  arch/x86/boot/compressed/vmlinux.relocs
+  GZIP    arch/x86/boot/compressed/vmlinux.bin.gz
+  HOSTCC  arch/x86/boot/compressed/mkpiggy
+  MKPIGGY arch/x86/boot/compressed/piggy.S
+  AS      arch/x86/boot/compressed/piggy.o
+  CC      arch/x86/boot/compressed/cpuflags.o
+  CC      arch/x86/boot/compressed/early_serial_console.o
+  CC      arch/x86/boot/compressed/kaslr.o
+  CC      arch/x86/boot/compressed/kaslr_64.o
+  AS      arch/x86/boot/compressed/mem_encrypt.o
+  CC      arch/x86/boot/compressed/pgtable_64.o
+  CC      arch/x86/boot/compressed/acpi.o
+  CC      arch/x86/boot/compressed/eboot.o
+  AS      arch/x86/boot/compressed/efi_stub_64.o
+  AS      arch/x86/boot/compressed/efi_thunk_64.o
+  LD      arch/x86/boot/compressed/vmlinux
+  ZOFFSET arch/x86/boot/zoffset.h
+  AS      arch/x86/boot/header.o
+  CC      arch/x86/boot/main.o
+  CC      arch/x86/boot/memory.o
+  CC      arch/x86/boot/pm.o
+  AS      arch/x86/boot/pmjump.o
+  CC      arch/x86/boot/printf.o
+  CC      arch/x86/boot/regs.o
+  CC      arch/x86/boot/string.o
+  CC      arch/x86/boot/tty.o
+  CC      arch/x86/boot/video.o
+  CC      arch/x86/boot/video-mode.o
+  CC      arch/x86/boot/version.o
+  CC      arch/x86/boot/video-vga.o
+  CC      arch/x86/boot/video-vesa.o
+  CC      arch/x86/boot/video-bios.o
+  LD      arch/x86/boot/setup.elf
+  OBJCOPY arch/x86/boot/setup.bin
+  OBJCOPY arch/x86/boot/vmlinux.bin
+  HOSTCC  arch/x86/boot/tools/build
+  BUILD   arch/x86/boot/bzImage
+Setup is 17340 bytes (padded to 17408 bytes).
+System is 7661 kB
+CRC 93bcb672
+Kernel: arch/x86/boot/bzImage is ready  (#2)
+</code></pre>
+<p>可以看到<code>arch/x86/boot/bzImage</code>已经生成：</p>
+<pre><code class="lang-bash">&gt; ls -hl arch/x86/boot/bzImage
+-rw-r--r-- 1 root root 7.5M Apr 21 19:03 arch/x86/boot/bzImage
+
+&gt; ls -hl arch/x86_64/boot/bzImage
+lrwxrwxrwx 1 root root 22 Apr 21 19:03 arch/x86_64/boot/bzImage -&gt; ../../x86/boot/bzImage
+</code></pre>
+<h5 id="编译-module"><a href="#编译-module" class="headerlink" title="编译 module"></a>编译 module</h5><p>编译 Kernel 和 bzImage 之后<strong>编译内核的模块</strong>：</p>
+<pre><code class="lang-bash">&gt; make modules -j 10
+
+# 此处省略部分编译时的输出信息
+  LD [M]  sound/soc/snd-soc-acpi.ko
+  LD [M]  sound/soc/snd-soc-core.ko
+  LD [M]  sound/soundcore.ko
+  LD [M]  sound/synth/emux/snd-emux-synth.ko
+  LD [M]  sound/synth/snd-util-mem.ko
+  LD [M]  sound/usb/6fire/snd-usb-6fire.ko
+  LD [M]  sound/usb/bcd2000/snd-bcd2000.ko
+  LD [M]  sound/usb/caiaq/snd-usb-caiaq.ko
+  LD [M]  sound/usb/hiface/snd-usb-hiface.ko
+  LD [M]  sound/usb/line6/snd-usb-line6.ko
+  LD [M]  sound/usb/line6/snd-usb-pod.ko
+  LD [M]  sound/usb/line6/snd-usb-podhd.ko
+  LD [M]  sound/usb/line6/snd-usb-toneport.ko
+  LD [M]  sound/usb/line6/snd-usb-variax.ko
+  LD [M]  sound/usb/misc/snd-ua101.ko
+  LD [M]  sound/usb/snd-usb-audio.ko
+  LD [M]  sound/usb/snd-usbmidi-lib.ko
+  LD [M]  sound/usb/usx2y/snd-usb-us122l.ko
+  LD [M]  sound/usb/usx2y/snd-usb-usx2y.ko
+  LD [M]  sound/x86/snd-hdmi-lpe-audio.ko
+  LD [M]  virt/lib/irqbypass.ko
+</code></pre>
+<h4 id="3-4-安装-KVM"><a href="#3-4-安装-KVM" class="headerlink" title="3.4 安装 KVM"></a>3.4 安装 KVM</h4><p><strong>KVM 的安装</strong>包括<strong>两个步骤</strong>：</p>
+<ol>
+<li>安装 <strong>module</strong></li>
+<li>安装 <strong>kernel</strong> 与 <strong>initramfs</strong></li>
+</ol>
+<h5 id="安装-module"><a href="#安装-module" class="headerlink" title="安装 module"></a>安装 module</h5><p>通过<code>make modules_install</code>命令可以<strong>将编译好的 module 安装到相应的目录中</strong>：</p>
+<pre><code class="lang-bash">&gt; make modules_install
+
+# 此处省略部分编译时的输出信息
+  INSTALL sound/usb/snd-usbmidi-lib.ko
+  INSTALL sound/usb/usx2y/snd-usb-us122l.ko
+  INSTALL sound/usb/usx2y/snd-usb-usx2y.ko
+  INSTALL sound/x86/snd-hdmi-lpe-audio.ko
+  INSTALL virt/lib/irqbypass.ko
+  DEPMOD  4.20.0-rc6
+</code></pre>
+<blockquote>
+<p><strong>默认情况</strong>下，module 会被安装到<code>/lib/modules/$kernel_version/kernel</code>目录中</p>
+</blockquote>
+<p>安装完成后可以<strong>查看对应的安装路径</strong>，且<code>kvm.ko</code>、<code>kvm-intel.ko</code><strong>两个模块也已经安装</strong>：</p>
+<pre><code class="lang-bash">&gt; ls -hl /lib/modules/4.20.0-rc6/kernel 
+total 16K
+drwxr-xr-x  3 root root   17 Apr 23 16:35 arch
+drwxr-xr-x  3 root root 4.0K Apr 23 16:35 crypto
+drwxr-xr-x 68 root root 4.0K Apr 23 16:36 drivers
+drwxr-xr-x 25 root root 4.0K Apr 23 16:36 fs
+drwxr-xr-x  3 root root   19 Apr 23 16:36 kernel
+drwxr-xr-x  5 root root  207 Apr 23 16:36 lib
+drwxr-xr-x  2 root root   32 Apr 23 16:36 mm
+drwxr-xr-x 35 root root 4.0K Apr 23 16:37 net
+drwxr-xr-x 12 root root  167 Apr 23 16:37 sound
+drwxr-xr-x  3 root root   17 Apr 23 16:37 virt
+
+&gt; ls -hl /lib/modules/4.20.0-rc6/kernel/arch/x86/kvm
+total 15M
+-rw-r--r-- 1 root root 3.6M Apr 23 16:35 kvm-intel.ko
+-rw-r--r-- 1 root root  11M Apr 23 16:35 kvm.ko
+</code></pre>
+<h5 id="安装-kernel-和-initramfs"><a href="#安装-kernel-和-initramfs" class="headerlink" title="安装 kernel 和 initramfs"></a>安装 kernel 和 initramfs</h5><p>通过<code>make install</code>命令<strong>安装 kernel 和 initramfs</strong>，命令行输出如下：</p>
+<pre><code class="lang-bash">&gt; make install
+sh ./arch/x86/boot/install.sh 4.20.0-rc6 arch/x86/boot/bzImage \
+    System.map &quot;/boot&quot;
+
+&gt; ls -hl /boot -t
+total 300M
+-rw-------  1 root root 108M Apr 23 21:37 initramfs-4.20.0-rc6.img
+lrwxrwxrwx  1 root root   27 Apr 23 21:34 System.map -&gt; /boot/System.map-4.20.0-rc6
+lrwxrwxrwx  1 root root   24 Apr 23 21:34 vmlinuz -&gt; /boot/vmlinuz-4.20.0-rc6
+-rw-r--r--  1 root root 3.5M Apr 23 21:34 System.map-4.20.0-rc6
+-rw-r--r--  1 root root 7.5M Apr 23 21:34 vmlinuz-4.20.0-rc6
+drwx------. 2 root root   21 Jan  9 16:48 grub2
+drwxr-xr-x. 2 root root   27 Nov 13 11:28 grub
+drwx------  3 root root  16K Jan  1  1970 efi
+</code></pre>
+<p>可以看到在<code>/boot</code><strong>目录</strong>下生成了<strong>内核文件</strong><code>vmlinuz</code>和<code>initramfs</code><strong>等内核启动所需的文件</strong>。</p>
+<p>另外在运行<code>make install</code>之后，<code>/boot/efi/EFI/centos/grub.cfg</code><strong>配置文件</strong>中也<strong>自动添加了一个 grub 选项</strong>，如下所示：</p>
+<blockquote>
+<p>注：在下面的<code>menuentry</code>中还配置了<code>KVMGT</code>的相关选项，之后会另写一篇文章加以说明</p>
+</blockquote>
+<pre><code class="lang-bash">menuentry &#39;Ubuntu，Linux 4.20.0-rc6 KVMGT&#39; --class kvmgt --class ubuntu --class gnu-linux --class gnu --class os $menuentry_id_option&#39;gnulinux-4.20.0-rc6-advanced-26d36e85-367a-4200-87fb-0505c5837078&#39; {
+    recordfail
+    load_video
+    gfxmode $linux_gfx_mode
+    insmod gzio
+    if [ x$grub_platform = xxen ]; then insmod xzio; insmod lzopio; fi
+    insmod part_gpt
+    insmod ext2
+    set root=&#39;hd0,gpt8&#39;
+    if [ x$feature_platform_search_hint = xy ]; then
+        search --no-floppy --fs-uuid --set=root --hint-bios=hd0,gpt8 --hint-efi=hd0,gpt8 --hint-baremetal=ahci0,gpt8  26d36e85-367a-4200-87fb-0505c5837078
+    else
+        search --no-floppy --fs-uuid --set=root 26d36e85-367a-4200-87fb-0505c5837078
+    fi
+    echo    &#39;载入 Linux 4.20.0-rc6 ...&#39;
+        linux   /boot/vmlinuz-4.20.0-rc6 root=UUID=26d36e85-367a-4200-87fb-0505c5837078 ro  quiet splash $vt_handoff ignore_loglevel log_buf_len=128M console=ttyS0,115200,8n1 i915.enable_gvt=1 kvm.ignore_msrs=1 intel_iommu=on drm.debug=0
+    echo    &#39;载入初始化内存盘...&#39;
+    initrd  /boot/initrd.img-4.20.0-rc6
+}
+</code></pre>
+<blockquote>
+<p>联想扬天 T4900 开机进入 BIOS 快捷键 F12</p>
+</blockquote>
+<p>检查<code>grub.cfg</code>配置无误后，<strong>重新启动系统，选择刚才为 KVM 而编译、安装的内核启动</strong>。</p>
+<h4 id="3-5-安装后的检查"><a href="#3-5-安装后的检查" class="headerlink" title="3.5 安装后的检查"></a>3.5 安装后的检查</h4><p>进入系统后，使用<code>uname -r</code>查看<strong>内核版本</strong>：</p>
+<pre><code class="lang-bash">&gt; uname -r
+4.20.0-rc6
+</code></pre>
+<p>通常情况下，系统启动时已经<strong>默认加载了</strong><code>kvm</code>和<code>kvm_intel</code><strong>这两个模块</strong>，如果没有加载，则需要<strong>手动使用</strong><code>modprobe</code><strong>命令依次加载这两个模块</strong>：</p>
+<pre><code class="lang-bash">&gt; modprobe kvm
+&gt; modprobe kvm_intel
+&gt; lsmod | grep kvm
+kvm_intel             245760  0
+kvmgt                  28672  1
+mdev                   24576  2 kvmgt,vfio_mdev
+vfio                   32768  3 kvmgt,vfio_mdev,vfio_iommu_type1
+kvm                   634880  2 kvmgt,kvm_intel
+irqbypass              16384  1 kvm
+</code></pre>
+<p>确认 KVM 相关模块加载成功后，<strong>检查</strong><code>/dev/kvm</code><strong>文件是否存在</strong>：</p>
+<pre><code class="lang-bash">&gt; ls -l /dev/kvm
+crw-rw---- 1 root kvm 10, 232 Apr 29 09:36 /dev/kvm
+</code></pre>
+<p><code>/dev/kvm</code>是 <strong>KVM 内核模块提供给用户空间 QEMU 程序使用的一个控制接口</strong>，提供了<code>Guest OS</code>运行所需要的<strong>模拟和实际的硬件设备环境</strong>。</p>
+<blockquote>
+<p><code>crw-rw----</code>以<code>c</code>为开头，表示<code>/dev/kvm</code>是一个<strong>字符设备</strong></p>
+</blockquote>
+<h3 id="4-编译和安装-QEMU"><a href="#4-编译和安装-QEMU" class="headerlink" title="4. 编译和安装 QEMU"></a>4. 编译和安装 QEMU</h3><p>除了在<strong>内核空间</strong>的<code>kvm.ko</code><strong>模块</strong>之外，在<strong>用户空间</strong>还需要 <a href="https://www.qemu.org" target="_blank" rel="noopener">QEMU</a> 来<strong>模拟 VM 所需要的 I/O 设备</strong>，并<strong>启动客户机进程</strong>。</p>
+<p>在早期版本中，支持 KVM 的<code>qemu-kvm</code>是由 kernel 社区维护的专门用于 KVM 虚拟化的 QEMU 分支。2012 年末，这个分支并入了主流的 QEMU 仓库，从此就不再需要特殊的<code>qemu-kvm</code>，而<strong>只需在通用的 QEMU 命令后添加</strong><code>--enable-kvm</code><strong>选项</strong>，<strong>即可创建 KVM Guest</strong>。</p>
+<h4 id="4-1-下载-QEMU-源代码"><a href="#4-1-下载-QEMU-源代码" class="headerlink" title="4.1 下载 QEMU 源代码"></a>4.1 下载 QEMU 源代码</h4><p>直接下载<strong>源代码归档包</strong>：</p>
+<pre><code class="lang-bash">~ &gt; wget https://download.qemu.org/qemu-4.0.0.tar.xz
+~ &gt; tar -xvJf qemu-4.0.0.tar.xz
+~ &gt; cd qemu-4.0.0
+qemu-4.0.0 &gt; ls
+accel           capstone          device_tree.c  hmp-commands.hx       MAINTAINERS        pc-bios               qemu-keymap.c           qtest.c        tpm.c
+arch_init.c     Changelog         disas          hmp-commands-info.hx  Makefile           po                    qemu-nbd.c              README         trace
+audio           chardev           disas.c        hmp.h                 Makefile.objs      python                qemu-nbd.texi           replay         trace-events
+authz           CODING_STYLE      dma-helpers.c  hw                    Makefile.target    qapi                  qemu.nsi                replication.c  ui
+backends        config.log        docs           include               memory.c           qdev-monitor.c        qemu-options.h          replication.h  util
+balloon.c       config-temp       dtc            io                    memory_ldst.inc.c  qemu-bridge-helper.c  qemu-options.hx         roms           VERSION
+block           configure         dump.c         ioport.c              memory_mapping.c   qemu-deprecated.texi  qemu-options-wrapper.h  rules.mak      version.rc
+block.c         contrib           exec.c         iothread.c            migration          qemu-doc.texi         qemu-option-trace.texi  scripts        vl.c
+blockdev.c      COPYING           fpu            job.c                 module-common.c    qemu-edid.c           qemu.sasl               scsi           win_dump.c
+blockdev-nbd.c  COPYING.LIB       fsdev          job-qmp.c             monitor.c          qemu-ga.texi          qemu-seccomp.c          slirp          win_dump.h
+blockjob.c      cpus.c            gdbstub.c      Kconfig.host          nbd                qemu-img.c            qemu-tech.texi          stubs
+bootdevice.c    cpus-common.c     gdb-xml        libdecnumber          net                qemu-img-cmds.hx      qga                     target
+bsd-user        crypto            gitdm.config   LICENSE               numa.c             qemu-img.texi         qmp.c                   tcg
+bt-host.c       default-configs   HACKING        linux-headers         os-posix.c         qemu-io.c             qobject                 tests
+bt-vhci.c       device-hotplug.c  hmp.c          linux-user            os-win32.c         qemu-io-cmds.c        qom                     thunk.c
+
+qemu-4.0.0 &gt; cat VERSION
+4.0.0
+</code></pre>
+<p>或者<strong>使用 Git 拉取 QEMU 源代码</strong>：</p>
+<pre><code class="lang-bash">~ &gt; git clone https://git.qemu.org/git/qemu.git
+~ &gt; cd qemu
+qemu &gt; git submodule init
+qemu &gt; git submodule update --recursive
+</code></pre>
+<h4 id="4-2-配置和编译-QEMU"><a href="#4-2-配置和编译-QEMU" class="headerlink" title="4.2 配置和编译 QEMU"></a>4.2 配置和编译 QEMU</h4><h5 id="配置-QEMU"><a href="#配置-QEMU" class="headerlink" title="配置 QEMU"></a>配置 QEMU</h5><blockquote>
+<p>本文使用的 <strong>QEMU 版本</strong>为<code>4.0.50</code></p>
+</blockquote>
+<p>首先运行<code>./configure --help</code>查看<strong>配置 QEMU 的选项</strong>及<strong>帮助信息</strong>：</p>
+<pre>
+<code class="language-bash">qemu-4.0.50 > ./configure --help
+
+Usage: configure [options]
+Options: [defaults in brackets after descriptions]
+
+Standard options:
+  --help                   print this message
+  <mark>--prefix=PREFIX</mark>          install in PREFIX [/usr/local]
+  --interp-prefix=PREFIX   where to find shared libraries, etc.
+                           use %M for cpu name [/usr/gnemul/qemu-%M]
+  <mark>--target-list=LIST</mark>       set target list (default: build everything)
+                           Available targets: aarch64-softmmu alpha-softmmu 
+                           arm-softmmu cris-softmmu hppa-softmmu i386-softmmu 
+                           lm32-softmmu m68k-softmmu microblaze-softmmu 
+                           microblazeel-softmmu mips-softmmu mips64-softmmu 
+                           mips64el-softmmu mipsel-softmmu moxie-softmmu 
+                           nios2-softmmu or1k-softmmu ppc-softmmu ppc64-softmmu 
+                           riscv32-softmmu riscv64-softmmu s390x-softmmu 
+                           sh4-softmmu sh4eb-softmmu sparc-softmmu 
+                           sparc64-softmmu tricore-softmmu unicore32-softmmu 
+                           <mark>x86_64-softmmu</mark> xtensa-softmmu xtensaeb-softmmu 
+                           aarch64-linux-user aarch64_be-linux-user 
+                           alpha-linux-user arm-linux-user armeb-linux-user 
+                           cris-linux-user hppa-linux-user i386-linux-user 
+                           m68k-linux-user microblaze-linux-user 
+                           microblazeel-linux-user mips-linux-user 
+                           mips64-linux-user mips64el-linux-user 
+                           mipsel-linux-user mipsn32-linux-user 
+                           mipsn32el-linux-user nios2-linux-user 
+                           or1k-linux-user ppc-linux-user ppc64-linux-user 
+                           ppc64abi32-linux-user ppc64le-linux-user 
+                           riscv32-linux-user riscv64-linux-user 
+                           s390x-linux-user sh4-linux-user sh4eb-linux-user 
+                           sparc-linux-user sparc32plus-linux-user 
+                           sparc64-linux-user tilegx-linux-user 
+                           x86_64-linux-user xtensa-linux-user 
+                           xtensaeb-linux-user
+  --target-list-exclude=LIST exclude a set of targets from the default target-list
+
+Advanced options (experts only):
+  --source-path=PATH       path of source code [/kvm/qemu_src/qemu-4.0.0]
+  --cross-prefix=PREFIX    use PREFIX for compile tools []
+  --cc=CC                  use C compiler CC [cc]
+  --iasl=IASL              use ACPI compiler IASL [iasl]
+  --host-cc=CC             use C compiler CC [cc] for code run at
+                           build time
+  --cxx=CXX                use C++ compiler CXX [c++]
+  --objcc=OBJCC            use Objective-C compiler OBJCC [cc]
+  --extra-cflags=CFLAGS    append extra C compiler flags QEMU_CFLAGS
+  --extra-cxxflags=CXXFLAGS append extra C++ compiler flags QEMU_CXXFLAGS
+  --extra-ldflags=LDFLAGS  append extra linker flags LDFLAGS
+  --cross-cc-ARCH=CC       use compiler when building ARCH guest test cases
+  --cross-cc-flags-ARCH=   use compiler flags when building ARCH guest tests
+  --make=MAKE              use specified make [make]
+  --install=INSTALL        use specified install [install]
+  --python=PYTHON          use specified python [python]
+  --smbd=SMBD              use specified smbd [/usr/sbin/smbd]
+  --with-git=GIT           use specified git [git]
+  --static                 enable static build [no]
+  --mandir=PATH            install man pages in PATH
+  --datadir=PATH           install firmware in PATH/qemu
+  --docdir=PATH            install documentation in PATH/qemu
+  --bindir=PATH            install binaries in PATH
+  --libdir=PATH            install libraries in PATH
+  --libexecdir=PATH        install helper binaries in PATH
+  --sysconfdir=PATH        install config in PATH/qemu
+  --localstatedir=PATH     install local state in PATH (set at runtime on win32)
+  --firmwarepath=PATH      search PATH for firmware files
+  --with-confsuffix=SUFFIX suffix for QEMU data inside datadir/libdir/sysconfdir [/qemu]
+  --with-pkgversion=VERS   use specified string as sub-version of the package
+  <mark>--enable-debug</mark>           enable common debug build options
+  --enable-sanitizers      enable default sanitizers
+  --disable-strip          disable stripping binaries
+  --disable-werror         disable compilation abort on warning
+  --disable-stack-protector disable compiler-provided stack protection
+  <mark>--audio-drv-list=LIST</mark>    set audio drivers list:
+                           Available drivers: oss alsa sdl pa
+  --block-drv-whitelist=L  Same as --block-drv-rw-whitelist=L
+  --block-drv-rw-whitelist=L
+                           set block driver read-write whitelist
+                           (affects only QEMU, not qemu-img)
+  --block-drv-ro-whitelist=L
+                           set block driver read-only whitelist
+                           (affects only QEMU, not qemu-img)
+  --enable-trace-backends=B Set trace backend
+                           Available backends: dtrace ftrace log simple syslog ust
+  --with-trace-file=NAME   Full PATH,NAME of file to store traces
+                           Default:trace-<pid>
+  --disable-slirp          disable SLIRP userspace network connectivity
+  --enable-tcg-interpreter enable TCG with bytecode interpreter (TCI)
+  --enable-malloc-trim     enable libc malloc_trim() for memory optimization
+  --oss-lib                path to OSS library
+  --cpu=CPU                Build for host CPU [x86_64]
+  --with-coroutine=BACKEND coroutine backend. Supported options:
+                           ucontext, sigaltstack, windows
+  --enable-gcov            enable test coverage analysis with gcov
+  --gcov=GCOV              use specified gcov [gcov]
+  --disable-blobs          disable installing provided firmware blobs
+  --with-vss-sdk=SDK-path  enable Windows VSS support in QEMU Guest Agent
+  --with-win-sdk=SDK-path  path to Windows Platform SDK (to build VSS .tlb)
+  --tls-priority           default TLS protocol/cipher priority string
+  --enable-gprof           QEMU profiling with gprof
+  --enable-profiler        profiler support
+  --enable-debug-stack-usage
+                           track the maximum stack usage of stacks created by qemu_alloc_stack
+
+Optional features, enabled with --enable-FEATURE and
+disabled with --disable-FEATURE, <mark>default is enabled if available</mark>:
+
+  system          all system emulation targets
+  user            supported user emulation targets
+  linux-user      all linux usermode emulation targets
+  bsd-user        all BSD usermode emulation targets
+  docs            build documentation
+  guest-agent     build the QEMU Guest Agent
+  guest-agent-msi build guest agent Windows MSI installation package
+  pie             Position Independent Executables
+  modules         modules support
+  debug-tcg       TCG debugging (default is disabled)
+  <mark>debug-info</mark>      debugging information
+  sparse          sparse checker
+
+  gnutls          GNUTLS cryptography support
+  nettle          nettle cryptography support
+  gcrypt          libgcrypt cryptography support
+  auth-pam        PAM access control
+  <mark>sdl</mark>             SDL UI
+  sdl_image       SDL Image support for icons
+  <mark>gtk</mark>             gtk UI
+  vte             vte support for the gtk UI
+  curses          curses UI
+  iconv           font glyph conversion support
+  <mark>vnc</mark>             VNC UI support
+  vnc-sasl        SASL encryption for VNC server
+  vnc-jpeg        JPEG lossy compression for VNC server
+  vnc-png         PNG compression for VNC server
+  cocoa           Cocoa UI (Mac OS X only)
+  virtfs          VirtFS
+  mpath           Multipath persistent reservation passthrough
+  xen             xen backend driver support
+  xen-pci-passthrough    PCI passthrough support for Xen
+  brlapi          BrlAPI (Braile)
+  <mark>curl</mark>            curl connectivity
+  membarrier      membarrier system call (for Linux 4.14+ or Windows)
+  fdt             fdt device tree
+  bluez           bluez stack connectivity
+  <mark>kvm</mark>             KVM acceleration support
+  hax             HAX acceleration support
+  hvf             Hypervisor.framework acceleration support
+  whpx            Windows Hypervisor Platform acceleration support
+  rdma            Enable RDMA-based migration
+  pvrdma          Enable PVRDMA support
+  vde             support for vde network
+  netmap          support for netmap network
+  linux-aio       Linux AIO support
+  cap-ng          libcap-ng support
+  attr            attr and xattr support
+  <mark>vhost-net</mark>       vhost-net kernel acceleration support
+  vhost-vsock     virtio sockets device support
+  vhost-scsi      vhost-scsi kernel target support
+  vhost-crypto    vhost-user-crypto backend support
+  vhost-kernel    vhost kernel backend support
+  vhost-user      vhost-user backend support
+  <mark>spice</mark>           spice
+  rbd             rados block device (rbd)
+  libiscsi        iscsi support
+  libnfs          nfs support
+  smartcard       smartcard support (libcacard)
+  <mark>libusb</mark>          libusb (for usb passthrough)
+  live-block-migration   Block migration in the main migration stream
+  <mark>usb-redir</mark>       usb network redirection support
+  lzo             support of lzo compression library
+  snappy          support of snappy compression library
+  bzip2           support of bzip2 compression library
+                  (for reading bzip2-compressed dmg images)
+  lzfse           support of lzfse compression library
+                  (for reading lzfse-compressed dmg images)
+  seccomp         seccomp support
+  coroutine-pool  coroutine freelist (better performance)
+  glusterfs       GlusterFS backend
+  tpm             TPM support
+  libssh2         ssh block device support
+  numa            libnuma support
+  libxml2         for Parallels image format
+  tcmalloc        tcmalloc support
+  jemalloc        jemalloc support
+  avx2            AVX2 optimization support
+  replication     replication support
+  <mark>opengl</mark>          opengl support
+  virglrenderer   virgl rendering support
+  xfsctl          xfsctl support
+  qom-cast-debug  cast debugging support
+  tools           build qemu-io, qemu-nbd and qemu-img tools
+  vxhs            Veritas HyperScale vDisk backend support
+  bochs           bochs image format support
+  cloop           cloop image format support
+  dmg             dmg image format support
+  qcow1           qcow v1 image format support
+  vdi             vdi image format support
+  vvfat           vvfat image format support
+  qed             qed image format support
+  parallels       parallels image format support
+  sheepdog        sheepdog block driver support
+  crypto-afalg    Linux AF_ALG crypto backend driver
+  capstone        capstone disassembler support
+  debug-mutex     mutex debugging support
+  libpmem         libpmem support
+
+NOTE: The object files are built at the place where configure is launched</pid></code>
+</pre>
+
+<p>根据实际需求<strong>启用或禁用相关配置项</strong>，<strong>配置命令如下</strong>：</p>
+<pre><code class="lang-bash">./configure --prefix=/usr \
+    --enable-kvm          \
+    --enable-libusb       \
+    --enable-usb-redir    \
+    --enable-debug        \
+    --enable-debug-info   \
+    --enable-curl         \
+    --enable-sdl          \
+    --enable-vhost-net    \
+    --enable-spice        \
+    --enable-vnc          \
+    --enable-opengl       \
+    --enable-gtk          \
+    --target-list=x86_64-softmmu
+</code></pre>
+<blockquote>
+<p>可能需要<strong>根据提示信息安装相应的依赖包</strong>，参见 <a href="https://github.com/intel/gvt-linux/wiki/GVTg_Setup_Guide#331-build-qemu-for-kvmgt" target="_blank" rel="noopener">3.3.1 Build Qemu for KVMGT | gvt-linux</a></p>
+</blockquote>
+<p><strong>CentOS 7</strong> 的 <strong>yum</strong> 包：</p>
+<pre><code class="lang-bash">yum install SDL2-devel libcurl-devel
+</code></pre>
+<p><strong>Ubuntu 18.04</strong> 的 <strong>apt</strong> 包：</p>
+<pre><code class="lang-bash">apt-get install libsdl2-dev libcurl4-openssl-dev libusbredirhost-dev
+</code></pre>
+<p>若<strong>相关依赖均已安装</strong>，则可<strong>成功配置</strong>，终端输出如下所示：</p>
+<pre><code class="lang-bash">Install prefix    /usr
+BIOS directory    /usr/share/qemu
+firmware path     /usr/share/qemu-firmware
+binary directory  /usr/bin
+library directory /usr/lib
+module directory  /usr/lib/qemu
+libexec directory /usr/libexec
+include directory /usr/include
+config directory  /usr/etc
+local state directory   /usr/var
+Manual directory  /usr/share/man
+ELF interp prefix /usr/gnemul/qemu-%M
+Source path       /kvm/qemu_src/qemu-4.0.50
+GIT binary        git
+GIT submodules    ui/keycodemapdb tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 dtc capstone
+C compiler        cc
+Host C compiler   cc
+C++ compiler      c++
+Objective-C compiler cc
+ARFLAGS           rv
+CFLAGS            -g 
+QEMU_CFLAGS       -I/usr/include/pixman-1 -I$(SRC_PATH)/dtc/libfdt -Werror  -pthread -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -fPIE -DPIE -m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wall -Wundef -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv -std=gnu99  -Wexpansion-to-defined -Wendif-labels -Wno-shift-negative-value -Wno-missing-include-dirs -Wempty-body -Wnested-externs -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wold-style-declaration -Wold-style-definition -Wtype-limits -fstack-protector-strong -I/usr/include/libpng16  -I/usr/include/spice-server -I/usr/include/spice-1 -I$(SRC_PATH)/capstone/include
+LDFLAGS           -Wl,--warn-common -Wl,-z,relro -Wl,-z,now -pie -m64 -g 
+QEMU_LDFLAGS      -L$(BUILD_DIR)/dtc/libfdt 
+make              make
+install           install
+python            python -B (2.7.15rc1)
+slirp support     internal 
+smbd              /usr/sbin/smbd
+module support    no
+host CPU          x86_64
+host big endian   no
+target list       x86_64-softmmu
+gprof enabled     no
+sparse enabled    no
+strip binaries    no
+profiler          no
+static build      no
+SDL support       yes (2.0.8)
+SDL image support no
+GTK support       yes (3.22.30)
+GTK GL support    yes
+VTE support       no 
+TLS priority      NORMAL
+GNUTLS support    no
+libgcrypt         no
+nettle            no 
+libtasn1          no
+PAM               no
+iconv support     yes
+curses support    no
+virgl support     no 
+curl support      yes
+mingw32 support   no
+Audio drivers     pa oss
+Block whitelist (rw) 
+Block whitelist (ro) 
+VirtFS support    no
+Multipath support no
+VNC support       yes
+VNC SASL support  no
+VNC JPEG support  no
+VNC PNG support   yes
+xen support       no
+brlapi support    no
+bluez  support    no
+Documentation     no
+PIE               yes
+vde support       no
+netmap support    no
+Linux AIO support yes
+ATTR/XATTR support yes
+Install blobs     yes
+KVM support       yes
+HAX support       no
+HVF support       no
+WHPX support      no
+TCG support       yes
+TCG debug enabled yes
+TCG interpreter   no
+malloc trim support yes
+RDMA support      no
+PVRDMA support    no
+fdt support       git
+membarrier        no
+preadv support    yes
+fdatasync         yes
+madvise           yes
+posix_madvise     yes
+posix_memalign    yes
+libcap-ng support no
+vhost-net support yes
+vhost-crypto support yes
+vhost-scsi support yes
+vhost-vsock support yes
+vhost-user support yes
+Trace backends    log
+spice support     yes (0.12.13/0.14.0)
+rbd support       no
+xfsctl support    no
+smartcard support no
+libusb            yes
+usb net redir     yes
+OpenGL support    yes
+OpenGL dmabufs    yes
+libiscsi support  no
+libnfs support    no
+build guest agent yes
+QGA VSS support   no
+QGA w32 disk info no
+QGA MSI support   no
+seccomp support   no
+coroutine backend ucontext
+coroutine pool    yes
+debug stack usage no
+mutex debugging   yes
+crypto afalg      no
+GlusterFS support no
+gcov              gcov
+gcov enabled      no
+TPM support       yes
+libssh2 support   no
+TPM passthrough   
+TPM emulator      
+QOM debugging     yes
+Live block migration yes
+lzo support       no
+snappy support    no
+bzip2 support     no
+lzfse support     no
+NUMA host support no
+libxml2           yes
+tcmalloc support  no
+jemalloc support  no
+avx2 optimization yes
+replication support yes
+VxHS block device no
+bochs support     yes
+cloop support     yes
+dmg support       yes
+qcow v1 support   yes
+vdi support       yes
+vvfat support     yes
+qed support       yes
+parallels support yes
+sheepdog support  yes
+capstone          git
+docker            yes
+libpmem support   no
+libudev           yes
+default devices   yes
+
+NOTE: cross-compilers enabled:  &#39;cc&#39;
+</code></pre>
+<blockquote>
+<p>在配置完以后，当前目录<code>qemu-4.0.50</code>下会生成<code>config-host.mak</code>和<code>config.status</code>文件：</p>
+</blockquote>
+<ul>
+<li><code>config-host.mak</code>：<strong>可查看上述</strong><code>./configure</code><strong>之后的配置结果</strong>，会在后续<code>make</code>中被引用</li>
+<li><code>config.status</code>：便于后续要重新<code>configure</code>时，只要执行<code>./config.status</code>，就可以<strong>恢复上一次的配置</strong></li>
+</ul>
+<h5 id="编译-QEMU"><a href="#编译-QEMU" class="headerlink" title="编译 QEMU"></a>编译 QEMU</h5><p>经过配置之后，编译就很简单了，<strong>直接执行</strong><code>make</code><strong>命令</strong>：</p>
+<pre><code class="lang-bash">qemu-4.0.50 &gt; make -j 16
+qemu-4.0.50 &gt; cd x86_64-softmmu
+x86_64-softmmu &gt; ls
+accel        config-devices.mak         cpus.d   dump.o     gdbstub.o       hmp-commands-info.h  memory.d          monitor.d  qemu-system-x86_64  trace
+arch_init.d  config-devices.mak.old     cpus.o   exec.d     gdbstub-xml.c   hw                   memory_mapping.d  monitor.o  qtest.d             win_dump.d
+arch_init.o  config-target.h            disas.d  exec.o     gdbstub-xml.d   ioport.d             memory_mapping.o  numa.d     qtest.o             win_dump.o
+balloon.d    config-target.h-timestamp  disas.o  fpu        gdbstub-xml.o   ioport.o             memory.o          numa.o     target
+balloon.o    config-target.mak          dump.d   gdbstub.d  hmp-commands.h  Makefile             migration         qapi       tcg
+
+x86_64-softmmu &gt; ./qemu-system-x86_64 --version
+QEMU emulator version 4.0.50 (v4.0.0-142-ge0fb2c3d89-dirty)
+Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+</code></pre>
+<p>为了支持<code>KVMGT</code>，还需<strong>单独编译</strong><code>seabios</code>，之后会<strong>在</strong><code>out</code><strong>目录下生成</strong><code>bios.bin</code><strong>文件</strong>：</p>
+<pre>
+<code class="language-bash">qemu-4.0.50 > cd roms/seabios
+seabios > make -j 16
+seabios > ls ./out
+asm-offsets.h  bios.bin.prep  ccode16.o.tmp.c      code16.o              code32seg.d          include        rom32seg.strip.o     romlayout.d    scripts    vgasrc
+autoconf.h     bios.bin.raw   ccode32flat.d        code16.o.objdump      code32seg.o          rom16.o        romlayout16.lds      romlayout.o    src
+autoversion.h  ccode16.d      ccode32flat.o        code32flat.o          code32seg.o.objdump  rom16.strip.o  romlayout32flat.lds  rom.o          version.d
+<mark>bios.bin</mark>       ccode16.o      ccode32flat.o.tmp.c  code32flat.o.objdump  code32seg.o.tmp.c    rom32seg.o     romlayout32seg.lds   rom.o.objdump  version.o </code>
+</pre>
+
+
+<h4 id="4-3-安装-QEMU"><a href="#4-3-安装-QEMU" class="headerlink" title="4.3 安装 QEMU"></a>4.3 安装 QEMU</h4><p>编译完成后，<strong>运行</strong><code>make install</code><strong>命令即可安装 QEMU</strong>：</p>
+<pre><code class="lang-bash">qemu-4.0.50 &gt; make install
+qemu-4.0.50 &gt; ls /usr/share/qemu
+acpi-dsdt.aml             edk2-x86_64-code.fd         init                      ppc_rom.bin        qemu-icon.bmp          trace-events
+bamboo.dtb                edk2-x86_64-secure-code.fd  keymaps                   pvh.bin            qemu_logo_no_text.svg  trace-events-all
+bios-256k.bin             efi-e1000e.rom              kvmvapic.bin              pxe-e1000.rom      QEMU,tcx.bin           u-boot.e500
+bios.bin                  efi-e1000.rom               linuxboot.bin             pxe-eepro100.rom   QEMU,VGA.bin           u-boot-sam460-20100605.bin
+canyonlands.dtb           efi-eepro100.rom            linuxboot_dma.bin         pxe-ne2k_isa.rom   qemu_vga.ndrv          vgabios.bin
+edk2-aarch64-code.fd      efi-ne2k_pci.rom            multiboot.bin             pxe-ne2k_pci.rom   s390-ccw.img           vgabios-bochs-display.bin
+edk2-arm-code.fd          efi-pcnet.rom               openbios-ppc              pxe-pcnet32.rom    s390-netboot.img       vgabios-cirrus.bin
+edk2-arm-vars.fd          efi-rtl8139.rom             openbios-sparc32          pxe-pcnet.rom      s390-zipl.rom          vgabios-qxl.bin
+edk2-i386-code.fd         efi-virtio.rom              openbios-sparc64          pxe-rtl8139.rom    sgabios.bin            vgabios-ramfb.bin
+edk2-i386-secure-code.fd  efi-vmxnet3.rom             palcode-clipper           pxe-virtio.rom     skiboot.lid            vgabios-stdvga.bin
+edk2-i386-vars.fd         firmware                    petalogix-ml605.dtb       q35-acpi-dsdt.aml  slof.bin               vgabios-virtio.bin
+edk2-licenses.txt         hppa-firmware.img           petalogix-s3adsp1800.dtb  QEMU,cgthree.bin   spapr-rtas.bin         vgabios-vmware.bin
+
+qemu-4.0.50 &gt; ls /usr/share/qemu/firmware
+50-edk2-i386-secure.json  50-edk2-x86_64-secure.json  60-edk2-aarch64.json  60-edk2-arm.json  60-edk2-i386.json  60-edk2-x86_64.json
+
+qemu-4.0.50 &gt; ls /usr/share/qemu/keymaps
+ar    common  da  de-ch  en-us  et  fo  fr-be  fr-ch  hu  it  lt  mk         nl     no  pt     ru  sv  tr
+bepo  cz      de  en-gb  es     fi  fr  fr-ca  hr     is  ja  lv  modifiers  nl-be  pl  pt-br  sl  th
+</code></pre>
+<p>另外还需<strong>将编译后的</strong><code>bios.bin</code><strong>拷贝至</strong><code>/usr/bin</code><strong>目录</strong>：</p>
+<pre><code class="lang-bash">qemu-4.0.50 &gt; cp roms/seabios/out/bios.bin /usr/bin/bios.bin
+</code></pre>
+<p><strong>QEMU 的安装过程</strong>主要有以下几个任务：</p>
+<ul>
+<li>创建 <strong>QEMU 的一些目录</strong></li>
+<li>复制一些<strong>配置文件</strong>到相应的目录下</li>
+<li>复制一些<strong>固件文件</strong>（如<code>sgabios.bin</code>、<code>kvmvapic.bin</code>）到目录下，以便 QEMU 命令行启动时可以找到对应的固件供客户机使用</li>
+<li>复制<code>keymaps</code>到相应的目录下，以便在客户机中支持各种所需的<strong>键盘类型</strong></li>
+<li>复制<code>qemu-system-x86_64</code>、<code>qemu-img</code>等<strong>可执行程序</strong>到对应的目录下 </li>
+</ul>
+<pre><code class="lang-bash">&gt; ls /usr/share/qemu
+acpi-dsdt.aml             edk2-x86_64-code.fd         init                      ppc_rom.bin        qemu-icon.bmp          trace-events
+bamboo.dtb                edk2-x86_64-secure-code.fd  keymaps                   pvh.bin            qemu_logo_no_text.svg  trace-events-all
+bios-256k.bin             efi-e1000e.rom              kvmvapic.bin              pxe-e1000.rom      QEMU,tcx.bin           u-boot.e500
+bios.bin                  efi-e1000.rom               linuxboot.bin             pxe-eepro100.rom   QEMU,VGA.bin           u-boot-sam460-20100605.bin
+canyonlands.dtb           efi-eepro100.rom            linuxboot_dma.bin         pxe-ne2k_isa.rom   qemu_vga.ndrv          vgabios.bin
+edk2-aarch64-code.fd      efi-ne2k_pci.rom            multiboot.bin             pxe-ne2k_pci.rom   s390-ccw.img           vgabios-bochs-display.bin
+edk2-arm-code.fd          efi-pcnet.rom               openbios-ppc              pxe-pcnet32.rom    s390-netboot.img       vgabios-cirrus.bin
+edk2-arm-vars.fd          efi-rtl8139.rom             openbios-sparc32          pxe-pcnet.rom      s390-zipl.rom          vgabios-qxl.bin
+edk2-i386-code.fd         efi-virtio.rom              openbios-sparc64          pxe-rtl8139.rom    sgabios.bin            vgabios-ramfb.bin
+edk2-i386-secure-code.fd  efi-vmxnet3.rom             palcode-clipper           pxe-virtio.rom     skiboot.lid            vgabios-stdvga.bin
+edk2-i386-vars.fd         firmware                    petalogix-ml605.dtb       q35-acpi-dsdt.aml  slof.bin               vgabios-virtio.bin
+edk2-licenses.txt         hppa-firmware.img           petalogix-s3adsp1800.dtb  QEMU,cgthree.bin   spapr-rtas.bin         vgabios-vmware.bin
+
+&gt; ls /usr/share/qemu/keymaps
+ar    common  da  de-ch  en-us  et  fo  fr-be  fr-ch  hu  it  lt  mk         nl     no  pt     ru  sv  tr
+bepo  cz      de  en-gb  es     fi  fr  fr-ca  hr     is  ja  lv  modifiers  nl-be  pl  pt-br  sl  th
+</code></pre>
+<blockquote>
+<p>由于 <strong>QEMU 是用户空间的程序</strong>，所以<strong>安装之后不需要重启系统</strong>，直接使用<code>qemu-system-x86_64</code>、<code>qemu-img</code>这样的<strong>命令行工具</strong>就可以了</p>
+</blockquote>
+<h3 id="5-安装客户机"><a href="#5-安装客户机" class="headerlink" title="5. 安装客户机"></a>5. 安装客户机</h3><p><strong>安装客户机前</strong>，需要先创建一个<strong>镜像文件</strong>来<strong>存储客户机中的系统和文件</strong>:</p>
+<pre><code class="lang-bash">&gt; qemu-img create -f raw fedora30.raw 20G # 指定为 raw 格式
+Formatting &#39;fedora30.raw&#39;, fmt=raw size=21474836480
+
+&gt; qemu-img info fedora30.raw
+image: fedora30.raw
+file format: raw
+virtual size: 20G (21474836480 bytes)
+disk size: 0
+</code></pre>
+<p>可以看到<strong>目前</strong><code>fedora30.raw</code><strong>并不占用任何磁盘空间</strong>，这是因为<code>qemu-img</code>默认的方式是<strong>按需分配</strong>，镜像文件的大小会<strong>随着实际的使用而增大</strong>。</p>
+<p>可在<code>qemu-img</code>命令中<strong>添加</strong><code>-o preallocation=full</code><strong>选项</strong>，使得<strong>镜像在创建时分配全部的空间</strong>，不过这样的话<strong>格式化过程</strong>就会比较<strong>耗时</strong>：</p>
+<pre><code class="lang-bash">&gt; qemu-img create -f raw fedora30-full.raw 10G -o preallocation=full
+Formatting &#39;fedora30-full.raw&#39;, fmt=raw size=10737418240 preallocation=&#39;full&#39;
+
+&gt; qemu-img info fedora30-full.raw
+image: fedora30-full.raw
+file format: raw
+virtual size: 10G (10737418240 bytes)
+disk size: 10G
+</code></pre>
+<p>最后即可使用以下命令<strong>启动 KVM 客户机，并安装系统</strong>：</p>
+<pre><code class="lang-bash">&gt; qemu-system-x86_64 -accel kvm \
+      -m 2G -smp 2 -boot once=d \
+      -cdrom /kvm/iso/Fedora-Server-dvd-x86_64-30-1.2.iso \
+      -drive file=/kvm/image/fedora30.raw,format=raw
+</code></pre>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/04/16/kvm-in-action-1/install-fedora.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://book.douban.com/subject/30544350/" target="_blank" rel="noopener">《KVM实战：原理、进阶与性能调优》</a></li>
+<li><a href="https://www.linux-kvm.org/page/Main_Page" target="_blank" rel="noopener">KVM</a></li>
+<li><a href="https://www.qemu.org" target="_blank" rel="noopener">QEMU</a></li>
+<li><a href="https://git.kernel.org/pub/scm/virt/kvm/kvm.git" target="_blank" rel="noopener">kvm.git | Kernel.org</a></li>
+<li><a href="https://github.com/intel/gvt-linux/wiki/GVTg_Setup_Guide" target="_blank" rel="noopener">GVTg_Setup_Guide | gvt-linux</a></li>
+<li><a href="https://notes.abelsu7.top/#/develop/virtualization" target="_blank" rel="noopener">虚拟化文档 | Coding-Notes</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/09/02/virtio-in-kvm/">半虚拟化 I/O 框架 virtio</a></li><li><a href="https://abelsu7.top/2019/08/26/compile-kvm-module/">单独编译 KVM 内核模块</a></li><li><a href="https://abelsu7.top/2019/08/11/kvm-api-overview/">Kernel 2.6.32 中的 KVM API 概述</a></li><li><a href="https://abelsu7.top/2019/08/11/qemu-main-func/">QEMU 1.2.0 入口 main() 函数调用流程分析</a></li><li><a href="http://www.borgor.cn/2017-10-23/16f315c1.html">迁移 VMware 虚拟机到 KVM</a></li><li><a href="https://zsnmwy.net/47278.html">微星B350M 虚拟化开启 AMD-V</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.424Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/04/16/kvm-in-action-1/" target="_blank" rel="external">https://abelsu7.top/2019/04/16/kvm-in-action-1/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/KVM/">KVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QEMU/">QEMU</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/云计算/">云计算</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/虚拟化/">虚拟化</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/04/16/kvm-in-action-1/&title=《《KVM 实战》笔记 1：构建 KVM 环境》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/04/16/kvm-in-action-1/&title=《《KVM 实战》笔记 1：构建 KVM 环境》 — Keep Coding&source=
+摘自 《KVM实战：原理、进阶与性能调优》
+
+
+                
+                    
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/04/16/kvm-in-action-1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《KVM 实战》笔记 1：构建 KVM 环境》 — Keep Coding&url=https://abelsu7.top/2019/04/16/kvm-in-action-1/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/04/16/kvm-in-action-1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/04/16/centos7-install-and-configure-vnc/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">CentOS 7 安装配置 VNC</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/04/11/centos7-install-ohmyzsh/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">CentOS 7 安装配置 oh-my-zsh</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/04/16/kvm-in-action-1/&title=《《KVM 实战》笔记 1：构建 KVM 环境》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/04/16/kvm-in-action-1/&title=《《KVM 实战》笔记 1：构建 KVM 环境》 — Keep Coding&source=
+摘自 《KVM实战：原理、进阶与性能调优》
+
+
+                
+                    
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/04/16/kvm-in-action-1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《KVM 实战》笔记 1：构建 KVM 环境》 — Keep Coding&url=https://abelsu7.top/2019/04/16/kvm-in-action-1/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/04/16/kvm-in-action-1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACOklEQVR42u3aQW7DMAwEQP//0y7QUw+Nu0s5BayMTkHR2BodGJLiccTr/F7J388f6/rv5+U63rEwMDAey0ge9+r115j8CK7fG1ExMDA+gJG8pt3o9VbuOgIMDAyMNiBeb6U9MgwMDIyVgJukjNdhFwMDA6NlJAnc9etXOmN5oL+hFsfAwHggo70Y+M/Pb7zfwMDAeAjjHK3kwrIthpf2g4GBsTUj30o7ZtEWq7OL0qM9UQwMjAcy8sbW0jkF7PwgfvkuBgbG1oy8cZaH4zYQr4xx1BvFwMB4LGN29Zh/bkP5ME3EwMDYmpE0wtpCtE372mdiYGB8JiNve+Wp5L0Btz1uDAyMPRj5EFhyHu0FZz6OFnUNMTAwNmW06d0soq8cVl2LY2BgbMdIHp2072cDE3VRmqSGGBgYWzNmjbDZsEXbpKsvAzAwMLZjtMMWbbGaT0fkx/SyfMXAwNiOMRuJmBWcyRPyq8qX7TYMDIztGG3AzQvXNlzO2nDD3w0MDIxHMVaGHvKg2Y5fJGE6+t3AwMDYjpGXnSvDZPnVad3Uw8DA+DBG26ZvC913HAoGBsbejLZlll9YJs+5YdgCAwNja8ZZrqRwnSV/+cDrL9/CwMDYmtEORsyC7zppKVnEwMDYgrEyxjrj5delxXMwMDA+gNGOUKxfGxzl+iNZxMDAwIizy7uK3vrtGBgYGKNWfptoJkVvHe8xMDA2YszGT/Mx0/x/ZokjBgbG3oxZW78N2W1DbXY0GBgY2zG+APOnDcuJwyoJAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

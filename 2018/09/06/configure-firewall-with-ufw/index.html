@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>【译】如何使用 UFW 配置防火墙 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Ubuntu,Linux,UFW">
+    <meta name="description" content="UFW是什么？UFW（Uncomplicated Firewall）是Arch Linux、Debian或Ubuntu中管理防火墙规则的前端工具。UFW通常在命令行环境下使用（尽管UFW也提供了图形界面），目的是让配置防火墙变得简单（或者说，没那么复杂）。">
+<meta name="keywords" content="Ubuntu,Linux,UFW">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【译】如何使用 UFW 配置防火墙">
+<meta property="og:url" content="https://abelsu7.top/2018/09/06/configure-firewall-with-ufw/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="UFW是什么？UFW（Uncomplicated Firewall）是Arch Linux、Debian或Ubuntu中管理防火墙规则的前端工具。UFW通常在命令行环境下使用（尽管UFW也提供了图形界面），目的是让配置防火墙变得简单（或者说，没那么复杂）。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2018/09/06/configure-firewall-with-ufw/ufw.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.052Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【译】如何使用 UFW 配置防火墙">
+<meta name="twitter:description" content="UFW是什么？UFW（Uncomplicated Firewall）是Arch Linux、Debian或Ubuntu中管理防火墙规则的前端工具。UFW通常在命令行环境下使用（尽管UFW也提供了图形界面），目的是让配置防火墙变得简单（或者说，没那么复杂）。">
+<meta name="twitter:image" content="https://abelsu7.top/2018/09/06/configure-firewall-with-ufw/ufw.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">【译】如何使用 UFW 配置防火墙</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">【译】如何使用 UFW 配置防火墙</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-09-06T07:43:58.000Z" itemprop="datePublished" class="page-time">
+  2018-09-06
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Ubuntu/">Ubuntu</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#UFW是什么？"><span class="post-toc-text">UFW是什么？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#开始前的准备"><span class="post-toc-text">开始前的准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装UFW"><span class="post-toc-text">安装UFW</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Arch-Linux"><span class="post-toc-text">Arch Linux</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Debian-Ubuntu"><span class="post-toc-text">Debian / Ubuntu</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用UFW管理防火墙规则"><span class="post-toc-text">使用UFW管理防火墙规则</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#设置默认规则"><span class="post-toc-text">设置默认规则</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#添加规则"><span class="post-toc-text">添加规则</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#高级规则"><span class="post-toc-text">高级规则</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#删除规则"><span class="post-toc-text">删除规则</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#编辑UFW配置文件"><span class="post-toc-text">编辑UFW配置文件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#UFW状态"><span class="post-toc-text">UFW状态</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#启用防火墙"><span class="post-toc-text">启用防火墙</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#UFW日志"><span class="post-toc-text">UFW日志</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-configure-firewall-with-ufw"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">【译】如何使用 UFW 配置防火墙</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-09-06 15:43:58" datetime="2018-09-06T07:43:58.000Z"  itemprop="datePublished">2018-09-06</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Ubuntu/">Ubuntu</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="UFW是什么？"><a href="#UFW是什么？" class="headerlink" title="UFW是什么？"></a>UFW是什么？</h2><p>UFW（Uncomplicated Firewall）是Arch Linux、Debian或Ubuntu中管理防火墙规则的前端工具。UFW通常在命令行环境下使用（尽管UFW也提供了图形界面），目的是让配置防火墙变得简单（或者说，没那么复杂）。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/09/06/configure-firewall-with-ufw/ufw.png" alt="使用UFW配置防火墙" title>
+                </div>
+                <div class="image-caption">使用UFW配置防火墙</div>
+            </figure>
+<a id="more"></a>
+<h2 id="开始前的准备"><a href="#开始前的准备" class="headerlink" title="开始前的准备"></a>开始前的准备</h2><ol>
+<li>熟悉<a href="https://www.linode.com/docs/getting-started" target="_blank" rel="noopener">入门</a>指南，并按正确步骤设置好Linode的主机名及时区。</li>
+<li>本指南会尽可能使用<code>sudo</code>权限。请阅读文档中<a href="https://www.linode.com/docs/security/securing-your-server/" target="_blank" rel="noopener">保护您的服务器安全</a>章节部分，以创建标准用户账号，加强SSH访问并移除不必要的网络服务。请<strong>不要</strong>遵循 <em>创建防火墙</em> 章节的指引——本指南将介绍如何使用UFW来控制防火墙，这是iptables命令之外另一种控制防火墙的方法。</li>
+<li>升级您的系统</li>
+</ol>
+<p><strong>Arch Linux</strong></p>
+<pre><code class="lang-bash">sudo pacman -Syu
+</code></pre>
+<p><strong>Debian / Ubuntu</strong></p>
+<pre><code class="lang-bash">sudo apt-get update &amp;&amp; sudo apt-get upgrade
+</code></pre>
+<h2 id="安装UFW"><a href="#安装UFW" class="headerlink" title="安装UFW"></a>安装UFW</h2><p>UFW默认包含在Ubuntu中，但在Arch Linux及Debian中必须手动安装。Debian会自动启动UFW的systemd单元并使其在重启时启动，但Arch Linux并不会这样做。<em>这与告诉UFW启用防火墙规则不同</em>，因为通过systemd或upstart启动UFW只会告诉系统初始化程序启动UFW守护进程。</p>
+<p>默认情况下，UFW的规则集为空——因此即使守护进程正在运行，也不会启用任何防火墙规则。启用防火墙规则集的内容将在<a href="https://www.linode.com/docs/security/firewalls/configure-firewall-with-ufw/#enable-the-firewall" target="_blank" rel="noopener">页面下方</a>进行介绍。</p>
+<h3 id="Arch-Linux"><a href="#Arch-Linux" class="headerlink" title="Arch Linux"></a>Arch Linux</h3><p>安装UFW：</p>
+<pre><code class="lang-bash"> sudo pacman -S ufw
+</code></pre>
+<p>启动并启用UFW的systemd单元：</p>
+<pre><code class="lang-bash">sudo systemctl start ufw
+sudo systemctl enable ufw
+</code></pre>
+<h3 id="Debian-Ubuntu"><a href="#Debian-Ubuntu" class="headerlink" title="Debian / Ubuntu"></a>Debian / Ubuntu</h3><p>安装UFW</p>
+<pre><code class="lang-bash">sudo apt-get install ufw
+</code></pre>
+<h2 id="使用UFW管理防火墙规则"><a href="#使用UFW管理防火墙规则" class="headerlink" title="使用UFW管理防火墙规则"></a>使用UFW管理防火墙规则</h2><h3 id="设置默认规则"><a href="#设置默认规则" class="headerlink" title="设置默认规则"></a>设置默认规则</h3><p>大部分系统只需要一小部分端口为传入连接打开，其余所有端口均关闭。先从简单的基础规则开始，<code>ufw default</code>命令可用来设置对传入和传出连接的默认响应。要想拒绝所有传入连接并允许所有传出连接，请运行：</p>
+<pre><code class="lang-bash">sudo ufw default allow outgoing
+sudo ufw default deny incoming
+</code></pre>
+<p><code>ufw default</code>命令还允许使用<code>reject</code>参数。</p>
+<blockquote>
+<p><strong>警告</strong></p>
+<p>除非有明确的允许规则，否则配置默认拒绝或拒绝规则可能会阻止您退出Linode。在应用默认拒绝或拒绝规则之前，请确保已按照以下部分为SSH和其他关键服务配置了允许规则。</p>
+</blockquote>
+<h3 id="添加规则"><a href="#添加规则" class="headerlink" title="添加规则"></a>添加规则</h3><p>可以通过两种方式添加防火墙规则：声明<strong>端口号</strong>或声明<strong>服务名称</strong>。</p>
+<p>例如，要允许22端口上的传入和传出连接用于SSH，您可以运行：</p>
+<pre><code class="lang-bash">sudo ufw allow ssh
+</code></pre>
+<p>您还可以运行：</p>
+<pre><code class="lang-bash">sudo ufw allow 22
+</code></pre>
+<p>同样的，要<strong>拒绝</strong>某个端口上的流量（本例中为111端口），您只需运行：</p>
+<pre><code class="lang-bash">sudo ufw deny 111
+</code></pre>
+<p>要进一步微调规则，您还可以允许基于TCP或UDP的数据包通过。以下命令将允许80端口上的TCP数据包通过：</p>
+<pre><code class="lang-bash">sudo ufw allow 80/tcp
+sudo ufw allow http/tcp
+</code></pre>
+<p>而以下命令将允许1725端口上的UDP数据包通过：</p>
+<pre><code class="lang-bash">sudo ufw allow 1725/ufw
+</code></pre>
+<h3 id="高级规则"><a href="#高级规则" class="headerlink" title="高级规则"></a>高级规则</h3><p>除了仅通过指定端口来添加允许或拒绝规则之外，UFW还可让您允许/阻止来自指定IP地址、子网或特定IP地址/子网/端口组合的连接。</p>
+<p>允许来自指定IP地址的连接：</p>
+<pre><code class="lang-bash">sudo ufw allow from 123.45.67.89
+</code></pre>
+<p>允许来自指定子网的连接：</p>
+<pre><code class="lang-bash">sudo ufw allow from 123.45.67.89/24
+</code></pre>
+<p>允许来自指定IP地址/端口组合的连接：</p>
+<pre><code class="lang-bash">sudo ufw allow from 123.45.67.89 to any port 22 proto tcp
+</code></pre>
+<p>可根据您的实际需求删除<code>proto tcp</code>参数或替换为<code>proto udp</code>，并且如有需要，所有示例中的<code>allow</code>都可替换为<code>deny</code>。</p>
+<h3 id="删除规则"><a href="#删除规则" class="headerlink" title="删除规则"></a>删除规则</h3><p>要想删除规则，请在规则语句前添加<code>delete</code>。如果您不在希望允许HTTP流量通过，则可运行：</p>
+<pre><code class="lang-bash">sudo ufw delete allow 80
+</code></pre>
+<p>还可以通过指定服务名称来删除规则。</p>
+<h2 id="编辑UFW配置文件"><a href="#编辑UFW配置文件" class="headerlink" title="编辑UFW配置文件"></a>编辑UFW配置文件</h2><p>虽然可以通过命令行添加简单的规则，但有些时候也需要添加或删除更加高级或特定的防火墙规则。在运行通过终端输入的规则之前，UFW会首先运行<code>before.rules</code>文件中的规则，该文件允许本地环回（loopback）、ping以及DHCP通过防火墙。要对这些规则添加修改，请编辑<code>/etc/ufw/before.rules</code>文件。在相同目录下同样存在一个名为<code>before6.rules</code>的文件用来对IPv6的规则进行配置。</p>
+<p>同样的，还存在<code>after.rule</code>和<code>after6.rule</code>文件，用来添加在UFW运行从命令行输入的规则后需要添加的任何规则。</p>
+<p>另一个配置文件位于<code>/etc/default/ufw</code>。在该配置文件中可以禁用或启用IPv6，设置默认规则，还可以设置UFW来管理内置的防火墙链。</p>
+<h2 id="UFW状态"><a href="#UFW状态" class="headerlink" title="UFW状态"></a>UFW状态</h2><p>您可随时使用<code>sudo ufw status</code>命令查看UFW的状态信息。这将以列表的形式打印出所有的规则信息，并显示UFW是否处于活跃状态：</p>
+<pre class="language-bash command-line" data-user="root" data-host="ubuntu" data-output="2-11">
+<code>sudo ufw status
+Status: 
+
+To                         Action      From
+--                         ------      ----
+22                         ALLOW       Anywhere
+80/tcp                     ALLOW       Anywhere
+443                        ALLOW       Anywhere
+22 (v6)                    ALLOW       Anywhere (v6)
+80/tcp (v6)                ALLOW       Anywhere (v6)
+443 (v6)                   ALLOW       Anywhere (v6)</code>
+</pre>
+
+<h3 id="启用防火墙"><a href="#启用防火墙" class="headerlink" title="启用防火墙"></a>启用防火墙</h3><p>根据您设置的规则，首次运行<code>ufw status</code>可能会输出<code>Status: inactive</code>。可通过以下命令启用UFW并强制执行防火墙规则：</p>
+<pre><code class="lang-bash">sudo ufw enable active
+</code></pre>
+<p>同样的，可通过以下命令禁用防火墙规则：</p>
+<pre><code class="lang-bash">sudo ufw disable
+</code></pre>
+<blockquote>
+<p><strong>注意</strong></p>
+<p>系统重启后UFW服务仍会启动并运行。</p>
+</blockquote>
+<h2 id="UFW日志"><a href="#UFW日志" class="headerlink" title="UFW日志"></a>UFW日志</h2><p>您可使用以下命令启用UFW日志记录：</p>
+<pre><code class="lang-bash">sudo ufw logging on
+</code></pre>
+<p>日志级别可通过<code>sudo ufw logging low|medium|high</code>设置，<code>low</code>、<code>medium</code>、<code>high</code>分别对应从低到高的级别，默认级别为<code>low</code>。</p>
+<p>一条正常的日志记录与以下内容类似，它位于<code>/var/logs/ufw</code>：</p>
+<pre><code class="lang-bash">Sep 16 15:08:14 &lt;hostname&gt; kernel: [UFW BLOCK] IN=eth0 OUT= MAC=00:00:00:00:00:00:00:00:00:00:00:00:00:00 SRC=123.45.67.89 DST=987.65.43.21 LEN=40 TOS=0x00 PREC=0x00 TTL=249 ID=8475 PROTO=TCP SPT=48247 DPT=22 WINDOW=1024 RES=0x00 SYN URGP=0
+</code></pre>
+<p>最开始的值分别表示日期，时间以及您的主机名。其他重要的字段包括：</p>
+<ul>
+<li><strong>[UFW BLOCK]</strong>：此位置表示日志描述所定位的位置。本例中，日志是在阻止连接时记录的</li>
+<li><strong>IN</strong>：如果该字段有值，表示这是一个传入连接</li>
+<li><strong>OUT</strong>：如果该字段有值，表示这是一个传出连接</li>
+<li><strong>MAC</strong>：目的MAC地址和源MAC地址的组合</li>
+<li><strong>SRC</strong>：数据包的源IP地址</li>
+<li><strong>DST</strong>：数据包的目的IP地址</li>
+<li><strong>LEN</strong>：数据包长度</li>
+<li><strong>TTL</strong>：TTL（Time To Live）包，或称为生存时间。表示在没有找到目的地址的情况下，数据包会在路由器之间传输多久直至过期</li>
+<li><strong>PROTO</strong>：数据包的协议</li>
+<li><strong>SPT</strong>：数据包的源端口</li>
+<li><strong>DPT</strong>：数据包的目标端口</li>
+<li><strong>WINDOW</strong>：发送方可以接收的数据包大小</li>
+<li><strong>SYN URGP</strong>：表示是否需要三次握手，<code>0</code>表示不需要</li>
+</ul>
+<blockquote>
+<p><strong>参考文章</strong></p>
+<ol>
+<li><a href="https://www.linode.com/docs/security/firewalls/configure-firewall-with-ufw/" target="_blank" rel="noopener">How to Configure a Firewall with UFW | Linode</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1326431" target="_blank" rel="noopener">如何使用UFW配置防火墙 | 腾讯云+社区</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7 安装配置 NFS</a></li><li><a href="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/">Linux 系统常用监控命令</a></li><li><a href="https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/">Linux 终端修改 ls 命令目录显示颜色</a></li><li><a href="https://abelsu7.top/2019/07/07/perf-quick-guides/">Linux 下使用 Perf 分析系统性能</a></li><li><a href="http://ashin.wang/linux-basic/">Linux基础笔记</a></li><li><a href="https://wiki.hushhw.cn/posts/6fbc30d9.html">虚拟机 VMware 中安装 Ubuntu 操作系统</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.052Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/09/06/configure-firewall-with-ufw/" target="_blank" rel="external">https://abelsu7.top/2018/09/06/configure-firewall-with-ufw/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UFW/">UFW</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/09/06/configure-firewall-with-ufw/&title=《【译】如何使用 UFW 配置防火墙》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/09/06/configure-firewall-with-ufw/&title=《【译】如何使用 UFW 配置防火墙》 — Keep Coding&source=UFW是什么？UFW（Uncomplicated Firewall）是Arch Linux、Debian或Ubuntu中管理防火墙规则的前端工具。UFW通..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/09/06/configure-firewall-with-ufw/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【译】如何使用 UFW 配置防火墙》 — Keep Coding&url=https://abelsu7.top/2018/09/06/configure-firewall-with-ufw/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/09/06/configure-firewall-with-ufw/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/09/10/install-VNC-on-Ubuntu-1604/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">【译】在 Ubuntu 16.04 上安装 VNC</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/09/06/install-seafile-with-nginx-on-ubuntu-1604/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">【译】在 Ubuntu 16.04上安装 Seafile 并配置 Nginx</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/09/06/configure-firewall-with-ufw/&title=《【译】如何使用 UFW 配置防火墙》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/09/06/configure-firewall-with-ufw/&title=《【译】如何使用 UFW 配置防火墙》 — Keep Coding&source=UFW是什么？UFW（Uncomplicated Firewall）是Arch Linux、Debian或Ubuntu中管理防火墙规则的前端工具。UFW通..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/09/06/configure-firewall-with-ufw/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【译】如何使用 UFW 配置防火墙》 — Keep Coding&url=https://abelsu7.top/2018/09/06/configure-firewall-with-ufw/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/09/06/configure-firewall-with-ufw/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKElEQVR42u3a0W7DIAwF0P7/T3evm7aga0OqBQ5P00YDJ5U8sP16xeM9HN/njOf/nnm1yuuOgYGB8VhGvsV8Tv6pq5nVJ2BgYJzAuIpgV3Oqm0tWTNa9/D0GBgbGMAiOA27+VwwMDIy1jDEpD6/jAI2BgYExk0rLE2fVbd1+F8fAwHggIw+Fn//5lvoGBgbGoxjv4hjDqqXNZbvCwMDYmpEHuF4xctUzo7YMDAyMTRmfaY/oXX3HybU/vgcMDIxNGdV0fF4MmL8AJ7uKvhMMDIwtGL3t5kGzd0xclkHEwMB4OGOmKJgn4HpHwMLrw8DAOIBRbZtIrq/VMkD+BAwMjJMZCWw+NFdLm1FxFAMD4wDGqrEq7OaHSAwMjBMY1bRXXlzsBdCZJ2NgYOzNqKa98naKmeJls9kCAwNjU8ZM0n8mYTffWhH998DAwHg4oyfOk3TJpXemRWPZpjEwMP4xo3ocXBVYq/jmVRYDA+MARv7Q6ouotlYUzrYYGBibMvI0fZ7W7zVbVIsTP1bHwMA4jJFfJpMCZJ5EywP9q3cyxcDAeDgjT37l7RG9QFxtBMHAwNib8S6O/LBYbfzqNXNgYGCcwKgGx+oC9116mxgMDIzHMpJAWQ2a1URe9VOFN42BgbERYyahnyxZLXBWd4uBgYFRLRX0SL3GCwwMDIw7gmxeyMxLFxgYGCcwkktsrwmjWmDIoygGBsY5jF5jROHQdvPxEQMDY2vGF1GzslAcG81pAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

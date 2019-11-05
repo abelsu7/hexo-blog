@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>5 分钟 Docker 笔记 3：容器 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="读书,容器,Docker">
+    <meta name="description" content="运行容器、容器常用操作、容器资源限制、实现容器的底层技术                                                                                               《每天5分钟玩转Docker容器技术》">
+<meta name="keywords" content="读书,容器,Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5 分钟 Docker 笔记 3：容器">
+<meta property="og:url" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-3/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="运行容器、容器常用操作、容器资源限制、实现容器的底层技术                                                                                               《每天5分钟玩转Docker容器技术》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-3/cover.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-3/image-1.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-3/image-2.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-3/image-3.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-3/docker-cmds.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-3/docker-commands.png">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-3/docker-restart.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-3/container-1.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-3/container-2.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-3/container-3.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-3/uts-namespace.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-3/pid-namespace.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-3/pid-namespace-2.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-3/pid-namespace-3.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.132Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="5 分钟 Docker 笔记 3：容器">
+<meta name="twitter:description" content="运行容器、容器常用操作、容器资源限制、实现容器的底层技术                                                                                               《每天5分钟玩转Docker容器技术》">
+<meta name="twitter:image" content="https://abelsu7.top/2019/02/13/docker-5mins-notes-3/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">5 分钟 Docker 笔记 3：容器</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">5 分钟 Docker 笔记 3：容器</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-02-13T06:23:54.000Z" itemprop="datePublished" class="page-time">
+  2019-02-13
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Docker/">Docker</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#第-4-章-Docker-容器"><span class="post-toc-text">第 4 章 Docker 容器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-1-运行容器"><span class="post-toc-text">4.1 运行容器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-1-1-如何运行容器"><span class="post-toc-text">4.1.1 如何运行容器</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-1-2-两种进入容器的方法"><span class="post-toc-text">4.1.2 两种进入容器的方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#docker-attach"><span class="post-toc-text">docker attach</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#docker-exec"><span class="post-toc-text">docker exec</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#attach-VS-exec"><span class="post-toc-text">attach VS exec</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-1-3-运行容器的最佳实践"><span class="post-toc-text">4.1.3 运行容器的最佳实践</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#容器按用途分类"><span class="post-toc-text">容器按用途分类</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#容器运行小结"><span class="post-toc-text">容器运行小结</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-2-容器常用操作"><span class="post-toc-text">4.2 容器常用操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-2-1-stop-start-restart"><span class="post-toc-text">4.2.1 stop/start/restart</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-2-2-pause-unpause"><span class="post-toc-text">4.2.2 pause/unpause</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-2-3-rm-rmi"><span class="post-toc-text">4.2.3 rm/rmi</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-2-4-一张图搞懂容器所有操作"><span class="post-toc-text">4.2.4 一张图搞懂容器所有操作</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-3-容器资源限制"><span class="post-toc-text">4.3 容器资源限制</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-3-1-限制容器对内存的使用"><span class="post-toc-text">4.3.1 限制容器对内存的使用</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-3-2-限制容器对-CPU-的使用没有限制"><span class="post-toc-text">4.3.2 限制容器对 CPU 的使用没有限制</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-3-3-限制容器的-Block-IO"><span class="post-toc-text">4.3.3 限制容器的 Block IO</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#block-IO-权重"><span class="post-toc-text">block IO 权重</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#限制-bps-和-iops"><span class="post-toc-text">限制 bps 和 iops</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-4-实现容器的底层技术"><span class="post-toc-text">4.4 实现容器的底层技术</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-4-1-cgroup"><span class="post-toc-text">4.4.1 cgroup</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-4-2-namespace"><span class="post-toc-text">4.4.2 namespace</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Mount"><span class="post-toc-text">Mount</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#UTS"><span class="post-toc-text">UTS</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#IPC"><span class="post-toc-text">IPC</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#PID"><span class="post-toc-text">PID</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Network"><span class="post-toc-text">Network</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#User"><span class="post-toc-text">User</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-5-容器小结"><span class="post-toc-text">4.5 容器小结</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-docker-5mins-notes-3"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">5 分钟 Docker 笔记 3：容器</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-02-13 14:23:54" datetime="2019-02-13T06:23:54.000Z"  itemprop="datePublished">2019-02-13</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Docker/">Docker</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>运行容器、容器常用操作、容器资源限制、实现容器的底层技术</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-3/cover.jpg" alt="《每天5分钟玩转Docker容器技术》" title>
+                </div>
+                <div class="image-caption">《每天5分钟玩转Docker容器技术》</div>
+            </figure>
+<a id="more"></a>
+<h2 id="第-4-章-Docker-容器"><a href="#第-4-章-Docker-容器" class="headerlink" title="第 4 章 Docker 容器"></a>第 4 章 Docker 容器</h2><h3 id="4-1-运行容器"><a href="#4-1-运行容器" class="headerlink" title="4.1 运行容器"></a>4.1 运行容器</h3><h4 id="4-1-1-如何运行容器"><a href="#4-1-1-如何运行容器" class="headerlink" title="4.1.1 如何运行容器"></a>4.1.1 如何运行容器</h4><p><code>docker run</code>是启动容器的方法。例如：</p>
+<pre><code class="lang-bash">&gt; docker run ubuntu pwd
+/
+</code></pre>
+<p>容器启动时执行<code>pwd</code>，返回的<code>/</code>是容器中的<strong>当前目录</strong>。</p>
+<p>执行<code>docker ps</code>或<code>docker container ls</code>可以<strong>查看 Docker Host 中当前运行的容器</strong>，添加<code>-a</code>参数会<strong>显示所有状态的容器</strong>。</p>
+<p>若想<strong>让容器保持运行状态而不占用终端窗口</strong>，可以加上<code>-d</code>参数，<strong>以后台方式启动容器</strong>：</p>
+<pre><code class="lang-docker">docker run --name &quot;my_http_server&quot; -d httpd
+</code></pre>
+<h4 id="4-1-2-两种进入容器的方法"><a href="#4-1-2-两种进入容器的方法" class="headerlink" title="4.1.2 两种进入容器的方法"></a>4.1.2 两种进入容器的方法</h4><p>我们经常需要进到容器里去做一些工作，比如查看日志、调试、启动其他进程等。<strong>有两种方法进入容器：attach 和 exec</strong>。</p>
+<h5 id="docker-attach"><a href="#docker-attach" class="headerlink" title="docker attach"></a>docker attach</h5><p>通过<code>docker attach</code>可以<strong>连接到容器启动命令的终端</strong>，例如：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-3/image-1.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>这里通过 <strong>“长ID”</strong> attach 到了<strong>容器的启动命令终端</strong>，之后看到的是<code>echo</code>每隔一秒打印的信息。</p>
+<blockquote>
+<p>可通过<code>Ctrl+P</code>然后<code>Ctrl+Q</code>组合键<strong>退出 attach 终端</strong></p>
+</blockquote>
+<h5 id="docker-exec"><a href="#docker-exec" class="headerlink" title="docker exec"></a>docker exec</h5><p>通过<code>docker exec</code>进入相同的容器：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-3/image-2.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>说明如下：</p>
+<ol>
+<li><code>-it</code><strong>以交互模式打开 pseudo-TTY，执行 bash</strong>，其结果就是打开了一个 bash 终端</li>
+<li>进入到容器中，<strong>容器的 hostname</strong> 就是其 <strong>“短ID”</strong></li>
+<li>可以像在普通 Linux 中一样执行命令。<code>ps -elf</code>显示了容器启动进程<code>while</code>以及当前的<code>bash</code>进程</li>
+<li>执行<code>exit</code>退出容器，回到 docker host</li>
+</ol>
+<blockquote>
+<p><code>docker exec -it &lt;container&gt; bash|sh</code>是执行 exec 最常用的方式</p>
+</blockquote>
+<h5 id="attach-VS-exec"><a href="#attach-VS-exec" class="headerlink" title="attach VS exec"></a>attach VS exec</h5><p>主要区别如下：</p>
+<ol>
+<li><strong>attach 直接进入容器启动命令的终端</strong>，不会启动新的进程</li>
+<li><strong>exec 则是在容器中打开新的终端</strong>，并且可以启动新的进程</li>
+<li>如果想直接在终端中查看启动命令的输出，用 attach；其他情况则使用 exec。</li>
+</ol>
+<p>当然，如果只是为了查看启动命令的输出，可以使用<code>docker logs</code>命令：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-3/image-3.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><code>-f</code>作用与<code>tail -f</code>类似，能够<strong>持续打印输出</strong>。</p>
+<h4 id="4-1-3-运行容器的最佳实践"><a href="#4-1-3-运行容器的最佳实践" class="headerlink" title="4.1.3 运行容器的最佳实践"></a>4.1.3 运行容器的最佳实践</h4><h5 id="容器按用途分类"><a href="#容器按用途分类" class="headerlink" title="容器按用途分类"></a>容器按用途分类</h5><p>按用途容器大致可分为两类：<strong>服务类容器</strong>和<strong>工具类容器</strong>。</p>
+<ol>
+<li><strong>服务类容器以 daemon 的形式运行，对外提供服务</strong>。比如 web server，数据库等。通过<code>-d</code>以<strong>后台方式</strong>启动这类容器是非常合适的。如果要排查问题，可以通过<code>exec -it</code>进入容器。</li>
+<li><strong>工具类容器通常给能我们提供一个临时的工作环境</strong>，通常以<code>run -it</code>方式运行。执行<code>exit</code>退出终端，同时容器停止。</li>
+</ol>
+<blockquote>
+<p><strong>工具类容器多使用基础镜像</strong>，例如 busybox、debian、ubuntu 等。</p>
+</blockquote>
+<h5 id="容器运行小结"><a href="#容器运行小结" class="headerlink" title="容器运行小结"></a>容器运行小结</h5><p>容器运行的相关知识点：</p>
+<ol>
+<li>当 <strong>CMD</strong> 或 <strong>Entrypoint</strong> 或<code>docker run</code>命令行指定的<strong>命令运行结束时，容器停止</strong>。</li>
+<li>通过<code>-d</code>参数在<strong>后台启动容器</strong>。</li>
+<li>通过<code>exec -it</code>可<strong>进入容器并执行命令</strong>。</li>
+</ol>
+<p>指定容器的三种方法：</p>
+<ol>
+<li><strong>短ID</strong>（长ID 前 12 位）</li>
+<li><strong>长ID</strong></li>
+<li><strong>容器名称</strong>。可通过<code>--name</code>为容器命名</li>
+</ol>
+<p>容器按用途可分为两类：</p>
+<ol>
+<li><strong>服务类</strong>的容器</li>
+<li><strong>工具类</strong>的容器</li>
+</ol>
+<h3 id="4-2-容器常用操作"><a href="#4-2-容器常用操作" class="headerlink" title="4.2 容器常用操作"></a>4.2 容器常用操作</h3><h4 id="4-2-1-stop-start-restart"><a href="#4-2-1-stop-start-restart" class="headerlink" title="4.2.1 stop/start/restart"></a>4.2.1 stop/start/restart</h4><p>通过<code>docker stop</code>可以停止运行的容器。</p>
+<p>容器在 docker host 中实际是一个进程。<code>docker stop</code>命令本质上是<strong>向该进程发送一个 SIGTERM 信号</strong>。如果<strong>想快速停止容器</strong>，可使用<code>docker kill</code>命令，其作用是<strong>向容器进程发送 SIGKILL 信号</strong>。</p>
+<p>对于处于停止状态的容器，可以通过<code>docker start</code>重新启动。</p>
+<p><code>docker start</code>会<strong>保留容器的第一次启动时的所有参数</strong>。</p>
+<p><code>docker restart</code>可以重启容器，其作用就是依次执行<code>docker stop</code>和<code>docker start</code>。</p>
+<p>容器可能会因某种错误而停止运行。对于<strong>服务类容器</strong>，我们通常希望在这种情况下<strong>容器能够自动重启</strong>。启动容器时设置<code>--restart</code>就可以达到这个效果：</p>
+<pre><code class="lang-docker">docker run -d --restart=always httpd
+</code></pre>
+<p><code>--restart=always</code>意味着<strong>无论容器因何种原因退出（包括正常退出），就立即重启</strong>。该参数的形式还可以是<code>--restart=on-failure:3</code>，意思是<strong>如果启动进程退出代码非 0，则重启容器，最多重启3次</strong>。</p>
+<h4 id="4-2-2-pause-unpause"><a href="#4-2-2-pause-unpause" class="headerlink" title="4.2.2 pause/unpause"></a>4.2.2 pause/unpause</h4><p>有时我们只是希望<strong>暂时让容器暂停工作一段时间</strong>，比如要对容器的文件系统打个快照，或者 docker host 需要使用 CPU，这时可以执行<code>docker pause</code>。</p>
+<blockquote>
+<p><strong>处于暂停状态的容器不会占用 CPU 资源</strong>，直到通过<code>docker unpause</code>恢复运行。</p>
+</blockquote>
+<h4 id="4-2-3-rm-rmi"><a href="#4-2-3-rm-rmi" class="headerlink" title="4.2.3 rm/rmi"></a>4.2.3 rm/rmi</h4><p>使用 docker 一段时间后，<strong>host 上可能会有大量已经退出了的容器。这些容器依然会占用 host 的文件系统资源</strong>，如果确认不会再重启此类容器，可以通过<code>docker rm</code>删除。</p>
+<p><code>docker rm</code><strong>一次可指定多个容器</strong>。如果希望<strong>批量删除所有已经退出的容器</strong>，可以执行如下命令：</p>
+<pre><code class="lang-docker">docker rm -v $(docker ps -aq -f status=exited)
+</code></pre>
+<p><code>docker rm</code>是<strong>删除容器</strong>，而<code>docker rmi</code>则是<strong>删除镜像</strong>。</p>
+<h4 id="4-2-4-一张图搞懂容器所有操作"><a href="#4-2-4-一张图搞懂容器所有操作" class="headerlink" title="4.2.4 一张图搞懂容器所有操作"></a>4.2.4 一张图搞懂容器所有操作</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-3/docker-cmds.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-3/docker-commands.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>有两点需要补充：</p>
+<p>1) 可以<strong>先创建容器，稍后再启动</strong>：</p>
+<pre><code class="lang-docker">&gt; docker create httpd
+&gt; docker start 989e12e4d8ea
+</code></pre>
+<ul>
+<li><code>docker create</code>创建的容器处于 <strong>Created</strong> 状态</li>
+<li><code>docker start</code>将<strong>以后台方式启动容器</strong>。<code>docker run</code>命令实际上是<code>docker create</code>和<code>docker start</code>命令的组合</li>
+</ul>
+<p>2) 只有<strong>当容器的启动进程退出时</strong>，<code>--restart</code>才生效。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-3/docker-restart.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>退出包括正常退出或者非正常退出</strong>。这里举了两个例子：启动进程正常退出或发生 OOM，此时 docker 会根据<code>--restart</code>的策略判断是否需要重启容器。但如果容器是因为执行<code>docker stop</code>或<code>docker kill</code>退出，则不会自动重启。</p>
+<h3 id="4-3-容器资源限制"><a href="#4-3-容器资源限制" class="headerlink" title="4.3 容器资源限制"></a>4.3 容器资源限制</h3><h4 id="4-3-1-限制容器对内存的使用"><a href="#4-3-1-限制容器对内存的使用" class="headerlink" title="4.3.1 限制容器对内存的使用"></a>4.3.1 限制容器对内存的使用</h4><p>与操作系统类似，<strong>容器可使用的内存包括两部分：物理内存和 swap</strong>。Docker 通过下面两组参数来<strong>控制容器内存的使用量</strong>：</p>
+<ol>
+<li><code>-m</code>或<code>--memory</code>：<strong>设置内存的使用限额</strong>，例如<code>100M</code>、<code>2G</code></li>
+<li><code>--memory-swap</code>：<strong>设置 内存+swap 的使用限额</strong></li>
+</ol>
+<p>例如执行如下命令：</p>
+<pre><code class="lang-docker">docker run -m 200M --memory-swap=300M ubuntu
+</code></pre>
+<p>其含义是允许该容器最多使用 200M 的内存和 100M 的 swap。<strong>默认情况下，上面两组参数为 -1，即对容器内存和 swap 的使用没有限制</strong>。</p>
+<p>可使用<code>progrium/stress</code>镜像来实验一下，该镜像可用于对容器执行压力测试。执行如下命令：</p>
+<pre><code class="lang-docker">docker run -it -m 200M --memory-swap=300M progrium/stress --vm 1 --vm-bytes 280M
+</code></pre>
+<p>其中：</p>
+<ul>
+<li><code>--vm 1</code>：启动 1 个内存工作线程</li>
+<li><code>--vm-bytes 280M</code>：每个线程分配 280M 内存</li>
+</ul>
+<p><strong>注意</strong>：如果在启动容器时只指定<code>-m</code>而不指定<code>--memory-swap</code>，那么<code>--memory-swap</code>默认为<code>-m</code>的两倍。</p>
+<h4 id="4-3-2-限制容器对-CPU-的使用没有限制"><a href="#4-3-2-限制容器对-CPU-的使用没有限制" class="headerlink" title="4.3.2 限制容器对 CPU 的使用没有限制"></a>4.3.2 限制容器对 CPU 的使用没有限制</h4><p><strong>默认设置下</strong>，所有容器可以<strong>平等地使用 host CPU 资源</strong>并且<strong>没有限制</strong>。</p>
+<p>Docker 可以通过<code>-c</code>或<code>--cpu-shares</code>设置容器使用 CPU 的权重。如果不指定，默认值为 1024。</p>
+<p>与内存限额不同，通过<code>-c</code>设置的 <strong>cpu share</strong> 并不是 CPU 资源的绝对数量，而是一个<strong>相对的权重值</strong>。某个容器最终能分配到的 CPU 资源<strong>取决于它的 cpu share 占所有容器 cpu share 总和的比例</strong>。</p>
+<p>即：<strong>通过 cpu share 可以设置容器使用 CPU 的优先级</strong>。</p>
+<p>例如在 host 中启动了两个容器：</p>
+<pre><code class="lang-docker">docker run --name &quot;container_A&quot; -c 1024 ubuntu
+docker run --name &quot;container_B&quot; -c 512 ubuntu
+</code></pre>
+<p>container_A 的 cpu share 1024，是 container_B 的两倍。<strong>当两个容器都需要 CPU 资源时，container_A 可以得到的 CPU 是 container_B 的两倍。</strong></p>
+<blockquote>
+<p>这种<strong>按权重分配 CPU 只会发生在 CPU 资源紧张的情况下</strong>。如果 container_A 处于空闲状态，这时，为了充分利用 CPU 资源，container_B 也可以分配到全部可用的 CPU。</p>
+</blockquote>
+<h4 id="4-3-3-限制容器的-Block-IO"><a href="#4-3-3-限制容器的-Block-IO" class="headerlink" title="4.3.3 限制容器的 Block IO"></a>4.3.3 限制容器的 Block IO</h4><p><strong>Block IO</strong> 是另一种可以限制容器使用的资源。Block IO 指的是<strong>磁盘的读写</strong>，docker 可通过<strong>设置权重、限制 bps 和 iops</strong> 的方式<strong>控制容器读写磁盘的带宽</strong>。</p>
+<blockquote>
+<p>目前 Block IO 限额<strong>只对 direct IO（不使用文件缓存）有效</strong></p>
+</blockquote>
+<h5 id="block-IO-权重"><a href="#block-IO-权重" class="headerlink" title="block IO 权重"></a>block IO 权重</h5><p><strong>默认情况下，所有容器能平等地读写磁盘</strong>，可以通过设置<code>--blkio-weight</code>参数来<strong>改变容器 block IO 的优先级</strong>。</p>
+<p><code>--blkio-weight</code>与<code>--cpu-shares</code>类似，设置的是相对权重值，默认为 500。在下面的例子中，container_A 读写磁盘的带宽是 container_B 的两倍：</p>
+<pre><code class="lang-docker">docker run -it --name container_A --blkio-weight 600 ubuntu
+docker run -it --name container_B --blkio-weight 300 ubuntu
+</code></pre>
+<h5 id="限制-bps-和-iops"><a href="#限制-bps-和-iops" class="headerlink" title="限制 bps 和 iops"></a>限制 bps 和 iops</h5><ul>
+<li><strong>bps</strong>：byte per second，<strong>每秒读写的数据量</strong></li>
+<li><strong>iops</strong>：io per second，<strong>每秒 IO 的次数</strong></li>
+</ul>
+<p>可以通过以下参数<strong>控制容器的 bps 和 iops</strong>：</p>
+<ul>
+<li><code>--device-read-bps</code>：限制<strong>读某个设备的 bps</strong></li>
+<li><code>--device-write-bps</code>：限制<strong>写某个设备的 bps</strong></li>
+<li><code>--device-read-iops</code>：限制<strong>读某个设备的 iops</strong></li>
+<li><code>--device-write-iops</code>：限制<strong>写某个设备的 iops</strong></li>
+</ul>
+<p>例如以下命令将限制容器写<code>/dev/sda</code>的速率为 30MB/s：</p>
+<pre><code class="lang-docker">docker run -it --device-write-bps /dev/sda:30MB ubuntu
+</code></pre>
+<h3 id="4-4-实现容器的底层技术"><a href="#4-4-实现容器的底层技术" class="headerlink" title="4.4 实现容器的底层技术"></a>4.4 实现容器的底层技术</h3><p>在<strong>容器的底层实现技术</strong>中，<strong>cgroup</strong> 和 <strong>namespace</strong> 是最重要的两种技术。<strong>cgroup</strong> 实现<strong>资源限额</strong>， <strong>namespace</strong> 实现<strong>资源隔离</strong>。</p>
+<h4 id="4-4-1-cgroup"><a href="#4-4-1-cgroup" class="headerlink" title="4.4.1 cgroup"></a>4.4.1 cgroup</h4><p><strong>cgroup</strong> 全称 <strong>Control Group</strong>。Linux 操作系统通过 cgroup 可以<strong>设置进程使用 CPU、内存 和 IO 资源的限额</strong>。之前提到的<code>--cpu-shares</code>、<code>-m</code>、<code>--device-write-bps</code>实际上就是在<strong>配置 cgroup</strong>，可以在 host 的<code>/sys/fs/cgroup</code>中找到它。</p>
+<p>例如，启动一个容器，设置<code>--cpu-shares=512</code>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-3/container-1.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>查看容器 ID：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-3/container-2.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>在<code>/sys/fs/cgroup/cpu/docker</code>目录中，<strong>Linux 会为每个容器创建一个 cgroup 目录，以容器的长ID命名</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-3/container-3.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>目录中包含所有与 cpu 相关的 cgroup 配置</strong>，文件<code>cpu.shares</code>保存的就是<code>--cpu-shares</code>的配置，值为 512。</p>
+<p>同样的，<code>/sys/fs/cgroup/memory/docker</code>和<code>/sys/fs/cgroup/blkio/docker</code>中保存的是<strong>内存以及 Block IO 的 cgroup 配置</strong>。</p>
+<h4 id="4-4-2-namespace"><a href="#4-4-2-namespace" class="headerlink" title="4.4.2 namespace"></a>4.4.2 namespace</h4><p><strong>Linux 实现容器间资源隔离的技术是 namespace</strong>。namespace 管理着 host 中全局唯一的资源，并可以让每个容器都觉得只有自己在使用它。</p>
+<p><strong>Linux 使用了六种 namespace</strong>，分别对应六种资源：<strong>Mount、UTS、IPC、PID、Network</strong> 和 <strong>User</strong>。</p>
+<h5 id="Mount"><a href="#Mount" class="headerlink" title="Mount"></a>Mount</h5><p><strong>Mount namespace</strong> 让容器<strong>看上去拥有整个文件系统</strong>。</p>
+<p>容器有自己的<code>/</code>目录，可以执行 mount 和 umount 命令。当然这些操作<strong>只在当前容器中生效，不会影响到 host 和其他容器</strong>。</p>
+<h5 id="UTS"><a href="#UTS" class="headerlink" title="UTS"></a>UTS</h5><p>简单的说，<strong>UTS namespace 让容器有自己的 hostname</strong>。 默认情况下，<strong>容器的 hostname 是它的短ID</strong>，可以通过<code>-h</code>或<code>--hostname</code>参数设置：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-3/uts-namespace.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h5 id="IPC"><a href="#IPC" class="headerlink" title="IPC"></a>IPC</h5><p><strong>IPC namespace 让容器拥有自己的共享内存和信号量（semaphore）来实现进程间通信</strong>，而不会与 host 和其他容器的 IPC 混在一起。</p>
+<h5 id="PID"><a href="#PID" class="headerlink" title="PID"></a>PID</h5><p><strong>容器在 host 中以进程的形式运行</strong>。例如当前 host 中运行了两个容器：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-3/pid-namespace.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>通过<code>ps axf</code>可以<strong>查看容器进程</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-3/pid-namespace-2.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>所有容器的进程都挂在 dockerd 进程下，同时也可以看到容器自己的子进程</strong>。 如果我们进入到某个容器，<code>ps</code>就只能看到自己的进程了：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/13/docker-5mins-notes-3/pid-namespace-3.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>而且进程的 PID 不同于 host 中对应进程的 PID，容器中 PID=1 的进程当然也不是 host 的 init 进程。也就是说：<strong>容器拥有自己独立的一套 PID，这就是 PID namespace 提供的功能</strong>。</p>
+<h5 id="Network"><a href="#Network" class="headerlink" title="Network"></a>Network</h5><p><strong>Network namespace</strong> 让容器拥有自己<strong>独立的网卡、IP、路由等资源</strong>。</p>
+<h5 id="User"><a href="#User" class="headerlink" title="User"></a>User</h5><p><strong>User namespace</strong> 让容器能够<strong>管理自己的用户，host 不能看到容器中创建的用户</strong>。</p>
+<h3 id="4-5-容器小结"><a href="#4-5-容器小结" class="headerlink" title="4.5 容器小结"></a>4.5 容器小结</h3><p>下面是<strong>容器的常用操作命令</strong>：</p>
+<ul>
+<li><strong>create</strong>：创建容器</li>
+<li><strong>run</strong>：运行容器</li>
+<li><strong>pause</strong>：暂停容器</li>
+<li><strong>unpause</strong>：取消暂停继续运行容器</li>
+<li><strong>stop</strong>：发送 SIGTERM 停止容器</li>
+<li><strong>kill</strong>：发送 SIGKILL 快速停止容器</li>
+<li><strong>start</strong>：启动容器</li>
+<li><strong>restart</strong>：重启重启</li>
+<li><strong>attach</strong>：attach 到容器启动进程的终端</li>
+<li><strong>exec</strong>：在容器中启动新进程，通常使用<code>-it</code>参数</li>
+<li><strong>logs</strong>：显示容器启动进程的控制台输出，使用<code>-f</code>参数持续打印</li>
+<li><strong>rm</strong>：从磁盘中删除容器</li>
+</ul>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/09/25/micro-service-orchestration-and-container-schedule/">微服务编排与容器调度</a></li><li><a href="https://abelsu7.top/2019/09/18/micro-service-notes/">微服务学习资料汇总</a></li><li><a href="https://abelsu7.top/2019/03/19/recent-review/">近期复习合集</a></li><li><a href="https://abelsu7.top/2019/03/18/understanding-linux-kernel/">Linux 内核笔记 1：绪论</a></li><li><a href="http://www.hui-wang.info/2018/02/04/%E5%BD%B1%E5%93%8D%E5%8A%9B/">影响力</a></li><li><a href="http://www.hui-wang.info/2017/11/25/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E%EF%BC%9A%E4%B8%8D%E8%83%BD%E5%86%8D%E5%87%91%E4%BA%86/">数学之美：不能再凑了</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.132Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/02/13/docker-5mins-notes-3/" target="_blank" rel="external">https://abelsu7.top/2019/02/13/docker-5mins-notes-3/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/容器/">容器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书/">读书</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/02/13/docker-5mins-notes-3/&title=《5 分钟 Docker 笔记 3：容器》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/02/13/docker-5mins-notes-3/&title=《5 分钟 Docker 笔记 3：容器》 — Keep Coding&source=
+运行容器、容器常用操作、容器资源限制、实现容器的底层技术
+
+
+                
+                    
+       ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/02/13/docker-5mins-notes-3/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《5 分钟 Docker 笔记 3：容器》 — Keep Coding&url=https://abelsu7.top/2019/02/13/docker-5mins-notes-3/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/02/13/docker-5mins-notes-3/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/02/13/docker-5mins-notes-4/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">5 分钟 Docker 笔记 4：网络</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/02/13/tmux-quick-start/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">终端窗口多开神器 Tmux</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/02/13/docker-5mins-notes-3/&title=《5 分钟 Docker 笔记 3：容器》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/02/13/docker-5mins-notes-3/&title=《5 分钟 Docker 笔记 3：容器》 — Keep Coding&source=
+运行容器、容器常用操作、容器资源限制、实现容器的底层技术
+
+
+                
+                    
+       ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/02/13/docker-5mins-notes-3/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《5 分钟 Docker 笔记 3：容器》 — Keep Coding&url=https://abelsu7.top/2019/02/13/docker-5mins-notes-3/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/02/13/docker-5mins-notes-3/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACG0lEQVR42u3aW26DMBAF0O5/0+kCqpB7PaQS9uErqjD48OHO6+cnvl5/rnd/T+7J1958YWBgPJaRbyWBTe4fUTEwMA5gvDvBrn/nq/J72idgYGBg5Adofr17DgYGBsaccX3ndWCXbxoDAwNjksQmsPwAvbkkh4GBsTUjr7r//++v9DcwMDAexVhLPidtyyT0rHeFgYGxNWPSwmzTzrW1+YfAwMDYldEOQLQDFu0XzZPVD/83MDAwNmLkiWs+GJEPT7RHbf7hMDAwdmKspaltsT7nLRbdMDAwjmG0B267tm1bFuEpBgbGAYy7EtdkK/O0tohhMTAwtmCspaxrh2NLbYfMMDAwdmW0BbVJyWzSZf2wKwwMjAMYkwGLpGDXrq0/CgYGxtaMtVR2LQLNC21tWxQDA+M0xnVJKy+Z3TUWVkyLYGBgbM1YO3zbhmXbeFgb4MDAwNiPsfb6tTAubyq04xoYGBh7M9ZSyrtCxryQFx39GBgYBzDyJHYSIE4GL6IDFwMDY2tGO9TVjoW1B3o9qIGBgbE1I6nJ5U3NbzynBmBgYGzEeJVXUpKbNC/b8hwGBsYJjLVCWNvabF+fb73GYGBgPJYxH31oWwU5Pgk9MTAwzmHkW8lDwHsP4g93YmBgYMSHZpL0TgY7ah8GBgbGYG3+9giGgYFxAGOexLaB4KSdWTcyMTAwHs5Yi7vWAru1UtptjUwMDIznMX4BZGt6wHgAAb4AAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

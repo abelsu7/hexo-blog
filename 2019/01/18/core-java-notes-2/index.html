@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Java 笔记 2：对象与类 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Java,读书">
+    <meta name="description" content="摘自 《Java 核心技术（卷 Ⅰ）》                                                                                               《Java 核心技术（卷 Ⅰ）》">
+<meta name="keywords" content="Java,读书">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 笔记 2：对象与类">
+<meta property="og:url" content="https://abelsu7.top/2019/01/18/core-java-notes-2/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自 《Java 核心技术（卷 Ⅰ）》                                                                                               《Java 核心技术（卷 Ⅰ）》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/01/18/core-java-notes-2/douban.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/01/18/core-java-notes-2/core-java.png">
+<meta property="og:image" content="https://abelsu7.top/2019/01/18/core-java-notes-2/class-uml.png">
+<meta property="og:image" content="https://abelsu7.top/2019/01/18/core-java-notes-2/refer.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.081Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 笔记 2：对象与类">
+<meta name="twitter:description" content="摘自 《Java 核心技术（卷 Ⅰ）》                                                                                               《Java 核心技术（卷 Ⅰ）》">
+<meta name="twitter:image" content="https://abelsu7.top/2019/01/18/core-java-notes-2/douban.svg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Java 笔记 2：对象与类</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Java 笔记 2：对象与类</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-01-18T07:24:47.000Z" itemprop="datePublished" class="page-time">
+  2019-01-18
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#对象与类"><span class="post-toc-text">对象与类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-面向对象程序设计（OOP）概述"><span class="post-toc-text">1. 面向对象程序设计（OOP）概述</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-1-类"><span class="post-toc-text">1.1 类</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-2-对象"><span class="post-toc-text">1.2 对象</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-3-识别类"><span class="post-toc-text">1.3 识别类</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-4-类之间的关系"><span class="post-toc-text">1.4 类之间的关系</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-使用预定义类"><span class="post-toc-text">2. 使用预定义类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-对象与对象变量"><span class="post-toc-text">2.1 对象与对象变量</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-Java-类库中的-LocalDate-对象"><span class="post-toc-text">2.2 Java 类库中的 LocalDate 对象</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-3-更改器与访问器方法"><span class="post-toc-text">2.3 更改器与访问器方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-用户自定义类"><span class="post-toc-text">3. 用户自定义类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-Employee-类"><span class="post-toc-text">3.1 Employee 类</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-多个源文件的使用"><span class="post-toc-text">3.2 多个源文件的使用</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-3-剖析-Employee-类"><span class="post-toc-text">3.3 剖析 Employee 类</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-4-从构造器开始"><span class="post-toc-text">3.4 从构造器开始</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-5-隐式参数与显式参数"><span class="post-toc-text">3.5 隐式参数与显式参数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-6-封装的优点"><span class="post-toc-text">3.6 封装的优点</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-7-基于类的访问权限"><span class="post-toc-text">3.7 基于类的访问权限</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-8-私有方法"><span class="post-toc-text">3.8 私有方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-9-final-实例域"><span class="post-toc-text">3.9 final 实例域</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-静态域与静态方法"><span class="post-toc-text">4. 静态域与静态方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-1-静态域"><span class="post-toc-text">4.1 静态域</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-2-静态常量"><span class="post-toc-text">4.2 静态常量</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-3-静态方法"><span class="post-toc-text">4.3 静态方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-4-工厂方法"><span class="post-toc-text">4.4 工厂方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-5-main-方法"><span class="post-toc-text">4.5 main 方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-方法参数"><span class="post-toc-text">5. 方法参数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-对象构造"><span class="post-toc-text">6. 对象构造</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-1-重载"><span class="post-toc-text">6.1 重载</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-2-默认域初始化"><span class="post-toc-text">6.2 默认域初始化</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-3-无参数的构造器"><span class="post-toc-text">6.3 无参数的构造器</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-4-显式域初始化"><span class="post-toc-text">6.4 显式域初始化</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-5-参数名"><span class="post-toc-text">6.5 参数名</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-6-调用另一个构造器"><span class="post-toc-text">6.6 调用另一个构造器</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-7-初始化块"><span class="post-toc-text">6.7 初始化块</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-8-对象析构与-finalize-方法"><span class="post-toc-text">6.8 对象析构与 finalize 方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-包"><span class="post-toc-text">7. 包</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-1-类的导入"><span class="post-toc-text">7.1 类的导入</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-2-静态导入"><span class="post-toc-text">7.2 静态导入</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-3-将类放入包中"><span class="post-toc-text">7.3 将类放入包中</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-4-包作用域"><span class="post-toc-text">7.4 包作用域</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8-类路径"><span class="post-toc-text">8. 类路径</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#9-文档注释"><span class="post-toc-text">9. 文档注释</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#10-类设计技巧"><span class="post-toc-text">10. 类设计技巧</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-core-java-notes-2"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Java 笔记 2：对象与类</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-01-18 15:24:47" datetime="2019-01-18T07:24:47.000Z"  itemprop="datePublished">2019-01-18</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>摘自 <img src="/2019/01/18/core-java-notes-2/douban.svg"><a href="https://book.douban.com/subject/26880667/" target="_blank" rel="noopener">《Java 核心技术（卷 Ⅰ）》</a></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/01/18/core-java-notes-2/core-java.png" alt="《Java 核心技术（卷 Ⅰ）》" title>
+                </div>
+                <div class="image-caption">《Java 核心技术（卷 Ⅰ）》</div>
+            </figure>
+<a id="more"></a>
+<h2 id="对象与类"><a href="#对象与类" class="headerlink" title="对象与类"></a>对象与类</h2><h3 id="1-面向对象程序设计（OOP）概述"><a href="#1-面向对象程序设计（OOP）概述" class="headerlink" title="1. 面向对象程序设计（OOP）概述"></a>1. 面向对象程序设计（OOP）概述</h3><p><strong>面向对象程序设计（OOP）</strong>是当今主流的程序设计范型，它已经取代了 20 世纪 70 年代的<strong>「结构化」</strong>过程化程序设计开发技术。<strong>Java 是完全面向对象的</strong>。</p>
+<h4 id="1-1-类"><a href="#1-1-类" class="headerlink" title="1.1 类"></a>1.1 类</h4><p><strong><em>类</em></strong></p>
+<p><strong>类（class）</strong>是<strong>构造对象的模板或蓝图</strong>，由类<strong>构造（construct）</strong>对象的过程称为<strong>创建类的实例（instance）</strong>。</p>
+<p><strong><em>封装</em></strong></p>
+<p><strong>封装</strong>（encapsulation，有时称为<strong>数据隐藏</strong>）是与对象有关的一个重要概念，它<strong>将数据和行为组合在一个包中</strong>，并对对象的使用者<strong>隐藏了数据的实现方式</strong>。</p>
+<p><strong>对象中的数据</strong>称为<strong>实例域（instance field）</strong>，<strong>操纵数据的过程</strong>称为<strong>方法（method）</strong>。对于每个特定的类实例（对象）都有一组特定的实例域值，<strong>这些值的集合</strong>就是这个对象的<strong>当前状态（state）</strong>。</p>
+<blockquote>
+<p>实现封装的关键在于<strong>绝对不能让类中的方法直接访问其他类的实例域</strong>。程序<strong>仅通过对象的方法与对象数据进行交互</strong>。</p>
+</blockquote>
+<p><strong><em>继承</em></strong></p>
+<p>可以通过<strong>扩展一个类来建立另外一个新的类</strong>，在扩展一个已有的类时，<strong>扩展后的新类具有所扩展的类的全部属性和方法</strong>，这个过程称为<strong>继承（inheritance）</strong>。</p>
+<blockquote>
+<p>在 Java 中，所有的类都源自于超类 <strong>Object</strong>。</p>
+</blockquote>
+<h4 id="1-2-对象"><a href="#1-2-对象" class="headerlink" title="1.2 对象"></a>1.2 对象</h4><p>对象的<strong>三个主要特性</strong>：</p>
+<ul>
+<li>对象的<strong>行为（behavior）</strong>：可以对对象施加哪些方法</li>
+<li>对象的<strong>状态（state）</strong>：当施加方法时，对象如何响应</li>
+<li>对象的<strong>标识（identity）</strong>：如果辨别具有相同行为与状态的不同对象</li>
+</ul>
+<h4 id="1-3-识别类"><a href="#1-3-识别类" class="headerlink" title="1.3 识别类"></a>1.3 识别类</h4><p>识别类的简单规则是<strong>在分析问题的过程中寻找名词</strong>，而<strong>方法对应着动词</strong>。</p>
+<h4 id="1-4-类之间的关系"><a href="#1-4-类之间的关系" class="headerlink" title="1.4 类之间的关系"></a>1.4 类之间的关系</h4><p>在类之间，最常见的关系有：</p>
+<ul>
+<li><strong>依赖</strong>（uses-a）：应该尽可能的<strong>将相互依赖的类减至最少</strong>，即<strong>让类之间的耦合度最小</strong></li>
+<li><strong>聚合</strong>（has-a）：聚合关系意味着<strong>类 A 的对象包含类 B 的对象</strong></li>
+<li><strong>继承</strong>（is-a）：用于表示<strong>特殊与一般</strong>之间的关系</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/01/18/core-java-notes-2/class-uml.png" alt="表达类关系的 UML 符号" title>
+                </div>
+                <div class="image-caption">表达类关系的 UML 符号</div>
+            </figure>
+<h3 id="2-使用预定义类"><a href="#2-使用预定义类" class="headerlink" title="2. 使用预定义类"></a>2. 使用预定义类</h3><h4 id="2-1-对象与对象变量"><a href="#2-1-对象与对象变量" class="headerlink" title="2.1 对象与对象变量"></a>2.1 对象与对象变量</h4><p>要想<strong>使用对象</strong>，首先要<strong>构造对象</strong>，并<strong>指定其初始状态</strong>，然后<strong>对对象应用方法</strong>。</p>
+<p><strong>使用对象变量之前必须首先初始化</strong>。可以用新构造的对象初始化这个变量：</p>
+<pre><code class="lang-java">Date deadline = new Date();
+</code></pre>
+<p>也可以让这个变量引用一个已经存在的对象：</p>
+<pre><code class="lang-java">Date birthday = new Date();
+Date deadline = birthday;
+</code></pre>
+<p>现在，这两个变量将<strong>引用同一个对象</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/01/18/core-java-notes-2/refer.png" alt="引用同一个对象的对象变量" title>
+                </div>
+                <div class="image-caption">引用同一个对象的对象变量</div>
+            </figure>
+<blockquote>
+<p>注意：<strong>一个对象变量并没有实际包含一个对象，而仅仅引用一个对象！</strong></p>
+</blockquote>
+<p>在 Java 中，<strong>任何对象变量的值</strong>都是<strong>对存储在另外一个地方的一个对象的引用</strong>。new 操作符的返回值也是一个引用。</p>
+<p>可以显示的将对象变量设置为 <strong>null</strong>，表明这个对象变量目前<strong>没有引用任何对象</strong>：</p>
+<pre><code class="lang-java">deadline = null;
+...
+if (deadline != null) {
+    System.out.println(deadline);
+}
+</code></pre>
+<p><strong>局部变量不会自动的初始化为 null</strong>，而必须<strong>通过调用 new</strong> 或<strong>将它们设置为 null</strong> 进行<strong>初始化</strong>。</p>
+<p>为了易于理解，可以将 Java 的对象变量看作 C++ 的对象指针。例如：</p>
+<pre><code class="lang-java">int id; // Java
+</code></pre>
+<p>实际上，等同于：</p>
+<pre><code class="lang-cpp">int* id; // C++
+</code></pre>
+<p><strong>在 Java 中的 null 引用对应 C++ 中的 NULL 指针</strong>。如果把一个变量的值赋给另一个变量，两个变量就指向同一个日期，即它们是同一个对象的指针。</p>
+<blockquote>
+<p><strong>所有的 Java 对象都存储在堆中</strong>。当一个对象包含另一个对象变量时，这个变量依然包含着指向另一个堆对象的指针。另外，在 Java 中，<strong>必须使用 clone 方法获得对象的完整拷贝</strong>。</p>
+</blockquote>
+<h4 id="2-2-Java-类库中的-LocalDate-对象"><a href="#2-2-Java-类库中的-LocalDate-对象" class="headerlink" title="2.2 Java 类库中的 LocalDate 对象"></a>2.2 Java 类库中的 LocalDate 对象</h4><p><strong>Java 标准类库</strong>中的 <strong>Date</strong> 类的实例有一个状态，即特定的时间点。<strong>时间使用距离一个固定时间点的毫秒数（可正可负）来表示</strong>，这个点就是所谓的<strong>纪元（epoch）</strong>。它是 <strong>UTC</strong> 时间<code>1970 年 1 月 1 日 00:00:00</code>。</p>
+<blockquote>
+<p><strong>UTC</strong> 是 <strong>Coordinated Universal Time</strong> 的缩写，与 <strong>GMT（Greenwich Mean Time，格林威治时间）</strong>一样，是一种具有实践意义的<strong>科学标准时间</strong>。</p>
+</blockquote>
+<p>Java 的类库设计者决定<strong>将保存时间与给时间点命名分开</strong>，所以<strong>标准 Java 类库分别包含了两个类</strong>：一个是<strong>用来表示时间点</strong>的 <strong>Date</strong> 类，另一个是<strong>用来表示日历表示法</strong>的 <strong>LocalDate 类</strong>。</p>
+<pre><code class="lang-java">LocalDate now = LocalDate.now();
+LocalDate newYearsEve = LocalDate.of(1999, 12, 31);
+int year = newYearsEve.getYear(); // 1999
+int month = newYearsEve.getMonth(); // 12
+int day = newYearsEve.getDay(); // 31
+</code></pre>
+<p>新日期对象也可以通过计算获得：</p>
+<pre><code class="lang-java">LocalDate aThousandDaysLater = newYearsEve.plusDays(1000);
+year = aThousandDaysLater.getYear(); // 2002
+month = aThousandDaysLater.getMonth(); // 09
+day = aThousandDaysLater.getDay(); // 26
+</code></pre>
+<h4 id="2-3-更改器与访问器方法"><a href="#2-3-更改器与访问器方法" class="headerlink" title="2.3 更改器与访问器方法"></a>2.3 更改器与访问器方法</h4><p><strong>更改对象状态</strong>的方法称为<strong>更改器方法</strong>（mutator method），<strong>只访问对象而不修改对象</strong>的方法称为<strong>访问器方法</strong>（accessor method）。</p>
+<pre><code class="lang-java">import java.time.*;
+
+/**
+ * @author Cay Horstmann
+ * @version 1.5 2015-05-08
+ */
+
+public class CalendarTest {
+    public static void main(String[] args) {
+        LocalDate date = LocalDate.now();
+        int month = date.getMonthValue();
+        int today = date.getDayOfMonth();
+
+        date = date.minusDays(today - 1); // Set to start of month
+        DayOfWeek weekday = date.getDayOfWeek();
+        int value = weekday.getValue(); // 1 = Monday, ... 7 = Sunday
+
+        System.out.println(&quot;Mon Tue Wed Thu Fri Sat Sun&quot;);
+        for (int i = 1; i &lt; value; i++)
+            System.out.print(&quot;    &quot;);
+        while (date.getMonthValue() == month) {
+            System.out.printf(&quot;%3d&quot;, date.getDayOfMonth());
+            if (date.getDayOfMonth() == today)
+                System.out.print(&quot;*&quot;);
+            else
+                System.out.print(&quot; &quot;);
+            date = date.plusDays(1);
+            if (date.getDayOfWeek().getValue() == 1) System.out.println();
+        }
+        if (date.getDayOfWeek().getValue() != 1) System.out.println();
+    }
+}
+
+------
+Mon Tue Wed Thu Fri Sat Sun
+      1   2   3   4   5   6 
+  7   8   9  10  11  12  13 
+ 14  15  16  17  18* 19  20 
+ 21  22  23  24  25  26  27 
+ 28  29  30  31
+</code></pre>
+<h3 id="3-用户自定义类"><a href="#3-用户自定义类" class="headerlink" title="3. 用户自定义类"></a>3. 用户自定义类</h3><p>要想创建一个<strong>完整的 Java 程序</strong>，应该<strong>将若干类组合在一起</strong>，其中<strong>只有一个类有</strong><code>main</code><strong>方法</strong>。</p>
+<h4 id="3-1-Employee-类"><a href="#3-1-Employee-类" class="headerlink" title="3.1 Employee 类"></a>3.1 Employee 类</h4><pre><code class="lang-java">import java.time.*;
+
+/**
+ * This program tests the Employee class.
+ *
+ * @author Cay Horstmann
+ * @version 1.12 2015-05-08
+ */
+public class EmployeeTest {
+    public static void main(String[] args) {
+        // fill the staff array with three Employee objects
+        Employee[] staff = new Employee[3];
+
+        staff[0] = new Employee(&quot;Carl Cracker&quot;, 75000, 1987, 12, 15);
+        staff[1] = new Employee(&quot;Harry Hacker&quot;, 50000, 1989, 10, 1);
+        staff[2] = new Employee(&quot;Tony Tester&quot;, 40000, 1990, 3, 15);
+
+        // raise everyone&#39;s salary by 5%
+        for (Employee e : staff)
+            e.raiseSalary(5);
+
+        // print out information about all Employee objects
+        for (Employee e : staff)
+            System.out.println(&quot;name=&quot; + e.getName() + &quot;,salary=&quot; + e.getSalary() + &quot;,hireDay=&quot;
+                    + e.getHireDay());
+    }
+}
+
+class Employee {
+    private String name;
+    private double salary;
+    private LocalDate hireDay;
+
+    public Employee(String n, double s, int year, int month, int day) {
+        name = n;
+        salary = s;
+        hireDay = LocalDate.of(year, month, day);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public LocalDate getHireDay() {
+        return hireDay;
+    }
+
+    public void raiseSalary(double byPercent) {
+        double raise = salary * byPercent / 100;
+        salary += raise;
+    }
+}
+
+------
+name=Carl Cracker,salary=78750.0,hireDay=1987-12-15
+name=Harry Hacker,salary=52500.0,hireDay=1989-10-01
+name=Tony Tester,salary=42000.0,hireDay=1990-03-15
+</code></pre>
+<h4 id="3-2-多个源文件的使用"><a href="#3-2-多个源文件的使用" class="headerlink" title="3.2 多个源文件的使用"></a>3.2 多个源文件的使用</h4><p>在上面的示例中，一个源文件包含了两个类。许多程序员习惯于<strong>将每一个类存在一个单独的源文件中</strong>。例如，将 <strong>Employee</strong> 类存放在文件<code>Employee.java</code>中， 将 <strong>EmployeeTest</strong> 类存放在文件<code>EmployeeTest.java</code>中。</p>
+<p>这种情况就有两种<strong>编译源程序</strong>的方法：</p>
+<pre><code class="lang-java">&gt; javac Employee*.java
+# or
+&gt; javac EmployeeTest.java
+</code></pre>
+<blockquote>
+<p>虽然第二种方法并没有显式的编译<code>Employee.java</code>，但当 Java 编译器发现<code>EmployeeTest.java</code>使用了 <strong>Employee</strong> 类时会查找名为<code>Employee.class</code>的文件。如果没有找到，就会自动搜索<code>Employee.java</code>，然后对它进行编译。更重要的是，如果<code>Employee.java</code>版本较已有的<code>Employee.class</code>文件版本新，Java 编译器就会自动的重新编译这个文件。</p>
+</blockquote>
+<h4 id="3-3-剖析-Employee-类"><a href="#3-3-剖析-Employee-类" class="headerlink" title="3.3 剖析 Employee 类"></a>3.3 剖析 Employee 类</h4><p><strong>Employee</strong> 类包含 <strong>1 个构造器</strong>、<strong>4 个方法</strong>以及 <strong>3 个实例域</strong>：</p>
+<pre><code class="lang-java">// 构造器
+public Employee(String n, double s, int year, int month, int day)
+// 方法
+public String getName()
+public double getSalary()
+public LocalDate getHireDay()
+public void raiseSalary(double byPercent)
+// 实例域
+private String name;
+private double salary;
+private LocalDate hireDay;
+</code></pre>
+<h4 id="3-4-从构造器开始"><a href="#3-4-从构造器开始" class="headerlink" title="3.4 从构造器开始"></a>3.4 从构造器开始</h4><p>先来看看 <strong>Employee</strong> 类的<strong>构造器</strong>：</p>
+<pre><code class="lang-java">public Employee(String n, double s, int year, int month, int day) {
+    name = n;
+    salary = s;
+    hireDay = LocalDate.of(year, month, day);
+}
+</code></pre>
+<p>可以看到，<strong>构造器与类同名</strong>。在构造 <strong>Employee</strong> 类的对象时，构造器会运行，以便<strong>将实例域初始化为所希望的状态</strong>。</p>
+<blockquote>
+<p><strong>构造器总是伴随着 new 操作符的执行被调用</strong>，而不能对一个已经存在的对象调用构造器，来达到重新设置实例域的目的。</p>
+</blockquote>
+<h4 id="3-5-隐式参数与显式参数"><a href="#3-5-隐式参数与显式参数" class="headerlink" title="3.5 隐式参数与显式参数"></a>3.5 隐式参数与显式参数</h4><p><strong>方法</strong>用于<strong>操作对象</strong>以及<strong>存取它们的实例域</strong>。例如：</p>
+<pre><code class="lang-java">public void raiseSalary(double byPercent) {
+    double raise = salary * byPercent / 100;
+    salary += raise;
+}
+</code></pre>
+<p>将调用这个方法的对象的 <strong>salary</strong> 实例域设置为新值。看下面这个调用：</p>
+<pre><code class="lang-java">number007.raiseSalary(5);
+</code></pre>
+<p>具体将执行下列指令：</p>
+<pre><code class="lang-java">double raise = number007.salary * 5 / 100;
+number007.salary += raise;
+</code></pre>
+<p><strong>raiseSalary</strong> 方法有<strong>两个参数</strong>。第一个参数称为<strong>隐式（implicit）参数</strong>，是出现在方法名前的 <strong>Emploee</strong> 类对象<code>number007</code>。第二个参数是位于方法名后面括号中的数值，是一个<strong>显式（explicit）参数</strong>。</p>
+<p>在每一个方法中，<strong>关键字 this</strong> 表示<strong>隐式参数</strong>。如果需要的话，可以使用下列方式编写 <strong>raiseSalary</strong> 方法：</p>
+<pre><code class="lang-java">public void raiseSalary(double byPercent) {
+    double raise = this.salary * byPercent / 100;
+    this.salary += raise;
+}
+</code></pre>
+<p>这样可以<strong>将实例域与局部变量明显的区分开来</strong>。</p>
+<h4 id="3-6-封装的优点"><a href="#3-6-封装的优点" class="headerlink" title="3.6 封装的优点"></a>3.6 封装的优点</h4><pre><code class="lang-java">public String getName() {
+    return name;
+}
+public double getSalary() {
+    return salary;
+}
+public LocalDate getHireDay() {
+    return hireDay;
+}
+</code></pre>
+<p>这些都是典型的<strong>访问器方法</strong>。由于它们<strong>只返回实例域值</strong>，因此又称为<strong>域访问器</strong>。</p>
+<p>当需要<strong>获得或设置实例域值</strong>的时候，应该提供以下三项内容：</p>
+<ul>
+<li>一个<strong>私有</strong>的<strong>数据域</strong></li>
+<li>一个<strong>公有</strong>的<strong>域访问器方法</strong></li>
+<li>一个<strong>公有</strong>的<strong>域更改器方法</strong></li>
+</ul>
+<p>这样做有下列<strong>明显的好处</strong>：</p>
+<ol>
+<li>可以<strong>改变内部实现</strong>，除了该类的方法之外，<strong>不会影响其他代码</strong></li>
+<li><strong>更改器方法可以执行错误检查</strong>，然而直接对域进行赋值将不会进行这些处理</li>
+</ol>
+<h4 id="3-7-基于类的访问权限"><a href="#3-7-基于类的访问权限" class="headerlink" title="3.7 基于类的访问权限"></a>3.7 基于类的访问权限</h4><p><strong>方法</strong>可以访问<strong>所调用对象的私有数据</strong>，还可以访问其<strong>所属类的所有对象的私有数据</strong>。</p>
+<h4 id="3-8-私有方法"><a href="#3-8-私有方法" class="headerlink" title="3.8 私有方法"></a>3.8 私有方法</h4><p>在实现一个类时，由于公有数据非常危险，所以应该<strong>将所有的数据域都设置为私有的</strong>。</p>
+<p>在 <strong>Java</strong> 中，要实现一个<strong>私有的方法</strong>，只需将<strong>关键字 public</strong> 改为 <strong>private</strong> 即可。</p>
+<h4 id="3-9-final-实例域"><a href="#3-9-final-实例域" class="headerlink" title="3.9 final 实例域"></a>3.9 final 实例域</h4><p>可以将<strong>实例域</strong>定义为 <strong>final</strong>，构建对象时<strong>必须初始化这样的域</strong>。也就是说，必须确保在每一个构造器执行之后，这个域的值被设置，并且<strong>在后面的操作中，不能再对它进行修改</strong>。</p>
+<pre><code class="lang-java">class Employee {
+    private final String name;
+    ...
+}
+</code></pre>
+<p><strong>final 修饰符</strong>大都应用于<strong>基本（primitive）类型域</strong>，或<strong>不可变（immutable）类的域</strong>。例如，<strong>String</strong> 类就是一个<strong>不可变的类</strong>。</p>
+<h3 id="4-静态域与静态方法"><a href="#4-静态域与静态方法" class="headerlink" title="4. 静态域与静态方法"></a>4. 静态域与静态方法</h3><h4 id="4-1-静态域"><a href="#4-1-静态域" class="headerlink" title="4.1 静态域"></a>4.1 静态域</h4><p>如果将域定义为 <strong>static</strong>，<strong>每个类中只有一个这样的域</strong>，而每一个对象对于所有的实例域却都有自己的一份拷贝。例如，假定需要给每一个雇员赋予<strong>唯一的标识码</strong>。这里给 <strong>Employee</strong> 类添加一个<strong>实例域</strong><code>id</code>和一个<strong>静态域</strong><code>nextId</code>：</p>
+<pre><code class="lang-java">class Employee {
+    private static int nextId = 1;
+    private int id;
+}
+</code></pre>
+<p>现在，每一个 <strong>Employee</strong> 对象都有一个自己的<code>id</code>域，但<strong>这个类的所有实例将共享一个</strong><code>nextId</code><strong>域</strong>。即使没有一个 <strong>Employee</strong> 对象，静态域<code>nextId</code>也存在。<strong>它属于类，而不属于任何独立的对象</strong>。</p>
+<blockquote>
+<p>在绝大多数的面向对象程序设计语言中，<strong>静态域也被称为类域</strong>。</p>
+</blockquote>
+<h4 id="4-2-静态常量"><a href="#4-2-静态常量" class="headerlink" title="4.2 静态常量"></a>4.2 静态常量</h4><p>例如，在 <strong>Math</strong> 类中定义了一个<strong>静态常量</strong><code>PI</code>：</p>
+<pre><code class="lang-java">public class Math {
+    ...
+    public static final double PI = 3.14159265358979323846;
+    ...
+}
+</code></pre>
+<p>另一个多次使用的<strong>静态常量</strong>是<code>System.out</code>：</p>
+<pre><code class="lang-java">public class System {
+    ...
+    public static final PrintStream out = ...;
+}
+</code></pre>
+<h4 id="4-3-静态方法"><a href="#4-3-静态方法" class="headerlink" title="4.3 静态方法"></a>4.3 静态方法</h4><p><strong>静态方法</strong>是一种<strong>不能向对象实施操作的方法</strong>。例如，<strong>Math</strong> 类的<code>pow</code>方法就是一个<strong>静态方法</strong>：</p>
+<pre><code class="lang-java">Math.pow(x, a);
+</code></pre>
+<blockquote>
+<p>可以认为<strong>静态方法</strong>是<strong>没有 this 参数的方法</strong>，另外<strong>静态方法可以访问自身类中的静态域</strong>。</p>
+</blockquote>
+<h4 id="4-4-工厂方法"><a href="#4-4-工厂方法" class="headerlink" title="4.4 工厂方法"></a>4.4 工厂方法</h4><p><strong>静态方法</strong>还有另外一种常见的用途，类似 <strong>LocalDate</strong> 和 <strong>NumberFormat</strong> 的类使用<strong>静态工厂方法（factory method）</strong>来构造对象：</p>
+<pre><code class="lang-java">NumberFormat currencyFormatter = NumberFormat.getCurrencylnstance();
+NumberFormat percentFormatter = NumberFormat.getPercentlnstance();
+double x = 0.1;
+System.out.println(currencyFormatter.format(x)); // prints $0.10
+System.out.println(percentFomatter.format(x)); // prints 10%
+</code></pre>
+<p>之所以 <strong>NumberFormat</strong> 类<strong>不利用构造器完成这些操作</strong>，是因为：</p>
+<ul>
+<li><strong>无法命名构造器</strong>。构造器名字必须与类名相同，但是这里希望得到的货币实例和百分比实例采用不同的名字。</li>
+<li><strong>当使用构造器时，无法改变所构造的对象类型</strong>。而 Factory 方法将返回一个 <strong>DecimalFormat</strong> 类对象，这是 <strong>NumberFormat</strong> 的子类。</li>
+</ul>
+<h4 id="4-5-main-方法"><a href="#4-5-main-方法" class="headerlink" title="4.5 main 方法"></a>4.5 main 方法</h4><p><strong>main</strong> 方法也是一个<strong>静态方法</strong>，它<strong>不对任何对象进行操作</strong>。</p>
+<p>事实上，在启动程序时还没有任何一个对象。<strong>静态的 main 方法</strong>将<strong>执行并创建程序所需要的对象</strong>。</p>
+<h3 id="5-方法参数"><a href="#5-方法参数" class="headerlink" title="5. 方法参数"></a>5. 方法参数</h3><p><strong>按值调用（call by name）</strong>表示方法接收的是<strong>调用者提供的值</strong>，而<strong>按引用调用（call by reference）</strong>表示方法接收的是<strong>调用者提供的变量地址</strong>。</p>
+<blockquote>
+<p>Java 程序设计语言总是采用<strong>按值调用</strong>。</p>
+</blockquote>
+<h3 id="6-对象构造"><a href="#6-对象构造" class="headerlink" title="6. 对象构造"></a>6. 对象构造</h3><p>Java 提供了多种编写<strong>构造器</strong>的机制。</p>
+<h4 id="6-1-重载"><a href="#6-1-重载" class="headerlink" title="6.1 重载"></a>6.1 重载</h4><p>如果<strong>多个方法有相同的名字、不同的参数</strong>，编译器必须挑选出具体执行那个方法，这种特征叫做<strong>重载（overloading）</strong>。</p>
+<pre><code class="lang-java">StringBuilder messages = new StringBuilder();
+StringBuilder todoList = new StringBuilder(&quot;To do:\n&quot;);
+</code></pre>
+<p>如果编译器<strong>找不到匹配的参数</strong>，就会产生<strong>编译时错误</strong>，这个过程被称为<strong>重载解析（overloading resolution）</strong>。</p>
+<h4 id="6-2-默认域初始化"><a href="#6-2-默认域初始化" class="headerlink" title="6.2 默认域初始化"></a>6.2 默认域初始化</h4><p>如果在构造器中<strong>没有显式的给域赋予初值</strong>，那么就会被自动的赋给默认值：<strong>数值</strong>为<code>0</code>，<strong>布尔值</strong>为 <strong>false</strong>，<strong>对象引用</strong>为 <strong>null</strong>。</p>
+<h4 id="6-3-无参数的构造器"><a href="#6-3-无参数的构造器" class="headerlink" title="6.3 无参数的构造器"></a>6.3 无参数的构造器</h4><pre><code class="lang-java">public Employee() {
+    name = &quot;&quot;;
+    salary = 0;
+    hireDay = LocalDate.now();
+}
+</code></pre>
+<p>如果在编写一个类时<strong>没有编写构造器</strong>， 那么系统就会提供一个无参数构造器。这个构造器<strong>将所有的实例域设置为默认值</strong>。</p>
+<p>如果类中<strong>提供了至少一个构造器</strong>， 但是没有提供无参数的构造器， 则在构造对象时<strong>如果没有提供参数就会被视为不合法</strong>。</p>
+<h4 id="6-4-显式域初始化"><a href="#6-4-显式域初始化" class="headerlink" title="6.4 显式域初始化"></a>6.4 显式域初始化</h4><p>初始值不一定是常量值，可以<strong>调用方法对域进行初始化</strong>：</p>
+<pre><code class="lang-java">class Employee {
+    private static int nextId;
+    private int id = assignId();
+    ...
+    private static int assignId() {
+        int r = nextId;
+        nextId++;
+        return r;
+    }
+    ...
+}
+</code></pre>
+<h4 id="6-5-参数名"><a href="#6-5-参数名" class="headerlink" title="6.5 参数名"></a>6.5 参数名</h4><pre><code class="lang-java">public Employee(String aName, double aSalary) {
+    name = aName;
+    salary = aSalary;
+}
+</code></pre>
+<p>当参数变量和实例域同名时，可以通过 <strong>this</strong> 访问实例域：</p>
+<pre><code class="lang-java">public Employee(String name, double salary) {
+    this.name = name;
+    this.salary = salary;
+}
+</code></pre>
+<h4 id="6-6-调用另一个构造器"><a href="#6-6-调用另一个构造器" class="headerlink" title="6.6 调用另一个构造器"></a>6.6 调用另一个构造器</h4><p>如果构造器的第一个语句形如<code>this(...)</code>，这个构造器将<strong>调用同一个类的另一个构造器</strong>：</p>
+<pre><code class="lang-java">public Employee(double s) {
+    // calls Employee(String, double)
+    this(&quot;Employee #&quot; + nextId, s);
+    nextId++;
+}
+</code></pre>
+<blockquote>
+<p>采用这种方式使用 <strong>this 关键字</strong>非常有用，这样<strong>对公共的构造器代码部分只编写一次即可</strong>。</p>
+</blockquote>
+<h4 id="6-7-初始化块"><a href="#6-7-初始化块" class="headerlink" title="6.7 初始化块"></a>6.7 初始化块</h4><p>之前已经提到<strong>两种初始化数据域的方法</strong>：</p>
+<ul>
+<li>在<strong>构造器</strong>中设置值</li>
+<li>在<strong>声明</strong>中赋值</li>
+</ul>
+<p>事实上，Java 还有第三种机制，称为<strong>初始化块（initialization block）</strong>。在一个类的声明中，可以包含多个代码块。只要构造类的对象，这些块就会被执行。</p>
+<pre><code class="lang-java">class Employee {
+    private static int nextId;
+
+    private int id;
+    private String name;
+    private double salary;
+
+    // object initialization block
+    {
+        id = nextId;
+        nextId++;
+    }
+
+    public Employee(String n, double s) {
+        name = n;
+        salary = s;
+    }
+
+    public Employee() {
+        name = &quot;&quot;;
+        salary = 0;
+    }
+
+    ...
+}
+</code></pre>
+<h4 id="6-8-对象析构与-finalize-方法"><a href="#6-8-对象析构与-finalize-方法" class="headerlink" title="6.8 对象析构与 finalize 方法"></a>6.8 对象析构与 finalize 方法</h4><p>由于 <strong>Java 有自动的 GC</strong>，不需要人工回收内存，所以 <strong>Java 不支持析构器</strong>。</p>
+<p>可以为任何一个类添加 <strong>finalize</strong> 方法，它将<strong>在垃圾回收器清除对象之前调用</strong>。</p>
+<h3 id="7-包"><a href="#7-包" class="headerlink" title="7. 包"></a>7. 包</h3><p>Java 允许使用<strong>包（package）</strong>将类组织起来。<strong>标准的 Java 类库分布在多个包中</strong>，包括 <strong>java.lang</strong>、<strong>java.util</strong>、<strong>java.net</strong> 等。标准的 Java 包具有一个层次结构，如同硬盘的目录嵌套一样，<strong>所有标准的 Java 包都处于 java 和 javax 包层次中</strong>。</p>
+<p>使用包的主要原因是<strong>确保类名的唯一性</strong>，建议<strong>将公司的因特网域名以逆序的形式作为包名</strong>，并且<strong>对于不同的项目使用不同的子包</strong>，例如<code>com.horstmann.corejava</code>。</p>
+<h4 id="7-1-类的导入"><a href="#7-1-类的导入" class="headerlink" title="7.1 类的导入"></a>7.1 类的导入</h4><pre><code class="lang-java">java.time.LocalDate today = java.time.LocalDate.now();
+// or
+import java.util.LocalDate;
+// or
+import java.util.*;
+</code></pre>
+<h4 id="7-2-静态导入"><a href="#7-2-静态导入" class="headerlink" title="7.2 静态导入"></a>7.2 静态导入</h4><p><strong>import 语句</strong>不仅可以<strong>导入类</strong>，还增加了<strong>导入静态方法和静态域</strong>的功能：</p>
+<pre><code class="lang-java">import static java.lang.System.*;
+...
+out.println(&quot;Hello, world!&quot;); // i.e., System.out
+exit(0); // i.e., System.exit
+</code></pre>
+<h4 id="7-3-将类放入包中"><a href="#7-3-将类放入包中" class="headerlink" title="7.3 将类放入包中"></a>7.3 将类放入包中</h4><p>要想将一个类放入包中，就必须<strong>将包的名字放在源文件的开头</strong>，定义类的代码之前。</p>
+<p>如果<strong>没有在源文件中放置 package 语句</strong>， 这个源文件中的类就被放置在一个<strong>默认包 (defaulf package)</strong> 中。默认包是一个<strong>没有名字的包</strong>。</p>
+<p>需要将包中的文件放到<strong>与完整的包名匹配的子目录中</strong>，编译器将<strong>类文件</strong>也放在<strong>相同的目录结构中</strong>。</p>
+<blockquote>
+<p><strong>编译器在编译源文件的时候不检查目录结构</strong>。如果包与目录不匹配，虚拟机就找不到类。</p>
+</blockquote>
+<h4 id="7-4-包作用域"><a href="#7-4-包作用域" class="headerlink" title="7.4 包作用域"></a>7.4 包作用域</h4><p>当<strong>没有将类定义为 public 时</strong>，默认只有<strong>同一个包中的其他类</strong>才可以访问该类。</p>
+<h3 id="8-类路径"><a href="#8-类路径" class="headerlink" title="8. 类路径"></a>8. 类路径</h3><p>采用<code>-classpath</code>或<code>-cp</code>选项<strong>指定类路径</strong>：</p>
+<pre><code class="lang-shell">java -classpath /home/usr/classdir:.:/home/user/archieves/archive.jar MyProg
+</code></pre>
+<h3 id="9-文档注释"><a href="#9-文档注释" class="headerlink" title="9. 文档注释"></a>9. 文档注释</h3><p><strong>JDK</strong> 中包含了一个很有用的工具 <strong>javadoc</strong>，它可以由<strong>源文件</strong>生成一个 <strong>HTML 文档</strong>，以专用的定界符<code>/**...*/</code>标记。</p>
+<pre><code class="lang-shell">javadoc -d docDirectory nameOfPackage
+javadoc -d docDirectory nameOfPackage1 nameOfPackage2 ...
+// 文件在默认包中
+javadoc -d docDirectory *.java
+</code></pre>
+<h3 id="10-类设计技巧"><a href="#10-类设计技巧" class="headerlink" title="10. 类设计技巧"></a>10. 类设计技巧</h3><ol>
+<li>一定要保证<strong>数据私有</strong></li>
+<li>一定要对<strong>数据初始化</strong></li>
+<li>不要在类中使用<strong>过多的基本类型</strong></li>
+<li>不是所有的域都需要<strong>独立的域访问器和域更改器</strong></li>
+<li>将职责过多的类进行<strong>分解</strong></li>
+<li>类名和方法名要能够<strong>体现它们的职责</strong></li>
+<li>优先使用<strong>不可变的类</strong></li>
+</ol>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/03/18/understanding-linux-kernel/">Linux 内核笔记 1：绪论</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-6/">Java 笔记 6：异常、断言和日志</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-5/">Java 笔记 5：集合</a></li><li><a href="https://abelsu7.top/2019/03/08/sort-algo-in-go/">排序算法 1：冒泡排序、插入排序、选择排序</a></li><li><a href="https://jarrychen.xyz/archives/57361fba.html">快速排序(递归)</a></li><li><a href="https://www.hosiang.cn/3372e3cc/">后端开发 - Java开发环境配置 - 入门篇</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.081Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/01/18/core-java-notes-2/" target="_blank" rel="external">https://abelsu7.top/2019/01/18/core-java-notes-2/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书/">读书</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/01/18/core-java-notes-2/&title=《Java 笔记 2：对象与类》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/01/18/core-java-notes-2/&title=《Java 笔记 2：对象与类》 — Keep Coding&source=
+摘自 《Java 核心技术（卷 Ⅰ）》
+
+
+                
+                    
+                ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/01/18/core-java-notes-2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java 笔记 2：对象与类》 — Keep Coding&url=https://abelsu7.top/2019/01/18/core-java-notes-2/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/01/18/core-java-notes-2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/02/06/core-java-notes-3/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Java 笔记 3：继承、泛型与反射</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/01/10/install-docker-ce-on-centos7/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">CentOS 7 安装 Docker CE</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/01/18/core-java-notes-2/&title=《Java 笔记 2：对象与类》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/01/18/core-java-notes-2/&title=《Java 笔记 2：对象与类》 — Keep Coding&source=
+摘自 《Java 核心技术（卷 Ⅰ）》
+
+
+                
+                    
+                ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/01/18/core-java-notes-2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java 笔记 2：对象与类》 — Keep Coding&url=https://abelsu7.top/2019/01/18/core-java-notes-2/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/01/18/core-java-notes-2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACIklEQVR42u3a0W7jMAwEwPz/T6fAvQZ2dymnOMujpyBxbY8KECTF1yte73/r8/PRlZ/XJN8fXXPZwsDAuC3jfbpaRn795zVHz42oGBgYD2C0r5KHyHyDZluAgYGBkSR2s89Hd8bAwMBYD7jnvPO75aUsBgYGxqyIvapZlpC+WItjYGDckLFyMPDtz390voGBgfEfM96jNWu3rRwA/PI+GBgYWzPO076rph3ywD0rjzEwMPZmDBtb8a/nV+Zh95d7YmBgPIDRPqBlF+ndbJswMDAexpgdBrQjGvlmRckrBgbG1ozvlalt2rfShsPAwNibkYTalQRxFnDrZhwGBsbWjFlV2I5l5NQ8VcXAwHgmo/2DlcevlND1cSYGBsYWjFngawvXnNcW0hgYGBjtg5Pv242Ipr8wMDAew7h22CIJoysDHBgYGM9htE23HDAby2gPHjAwMPZmJOlaq0+CY/K6RYKIgYGxNSMvKWdjEG1IzRtwh+02DAyMxzBmr9vOdKw07Ia3w8DAuDkjLzVf8VpJPetDCAwMjK0ZeVCbNc7yMN1uzfAiDAyMWzHe5VpP8lZK2cPtw8DA2JoxS/JmsTx/ifxIAAMD4zmMfHS1HctoU8zZ8QAGBsZzGG2zrI3lychFErKLYQsMDAyMhfSuPYSIQjAGBgZGOSjWNtdWil4MDIznMFaOHr+36o4gBgbGpoz2YCB/cHKEmRe3l/3HMDAw7sT4AdUvslBuuipMAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

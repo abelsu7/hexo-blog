@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>使用 kubeadm 搭建 Kubernetes 集群 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Kubernetes,云计算">
+    <meta name="description" content="摘自 Creating a single master cluster with kubeadm | kubernetes.io，更新中…">
+<meta name="keywords" content="Kubernetes,云计算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 kubeadm 搭建 Kubernetes 集群">
+<meta property="og:url" content="https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自 Creating a single master cluster with kubeadm | kubernetes.io，更新中…">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/cover.png">
+<meta property="og:image" content="https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/master-ports.png">
+<meta property="og:image" content="https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/worker-ports.png">
+<meta property="og:updated_time" content="2019-10-14T13:49:31.929Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用 kubeadm 搭建 Kubernetes 集群">
+<meta name="twitter:description" content="摘自 Creating a single master cluster with kubeadm | kubernetes.io，更新中…">
+<meta name="twitter:image" content="https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/cover.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">使用 kubeadm 搭建 Kubernetes 集群</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">使用 kubeadm 搭建 Kubernetes 集群</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-02-25T01:54:49.000Z" itemprop="datePublished" class="page-time">
+  2019-02-25
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Kubernetes/">Kubernetes</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-前期准备"><span class="post-toc-text">1. 前期准备</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-1-系统与硬件"><span class="post-toc-text">1.1 系统与硬件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-2-节点之间网络互通"><span class="post-toc-text">1.2 节点之间网络互通</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-3-各不相同的-hostname、MAC-地址"><span class="post-toc-text">1.3 各不相同的 hostname、MAC 地址</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-4-各不相同的-product-uuid"><span class="post-toc-text">1.4 各不相同的 product_uuid</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-5-禁用-swap-交换内存"><span class="post-toc-text">1.5 禁用 swap 交换内存</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-6-查看端口占用情况"><span class="post-toc-text">1.6 查看端口占用情况</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-7-容器运行时"><span class="post-toc-text">1.7 容器运行时</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-8-我的集群主机"><span class="post-toc-text">1.8 我的集群主机</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-安装-kubeadm、kubelet、kubectl"><span class="post-toc-text">2. 安装 kubeadm、kubelet、kubectl</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-配置-kubelet"><span class="post-toc-text">3. 配置 kubelet</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-使用-kubeadm-启动集群"><span class="post-toc-text">4. 使用 kubeadm 启动集群</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-1-提前下载所需镜像"><span class="post-toc-text">4.1 提前下载所需镜像</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-2-配置-Pod-网络插件-flannel"><span class="post-toc-text">4.2 配置 Pod 网络插件 flannel</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-3-初始化集群-kubeadm-init"><span class="post-toc-text">4.3 初始化集群 kubeadm init</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-4-查看集群节点状态"><span class="post-toc-text">4.4 查看集群节点状态</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-5-查看集群-Pod-状态"><span class="post-toc-text">4.5 查看集群 Pod 状态</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-向集群中添加节点"><span class="post-toc-text">5. 向集群中添加节点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#待更新"><span class="post-toc-text">待更新</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-using-kubeadm-to-create-a-k8s-cluster"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">使用 kubeadm 搭建 Kubernetes 集群</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-02-25 09:54:49" datetime="2019-02-25T01:54:49.000Z"  itemprop="datePublished">2019-02-25</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Kubernetes/">Kubernetes</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>摘自 <a href="https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/" target="_blank" rel="noopener">Creating a single master cluster with kubeadm | kubernetes.io</a>，更新中…</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/cover.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<p><a href="https://kubernetes.io/docs/setup/independent/install-kubeadm/" target="_blank" rel="noopener">kubeadm</a> 是 <strong>Kubernetes 官方</strong>提供的一个 <strong>CLI (Command Line Interface) 工具</strong>，可以很方便的<strong>搭建一套符合官方最佳实践的最小化可用集群</strong>。当我们使用<code>kubeadm</code>搭建集群时，集群可以<strong>通过 K8S 的一致性测试</strong>，并且<code>kubeadm</code>还支持其他的<strong>集群生命周期功能</strong>，比如升级/降级等。</p>
+<h3 id="1-前期准备"><a href="#1-前期准备" class="headerlink" title="1. 前期准备"></a>1. 前期准备</h3><p>安装<code>kubeadm</code>前需要在<strong>所有节点</strong>上检查以下条件是否满足。</p>
+<h4 id="1-1-系统与硬件"><a href="#1-1-系统与硬件" class="headerlink" title="1.1 系统与硬件"></a>1.1 系统与硬件</h4><p><strong>部署集群的所有节点主机</strong>需运行以下操作系统：</p>
+<ul>
+<li><strong>Ubuntu</strong> 16.04+</li>
+<li><strong>Debian</strong> 9</li>
+<li><strong>CentOS</strong> 7</li>
+<li><strong>RHEL</strong> 7</li>
+<li><strong>Fedora</strong> 25/26 (best-effort)</li>
+<li><strong>HypriotOS</strong> v1.0.1+</li>
+<li><strong>Container Linux</strong> (tested with 1800.6.0)</li>
+</ul>
+<p><strong>CPU 2</strong> 核以上，<strong>内存 2 GB</strong> 以上。</p>
+<h4 id="1-2-节点之间网络互通"><a href="#1-2-节点之间网络互通" class="headerlink" title="1.2 节点之间网络互通"></a>1.2 节点之间网络互通</h4><p>节点之间需要具备<code>Full network connectivity</code>，公网、局域网均可。</p>
+<h4 id="1-3-各不相同的-hostname、MAC-地址"><a href="#1-3-各不相同的-hostname、MAC-地址" class="headerlink" title="1.3 各不相同的 hostname、MAC 地址"></a>1.3 各不相同的 hostname、MAC 地址</h4><p>通过<code>hostname</code>查看<strong>主机名</strong>，通过<code>ip link</code>或<code>ifconfig -a</code>查看网卡对应的 <strong>MAC 地址</strong>，确保<strong>每台机器各不相同</strong>。</p>
+<h4 id="1-4-各不相同的-product-uuid"><a href="#1-4-各不相同的-product-uuid" class="headerlink" title="1.4 各不相同的 product_uuid"></a>1.4 各不相同的 product_uuid</h4><p>通过<code>sudo cat /sys/class/dmi/id/product_uuid</code>可查看机器的<code>product_uuid</code>，确保要搭建集群的<strong>所有节点的</strong><code>product_uuid</code><strong>均不相同</strong>。</p>
+<blockquote>
+<p>这样做的原因是<strong>每个 Node 都有一些信息会被记录进集群内</strong>，而此处我们需要保证的这些唯一的信息，便会记录在集群的<code>nodeInfo</code>中，比如<code>product_uuid</code>在集群内以<code>systemUUID</code>来表示，具体信息则可以通过集群的<code>API Server</code>获取到。</p>
+</blockquote>
+<h4 id="1-5-禁用-swap-交换内存"><a href="#1-5-禁用-swap-交换内存" class="headerlink" title="1.5 禁用 swap 交换内存"></a>1.5 禁用 swap 交换内存</h4><p><strong>Kubernetes 集群的每个节点</strong>上都有个<strong>必需的组件</strong><code>kubelet</code>。从<code>Kubernetes 1.8</code>开始，启动<code>kubelet</code>时需要禁用<code>swap</code>，或者需要更改<code>kubelet</code>的启动参数为<code>--fail-swap-on=false</code>。</p>
+<blockquote>
+<p><strong><em>摘自<a href="https://juejin.im/book/5b9b2dc86fb9a05d0f16c8ac" target="_blank" rel="noopener">《Kubernetes 从上手到实践》</a></em></strong>：<br>虽说可以更改参数让其可用，但是我<strong>建议还是禁用 swap 除非你的集群有特殊的需求</strong>，比如：有大内存使用的需求，但又想节约成本；或者你知道你将要做什么，否则可能会出现一些非预期的情况，尤其是做了<strong>内存限制</strong>的时候，当某个 Pod 达到内存限制的时候，<strong>它可能会溢出到 swap 中，这会导致 k8s 无法正常进行调度</strong>。</p>
+</blockquote>
+<p><strong>禁用方法</strong>如下：</p>
+<p>1.使用<code>cat /proc/swaps</code><strong>验证</strong><code>swap</code><strong>配置的设备和文件</strong>：</p>
+<pre><code class="lang-bash">~&gt; cat /proc/swaps 
+Filename                Type        Size    Used    Priority
+/dev/dm-1                               partition    8126460    0    -1
+
+~&gt; free -h
+              total        used        free      shared  buff/cache   available
+Mem:           7.6G        996M        4.5G         12M        2.2G        6.3G
+Swap:          7.7G          0B        7.7G
+
+~&gt; cat /etc/fstab
+#
+# /etc/fstab
+# Created by anaconda on Tue Nov 13 11:26:56 2018
+#
+# Accessible filesystems, by reference, are maintained under &#39;/dev/disk&#39;
+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
+#
+/dev/mapper/centos-root /                       xfs     defaults        0 0
+UUID=aadb6c2e-8a99-46e5-b208-1eaee9944490 /boot                   xfs     defaults        0 0
+UUID=4797-AB7E          /boot/efi               vfat    umask=0077,shortname=winnt 0 0
+/dev/mapper/centos-home /home                   xfs     defaults        0 0
+/dev/mapper/centos-swap swap                    swap    defaults        0 0
+
+~&gt; lsblk
+NAME            MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sda               8:0    0 931.5G  0 disk 
+├─sda1            8:1    0   200M  0 part /boot/efi
+├─sda2            8:2    0     1G  0 part /boot
+└─sda3            8:3    0 930.3G  0 part 
+  ├─centos-root 253:0    0   500G  0 lvm  /
+  ├─centos-swap 253:1    0   7.8G  0 lvm  [SWAP]
+  └─centos-home 253:2    0 422.6G  0 lvm  /home
+sr0              11:0    1  1024M  0 rom
+</code></pre>
+<p>2.使用<code>swapoff -a</code><strong>禁用</strong><code>/etc/fstab</code><strong>中的所有交换区</strong>：</p>
+<blockquote>
+<p>使用<code>swapon -a</code>即可重新启用<code>/etc/fstab</code>中的所有交换区。</p>
+</blockquote>
+<pre><code class="lang-bash">~&gt; swapoff -a
+~&gt; cat /proc/swaps
+Filename                Type        Size    Used    Priority
+
+~&gt; free -h
+              total        used        free      shared  buff/cache   available
+Mem:           7.6G        989M        4.5G         12M        2.2G        6.3G
+Swap:            0B          0B          0B
+
+~&gt; lsblk
+NAME            MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sda               8:0    0 931.5G  0 disk 
+├─sda1            8:1    0   200M  0 part /boot/efi
+├─sda2            8:2    0     1G  0 part /boot
+└─sda3            8:3    0 930.3G  0 part 
+  ├─centos-root 253:0    0   500G  0 lvm  /
+  ├─centos-swap 253:1    0   7.8G  0 lvm  
+  └─centos-home 253:2    0 422.6G  0 lvm  /home
+sr0              11:0    1  1024M  0 rom
+</code></pre>
+<p>可以看到<code>swap</code><strong>分区的挂载点已被卸载</strong>。</p>
+<p>3.为了<strong>确保机器重启或重挂载时，不会再次挂载</strong><code>swap</code><strong>分区</strong>，还需将<code>/etc/fstab</code>中的<code>swap</code>分区记录<strong>注释掉</strong>：</p>
+<pre><code class="lang-bash">~&gt; vim /etc/fstab
+#
+# /etc/fstab
+# Created by anaconda on Tue Nov 13 11:26:56 2018
+#
+# Accessible filesystems, by reference, are maintained under &#39;/dev/disk&#39;
+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
+#
+/dev/mapper/centos-root /                       xfs     defaults        0 0
+UUID=aadb6c2e-8a99-46e5-b208-1eaee9944490 /boot                   xfs     defaults        0 0
+UUID=4797-AB7E          /boot/efi               vfat    umask=0077,shortname=winnt 0 0
+/dev/mapper/centos-home /home                   xfs     defaults        0 0
+# /dev/mapper/centos-swap swap                    swap    defaults        0 0
+</code></pre>
+<h4 id="1-6-查看端口占用情况"><a href="#1-6-查看端口占用情况" class="headerlink" title="1.6 查看端口占用情况"></a>1.6 查看端口占用情况</h4><p><strong>Kubernetes 是 C/S 架构</strong>，在启动后会<strong>固定监听以下端口用于提供服务</strong>。</p>
+<p><strong><em>Master node(s)</em></strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/master-ports.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong><em>Worker node(s)</em></strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/worker-ports.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>可以通过<code>sudo netstat -ntlp |grep -E &#39;6443|23[79,80]|1025[0,1,2]&#39;</code><strong>查看</strong><code>Master</code><strong>端口是否被占用</strong>。如果被占用，请<strong>手动释放</strong>。</p>
+<blockquote>
+<p>若提示<code>command not found</code>，则需要<strong>先安装</strong><code>netstat</code><br><strong>CentOS</strong>：<code>sudo yum install net-tools</code><br><strong>Debian/Ubuntu</strong>：<code>sudo apt install net-tools</code></p>
+</blockquote>
+<h4 id="1-7-容器运行时"><a href="#1-7-容器运行时" class="headerlink" title="1.7 容器运行时"></a>1.7 容器运行时</h4><p>需要<strong>在所有节点上安装容器运行时（Container Runtime）</strong>，默认为 <strong>Docker</strong>。可参考 <a href="https://abelsu7.top/2019/01/10/install-docker-ce-on-centos7/">CentOS 7 安装 Docker CE | 苏易北</a>。</p>
+<h4 id="1-8-我的集群主机"><a href="#1-8-我的集群主机" class="headerlink" title="1.8 我的集群主机"></a>1.8 我的集群主机</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Role</th>
+<th style="text-align:center">Hostname</th>
+<th style="text-align:center">OS</th>
+<th style="text-align:center">CPU</th>
+<th style="text-align:center">RAM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Master</td>
+<td style="text-align:center">abelsu7-ubuntu</td>
+<td style="text-align:center">Ubuntu 18.04</td>
+<td style="text-align:center">i7-6700 @ 3.40 GHz，4 核 8 线程</td>
+<td style="text-align:center">32 GB</td>
+</tr>
+<tr>
+<td style="text-align:center">Worker</td>
+<td style="text-align:center">centos-1</td>
+<td style="text-align:center">CentOS 7.5</td>
+<td style="text-align:center">i5-4590 @ 3.30 GHz，4 核 4 线程</td>
+<td style="text-align:center">4 GB</td>
+</tr>
+<tr>
+<td style="text-align:center">Worker</td>
+<td style="text-align:center">centos-2</td>
+<td style="text-align:center">CentOS 7.5</td>
+<td style="text-align:center">i5-4590 @ 3.30 GHz，4 核 4 线程</td>
+<td style="text-align:center">8 GB</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="2-安装-kubeadm、kubelet、kubectl"><a href="#2-安装-kubeadm、kubelet、kubectl" class="headerlink" title="2. 安装 kubeadm、kubelet、kubectl"></a>2. 安装 kubeadm、kubelet、kubectl</h3><blockquote>
+<p>注：<strong>国内用户</strong>安装以上组件时可能会遇到<del>众所周知</del>的<strong>网络问题</strong>。我是用代理解决的，可参考 <a href="https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/">Linux 下使用 SSR + ProxyChains 代理终端流量 | 苏易北</a></p>
+</blockquote>
+<ul>
+<li><strong>kubeadm</strong>：用于<strong>初始化集群</strong>并对其<strong>进行管理</strong></li>
+<li><strong>kubelet</strong>：<strong>在集群中所有机器上运行的组件</strong>，负责执行诸如<strong>启动 Pod 和容器</strong>之类的操作</li>
+<li><strong>kubectl</strong>：与集群通信的<strong>命令行工具</strong></li>
+</ul>
+<p><strong><em>Ubuntu, Debian or HypriotOS：</em></strong></p>
+<pre><code class="lang-bash">apt-get update &amp;&amp; apt-get install -y apt-transport-https curl
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+cat &lt;&lt;EOF &gt;/etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+apt-get update
+apt-get install -y kubelet kubeadm kubectl
+apt-mark hold kubelet kubeadm kubectl
+</code></pre>
+<p><strong><em>CentOS, RHEL or Fedora：</em></strong></p>
+<pre><code class="lang-bash">cat &lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+exclude=kube*
+EOF
+
+# Set SELinux in permissive mode (effectively disabling it)
+setenforce 0
+sed -i &#39;s/^SELINUX=enforcing$/SELINUX=permissive/&#39; /etc/selinux/config
+
+yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+
+systemctl enable --now kubelet
+</code></pre>
+<p>安装完成后<strong>验证版本信息</strong>，可以看到此处安装的版本均为<code>v1.13.3</code>：</p>
+<pre><code class="lang-bash">~&gt; kubeadm version
+kubeadm version: &amp;version.Info{Major:&quot;1&quot;, Minor:&quot;13&quot;, GitVersion:&quot;v1.13.3&quot;, GitCommit:&quot;721bfa751924da8d1680787490c54b9179b1fed0&quot;, GitTreeState:&quot;clean&quot;, BuildDate:&quot;2019-02-01T20:05:53Z&quot;, GoVersion:&quot;go1.11.5&quot;, Compiler:&quot;gc&quot;, Platform:&quot;linux/amd64&quot;}
+
+~&gt; kubectl version --client
+Client Version: version.Info{Major:&quot;1&quot;, Minor:&quot;13&quot;, GitVersion:&quot;v1.13.3&quot;, GitCommit:&quot;721bfa751924da8d1680787490c54b9179b1fed0&quot;, GitTreeState:&quot;clean&quot;, BuildDate:&quot;2019-02-01T20:08:12Z&quot;, GoVersion:&quot;go1.11.5&quot;, Compiler:&quot;gc&quot;, Platform:&quot;linux/amd64&quot;}
+
+~&gt; kubelet --version
+Kubernetes v1.13.3
+</code></pre>
+<h3 id="3-配置-kubelet"><a href="#3-配置-kubelet" class="headerlink" title="3. 配置 kubelet"></a>3. 配置 kubelet</h3><p>为了在生产环境中<strong>保障各组件的稳定运行</strong>，同时也为了<strong>便于管理</strong>，我们<strong>增加对</strong><code>kubelet</code><strong>的</strong><code>systemd</code><strong>的配置</strong>，由<code>systemd</code>对服务进行管理：</p>
+<p>首先创建<code>/etc/systemd/system/kubelet.service</code>（若文件已存在则继续下一步），并输入以下内容：</p>
+<pre><code class="lang-bash">[Unit]
+Description=kubelet: The Kubernetes Node Agent
+Documentation=https://kubernetes.io/docs/
+
+[Service]
+ExecStart=/usr/bin/kubelet
+Restart=always
+StartLimitInterval=0
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<p>之后创建<code>/etc/systemd/system/kubelet.service.d/kubeadm.conf</code>（若文件已存在则继续下一步），并输入以下内容：</p>
+<pre><code class="lang-bash"># Note: This dropin only works with kubeadm and kubelet v1.11+
+[Service]
+Environment=&quot;KUBELET_KUBECONFIG_ARGS=--bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig=/etc/kubernetes/kubelet.conf&quot;
+Environment=&quot;KUBELET_CONFIG_ARGS=--config=/var/lib/kubelet/config.yaml&quot;
+# This is a file that &quot;kubeadm init&quot; and &quot;kubeadm join&quot; generates at runtime, populating the KUBELET_KUBEADM_ARGS variable dynamically
+EnvironmentFile=-/var/lib/kubelet/kubeadm-flags.env
+# This is a file that the user can use for overrides of the kubelet args as a last resort. Preferably, the user should use
+# the .NodeRegistration.KubeletExtraArgs object in the configuration files instead. KUBELET_EXTRA_ARGS should be sourced from this file.
+EnvironmentFile=-/etc/sysconfig/kubelet
+ExecStart=
+ExecStart=/usr/bin/kubelet $KUBELET_KUBECONFIG_ARGS $KUBELET_CONFIG_ARGS $KUBELET_KUBEADM_ARGS $KUBELET_EXTRA_ARGS
+</code></pre>
+<p>最后使用<code>systemctl enable kubelet</code><strong>启用服务</strong>：</p>
+<pre><code class="lang-bash">~&gt; systemctl enable kubelet
+Created symlink from /etc/systemd/system/multi-user.target.wants/kubelet.service to /etc/systemd/system/kubelet.service.
+</code></pre>
+<h3 id="4-使用-kubeadm-启动集群"><a href="#4-使用-kubeadm-启动集群" class="headerlink" title="4. 使用 kubeadm 启动集群"></a>4. 使用 kubeadm 启动集群</h3><h4 id="4-1-提前下载所需镜像"><a href="#4-1-提前下载所需镜像" class="headerlink" title="4.1 提前下载所需镜像"></a>4.1 提前下载所需镜像</h4><p>使用<code>kubeadm init</code>首次创建集群时会从<code>k8s.gcr.io</code>这个 Registry <strong>下载 Kubernetes 所需的 Docker 镜像</strong>。</p>
+<p>由于<del>众所周知</del>的<strong>网络问题</strong>，即使我挂了代理也无法成功下载。好在<strong>阿里云上有同步镜像的组件</strong>，所以可以<strong>提前从阿里云上下载所需镜像</strong>，再重新<code>docker tag</code>上<code>k8s.gcr.io</code>这个 Registry。</p>
+<blockquote>
+<p><strong>注：可以参考以下三篇文章</strong>：</p>
+<ol>
+<li><a href="https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init/#running-kubeadm-without-an-internet-connection" target="_blank" rel="noopener">Running kubeadm without an internet connection | kubernetes.io</a></li>
+<li><a href="https://www.jianshu.com/p/bd97c06bd5b0" target="_blank" rel="noopener">kubeadm config image 阿里云镜像 | 简书</a></li>
+<li><a href="https://www.jianshu.com/p/e5c056baa8ab" target="_blank" rel="noopener">如何成功启动 Docker 自带的 Kubernetes？| 简书</a></li>
+</ol>
+</blockquote>
+<p>首先需要使用<code>kubeadm config image list</code><strong>查看所需镜像的版本</strong>：</p>
+<pre><code class="lang-bash">~&gt; kubeadm config images list
+k8s.gcr.io/kube-apiserver:v1.13.3
+k8s.gcr.io/kube-controller-manager:v1.13.3
+k8s.gcr.io/kube-scheduler:v1.13.3
+k8s.gcr.io/kube-proxy:v1.13.3
+k8s.gcr.io/pause:3.1
+k8s.gcr.io/etcd:3.2.24
+k8s.gcr.io/coredns:1.2.6
+</code></pre>
+<p>之后<strong>新建脚本文件</strong><code>docker-k8s-images.sh</code>，输入以下内容：</p>
+<pre><code class="lang-shell">#!/bin/bash
+
+images=(
+    kube-apiserver:v1.13.3
+    kube-controller-manager:v1.13.3
+    kube-scheduler:v1.13.3
+    kube-proxy:v1.13.3
+    pause:3.1
+    etcd:3.2.24
+    coredns:1.2.6
+)
+
+for imageName in ${images[@]} ; do
+    docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/${imageName}
+    docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/${imageName} k8s.gcr.io/${imageName}
+    docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/${imageName}
+done
+
+docker images
+</code></pre>
+<blockquote>
+<p><strong>阿里云镜像仓库地址</strong>：</p>
+<ul>
+<li><code>registry.cn-hangzhou.aliyuncs.com</code></li>
+<li><code>registry.aliyuncs.com</code></li>
+</ul>
+</blockquote>
+<p>最后<strong>添加执行权限，运行脚本</strong>：</p>
+<pre><code class="lang-bash">~&gt; chmod +x ./docker-k8s-images.sh
+~&gt; ./docker-k8s-images.sh
+...
+REPOSITORY                           TAG                 IMAGE ID            CREATED             SIZE
+k8s.gcr.io/kube-apiserver            v1.13.3             fe242e556a99        3 weeks ago         181MB
+k8s.gcr.io/kube-proxy                v1.13.3             98db19758ad4        3 weeks ago         80.3MB
+k8s.gcr.io/kube-controller-manager   v1.13.3             0482f6400933        3 weeks ago         146MB
+k8s.gcr.io/kube-scheduler            v1.13.3             3a6f709e97a0        3 weeks ago         79.6MB
+k8s.gcr.io/coredns                   1.2.6               f59dcacceff4        3 months ago        40MB
+k8s.gcr.io/etcd                      3.2.24              3cab8e1b9802        5 months ago        220MB
+k8s.gcr.io/pause                     3.1                 da86e6ba6ca1        14 months ago       742kB
+...
+</code></pre>
+<h4 id="4-2-配置-Pod-网络插件-flannel"><a href="#4-2-配置-Pod-网络插件-flannel" class="headerlink" title="4.2 配置 Pod 网络插件 flannel"></a>4.2 配置 Pod 网络插件 flannel</h4><p>在使用<code>kubeadm init</code>启动集群时，需要<strong>传递</strong><code>--pod-network-cidr</code><strong>参数</strong>以便 <strong>Pod 之间可以相互通信</strong>。</p>
+<p>关于网络的选择，此处不做过多介绍，暂时选择一个被广泛使用的方案<code>flannel</code>，这时需要指定<code>--pod-network-cidr=10.244.0.0/16</code>。</p>
+<blockquote>
+<p><strong>参见</strong> <a href="https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/#pod-network" target="_blank" rel="noopener">Installing a pod network add-on</a></p>
+</blockquote>
+<p>另外，在使用<code>flannel</code>之前，还需查看<code>/proc/sys/net/bridge/bridge-nf-call-iptables</code>是否已设置为<code>1</code>：</p>
+<pre><code class="lang-bash">~&gt; sysctl net.bridge.bridge-nf-call-iptables 
+net.bridge.bridge-nf-call-iptables = 1
+</code></pre>
+<p>否则可以通过<code>sysctl net.bridge.bridge-nf-call-iptables=1</code>更改设置。</p>
+<blockquote>
+<p><strong>Notes:</strong> Set<code>/proc/sys/net/bridge/bridge-nf-call-iptables</code>to<code>1</code>by running<code>sysctl net.bridge.bridge-nf-call-iptables=1</code>to pass bridged IPv4 traffic to iptables’ chains. This is a requirement for some CNI plugins to work, for more information please see <a href="https://kubernetes.io/docs/concepts/cluster-administration/network-plugins/#network-plugin-requirements" target="_blank" rel="noopener">here</a>.</p>
+</blockquote>
+<p>最后，对于<code>Kubernetes v1.7+</code>之后的版本，记得在下一节的<code>kubeadm init --pod-network-cidr=10.244.0.0/16</code>命令执行之后，<strong>应用</strong><code>flannel</code><strong>的配置文件</strong>：</p>
+<pre><code class="lang-bash">kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+</code></pre>
+<blockquote>
+<p>有关<code>flannel</code>的更多信息，请查看 <a href="https://github.com/coreos/flannel" target="_blank" rel="noopener">the CoreOS flannel repository on GitHub</a></p>
+</blockquote>
+<h4 id="4-3-初始化集群-kubeadm-init"><a href="#4-3-初始化集群-kubeadm-init" class="headerlink" title="4.3 初始化集群 kubeadm init"></a>4.3 初始化集群 kubeadm init</h4><p>所有的准备工作已经完成，现在开始<strong>创建一个 k8s 集群</strong>。</p>
+<p>首先<strong>使用</strong><code>kubeadm init</code><strong>初始化集群</strong>，并传递<code>--pod-network-cidr=10.244.0.0/16</code>参数以<strong>指定 Pod 网络方案为</strong><code>flannel</code>：</p>
+<pre><code class="lang-bash">~&gt; kubeadm init --pod-network-cidr=10.244.0.0/16
+
+[init] Using Kubernetes version: v1.13.3
+[preflight] Running pre-flight checks
+[preflight] Pulling images required for setting up a Kubernetes cluster
+[preflight] This might take a minute or two, depending on the speed of your internet connection
+[preflight] You can also perform this action in beforehand using &#39;kubeadm config images pull&#39;
+[kubelet-start] Writing kubelet environment file with flags to file &quot;/var/lib/kubelet/kubeadm-flags.env&quot;
+[kubelet-start] Writing kubelet configuration to file &quot;/var/lib/kubelet/config.yaml&quot;
+[kubelet-start] Activating the kubelet service
+[certs] Using certificateDir folder &quot;/etc/kubernetes/pki&quot;
+[certs] Generating &quot;front-proxy-ca&quot; certificate and key
+[certs] Generating &quot;front-proxy-client&quot; certificate and key
+[certs] Generating &quot;etcd/ca&quot; certificate and key
+[certs] Generating &quot;etcd/healthcheck-client&quot; certificate and key
+[certs] Generating &quot;apiserver-etcd-client&quot; certificate and key
+[certs] Generating &quot;etcd/server&quot; certificate and key
+[certs] etcd/server serving cert is signed for DNS names [abelsu7-ubuntu localhost] and IPs [222.201.139.151 127.0.0.1 ::1]
+[certs] Generating &quot;etcd/peer&quot; certificate and key
+[certs] etcd/peer serving cert is signed for DNS names [abelsu7-ubuntu localhost] and IPs [222.201.139.151 127.0.0.1 ::1]
+[certs] Generating &quot;ca&quot; certificate and key
+[certs] Generating &quot;apiserver&quot; certificate and key
+[certs] apiserver serving cert is signed for DNS names [abelsu7-ubuntu kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 222.201.139.151]
+[certs] Generating &quot;apiserver-kubelet-client&quot; certificate and key
+[certs] Generating &quot;sa&quot; key and public key
+[kubeconfig] Using kubeconfig folder &quot;/etc/kubernetes&quot;
+[kubeconfig] Writing &quot;admin.conf&quot; kubeconfig file
+[kubeconfig] Writing &quot;kubelet.conf&quot; kubeconfig file
+[kubeconfig] Writing &quot;controller-manager.conf&quot; kubeconfig file
+[kubeconfig] Writing &quot;scheduler.conf&quot; kubeconfig file
+[control-plane] Using manifest folder &quot;/etc/kubernetes/manifests&quot;
+[control-plane] Creating static Pod manifest for &quot;kube-apiserver&quot;
+[control-plane] Creating static Pod manifest for &quot;kube-controller-manager&quot;
+[control-plane] Creating static Pod manifest for &quot;kube-scheduler&quot;
+[etcd] Creating static Pod manifest for local etcd in &quot;/etc/kubernetes/manifests&quot;
+[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory &quot;/etc/kubernetes/manifests&quot;. This can take up to 4m0s
+[apiclient] All control plane components are healthy after 23.002540 seconds
+[uploadconfig] storing the configuration used in ConfigMap &quot;kubeadm-config&quot; in the &quot;kube-system&quot; Namespace
+[kubelet] Creating a ConfigMap &quot;kubelet-config-1.13&quot; in namespace kube-system with the configuration for the kubelets in the cluster
+[patchnode] Uploading the CRI Socket information &quot;/var/run/dockershim.sock&quot; to the Node API object &quot;abelsu7-ubuntu&quot; as an annotation
+[mark-control-plane] Marking the node abelsu7-ubuntu as control-plane by adding the label &quot;node-role.kubernetes.io/master=&#39;&#39;&quot;
+[mark-control-plane] Marking the node abelsu7-ubuntu as control-plane by adding the taints [node-role.kubernetes.io/master:NoSchedule]
+[bootstrap-token] Using token: ar8quq.bx68gpg2ktjzagk8
+[bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+[bootstraptoken] configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
+[bootstraptoken] configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+[bootstraptoken] configured RBAC rules to allow certificate rotation for all node client certificates in the cluster
+[bootstraptoken] creating the &quot;cluster-info&quot; ConfigMap in the &quot;kube-public&quot; namespace
+[addons] Applied essential addon: CoreDNS
+[addons] Applied essential addon: kube-proxy
+
+Your Kubernetes master has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+You should now deploy a pod network to the cluster.
+Run &quot;kubectl apply -f [podnetwork].yaml&quot; with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+You can now join any number of machines by running the following on each node
+as root:
+
+  kubeadm join 222.201.139.151:6443 --token ar8quq.bx68gpg2ktjzagk8 --discovery-token-ca-cert-hash sha256:125083b871f062c8d4c0c7ab5cefee1ba0b74a6b3fb17c0c4b5ba4d591c1051d
+</code></pre>
+<p>根据提示，使用以下命令配置<code>kubectl</code>：</p>
+<pre><code class="lang-bash">~&gt; mkdir -p $HOME/.kube
+~&gt; sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+~&gt; sudo chown $(id -u):$(id -g) $HOME/.kube/config
+</code></pre>
+<p>最后，应用<code>flannel</code>配置文件：</p>
+<pre><code class="lang-bash">~&gt; kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+podsecuritypolicy.extensions/psp.flannel.unprivileged created
+clusterrole.rbac.authorization.k8s.io/flannel created
+clusterrolebinding.rbac.authorization.k8s.io/flannel created
+serviceaccount/flannel created
+configmap/kube-flannel-cfg created
+
+daemonset.extensions/kube-flannel-ds-amd64 created
+daemonset.extensions/kube-flannel-ds-arm64 created
+daemonset.extensions/kube-flannel-ds-arm created
+daemonset.extensions/kube-flannel-ds-ppc64le created
+daemonset.extensions/kube-flannel-ds-s390x created
+</code></pre>
+<p>稍等片刻，<code>master</code>即处于<code>Ready</code>状态。可在其他机器上<strong>输入以下命令加入集群</strong>：</p>
+<pre><code class="lang-bash">kubeadm join 222.201.139.151:6443 --token ar8quq.bx68gpg2ktjzagk8 --discovery-token-ca-cert-hash sha256:125083b871f062c8d4c0c7ab5cefee1ba0b74a6b3fb17c0c4b5ba4d591c1051d
+</code></pre>
+<h4 id="4-4-查看集群节点状态"><a href="#4-4-查看集群节点状态" class="headerlink" title="4.4 查看集群节点状态"></a>4.4 查看集群节点状态</h4><p>可通过<code>kubectl</code><strong>查看集群节点状态</strong>：</p>
+<pre><code class="lang-bash">~&gt; kubectl cluster-info
+Kubernetes master is running at https://222.201.139.151:6443
+KubeDNS is running at https://222.201.139.151:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+
+To further debug and diagnose cluster problems, use &#39;kubectl cluster-info dump&#39;.
+
+~&gt; kubectl get nodes
+NAME             STATUS   ROLES    AGE   VERSION
+abelsu7-ubuntu   Ready    master   15m   v1.13.3
+</code></pre>
+<p>可以看到<code>master</code>已经处于<code>Ready</code>状态。</p>
+<h4 id="4-5-查看集群-Pod-状态"><a href="#4-5-查看集群-Pod-状态" class="headerlink" title="4.5 查看集群 Pod 状态"></a>4.5 查看集群 Pod 状态</h4><p>我们知道 <strong>Kubernetes 中的最小调度单元是</strong><code>Pod</code>。使用以下命令<strong>查看集群中现有的</strong><code>Pod</code><strong>状态</strong>：</p>
+<pre><code class="lang-bash">~&gt; kubectl get pods --all-namespaces
+NAMESPACE     NAME                                     READY   STATUS    RESTARTS   AGE
+kube-system   coredns-86c58d9df4-9vwct                 1/1     Running   0          19m
+kube-system   coredns-86c58d9df4-mvdnh                 1/1     Running   0          19m
+kube-system   etcd-abelsu7-ubuntu                      1/1     Running   0          18m
+kube-system   kube-apiserver-abelsu7-ubuntu            1/1     Running   0          18m
+kube-system   kube-controller-manager-abelsu7-ubuntu   1/1     Running   0          18m
+kube-system   kube-flannel-ds-amd64-wktkk              1/1     Running   0          17m
+kube-system   kube-proxy-qv2t8                         1/1     Running   0          19m
+kube-system   kube-scheduler-abelsu7-ubuntu            1/1     Running   0          18m
+</code></pre>
+<h3 id="5-向集群中添加节点"><a href="#5-向集群中添加节点" class="headerlink" title="5. 向集群中添加节点"></a>5. 向集群中添加节点</h3><p>根据刚才执行完<code>kubeadm init</code>后给出的提示信息，<strong>分别在新机器</strong><code>centos-1</code><strong>和</strong><code>centos-2</code><strong>上执行</strong><code>kubeadm join</code><strong>命令</strong>：</p>
+<pre><code class="lang-bash">~&gt; kubeadm join 222.201.139.151:6443 --token ar8quq.bx68gpg2ktjzagk8 --discovery-token-ca-cert-hash sha256:125083b871f062c8d4c0c7ab5cefee1ba0b74a6b3fb17c0c4b5ba4d591c1051d
+
+[preflight] Running pre-flight checks
+    [WARNING Service-Docker]: docker service is not enabled, please run &#39;systemctl enable docker.service&#39;
+    [WARNING SystemVerification]: this Docker version is not on the list of validated versions: 18.09.2. Latest validated version: 18.06
+    [WARNING Hostname]: hostname &quot;centos-1&quot; could not be reached
+    [WARNING Hostname]: hostname &quot;centos-1&quot;: lookup centos-1 on 222.201.130.30:53: no such host
+[discovery] Trying to connect to API Server &quot;222.201.139.151:6443&quot;
+[discovery] Created cluster-info discovery client, requesting info from &quot;https://222.201.139.151:6443&quot;
+[discovery] Requesting info from &quot;https://222.201.139.151:6443&quot; again to validate TLS against the pinned public key
+[discovery] Cluster info signature and contents are valid and TLS certificate validates against pinned roots, will use API Server &quot;222.201.139.151:6443&quot;
+[discovery] Successfully established connection with API Server &quot;222.201.139.151:6443&quot;
+[join] Reading configuration from the cluster...
+[join] FYI: You can look at this config file with &#39;kubectl -n kube-system get cm kubeadm-config -oyaml&#39;
+[kubelet] Downloading configuration for the kubelet from the &quot;kubelet-config-1.13&quot; ConfigMap in the kube-system namespace
+[kubelet-start] Writing kubelet configuration to file &quot;/var/lib/kubelet/config.yaml&quot;
+[kubelet-start] Writing kubelet environment file with flags to file &quot;/var/lib/kubelet/kubeadm-flags.env&quot;
+[kubelet-start] Activating the kubelet service
+[tlsbootstrap] Waiting for the kubelet to perform the TLS Bootstrap...
+[patchnode] Uploading the CRI Socket information &quot;/var/run/dockershim.sock&quot; to the Node API object &quot;centos-1&quot; as an annotation
+
+This node has joined the cluster:
+* Certificate signing request was sent to apiserver and a response was received.
+* The Kubelet was informed of the new secure connection details.
+
+Run &#39;kubectl get nodes&#39; on the master to see this node join the cluster.
+</code></pre>
+<p>上述命令执行完成后，提示已经<strong>成功加入集群</strong>。</p>
+<p>此时，在<code>master</code>上<strong>查看当前集群状态</strong>：</p>
+<pre><code class="lang-bash">~&gt; kubectl get nodes
+NAME             STATUS   ROLES    AGE   VERSION
+abelsu7-ubuntu   Ready    master   26m   v1.13.3
+centos-1         Ready    &lt;none&gt;   24m   v1.13.3
+centos-2         Ready    &lt;none&gt;   16m   v1.13.3
+</code></pre>
+<h3 id="待更新"><a href="#待更新" class="headerlink" title="待更新"></a>待更新</h3><pre><code class="lang-bash">journalctl -f -u kubelet
+kubeadm reset
+cat /var/lib/kubelet/kubeadm-flags.env
+kubectl get pods --all-namespaces
+kubectl describe pod kube-flannel-ds-amd64-c2vnq --namespace=kube-system
+</code></pre>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://kubernetes.io/docs/setup/independent/install-kubeadm/" target="_blank" rel="noopener">Installing kubeadm | kubernetes.io</a></li>
+<li><a href="https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/" target="_blank" rel="noopener">Creating a single master cluster with kubeadm | kubernetes.io</a></li>
+<li><a href="https://juejin.im/book/5b9b2dc86fb9a05d0f16c8ac" target="_blank" rel="noopener">《Kubernetes 从上手到实践》| 掘金小册</a></li>
+<li><a href="https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init/#running-kubeadm-without-an-internet-connection" target="_blank" rel="noopener">Running kubeadm without an internet connection | kubernetes.io</a></li>
+<li><a href="https://www.jianshu.com/p/bd97c06bd5b0" target="_blank" rel="noopener">kubeadm config image 阿里云镜像 | 简书</a></li>
+<li><a href="https://www.jianshu.com/p/e5c056baa8ab" target="_blank" rel="noopener">如何成功启动 Docker 自带的 Kubernetes？| 简书</a></li>
+<li><a href="https://systemoutprint.github.io/kubernetes/2018/07/19/kubernetes集群痛苦搭建过程/" target="_blank" rel="noopener">kubernetes 1.11 集群痛苦搭建过程 | Mr.Cai</a></li>
+<li><a href="http://www.cnblogs.com/ericnie/p/7749588.html" target="_blank" rel="noopener">Kubeadm 安装 Kubernetes 环境 | ericnie 的技术博客（RedHat 工程师）</a></li>
+<li><a href="https://blog.csdn.net/shenhonglei1234/article/details/82421742" target="_blank" rel="noopener">Kubernetes的 node NotReady 如何查问题，针对问题解决 | CSDN</a></li>
+<li><a href="https://time-track.cn/kubernetes-trial.html" target="_blank" rel="noopener">Kubernetes 初体验 | 时间轨迹</a></li>
+<li><a href="https://yq.aliyun.com/articles/221687#" target="_blank" rel="noopener">Minikube - Kubernetes本地实验环境 | 阿里云栖社区</a></li>
+<li><a href="https://www.huweihuang.com/article/kubernetes/install-k8s-by-minikube/#1-安装kubectl" target="_blank" rel="noopener">使用 minikube 安装 k8s 集群 | 胡伟煌</a></li>
+<li><a href="https://mritd.me/2016/11/21/kubeadm-other-problems/" target="_blank" rel="noopener">kubeadm 续坑篇 | 漠然</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/09/25/micro-service-orchestration-and-container-schedule/">微服务编排与容器调度</a></li><li><a href="https://abelsu7.top/2019/09/18/micro-service-notes/">微服务学习资料汇总</a></li><li><a href="https://abelsu7.top/2019/06/04/qemu-src-notes/">QEMU 3.1.0 源码学习</a></li><li><a href="https://abelsu7.top/2019/04/16/kvm-in-action-1/">《KVM 实战》笔记 1：构建 KVM 环境</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-10-14T13:49:31.929Z" itemprop="dateUpdated">2019-10-14 21:49:31</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/" target="_blank" rel="external">https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kubernetes/">Kubernetes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/云计算/">云计算</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/&title=《使用 kubeadm 搭建 Kubernetes 集群》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/&title=《使用 kubeadm 搭建 Kubernetes 集群》 — Keep Coding&source=
+摘自 Creating a single master cluster with kubeadm | kubernetes.io，更新中…
+
+
+    ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用 kubeadm 搭建 Kubernetes 集群》 — Keep Coding&url=https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/02/26/data-struct-and-algo-summary/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">数据结构与算法文章导航</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/02/24/centos7-selinux/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">CentOS 7 关闭 SELinux</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/&title=《使用 kubeadm 搭建 Kubernetes 集群》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/&title=《使用 kubeadm 搭建 Kubernetes 集群》 — Keep Coding&source=
+摘自 Creating a single master cluster with kubeadm | kubernetes.io，更新中…
+
+
+    ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用 kubeadm 搭建 Kubernetes 集群》 — Keep Coding&url=https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACuUlEQVR42u3ay24bMRAEQP3/TztATgkQyd1DjiPDxZOgxy5rD+Soh49HPD5+j9nr5Dqv3/lzPDYGHh4e3mjqz0Yy3eTG7eRezyGZMx4eHt42L1nEn13i9Tv5FGfX/MSCh4eH9195syU+X9aTehgPDw/ve/HaojbZEtoCGg8PD+99eMlEkyK4iAnKAHc9a8HDw8Ob3GWlAbbx+o36e3h4eD+M91GONiZINoPXpfPRbPHw8PAWePnhp3ZpzifdHhdo4wk8PDy8u7y2Yd8+jtlGchL+/vUrPDw8vAVeGzq0sDYOzkv5/PHh4eHh7fFmba0WkxfE+SNIFHh4eHi3eElsehJG5AXxbBuICmg8PDy8q7yEkdx4VljnBXEeduDh4eFt89qSN2HcanrlhwOe3hcPDw9vgdfGo8myPtudihK5/GOAh4eHt8HLDwfkx1JzRl6OD8MLPDw8vKu8vGBNzh3cOnbQsh+zZ4OHh4c34iUR6qyhlW8J0Vmwg60IDw8Pb4+Xl85HcWoZ1OabylM8Hh4e3gIvL1XbB3Fy5VvHDvDw8PDu8pLFtI0hZldujyMkoQkeHh7eBi/6Mx8fBcijirbUzq+Jh4eHt81rm15tdLuxSRRxMx4eHt4CL1nchw378vttyV5saXh4eHhXeW2rKfnmebw7K+7x8PDwvpKXLNCzqefLenvHKDjGw8PDW+Ddun0+oRzTzuqTwhoPDw/vEu88XMgnnRwyOK+cn6bUeHh4eAu8WdMrL23zKydJQvQrPDw8vAXeyeLbLvT55pFsKpdjXzw8PLyS1y7Z52X3rcAi+i0eHh7eGi//k99GsV+zp+Hh4eG9Jy//dBbazgr3qA2Gh4eH9wa8YVPqgJQ8uGsbAx4eHl7Am4UFt8rlPPytj4jh4eHhLfDOF/rX4GQpv9Vmu9bfw8PDw/v3+AWOuBbbUqODEgAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

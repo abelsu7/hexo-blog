@@ -1,0 +1,23 @@
+# hexo robots.txt
+User-agent: *
+
+Allow: /
+Allow: /2018/
+Allow: /about/
+Allow: /archives/
+Allow: /bookmarks/
+Allow: /categories/
+Allow: /friends/
+Allow: /tags/
+Allow: /page/
+Allow: /wiki/
+
+Disallow: /alu/
+Disallow: /js/
+Disallow: /css/
+Disallow: /hover/
+Disallow: /img/
+Disallow: /smiles/
+
+Sitemap: https://abelsu7.top/sitemap.xml
+Sitemap: https://abelsu7.top/baidusitemap.xml

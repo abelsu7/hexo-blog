@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Linux 下使用 SSR + ProxyChains 代理终端流量 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Linux,终端,Shadowsocks,代理,SSR">
+    <meta name="description" content="Across the Great Wall we can reach every corner in the world.">
+<meta name="keywords" content="Linux,终端,Shadowsocks,代理,SSR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 下使用 SSR + ProxyChains 代理终端流量">
+<meta property="og:url" content="https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="Across the Great Wall we can reach every corner in the world.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/cover.jpg">
+<meta property="og:updated_time" content="2019-10-15T09:21:16.037Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux 下使用 SSR + ProxyChains 代理终端流量">
+<meta name="twitter:description" content="Across the Great Wall we can reach every corner in the world.">
+<meta name="twitter:image" content="https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Linux 下使用 SSR + ProxyChains 代理终端流量</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Linux 下使用 SSR + ProxyChains 代理终端流量</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-02-24T09:20:12.000Z" itemprop="datePublished" class="page-time">
+  2019-02-24
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-下载-ShadowsocksR"><span class="post-toc-text">1. 下载 ShadowsocksR</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-修改-SSR-配置文件-config-json"><span class="post-toc-text">2. 修改 SSR 配置文件 config.json</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-启动-停止-SSR"><span class="post-toc-text">3. 启动/停止 SSR</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-安装-proxychains-ng"><span class="post-toc-text">4. 安装 proxychains-ng</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-修改-proxychains-配置文件"><span class="post-toc-text">5. 修改 proxychains 配置文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-设置-proxychains-别名"><span class="post-toc-text">6. 设置 proxychains 别名</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-验证代理是否可用"><span class="post-toc-text">7. 验证代理是否可用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-ssr-proxychains4-on-linux"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Linux 下使用 SSR + ProxyChains 代理终端流量</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-02-24 17:20:12" datetime="2019-02-24T09:20:12.000Z"  itemprop="datePublished">2019-02-24</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>Across the Great Wall we can reach every corner in the world.</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/24/ssr-proxychains4-on-linux/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="1-下载-ShadowsocksR"><a href="#1-下载-ShadowsocksR" class="headerlink" title="1. 下载 ShadowsocksR"></a>1. 下载 ShadowsocksR</h3><pre><code class="lang-bash">~&gt; wget https://github.com/cndaqiang/shadowsocksr/archive/manyuser.zip
+~&gt; unzip manyuser.zip
+~&gt; cd shadowsocksr-manyuser
+~/shadowsocksr-manyuser&gt; ls
+
+apiconfig.py  configloader.py  Dockerfile       initmudbjson.sh  mudb.json      README.rst      setup_cymysql.sh  switchrule.py
+asyncmgr.py   CONTRIBUTING.md  importloader.py  LICENSE          mujson_mgr.py  run.sh          setup.py          tail.sh
+CHANGES       db_transfer.py   initcfg.bat      logrun.sh        mysql.json     server_pool.py  shadowsocks       tests
+config.json   debian           initcfg.sh       MANIFEST.in      README.md      server.py       stop.sh           utils
+</code></pre>
+<h3 id="2-修改-SSR-配置文件-config-json"><a href="#2-修改-SSR-配置文件-config-json" class="headerlink" title="2. 修改 SSR 配置文件 config.json"></a>2. 修改 SSR 配置文件 config.json</h3><p><strong>SSR 配置文件</strong>路径为<code>shadowsocks-manyuser/config.json</code>：</p>
+<pre><code class="lang-json">{
+    &quot;server&quot;: &quot;xxx.xxx.xxx.xxx&quot;, // 服务器 IP
+    &quot;server_ipv6&quot;: &quot;::&quot;,
+    &quot;server_port&quot;: 8388, // 服务器端口
+    &quot;local_address&quot;: &quot;127.0.0.1&quot;,
+    &quot;local_port&quot;: 1080, // 本地端口
+
+    &quot;password&quot;: &quot;password&quot;, // 密码
+    &quot;method&quot;: &quot;aes-256-cfb&quot;, // 加密方式
+    &quot;protocol&quot;: &quot;auth_aes128_md5&quot;, // 协议
+    &quot;protocol_param&quot;: &quot;&quot;,
+    &quot;obfs&quot;: &quot;origin&quot;, // 混淆
+    &quot;obfs_param&quot;: &quot;&quot;,
+    &quot;speed_limit_per_con&quot;: 0,
+    &quot;speed_limit_per_user&quot;: 0,
+
+    &quot;additional_ports&quot; : {}, // only works under multi-user mode
+    &quot;additional_ports_only&quot; : false, // only works under multi-user mode
+    &quot;timeout&quot;: 120,
+    &quot;udp_timeout&quot;: 60,
+    &quot;dns_ipv6&quot;: false,
+    &quot;connect_verbose_info&quot;: 0,
+    &quot;redirect&quot;: &quot;&quot;,
+    &quot;fast_open&quot;: false
+}
+</code></pre>
+<h3 id="3-启动-停止-SSR"><a href="#3-启动-停止-SSR" class="headerlink" title="3. 启动/停止 SSR"></a>3. 启动/停止 SSR</h3><pre><code class="lang-bash">sudo python ./shadowsocks/local.py -c config.json -d start|stop
+</code></pre>
+<h3 id="4-安装-proxychains-ng"><a href="#4-安装-proxychains-ng" class="headerlink" title="4. 安装 proxychains-ng"></a>4. 安装 proxychains-ng</h3><pre><code class="lang-bash">~&gt; git clone https://github.com/rofl0r/proxychains-ng.git
+~&gt; cd proxychains-ng/
+~/proxychains-ng&gt; ./configure --prefix=/usr --sysconfdir=/etc
+~/proxychains-ng&gt; make &amp;&amp; make install
+~/proxychains-ng&gt; make install-config
+</code></pre>
+<h3 id="5-修改-proxychains-配置文件"><a href="#5-修改-proxychains-配置文件" class="headerlink" title="5. 修改 proxychains 配置文件"></a>5. 修改 proxychains 配置文件</h3><p><strong>proxychains-ng 配置文件</strong>路径为<code>/etc/proxychains.conf</code>，<strong>根据实际情况添加代理</strong><code>socks5  127.0.0.1 1080</code>：</p>
+<pre><code class="lang-bash">## you&#39;ll need to enable it if you want to use an application that 
+## connects to localhost.
+# localnet 127.0.0.0/255.0.0.0
+
+## RFC1918 Private Address Ranges
+# localnet 10.0.0.0/255.0.0.0
+# localnet 172.16.0.0/255.240.0.0
+# localnet 192.168.0.0/255.255.0.0
+
+# ProxyList format
+#       type  ip  port [user pass]
+#       (values separated by &#39;tab&#39; or &#39;blank&#39;)
+#
+#       only numeric ipv4 addresses are valid
+#
+#
+#        Examples:
+#
+#               socks5  192.168.67.78   1080    lamer   secret
+#               http    192.168.89.3    8080    justu   hidden
+#               socks4  192.168.1.49    1080
+#               http    192.168.39.93   8080    
+#               
+#
+#       proxy types: http, socks4, socks5
+#        ( auth types supported: &quot;basic&quot;-http  &quot;user/pass&quot;-socks )
+#
+[ProxyList]
+# add proxy here ...
+# meanwile
+# defaults set to &quot;tor&quot;
+socks5  127.0.0.1 1080
+</code></pre>
+<h3 id="6-设置-proxychains-别名"><a href="#6-设置-proxychains-别名" class="headerlink" title="6. 设置 proxychains 别名"></a>6. 设置 proxychains 别名</h3><p>修改<code>~/.bashrc</code>，并<strong>设置 alias 别名</strong>：</p>
+<pre><code class="lang-bash">
+# .bashrc
+
+# User specific aliases and functions
+
+alias rm=&#39;rm -i&#39;
+alias cp=&#39;cp -i&#39;
+alias mv=&#39;mv -i&#39;
+alias pc=&#39;proxychains4&#39;
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+</code></pre>
+<p>输入<code>source ~/.bashrc</code>或<strong>重启终端</strong>后生效。</p>
+<p>要想<strong>在终端命令中使用代理</strong>，只需<strong>在命令前加上</strong><code>pc</code>。例如：<code>pc yum install kubectl</code>。</p>
+<h3 id="7-验证代理是否可用"><a href="#7-验证代理是否可用" class="headerlink" title="7. 验证代理是否可用"></a>7. 验证代理是否可用</h3><pre><code class="lang-bash">~&gt; pc
+
+Usage:    proxychains4 -q -f config_file program_name [arguments]
+    -q makes proxychains quiet - this overrides the config setting
+    -f allows one to manually specify a configfile to use
+    for example : proxychains telnet somehost.com
+More help in README file
+
+~&gt; pc telnet www.google.com 443
+
+[proxychains] config file found: /etc/proxychains.conf
+[proxychains] preloading /usr/lib/libproxychains4.so
+[proxychains] DLL init: proxychains-ng 4.13-git-10-g1198857
+Trying 224.0.0.1...
+[proxychains] Strict chain  ...  127.0.0.1:1080  ...  www.google.com:443  ...  OK
+Connected to www.google.com.
+Escape character is &#39;^]&#39;.
+
+~&gt; pc curl myip.ipip.net
+
+[proxychains] config file found: /etc/proxychains.conf
+[proxychains] preloading /usr/lib/libproxychains4.so
+[proxychains] DLL init: proxychains-ng 4.13-git-10-g1198857
+[proxychains] Strict chain  ...  127.0.0.1:1080  ...  myip.ipip.net:80  ...  OK
+当前 IP：103.xxx.xxx.xxx  来自于：美国 加利福尼亚州 费利蒙  sakura-host.net
+</code></pre>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://cndaqiang.github.io/2017/09/28/ubuntu1604-ssr/" target="_blank" rel="noopener">Ubuntu 16.04 安装 Python 版 SSR | cndaqiang</a></li>
+<li><a href="https://www.jianshu.com/p/f50d69c7e044" target="_blank" rel="noopener">Centos 7 作为 Client 连接 SSR | 简书</a></li>
+<li><a href="https://github.com/cndaqiang/shadowsocksr" target="_blank" rel="noopener">cndaqiang/shadowsocksr | Github</a></li>
+<li><a href="https://github.com/shadowsocksr-backup/shadowsocksr/tree/manyuser" target="_blank" rel="noopener">shadowsocksr-backup/shadowsocksr | Github</a></li>
+<li><a href="https://shadowsocks.be/9.html" target="_blank" rel="noopener">ShadowsocksR 一键安装脚本 | Shadowsocks 非官方网站</a></li>
+<li><a href="http://blog.niliushui.com/index.php/archives/23/" target="_blank" rel="noopener">Linux CentOS 7 安装 SSR 过程 以及一些问题的处理 | 逆流水Team</a></li>
+<li><a href="https://blog.csdn.net/king_cpp_py/article/details/79560634" target="_blank" rel="noopener">通过 ProxyChains-NG 实现终端下任意应用代理 | CSDN</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/31856700" target="_blank" rel="noopener">2019 优质 VPS 服务商推荐 | 知乎</a></li>
+<li><a href="http://vc2tea.com/whats-shadowsocks/" target="_blank" rel="noopener">写给非专业人士看的 Shadowsocks 简介 | vc2tea</a></li>
+<li><a href="http://echohn.github.io/2016/05/29/to-build-the-fullstack-tools-for-over-the-wall/" target="_blank" rel="noopener">打造基于 ShadowSocks + ProxyChains 的全栈式科学上网工具 | Echo’s Blog</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7 安装配置 NFS</a></li><li><a href="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/">Linux 系统常用监控命令</a></li><li><a href="https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/">Linux 终端修改 ls 命令目录显示颜色</a></li><li><a href="https://abelsu7.top/2019/07/07/perf-quick-guides/">Linux 下使用 Perf 分析系统性能</a></li><li><a href="http://ashin.wang/linux-basic/">Linux基础笔记</a></li><li><a href="https://wiki.hushhw.cn/posts/6fbc30d9.html">虚拟机 VMware 中安装 Ubuntu 操作系统</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-10-15T09:21:16.037Z" itemprop="dateUpdated">2019-10-15 17:21:16</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/02/24/ssr-proxychains4-on-linux/" target="_blank" rel="external">https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSR/">SSR</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shadowsocks/">Shadowsocks</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/代理/">代理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/终端/">终端</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/&title=《Linux 下使用 SSR + ProxyChains 代理终端流量》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/&title=《Linux 下使用 SSR + ProxyChains 代理终端流量》 — Keep Coding&source=
+Across the Great Wall we can reach every corner in the world.
+
+
+            ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux 下使用 SSR + ProxyChains 代理终端流量》 — Keep Coding&url=https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/02/24/centos7-selinux/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">CentOS 7 关闭 SELinux</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/02/19/centos7-install-shadowsocks-client/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">CentOS 7 安装 Shadowsocks 客户端</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/&title=《Linux 下使用 SSR + ProxyChains 代理终端流量》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/&title=《Linux 下使用 SSR + ProxyChains 代理终端流量》 — Keep Coding&source=
+Across the Great Wall we can reach every corner in the world.
+
+
+            ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux 下使用 SSR + ProxyChains 代理终端流量》 — Keep Coding&url=https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMUlEQVR42u3ay47CMAwFUP7/pxlpVkiI9touSE1OVqjlkdOFiR+PR7ye/+v4yuv117vPt/Xp+vt7Ll4YGBi3ZSRfd8z4dDff1gVUDAyMDRjHQfZ4KwkyhyW/i4GBgZFsJTkOHr8n+SwGBgbGJODmyDxAJ48DAwNjZ0aSxCZht1cTy0t1F+TiGBgYN2RUGwO/fP3F/gYGBsZNGM/BqgbZauJa2AkGBsbSjONCWC8Q58fHPDGOHhkGBsaijDyNnOPzsFtudmJgYCzNyLc1H7zIC2ejshoGBsZyjONQ2zuuVcFJK/SEhIGBsQFjcsirNh17TYJyDxYDA2M5xqQPOO8qJo/15AoGBsbSjPxQmJfMencTQLOFiYGBcXPGt8PrPPhGyTMGBsY2jOowxKRKPxnyOAm4GBgYGzDyQlhvOKPXEiiPhWFgYCzHqKas+Q8nwbraKvh4NMTAwFiUkTQy8xJbXuivltuivwoMDIylGXlwrLYNeuWz3lgGBgbG2oy8iJ+nr3norI6pnXRiMTAwlmbMhy16jcleutusHWJgYCzBSAJlnqxOGqLlnWBgYCzNqKaykwNcb+xsctzEwMC4O6M3wFodbO2NdxSSZAwMjKUZ+Zo3MnsNBgwMDIze0EN+4LtqCCN6BBgYGBswkvGIausxSXSrQT8atsDAwNiekQTiXquyOcWGgYGBMW5SVj/VC8cYGBg7MCbNgOrBcdLIxMDA2JMxCcp5wpkU5iYJMwYGxqKMP0HLIuAfnI9sAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>【译】搭建高可用 WordPress 网站托管 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="MySQL,WordPress,Lsyncd">
+    <meta name="description" content="本指南将使用双Linode集群配置高可用的WordPress站点，数据库采用MySQL双主复制（Master-Master replication），并使用Linode NodeBalancer作为前端管理工具。">
+<meta name="keywords" content="MySQL,WordPress,Lsyncd">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【译】搭建高可用 WordPress 网站托管">
+<meta property="og:url" content="https://abelsu7.top/2018/09/11/high-availability-wordpress-hosting/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="本指南将使用双Linode集群配置高可用的WordPress站点，数据库采用MySQL双主复制（Master-Master replication），并使用Linode NodeBalancer作为前端管理工具。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2018/09/11/high-availability-wordpress-hosting/WP-site-address-rs.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.289Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【译】搭建高可用 WordPress 网站托管">
+<meta name="twitter:description" content="本指南将使用双Linode集群配置高可用的WordPress站点，数据库采用MySQL双主复制（Master-Master replication），并使用Linode NodeBalancer作为前端管理工具。">
+<meta name="twitter:image" content="https://abelsu7.top/2018/09/11/high-availability-wordpress-hosting/WP-site-address-rs.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">【译】搭建高可用 WordPress 网站托管</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">【译】搭建高可用 WordPress 网站托管</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-09-11T13:39:08.000Z" itemprop="datePublished" class="page-time">
+  2018-09-11
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#先决条件"><span class="post-toc-text">先决条件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装所需软件包"><span class="post-toc-text">安装所需软件包</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#编辑MySQL配置文件以设置双主复制"><span class="post-toc-text">编辑MySQL配置文件以设置双主复制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#创建复制用户"><span class="post-toc-text">创建复制用户</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#配置数据库同步复制"><span class="post-toc-text">配置数据库同步复制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#配置Apache"><span class="post-toc-text">配置Apache</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装WordPress"><span class="post-toc-text">安装WordPress</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用Lsyncd配置文件夹同步"><span class="post-toc-text">使用Lsyncd配置文件夹同步</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#配置您的NodeBalancer"><span class="post-toc-text">配置您的NodeBalancer</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-high-availability-wordpress-hosting"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">【译】搭建高可用 WordPress 网站托管</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-09-11 21:39:08" datetime="2018-09-11T13:39:08.000Z"  itemprop="datePublished">2018-09-11</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>本指南将使用双Linode集群配置高可用的WordPress站点，数据库采用MySQL双主复制（Master-Master replication），并使用Linode NodeBalancer作为前端管理工具。</p>
+<a id="more"></a>
+<h2 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h2><p>本指南基于Debian 7或Ubuntu 14.04编写。要完成该指南，请确保您的账户中至少存在两个Linode节点和一个NodeBalancer。两个Linode节点都需要私有IP地址。同时还要确保已经在Linode节点上配置了SSH密钥，并且还需将另一台Linode主机的SSH密钥添加在本机的<code>/.ssh/authorized_keys</code>文件中。</p>
+<blockquote>
+<p><strong>注意</strong></p>
+<p>本指南是为非root用户编写的，会在需要提升权限的命令之前加上<code>sudo</code>。如果您不熟悉<code>sudo</code>命令，请参阅<a href="https://www.linode.com/docs/tools-reference/linux-users-and-groups/" target="_blank" rel="noopener">Linux用户和用户组</a>指南。</p>
+</blockquote>
+<h2 id="安装所需软件包"><a href="#安装所需软件包" class="headerlink" title="安装所需软件包"></a>安装所需软件包</h2><p>使用以下命令在每个Linode节点上安装Apache，PHP和MySQL：</p>
+<pre><code class="lang-bash">sudo apt-get update
+sudo apt-get upgrade -y
+sudo apt-get install apache2 php5 php5-mysql mysql-server mysql-client
+</code></pre>
+<h2 id="编辑MySQL配置文件以设置双主复制"><a href="#编辑MySQL配置文件以设置双主复制" class="headerlink" title="编辑MySQL配置文件以设置双主复制"></a>编辑MySQL配置文件以设置双主复制</h2><p>1.编辑每个Linode节点上的<code>/etc/mysql/my.cnf</code>配置文件，添加或修改以下值：</p>
+<p><strong>Server 1：</strong></p>
+<pre><code class="lang-conf">server_id           = 1
+log_bin             = /var/log/mysql/mysql-bin.log
+log_bin_index       = /var/log/mysql/mysql-bin.log.index
+relay_log           = /var/log/mysql/mysql-relay-bin
+relay_log_index     = /var/log/mysql/mysql-relay-bin.index
+expire_logs_days    = 10
+max_binlog_size     = 100M
+log_slave_updates   = 1
+auto-increment-increment = 2
+auto-increment-offset = 1
+</code></pre>
+<p><strong>Server 2：</strong></p>
+<pre><code class="lang-conf">server_id           = 2
+log_bin             = /var/log/mysql/mysql-bin.log
+log_bin_index       = /var/log/mysql/mysql-bin.log.index
+relay_log           = /var/log/mysql/mysql-relay-bin
+relay_log_index     = /var/log/mysql/mysql-relay-bin.index
+expire_logs_days    = 10
+max_binlog_size     = 100M
+log_slave_updates   = 1
+auto-increment-increment = 2
+auto-increment-offset = 2
+</code></pre>
+<p>2.对于每个Linode节点，编辑<code>bind-address</code>配置以使用私有IP地址：</p>
+<pre><code class="lang-conf">bind-address    = x.x.x.x
+</code></pre>
+<p>3.修改完配置文件后，重启MySQL应用：</p>
+<pre><code class="lang-bash">sudo service mysql restart
+</code></pre>
+<h2 id="创建复制用户"><a href="#创建复制用户" class="headerlink" title="创建复制用户"></a>创建复制用户</h2><p>1.在每台Linode节点上登录MySQL：</p>
+<pre><code class="lang-bash">mysql -u root -p
+</code></pre>
+<p>2.在每台Linode节点上配置复制用户。将<code>x.x.x.x</code>替换为另一台Linode节点的私有IP地址，并将<code>password</code>修改为强密码：</p>
+<pre><code class="lang-sql">GRANT REPLICATION SLAVE ON *.* TO &#39;replication&#39;@&#39;x.x.x.x&#39; IDENTIFIED BY &#39;password&#39;;
+</code></pre>
+<p>3.返回终端，运行以下命令以测试配置。使用另一台Linode节点的私有IP地址：</p>
+<pre><code class="lang-bash">mysql -ureplication -p -h x.x.x.x -P 3306
+</code></pre>
+<p>此时您应该可以通过以上命令连接到远程服务器的MySQL实例。</p>
+<h2 id="配置数据库同步复制"><a href="#配置数据库同步复制" class="headerlink" title="配置数据库同步复制"></a>配置数据库同步复制</h2><p>1.在第一台服务器上登录MySQL，查询主节点状态：</p>
+<pre><code class="lang-sql">SHOW MASTER STATUS;
+</code></pre>
+<p>请注意显示的文件名和所在位置：</p>
+<pre><code class="lang-sql">mysql&gt; SHOW MASTER STATUS;
++------------------+----------+--------------+------------------+
+| File             | Position | Binlog_Do_DB | Binlog_Ignore_DB |
++------------------+----------+--------------+------------------+
+| mysql-bin.000001 |      277 |              |                  |
++------------------+----------+--------------+------------------+
+1 row in set (0.00 sec)
+</code></pre>
+<p>2.在第二台服务器上，根据MySQL的提示，为该数据库设置从属功能。将<code>x.x.x.x</code>替换为第一台服务器的私有IP。还要将<code>master_log_file</code>和<code>master_log_pos</code>替换为上一步中对应的值：</p>
+<pre><code class="lang-sql">SLAVE STOP;
+CHANGE MASTER TO master_host=&#39;x.x.x.x&#39;, master_port=3306, master_user=&#39;replication&#39;, master_password=&#39;password&#39;, master_log_file=&#39;mysql-bin.000001&#39;, master_log_pos=277;
+SLAVE START;
+</code></pre>
+<p>3.在第二台服务器上，查询主节点状态。注意文件名及其所在位置：</p>
+<pre><code class="lang-sql">SHOW MASTER STATUS;
+</code></pre>
+<p>4.在第一台服务器上设置从属数据库状态，重复步骤2，并将需要修改的值替换为第一台服务器上相对应的值：</p>
+<pre><code class="lang-sql">SLAVE STOP;
+CHANGE MASTER TO master_host=&#39;x.x.x.x&#39;, master_port=3306, master_user=&#39;replication&#39;, master_password=&#39;password&#39;, master_log_file=&#39;mysql-bin.000001&#39;, master_log_pos=277;
+SLAVE START;
+</code></pre>
+<p>5.在两台Linode节点上退出MySQL：</p>
+<pre><code class="lang-sql">exit
+</code></pre>
+<h2 id="配置Apache"><a href="#配置Apache" class="headerlink" title="配置Apache"></a>配置Apache</h2><p>两台Linode服务器均需要执行本章节的以下步骤。</p>
+<blockquote>
+<p><strong>注意</strong></p>
+<p>请将之后出现的<code>example.com</code>替换为您的域名。</p>
+</blockquote>
+<p>1.输入以下命令禁用默认的Apache虚拟主机：</p>
+<pre><code class="lang-bash">sudo a2dissite *default
+</code></pre>
+<p>2.切换至<code>/var/www</code>目录：</p>
+<pre><code class="lang-bash">cd /var/www
+</code></pre>
+<p>3.输入以下命令，创建用来保存网站的文件夹：</p>
+<pre><code class="lang-bash">sudo mkdir example.com
+</code></pre>
+<p>4.在您刚刚创建的文件夹中创建一组文件夹，以存储您网站的文件、日志和备份：</p>
+<pre><code class="lang-bash">sudo mkdir example.com/public_html
+sudo mkdir example.com/log
+</code></pre>
+<p>5.为网站创建虚拟主机文件：</p>
+<p><strong>/etc/apache2/sites-available/example.com.conf：</strong></p>
+<pre><code class="lang-bash"># domain: example.com
+# 域名: example.com
+# public: /var/www/example.com/public_html/
+# 网站根目录: /var/www/example.com/public_html/
+
+&lt;VirtualHost *:80&gt;
+  # Admin email, Server Name (domain name), and any aliases
+  # 管理员邮箱地址, 服务器名 (域名), 服务器别名
+  ServerAdmin webmaster@example.com
+  ServerName  www.example.com
+  ServerAlias example.com
+
+  # Index file and Document Root (where the public files are located)
+  # 索引文件以及根目录 (网站页面文件存放位置)
+  DirectoryIndex index.html index.php
+  DocumentRoot /var/www/example.com/public_html
+  # Log file locations
+  # 日志文件存放位置
+  LogLevel warn
+  ErrorLog  /var/www/example.com/log/error.log
+  CustomLog /var/www/example.com/log/access.log combined
+&lt;/VirtualHost&gt;
+</code></pre>
+<blockquote>
+<p><strong>警告</strong></p>
+<p>在Apache 2.4（Ubuntu 14.04使用的版本）及之后的版本中，虚拟主机文件必须以<code>.conf</code>扩展名作为结尾。<code>.conf</code>扩展名在之前版本的Apache兼容。</p>
+</blockquote>
+<p>6.输入以下命令启用新网站：</p>
+<pre><code class="lang-bash">sudo a2ensite example.com.conf
+</code></pre>
+<p>7.重启Apache：</p>
+<pre><code class="lang-bash">sudo service apache2 restart
+</code></pre>
+<h2 id="安装WordPress"><a href="#安装WordPress" class="headerlink" title="安装WordPress"></a>安装WordPress</h2><p>1.在Linode主节点上，下载并安装最新版本的WordPress。请根据您的实际配置替换以下命令中列出的所有路径：</p>
+<pre><code class="lang-bash">cd /var/www
+wget https://wordpress.org/latest.tar.gz
+tar -xvf latest.tar.gz
+cp -R wordpress/* /var/www/example.com/public_html
+</code></pre>
+<p>2.配置MySQL数据库以安装WordPress。您需要将<code>wordpressuser</code>和<code>password</code>替换为您自己的设置：</p>
+<pre><code class="lang-sql">mysql -u root -p
+CREATE DATABASE wordpress;
+GRANT ALL PRIVILEGES ON wordpress.* TO &#39;wordpressuser&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;password&#39;;
+FLUSH PRIVILEGES;
+EXIT
+</code></pre>
+<p>3.设置网站根目录权限以确保WordPress能够完成其配置步骤：</p>
+<pre><code class="lang-bash">chmod 777 /var/www/example.com/public_html/
+</code></pre>
+<p>4.使用Web浏览器访问您Linode的IP地址，并完成配置步骤以安装全功能的WordPress。</p>
+<blockquote>
+<p><strong>警告</strong></p>
+<p>为了确保每个WordPress实例都能定位到本地数据库，您需要将此步骤中的 <strong>Database Host</strong>（数据库主机）值设置为<code>localhost</code>。这也是WordPress的默认值。</p>
+</blockquote>
+<p>5.通过WordPress管理界面中的 <strong>General Settings</strong>（常规设置）配置WordPress URL和网站地址，并确保在两个字段中都配置了您的域。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/09/11/high-availability-wordpress-hosting/WP-site-address-rs.png" alt="WordPress管理界面" title>
+                </div>
+                <div class="image-caption">WordPress管理界面</div>
+            </figure>
+<blockquote>
+<p><strong>注意</strong></p>
+<p>完成WordPress安装步骤并首次登录后，应重置网站根目录的权限以确保安全。您可以使用以下命令来重置根目录权限：</p>
+</blockquote>
+<pre><code class="lang-bash">chmod 755 /var/www/example.com/public_html/
+</code></pre>
+<p>6.完成WordPress安装步骤后，将配置文件复制到另一台Linode节点。将<code>x.x.x.x</code>替换为另一台Linode节点的IP地址：</p>
+<pre><code class="lang-bash">rsync -r /var/www/* x.x.x.x:/var/www/.
+</code></pre>
+<p>7.登录另一台Linode节点并重启Apache：</p>
+<pre><code class="lang-bash">sudo service apache2 restart
+</code></pre>
+<h2 id="使用Lsyncd配置文件夹同步"><a href="#使用Lsyncd配置文件夹同步" class="headerlink" title="使用Lsyncd配置文件夹同步"></a>使用Lsyncd配置文件夹同步</h2><p>1.在Linode集群主节点安装Lsyncd：</p>
+<pre><code class="lang-bash">sudo apt-get install lsyncd
+</code></pre>
+<p>2.创建配置文件以执行同步操作。将<code>x.x.x.x</code>替换为集群中另一台Linode节点的私有IP地址：</p>
+<pre><code class="lang-json">settings = {
+    logfile = &quot;/var/log/lsyncd.log&quot;,
+    statusFile = &quot;/var/log/lsyncd-status.log&quot;
+}
+sync {
+    default.rsyncssh,
+    delete = false,
+    insist
+    source=&quot;/var/www&quot;,
+    host=&quot;x.x.x.x&quot;,
+    targetdir=&quot;/var/www&quot;,
+    rsync = {
+        archive = true,
+        perms = true,
+        owner = true,
+        _extra = {&quot;-a&quot;},
+    },
+    delay = 5,
+    maxProcesses = 4,
+    ssh = {
+        port = 22
+    }
+}
+</code></pre>
+<p>3.启动Lsyncd进程：</p>
+<pre><code class="lang-bash">service lsyncd start
+</code></pre>
+<p>4.测试Lsyncd是否已经成功启动：</p>
+<pre><code class="lang-bash">service lsyncd status
+</code></pre>
+<p>如果此命令返回的结果不是<code>lsyncd is running</code>，请仔细检查<code>lsyncd.conf.lua</code>配置文件，并确保RSA公钥位于从属服务器的正确位置。</p>
+<p>5.通过在主Linode节点的<code>/var/www</code>文件夹中创建文件来测试同步复制是否生效。几秒钟后您应该能够在从属Linode节点上的相同路径下看到该文件。</p>
+<h2 id="配置您的NodeBalancer"><a href="#配置您的NodeBalancer" class="headerlink" title="配置您的NodeBalancer"></a>配置您的NodeBalancer</h2><p>1.打开Linode管理界面中的NodeBalancer选项卡。</p>
+<p>2.如果您之前尚未配置，请添加NodeBalancer，并确保它与后端Linode服务器位于同一数据中心。</p>
+<p>3.选择您新添加的NodeBalancer并点击“Create Configuration”。按如下所示，编辑配置文件：</p>
+<pre><code class="lang-conf">Port: 80
+Protocol: HTTP
+Algorithm: Least Connections
+Session Stickiness: Table
+Health Check Type: HTTP Valid Status
+</code></pre>
+<p>4.点击“Save Changes”按钮后，系统将提示您添加Linode节点。为每台节点提供唯一的标签，并在每个节点的地址字段中输入私有网络地址和端口号。</p>
+<p>5.添加完两个节点后，确保节点运行状况检查功能处于启用状态。等到两个节点都显示为启动状态，返回NodeBalancer主页并记录列出的IP地址。您现在应该能访问该IP地址并查看您的网站。</p>
+<p>为了测试高可用性，可以在其中一个节点上停止Apache2/MySQL服务，或者关闭其中一个节点。即使其中一个节点被标记为关闭状态，您的网站仍可以继续提供服务而不会出现问题。</p>
+<p>恭喜，您现在已经成功搭建了高可用的WordPress网站！</p>
+<blockquote>
+<p><strong>参考文章</strong></p>
+<ol>
+<li><a href="https://www.linode.com/docs/websites/cms/high-availability-wordpress/" target="_blank" rel="noopener">High Availability WordPress Hosting | Linode</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1334935" target="_blank" rel="noopener">搭建高可用WordPress网站托管 | 腾讯云+社区</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/02/16/centos7-install-mysql57/">CentOS 7 安装 MySQL 5.7</a></li><li><a href="https://jiamaoxiang.top/2019/08/14/浅析数据库缓冲池与SQL查询成本/">浅析数据库缓冲池与SQL查询成本</a></li><li><a href="www.chunlife.top/2018/09/22/MySQL查询/">MySQL查询</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.289Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/09/11/high-availability-wordpress-hosting/" target="_blank" rel="external">https://abelsu7.top/2018/09/11/high-availability-wordpress-hosting/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lsyncd/">Lsyncd</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WordPress/">WordPress</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/09/11/high-availability-wordpress-hosting/&title=《【译】搭建高可用 WordPress 网站托管》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/09/11/high-availability-wordpress-hosting/&title=《【译】搭建高可用 WordPress 网站托管》 — Keep Coding&source=本指南将使用双Linode集群配置高可用的WordPress站点，数据库采用MySQL双主复制（Master-Master replication），并使..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/09/11/high-availability-wordpress-hosting/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【译】搭建高可用 WordPress 网站托管》 — Keep Coding&url=https://abelsu7.top/2018/09/11/high-availability-wordpress-hosting/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/09/11/high-availability-wordpress-hosting/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/09/13/valine-with-hexo/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">利用 Valine 搭建 Hexo 无后端评论系统</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/09/10/install-VNC-on-Ubuntu-1604/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">【译】在 Ubuntu 16.04 上安装 VNC</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/09/11/high-availability-wordpress-hosting/&title=《【译】搭建高可用 WordPress 网站托管》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/09/11/high-availability-wordpress-hosting/&title=《【译】搭建高可用 WordPress 网站托管》 — Keep Coding&source=本指南将使用双Linode集群配置高可用的WordPress站点，数据库采用MySQL双主复制（Master-Master replication），并使..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/09/11/high-availability-wordpress-hosting/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【译】搭建高可用 WordPress 网站托管》 — Keep Coding&url=https://abelsu7.top/2018/09/11/high-availability-wordpress-hosting/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/09/11/high-availability-wordpress-hosting/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACtUlEQVR42u3aUU4rMRAEQO5/aZ7EFxIkdM/YgSfVfkWbJXYtkj3q8dtbfL1/XJ8/f77z9cmvz+e/9uj5RyMeuPDw8PBGU390PR8gv5+/lOdzyJ/Hw8PDu83LN4Mffu7pb+YbScKLxsXDw8P7VV6+lD9/Be22gYeHh/e/85Kyuy3NWzweHh7eX+DlQUDyt8+HzO+8NGvBw8PD69KDugH2u5+v9/fw8PDwRl31drmfRRhtpFvMFg8PD+8CL284zUKKvLmVv4I8wsDDw8O7wUui0s1BqDZuWP2Xvo6Fh4eHd4GXf7Fp87eY56+mbZ7h4eHh3eDly/3sGEG7bbTHDn64g4eHh3eUtz8okDf7N12q1S6Hh4eHd5l37BhTjGnL8eTl1v09PDw8vJKXl87JYHm5nC/3wzACDw8P7xovX2rzYvpsCy2PjPHw8PBu82bL8Wahb+PaY202PDw8vEO8TVQ6O3qVx8Sb0BkPDw/vlbz2KEDb1N/fL8IOPDw8vAu8fKEf1ullSywfsX6teHh4eId4swZYHqS2m8fs0NXh/h4eHh7eiDdrXM0aVLN2WnQkCw8PD+8lvLaQzePaNuBIAtz6TBkeHh7eIV6yASTL8SyG2AcTD0fHw8PDu8Bro4RT083babPyGg8PD++VvKQZ1m4kbdm9aXp98y0eHh7eUV67DSSkfCnfxLVFAwwPDw/vGq+NVpMB2iluYpFv5oOHh4d3gZcXuPuG1qZJtomG8fDw8M7y3ssrL6yTEGE29aKgx8PDw7vAmy24+82j7fLPwmU8PDy8e7x9WyuZ9GxZb0fEw8PDeyVvFky0C/esRF5lLXh4eHi/ysuX9bYNlm9RdcCBh4eH9wd4s3K5HXG/qeDh4eHd5s0muj+zsD+gsDpAgIeHhzfinWqA7Q8cbErwt82Fh4eHl/L+AUOfQQXKtxecAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

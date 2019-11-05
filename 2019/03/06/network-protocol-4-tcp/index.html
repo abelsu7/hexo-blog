@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>网络协议笔记 4：传输层之 TCP 协议 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="网络协议,TCP">
+    <meta name="description" content="摘自  趣谈网络协议 | 极客时间">
+<meta name="keywords" content="网络协议,TCP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络协议笔记 4：传输层之 TCP 协议">
+<meta property="og:url" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自  趣谈网络协议 | 极客时间">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/jikeshijian.png">
+<meta property="og:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/cover.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/tcp-head.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/tcp-seq.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/tcp-end.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/tcp-status.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/tcp-sender-cache.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/tcp-reader.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/tcp-window-1.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/tcp-window-2.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/tcp-window-3.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/tcp-window-4.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/tcp-window-5.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/tcp-window-6.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/tcp-window-7.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/tcp-congestion-1.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/tcp-congestion-2.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/tcp-congestion-3.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/tcp-bbr.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.572Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网络协议笔记 4：传输层之 TCP 协议">
+<meta name="twitter:description" content="摘自  趣谈网络协议 | 极客时间">
+<meta name="twitter:image" content="https://abelsu7.top/2019/03/06/network-protocol-4-tcp/jikeshijian.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">网络协议笔记 4：传输层之 TCP 协议</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">网络协议笔记 4：传输层之 TCP 协议</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-03-06T09:56:33.000Z" itemprop="datePublished" class="page-time">
+  2019-03-06
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/计算机网络/">计算机网络</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-TCP-包头格式"><span class="post-toc-text">1. TCP 包头格式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-TCP-的三次握手"><span class="post-toc-text">2. TCP 的三次握手</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-TCP-的四次挥手"><span class="post-toc-text">3. TCP 的四次挥手</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-TCP-状态机"><span class="post-toc-text">4. TCP 状态机</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-TCP-如何保证传输可靠"><span class="post-toc-text">5. TCP 如何保证传输可靠</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-顺序问题与丢包问题"><span class="post-toc-text">6. 顺序问题与丢包问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-1-超时重试"><span class="post-toc-text">6.1 超时重试</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-2-自适应重传算法"><span class="post-toc-text">6.2 自适应重传算法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-3-超时间隔加倍"><span class="post-toc-text">6.3 超时间隔加倍</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-4-快速重传"><span class="post-toc-text">6.4 快速重传</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-5-SACK"><span class="post-toc-text">6.5 SACK</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-流量控制问题"><span class="post-toc-text">7. 流量控制问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-1-窗口不变的情况"><span class="post-toc-text">7.1 窗口不变的情况</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-2-窗口变化的情况"><span class="post-toc-text">7.2 窗口变化的情况</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8-拥塞控制问题"><span class="post-toc-text">8. 拥塞控制问题</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#9-小结"><span class="post-toc-text">9. 小结</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-network-protocol-4-tcp"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">网络协议笔记 4：传输层之 TCP 协议</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-03-06 17:56:33" datetime="2019-03-06T09:56:33.000Z"  itemprop="datePublished">2019-03-06</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/计算机网络/">计算机网络</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>摘自 <img src="/2019/03/06/network-protocol-4-tcp/jikeshijian.png" width="16"> <a href="https://time.geekbang.org/column/85" target="_blank" rel="noopener">趣谈网络协议 | 极客时间</a></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/06/network-protocol-4-tcp/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#1-TCP-包头格式">1. TCP 包头格式</a></li>
+<li><a href="#2-TCP-的三次握手">2. TCP 的三次握手</a></li>
+<li><a href="#3-TCP-的四次挥手">3. TCP 的四次挥手</a></li>
+<li><a href="#4-TCP-状态机">4. TCP 状态机</a></li>
+<li><a href="#5-TCP-如何保证传输可靠">5. TCP 如何保证传输可靠</a></li>
+<li><a href="#6-顺序问题与丢包问题">6. 顺序问题与丢包问题</a><ul>
+<li><a href="#6-1-超时重试">6.1 超时重试</a></li>
+<li><a href="#6-2-自适应重传算法">6.2 自适应重传算法</a></li>
+<li><a href="#6-3-超时间隔加倍">6.3 超时间隔加倍</a></li>
+<li><a href="#6-4-快速重传">6.4 快速重传</a></li>
+<li><a href="#6-5-SACK">6.5 SACK</a></li>
+</ul>
+</li>
+<li><a href="#7-流量控制问题">7. 流量控制问题</a><ul>
+<li><a href="#7-1-窗口不变的情况">7.1 窗口不变的情况</a></li>
+<li><a href="#7-2-窗口变化的情况">7.2 窗口变化的情况</a></li>
+</ul>
+</li>
+<li><a href="#8-拥塞控制问题">8. 拥塞控制问题</a></li>
+<li><a href="#9-小结">9. 小结</a></li>
+<li><a href="#参考文章">参考文章</a></li>
+</ul>
+<h3 id="1-TCP-包头格式"><a href="#1-TCP-包头格式" class="headerlink" title="1. TCP 包头格式"></a>1. TCP 包头格式</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/06/network-protocol-4-tcp/tcp-head.jpg" alt="TCP 包头格式" title>
+                </div>
+                <div class="image-caption">TCP 包头格式</div>
+            </figure>
+<ul>
+<li><strong>源端口号</strong>、<strong>目标端口号</strong></li>
+<li><strong>包的序号</strong>、<strong>确认序号</strong></li>
+<li><strong>状态位</strong>：<code>SYN</code><strong>发起连接</strong>、<code>ACK</code><strong>回复</strong>、<code>RST</code><strong>重新连接</strong>、<code>FIN</code><strong>结束连接</strong></li>
+<li><strong>窗口大小</strong>：用于<strong>流量控制、拥塞控制</strong></li>
+</ul>
+<h3 id="2-TCP-的三次握手"><a href="#2-TCP-的三次握手" class="headerlink" title="2. TCP 的三次握手"></a>2. TCP 的三次握手</h3><p>TCP 的连接建立，我们称之为<strong>“三次握手”</strong>，即<strong>“请求 -&gt; 应答 -&gt; 应答之应答”</strong>。</p>
+<p>三次握手除了<strong>确保双方建立连接</strong>以外，主要还为了<strong>沟通 TCP 包的序号问题</strong>。</p>
+<blockquote>
+<p>A 要告诉 B，自己发起的包的序号起始是从哪个号开始的，B 同样也要将自己的起始序号告诉 A。<strong>为了确保互相包的序号不发生冲突，TCP 的每个连接都要有不同的序号</strong>，这个序号的<strong>起始序号是随着时间变化的</strong></p>
+</blockquote>
+<p>当双方终于建立了信任，建立了连接之后，为了<strong>维护这个连接</strong>，双方都要<strong>维护一个状态机</strong>。在连接建立的过程中，双方的<strong>状态变化时序图</strong>如下所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/06/network-protocol-4-tcp/tcp-seq.jpg" alt="TCP 建立连接时的状态变化时序图" title>
+                </div>
+                <div class="image-caption">TCP 建立连接时的状态变化时序图</div>
+            </figure>
+<ol>
+<li>一开始，<strong>客户端</strong>和<strong>服务端</strong>都处于<code>CLOSED</code><strong>状态</strong></li>
+<li>先是<strong>服务端主动监听某个端口</strong>，处于<code>LISTEN</code><strong>状态</strong></li>
+<li>然后<strong>客户端主动发起连接</strong><code>SYN</code>，之后处于<code>SYN-SENT</code><strong>状态</strong></li>
+<li><strong>服务端收到发起的连接</strong>，返回<code>SYN</code>，并且<code>ACK</code>客户端的<code>SYN</code>，之后处于<code>SYN-RCVD</code><strong>状态</strong></li>
+<li><strong>客户端收到服务端发送的</strong><code>SYN</code><strong>和</strong><code>ACK</code>之后，发送<code>ACK</code>的<code>ACK</code>，之后处于<code>ESTABLISHED</code><strong>状态</strong>，因为客户端一发一收已经成功了</li>
+<li>最后，<strong>服务端收到</strong><code>ACK</code><strong>的</strong><code>ACK</code>之后，处于<code>ESTABLISHED</code><strong>状态</strong>，因为它也一发一收成功了</li>
+</ol>
+<h3 id="3-TCP-的四次挥手"><a href="#3-TCP-的四次挥手" class="headerlink" title="3. TCP 的四次挥手"></a>3. TCP 的四次挥手</h3><p>类似的，TCP 在<strong>断开连接</strong>时，也需要进行<strong>四次挥手</strong>，如下图所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/06/network-protocol-4-tcp/tcp-end.jpg" alt="TCP 断开连接时的状态变化时序图" title>
+                </div>
+                <div class="image-caption">TCP 断开连接时的状态变化时序图</div>
+            </figure>
+<ol>
+<li>断开的时候，当<strong> A 说 “不玩了”</strong>，就进入了<code>FIN_WAIT_1</code><strong>状态</strong></li>
+<li>B 收到 A “不玩了” 的消息后，<strong>发送</strong><code>ACK</code>，就进入<code>CLOSE_WAIT</code><strong>状态</strong></li>
+<li>A 收到 B 的<code>ACK</code>后，就<strong>进入</strong><code>FIN_WAIT_2</code><strong>状态</strong>。这时<strong>如果 B 直接跑路，则 A 将永远停留在这个状态</strong>。可以在 Linux 中调整<code>tcp_fin_timeout</code>这个参数，设置一个<strong>超时时间</strong></li>
+<li>如果 B 没有跑路，发送 “B 也不玩了” 的请求到达 A 时，A 发送 “知道 B 也不玩了” 的<code>ACK</code>后，<strong>从</strong><code>FIN_WAIT_2</code><strong>状态结束，进入</strong><code>TIME_WAIT</code><strong>状态</strong>，等待时间为<code>2MSL</code>（Maximum Segment Lifetime，<strong>报文最大生存时间</strong>）</li>
+<li>最后还有一个<strong>异常情况</strong>就是，B 超过了<code>2MSL</code>的时间，仍然没有收到它发的<code>FIN</code>的<code>ACK</code>，按照 TCP 的原理，B 就会重发这个<code>FIN</code>，只不过当 A 再收到这个包之后，A 就直接发送<code>RST</code>回复给 B，这时候 B 就会知道 A 早就跑了</li>
+</ol>
+<h3 id="4-TCP-状态机"><a href="#4-TCP-状态机" class="headerlink" title="4. TCP 状态机"></a>4. TCP 状态机</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/06/network-protocol-4-tcp/tcp-status.jpg" alt="令人头秃的 TCP 状态机" title>
+                </div>
+                <div class="image-caption">令人头秃的 TCP 状态机</div>
+            </figure>
+<h3 id="5-TCP-如何保证传输可靠"><a href="#5-TCP-如何保证传输可靠" class="headerlink" title="5. TCP 如何保证传输可靠"></a>5. TCP 如何保证传输可靠</h3><p><strong>TCP 协议</strong>为了保证<strong>包的顺序性</strong>，每一个包都有一个 <strong>ID</strong>。在建立连接的时候，会<strong>商定起始的 ID</strong> 是什么，然后按照 ID 一个个发送。<strong>为了保证不丢包，对于发送的包都要进行应答</strong>，但这个应答并不是一个一个来的，而是会<strong>应答某个之前的 ID，表示都收到了</strong>，这种模式称为<strong>累计确认</strong>或者<strong>累计应答</strong>（cumulative acknowledgment）。</p>
+<p>为了<strong>记录所有发送的包和接收的包</strong>，TCP 也需要<strong>发送端和接收端分别都有缓存</strong>来保存这些记录。<strong>发送端里的缓存</strong>是按照<strong>包的 ID</strong> 一个个排列的，根据处理的情况分成四个部分：</p>
+<ol>
+<li><strong>发送了</strong>并且<strong>已经确认</strong>的</li>
+<li><strong>发送了</strong>并且<strong>尚未确认</strong>的</li>
+<li><strong>没有发送</strong>，但是已经<strong>等待发送</strong>的</li>
+<li><strong>没有发送</strong>，并且暂时还<strong>不会发送</strong>的</li>
+</ol>
+<p>在 TCP 里，接收端会<strong>给发送端报一个窗口的大小</strong>，叫<code>Advertised Window</code>。它的大小应该等于上面的第二部分加上第三部分，即<strong>已经交代了没做完的加上马上要交代的</strong>。超过这个窗口的，接收端做不过来，就不能发送了。</p>
+<p>为此，<strong>发送端</strong>需要保持下面的数据结构：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/06/network-protocol-4-tcp/tcp-sender-cache.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ul>
+<li><code>LastByteAcked</code>：<strong>「已发送已确认」</strong>的最后一个字节</li>
+<li><code>LastByteSent</code>：<strong>「已发送未确认」</strong>的最后一个字节</li>
+<li><code>AdvertisedWindow</code>：黑框部分，<strong>「已发送未确认」+「未发送可发送」</strong></li>
+</ul>
+<p>对于<strong>接收端</strong>来讲，其<strong>缓存里的记录和内容</strong>要更简单一些：</p>
+<ol>
+<li><strong>接收并确认过</strong>的</li>
+<li><strong>还没接收</strong>，但是<strong>马上就能接收</strong>的</li>
+<li><strong>还没接收</strong>，也<strong>没法接收</strong>的，即超过窗口的部分</li>
+</ol>
+<p>对应<strong>缓存的数据结构</strong>如下图所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/06/network-protocol-4-tcp/tcp-reader.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ul>
+<li><code>LastByteRead</code>：之后是<strong>已经接收了</strong>，但是<strong>还没被应用层读取的</strong></li>
+<li><code>NextByteExpected</code>：第一部分和第二部分的分界线</li>
+<li><code>MaxRcvBuffer</code>：<strong>最大缓存</strong>的量，图中<strong>黑框部分</strong></li>
+</ul>
+<blockquote>
+<p>第二部分<strong>窗口大小</strong><code>AdvertisedWindow</code>即为<code>MaxRcvBuffer</code><strong>减去第一部分「接收已确认」的大小</strong></p>
+</blockquote>
+<h3 id="6-顺序问题与丢包问题"><a href="#6-顺序问题与丢包问题" class="headerlink" title="6. 顺序问题与丢包问题"></a>6. 顺序问题与丢包问题</h3><p>在 <strong>TCP 传输</strong>的过程中，<strong>顺序问题</strong>与<strong>丢包问题</strong>都可能发生：有些包可能丢了，有些包可能还在路上。还有些可能已经到了，还是因为出现了<strong>乱序</strong>，所以只能<strong>先缓存着但是没办法</strong><code>ACK</code>。</p>
+<p>为了解决这些问题，<strong>TCP</strong> 有一套<strong>确认与重发的机制</strong>。</p>
+<blockquote>
+<p>假设<code>4</code>的确认收到了，不幸的是，<code>5</code>的<code>ACK</code>丢了，<code>6</code>、<code>7</code>的数据包丢了，这种时候该怎么办？</p>
+</blockquote>
+<h4 id="6-1-超时重试"><a href="#6-1-超时重试" class="headerlink" title="6.1 超时重试"></a>6.1 超时重试</h4><p>一种解决方法就是<strong>超时重试</strong>，即<strong>对每一个发送了但是没有收到</strong><code>ACK</code><strong>的包，都设置一个定时器，超过一定时间必须重新尝试</strong>。这个时间必须<strong>大于往返时间 RTT</strong>，否则会引起不必要的重传，也<strong>不宜过长</strong>，导致访问变慢。</p>
+<h4 id="6-2-自适应重传算法"><a href="#6-2-自适应重传算法" class="headerlink" title="6.2 自适应重传算法"></a>6.2 自适应重传算法</h4><p>估计往返时间，需要 TCP 通过<strong>采样 RTT 的时间</strong>，然后进行<strong>加权平均</strong>，算出一个值。由于<strong>重传时间是不断变化的</strong>，我们称之为<strong>自适应重传算法</strong>（Adaptive Retransmission Algorithm）。</p>
+<h4 id="6-3-超时间隔加倍"><a href="#6-3-超时间隔加倍" class="headerlink" title="6.3 超时间隔加倍"></a>6.3 超时间隔加倍</h4><p>当一个包<strong>再次超时，又需要重传</strong>的时候，TCP 的策略是<strong>超时间隔加倍</strong>。每当遇到一次超时重传的时候，都会<strong>将下一次超时时间间隔设为先前值的两倍</strong>。两次超时，就说明<strong>网络环境差，不宜频繁反复发送</strong>。</p>
+<h4 id="6-4-快速重传"><a href="#6-4-快速重传" class="headerlink" title="6.4 快速重传"></a>6.4 快速重传</h4><p>TCP 还有一个可以<strong>快速重传</strong>的机制：当<strong>接收方收到一个序号大于下一个所期望的报文段</strong>时，就检测到了数据流中的一个间格，于是<strong>发送三个冗余的</strong><code>ACK</code>。客户端收到后，就在定时器过期之前，<strong>重传丢失的报文段</strong>。</p>
+<h4 id="6-5-SACK"><a href="#6-5-SACK" class="headerlink" title="6.5 SACK"></a>6.5 SACK</h4><p>还有一种方式称为 <strong>Selective Acknowledgement（SACK）</strong>。这种方式需要<strong>在 TCP 头里加上</strong><code>SACK</code>，可以<strong>将缓存的地图发送给发送方</strong>。例如可以发送<code>ACK6</code>、<code>SACK8</code>、<code>SACK9</code>，有了地图，发送方就可以看出是序号为<code>7</code>的包丢失了。</p>
+<h3 id="7-流量控制问题"><a href="#7-流量控制问题" class="headerlink" title="7. 流量控制问题"></a>7. 流量控制问题</h3><p>TCP 还有<strong>流量控制机制</strong>，在<strong>接收方</strong>对于<strong>包的确认</strong>中，同时会携带一个<strong>窗口的大小</strong>。</p>
+<h4 id="7-1-窗口不变的情况"><a href="#7-1-窗口不变的情况" class="headerlink" title="7.1 窗口不变的情况"></a>7.1 窗口不变的情况</h4><p>先<strong>假设窗口不变</strong>的情况，<strong>窗口始终为</strong><code>9</code>。<code>4</code>的确认来的时候，会<strong>右移一格</strong>，这时候第<code>13</code>个包也可以发送了：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/06/network-protocol-4-tcp/tcp-window-1.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>这个时候，假设发送端发送过猛，会将第三部分的<code>10</code>、<code>11</code>、<code>12</code>、<code>13</code>全部发送完毕。由于<strong>已发送未确认的包已经占满整个窗口</strong>，因此之后就<strong>停止发送</strong>了，<strong>未发送可发送的部分变为</strong><code>0</code>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/06/network-protocol-4-tcp/tcp-window-2.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>当对于<strong>包</strong><code>5</code><strong>的确认</strong>到达时，在客户端相当于<strong>窗口再滑动了一格</strong>，这个时候，<strong>第</strong><code>14</code><strong>个包就可以发送了</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/06/network-protocol-4-tcp/tcp-window-3.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<blockquote>
+<p>如果<strong>接收方实在处理的太慢</strong>，导致缓存中没有空间了，可以<strong>通过确认信息修改窗口的大小</strong>，甚至可以设置为<code>0</code>，则<strong>发送方将暂时停止发送</strong></p>
+</blockquote>
+<h4 id="7-2-窗口变化的情况"><a href="#7-2-窗口变化的情况" class="headerlink" title="7.2 窗口变化的情况"></a>7.2 窗口变化的情况</h4><p>再假设一个极端情况：<strong>接收端的应用一直不读取缓存中的数据</strong>，当数据包<code>6</code>确认后，<strong>窗口大小就要缩小一个变为</strong><code>8</code>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/06/network-protocol-4-tcp/tcp-window-4.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>当<strong>新的窗口大小</strong><code>8</code><strong>通过</strong><code>6</code><strong>的确认消息到达发送端之后</strong>，发送端的窗口就不会再右移，而是仅仅左边的边右移，<strong>窗口大小也从</strong><code>9</code><strong>变成了</strong><code>8</code>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/06/network-protocol-4-tcp/tcp-window-5.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>如果<strong>接收端</strong>还是<strong>一直不处理数据</strong>，则随着<strong>确认的包越来越多，窗口也会越来越小</strong>，直到为<code>0</code>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/06/network-protocol-4-tcp/tcp-window-6.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>当这个窗口<strong>通过包</strong><code>14</code><strong>的确认到达发送端</strong>的时候，<strong>发送端的窗口也调整为</strong><code>0</code><strong>，停止发送</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/06/network-protocol-4-tcp/tcp-window-7.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<blockquote>
+<p>除了被动接收窗口信息之外，<strong>发送方也会定时发送窗口探测数据包，看是否有机会调整窗口的大小</strong>。当<strong>接收方比较慢</strong>的时候，要<strong>防止底能窗口综合征</strong>：可以<strong>当窗口太小的时候就停止更新窗口</strong>，<strong>直到达到一定大小</strong>，或者缓冲区一半为空，<strong>才更新窗口</strong></p>
+</blockquote>
+<h3 id="8-拥塞控制问题"><a href="#8-拥塞控制问题" class="headerlink" title="8. 拥塞控制问题"></a>8. 拥塞控制问题</h3><p>最后来谈一下 <strong>TCP 的拥塞控制问题</strong>，也是<strong>通过窗口的大小来控制的</strong>。前面<strong>流量控制</strong>的<strong>滑动窗口</strong><code>rwnd</code>（Receive Window，接收窗口）是<strong>怕发送方把接收方缓存塞满</strong>，而<strong>拥塞窗口</strong><code>cwnd</code>（Congestion Window，拥塞窗口）是<strong>怕把网络塞满</strong>。</p>
+<p><strong>TCP 的发送速度</strong>由<strong>拥塞窗口</strong>和<strong>滑动窗口</strong>共同控制：</p>
+<pre><code class="lang-bash">swnd = LastByteSent - LastByteAcked &lt;= min {cwnd, rwnd}
+</code></pre>
+<blockquote>
+<p>对于 <strong>TCP 协议</strong>来讲，<strong>整个网络路径</strong>就是一个<strong>黑盒</strong>。<strong>TCP 发送包常被比喻为往一个水管里面灌水</strong>，而 <strong>TCP 的拥塞控制</strong>就是在<strong>不堵塞、不丢包</strong>的情况下，尽量<strong>发挥带宽</strong></p>
+</blockquote>
+<p>如果<strong>设置发送窗口</strong><code>swnd</code>，使得<strong>发送但未确认的包</strong>为<strong>通道的容量</strong>，就能<strong>撑满整个管道</strong>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/06/network-protocol-4-tcp/tcp-congestion-1.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong>TCP 的拥塞控制</strong>主要用来<strong>避免两种现象</strong>：<strong>包丢失</strong>和<strong>超时重传</strong>。一旦出现了这些现象就说明，<strong>发送速度太快了</strong>，要慢一点。</p>
+<ul>
+<li>一条 <strong>TCP 连接开始</strong>，<code>cwnd</code>设置为 <strong>1 个报文段</strong>，一次只能发送<strong>一个</strong></li>
+<li>当<strong>收到这一个确认</strong>的时候，<code>cwnd</code><strong>加 1</strong>，于是一次能够发送<strong>两个</strong></li>
+<li>当<strong>这两个的确认到来</strong>的时候，两个确认<code>cwnd</code><strong>加 2</strong>，于是一次能够发送<strong>四个</strong></li>
+<li>当这<strong>四个的确认到来</strong>的时候，四个确认<code>cwnd</code><strong>加 4</strong>，于是一次能够发送<strong>八个</strong></li>
+</ul>
+<blockquote>
+<p>这个过程称为 TCP 的<strong>慢启动</strong>阶段</p>
+</blockquote>
+<p>可以看出在<strong>慢启动阶段</strong>，<code>cwnd</code>呈<strong>指数性的增长</strong>。但当<code>swnd</code><strong>超过阈值</strong><code>ssthresh</code>（默认为 <strong>65535 字节</strong>，即<strong>当</strong><code>swnd</code><strong>为 16 时刚好超过</strong>），就要改为<strong>线性增长</strong>，即<strong>每收到一个确认</strong>后，<code>cwnd</code><strong>增加</strong><code>1/cwnd</code>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/06/network-protocol-4-tcp/tcp-congestion-2.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<blockquote>
+<p>这个过程称为 TCP 的<strong>拥塞避免阶段</strong></p>
+</blockquote>
+<p>还是看上图，当<code>cwnd</code>为 20 时，<strong>出现了拥塞</strong>（例如<strong>丢包</strong>，需要<strong>超时重传</strong>），这个时候，需要将<code>ssthresh</code>设为<code>cwnd/2</code>即 10，将<code>cwnd</code>设为 1，<strong>重新开始慢启动</strong>。下图是另外一个例子：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/06/network-protocol-4-tcp/tcp-congestion-3.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>虽然这种方式避免了拥塞，但是<strong>大大降低了原本处于高速状态的传输速度</strong>，还可能造成<strong>网络卡顿</strong>。</p>
+<p>之前提到，TCP 还有一个<strong>快速重传算法</strong>：当<strong>接收端</strong>发现丢了一个中间包的时候，<strong>发送三次前一个包的</strong><code>ACK</code>，于是<strong>发送端</strong>就会<strong>快速的重传</strong>，不必等待超时再重传，这时<code>cwnd</code><strong>减半变为</strong><code>cwnd/2</code>，然后再令<code>ssthresh=cwnd</code>，当三个包返回时，<code>cwnd=sshthresh+3</code>，继续维持<strong>线性增长</strong>（即图中的橙线部分）。</p>
+<p>正是 <strong>TCP</strong> 这种<strong>知进退的特点</strong>，使得在<strong>时延很重要</strong>的情况下，反而<strong>降低了速度</strong>。但其实，TCP 的拥塞控制主要来避免的两个现象都是有问题的：</p>
+<ol>
+<li><strong>丢包并不代表着通道满了</strong>，例如公网上带宽不满也会丢包，这个时候就认为拥塞了、退缩了，其实是不对的</li>
+<li>TCP 的拥塞控制要等到将中间设备都填充满了，才发生丢包，从而降低速度，这个时候已经晚了，其实 <strong>TCP 只要填满管道就可以了，不应该接着填，直到连缓存也填满</strong></li>
+</ol>
+<blockquote>
+<p>为了<strong>优化这两个问题</strong>，后来有了 <strong>TCP BBR 拥塞算法</strong>（Bottleneck Bandwidth and Round-trip propagation time，由 Google 设计，于 2016 年发布）。它企图找到一个平衡点，就是<strong>通过不断的加快发送速度，将管道填满</strong>，但是<strong>不要填满中间设备的缓存</strong>，因为这样会导致时延增加，在这个平衡点可以很好的<strong>达到高带宽和低时延的平衡</strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/03/06/network-protocol-4-tcp/tcp-bbr.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h3 id="9-小结"><a href="#9-小结" class="headerlink" title="9. 小结"></a>9. 小结</h3><ul>
+<li>TCP 的 <strong>顺序问题、丢包问题、流量控制问题</strong>都是通过<strong>滑动窗口</strong>来解决的</li>
+<li><strong>拥塞控制</strong>是通过<strong>拥塞窗口</strong><code>cwnd</code>来解决的</li>
+</ul>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://time.geekbang.org/column/85" target="_blank" rel="noopener">趣谈网络协议 | 极客时间</a></li>
+<li><a href="https://www.jianshu.com/p/97e5d7e73ba0" target="_blank" rel="noopener">TCP/IP 拥塞控制 | 简书</a></li>
+<li><a href="https://blog.csdn.net/yechaodechuntian/article/details/25429143" target="_blank" rel="noopener">TCP 的流量控制和拥塞控制 | CSDN</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/03/06/network-protocol-3-udp/">网络协议笔记 3：传输层之 UDP 协议</a></li><li><a href="https://abelsu7.top/2019/03/05/network-protocol-2-link-and-transport/">网络协议笔记 2：交换机、VLAN、ICMP、网关、路由协议</a></li><li><a href="https://abelsu7.top/2019/03/05/network-protocol-1-intro/">网络协议笔记 1：初识网络协议、IP、MAC、DHCP</a></li><li><a href="https://abelsu7.top/2018/10/18/http-notes-part-1/">HTTP 笔记 1：Web 基础及简单的 HTTP 协议</a></li><li><a href="https://heyizhang.github.io/2019/07/13/wireshark/tcp_protocol/">TCP协议</a></li><li><a href="https://heyizhang.github.io/2019/07/09/wireshark/tls_protocol_overview/">从数据包看 TLS 1.2</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.572Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/03/06/network-protocol-4-tcp/" target="_blank" rel="external">https://abelsu7.top/2019/03/06/network-protocol-4-tcp/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP/">TCP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/06/network-protocol-4-tcp/&title=《网络协议笔记 4：传输层之 TCP 协议》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/06/network-protocol-4-tcp/&title=《网络协议笔记 4：传输层之 TCP 协议》 — Keep Coding&source=
+摘自  趣谈网络协议 | 极客时间
+
+
+                
+                    
+                  ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/06/network-protocol-4-tcp/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《网络协议笔记 4：传输层之 TCP 协议》 — Keep Coding&url=https://abelsu7.top/2019/03/06/network-protocol-4-tcp/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/06/network-protocol-4-tcp/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/03/08/sort-algo-in-go/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">排序算法 1：冒泡排序、插入排序、选择排序</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/03/06/network-protocol-3-udp/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">网络协议笔记 3：传输层之 UDP 协议</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/03/06/network-protocol-4-tcp/&title=《网络协议笔记 4：传输层之 TCP 协议》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/03/06/network-protocol-4-tcp/&title=《网络协议笔记 4：传输层之 TCP 协议》 — Keep Coding&source=
+摘自  趣谈网络协议 | 极客时间
+
+
+                
+                    
+                  ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/03/06/network-protocol-4-tcp/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《网络协议笔记 4：传输层之 TCP 协议》 — Keep Coding&url=https://abelsu7.top/2019/03/06/network-protocol-4-tcp/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/03/06/network-protocol-4-tcp/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACG0lEQVR42u3aQW6EMAwF0Ln/pem20gj6bUMlkpcV0kDgzcKyHX8+8Tp+rer938+e7VN9S3lhYGC8lnFcrrMX9D7riFf+bRgYGPswzj7i7Dp/6vvO65Ca/0EYGBgY19vlsPyvwcDAwHiOkSSCOQwDAwNjUsT2Qm213H28FsfAwHghI++6///1I+cbGBgYr2IcxZXv02u3Ha2FgYGxNiMPcL3EsVeyVr8HAwNjB0YvKZxTk4bdbTkvBgbGEox5OpgMYUyOKiMeBgbGcoz5CMUkvN52/ImBgbENY5ICVkNw9eDzjxCMgYGxNCNPvyYDEHeNYoyqbQwMjCUY1aZ8b88klWzW4hgYGIsykj7cveVo3owrHGFiYGBsxkiCXbWI7R0nFMAYGBgbMJIhieoARH5U0HsXBgbGPoxqtypnV/fvheBoZgQDA2NpRr5pfkg5P2YoB1wMDIyFGL2G/uTXSeBuHmdiYGC8ltErKXuBOC90yyU0BgbGBoxec636bN6AK49fYGBgbMOojkHc20RLrqOAi4GBsRkjD7KTfcqjYNWAi4GB8VrGUVw9WDXJSxpwhZkRDAyMlzN6wa53YJC/fpQgYmBgLMqoDntdt9jmiWMz3cTAwNiA8UT8nrThyqUvBgYGRrGIrd5THfXAwMDA6AXZJLnsDZNF+2BgYGzAmHxEHjpzfD7kgYGBsQPj3l7WZIwsD7ij8w0MDIw3MX4AaCKdOxdW9XsAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

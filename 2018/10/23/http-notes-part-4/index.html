@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>HTTP 笔记 4：HTTPS 及用户身份认证 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="读书,HTTP,HTTPS,SSL,TLS">
+    <meta name="description" content="《图解HTTP》">
+<meta name="keywords" content="读书,HTTP,HTTPS,SSL,TLS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP 笔记 4：HTTPS 及用户身份认证">
+<meta property="og:url" content="https://abelsu7.top/2018/10/23/http-notes-part-4/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="《图解HTTP》">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2018/10/23/http-notes-part-4/cover.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/10/23/http-notes-part-4/199907841.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/10/23/http-notes-part-4/199908739.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/10/23/http-notes-part-4/199910941.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/10/23/http-notes-part-4/199911544.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/10/23/http-notes-part-4/199912474.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/10/23/http-notes-part-4/199913514.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/10/23/http-notes-part-4/199914043.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/10/23/http-notes-part-4/199916081.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/10/23/http-notes-part-4/199917318.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/10/23/http-notes-part-4/199918422.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.380Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTTP 笔记 4：HTTPS 及用户身份认证">
+<meta name="twitter:description" content="《图解HTTP》">
+<meta name="twitter:image" content="https://abelsu7.top/2018/10/23/http-notes-part-4/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">HTTP 笔记 4：HTTPS 及用户身份认证</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">HTTP 笔记 4：HTTPS 及用户身份认证</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-10-23T02:55:39.000Z" itemprop="datePublished" class="page-time">
+  2018-10-23
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/计算机网络/">计算机网络</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#第-7-章-确保-Web-安全的-HTTPS"><span class="post-toc-text">第 7 章 确保 Web 安全的 HTTPS</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-1-HTTP-的缺点"><span class="post-toc-text">7.1 HTTP 的缺点</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-1-1-通信使用明文可能会被窃听"><span class="post-toc-text">7.1.1 通信使用明文可能会被窃听</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-1-2-不验证通信方的身份就可能遭遇伪装"><span class="post-toc-text">7.1.2 不验证通信方的身份就可能遭遇伪装</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-1-3-无法证明报文完整性，可能已遭篡改"><span class="post-toc-text">7.1.3 无法证明报文完整性，可能已遭篡改</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-2-HTTP-加密-认证-完整性保护-HTTPS"><span class="post-toc-text">7.2 HTTP + 加密 + 认证 + 完整性保护 = HTTPS</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-2-1-HTTP-加上加密处理和认证以及完整性保护后即是-HTTPS"><span class="post-toc-text">7.2.1 HTTP 加上加密处理和认证以及完整性保护后即是 HTTPS</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-2-2-HTTPS-是身披-SSL-外壳的-HTTP"><span class="post-toc-text">7.2.2 HTTPS 是身披 SSL 外壳的 HTTP</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-2-3-相互交换密钥的公开密钥加密技术"><span class="post-toc-text">7.2.3 相互交换密钥的公开密钥加密技术</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-2-4-证明公开密钥正确性的证书"><span class="post-toc-text">7.2.4 证明公开密钥正确性的证书</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#7-2-5-HTTPS-的安全通信机制"><span class="post-toc-text">7.2.5 HTTPS 的安全通信机制</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#第-8-章-确认访问用户身份的认证"><span class="post-toc-text">第 8 章 确认访问用户身份的认证</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8-1-何为认证"><span class="post-toc-text">8.1 何为认证</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8-2-BASIC-认证"><span class="post-toc-text">8.2 BASIC 认证</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8-3-DIGEST-认证"><span class="post-toc-text">8.3 DIGEST 认证</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8-4-SSL-客户端认证"><span class="post-toc-text">8.4 SSL 客户端认证</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#8-4-1-SSL-客户端认证的认证步骤"><span class="post-toc-text">8.4.1 SSL 客户端认证的认证步骤</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#8-4-2-SSL-客户端认证采用双因素认证"><span class="post-toc-text">8.4.2 SSL 客户端认证采用双因素认证</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8-5-基于表单认证"><span class="post-toc-text">8.5 基于表单认证</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#8-5-1-认证多半为基于表单认证"><span class="post-toc-text">8.5.1 认证多半为基于表单认证</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#8-5-2-Session-管理及-Cookie-应用"><span class="post-toc-text">8.5.2 Session 管理及 Cookie 应用</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-http-notes-part-4"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">HTTP 笔记 4：HTTPS 及用户身份认证</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-10-23 10:55:39" datetime="2018-10-23T02:55:39.000Z"  itemprop="datePublished">2018-10-23</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/计算机网络/">计算机网络</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/10/23/http-notes-part-4/cover.jpg" alt="《图解HTTP》" title>
+                </div>
+                <div class="image-caption">《图解HTTP》</div>
+            </figure>
+<a id="more"></a>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#第-7-章-确保-Web-安全的-HTTPS">第 7 章 确保 Web 安全的 HTTPS</a><ul>
+<li><a href="#7-1-HTTP-的缺点">7.1 HTTP 的缺点</a><ul>
+<li><a href="#7-1-1-通信使用明文可能会被窃听">7.1.1 通信使用明文可能会被窃听</a></li>
+<li><a href="#7-1-2-不验证通信方的身份就可能遭遇伪装">7.1.2 不验证通信方的身份就可能遭遇伪装</a></li>
+<li><a href="#7-1-3-无法证明报文完整性，可能已遭篡改">7.1.3 无法证明报文完整性，可能已遭篡改</a></li>
+</ul>
+</li>
+<li><a href="#7-2-HTTP-加密-认证-完整性保护-HTTPS">7.2 HTTP + 加密 + 认证 + 完整性保护 = HTTPS</a><ul>
+<li><a href="#7-2-1-HTTP-加上加密处理和认证以及完整性保护后即是-HTTPS">7.2.1 HTTP 加上加密处理和认证以及完整性保护后即是 HTTPS</a></li>
+<li><a href="#7-2-2-HTTPS-是身披-SSL-外壳的-HTTP">7.2.2 HTTPS 是身披 SSL 外壳的 HTTP</a></li>
+<li><a href="#7-2-3-相互交换密钥的公开密钥加密技术">7.2.3 相互交换密钥的公开密钥加密技术</a></li>
+<li><a href="#7-2-4-证明公开密钥正确性的证书">7.2.4 证明公开密钥正确性的证书</a></li>
+<li><a href="#7-2-5-HTTPS-的安全通信机制">7.2.5 HTTPS 的安全通信机制</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#第-8-章-确认访问用户身份的认证">第 8 章 确认访问用户身份的认证</a><ul>
+<li><a href="#8-1-何为认证">8.1 何为认证</a></li>
+<li><a href="#8-2-BASIC-认证">8.2 BASIC 认证</a></li>
+<li><a href="#8-3-DIGEST-认证">8.3 DIGEST 认证</a></li>
+<li><a href="#8-4-SSL-客户端认证">8.4 SSL 客户端认证</a><ul>
+<li><a href="#8-4-1-SSL-客户端认证的认证步骤">8.4.1 SSL 客户端认证的认证步骤</a></li>
+<li><a href="#8-4-2-SSL-客户端认证采用双因素认证">8.4.2 SSL 客户端认证采用双因素认证</a></li>
+</ul>
+</li>
+<li><a href="#8-5-基于表单认证">8.5 基于表单认证</a><ul>
+<li><a href="#8-5-1-认证多半为基于表单认证">8.5.1 认证多半为基于表单认证</a></li>
+<li><a href="#8-5-2-Session-管理及-Cookie-应用">8.5.2 Session 管理及 Cookie 应用</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="第-7-章-确保-Web-安全的-HTTPS"><a href="#第-7-章-确保-Web-安全的-HTTPS" class="headerlink" title="第 7 章 确保 Web 安全的 HTTPS"></a>第 7 章 确保 Web 安全的 HTTPS</h2><p>在 HTTP 协议中有可能存在<strong>信息窃听</strong>或<strong>身份伪装</strong>等安全问题。使用 <strong>HTTPS 通信机制</strong>可以有效地防止这些问题。</p>
+<h3 id="7-1-HTTP-的缺点"><a href="#7-1-HTTP-的缺点" class="headerlink" title="7.1 HTTP 的缺点"></a>7.1 HTTP 的缺点</h3><p>HTTP 主要有这些不足，列举如下，</p>
+<ul>
+<li>通信使用<strong>明文（不加密）</strong>，内容可能会被<strong>窃听</strong></li>
+<li>不验证通信方的身份，因此有可能遭遇<strong>伪装</strong></li>
+<li>无法证明报文的完整性，所以有可能已遭<strong>篡改</strong></li>
+</ul>
+<blockquote>
+<p>这些问题不仅在 HTTP 上出现，其他<strong>未加密的协议</strong>中也会存在这类问题。</p>
+</blockquote>
+<h4 id="7-1-1-通信使用明文可能会被窃听"><a href="#7-1-1-通信使用明文可能会被窃听" class="headerlink" title="7.1.1 通信使用明文可能会被窃听"></a>7.1.1 通信使用明文可能会被窃听</h4><p>由于 <strong>HTTP 本身不具备加密的功能</strong>，所以也无法做到对通信整体（使用 HTTP 协议通信的请求和响应的内容）进行加密。即，<strong>HTTP 报文使用明文方式发送</strong>。</p>
+<p><strong><em>TCP/IP 是可能被窃听的网络</em></strong></p>
+<p>如果要问为什么通信时不加密是一个缺点，这是因为，按 TCP/IP 协议族的工作机制，<strong>通信内容在所有的通信线路上都有可能遭到窥视</strong>。</p>
+<blockquote>
+<p>即使已经过加密处理的通信，也会被窥视到通信内容，这点和未加密的通信是相同的。只是说如果通信经过加密，就有可能让人无法破解报文信息的含义，但<strong>加密处理后的报文信息本身还是会被看到的</strong>。</p>
+</blockquote>
+<p><strong><em>加密处理防止被窃听</em></strong></p>
+<p>如何防止窃听保护信息的几种对策中，最为普及的就是加密技术。加密的对象可以有这么几个。</p>
+<ul>
+<li>通信的加密</li>
+</ul>
+<p>一种方式就是将通信加密。HTTP 协议中没有加密机制，但可以通过和 <strong>SSL（Secure Socket Layer，安全套接层）</strong>或 <strong>TLS（Transport Layer Security，安全传输层协议）</strong>的组合使用，加密 HTTP 的通信内容。</p>
+<p>用 SSL 建立安全通信线路之后，就可以在这条线路上进行 HTTP 通信了。与 SSL 组合使用的 HTTP 被称为 <strong>HTTPS（HTTP Secure，超文本传输安全协议）</strong>或 <strong>HTTP over SSL</strong>。</p>
+<ul>
+<li>内容的加密</li>
+</ul>
+<p>还有一种<strong>将参与通信的内容本身加密</strong>的方式。由于 HTTP 协议中没有加密机制，那么就对 HTTP 协议传输的内容本身加密。即<strong>把 HTTP 报文里所含的内容进行加密处理</strong>。</p>
+<p>在这种情况下，<strong>客户端</strong>需要对 HTTP 报文进行<strong>加密处理后再发送请求</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/10/23/http-notes-part-4/199907841.jpg" alt="对HTTP报文进行加密" title>
+                </div>
+                <div class="image-caption">对HTTP报文进行加密</div>
+            </figure>
+<blockquote>
+<p>诚然，为了做到有效的内容加密，<strong>前提</strong>是要求<strong>客户端和服务器同时具备加密和解密机制</strong>。主要应用在 Web 服务中。有一点必须引起注意，由于该方式不同于 SSL 或 TLS 将整个通信线路加密处理，所以<strong>内容仍有被篡改的风险</strong>。</p>
+</blockquote>
+<h4 id="7-1-2-不验证通信方的身份就可能遭遇伪装"><a href="#7-1-2-不验证通信方的身份就可能遭遇伪装" class="headerlink" title="7.1.2 不验证通信方的身份就可能遭遇伪装"></a>7.1.2 不验证通信方的身份就可能遭遇伪装</h4><p>HTTP 协议中的请求和响应<strong>不会对通信方进行确认</strong>。</p>
+<p><strong><em>任何人都可发起请求</em></strong></p>
+<p>在 HTTP 协议通信时，由于不存在确认通信方的处理步骤，<strong>任何人都可以发起请求</strong>。另外，服务器只要接收到请求，<strong>不管对方是谁都会返回一个响应</strong>。</p>
+<blockquote>
+<p>•  无法确定请求发送至目标的 Web 服务器是否是按真实意图返回响应的那台服务器。有可能是<strong>已伪装的 Web 服务器</strong>。<br>•  无法确定响应返回到的客户端是否是按真实意图接收响应的那个客户端。有可能是<strong>已伪装的客户端</strong>。<br>•  无法确定正在通信的对方<strong>是否具备访问权限</strong>。因为某些 Web 服务器上保存着重要的信息，只想发给特定用户通信的权限。<br>•  无法判定请求是来自何方、出自谁手。<br>•  即使是无意义的请求也会照单全收。无法阻止海量请求下的 <strong>DoS 攻击</strong>（Denial of Service，拒绝服务攻击）。</p>
+</blockquote>
+<p><strong><em>查明对手的证书</em></strong></p>
+<p>虽然使用 HTTP 协议无法确定通信方，但如果使用 SSL 则可以。<strong>SSL 不仅提供加密处理</strong>，而且还使用了一种被称为<strong>证书</strong>的手段，<strong>可用于确定方</strong>。</p>
+<p>证书由值得信任的第三方机构颁发，<strong>用以证明服务器和客户端是实际存在的</strong>。另外，伪造证书从技术角度来说是异常困难的一件事。所以只要能够确认通信方（服务器或客户端）持有的证书，即可判断通信方的真实意图。这对使用者个人来讲，也<strong>减少了个人信息泄露的危险性</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/10/23/http-notes-part-4/199908739.jpg" alt="使用证书以证明通信方就是意料中的服务器" title>
+                </div>
+                <div class="image-caption">使用证书以证明通信方就是意料中的服务器</div>
+            </figure>
+<h4 id="7-1-3-无法证明报文完整性，可能已遭篡改"><a href="#7-1-3-无法证明报文完整性，可能已遭篡改" class="headerlink" title="7.1.3 无法证明报文完整性，可能已遭篡改"></a>7.1.3 无法证明报文完整性，可能已遭篡改</h4><p><strong><em>接收到的内容可能有误</em></strong></p>
+<p>由于 <strong>HTTP 协议无法证明通信的报文完整性</strong>，因此，在请求或响应送出之后直到对方接收之前的这段时间内，即使请求或响应的内容遭到篡改，也没有办法获悉。</p>
+<p>像这样，请求或响应在传输途中，遭<strong>攻击者拦截并篡改内容</strong>的攻击称为<strong>中间人攻击（Man-in-the-Middle attack，MITM）</strong>。</p>
+<p><strong><em>如何防止篡改</em></strong></p>
+<p>虽然有使用 HTTP 协议确定报文完整性的方法，但事实上并不便捷、可靠。其中常用的是 <strong>MD5</strong> 和 <strong>SHA-1</strong> 等<strong>散列值校验</strong>的方法，以及用来确认文件的<strong>数字签名</strong>方法。</p>
+<p>提供文件下载服务的 Web 网站也会提供相应的以 PGP（Pretty Good Privacy，完美隐私）创建的数字签名及 MD5 算法生成的散列值。<strong>PGP 是用来证明创建文件的数字签名，MD5 是由单向函数生成的散列值</strong>。不论使用哪一种方法，都需要操纵客户端的用户本人亲自检查验证下载的文件是否就是原来服务器上的文件。浏览器无法自动帮用户检查。</p>
+<blockquote>
+<p>可惜的是，用这些方法也依然无法百分百保证确认结果正确。因为 PGP 和 MD5 本身被改写的话，用户是没有办法意识到的。</p>
+</blockquote>
+<h3 id="7-2-HTTP-加密-认证-完整性保护-HTTPS"><a href="#7-2-HTTP-加密-认证-完整性保护-HTTPS" class="headerlink" title="7.2 HTTP + 加密 + 认证 + 完整性保护 = HTTPS"></a>7.2 HTTP + 加密 + 认证 + 完整性保护 = HTTPS</h3><h4 id="7-2-1-HTTP-加上加密处理和认证以及完整性保护后即是-HTTPS"><a href="#7-2-1-HTTP-加上加密处理和认证以及完整性保护后即是-HTTPS" class="headerlink" title="7.2.1 HTTP 加上加密处理和认证以及完整性保护后即是 HTTPS"></a>7.2.1 HTTP 加上加密处理和认证以及完整性保护后即是 HTTPS</h4><p>为了防止通信线路遭到窃听导致数据泄露，需要在 HTTP 上再加入加密处理和认证等机制。我们把<strong>添加了加密及认证机制的 HTTP</strong> 称为 <strong>HTTPS（HTTP Secure）</strong>。</p>
+<h4 id="7-2-2-HTTPS-是身披-SSL-外壳的-HTTP"><a href="#7-2-2-HTTPS-是身披-SSL-外壳的-HTTP" class="headerlink" title="7.2.2 HTTPS 是身披 SSL 外壳的 HTTP"></a>7.2.2 HTTPS 是身披 SSL 外壳的 HTTP</h4><p>HTTPS 并非是应用层的一种新协议。只是 <strong>HTTP 通信接口部分用 SSL（Secure Socket Layer）和 TLS（Transport Layer Security）协议代替</strong>而已。</p>
+<p>通常，HTTP 直接和 TCP 通信。当使用 SSL 时，则演变成<strong>先和 SSL 通信，再由 SSL 和 TCP 通信</strong>了。简言之，所谓 HTTPS，其实就是<strong>身披 SSL 协议这层外壳的 HTTP</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/10/23/http-notes-part-4/199910941.jpg" alt="HTTP与HTTPS对比" title>
+                </div>
+                <div class="image-caption">HTTP与HTTPS对比</div>
+            </figure>
+<p>在采用 SSL 后，HTTP 就拥有了 HTTPS 的<strong>加密、证书和完整性保护</strong>这些功能。</p>
+<blockquote>
+<p>SSL 是独立于 HTTP 的协议，所以不光是 HTTP 协议，其他运行在应用层的 SMTP 和 Telnet 等协议均可配合 SSL 协议使用。可以说 SSL 是当今世界上应用最为广泛的网络安全技术。</p>
+</blockquote>
+<h4 id="7-2-3-相互交换密钥的公开密钥加密技术"><a href="#7-2-3-相互交换密钥的公开密钥加密技术" class="headerlink" title="7.2.3 相互交换密钥的公开密钥加密技术"></a>7.2.3 相互交换密钥的公开密钥加密技术</h4><p>SSL 采用一种叫做<strong>公开密钥加密（Public-key cryptography）</strong>的加密处理方式。</p>
+<p>近代的加密方法中<strong>加密算法是公开的，而密钥却是保密的</strong>。通过这种方式得以保持加密方法的安全性。</p>
+<p>加密和解密都会用到密钥。没有密钥就无法对密码解密，反过来说，任何人只要持有密钥就能解密了。如果密钥被攻击者获得，那加密也就失去了意义。</p>
+<p><strong><em>共享密钥加密的困境</em></strong></p>
+<p><strong>加密和解密同用一个密钥的方式</strong>称为<strong>共享密钥加密（Common key crypto system）</strong>，也被叫做<strong>对称密钥加密</strong>。</p>
+<p>以共享密钥方式加密时必须将密钥也发给对方。可究竟怎样才能<strong>安全地转交</strong>？在互联网上转发密钥时，如果通信被监听那么密钥就可会落入攻击者之手，同时也就失去了加密的意义。另外还得设法安全地保管接收到的密钥。</p>
+<blockquote>
+<p>发送密钥就有被窃听的风险，但不发送，对方就不能解密。再说，若密钥能够安全发送，那数据也应该能安全送达。</p>
+</blockquote>
+<p><strong><em>使用两把密钥的公开密钥加密</em></strong></p>
+<p>公开密钥加密方式很好地解决了共享密钥加密的困难。</p>
+<p>公开密钥加密使用<strong>一对非对称的密钥</strong>。一把叫做<strong>私有密钥（private key）</strong>，另一把叫做<strong>公开密钥（public key）</strong>。顾名思义，私有密钥不能让其他任何人知道，而公开密钥则可以随意发布，任何人都可以获得。</p>
+<p>使用公开密钥加密方式，发送密文的一方<strong>使用对方的公开密钥进行加密处理</strong>，对方收到被加密的信息后，再<strong>使用自己的私有密钥进行解密</strong>。利用这种方式，不需要发送用来解密的私有密钥，也不必担心密钥被攻击者窃听而盗走。</p>
+<p>另外，要想根据密文和公开密钥，恢复到信息原文是异常困难的，因为解密过程就是在对离散对数进行求值，这并非轻而易举就能办到。退一步讲，如果能对一个非常大的整数做到快速地因式分解，那么密码破解还是存在希望的。但就目前的技术来看是不太现实的。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/10/23/http-notes-part-4/199911544.jpg" alt="公开密钥加密使用非对称的加密方式" title>
+                </div>
+                <div class="image-caption">公开密钥加密使用非对称的加密方式</div>
+            </figure>
+<p><strong><em>HTTPS 采用混合加密机制</em></strong></p>
+<p>HTTPS 采用<strong>共享密钥加密和公开密钥加密两者并用</strong>的<strong>混合加密机制</strong>。若密钥能够实现安全交换，那么有可能会考虑仅使用公开密钥加密来通信。但是公开密钥加密与共享密钥加密相比，其<strong>处理速度要慢</strong>。</p>
+<p>所以应充分利用两者各自的优势，将多种方法组合起来用于通信。在交换密钥环节使用公开密钥加密方式，之后的建立通信交换报文阶段则使用共享密钥加密方式。</p>
+<h4 id="7-2-4-证明公开密钥正确性的证书"><a href="#7-2-4-证明公开密钥正确性的证书" class="headerlink" title="7.2.4 证明公开密钥正确性的证书"></a>7.2.4 证明公开密钥正确性的证书</h4><p>遗憾的是，公开密钥加密方式还是存在一些问题的。那就是<strong>无法证明公开密钥本身就是货真价实的公开密钥</strong>。</p>
+<p>为了解决上述问题，可以使用由<strong>数字证书认证机构（CA，Certificate Authority）</strong>和其相关机关颁发的<strong>公开密钥证书</strong>。</p>
+<blockquote>
+<p>认证机关的公开密钥必须安全地转交给客户端，然而如何安全转交是一件很困难的事。因此，多数浏览器开发商发布版本时，会事先在内部植入常用认证机关的公开密钥。</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/10/23/http-notes-part-4/199912474.jpg" alt="使用公开密钥证书证明密钥真实性" title>
+                </div>
+                <div class="image-caption">使用公开密钥证书证明密钥真实性</div>
+            </figure>
+<p><strong><em>可证明组织真实性的 EV SSL 证书</em></strong></p>
+<p>证书的一个作用是用来证明作为通信一方的服务器是否规范，另外一个作用是<strong>可确认对方服务器背后运营的企业是否真实存在</strong>。拥有该特性的证书就是 <strong>EV SSL 证书（Extended Validation SSL Certificate）</strong>。</p>
+<p>EV SSL 证书是基于国际标准的认证指导方针颁发的证书。其严格规定了对运营组织是否真实的确认方针，因此，通过认证的 Web 网站能够获得更高的认可度。</p>
+<p><strong><em>用以确认客户端的客户端证书</em></strong></p>
+<p>HTTPS 中还可以使用客户端证书。以客户端证书进行客户端认证，证明服务器正在通信的对方始终是预料之内的客户端，其作用跟服务器证书如出一辙。</p>
+<p>但客户端证书仍存在几处问题点。其中的一个问题点是<strong>证书的获取及发布</strong>。</p>
+<blockquote>
+<p>现状是，安全性极高的认证机构可颁发客户端证书但仅用于特殊用途的业务。例如网上银行就采用了客户端证书，在登录网银时不仅要求用户确认输入 ID 和密码，还会要求用户的客户端证书，以确认用户是否从特定的终端访问网银。</p>
+</blockquote>
+<h4 id="7-2-5-HTTPS-的安全通信机制"><a href="#7-2-5-HTTPS-的安全通信机制" class="headerlink" title="7.2.5 HTTPS 的安全通信机制"></a>7.2.5 HTTPS 的安全通信机制</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/10/23/http-notes-part-4/199913514.jpg" alt="HTTPS的通信步骤" title>
+                </div>
+                <div class="image-caption">HTTPS的通信步骤</div>
+            </figure>
+<ul>
+<li><strong>步骤 1</strong>：客户端通过发送<code>Client Hello</code>报文开始 SSL 通信。报文中包含<strong>客户端支持的 SSL 的指定版本、加密组件（Cipher Suite）列表</strong>（所使用的<strong>加密算法</strong>及<strong>密钥长度</strong>等）。</li>
+<li><strong>步骤 2</strong>：服务器可进行 SSL 通信时，会以<code>Server Hello</code>报文作为应答。和客户端一样，在报文中包含 <strong>SSL 版本以及加密组件</strong>。服务器的加密组件内容是从接收到的客户端加密组件内筛选出来的。</li>
+<li><strong>步骤 3</strong>：之后服务器发送<code>Certificate</code>报文。报文中包含<strong>公开密钥证书</strong>。</li>
+<li><strong>步骤 4</strong>：最后服务器发送<code>Server Hello Done</code>报文通知客户端，最初阶段的 SSL 握手协商部分结束。</li>
+<li><strong>步骤 5</strong>：SSL 第一次握手结束之后，客户端以<code>Client Key Exchange</code>报文作为回应。报文中包含通信加密中使用的一种被称为 Pre-master secret 的随机密码串。<strong>该报文已用步骤 3 中的公开密钥进行加密</strong>。</li>
+<li><strong>步骤 6</strong>：接着客户端继续发送<code>Change Cipher Spec</code>报文。该报文会提示服务器，在此报文之后的通信会采用 Pre-master secret 密钥加密。</li>
+<li><strong>步骤 7</strong>：客户端发送<code>Finished</code>报文。该报文包含<strong>连接至今全部报文的整体校验值</strong>。这次握手协商是否能够成功，要以<strong>服务器是否能够正确解密该报文</strong>作为判定标准。</li>
+<li><strong>步骤 8</strong>：服务器同样发送<code>Change Cipher Spec</code>报文。</li>
+<li><strong>步骤 9</strong>：服务器同样发送<code>Finished</code>报文。</li>
+<li><strong>步骤 10</strong>： 服务器和客户端的<code>Finished</code>报文交换完毕之后，SSL 连接就算建立完成。当然，通信会受到 SSL 的保护。从此处<strong>开始进行应用层协议的通信，即发送 HTTP 请求</strong>。</li>
+<li><strong>步骤 11</strong>：应用层协议通信，即发送 HTTP 响应。</li>
+<li><strong>步骤 12</strong>：最后由客户端断开连接。断开连接时，发送<code>close_notify</code>报文，这步之后再发送<code>TCP FIN</code>报文来关闭与 TCP 的通信。</li>
+</ul>
+<blockquote>
+<p>在以上流程中，<strong>应用层发送数据</strong>时会附加一种叫做 <strong>MAC（Message Authentication Code）</strong>的<strong>报文摘要</strong>。MAC 能够<strong>查知报文是否遭到篡改</strong>，从而保护报文的完整性。</p>
+</blockquote>
+<p>下面是对整个流程的图解。图中说明了从仅使用服务器端的公开密钥证书（服务器证书）建立 HTTPS 通信的整个过程。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/10/23/http-notes-part-4/199914043.jpg" alt="HTTPS通信过程" title>
+                </div>
+                <div class="image-caption">HTTPS通信过程</div>
+            </figure>
+<p><strong><em>SSL 和 TLS</em></strong></p>
+<p>HTTPS 使用 <strong>SSL（Secure Socket Layer）</strong> 和 <strong>TLS（Transport Layer Security）</strong>这两个协议。</p>
+<p>SSL 技术最初是由浏览器开发商网景通信公司（Netscape）率先倡导的，开发过 SSL3.0 之前的版本。目前主导权已转移到 IETF（Internet Engineering Task Force，Internet 工程任务组）的手中。</p>
+<p>IETF 以 SSL3.0 为基准，后又制定了 TLS1.0、TLS1.1 和 TLS1.2。<strong>TSL 是以 SSL 为原型开发的协议</strong>，有时会统一称该协议为 SSL。<strong>当前主流的版本是 SSL3.0 和 TLS1.0</strong>。</p>
+<p>由于 SSL1.0 协议在设计之初被发现出了问题，就没有实际投入使用。SSL2.0 也被发现存在问题，所以很多浏览器直接废除了该协议版本。</p>
+<p><strong><em>SSL 速度慢吗</em></strong></p>
+<p>HTTPS 也存在一些问题，那就是当使用 SSL 时，它的<strong>处理速度会变慢</strong>。</p>
+<p>SSL 的慢分两种：</p>
+<ul>
+<li>通信慢</li>
+</ul>
+<blockquote>
+<p>和使用 HTTP 相比，网络负载可能会变慢 2 到 100 倍。除去和 TCP 连接、发送 HTTP 请求 • 响应以外，还必须进行 SSL 通信，因此<strong>整体上处理通信量不可避免会增加</strong>。</p>
+</blockquote>
+<ul>
+<li>由于大量消耗 CPU 及内存等资源，导致处理速度变慢</li>
+</ul>
+<blockquote>
+<p>SSL 必须进行加密处理。在服务器和客户端都需要进行加密和解密的运算处理。因此从结果上讲，比起 HTTP 会更多地<strong>消耗服务器和客户端的硬件资源，导致负载增加</strong>。</p>
+</blockquote>
+<p><strong><em>为什么不一直使用 HTTPS</em></strong></p>
+<p>与纯文本通信相比，<strong>加密通信会消耗更多的 CPU 及内存资源</strong>。如果每次通信都加密，会消耗相当多的资源，平摊到一台计算机上时，能够处理的请求数量必定也会随之减少。</p>
+<p>因此，如果是<strong>非敏感信息</strong>则使用 <strong>HTTP 通信</strong>，只有在<strong>包含个人信息等敏感数据</strong>时，才<strong>利用 HTTPS 加密通信</strong>。</p>
+<h2 id="第-8-章-确认访问用户身份的认证"><a href="#第-8-章-确认访问用户身份的认证" class="headerlink" title="第 8 章 确认访问用户身份的认证"></a>第 8 章 确认访问用户身份的认证</h2><p>某些 Web 页面只想让特定的人浏览，或者干脆仅本人可见。为达到这个目标，必不可少的就是<strong>认证功能</strong>。</p>
+<h3 id="8-1-何为认证"><a href="#8-1-何为认证" class="headerlink" title="8.1 何为认证"></a>8.1 何为认证</h3><p>计算机本身无法判断坐在显示器前的使用者的身份。为确认正在访问服务器的对方是否真的具有访问系统的权限，就需要核对<strong>登陆者本人才知道、才会有的信息</strong>。</p>
+<p>核对的信息通常是指以下这些：</p>
+<ul>
+<li><strong>密码</strong>：只有本人才会知道的字符串信息</li>
+<li><strong>动态令牌</strong>：仅限本人持有的设备内显示的一次性密码</li>
+<li><strong>数字证书</strong>：仅限本人（终端）持有的信息</li>
+<li><strong>生物认证</strong>：指纹和虹膜等本人的生理信息</li>
+<li><strong>IC 卡等</strong>：仅限本人持有的信息</li>
+</ul>
+<p><strong><em>HTTP 使用的认证方式</em></strong></p>
+<p>HTTP/1.1 使用的认证方式如下所示：</p>
+<ul>
+<li><strong>BASIC 认证</strong>（基本认证）</li>
+<li><strong>DIGEST 认证</strong>（摘要认证）</li>
+<li><strong>SSL 客户端认证</strong></li>
+<li><strong>FormBase 认证</strong>（基于表单认证）</li>
+</ul>
+<h3 id="8-2-BASIC-认证"><a href="#8-2-BASIC-认证" class="headerlink" title="8.2 BASIC 认证"></a>8.2 BASIC 认证</h3><p>BASIC 认证（基本认证）是<strong>从 HTTP/1.0 就定义的认证方式</strong>。即便是现在仍有一部分的网站会使用这种认证方式。是 <strong>Web 服务器与通信客户端之间进行的认证方式</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/10/23/http-notes-part-4/199916081.jpg" alt="BASIC认证概要" title>
+                </div>
+                <div class="image-caption">BASIC认证概要</div>
+            </figure>
+<ul>
+<li><strong>步骤 1</strong>：当请求的资源需要 BASIC 认证时，服务器会随状态码<code>401 Authorization Required</code>，返回带<code>WWW-Authenticate</code>首部字段的响应。该字段内包含认证的方式（BASIC） 及<code>Request-URI</code>安全域字符串（realm）。</li>
+<li><strong>步骤 2</strong>：接收到状态码 401 的客户端为了通过 BASIC 认证，需要将<strong>用户 ID 及密码</strong>发送给服务器。发送的字符串内容是由用户 ID 和密码构成，两者中间以<code>:</code>连接后，再经过 <strong>Base64 编码</strong>处理。</li>
+<li><strong>步骤 3</strong>：接收到包含首部字段<code>Authorization</code>请求的服务器，会对认证信息的正确性进行验证。如验证通过，则返回一条包含<code>Request-URI</code>资源的响应。</li>
+</ul>
+<p>BASIC 认证虽然采用 Base64 编码方式，但这不是加密处理。<strong>不需要任何附加信息即可对其解码</strong>。</p>
+<p>另外，除此之外想再进行一次 BASIC 认证时，一般的浏览器却<strong>无法实现认证注销操作</strong>，这也是问题之一。</p>
+<p>BASIC 认证使用上不够便捷灵活，且达不到多数 Web 网站期望的安全性等级，因此它并不常用。</p>
+<h3 id="8-3-DIGEST-认证"><a href="#8-3-DIGEST-认证" class="headerlink" title="8.3 DIGEST 认证"></a>8.3 DIGEST 认证</h3><p>为弥补 BASIC 认证存在的弱点，<strong>从 HTTP/1.1 起就有了 DIGEST 认证</strong>。 DIGEST 认证同样使用<strong>质询 / 响应</strong>的方式（challenge/response），但不会像 BASIC 认证那样直接发送明文密码。</p>
+<blockquote>
+<p>所谓质询响应方式是指，一开始一方会先<strong>发送认证要求</strong>给另一方，接着使用从另一方那接收到的<strong>质询码</strong>计算生成<strong>响应码</strong>。最后将响应码返回给对方进行认证的方式。</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/10/23/http-notes-part-4/199917318.jpg" alt="DIGEST认证概要" title>
+                </div>
+                <div class="image-caption">DIGEST认证概要</div>
+            </figure>
+<ul>
+<li><strong>步骤 1</strong>：请求需认证的资源时，服务器会随着状态码<code>401 Authorization Required</code>，返回带<code>WWW-Authenticate</code>首部字段的响应。该字段内包含质问响应方式认证所需的<strong>临时质询码（随机数，nonce）</strong>。</li>
+<li><strong>步骤 2</strong>：接收到 401 状态码的客户端，返回的响应中包含 DIGEST 认证必须的首部字段<code>Authorization</code>信息。首部字段<code>Authorization</code>内必须包含<code>username</code>、<code>realm</code>、<code>nonce</code>、<code>uri</code> 和 <code>response</code> 的字段信息。其中，<code>realm</code>和<code>nonce</code>就是之前从服务器接收到的响应中的字段。</li>
+<li><strong>步骤 3</strong>： 接收到包含首部字段<code>Authorization</code>请求的服务器，会<strong>确认认证信息的正确性</strong>。认证通过后则返回包含<code>Request-URI</code>资源的响应，并且会在首部字段<code>Authentication-Info</code>写入一些认证成功的相关信息。</li>
+</ul>
+<p>DIGEST 认证提供了高于 BASIC 认证的安全等级，但是和 HTTPS 的客户端认证相比仍旧很弱。DIGEST 认证提供<strong>防止密码被窃听</strong>的保护机制，但<strong>并不存在防止用户伪装的保护机制</strong>。</p>
+<blockquote>
+<p>DIGEST 认证和 BASIC 认证一样，使用上不那么便捷灵活，且仍达不到多数 Web 网站对高度安全等级的追求标准。因此它的适用范围也有所受限。</p>
+</blockquote>
+<h3 id="8-4-SSL-客户端认证"><a href="#8-4-SSL-客户端认证" class="headerlink" title="8.4 SSL 客户端认证"></a>8.4 SSL 客户端认证</h3><p>SSL 客户端认证是<strong>借由 HTTPS 的客户端证书完成认证</strong>的方式。凭借客户端证书认证，<strong>服务器可确认访问是否来自已登录的客户端</strong>。</p>
+<h4 id="8-4-1-SSL-客户端认证的认证步骤"><a href="#8-4-1-SSL-客户端认证的认证步骤" class="headerlink" title="8.4.1 SSL 客户端认证的认证步骤"></a>8.4.1 SSL 客户端认证的认证步骤</h4><p>为达到 SSL 客户端认证的目的，需要事先将客户端证书分发给客户端，且客户端必须安装此证书。</p>
+<ul>
+<li><strong>步骤 1</strong>：接收到需要认证资源的请求，服务器会发送 <code>Certificate Request</code>报文，要求客户端提供客户端证书。</li>
+<li><strong>步骤 2</strong>：用户选择将发送的客户端证书后，客户端会把客户端证书信息以<code>Client Certificate</code>报文方式发送给服务器。</li>
+<li><strong>步骤 3</strong>：服务器验证客户端证书验证通过后方可领取证书内客户端的公开密钥，然后开始 HTTPS 加密通信。</li>
+</ul>
+<h4 id="8-4-2-SSL-客户端认证采用双因素认证"><a href="#8-4-2-SSL-客户端认证采用双因素认证" class="headerlink" title="8.4.2 SSL 客户端认证采用双因素认证"></a>8.4.2 SSL 客户端认证采用双因素认证</h4><p>在多数情况下，SSL 客户端认证不会仅依靠证书完成认证，<strong>一般会和基于表单认证组合形成一种双因素认证（Two-factor authentication）</strong>来使用。</p>
+<p>所谓双因素认证就是指，认证过程中不仅需要密码这一个因素，还需要申请认证者提供其他持有信息，从而作为另一个因素，与其组合使用的认证方式。</p>
+<h3 id="8-5-基于表单认证"><a href="#8-5-基于表单认证" class="headerlink" title="8.5 基于表单认证"></a>8.5 基于表单认证</h3><p>基于表单的认证方法并不是在 HTTP 协议中定义的。客户端会向服务器上的 Web 应用程序<strong>发送登录信息（Credential），按登录信息的验证结果认证</strong>。</p>
+<h4 id="8-5-1-认证多半为基于表单认证"><a href="#8-5-1-认证多半为基于表单认证" class="headerlink" title="8.5.1 认证多半为基于表单认证"></a>8.5.1 认证多半为基于表单认证</h4><p>由于使用上的便利性及安全性问题，HTTP 协议标准提供的 BASIC 认证和 DIGEST 认证几乎不怎么使用。另外，SSL 客户端认证虽然具有高度的安全等级，但因为导入及维持费用等问题，还尚未普及。</p>
+<p><strong>不具备共同标准规范的表单认证，在每个 Web 网站上都会有各不相同的实现方式</strong>。如果是全面考虑过安全性能而实现的表单认证，那么就能够具备高度的安全等级。但在表单认证的实现中存在问题的 Web 网站也是屡见不鲜。</p>
+<h4 id="8-5-2-Session-管理及-Cookie-应用"><a href="#8-5-2-Session-管理及-Cookie-应用" class="headerlink" title="8.5.2 Session 管理及 Cookie 应用"></a>8.5.2 Session 管理及 Cookie 应用</h4><p>基于表单认证的标准规范尚未有定论，一般会<strong>使用 Cookie 来管理 Session（会话）</strong>。</p>
+<p>基于表单认证本身是通过服务器端的 Web 应用，<strong>将客户端发送过来的用户 ID 和密码与之前登录过的信息做匹配</strong>来进行认证的。</p>
+<p>但鉴于 HTTP 是无状态协议，之前已认证成功的用户状态无法通过协议层面保存下来。即，无法实现状态管理，因此即使当该用户下一次继续访问，也无法区分他与其他的用户。于是我们会使用 Cookie 来管理 Session，以<strong>弥补 HTTP 协议中不存在的状态管理功能</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/10/23/http-notes-part-4/199918422.jpg" alt="Session管理和Cookie状态管理" title>
+                </div>
+                <div class="image-caption">Session管理和Cookie状态管理</div>
+            </figure>
+<ul>
+<li><strong>步骤 1</strong>：客户端把用户 ID 和密码等登录信息放入报文的实体部分，通常是以 POST 方法把请求发送给服务器。而这时，会使用 HTTPS 通信来进行 HTML 表单画面的显示和用户输入数据的发送。</li>
+<li><strong>步骤 2</strong>：服务器会发放用以识别用户的<code>Session ID</code>。通过验证从客户端发送过来的登录信息进行身份认证，然后<strong>把用户的认证状态与<code>Session ID</code>绑定后记录在服务器端</strong>。向客户端返回响应时，会在首部字段<code>Set-Cookie</code>内写入<code>Session ID</code>。</li>
+<li><strong>步骤 3</strong>：客户端接收到从服务器端发来的<code>Session ID</code>后，会<strong>将其作为 Cookie 保存在本地</strong>。下次向服务器发送请求时，浏览器会自动发送 Cookie，所以<code>Session ID</code>也随之发送到服务器。服务器端<strong>可通过验证接收到的<code>Session ID</code>识别用户和其认证状态</strong>。</li>
+</ul>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/03/18/understanding-linux-kernel/">Linux 内核笔记 1：绪论</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-6/">Java 笔记 6：异常、断言和日志</a></li><li><a href="https://abelsu7.top/2019/03/11/core-java-notes-5/">Java 笔记 5：集合</a></li><li><a href="https://abelsu7.top/2019/02/15/docker-5mins-notes-5/">5 分钟 Docker 笔记 5：存储</a></li><li><a href="https://wiki.hushhw.cn/posts/d30e9e5e.html">HTTPS协议 & TLS协议</a></li><li><a href="http://www.hui-wang.info/2018/02/04/%E5%BD%B1%E5%93%8D%E5%8A%9B/">影响力</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.380Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/10/23/http-notes-part-4/" target="_blank" rel="external">https://abelsu7.top/2018/10/23/http-notes-part-4/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTPS/">HTTPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSL/">SSL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TLS/">TLS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书/">读书</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/10/23/http-notes-part-4/&title=《HTTP 笔记 4：HTTPS 及用户身份认证》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/10/23/http-notes-part-4/&title=《HTTP 笔记 4：HTTPS 及用户身份认证》 — Keep Coding&source=
+                
+                    
+                    
+                
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/10/23/http-notes-part-4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《HTTP 笔记 4：HTTPS 及用户身份认证》 — Keep Coding&url=https://abelsu7.top/2018/10/23/http-notes-part-4/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/10/23/http-notes-part-4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/10/24/c-notes/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">《The C Programming Language》读书笔记</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/10/22/http-notes-part-3/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">HTTP 笔记 3：Web 服务器及 HTTP 首部</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/10/23/http-notes-part-4/&title=《HTTP 笔记 4：HTTPS 及用户身份认证》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/10/23/http-notes-part-4/&title=《HTTP 笔记 4：HTTPS 及用户身份认证》 — Keep Coding&source=
+                
+                    
+                    
+                
+..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/10/23/http-notes-part-4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《HTTP 笔记 4：HTTPS 及用户身份认证》 — Keep Coding&url=https://abelsu7.top/2018/10/23/http-notes-part-4/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/10/23/http-notes-part-4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMElEQVR42u3aQW7DMAwF0dz/0i7QXWHEnk8qSE2NVoHTOnxaEJTI1wuv43eln8/r/JfnX3n37YIlQ4aMxzKOy5WG+y6gdyFePyGxyZAhYx8GSbLodeF7rhMuiU2GDBkyauUgecKfy5AhQ0aacNMj63UZyrdJhgwZMsghlh84+ftrGyRDhozdGJ9rDPQ//4v+hgwZMr7KOMKVlo+fS81/3iBDhozRDNJE5M95kZcmdJSOZciQMZTBG5Crxi9qY2E3ccqQIWMDBh96IOkvvT6rbasMGTL2YZBQakfNWhO0c8EnQ4aMHRi8NdgfF+PHWs6TIUPGVAYfngh2BRSXpNwMClMZMmSMZvCfrLUQeBO0U4zKkCFjB0atEOzPa61qmsqQIWM2gxdntYu2FJBeusmQIWMHRpoceSOTHIzTdI/eIEOGjKGMNKxVV2xpDDdPZMiQMZrBGwPpqERaCKbxFP9NhgwZj2J0SrRaQckPq8W9lyFDxjhGeqVVu1DrF3+oeJUhQ8ZQRqehmCbWWnJHscmQIWMDBkltPH/3j8FxQ1SGDBmjGeR1vCWQNil5CkaHWxkyZAxlHOHqNCY5lYyRyZAhYx9Gmuz4EBj5mbTNWWwYyJAhYwSDJ9m0HOyPlwX7LUOGjA0YaRugdgBeO/CBhsNkyJCxGYO3GNME3RkjkyFDhoxVB1fyLQ/6pr8hQ4aMoQzeDEgHW2tX//FmyZAhYzSj1hgg12Rrx85qIx0yZMh4OOMHQnNgvg6FD8oAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

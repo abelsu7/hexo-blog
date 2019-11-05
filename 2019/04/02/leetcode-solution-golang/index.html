@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Leetcode 题解 in Golang（不定期更新） | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="算法,Go,Leetcode,SQL">
+    <meta name="description" content="Leetcode、牛客刷题之旅，不定期更新中">
+<meta name="keywords" content="算法,Go,Leetcode,SQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leetcode 题解 in Golang（不定期更新）">
+<meta property="og:url" content="https://abelsu7.top/2019/04/02/leetcode-solution-golang/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="Leetcode、牛客刷题之旅，不定期更新中">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/04/02/leetcode-solution-golang/cover.jpg">
+<meta property="og:image" content="https://abelsu7.top/2019/04/02/leetcode-solution-golang/niuke.png">
+<meta property="og:image" content="https://abelsu7.top/2019/04/02/leetcode-solution-golang/niuke.png">
+<meta property="og:image" content="https://abelsu7.top/2019/04/02/leetcode-solution-golang/niuke.png">
+<meta property="og:image" content="https://abelsu7.top/2019/04/02/leetcode-solution-golang/niuke.png">
+<meta property="og:image" content="https://abelsu7.top/2019/04/02/leetcode-solution-golang/niuke.png">
+<meta property="og:image" content="https://abelsu7.top/2019/04/02/leetcode-solution-golang/niuke.png">
+<meta property="og:image" content="https://abelsu7.top/2019/04/02/leetcode-solution-golang/niuke.png">
+<meta property="og:image" content="https://abelsu7.top/2019/04/02/leetcode-solution-golang/leetcode.png">
+<meta property="og:image" content="https://abelsu7.top/2019/04/02/leetcode-solution-golang/acm.ico">
+<meta property="og:image" content="https://abelsu7.top/2019/04/02/leetcode-solution-golang/leetcode.png">
+<meta property="og:updated_time" content="2019-10-15T09:55:45.940Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Leetcode 题解 in Golang（不定期更新）">
+<meta name="twitter:description" content="Leetcode、牛客刷题之旅，不定期更新中">
+<meta name="twitter:image" content="https://abelsu7.top/2019/04/02/leetcode-solution-golang/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Leetcode 题解 in Golang（不定期更新）</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Leetcode 题解 in Golang（不定期更新）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-04-02T09:30:44.000Z" itemprop="datePublished" class="page-time">
+  2019-04-02
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#剑指-Offer"><span class="post-toc-text">剑指 Offer</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-二维数组中的查找"><span class="post-toc-text">1. 二维数组中的查找</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-数组中重复的数字"><span class="post-toc-text">2. 数组中重复的数字</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-构建乘积数组"><span class="post-toc-text">3. 构建乘积数组</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-替换空格"><span class="post-toc-text">4. 替换空格</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#22-斐波那契数列"><span class="post-toc-text">22. 斐波那契数列</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#26-二进制中-1-的个数"><span class="post-toc-text">26. 二进制中 1 的个数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#28-调整数组顺序使奇数位于偶数前面"><span class="post-toc-text">28. 调整数组顺序使奇数位于偶数前面</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Leetcode"><span class="post-toc-text">Leetcode</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#179-最大数"><span class="post-toc-text">179. 最大数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#题目描述"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#测试用例"><span class="post-toc-text">测试用例</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Golang-题解"><span class="post-toc-text">Golang 题解</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#本地测试"><span class="post-toc-text">本地测试</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#引申一下"><span class="post-toc-text">引申一下</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#赛码"><span class="post-toc-text">赛码</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#分数序列和-百度"><span class="post-toc-text">分数序列和 - 百度</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SQL"><span class="post-toc-text">SQL</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#175-组合两个表"><span class="post-toc-text">175. 组合两个表</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#题目描述-1"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#SQL-题解"><span class="post-toc-text">SQL 题解</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-leetcode-solution-golang"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Leetcode 题解 in Golang（不定期更新）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-04-02 17:30:44" datetime="2019-04-02T09:30:44.000Z"  itemprop="datePublished">2019-04-02</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>Leetcode、牛客刷题之旅，不定期更新中</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/04/02/leetcode-solution-golang/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#剑指-Offer">剑指 Offer</a><ul>
+<li><a href="#1-二维数组中的查找">1. 二维数组中的查找</a></li>
+<li><a href="#2-数组中重复的数字">2. 数组中重复的数字</a></li>
+<li><a href="#3-构建乘积数组">3. 构建乘积数组</a></li>
+<li><a href="#4-替换空格">4. 替换空格</a></li>
+<li><a href="#22-斐波那契数列">22. 斐波那契数列</a></li>
+<li><a href="#26-二进制中-1-的个数">26. 二进制中 1 的个数</a></li>
+<li><a href="#28-调整数组顺序使奇数位于偶数前面">28. 调整数组顺序使奇数位于偶数前面</a></li>
+</ul>
+</li>
+<li><a href="#Leetcode">Leetcode</a><ul>
+<li><a href="#179-最大数">179. 最大数</a></li>
+</ul>
+</li>
+<li><a href="#赛码">赛码</a><ul>
+<li><a href="#分数序列和-百度">分数序列和 - 百度</a></li>
+</ul>
+</li>
+<li><a href="#SQL">SQL</a><ul>
+<li><a href="#175-组合两个表">175. 组合两个表</a></li>
+</ul>
+</li>
+<li><a href="#参考文章">参考文章</a></li>
+</ul>
+<h3 id="剑指-Offer"><a href="#剑指-Offer" class="headerlink" title="剑指 Offer"></a>剑指 Offer</h3><h4 id="1-二维数组中的查找"><a href="#1-二维数组中的查找" class="headerlink" title="1. 二维数组中的查找"></a>1. 二维数组中的查找</h4><blockquote>
+<p><strong>原题传送门</strong>👉<img src="/2019/04/02/leetcode-solution-golang/niuke.png" width="16"><a href="https://www.nowcoder.com/practice/abc3fe2ce8e146608e868a70efebf62e?tpId=13&amp;tqId=11154&amp;tPage=1&amp;rp=1&amp;ru=/ta/coding-interviews&amp;qru=/ta/coding-interviews/question-ranking" target="_blank" rel="noopener">二维数组中的查找 | 牛客</a></p>
+</blockquote>
+<pre><code class="lang-go">func find(target int, array [][]int) bool {
+    if array == nil || len(array) == 0 || len(array[0]) == 0 {
+        return false
+    }
+    rows := len(array)
+    cols := len(array[0])
+    // 从右上角开始
+    curRow := 0
+    curCol := cols - 1
+    for curRow &lt;= rows-1 &amp;&amp; curCol &gt;= 0 {
+        switch {
+        case target == array[curRow][curCol]:
+            return true
+        case target &lt; array[curRow][curCol]:
+            curCol--
+        case target &gt; array[curRow][curCol]:
+            curRow++
+        default:
+            break
+        }
+    }
+    return false
+}
+</code></pre>
+<h4 id="2-数组中重复的数字"><a href="#2-数组中重复的数字" class="headerlink" title="2. 数组中重复的数字"></a>2. 数组中重复的数字</h4><blockquote>
+<p><strong>原题传送门</strong>👉<img src="/2019/04/02/leetcode-solution-golang/niuke.png" width="16"><a href="https://www.nowcoder.com/practice/623a5ac0ea5b4e5f95552655361ae0a8?tpId=13&amp;tqId=11203&amp;tPage=3&amp;rp=1&amp;ru=%2Fta%2Fcoding-interviews&amp;qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking" target="_blank" rel="noopener">数组中重复的数字 | 牛客</a></p>
+</blockquote>
+<pre><code class="lang-go">// Parameters:
+//    numbers:     an array of integers
+//    length:      the length of array numbers
+//    duplication: (Output) the duplicated number in the array number,length of duplication array is 1,so using duplication[0] = ? in implementation;
+//                  Here duplication like pointor in C/C++, duplication[0] equal *duplication in C/C++
+//    这里要特别注意~返回任意重复的一个，赋值duplication[0]
+// Return value:       true if the input is valid, and there are some duplications in the array number
+//                     otherwise false
+func duplicate(numbers []int, length int, duplication []int) bool {
+    if numbers == nil || length &lt;= 0 {
+        return false
+    }
+    for i := 0; i &lt; length; i++ {
+        for numbers[i] != i {
+            if numbers[i] == numbers[numbers[i]] {
+                duplication[0] = numbers[i]
+                return true
+            }
+            numbers[i], numbers[numbers[i]] = numbers[numbers[i]], numbers[i]
+        }
+    }
+    return false
+}
+</code></pre>
+<h4 id="3-构建乘积数组"><a href="#3-构建乘积数组" class="headerlink" title="3. 构建乘积数组"></a>3. 构建乘积数组</h4><blockquote>
+<p><strong>原题传送门</strong>👉<img src="/2019/04/02/leetcode-solution-golang/niuke.png" width="16"><a href="https://www.nowcoder.com/practice/94a4d381a68b47b7a8bed86f2975db46?tpId=13&amp;tqId=11204&amp;tPage=3&amp;rp=1&amp;ru=%2Fta%2Fcoding-interviews&amp;qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking" target="_blank" rel="noopener">构建乘积数组 | 牛客</a></p>
+</blockquote>
+<pre><code class="lang-go">func multiply(A []int) []int {
+    if A == nil || len(A) == 0 {
+        return []int{}
+    }
+    n := len(A)
+    B := make([]int, n)
+    B[0] = 1
+    for i := 1; i &lt; n; i++ { // 计算下三角连乘
+        B[i] = B[i-1] * A[i-1]
+    }
+    product := 1
+    for j := n - 2; j &gt;= 0; j-- { // 计算上三角连乘
+        product *= A[j+1]
+        B[j] *= product
+    }
+    return B
+}
+</code></pre>
+<h4 id="4-替换空格"><a href="#4-替换空格" class="headerlink" title="4. 替换空格"></a>4. 替换空格</h4><blockquote>
+<p><strong>原题传送门</strong>👉<img src="/2019/04/02/leetcode-solution-golang/niuke.png" width="16"><a href="https://www.nowcoder.com/practice/4060ac7e3e404ad1a894ef3e17650423?tpId=13&amp;tqId=11155&amp;tPage=1&amp;rp=1&amp;ru=%2Fta%2Fcoding-interviews&amp;qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking" target="_blank" rel="noopener">替换空格 | 牛客</a></p>
+</blockquote>
+<pre><code class="lang-go">func replaceSpace(str string) string {
+    return strings.Replace(str, &quot; &quot;, &quot;%20&quot;, -1)
+}
+</code></pre>
+<h4 id="22-斐波那契数列"><a href="#22-斐波那契数列" class="headerlink" title="22. 斐波那契数列"></a>22. 斐波那契数列</h4><blockquote>
+<p><strong>原题传送门</strong>👉<img src="/2019/04/02/leetcode-solution-golang/niuke.png" width="16"><a href="https://www.nowcoder.com/practice/c6c7742f5ba7442aada113136ddea0c3?tpId=13&amp;tqId=11160&amp;tPage=1&amp;rp=1&amp;ru=%2Fta%2Fcoding-interviews&amp;qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking" target="_blank" rel="noopener">斐波那契数列 | 牛客</a></p>
+</blockquote>
+<pre><code class="lang-go">func Fibonacci(n int) int {
+    if n == 0 || n == 1 {
+        return n
+    }
+    fn1, fn2, cur := 0, 1, 0
+    for i := 2; i &lt;= n; i++ {
+        cur = fn1 + fn2
+        fn1, fn2 = fn2, cur
+    }
+    return cur
+}
+</code></pre>
+<h4 id="26-二进制中-1-的个数"><a href="#26-二进制中-1-的个数" class="headerlink" title="26. 二进制中 1 的个数"></a>26. 二进制中 1 的个数</h4><blockquote>
+<p><strong>原题传送门</strong>👉<img src="/2019/04/02/leetcode-solution-golang/niuke.png" width="16"><a href="https://www.nowcoder.com/practice/8ee967e43c2c4ec193b040ea7fbb10b8?tpId=13&amp;tqId=11164&amp;tPage=1&amp;rp=1&amp;ru=%2Fta%2Fcoding-interviews&amp;qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking" target="_blank" rel="noopener">二进制中 1 的个数 | 牛客</a></p>
+</blockquote>
+<pre><code class="lang-go">func numberOf1(n int) int {
+    num := 0
+    for n != 0 {
+        num++
+        n &amp;= n - 1
+    }
+    return num
+}
+</code></pre>
+<h4 id="28-调整数组顺序使奇数位于偶数前面"><a href="#28-调整数组顺序使奇数位于偶数前面" class="headerlink" title="28. 调整数组顺序使奇数位于偶数前面"></a>28. 调整数组顺序使奇数位于偶数前面</h4><blockquote>
+<p><strong>原题传送门</strong>👉<img src="/2019/04/02/leetcode-solution-golang/niuke.png" width="16"><a href="https://www.nowcoder.com/practice/beb5aa231adc45b2a5dcc5b62c93f593?tpId=13&amp;tqId=11166&amp;tPage=1&amp;rp=1&amp;ru=%2Fta%2Fcoding-interviews&amp;qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking" target="_blank" rel="noopener">调整数组顺序使奇数位于偶数前面 | 牛客</a></p>
+</blockquote>
+<pre><code class="lang-go">func reOrderArray(nums []int) {
+    oddNum := 0
+    for _, val := range nums {
+        if val&amp;0x1 == 1 {
+            oddNum++
+        }
+    }
+    copyNums := make([]int, len(nums))
+    copy(copyNums, nums)
+    i, j := 0, oddNum
+    for _, val := range copyNums {
+        if val&amp;0x1 == 1 {
+            nums[i] = val
+            i++
+        } else {
+            nums[j] = val
+            j++
+        }
+    }
+}
+</code></pre>
+<h3 id="Leetcode"><a href="#Leetcode" class="headerlink" title="Leetcode"></a>Leetcode</h3><h4 id="179-最大数"><a href="#179-最大数" class="headerlink" title="179. 最大数"></a>179. 最大数</h4><blockquote>
+<p><strong>原题传送门</strong>👉<img src="/2019/04/02/leetcode-solution-golang/leetcode.png" width="16"><a href="https://leetcode-cn.com/problems/largest-number/submissions/" target="_blank" rel="noopener">179. 最大数 | Leetcode</a></p>
+</blockquote>
+<h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>给定一组<strong>非负整数</strong>，<strong>重新排列它们的顺序</strong>使之组成一个<strong>最大的整数</strong>。</p>
+<h5 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h5><blockquote>
+<p><strong>输出结果可能非常大</strong>，所以你需要<strong>返回一个字符串</strong>而不是整数</p>
+</blockquote>
+<pre><code class="lang-go">输入: [10, 2]
+输出: 210
+
+输入: [3, 30, 34, 5, 9]
+输出: 9534330
+</code></pre>
+<h5 id="Golang-题解"><a href="#Golang-题解" class="headerlink" title="Golang 题解"></a>Golang 题解</h5><blockquote>
+<p>需要注意<strong>输入全为</strong><code>0</code>的特殊情况</p>
+</blockquote>
+<pre><code class="lang-go">func largestNumber(nums []int) string {
+    length := len(nums)
+    if length &lt; 1 {
+        return &quot;0&quot;
+    }
+    strs := make([]string, length)
+    for i := 0; i &lt; length; i++ {
+        strs[i] = strconv.Itoa(nums[i])
+    }
+    sort.Slice(strs, func(i, j int) bool {
+        return (strs[i] + strs[j]) &gt; (strs[j] + strs[i])
+    })
+    numsStr := strings.Join(strs, &quot;&quot;)
+    numsStr = strings.TrimLeft(numsStr, &quot;0&quot;)
+    if numsStr == &quot;&quot; {
+        return &quot;0&quot;
+    }
+    return numsStr
+}
+</code></pre>
+<h5 id="本地测试"><a href="#本地测试" class="headerlink" title="本地测试"></a>本地测试</h5><pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;sort&quot;
+    &quot;strconv&quot;
+    &quot;strings&quot;
+)
+
+func main() {
+    strings1 := []int{3, 30, 34, 5, 9}
+    strings2 := []int{10, 2}
+    strings3 := []int{0, 0, 0, 0}
+    strings4 := make([]int, 10)
+    fmt.Println(largestNumber(strings1))
+    fmt.Println(largestNumber(strings2))
+    fmt.Println(largestNumber(strings3))
+    fmt.Println(largestNumber(strings4))
+}
+
+func largestNumber(nums []int) string {
+    length := len(nums)
+    if length &lt; 1 {
+        return &quot;0&quot;
+    }
+    strs := make([]string, length)
+    for i := 0; i &lt; length; i++ {
+        strs[i] = strconv.Itoa(nums[i])
+    }
+    sort.Slice(strs, func(i, j int) bool {
+        return (strs[i] + strs[j]) &gt; (strs[j] + strs[i])
+    })
+    numsStr := strings.Join(strs, &quot;&quot;)
+    numsStr = strings.TrimLeft(numsStr, &quot;0&quot;)
+    if numsStr == &quot;&quot; {
+        return &quot;0&quot;
+    }
+    return numsStr
+}
+
+------
+9534330
+210
+0
+0
+
+Process finished with exit code 0
+</code></pre>
+<h5 id="引申一下"><a href="#引申一下" class="headerlink" title="引申一下"></a>引申一下</h5><p>上面的解法是在 Leetcode 评论区看到的，比较好奇<code>sort.Slice</code>是用什么算法对切片进行排序。翻了一下<code>sort/slice.go</code>的源码，如下所示：</p>
+<pre><code class="lang-go">// Copyright 2017 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// +build !compiler_bootstrap go1.8
+
+package sort
+
+import &quot;reflect&quot;
+
+// Slice sorts the provided slice given the provided less function.
+//
+// The sort is not guaranteed to be stable. For a stable sort, use
+// SliceStable.
+//
+// The function panics if the provided interface is not a slice.
+func Slice(slice interface{}, less func(i, j int) bool) {
+    rv := reflect.ValueOf(slice)
+    swap := reflect.Swapper(slice)
+    length := rv.Len()
+    quickSort_func(lessSwap{less, swap}, 0, length, maxDepth(length))
+}
+
+// SliceStable sorts the provided slice given the provided less
+// function while keeping the original order of equal elements.
+//
+// The function panics if the provided interface is not a slice.
+func SliceStable(slice interface{}, less func(i, j int) bool) {
+    rv := reflect.ValueOf(slice)
+    swap := reflect.Swapper(slice)
+    stable_func(lessSwap{less, swap}, rv.Len())
+}
+
+// SliceIsSorted tests whether a slice is sorted.
+//
+// The function panics if the provided interface is not a slice.
+func SliceIsSorted(slice interface{}, less func(i, j int) bool) bool {
+    rv := reflect.ValueOf(slice)
+    n := rv.Len()
+    for i := n - 1; i &gt; 0; i-- {
+        if less(i, i-1) {
+            return false
+        }
+    }
+    return true
+}
+</code></pre>
+<p>可以看到<strong>默认的</strong><code>sort.Slice()</code><strong>方法是用快排对切片进行排序的</strong>。</p>
+<p>我们知道，<strong>快排是不稳定的</strong>，所以如果希望<strong>使用稳定排序算法对切片进行排序</strong>，则可以使用<code>SliceStable()</code>方法。</p>
+<p>而<code>SliceStable()</code>所使用的<code>stable_func()</code>定义在<code>sort/zfuncversion.go</code>中，而实际上该函数在<code>sort/sort.go</code>中定义：</p>
+<pre><code class="lang-go">func stable(data Interface, n int) {
+    blockSize := 20 // must be &gt; 0
+    a, b := 0, blockSize
+    for b &lt;= n {
+        insertionSort(data, a, b)
+        a = b
+        b += blockSize
+    }
+    insertionSort(data, a, n)
+
+    for blockSize &lt; n {
+        a, b = 0, 2*blockSize
+        for b &lt;= n {
+            symMerge(data, a, a+blockSize, b)
+            a = b
+            b += 2 * blockSize
+        }
+        if m := a + blockSize; m &lt; n {
+            symMerge(data, a, m, n)
+        }
+        blockSize *= 2
+    }
+}
+</code></pre>
+<p>可以看到<code>SliceStable()</code>中定义了变量<code>blocksize := 20</code>，用来<strong>控制插入排序的区间大小</strong>。当待排序的<strong>切片长度</strong><code>&lt;=20</code><strong>时</strong>，相当于<strong>直接对该切片进行插入排序</strong>：</p>
+<pre><code class="lang-go">// Insertion sort
+func insertionSort(data Interface, a, b int) {
+    for i := a + 1; i &lt; b; i++ {
+        for j := i; j &gt; a &amp;&amp; data.Less(j, j-1); j-- {
+            data.Swap(j, j-1)
+        }
+    }
+}
+</code></pre>
+<p>而<strong>当</strong><code>b &lt;= n</code><strong>即切片长度超过</strong><code>20</code><strong>时</strong>，<code>SliceStable()</code>会<strong>先调用</strong><code>insertionSort_func()</code>，对切片<strong>按照</strong><code>blockSize</code><strong>分段进行插入排序</strong>。之后，<strong>调用</strong><code>symMerge_func()</code>，对每一段有序的切片元素进行<strong>归并排序</strong>，逐步<strong>翻倍</strong><code>blockSize</code><strong>大小</strong>直至归并排序完成：</p>
+<pre><code class="lang-go">// SymMerge merges the two sorted subsequences data[a:m] and data[m:b] using
+// the SymMerge algorithm from Pok-Son Kim and Arne Kutzner, &quot;Stable Minimum
+// Storage Merging by Symmetric Comparisons&quot;, in Susanne Albers and Tomasz
+// Radzik, editors, Algorithms - ESA 2004, volume 3221 of Lecture Notes in
+// Computer Science, pages 714-723. Springer, 2004.
+//
+// Let M = m-a and N = b-n. Wolog M &lt; N.
+// The recursion depth is bound by ceil(log(N+M)).
+// The algorithm needs O(M*log(N/M + 1)) calls to data.Less.
+// The algorithm needs O((M+N)*log(M)) calls to data.Swap.
+//
+// The paper gives O((M+N)*log(M)) as the number of assignments assuming a
+// rotation algorithm which uses O(M+N+gcd(M+N)) assignments. The argumentation
+// in the paper carries through for Swap operations, especially as the block
+// swapping rotate uses only O(M+N) Swaps.
+//
+// symMerge assumes non-degenerate arguments: a &lt; m &amp;&amp; m &lt; b.
+// Having the caller check this condition eliminates many leaf recursion calls,
+// which improves performance.
+func symMerge(data Interface, a, m, b int) {
+    // Avoid unnecessary recursions of symMerge
+    // by direct insertion of data[a] into data[m:b]
+    // if data[a:m] only contains one element.
+    if m-a == 1 {
+        // Use binary search to find the lowest index i
+        // such that data[i] &gt;= data[a] for m &lt;= i &lt; b.
+        // Exit the search loop with i == b in case no such index exists.
+        i := m
+        j := b
+        for i &lt; j {
+            h := int(uint(i+j) &gt;&gt; 1)
+            if data.Less(h, a) {
+                i = h + 1
+            } else {
+                j = h
+            }
+        }
+        // Swap values until data[a] reaches the position before i.
+        for k := a; k &lt; i-1; k++ {
+            data.Swap(k, k+1)
+        }
+        return
+    }
+
+    // Avoid unnecessary recursions of symMerge
+    // by direct insertion of data[m] into data[a:m]
+    // if data[m:b] only contains one element.
+    if b-m == 1 {
+        // Use binary search to find the lowest index i
+        // such that data[i] &gt; data[m] for a &lt;= i &lt; m.
+        // Exit the search loop with i == m in case no such index exists.
+        i := a
+        j := m
+        for i &lt; j {
+            h := int(uint(i+j) &gt;&gt; 1)
+            if !data.Less(m, h) {
+                i = h + 1
+            } else {
+                j = h
+            }
+        }
+        // Swap values until data[m] reaches the position i.
+        for k := m; k &gt; i; k-- {
+            data.Swap(k, k-1)
+        }
+        return
+    }
+
+    mid := int(uint(a+b) &gt;&gt; 1)
+    n := mid + m
+    var start, r int
+    if m &gt; mid {
+        start = n - b
+        r = mid
+    } else {
+        start = a
+        r = m
+    }
+    p := n - 1
+
+    for start &lt; r {
+        c := int(uint(start+r) &gt;&gt; 1)
+        if !data.Less(p-c, c) {
+            start = c + 1
+        } else {
+            r = c
+        }
+    }
+
+    end := n - start
+    if start &lt; m &amp;&amp; m &lt; end {
+        rotate(data, start, m, end)
+    }
+    if a &lt; start &amp;&amp; start &lt; mid {
+        symMerge(data, a, start, mid)
+    }
+    if mid &lt; end &amp;&amp; end &lt; b {
+        symMerge(data, mid, end, b)
+    }
+}
+
+// Rotate two consecutive blocks u = data[a:m] and v = data[m:b] in data:
+// Data of the form &#39;x u v y&#39; is changed to &#39;x v u y&#39;.
+// Rotate performs at most b-a many calls to data.Swap.
+// Rotate assumes non-degenerate arguments: a &lt; m &amp;&amp; m &lt; b.
+func rotate(data Interface, a, m, b int) {
+    i := m - a
+    j := b - m
+
+    for i != j {
+        if i &gt; j {
+            swapRange(data, m-i, m, j)
+            i -= j
+        } else {
+            swapRange(data, m-i, m+j-i, i)
+            j -= i
+        }
+    }
+    // i == j
+    swapRange(data, m-i, m, i)
+}
+
+/*
+Complexity of Stable Sorting
+
+
+Complexity of block swapping rotation
+
+Each Swap puts one new element into its correct, final position.
+Elements which reach their final position are no longer moved.
+Thus block swapping rotation needs |u|+|v| calls to Swaps.
+This is best possible as each element might need a move.
+
+Pay attention when comparing to other optimal algorithms which
+typically count the number of assignments instead of swaps:
+E.g. the optimal algorithm of Dudzinski and Dydek for in-place
+rotations uses O(u + v + gcd(u,v)) assignments which is
+better than our O(3 * (u+v)) as gcd(u,v) &lt;= u.
+
+
+Stable sorting by SymMerge and BlockSwap rotations
+
+SymMerg complexity for same size input M = N:
+Calls to Less:  O(M*log(N/M+1)) = O(N*log(2)) = O(N)
+Calls to Swap:  O((M+N)*log(M)) = O(2*N*log(N)) = O(N*log(N))
+
+(The following argument does not fuzz over a missing -1 or
+other stuff which does not impact the final result).
+
+Let n = data.Len(). Assume n = 2^k.
+
+Plain merge sort performs log(n) = k iterations.
+On iteration i the algorithm merges 2^(k-i) blocks, each of size 2^i.
+
+Thus iteration i of merge sort performs:
+Calls to Less  O(2^(k-i) * 2^i) = O(2^k) = O(2^log(n)) = O(n)
+Calls to Swap  O(2^(k-i) * 2^i * log(2^i)) = O(2^k * i) = O(n*i)
+
+In total k = log(n) iterations are performed; so in total:
+Calls to Less O(log(n) * n)
+Calls to Swap O(n + 2*n + 3*n + ... + (k-1)*n + k*n)
+   = O((k/2) * k * n) = O(n * k^2) = O(n * log^2(n))
+
+
+Above results should generalize to arbitrary n = 2^k + p
+and should not be influenced by the initial insertion sort phase:
+Insertion sort is O(n^2) on Swap and Less, thus O(bs^2) per block of
+size bs at n/bs blocks:  O(bs*n) Swaps and Less during insertion sort.
+Merge sort iterations start at i = log(bs). With t = log(bs) constant:
+Calls to Less O((log(n)-t) * n + bs*n) = O(log(n)*n + (bs-t)*n)
+   = O(n * log(n))
+Calls to Swap O(n * log^2(n) - (t^2+t)/2*n) = O(n * log^2(n))
+
+*/
+</code></pre>
+<p>另外，如果想<strong>判断一个切片是否已经有序</strong>，则可以<strong>使用</strong><code>SliceIsSorted()</code><strong>方法</strong>，返回一个<code>bool</code>值。</p>
+<h3 id="赛码"><a href="#赛码" class="headerlink" title="赛码"></a>赛码</h3><ul>
+<li><a href="http://oj.acmcoder.com/ExamNotice.html" target="_blank" rel="noopener">编程题考试须知 | 赛码</a></li>
+<li><a href="https://discuss.acmcoder.com/topic/5d47dfa8b99ad44605a1700b" target="_blank" rel="noopener">OJ 输入输出详细讲解 | 赛码</a></li>
+</ul>
+<h4 id="分数序列和-百度"><a href="#分数序列和-百度" class="headerlink" title="分数序列和 - 百度"></a>分数序列和 - 百度</h4><blockquote>
+<p><strong>原题传送门</strong>👉<img src="/2019/04/02/leetcode-solution-golang/acm.ico" width="16"><a href="https://exercise.acmcoder.com/online/online_judge_ques?ques_id=3371&amp;konwledgeId=40" target="_blank" rel="noopener">分数序列和（百度2017秋招真题）| 赛码</a></p>
+</blockquote>
+<pre><code class="lang-go">package main
+
+import (
+    &quot;fmt&quot;
+)
+
+func main() {
+    n := 0    // total number of test cases
+    part := 0 // how many elements to calculate
+    fmt.Scan(&amp;n)
+
+    for i := 0; i &lt; n; i++ {
+        fmt.Scan(&amp;part)
+        fmt.Printf(&quot;%.4f&quot;, partSum(part))
+    }
+}
+
+func partSum(n int) float64 {
+    sum := 0.0
+
+    for i := 1; i &lt;= n; i++ {
+        sum += float64(fibonacci(i+1)) / float64(fibonacci(i))
+    }
+
+    return sum
+}
+
+func fibonacci(n int) int {
+    f1, f2 := 1, 2
+    var f3 int
+    switch n {
+    case 1:
+        return f1
+    case 2:
+        return f2
+    default:
+        for i := 3; i &lt;= n; i++ {
+            f3 = f1 + f2
+            f1, f2 = f2, f3
+        }
+        return f3
+    }
+}
+</code></pre>
+<h3 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h3><h4 id="175-组合两个表"><a href="#175-组合两个表" class="headerlink" title="175. 组合两个表"></a>175. 组合两个表</h4><blockquote>
+<p><strong>原题传送门</strong>👉<img src="/2019/04/02/leetcode-solution-golang/leetcode.png" width="16"><a href="https://leetcode-cn.com/problems/combine-two-tables/" target="_blank" rel="noopener">175. 组合两个表 | Leetcode-SQL</a></p>
+</blockquote>
+<h5 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h5><p>表 1：<code>Person</code></p>
+<pre><code class="lang-sql">+-------------+---------+
+| 列名         | 类型     |
++-------------+---------+
+| PersonId    | int     |
+| FirstName   | varchar |
+| LastName    | varchar |
++-------------+---------+
+PersonId 是上表主键
+</code></pre>
+<p>表 2：<code>Address</code></p>
+<pre><code class="lang-sql">+-------------+---------+
+| 列名         | 类型    |
++-------------+---------+
+| AddressId   | int     |
+| PersonId    | int     |
+| City        | varchar |
+| State       | varchar |
++-------------+---------+
+AddressId 是上表主键
+</code></pre>
+<p>编写一个 SQL 查询，满足条件：<strong>无论</strong><code>Person</code><strong>是否有地址信息</strong>，都需要基于上述两表<strong>提供</strong><code>Person</code><strong>的以下信息</strong>：</p>
+<pre><code class="lang-sql">FirstName, LastName, City, State
+</code></pre>
+<h5 id="SQL-题解"><a href="#SQL-题解" class="headerlink" title="SQL 题解"></a>SQL 题解</h5><blockquote>
+<p>使用<strong>左外连接</strong>以及<code>on</code><strong>过滤条件</strong>，参见 <a href="https://www.cnblogs.com/toSeeMyDream/p/6843984.html" target="_blank" rel="noopener">SQL中on条件与where条件的区别 | 博客园</a></p>
+</blockquote>
+<pre><code class="lang-sql">SELECT p.FirstName AS FirstName, p.LastName AS LastName, a.City AS City, a.State AS State
+FROM Person p LEFT JOIN Address a
+ON p.PersonId = a.PersonId;
+</code></pre>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://github.com/halfrost/LeetCode-Go" target="_blank" rel="noopener">halfrost/leetcode-go - LeetCode by Go | Github</a></li>
+<li><a href="https://www.jianshu.com/p/851b23bffcf6" target="_blank" rel="noopener">golang sort.Slice | 简书</a></li>
+<li><a href="https://www.cnblogs.com/toSeeMyDream/p/6843984.html" target="_blank" rel="noopener">SQL 中 on 条件与 where 条件的区别 | 博客园</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/">使用 Gogs 自建 Git 服务</a></li><li><a href="https://abelsu7.top/2019/10/31/go-gin-swagger/">在 Gin 中使用 swaggo 自动生成 RESTful API 文档</a></li><li><a href="https://abelsu7.top/2019/10/24/go-build-compress-using-upx/">使用 upx 压缩 go build 打包的可执行文件</a></li><li><a href="https://abelsu7.top/2019/10/24/go-cross-compile/">Go 程序的交叉编译、选择性编译</a></li><li><a href="chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li><li><a href="www.chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-10-15T09:55:45.940Z" itemprop="dateUpdated">2019-10-15 17:55:45</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/04/02/leetcode-solution-golang/" target="_blank" rel="external">https://abelsu7.top/2019/04/02/leetcode-solution-golang/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Leetcode/">Leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL/">SQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/04/02/leetcode-solution-golang/&title=《Leetcode 题解 in Golang（不定期更新）》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/04/02/leetcode-solution-golang/&title=《Leetcode 题解 in Golang（不定期更新）》 — Keep Coding&source=
+Leetcode、牛客刷题之旅，不定期更新中
+
+
+                
+                    
+             ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/04/02/leetcode-solution-golang/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Leetcode 题解 in Golang（不定期更新）》 — Keep Coding&url=https://abelsu7.top/2019/04/02/leetcode-solution-golang/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/04/02/leetcode-solution-golang/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/04/06/tencent-2019-spring-test/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">腾讯暑期实习常规批笔试 Golang 题解</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/03/28/kvm-review/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">KVM 虚拟化相关知识点汇总</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/04/02/leetcode-solution-golang/&title=《Leetcode 题解 in Golang（不定期更新）》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/04/02/leetcode-solution-golang/&title=《Leetcode 题解 in Golang（不定期更新）》 — Keep Coding&source=
+Leetcode、牛客刷题之旅，不定期更新中
+
+
+                
+                    
+             ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/04/02/leetcode-solution-golang/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Leetcode 题解 in Golang（不定期更新）》 — Keep Coding&url=https://abelsu7.top/2019/04/02/leetcode-solution-golang/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/04/02/leetcode-solution-golang/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKUlEQVR42u3aQW7DIBAF0Nz/0q7UVaXWzp+BqDY8VlYUYT8WaIbP6xWP43skzz/H7xmufz/7z7SBgYHxWMZxOc4+4vplRzyqS3NKxcDA2IBR3WRHYL0N/c03Y2BgYMSFXTLn2TwYGBgYcxm9hnPucmBgYOzGyJvM6+muwbfoxTEwMB7ImBsMzH3+t3wDAwPjNoyjNarb4txN9o/ZMDAwlmaMX5j43P/LASoGBsbSjOTFeePaPCybe8yHgYGxEKO3wSWw8WsZeeSJgYGxD+O6gcy3wvELFuXLahgYGEszxg/lqxc18iVLTv5f+apgYGA8nDFSxiXbZX4Yl89WiDMxMDAezhg50M8b0XzJmqUkBgbGNozqpMkHNdvRaqGJgYGxGaN63F8tLqvP0cwYGBhLM8ZbymoUWo0EyndGMDAwFmX0jubzIHOkVS4EnBgYGIsy8kKtun/3ZmsWoBgYGEsz8tf0wsV8E6+WnhgYGPswqu1i74AsjweqwUCz68XAwHgUIx9JgVj99PECEQMDYwfGEY+ksMtLzGobHPXiGBgYizLGY8UckzSl+db/JuXAwMBYiHEUR7VoS8rEXhTRLA0xMDAeyKg2sUmh1rtUUcVjYGDsxkg22d6njESY5fNCDAyMDRgfDA7zTroYTpzmsRgYGNszelcrxjfWN0uJgYGB0WpN87Az+SoMDAyMahM7vhy9dzVTDgwMjIczRoKBWVcxeoxp+QYGBsZ9GV+UN4SaAzFJYgAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

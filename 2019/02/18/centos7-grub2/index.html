@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>CentOS 7 调整 grub2 启动项顺序及等待时间 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Linux,CentOS,grub2">
+    <meta name="description" content="摘自 Setting Up grub2 on CentOS 7 | CentOS Wiki">
+<meta name="keywords" content="Linux,CentOS,grub2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 7 调整 grub2 启动项顺序及等待时间">
+<meta property="og:url" content="https://abelsu7.top/2019/02/18/centos7-grub2/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="摘自 Setting Up grub2 on CentOS 7 | CentOS Wiki">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/02/18/centos7-grub2/cover.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.006Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 7 调整 grub2 启动项顺序及等待时间">
+<meta name="twitter:description" content="摘自 Setting Up grub2 on CentOS 7 | CentOS Wiki">
+<meta name="twitter:image" content="https://abelsu7.top/2019/02/18/centos7-grub2/cover.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">CentOS 7 调整 grub2 启动项顺序及等待时间</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">CentOS 7 调整 grub2 启动项顺序及等待时间</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-02-18T06:12:31.000Z" itemprop="datePublished" class="page-time">
+  2019-02-18
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/CentOS/">CentOS</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-修改-grub2-等待时间"><span class="post-toc-text">1. 修改 grub2 等待时间</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-重新生成-grub2-cfg"><span class="post-toc-text">2. 重新生成 grub2.cfg</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-查看所有启动项"><span class="post-toc-text">3. 查看所有启动项</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-修改默认启动项"><span class="post-toc-text">4. 修改默认启动项</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-centos7-grub2"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">CentOS 7 调整 grub2 启动项顺序及等待时间</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-02-18 14:12:31" datetime="2019-02-18T06:12:31.000Z"  itemprop="datePublished">2019-02-18</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/CentOS/">CentOS</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>摘自 <a href="https://wiki.centos.org/HowTos/Grub2" target="_blank" rel="noopener">Setting Up grub2 on CentOS 7 | CentOS Wiki</a></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/02/18/centos7-grub2/cover.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<p>最近安装了 CentOS 7 + Windows 10 的双系统，开机进入 grub2 的启动菜单。由于平时用 Windows 居多，可以接受在开机时手动选择 CentOS，所以需要<strong>修改默认启动项为</strong><code>Windows Boot Manager</code>，并<strong>缩短等待时间为 3 秒（默认为 5 秒）</strong>，下面简单介绍修改方法。</p>
+<h3 id="1-修改-grub2-等待时间"><a href="#1-修改-grub2-等待时间" class="headerlink" title="1. 修改 grub2 等待时间"></a>1. 修改 grub2 等待时间</h3><p><strong>grub2 等待时间</strong>由<code>/etc/default/grub</code>中的<code>GRUB_TIMEOUT</code>控制，首先查看该文件内容：</p>
+<pre><code class="lang-bash">&gt; cat /etc/default/grub
+
+GRUB_TIMEOUT=5
+GRUB_DISTRIBUTOR=&quot;$(sed &#39;s, release .*$,,g&#39; /etc/system-release)&quot;
+GRUB_DEFAULT=saved
+GRUB_DISABLE_SUBMENU=true
+GRUB_TERMINAL_OUTPUT=&quot;console&quot;
+GRUB_CMDLINE_LINUX=&quot;crashkernel=auto rd.lvm.lv=centos/root rd.lvm.lv=centos/swap rhgb quiet&quot;
+GRUB_DISABLE_RECOVERY=&quot;true&quot;
+</code></pre>
+<h3 id="2-重新生成-grub2-cfg"><a href="#2-重新生成-grub2-cfg" class="headerlink" title="2. 重新生成 grub2.cfg"></a>2. 重新生成 grub2.cfg</h3><p>修改为<code>GRUB_TIMOUT=3</code>后，为使其生效，需要<strong>重新生成</strong><code>/boot/efi/EFI/centos/grub2.cfg</code>：</p>
+<pre><code class="lang-bash">&gt; grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg
+</code></pre>
+<blockquote>
+<p><strong>非 UEFI 设备（Legacy）</strong>需将上述文件路径替换为<code>/boot/grub2/grub.cfg</code></p>
+</blockquote>
+<h3 id="3-查看所有启动项"><a href="#3-查看所有启动项" class="headerlink" title="3. 查看所有启动项"></a>3. 查看所有启动项</h3><pre><code class="lang-bash">&gt; awk -F\&#39; &#39;$1==&quot;menuentry &quot; {print i++ &quot; : &quot; $2}&#39; /etc/grub2-efi.cfg
+
+0 : CentOS Linux (3.10.0-957.el7.x86_64) 7 (Core)
+1 : CentOS Linux (0-rescue-3af74b34419f4869a2952d4467e303f8) 7 (Core)
+2 : Windows Boot Manager (on /dev/sda2)
+</code></pre>
+<blockquote>
+<p><strong>非 UEFI 设备（Legacy）</strong>需将上述文件路径替换为<code>/etc/grub.cfg</code></p>
+</blockquote>
+<p>或使用下列命令：</p>
+<pre><code class="lang-bash">&gt; grep &quot;^menuentry&quot; /boot/efi/EFI/centos/grub.cfg | cut -d &quot;&#39;&quot; -f2
+
+CentOS Linux (3.10.0-957.el7.x86_64) 7 (Core)
+CentOS Linux (0-rescue-3af74b34419f4869a2952d4467e303f8) 7 (Core)
+Windows Boot Manager (on /dev/sda2)
+</code></pre>
+<blockquote>
+<p><strong>非 UEFI 设备（Legacy）</strong>需将上述文件路径替换为<code>/boot/grub2/grub.cfg</code></p>
+</blockquote>
+<h3 id="4-修改默认启动项"><a href="#4-修改默认启动项" class="headerlink" title="4. 修改默认启动项"></a>4. 修改默认启动项</h3><p><strong>默认启动项</strong>由<code>/etc/default/grub</code>中的<code>GRUB_DEFAULT</code>控制。</p>
+<p>如果<code>GRUB_DEFAULT=saved</code>，则该参数将存储在<code>/boot/grub2/grubenv</code>中。可使用<code>grub2-editenv list</code>查看：</p>
+<pre><code class="lang-bash">&gt; grub2-editenv list
+saved_entry=CentOS Linux (3.10.0-957.el7.x86_64) 7 (Core)
+</code></pre>
+<p>通过<code>grub2-set-default</code>命令<strong>修改默认启动项</strong>。由之前的输出可知，<code>Windows Boot Manager</code>的启动序号为<code>2</code>：</p>
+<pre><code class="lang-bash">&gt; grub2-set-default 2
+&gt; grub2-editenv list
+saved_entry=2
+</code></pre>
+<p><strong>重启即可生效，修改完成</strong>。</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://wiki.centos.org/zh/HowTos/Grub2" target="_blank" rel="noopener">在 CentOS 7 上设置 grub2 | CentOS Wiki</a></li>
+<li><a href="https://wiki.centos.org/HowTos/Grub2" target="_blank" rel="noopener">Setting Up grub2 on CentOS 7 | CentOS Wiki</a></li>
+<li><a href="https://linux.cn/article-8603-1.html" target="_blank" rel="noopener">Linux GRUB2 配置简介 | Linux 中国</a></li>
+<li><a href="https://zhmail.com/2015/08/11/centos7-grub2-configuration/" target="_blank" rel="noopener">CentOS 7 系统引导程序 Grub2 的配置 | 文卓的笔记</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7 安装配置 NFS</a></li><li><a href="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/">Linux 系统常用监控命令</a></li><li><a href="https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/">Linux 终端修改 ls 命令目录显示颜色</a></li><li><a href="https://abelsu7.top/2019/07/07/perf-quick-guides/">Linux 下使用 Perf 分析系统性能</a></li><li><a href="http://www.borgor.cn/2019-07-25/81eae861.html">在CentOS上使用certbot为nginx添加https证书</a></li><li><a href="http://www.borgor.cn/2019-07-25/29fa0dd5.html">从零开始搭建CentOS+Python+nodejs开发环境</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.006Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/02/18/centos7-grub2/" target="_blank" rel="external">https://abelsu7.top/2019/02/18/centos7-grub2/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/grub2/">grub2</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/02/18/centos7-grub2/&title=《CentOS 7 调整 grub2 启动项顺序及等待时间》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/02/18/centos7-grub2/&title=《CentOS 7 调整 grub2 启动项顺序及等待时间》 — Keep Coding&source=
+摘自 Setting Up grub2 on CentOS 7 | CentOS Wiki
+
+
+                
+           ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/02/18/centos7-grub2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《CentOS 7 调整 grub2 启动项顺序及等待时间》 — Keep Coding&url=https://abelsu7.top/2019/02/18/centos7-grub2/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/02/18/centos7-grub2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/02/19/centos7-install-shadowsocks-client/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">CentOS 7 安装 Shadowsocks 客户端</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/02/18/linux-rpm/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Linux 下安装 RPM 软件包常用操作</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/02/18/centos7-grub2/&title=《CentOS 7 调整 grub2 启动项顺序及等待时间》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/02/18/centos7-grub2/&title=《CentOS 7 调整 grub2 启动项顺序及等待时间》 — Keep Coding&source=
+摘自 Setting Up grub2 on CentOS 7 | CentOS Wiki
+
+
+                
+           ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/02/18/centos7-grub2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《CentOS 7 调整 grub2 启动项顺序及等待时间》 — Keep Coding&url=https://abelsu7.top/2019/02/18/centos7-grub2/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/02/18/centos7-grub2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACL0lEQVR42u3aQXaDMAxFUfa/abKAxvR9y0lr+THKIRB8GSiypOvCx/3jGF0zun707egp1ycOGTJkbMu4Hw+yLLK459eRPvcNVYYMGQcwSABNf/p5cc+Rk69NhgwZMshP8xSQn5EhQ4aMCiPddpKg/AcBV4YMGRsyyCaWXM9TxrVpqAwZMnozeNX9+58/0t+QIUPGVoy5oLm2uLZgVTJkyGjN4I/hRTGeulXSPhkyZMjgYxbp2MTcWBg5I0OGjN4Msty4TF8I2bxJENQOZciQsS2DhLy5sn4lNUybozJkyDiZUQmIFVj8RBkyZLRmVEIhXwo5MzeKcdUjugwZMv49o1LunxsCq29ih/8bMmTIOIzBE7u5pgKP/aiFIEOGjNYMsn2tNAbIJnmuCRG0MGXIkLE5Ix1X5eGPb4P5EMbwjAwZMg5glFKx8K65MbIFwxYyZMjYlsHr6uQBfPuavqa4myFDhoxGDBL4KtvRSjmPnH/zvyFDhox2jHR4ojLTMZf8BVfKkCHjGEaanFXGL9J7g6KbDBkyWjMIjATodFyDNw9kyJBxMmMu2FUKZ2mgj6dFZMiQ0YJxh8fcvSkjDsEyZMhozai0OdNSHQnihMefLkOGjE6MeqmL31VqUvI3LUOGjKaMtalbuq3ly/1lLy5DhgwZOGTzIh0fKUNFNxkyZMgoJHCkkVlJQ2XIkHECg2xiK2d4uZ+8IBkyZJzGSLeOPL3jSeRzjreskSlDhoz9GC/ouvoIz4GwDAAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

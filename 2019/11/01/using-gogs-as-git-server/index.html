@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>使用 Gogs 自建 Git 服务 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Go,Git,Gogs">
+    <meta name="description" content="Gogs：一款极易搭建的自助 Git 服务, by Unknwon@Github">
+<meta name="keywords" content="Go,Git,Gogs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Gogs 自建 Git 服务">
+<meta property="og:url" content="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="Gogs：一款极易搭建的自助 Git 服务, by Unknwon@Github">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/gogs.png">
+<meta property="og:image" content="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/github.svg">
+<meta property="og:image" content="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/cover.png">
+<meta property="og:image" content="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/gogs.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/20191101182546.png">
+<meta property="og:updated_time" content="2019-11-01T15:10:42.315Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用 Gogs 自建 Git 服务">
+<meta name="twitter:description" content="Gogs：一款极易搭建的自助 Git 服务, by Unknwon@Github">
+<meta name="twitter:image" content="https://abelsu7.top/2019/11/01/using-gogs-as-git-server/gogs.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">使用 Gogs 自建 Git 服务</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">使用 Gogs 自建 Git 服务</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-11-01T07:50:04.000Z" itemprop="datePublished" class="page-time">
+  2019-11-01
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-环境要求"><span class="post-toc-text">1. 环境要求</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-新建用户"><span class="post-toc-text">2. 新建用户</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-二进制安装"><span class="post-toc-text">3. 二进制安装</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-自定义配置文件"><span class="post-toc-text">4. 自定义配置文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-创建数据库及用户"><span class="post-toc-text">5. 创建数据库及用户</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-运行-Gogs"><span class="post-toc-text">6. 运行 Gogs</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-using-gogs-as-git-server"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">使用 Gogs 自建 Git 服务</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-11-01 15:50:04" datetime="2019-11-01T07:50:04.000Z"  itemprop="datePublished">2019-11-01</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Go/">Go</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em><img src="/2019/11/01/using-gogs-as-git-server/gogs.png" width="16"><a href="https://gogs.io" target="_blank" rel="noopener">Gogs</a>：一款极易搭建的自助 Git 服务, by <img src="/2019/11/01/using-gogs-as-git-server/github.svg" width="16"><a href="https://github.com/unknwon" target="_blank" rel="noopener">Unknwon@Github</a></em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/11/01/using-gogs-as-git-server/cover.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<blockquote>
+<p>本文基于<code>Gogs 0.11.91.0811</code></p>
+</blockquote>
+<h3 id="1-环境要求"><a href="#1-环境要求" class="headerlink" title="1. 环境要求"></a>1. 环境要求</h3><ul>
+<li><strong>数据库</strong>：支持 <a href="http://dev.mysql.com/" target="_blank" rel="noopener">MySQL</a><code>&gt;=5.7</code>(InnoDB 引擎)、<a href="http://www.postgresql.org/" target="_blank" rel="noopener">PostgreSQL</a>、<a href="https://en.wikipedia.org/wiki/Microsoft_SQL_Server" target="_blank" rel="noopener">MSSQL</a>、<a href="https://github.com/pingcap/tidb" target="_blank" rel="noopener">TiDB</a></li>
+<li><strong>Git</strong>：客户端和服务端均需版本<code>&gt;=1.8.3</code></li>
+<li><strong>SSH 服务器</strong>：<ul>
+<li>如果选择在 Windows 系统使用内置的 SSH 服务器，请确保添加<code>ssh-keygen</code>到<code>%PATH%</code>环境变量中</li>
+<li>Windows 系统推荐使用 <a href="http://docs.oracle.com/cd/E24628_01/install.121/e22624/preinstall_req_cygwin_ssh.htm" target="_blank" rel="noopener">Cygwin OpenSSH</a> 或 <a href="https://www.itefix.net/copssh" target="_blank" rel="noopener">Copssh</a></li>
+<li>Windows 系统请确保<code>Bash</code>是默认的 Shell 程序，而不是<code>PowerShell</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="2-新建用户"><a href="#2-新建用户" class="headerlink" title="2. 新建用户"></a>2. 新建用户</h3><p><strong>Gogs 默认以</strong><code>git</code><strong>用户运行</strong>，首先以<code>root</code>身份<strong>新建用户</strong><code>git</code>并为其<strong>设置密码</strong>：</p>
+<pre><code class="lang-bash">&gt; sudo adduser git
+&gt; sudo passwd git
+</code></pre>
+<p>之后<strong>切换至</strong><code>git</code><strong>用户</strong>，在<code>/home/git/</code>目录下<strong>创建</strong><code>.ssh</code><strong>目录</strong>：</p>
+<pre><code class="lang-bash">&gt; su git # 切换至 git 用户
+&gt; cd /home/git/
+/home/git &gt; mkdir .ssh # 创建 .ssh 目录
+/home/git &gt; ls -al
+drwx------  6 git  git  154 Nov  1 22:58 .
+drwxr-xr-x. 6 root root  58 Nov  1 18:35 ..
+-rw-------  1 git  git  146 Nov  1 22:50 .bash_history
+-rw-r--r--  1 git  git   18 Apr 11  2018 .bash_logout
+-rw-r--r--  1 git  git  193 Apr 11  2018 .bash_profile
+-rw-r--r--  1 git  git  231 Apr 11  2018 .bashrc
+drwxrwxr-x  3 git  git   18 Nov  1 18:36 .cache
+drwxrwxr-x  3 git  git   18 Nov  1 18:36 .config
+drwxr-xr-x  4 git  git   39 Nov 13  2018 .mozilla
+drwxrwxr-x  2 git  git    6 Nov  1 22:58 .ssh
+-rw-r--r--  1 git  git  658 Oct 31  2018 .zshrc
+</code></pre>
+<blockquote>
+<p><strong>注</strong>：之后的操作全部以<code>git</code>用户进行操作</p>
+</blockquote>
+<h3 id="3-二进制安装"><a href="#3-二进制安装" class="headerlink" title="3. 二进制安装"></a>3. 二进制安装</h3><blockquote>
+<p>Gogs 支持<strong>二进制</strong>、<strong>源码</strong>、<strong>包管理</strong>、<strong>Docker</strong>、<strong>Vagrant</strong>、基于 K8s 的 <strong>Helm Charts</strong> 等多种安装方式</p>
+</blockquote>
+<p>从 <strong>Gogs</strong> 的<code>Releases</code>页面下载<code>linux_amd64zip</code>，之后解压：</p>
+<pre><code class="lang-bash">/home/git &gt; wget https://github.com/gogs/gogs/releases/download/v0.11.91/linux_amd64.zip
+/home/git &gt; unzip linux_amd64.zip
+/home/git &gt; cd gogs
+
+/home/git/gogs &gt; ls -hl
+total 55M
+-rwxr-xr-x  1 git git  55M Aug 12 10:26 gogs
+-rw-r--r--  1 git git 1.1K Jun  5  2018 LICENSE
+drwxr-xr-x  8 git git  101 Aug 12 10:26 public
+-rw-r--r--  1 git git 8.4K Aug 12 10:25 README.md
+-rw-r--r--  1 git git 5.5K Aug 12 10:25 README_ZH.md
+drwxr-xr-x  7 git git  195 Aug 12 10:26 scripts
+drwxr-xr-x 11 git git  174 Aug 12 10:26 templates
+
+/home/git/gogs &gt; pwd
+/home/git/gogs
+</code></pre>
+<h3 id="4-自定义配置文件"><a href="#4-自定义配置文件" class="headerlink" title="4. 自定义配置文件"></a>4. 自定义配置文件</h3><blockquote>
+<p>Gogs 的<strong>默认配置文件</strong>位于源码中的<code>conf/app.ini</code>，该文件从<code>v0.6.0</code>版本开始被<strong>嵌入到二进制中</strong></p>
+</blockquote>
+<p>为了使自定义配置能覆盖原有的默认配置，需要在<code>gogs</code>目录下<strong>手动创建自定义配置文件</strong><code>custom/conf/app.ini</code>，在该文件中修改相应选项的值即可：</p>
+<pre><code class="lang-bash">/home/git/gogs &gt; mkdir -p custom/conf
+/home/git/gogs &gt; vim custom/conf/app.ini
+</code></pre>
+<blockquote>
+<p>参见<strong>官方文档</strong>：<img src="/2019/11/01/using-gogs-as-git-server/gogs.png" width="16"><a href="https://gogs.io/docs/installation/configuration_and_run" target="_blank" rel="noopener">配置与运行 - Gogs</a></p>
+</blockquote>
+<p>例如<strong>自定义仓库根目录、数据库配置</strong>：</p>
+<pre><code class="lang-bash">[repository]
+ROOT = /home/gogs-repos
+
+[database]
+USER = admin
+PASSWD = ******
+</code></pre>
+<p>这样可以<strong>保护自定义配置不被破坏</strong>：</p>
+<ul>
+<li>从<strong>二进制安装</strong>的用户，可以<strong>直接替换二进制</strong>及其它文件而不至于重新编写自定义配置</li>
+<li>从<strong>源码安装</strong>的用户，可以<strong>避免</strong>由于版本管理系统导致的<strong>文件修改冲突</strong></li>
+</ul>
+<h3 id="5-创建数据库及用户"><a href="#5-创建数据库及用户" class="headerlink" title="5. 创建数据库及用户"></a>5. 创建数据库及用户</h3><p>首先建立好数据库<code>gogs</code>，文件<code>scripts/mysql.sql</code>是<strong>数据库的初始化 SQL 语句</strong>：</p>
+<pre><code class="lang-sql">SET GLOBAL innodb_file_per_table = ON,
+           innodb_file_format = Barracuda,
+           innodb_large_prefix = ON;
+DROP DATABASE IF EXISTS gogs;
+CREATE DATABASE IF NOT EXISTS gogs CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+</code></pre>
+<p>执行下列命令即可<strong>初始化</strong><code>gogs</code><strong>数据库</strong>：</p>
+<pre><code class="lang-bash">mysql -u root -p &lt; scripts/mysql.sql
+</code></pre>
+<p>此外还需要登录 MySQL <strong>创建新用户</strong><code>gogs</code>，并<strong>将数据库</strong><code>gogs</code><strong>的所有权限都赋予该用户</strong>：</p>
+<pre><code class="lang-sql">mysql&gt; CREATE USER &#39;gogs&#39;@&#39;localhost&#39; identified by &#39;YOUR_PASSWORD&#39;;
+mysql&gt; GRANT ALL PRIVILEGES ON gogs.* to &#39;gogs&#39;@&#39;localhost&#39;;
+mysql&gt; FLUSH PRIVILEGES;
+</code></pre>
+<p>如需更新密码：</p>
+<pre><code class="lang-sql">mysql&gt; ALTER USER &#39;gogs&#39;@&#39;localhost&#39; identified by &#39;NEW_PASSWORD&#39;;
+</code></pre>
+<h3 id="6-运行-Gogs"><a href="#6-运行-Gogs" class="headerlink" title="6. 运行 Gogs"></a>6. 运行 Gogs</h3><p><code>./gogs web</code><strong>前台运行</strong>：</p>
+<pre><code class="lang-bash">/home/gogs &gt; ./gogs web
+2019/11/01 17:48:31 [TRACE] Custom path: /home/gogs/custom
+2019/11/01 17:48:31 [TRACE] Log path: /home/gogs/log
+2019/11/01 17:48:31 [TRACE] Log Mode: Console (Trace)
+2019/11/01 17:48:31 [ INFO] Gogs 0.11.91.0811
+2019/11/01 17:48:31 [ INFO] Cache Service Enabled
+2019/11/01 17:48:31 [ INFO] Session Service Enabled
+2019/11/01 17:48:31 [ INFO] SQLite3 Supported
+2019/11/01 17:48:31 [ INFO] Run Mode: Development
+2019/11/01 17:48:31 [ INFO] Listen: http://0.0.0.0:3000
+...
+</code></pre>
+<p>或者<code>nohup ./gogs web &gt; gogs.out 2&gt;&amp;1 &amp;</code><strong>后台运行</strong>：</p>
+<pre><code class="lang-bash"># 后台运行 gogs，stderr 重定向至 stdout，stdout 重定向至 gogs.out
+/home/gogs $ nohup ./gogs web &gt; gogs.out 2&gt;&amp;1 &amp;
+[1] 8346
+
+/home/gogs $ jobs -l # 查看后台任务
+[1]  + 8346 running    nohup ./gogs web &gt; gogs.out 2&gt;&amp;1
+
+/home/gogs $ cat gogs.out # 查看 gogs 在 gogs.out 中的输出
+nohup: ignoring input
+2019/11/01 18:01:33 [TRACE] Custom path: /home/gogs/custom
+2019/11/01 18:01:33 [TRACE] Log path: /home/gogs/log
+2019/11/01 18:01:33 [TRACE] Log Mode: Console (Trace)
+2019/11/01 18:01:33 [ INFO] Gogs 0.11.91.0811
+2019/11/01 18:01:33 [ INFO] Cache Service Enabled
+2019/11/01 18:01:33 [ INFO] Session Service Enabled
+2019/11/01 18:01:33 [ INFO] SQLite3 Supported
+2019/11/01 18:01:33 [ INFO] Run Mode: Development
+2019/11/01 18:01:33 [ INFO] Listen: http://0.0.0.0:3000
+
+/home/gogs $ fg %1 # 切至前台运行
+[1]  + 8346 running    nohup ./gogs web &gt; gogs.out 2&gt;&amp;1
+^Z                 # 暂停并放入后台
+[1]  + 8346 suspended  nohup ./gogs web &gt; gogs.out 2&gt;&amp;1
+
+/home/gogs $ jobs -l
+[1]  + 8346 suspended  nohup ./gogs web &gt; gogs.out 2&gt;&amp;1
+
+/home/gogs $ bg %1 # 后台继续运行
+[1]  + 8346 continued  nohup ./gogs web &gt; gogs.out 2&gt;&amp;1
+
+/home/gogs $ jobs -l
+[1]  + 8346 running    nohup ./gogs web &gt; gogs.out 2&gt;&amp;1
+</code></pre>
+<blockquote>
+<p><strong>参见</strong>：</p>
+<ol>
+<li><a href="http://kuanghy.github.io/2016/12/31/linux-bg-process" target="_blank" rel="noopener">Linux 后台运行程序 | Huoty’s Blog</a></li>
+<li><a href="http://1987.name/284.html" target="_blank" rel="noopener">Linux 系统上执行任务在前台和后台之间的转换 | Running</a></li>
+<li><a href="https://blog.csdn.net/u012787436/article/details/39722583" target="_blank" rel="noopener">Linux 后台进程管理以及 ctrl+z（挂起）、ctrl+c（中断）、ctrl+\（退出）和 ctrl+d（EOF）的区别 | CSDN</a></li>
+<li><a href="https://www.cnblogs.com/allenblogs/archive/2011/05/19/2051136.html" target="_blank" rel="noopener">Linux 的 nohup 命令的用法 - 和白月黑羽学 Python | 博客园</a></li>
+</ol>
+</blockquote>
+<p>最后访问<code>http://localhost:3000/install</code>，即可根据提示进行安装配置：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/20191101182546.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><strong><em>// TODO: To be updated…</em></strong></p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://juejin.im/post/5be42b6cf265da611d662616" target="_blank" rel="noopener">初体验之开源 Git 服务 Gogs - 寒露君 | 掘金</a></li>
+<li><a href="https://blog.mynook.info/post/host-your-own-git-server-using-gogs/" target="_blank" rel="noopener">使用 Gogs 搭建自己的 Git 服务器 | My Nook</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/10/31/go-gin-swagger/">在 Gin 中使用 swaggo 自动生成 RESTful API 文档</a></li><li><a href="https://abelsu7.top/2019/10/24/go-build-compress-using-upx/">使用 upx 压缩 go build 打包的可执行文件</a></li><li><a href="https://abelsu7.top/2019/10/24/go-cross-compile/">Go 程序的交叉编译、选择性编译</a></li><li><a href="https://abelsu7.top/2019/10/23/go-present-ppt/">Go 语言使用 present 展示 PPT</a></li><li><a href="chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li><li><a href="www.chunlife.top/2019/06/19/转载《Go语言interface底层实现》/">转载《Go语言interface底层实现》</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-11-01T15:10:42.315Z" itemprop="dateUpdated">2019-11-01 23:10:42</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/11/01/using-gogs-as-git-server/" target="_blank" rel="external">https://abelsu7.top/2019/11/01/using-gogs-as-git-server/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gogs/">Gogs</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/11/01/using-gogs-as-git-server/&title=《使用 Gogs 自建 Git 服务》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/11/01/using-gogs-as-git-server/&title=《使用 Gogs 自建 Git 服务》 — Keep Coding&source=
+Gogs：一款极易搭建的自助 Git 服务, by Unknwon@Github
+
+
+                
+                ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/11/01/using-gogs-as-git-server/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用 Gogs 自建 Git 服务》 — Keep Coding&url=https://abelsu7.top/2019/11/01/using-gogs-as-git-server/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/11/01/using-gogs-as-git-server/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/10/31/go-gin-swagger/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">在 Gin 中使用 swaggo 自动生成 RESTful API 文档</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/11/01/using-gogs-as-git-server/&title=《使用 Gogs 自建 Git 服务》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/11/01/using-gogs-as-git-server/&title=《使用 Gogs 自建 Git 服务》 — Keep Coding&source=
+Gogs：一款极易搭建的自助 Git 服务, by Unknwon@Github
+
+
+                
+                ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/11/01/using-gogs-as-git-server/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用 Gogs 自建 Git 服务》 — Keep Coding&url=https://abelsu7.top/2019/11/01/using-gogs-as-git-server/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/11/01/using-gogs-as-git-server/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACHklEQVR42u3aOw7CQAwFQO5/aWiREMmzHZCyO6kQhLBDYfn3eMTX8+16fye5/9t3P5/w7f3LLgwMjNsynodXj/F5z7cnH3+anA0DA2MfRnKIJDjmgTXHH9+DgYGBUU0Ee8ll8hoDAwNjwjg+aB5eMTAwMI4ZSRFbZVSTxT/V4hgYGDdk5F33/7/+yXwDAwPjVoxn8ar+/KTdVjgVBgbG0oxe2pfDqkPNPO3DwMDYk5GEywQwKYnzAH1Si2NgYCzNqA4j5620+cIHBgbGPow8geu14XrrGoXWGwYGxjaM6mLEZAg6WbM4qcUxMDAWYiQFanUNIg+mSWgubItgYGAsysgTtTxB7BWuk2EnBgbG2oxqaZqMB6pl8GRUgIGBsQMjP1bepEtCc35nVIVjYGAszZgPEa8qgEfjAQwMjKUZvdRtMmiskvJBAgYGxqqMeV6Zt/XLRWm+X4GBgbE046qlimrp2wuv1dUQDAyMlRi9lv0cVg33J6fFwMDYmJFTqwPRpD1X+JswMDC2YVy7yJU/sxBYk2ULDAyMDRjNCUOxQdb7bpQaYmBgLMToJWSTQULOK5TEGBgYSzMmwa46hsxhSWLahGFgYNyWUW5stdr6vw7ZGBgYOzCqBWd1taJcWxdPi4GBgfG7rLM3GMDAwMC4tomfB9/krzkZD2BgYCzNSIrYaiGapIC9JTAMDIzdGNeOGHvrsPn9o6EmBgbG/RgvSVLGBHQ7oT8AAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

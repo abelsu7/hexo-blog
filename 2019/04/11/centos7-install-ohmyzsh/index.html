@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>CentOS 7 安装配置 oh-my-zsh | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Linux,Shell,终端,CentOS,zsh">
+    <meta name="description" content="Your terminal never felt this good before.">
+<meta name="keywords" content="Linux,Shell,终端,CentOS,zsh">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 7 安装配置 oh-my-zsh">
+<meta property="og:url" content="https://abelsu7.top/2019/04/11/centos7-install-ohmyzsh/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="Your terminal never felt this good before.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/04/11/centos7-install-ohmyzsh/cover.png">
+<meta property="og:image" content="https://abelsu7.top/2019/04/11/centos7-install-ohmyzsh/agnoster.png">
+<meta property="og:image" content="https://abelsu7.top/2019/04/11/centos7-install-ohmyzsh/powerline-font.png">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.017Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 7 安装配置 oh-my-zsh">
+<meta name="twitter:description" content="Your terminal never felt this good before.">
+<meta name="twitter:image" content="https://abelsu7.top/2019/04/11/centos7-install-ohmyzsh/cover.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">CentOS 7 安装配置 oh-my-zsh</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">CentOS 7 安装配置 oh-my-zsh</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-04-11T09:05:05.000Z" itemprop="datePublished" class="page-time">
+  2019-04-11
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/CentOS/">CentOS</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-查看已有终端"><span class="post-toc-text">1. 查看已有终端</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-安装-zsh"><span class="post-toc-text">2. 安装 zsh</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-切换默认-Shell-为-zsh"><span class="post-toc-text">3. 切换默认 Shell 为 zsh</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-安装-oh-my-zsh"><span class="post-toc-text">4. 安装 oh-my-zsh</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Via-curl"><span class="post-toc-text">Via curl</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Via-wget"><span class="post-toc-text">Via wget</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-修改主题及配置"><span class="post-toc-text">5. 修改主题及配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-zsh-小技巧"><span class="post-toc-text">6. zsh 小技巧</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-centos7-install-ohmyzsh"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">CentOS 7 安装配置 oh-my-zsh</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-04-11 17:05:05" datetime="2019-04-11T09:05:05.000Z"  itemprop="datePublished">2019-04-11</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/CentOS/">CentOS</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>Your terminal never felt this good before.</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/04/11/centos7-install-ohmyzsh/cover.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="1-查看已有终端"><a href="#1-查看已有终端" class="headerlink" title="1. 查看已有终端"></a>1. 查看已有终端</h3><pre><code class="lang-bash">&gt; cat /etc/shells
+/bin/sh
+/bin/bash
+/sbin/nologin
+/usr/bin/sh
+/usr/bin/bash
+/usr/sbin/nologin
+/bin/tcsh
+/bin/csh
+/usr/bin/tmux
+
+&gt; chsh -l
+/bin/sh
+/bin/bash
+/sbin/nologin
+/usr/bin/sh
+/usr/bin/bash
+/usr/sbin/nologin
+/bin/tcsh
+/bin/csh
+/usr/bin/tmux
+
+&gt; echo $SHELL
+/bin/bash
+</code></pre>
+<p>可以看到 <strong>CentOS 7</strong> 的<strong>默认终端</strong>是<code>/bin/bash</code>。</p>
+<h3 id="2-安装-zsh"><a href="#2-安装-zsh" class="headerlink" title="2. 安装 zsh"></a>2. 安装 zsh</h3><pre><code class="lang-bash">&gt; yum info zsh
+Available Packages
+Name        : zsh
+Arch        : x86_64
+Version     : 5.0.2
+Release     : 31.el7
+Size        : 2.4 M
+Repo        : base/7/x86_64
+Summary     : Powerful interactive shell
+URL         : http://zsh.sourceforge.net/
+License     : MIT
+Description : The zsh shell is a command interpreter usable as an interactive
+            : login shell and as a shell script command processor.  Zsh resembles
+            : the ksh shell (the Korn shell), but includes many enhancements.
+            : Zsh supports command line editing, built-in spelling correction,
+            : programmable command completion, shell functions (with
+            : autoloading), a history mechanism, and more.
+
+&gt; yum install -y zsh
+&gt; cat /etc/shells
+/bin/sh
+/bin/bash
+/sbin/nologin
+/usr/bin/sh
+/usr/bin/bash
+/usr/sbin/nologin
+/bin/tcsh
+/bin/csh
+/usr/bin/tmux
+/bin/zsh
+</code></pre>
+<h3 id="3-切换默认-Shell-为-zsh"><a href="#3-切换默认-Shell-为-zsh" class="headerlink" title="3. 切换默认 Shell 为 zsh"></a>3. 切换默认 Shell 为 zsh</h3><blockquote>
+<p>请在<code>root</code>用户下<strong>切换 Shell</strong></p>
+</blockquote>
+<pre><code class="lang-bash">&gt; chsh -s /bin/zsh
+Changing shell for root.
+Shell changed.
+</code></pre>
+<p>提示<strong>终端切换完成</strong>，但还需<strong>重启方能生效</strong>。之后<strong>继续安装</strong><code>oh-my-zsh</code>。</p>
+<h3 id="4-安装-oh-my-zsh"><a href="#4-安装-oh-my-zsh" class="headerlink" title="4. 安装 oh-my-zsh"></a>4. 安装 oh-my-zsh</h3><h4 id="Via-curl"><a href="#Via-curl" class="headerlink" title="Via curl"></a>Via curl</h4><pre><code class="lang-bash">sh -c &quot;$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;
+</code></pre>
+<h4 id="Via-wget"><a href="#Via-wget" class="headerlink" title="Via wget"></a>Via wget</h4><pre><code class="lang-bash">sh -c &quot;$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)&quot;
+</code></pre>
+<p>提示<code>oh-my-zsh</code><strong>安装成功</strong>：</p>
+<pre><code class="lang-zsh">         __                                     __   
+  ____  / /_     ____ ___  __  __   ____  _____/ /_  
+ / __ \/ __ \   / __ `__ \/ / / /  /_  / / ___/ __ \ 
+/ /_/ / / / /  / / / / / / /_/ /    / /_(__  ) / / / 
+\____/_/ /_/  /_/ /_/ /_/\__, /    /___/____/_/ /_/  
+                        /____/                       ....is now installed!
+
+
+Please look over the ~/.zshrc file to select plugins, themes, and options.
+
+p.s. Follow us at https://twitter.com/ohmyzsh.
+
+p.p.s. Get stickers, shirts, and coffee mugs at https://shop.planetargon.com/collections/oh-my-zsh.
+</code></pre>
+<h3 id="5-修改主题及配置"><a href="#5-修改主题及配置" class="headerlink" title="5. 修改主题及配置"></a>5. 修改主题及配置</h3><p><strong>oh-my-zsh</strong> 的<strong>默认主题</strong>是<code>robbyrussell</code>，可以在<code>~/.zshrc</code>中<strong>修改</strong><code>ZSH_THEME</code><strong>主题字段</strong>，主题清单参见 <a href="https://github.com/robbyrussell/oh-my-zsh/wiki/Themes" target="_blank" rel="noopener">Themes | oh-my-zsh</a>。</p>
+<pre><code class="lang-bash"># Set name of the theme to load --- if set to &quot;random&quot;, it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+ZSH_THEME=&quot;agnoster&quot;
+</code></pre>
+<p>另外还可以在<code>~/.zshrc</code>中<strong>设置</strong><code>PATH</code><strong>路径</strong>或<strong>添加</strong><code>alias</code><strong>命令别名</strong>，使用方法与<code>~/.bashrc</code>相同：</p>
+<pre><code class="lang-bash">&gt; vim ~/.zshrc
+
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+export GOLANDPATH=$HOME/GoLand-2018.3.5/
+export GOPATH=$HOME/go
+export PATH=&quot;$PATH:$GOPATH/bin:$GOLANDPATH:bin&quot;
+
+# Path to your oh-my-zsh installation.
+export ZSH=&quot;/root/.oh-my-zsh&quot;
+
+# Set name of the theme to load --- if set to &quot;random&quot;, it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+ZSH_THEME=&quot;agnoster&quot;
+
+...
+...
+
+# Set list of themes to pick from when loading at random
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( &quot;robbyrussell&quot; &quot;agnoster&quot; )
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig=&quot;mate ~/.zshrc&quot;
+# alias ohmyzsh=&quot;mate ~/.oh-my-zsh&quot;
+
+alias rm=&#39;rm -i&#39;
+alias cp=&#39;cp -i&#39;
+alias mv=&#39;mv -i&#39;
+alias vi=&#39;vim&#39;
+alias pc=&#39;proxychains4&#39;
+</code></pre>
+<p>保存之后<strong>更新配置</strong>：</p>
+<pre><code class="lang-bash">source ~/.zshrc
+</code></pre>
+<p>例如下图所示即为<code>agnoster-zsh-theme</code>主题效果：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/04/11/centos7-install-ohmyzsh/agnoster.png" alt="agnoster-zsh-theme" title>
+                </div>
+                <div class="image-caption">agnoster-zsh-theme</div>
+            </figure>
+<p><strong>注意</strong>：在 <strong>CentOS 7</strong> 下使用<code>agnoster</code>主题，<strong>部分符号在终端无法正常显示</strong>，还需<strong>安装</strong> <a href="https://github.com/powerline/fonts" target="_blank" rel="noopener">Powerline fonts</a> <strong>字体</strong>：</p>
+<pre><code class="lang-bash"># clone
+git clone https://github.com/powerline/fonts.git --depth=1
+# install
+cd fonts
+./install.sh
+# clean-up a bit
+cd ..
+rm -rf fonts
+</code></pre>
+<p>之后在终端输入以下命令<strong>测试</strong><code>Powerline font</code><strong>字体是否成功安装</strong>：</p>
+<pre><code class="lang-bash">echo &quot;\ue0b0 \u00b1 \ue0a0 \u27a6 \u2718 \u26a1 \u2699&quot;
+</code></pre>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/04/11/centos7-install-ohmyzsh/powerline-font.png" alt="字体安装成功后符号可正常显示" title>
+                </div>
+                <div class="image-caption">字体安装成功后符号可正常显示</div>
+            </figure>
+<h3 id="6-zsh-小技巧"><a href="#6-zsh-小技巧" class="headerlink" title="6. zsh 小技巧"></a>6. zsh 小技巧</h3><p>输入<code>d</code>命令，即可查看<strong>在这个终端会话中访问过的目录</strong>，输入<strong>目录对应的序号</strong>即可跳转：</p>
+<pre><code class="lang-bash">~ &gt; d
+0    ~
+1    ~/.oh-my-zsh/plugins/git
+2    /opt/google
+3    ~/.oh-my-zsh
+4    ~/.oh-my-zsh/plugins
+5    ~/GolandProjects/go-rest-api-server
+6    ~/GolandProjects
+
+~ &gt; 6
+~/GolandProjects
+
+~/GolandProjects &gt;
+</code></pre>
+<p>另外还可以<strong>忽略</strong><code>cd</code><strong>命令</strong>，输入<code>..</code>、<code>...</code>或目录名都可以跳转。</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
+<ol>
+<li><a href="https://ohmyz.sh" target="_blank" rel="noopener">oh my zsh</a></li>
+<li><a href="https://github.com/robbyrussell/oh-my-zsh" target="_blank" rel="noopener">oh-my-zsh | Github</a></li>
+<li><a href="https://github.com/robbyrussell/oh-my-zsh/wiki/Themes" target="_blank" rel="noopener">Themes - oh-my-zsh | Github</a></li>
+<li><a href="https://www.jianshu.com/p/d194d29e488c" target="_blank" rel="noopener">oh-my-zsh,让你的终端从未这么爽过 | 简书</a></li>
+<li><a href="https://www.jianshu.com/p/4ce7d511bc13" target="_blank" rel="noopener">CentOS 7 安装 zsh 配置 oh-my-zsh | 简书</a></li>
+<li><a href="http://yijiebuyi.com/blog/b9b5e1ebb719f22475c38c4819ab8151.html" target="_blank" rel="noopener">oh-my-zsh配置你的zsh提高shell逼格终极选择 | 一介布衣</a></li>
+<li><a href="https://medium.com/@chialin/使用-oh-my-zsh-的-agnoster-theme-a07842f79f71" target="_blank" rel="noopener">使用 oh-my-zsh 的 agnoster theme | Medium.com</a></li>
+<li><a href="http://www.wxtlife.com/2018/03/21/oh-my-zsh/" target="_blank" rel="noopener">强大的终端工具ohMyZsh | 技术特工队</a></li>
+<li><a href="https://github.com/agnoster/agnoster-zsh-theme" target="_blank" rel="noopener">agnoster.zsh-theme | Github</a></li>
+<li><a href="https://github.com/powerline/fonts" target="_blank" rel="noopener">Powerline fonts | Github</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/10/23/go-exec-shell-command/">Go 语言使用 os/exec 执行 Shell 命令</a></li><li><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7 安装配置 NFS</a></li><li><a href="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/">Linux 系统常用监控命令</a></li><li><a href="https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/">Linux 终端修改 ls 命令目录显示颜色</a></li><li><a href="https://atomrq.gitee.io/2019-09-day/2019-09-16-zsh/">zsh安装配置</a></li><li><a href="https://atomrq.com/2019-09-day/2019-09-16-zsh/">zsh安装配置</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.017Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/04/11/centos7-install-ohmyzsh/" target="_blank" rel="external">https://abelsu7.top/2019/04/11/centos7-install-ohmyzsh/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zsh/">zsh</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/终端/">终端</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/04/11/centos7-install-ohmyzsh/&title=《CentOS 7 安装配置 oh-my-zsh》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/04/11/centos7-install-ohmyzsh/&title=《CentOS 7 安装配置 oh-my-zsh》 — Keep Coding&source=
+Your terminal never felt this good before.
+
+
+                
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/04/11/centos7-install-ohmyzsh/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《CentOS 7 安装配置 oh-my-zsh》 — Keep Coding&url=https://abelsu7.top/2019/04/11/centos7-install-ohmyzsh/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/04/11/centos7-install-ohmyzsh/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/04/16/kvm-in-action-1/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">《KVM 实战》笔记 1：构建 KVM 环境</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/04/06/tencent-2019-spring-test/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">腾讯暑期实习常规批笔试 Golang 题解</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/04/11/centos7-install-ohmyzsh/&title=《CentOS 7 安装配置 oh-my-zsh》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/04/11/centos7-install-ohmyzsh/&title=《CentOS 7 安装配置 oh-my-zsh》 — Keep Coding&source=
+Your terminal never felt this good before.
+
+
+                
+              ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/04/11/centos7-install-ohmyzsh/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《CentOS 7 安装配置 oh-my-zsh》 — Keep Coding&url=https://abelsu7.top/2019/04/11/centos7-install-ohmyzsh/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/04/11/centos7-install-ohmyzsh/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJElEQVR42u3aS47jMAwFwNz/0untANN2+EhnBpLKq8AxLJUXBD96vcrX+/b685n75//+92qV1zcuDAyMZRn1LfY2V9noZF0MDIxzGFdLXj1Tv1MJzfV1L+9jYGBglH9P/sXAwMB4lnG/rcr7UyoGBgZG2kqb97v+Wy2OgYGxIKPedf/3v78y38DAwFiK8Q6vStCct+riXWFgYGzNqAe4+7QsHWTO0z4MDIxzGL3yMg2XdWrl/b/cwcDAOIDxVJssLYAfO/CBgYFxACMdKN5vvT6GrI8EPnwgDAyMrRn1dljaRGvW05M9YGBgHMCYF5a91ttk5BB3BDEwMBZk1FvzaUNtclAjTVUxMDBOYKTbrSd56Wdq3sfAwDiSMd9WJYzWQ3x8WgQDA2MjRi+B622unlzGhy0wMDCOYUwCZVqCpoG+icHAwNiCkTbXJqOCtIgthdR0noCBgbEgozd6nDTR6klnMzRjYGBsyvh2c60e7kdFLAYGxgGMB0aJraZb/ZN9wGBgYBzASMNrunyv9I3HABgYGMcweo25NE1MN/ohBGNgYGzKeIdXWohWgnV6FKOZFGJgYCzL6LXGem2y+pCyvvUYg4GBsSxj3up6alSQhuxmPY2BgbEsY5K69Y5c9FK9yycxMDAwyktOmmi9gxcYGBgY96lhPYGrDzLrxfDlmREMDIxNGb2GWjokSNv9wUgVAwNja0ZaOs5fXRmLzpNUDAyMLRg/LPDbGXYzzewAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>

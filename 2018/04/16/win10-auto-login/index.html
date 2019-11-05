@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>Windows 10 设置开机自动登录 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Windows">
+    <meta name="description" content="日常使用Windows时，大家一般都会选择设置密码来确保安全。然而每次登录都需要输入密码，在绝对安全的场所反而有些麻烦。今天就来介绍一下Win10中开机自动登录的设置方法，早期Windows版本同样适用。  虽然设置自动登录方便了很多，但也存在极大的安全隐患，不需要密码就可以进入你的系统，想想就是件可怕的事。还请务必根据个人需要谨慎开启。">
+<meta name="keywords" content="Windows">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows 10 设置开机自动登录">
+<meta property="og:url" content="https://abelsu7.top/2018/04/16/win10-auto-login/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="日常使用Windows时，大家一般都会选择设置密码来确保安全。然而每次登录都需要输入密码，在绝对安全的场所反而有些麻烦。今天就来介绍一下Win10中开机自动登录的设置方法，早期Windows版本同样适用。  虽然设置自动登录方便了很多，但也存在极大的安全隐患，不需要密码就可以进入你的系统，想想就是件可怕的事。还请务必根据个人需要谨慎开启。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/win10-auto-login/cmd.PNG">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/win10-auto-login/account.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/win10-auto-login/pwd.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/win10-auto-login/pwd_incorrect.jpg">
+<meta property="og:image" content="https://abelsu7.top/2018/04/16/win10-auto-login/duplicate_accounts.jpg">
+<meta property="og:updated_time" content="2019-09-01T13:04:11.768Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Windows 10 设置开机自动登录">
+<meta name="twitter:description" content="日常使用Windows时，大家一般都会选择设置密码来确保安全。然而每次登录都需要输入密码，在绝对安全的场所反而有些麻烦。今天就来介绍一下Win10中开机自动登录的设置方法，早期Windows版本同样适用。  虽然设置自动登录方便了很多，但也存在极大的安全隐患，不需要密码就可以进入你的系统，想想就是件可怕的事。还请务必根据个人需要谨慎开启。">
+<meta name="twitter:image" content="https://abelsu7.top/2018/04/16/win10-auto-login/cmd.PNG">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Windows 10 设置开机自动登录</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Windows 10 设置开机自动登录</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-04-16T08:20:42.000Z" itemprop="datePublished" class="page-time">
+  2018-04-16
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/工具软件/">工具软件</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+
+<article id="post-win10-auto-login"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Windows 10 设置开机自动登录</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-04-16 16:20:42" datetime="2018-04-16T08:20:42.000Z"  itemprop="datePublished">2018-04-16</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/工具软件/">工具软件</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>日常使用Windows时，大家一般都会选择设置密码来确保安全。然而每次登录都需要输入密码，在绝对安全的场所反而有些麻烦。今天就来介绍一下<strong>Win10</strong>中开机自动登录的设置方法，<strong>早期Windows版本同样适用</strong>。</p>
+<blockquote>
+<p>虽然设置自动登录方便了很多，但也存在极大的<strong>安全隐患</strong>，不需要密码就可以进入你的系统，想想就是件可怕的事。还请务必根据个人需要<strong>谨慎开启</strong>。</p>
+</blockquote>
+<a id="more"></a>
+<p>首先按下<code>Win + R</code>组合键，输入<code>netplwiz</code>或<code>control userpasswords2</code>并运行，打开<strong>用户账户</strong>界面。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/win10-auto-login/cmd.PNG" alt="运行netplwiz" title>
+                </div>
+                <div class="image-caption">运行netplwiz</div>
+            </figure>
+<p>之后取消勾选<strong>要使用本计算机，用户必须输入用户名和密码</strong>，并点击<strong>应用</strong>。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/win10-auto-login/account.jpg" alt="取消勾选输入用户名和密码" title>
+                </div>
+                <div class="image-caption">取消勾选输入用户名和密码</div>
+            </figure>
+<p>在弹出窗口中<strong>输入选中用户的密码</strong>并<strong>保存</strong>，这样就设置完成了。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/win10-auto-login/pwd.jpg" alt="保存用户密码" title>
+                </div>
+                <div class="image-caption">保存用户密码</div>
+            </figure>
+<p>另外，有用户在设置自动登录后，遇到开机提示<strong>用户名或密码不正确</strong>、点击<strong>OK</strong>后出现<strong>两个相同账户</strong>的情况，</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/win10-auto-login/pwd_incorrect.jpg" alt="用户名或密码错误" title>
+                </div>
+                <div class="image-caption">用户名或密码错误</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/04/16/win10-auto-login/duplicate_accounts.jpg" alt="两个相同的用户账户" title>
+                </div>
+                <div class="image-caption">两个相同的用户账户</div>
+            </figure>
+<p>出现上述问题的原因可能是你在设置了开机自动登录之后，又<strong>更改了计算机的名称</strong>。此时需要以任意用户身份登录系统，<strong>取消自动登录后再重新设置</strong>，问题即可解决。</p>
+<blockquote>
+<p><strong>参考文章</strong></p>
+<ol>
+<li><a href="http://product.pconline.com.cn/itbk/software/dnyw/1704/9164098.html" target="_blank" rel="noopener">Win10开机提示用户名或密码不正确 | IT百科</a></li>
+<li><a href="http://www.jb51.net/os/win10/522888.html" target="_blank" rel="noopener">Win10开机提示用户名或密码不正确现象的解决办法 | 脚本之家</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/07/03/windows-fluent-terminal/">Fluent Terminal：Windows 下的炫酷终端</a></li><li><a href="https://abelsu7.top/2019/06/13/windows-powershell-beautify/">Windows 10 终端 PowerShell 外观美化</a></li><li><a href="https://abelsu7.top/2019/06/10/tools-for-monitor-cpu-temp/">几款监控 CPU 温度的软件推荐</a></li><li><a href="https://abelsu7.top/2019/04/30/win10-completely-remove-bluetooth-device/">Windows 10 彻底删除已配对的蓝牙设备</a></li><li><a href="http://ashin.wang/Windows-Skill/">Windows笔记</a></li><li><a href="http://aleung.github.io/blog/2014/12/30/windows-troubleshooting/">Trouble shooting: Windows响应缓慢</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-09-01T13:04:11.768Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2018/04/16/win10-auto-login/" target="_blank" rel="external">https://abelsu7.top/2018/04/16/win10-auto-login/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Windows/">Windows</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/04/16/win10-auto-login/&title=《Windows 10 设置开机自动登录》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/04/16/win10-auto-login/&title=《Windows 10 设置开机自动登录》 — Keep Coding&source=日常使用Windows时，大家一般都会选择设置密码来确保安全。然而每次登录都需要输入密码，在绝对安全的场所反而有些麻烦。今天就来介绍一下Win10中开机自..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/04/16/win10-auto-login/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Windows 10 设置开机自动登录》 — Keep Coding&url=https://abelsu7.top/2018/04/16/win10-auto-login/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/04/16/win10-auto-login/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/04/16/try-cloud-studio/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">腾讯云携手 CODING，云端 IDE —— Cloud Studio 初体验</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/04/03/cloudflare-public-dns/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Cloudflare 发布公共 DNS——1.1.1.1</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2018/04/16/win10-auto-login/&title=《Windows 10 设置开机自动登录》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2018/04/16/win10-auto-login/&title=《Windows 10 设置开机自动登录》 — Keep Coding&source=日常使用Windows时，大家一般都会选择设置密码来确保安全。然而每次登录都需要输入密码，在绝对安全的场所反而有些麻烦。今天就来介绍一下Win10中开机自..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2018/04/16/win10-auto-login/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Windows 10 设置开机自动登录》 — Keep Coding&url=https://abelsu7.top/2018/04/16/win10-auto-login/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2018/04/16/win10-auto-login/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLElEQVR42u3awY7DIAxF0f7/T2c2s6jUCb3PJiMBl1UUNcDpwjLYrxce19v4fPP+fvz7z+fxV5OHDBkylmVcw0EWIAvz+cfvb3ciQ4aMAxjjzaWhls/M1/0ygwwZMmSUSCSY8mcZMmTIqAU+ntjxw60MGTJkdA6x6WK1i7bHz+IyZMhYkMFv3f//+ZH6hgwZMpZiXOEYw2qpYWc/v/PIkCFja0anADkrTeTIL20ZMmTI2JTRudavBcrxdklw/+ONDBkyDmaQa69++wUn3c4sQ4aMYxjpx53CJMlY+VcyZMg4gVELjv2ruhQWnMJlyJCxEaPTAMG3NTdxvMXLkCFjU0a/3WFWwE0v8m5TQxkyZGzNSLfIt9VJBNERV4YMGVsz0gSOBOi5ZdEULEOGjL0ZPFCSTfMQnK6IklcZMmRsxODKTmkzbdfge0MlTBkyZCzO6AP4xRw5jpKUES0gQ4aMAxikzSJNJQmA/61xOVOGDBlbMHh5gJ+JeWMZD8e1QC9DhozVGamy1lqRlhPi4oEMGTIOY9QuwtIAOqu0IEOGjHMY6RRBXbR/BCWpqgwZMjZlXOFIr9V4Ytc6f8uQIWNrRj9ad1ooarxaoJchQ8bqDB5kecgmRYVaKaJ4CyhDhowtGJ0DZ639YvybdLcyZMiQwUubJIx2igoPBlwZMmQcwBhvmh9Hx1RUiZUhQ8amjOeKAaQ8UGspkyFDxjmMWpNEZ4E07ZtW1JQhQ8Z6jB+jlomHHCae+wAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>
