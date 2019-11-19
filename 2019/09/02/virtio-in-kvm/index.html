@@ -44,7 +44,7 @@
 <meta property="og:image" content="https://abelsu7.top/2019/09/02/virtio-in-kvm/architecture.gif">
 <meta property="og:image" content="https://abelsu7.top/2019/09/02/virtio-in-kvm/virtio-layer.png">
 <meta property="og:image" content="https://abelsu7.top/2019/09/02/virtio-in-kvm/virtio-data-structure.gif">
-<meta property="og:updated_time" content="2019-11-05T03:29:20.455Z">
+<meta property="og:updated_time" content="2019-11-19T13:34:08.676Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="半虚拟化 I&#x2F;O 框架 virtio">
 <meta name="twitter:description" content="virtio 框架学习，更新中…">
@@ -851,12 +851,14 @@ struct virtqueue {
 <li><a href="https://blog.csdn.net/leoufung/article/details/48781141" target="_blank" rel="noopener">QEMU 通过virtio接收报文处理流程（QEMU2.0.0）- leoufung | CSDN</a></li>
 <li><a href="https://blog.csdn.net/leoufung/article/details/52955535" target="_blank" rel="noopener">VIRTIO 的 vring 收发队列创建流程 - leoufung | CSDN</a></li>
 <li><a href="https://blog.csdn.net/leoufung/article/details/53584970" target="_blank" rel="noopener">VIRTIO 中的前后端配合限速分析 - leoufung | CSDN</a></li>
+<li><a href="http://www.hanbaoying.com/2017/08/30/virtio-blk-io-path.html" target="_blank" rel="noopener">virtio 路径 | 随便写写</a></li>
 </ol>
 </blockquote>
 <h4 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h4><blockquote>
 <ol>
 <li><a href="http://www.linux-kvm.org/page/Virtio" target="_blank" rel="noopener">Virtio | KVM Documents</a></li>
 <li><a href="https://ozlabs.org/~rusty/virtio-spec/virtio-paper.pdf" target="_blank" rel="noopener">virtio: Towards a De-Facto Standard For Virtual I/O Devices - Rusty Russell | PDF</a></li>
+<li><a href="https://www.linux-kvm.org/images/f/f9/2012-forum-virtio-blk-performance-improvement.pdf" target="_blank" rel="noopener">Virtio-blk Performance Improvement | KVM Forum 2012</a></li>
 </ol>
 </blockquote>
 <h4 id="太初有道-博客园"><a href="#太初有道-博客园" class="headerlink" title="太初有道 - 博客园"></a>太初有道 - 博客园</h4><blockquote>
@@ -917,7 +919,7 @@ struct virtqueue {
 <li><a href="http://juniorprincewang.github.io/2019/08/22/%E6%B5%AE%E7%82%B9%E6%95%B0%E6%8B%BE%E9%81%97/#" target="_blank" rel="noopener">浮点数拾遗 | 王子阳</a></li>
 </ol>
 </blockquote>
-<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/08/26/compile-kvm-module/">单独编译 KVM 内核模块</a></li><li><a href="https://abelsu7.top/2019/08/11/kvm-api-overview/">Kernel 2.6.32 中的 KVM API 概述</a></li><li><a href="https://abelsu7.top/2019/08/11/qemu-main-func/">QEMU 1.2.0 入口 main() 函数调用流程分析</a></li><li><a href="https://abelsu7.top/2019/07/07/qemu-nbd/">使用 qemu-nbd 挂载虚拟机镜像</a></li><li><a href="http://www.borgor.cn/2017-10-23/16f315c1.html">迁移 VMware 虚拟机到 KVM</a></li><li><a href="https://zsnmwy.net/47278.html">微星B350M 虚拟化开启 AMD-V</a></li></ul></div>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/11/19/recent-virt-notes/">虚拟化相关资料收集</a></li><li><a href="https://abelsu7.top/2019/08/26/compile-kvm-module/">单独编译 KVM 内核模块</a></li><li><a href="https://abelsu7.top/2019/08/11/kvm-api-overview/">Kernel 2.6.32 中的 KVM API 概述</a></li><li><a href="https://abelsu7.top/2019/08/11/qemu-main-func/">QEMU 1.2.0 入口 main() 函数调用流程分析</a></li><li><a href="http://www.borgor.cn/2017-10-23/16f315c1.html">迁移 VMware 虚拟机到 KVM</a></li><li><a href="https://zsnmwy.net/47278.html">微星B350M 虚拟化开启 AMD-V</a></li></ul></div>
         </div>
 
         <blockquote class="post-copyright">
@@ -925,7 +927,7 @@ struct virtqueue {
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2019-11-05T03:29:20.455Z" itemprop="dateUpdated">2019-11-05 11:29:20</time>
+    最后更新时间：<time datetime="2019-11-19T13:34:08.676Z" itemprop="dateUpdated">2019-11-19 21:34:08</time>
 </span><br>
 
 

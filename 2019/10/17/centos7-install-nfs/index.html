@@ -39,7 +39,7 @@
 <meta property="og:description" content="参考 CentOS 7 下 yum 安装和配置 NFS | Zhanming’s blog，补充整理部分内容">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://abelsu7.top/2019/10/17/centos7-install-nfs/cover.jpg">
-<meta property="og:updated_time" content="2019-11-11T02:41:48.519Z">
+<meta property="og:updated_time" content="2019-11-19T12:48:03.977Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CentOS 7 安装配置 NFS">
 <meta name="twitter:description" content="参考 CentOS 7 下 yum 安装和配置 NFS | Zhanming’s blog，补充整理部分内容">
@@ -242,7 +242,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-环境说明"><span class="post-toc-text">1. 环境说明</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-NFS-服务端"><span class="post-toc-text">2. NFS 服务端</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-安装-nfs-utils"><span class="post-toc-text">2.1 安装 nfs-utils</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-配置并启动服务"><span class="post-toc-text">2.2 配置并启动服务</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-3-配置共享目录"><span class="post-toc-text">2.3 配置共享目录</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-4-查看共享目录列表"><span class="post-toc-text">2.4 查看共享目录列表</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-NFS-客户端"><span class="post-toc-text">3. NFS 客户端</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-安装-nfs-utils"><span class="post-toc-text">3.1 安装 nfs-utils</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-配置并启动服务"><span class="post-toc-text">3.2 配置并启动服务</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-3-挂载共享目录"><span class="post-toc-text">3.3 挂载共享目录</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-4-配置自动挂载"><span class="post-toc-text">3.4 配置自动挂载</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-NFS-读写速度测试"><span class="post-toc-text">4. NFS 读写速度测试</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#NFS-安装与配置"><span class="post-toc-text">NFS 安装与配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#dd-读写速度测试"><span class="post-toc-text">dd 读写速度测试</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#cp-命令显示进度"><span class="post-toc-text">cp 命令显示进度</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#NFS-性能优化"><span class="post-toc-text">NFS 性能优化</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Sheepdog"><span class="post-toc-text">Sheepdog</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Ceph"><span class="post-toc-text">Ceph</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#其他相关文章"><span class="post-toc-text">其他相关文章</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-环境说明"><span class="post-toc-text">1. 环境说明</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-NFS-服务端"><span class="post-toc-text">2. NFS 服务端</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-安装-nfs-utils"><span class="post-toc-text">2.1 安装 nfs-utils</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-配置并启动服务"><span class="post-toc-text">2.2 配置并启动服务</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-3-配置共享目录"><span class="post-toc-text">2.3 配置共享目录</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-4-查看共享目录列表"><span class="post-toc-text">2.4 查看共享目录列表</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-NFS-客户端"><span class="post-toc-text">3. NFS 客户端</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-安装-nfs-utils"><span class="post-toc-text">3.1 安装 nfs-utils</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-配置并启动服务"><span class="post-toc-text">3.2 配置并启动服务</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-3-挂载共享目录"><span class="post-toc-text">3.3 挂载共享目录</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-4-配置自动挂载"><span class="post-toc-text">3.4 配置自动挂载</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-NFS-读写速度测试"><span class="post-toc-text">4. NFS 读写速度测试</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#NFS-安装与配置"><span class="post-toc-text">NFS 安装与配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#dd-读写速度测试"><span class="post-toc-text">dd 读写速度测试</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#cp-命令显示进度"><span class="post-toc-text">cp 命令显示进度</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#NFS-性能优化"><span class="post-toc-text">NFS 性能优化</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -496,31 +496,6 @@ centos-2:/mnt/kvm on /mnt/kvm type nfs4 (rw,relatime,vers=4.2,rsize=1048576,wsiz
 <li><a href="https://my.oschina.net/linjiezang/blog/827712" target="_blank" rel="noopener">NFS 读写块大小分析 | 开源中国</a></li>
 </ol>
 </blockquote>
-<h4 id="Sheepdog"><a href="#Sheepdog" class="headerlink" title="Sheepdog"></a>Sheepdog</h4><blockquote>
-<ol>
-<li><a href="http://sheepdog.github.io/sheepdog/" target="_blank" rel="noopener">Sheepdog Project</a></li>
-<li><a href="https://www.aikaiyuan.com/9818.html" target="_blank" rel="noopener">Sheepdog 安装和使用管理 | 爱开源</a></li>
-<li><a href="http://www.ssdfans.com/blog/2017/08/03/%e6%8c%82%e7%be%8a%e5%a4%b4%e5%8d%96%e7%8b%97%e8%82%89%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e5%88%b0%e5%ba%95%e5%8d%96%e7%9a%84%e6%98%af%e5%95%a5%ef%bc%9f/" target="_blank" rel="noopener">挂羊头卖狗肉文件系统到底卖的是啥？| SSDFans</a></li>
-<li><a href="https://www.oschina.net/question/1183114_118535?sort=default" target="_blank" rel="noopener">Sheepdog 性能 | 开源中国</a></li>
-<li><a href="http://harlon.org/2018/07/02/sheepdog-dog/" target="_blank" rel="noopener">Sheepdog 之 dog 源码解析 | Harlon’s Blog</a></li>
-<li><a href="http://www.361way.com/sheepdog-summary/3802.html" target="_blank" rel="noopener">分布式存储系统 sheepdog 概述 | 运维之路</a></li>
-<li><a href="https://my.oschina.net/u/989893/blog/113749" target="_blank" rel="noopener">Sheepdog 与 KVM | 开源中国</a></li>
-<li><a href="https://segmentfault.com/q/1010000009515261" target="_blank" rel="noopener">QEMU 从 sheepdog 启动虚拟机的性能非常慢？| SegmentFault</a></li>
-</ol>
-</blockquote>
-<h4 id="Ceph"><a href="#Ceph" class="headerlink" title="Ceph"></a>Ceph</h4><blockquote>
-<ol>
-<li><a href="https://amito.me/2018/Using-Ceph-RBD-as-A-Backend-for-QEMU-KVM-Instances/" target="_blank" rel="noopener">使用 Ceph 作为 QEMU KVM 虚拟机的存储 - 冬日の草原 </a></li>
-</ol>
-</blockquote>
-<h4 id="其他相关文章"><a href="#其他相关文章" class="headerlink" title="其他相关文章"></a>其他相关文章</h4><blockquote>
-<ol>
-<li><a href="https://tech.meituan.com/2016/03/11/block-store.html" target="_blank" rel="noopener">分布式块存储系统 Ursa 的设计与实现 | 美团技术团队</a></li>
-<li><a href="http://harlon.org/2018/06/10/iscsi-hig-available/" target="_blank" rel="noopener">iSCSI 高可用性研究 | Harlon’s Blog</a></li>
-<li><a href="http://harlon.org/2018/06/09/distributedsystemconsistency/" target="_blank" rel="noopener">分布式一致性算法综述 | Harlon’s Blog</a></li>
-<li><a href="http://harlon.org/2018/05/22/operatorpool/" target="_blank" rel="noopener">线程池、进程池与内存池 | Harlon’s Blog</a></li>
-</ol>
-</blockquote>
 <div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/">Linux 系统常用监控命令</a></li><li><a href="https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/">Linux 终端修改 ls 命令目录显示颜色</a></li><li><a href="https://abelsu7.top/2019/07/07/perf-quick-guides/">Linux 下使用 Perf 分析系统性能</a></li><li><a href="https://abelsu7.top/2019/06/10/linux-shell-examples/">Linux Shell 编程速查</a></li><li><a href="http://www.borgor.cn/2019-07-25/81eae861.html">在CentOS上使用certbot为nginx添加https证书</a></li><li><a href="http://www.borgor.cn/2019-07-25/29fa0dd5.html">从零开始搭建CentOS+Python+nodejs开发环境</a></li></ul></div>
         </div>
 
@@ -529,7 +504,7 @@ centos-2:/mnt/kvm on /mnt/kvm type nfs4 (rw,relatime,vers=4.2,rsize=1048576,wsiz
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2019-11-11T02:41:48.519Z" itemprop="dateUpdated">2019-11-11 10:41:48</time>
+    最后更新时间：<time datetime="2019-11-19T12:48:03.977Z" itemprop="dateUpdated">2019-11-19 20:48:03</time>
 </span><br>
 
 

@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?c61262c25ca5d4ed66df331a31b5bf49"></script>
+<!-- End Baidu Tongji -->
+
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="cc3c_UncRv21aEZwqejVxKpUMR7h9ldNUTeYjawUS-g">
+    
+    
+    <meta name="baidu-site-verification" content="HnoV7q61W5">
+    
+    
+    
+    <title>虚拟化相关资料收集 | Keep Coding | 苏易北</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Ceph,Open vSwitch,Sheepdog,virtio">
+    <meta name="description" content="近期整理备忘，待更新…">
+<meta name="keywords" content="Ceph,Open vSwitch,Sheepdog,virtio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="虚拟化相关资料收集">
+<meta property="og:url" content="https://abelsu7.top/2019/11/19/recent-virt-notes/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="近期整理备忘，待更新…">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://abelsu7.top/2019/11/19/recent-virt-notes/cover.jpg">
+<meta property="og:updated_time" content="2019-11-19T15:12:13.720Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="虚拟化相关资料收集">
+<meta name="twitter:description" content="近期整理备忘，待更新…">
+<meta name="twitter:image" content="https://abelsu7.top/2019/11/19/recent-virt-notes/cover.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <link rel="stylesheet" href="/css/prism/prism-tomorrow-night.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-list-ul"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/back_blue.png)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/fong.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Abel Su</h5>
+          <a href="mailto:abelsu7@gmail.com" title="abelsu7@gmail.com" class="mail">abelsu7@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives/"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories/"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags/"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top"  >
+                <i class="icon icon-lg icon-sticky-note"></i>
+                笔记
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/abelsu7"  >
+                <i class="icon icon-lg icon-github"></i>
+                代码
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends/"  >
+                <i class="icon icon-lg icon-user"></i>
+                友链
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/bookmarks/"  >
+                <i class="icon icon-lg icon-bookmark"></i>
+                收藏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/books/"  >
+                <i class="icon icon-lg icon-book"></i>
+                读书
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/movies/"  >
+                <i class="icon icon-lg icon-film"></i>
+                影视
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/games/"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                游戏
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://notes.abelsu7.top/#/links/wechat"  >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/2018/09/21/how-to-learn-coding/"  >
+                <i class="icon icon-lg icon-code"></i>
+                学习
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/wiki/"  >
+                <i class="icon icon-lg icon-sort-alpha-asc"></i>
+                速查
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about/"  >
+                <i class="icon icon-lg icon-info-circle"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">虚拟化相关资料收集</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">虚拟化相关资料收集</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-11-19T09:37:20.000Z" itemprop="datePublished" class="page-time">
+  2019-11-19
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/KVM/">KVM</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-Ceph"><span class="post-toc-text">1. Ceph</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-Open-vSwitch"><span class="post-toc-text">2. Open vSwitch</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-Sheepdog"><span class="post-toc-text">3. Sheepdog</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-Ansible"><span class="post-toc-text">4. Ansible</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-虚拟化博客"><span class="post-toc-text">5. 虚拟化博客</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-文章收集"><span class="post-toc-text">6. 文章收集</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#分布式存储"><span class="post-toc-text">分布式存储</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#KVM-虚拟化"><span class="post-toc-text">KVM 虚拟化</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#virtio"><span class="post-toc-text">virtio</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#QEMU"><span class="post-toc-text">QEMU</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#NFV"><span class="post-toc-text">NFV</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#内核"><span class="post-toc-text">内核</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Github"><span class="post-toc-text">Github</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#其他"><span class="post-toc-text">其他</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-recent-virt-notes"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">虚拟化相关资料收集</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-11-19 17:37:20" datetime="2019-11-19T09:37:20.000Z"  itemprop="datePublished">2019-11-19</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/KVM/">KVM</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><strong><em>近期整理备忘，待更新…</em></strong></p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2019/11/19/recent-virt-notes/cover.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<a id="more"></a>
+<h3 id="1-Ceph"><a href="#1-Ceph" class="headerlink" title="1. Ceph"></a>1. Ceph</h3><blockquote>
+<ol>
+<li><a href="http://docs.ceph.org.cn/rbd/libvirt/" target="_blank" rel="noopener">通过 libvirt 使用 Ceph RBD | Ceph Documentation</a></li>
+<li><a href="https://amito.me/2018/Using-Ceph-RBD-as-A-Backend-for-QEMU-KVM-Instances/" target="_blank" rel="noopener">使用 Ceph 作为 QEMU KVM 虚拟机的存储 - 冬日の草原</a></li>
+<li><a href="https://int32bit.me/2016/10/25/OpenStack使用Ceph存储后端创建虚拟机快照原理剖析/" target="_blank" rel="noopener">OpenStack 使用 Ceph 存储后端创建虚拟机快照原理剖析 | int32bit’s Blog</a></li>
+<li><a href="https://int32bit.me/2017/11/23/OpenStack使用Ceph存储-Ceph到底做了什么/" target="_blank" rel="noopener">OpenStack 使用 Ceph 存储，Ceph 到底做了什么? | int32bit’s Blog</a></li>
+<li><a href="https://www.li-rui.top/2018/09/20/ceph/libvirt%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AAceph%E9%9B%86%E7%BE%A4/" target="_blank" rel="noopener">libvirt 使用多个 Ceph 集群 | 李睿的博客</a></li>
+<li><a href="https://www.xiaobo.li/?p=1063" target="_blank" rel="noopener">CentOS KVM + Ceph | 李小波</a></li>
+<li><a href="https://jeremy-xu.oschina.io/2016/08/初识ceph/" target="_blank" rel="noopener">初始 Ceph | jeremy 的技术点滴</a></li>
+<li><a href="https://opengers.github.io/ceph/virt-install-create-vm-use-rbd-pool/" target="_blank" rel="noopener">virt-install 工具安装基于 rbd 磁盘的虚拟机 | opengers</a></li>
+</ol>
+</blockquote>
+<h3 id="2-Open-vSwitch"><a href="#2-Open-vSwitch" class="headerlink" title="2. Open vSwitch"></a>2. Open vSwitch</h3><blockquote>
+<ol>
+<li><a href="https://github.com/openvswitch/ovs" target="_blank" rel="noopener">OVS - Open vSwitch | Github</a></li>
+<li><a href="https://docs.openvswitch.org/en/latest/" target="_blank" rel="noopener">Open vSwitch Documentation</a></li>
+<li><a href="http://fishcried.com/2016-02-09/openvswitch-ops-guide/" target="_blank" rel="noopener">Open vSwitch 使用指南：OVS 常用操作总结 | Fishcried</a></li>
+<li><a href="https://blog.csdn.net/Jmilk/article/details/86989975" target="_blank" rel="noopener">Open vSwitch 架构解析与功能实践 - 范桂飓 | CSDN</a></li>
+<li><a href="https://my.oschina.net/u/1179767/blog/752112" target="_blank" rel="noopener">Open vSwitch 的原理和常用命令 | 开源中国</a></li>
+<li><a href="https://www.jianshu.com/p/9b1fa7b1b705" target="_blank" rel="noopener">Open vSwitch 详解 | 简书</a></li>
+<li><a href="http://www.rendoumi.com/open-vswitchde-ovs-vsctlming-ling-xiang-jie/" target="_blank" rel="noopener">Open vSwitch 的 ovs-vsctl 命令详解 | 八戒</a></li>
+<li><a href="https://jeremy-xu.oschina.io/2016/09/研究open-vswitch/" target="_blank" rel="noopener">研究 Open vSwitch | jeremy 的技术点滴</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1120185" target="_blank" rel="noopener">研究 Open vSwitch | 腾讯云+社区</a></li>
+<li><a href="https://www.sdnlab.com/sdn-guide/14747.html" target="_blank" rel="noopener">OVS 初级教程：使用 Open vSwitch 构建虚拟网络 | SDNLAB</a></li>
+<li><a href="https://opengers.github.io/openstack/openstack-base-use-openvswitch/" target="_blank" rel="noopener">云计算底层技术 - 使用 Open vSwitch | opengers</a></li>
+<li><a href="http://www.ishenping.com/ArtInfo/4031574.html" target="_blank" rel="noopener">VM 跨主机通信 OVS 配置 | 神评网</a></li>
+<li><a href="http://www.ishenping.com/ArtInfo/4456099.html" target="_blank" rel="noopener">GRE 和 VXLAN | 神评网</a></li>
+</ol>
+</blockquote>
+<h3 id="3-Sheepdog"><a href="#3-Sheepdog" class="headerlink" title="3. Sheepdog"></a>3. Sheepdog</h3><blockquote>
+<ol>
+<li><a href="http://sheepdog.github.io/sheepdog/" target="_blank" rel="noopener">Sheepdog Project</a></li>
+<li><a href="https://www.aikaiyuan.com/9818.html" target="_blank" rel="noopener">Sheepdog 安装和使用管理 | 爱开源</a></li>
+<li><a href="http://www.ssdfans.com/blog/2017/08/03/%e6%8c%82%e7%be%8a%e5%a4%b4%e5%8d%96%e7%8b%97%e8%82%89%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e5%88%b0%e5%ba%95%e5%8d%96%e7%9a%84%e6%98%af%e5%95%a5%ef%bc%9f/" target="_blank" rel="noopener">挂羊头卖狗肉文件系统到底卖的是啥？| SSDFans</a></li>
+<li><a href="https://www.oschina.net/question/1183114_118535?sort=default" target="_blank" rel="noopener">Sheepdog 性能 | 开源中国</a></li>
+<li><a href="http://harlon.org/2018/07/02/sheepdog-dog/" target="_blank" rel="noopener">Sheepdog 之 dog 源码解析 | Harlon’s Blog</a></li>
+<li><a href="http://www.361way.com/sheepdog-summary/3802.html" target="_blank" rel="noopener">分布式存储系统 sheepdog 概述 | 运维之路</a></li>
+<li><a href="https://my.oschina.net/u/989893/blog/113749" target="_blank" rel="noopener">Sheepdog 与 KVM | 开源中国</a></li>
+<li><a href="https://segmentfault.com/q/1010000009515261" target="_blank" rel="noopener">QEMU 从 sheepdog 启动虚拟机的性能非常慢？| SegmentFault</a></li>
+</ol>
+</blockquote>
+<h3 id="4-Ansible"><a href="#4-Ansible" class="headerlink" title="4. Ansible"></a>4. Ansible</h3><blockquote>
+<ol>
+<li><a href="http://fishcried.com/2016-09-05/ansible-quick-guide/" target="_blank" rel="noopener">Ansible(一) Try it | Fishcried</a></li>
+<li><a href="http://fishcried.com/2016-09-05/ansible-inventory/" target="_blank" rel="noopener">Ansible(二) 主机管理 | Fishcried</a></li>
+<li><a href="http://fishcried.com/2016-09-05/ansible-configs/" target="_blank" rel="noopener">Ansible(三) 命令行与配置文件 | Fishcried</a></li>
+<li><a href="http://fishcried.com/2016-09-14/ansible-playbooks/" target="_blank" rel="noopener">Ansible(四) 使用Ansible Playbooks | Fishcried</a></li>
+<li><a href="http://fishcried.com/2016-09-05/ansible-roles/" target="_blank" rel="noopener">Ansible(五) 编写Ansible Role | Fishcried</a></li>
+<li><a href="http://fishcried.com/2016-09-05/ansible-common-modules/" target="_blank" rel="noopener">Ansible(六) 常用模块 | Fishcried</a></li>
+</ol>
+</blockquote>
+<h3 id="5-虚拟化博客"><a href="#5-虚拟化博客" class="headerlink" title="5. 虚拟化博客"></a>5. 虚拟化博客</h3><blockquote>
+<ol>
+<li><a href="http://oenhan.com/" target="_blank" rel="noopener">OenHan</a></li>
+<li><a href="https://blog.csdn.net/leoufung" target="_blank" rel="noopener">leoufung - 六六哥的博客 | CSDN</a></li>
+<li><a href="http://www.hanbaoying.com" target="_blank" rel="noopener">hanbaoying | 随便写写</a></li>
+<li><a href="https://int32bit.me" target="_blank" rel="noopener">int32bit’s Blog</a></li>
+<li><a href="https://amito.me/" target="_blank" rel="noopener">冬日の草原</a></li>
+<li><a href="http://fishcried.com" target="_blank" rel="noopener">Fishcried - 枯鱼</a></li>
+<li><a href="https://www.cnblogs.com/sammyliu/" target="_blank" rel="noopener">世民谈云计算 | 博客园</a></li>
+<li><a href="http://www.chenshake.com" target="_blank" rel="noopener">陈沙克日志</a></li>
+<li><a href="http://ssdxiao.github.io/" target="_blank" rel="noopener">任思绪在这里飞</a></li>
+<li><a href="https://jeremy-xu.oschina.io" target="_blank" rel="noopener">jeremy 的技术点滴</a></li>
+<li><a href="https://opengers.github.io" target="_blank" rel="noopener">opengers</a></li>
+<li><a href="http://www.rendoumi.com" target="_blank" rel="noopener">八戒</a></li>
+</ol>
+</blockquote>
+<h3 id="6-文章收集"><a href="#6-文章收集" class="headerlink" title="6. 文章收集"></a>6. 文章收集</h3><h4 id="分布式存储"><a href="#分布式存储" class="headerlink" title="分布式存储"></a>分布式存储</h4><blockquote>
+<ol>
+<li><a href="https://tech.meituan.com/2016/03/11/block-store.html" target="_blank" rel="noopener">分布式块存储系统 Ursa 的设计与实现 | 美团技术团队</a></li>
+<li><a href="http://harlon.org/2018/06/10/iscsi-hig-available/" target="_blank" rel="noopener">iSCSI 高可用性研究 | Harlon’s Blog</a></li>
+<li><a href="http://harlon.org/2018/06/09/distributedsystemconsistency/" target="_blank" rel="noopener">分布式一致性算法综述 | Harlon’s Blog</a></li>
+<li><a href="https://jeremy-xu.oschina.io/2016/07/初识glusterfs/" target="_blank" rel="noopener">初识 glusterfs | jeremy 的技术点滴</a></li>
+</ol>
+</blockquote>
+<h4 id="KVM-虚拟化"><a href="#KVM-虚拟化" class="headerlink" title="KVM 虚拟化"></a>KVM 虚拟化</h4><blockquote>
+<ol>
+<li><a href="https://int32bit.me/2019/03/18/基于Ironic实现X86裸机自动化装机实践与优化/" target="_blank" rel="noopener">基于 OpenStack Ironic 实现 x86 裸机自动化装机实践与优化 | int32bit’s Blog</a></li>
+<li><a href="https://int32bit.me/2019/06/24/如何探测虚拟环境是物理机-虚拟机还是容器/" target="_blank" rel="noopener">如何探测虚拟化环境是物理机、虚拟机还是容器？| int32bit’s Blog</a></li>
+<li><a href="http://fishcried.com/2014-11-06/kvm中开启嵌套虚拟化/" target="_blank" rel="noopener">KVM 中开启嵌套虚拟化 | Fishcried</a></li>
+<li><a href="http://ssdxiao.github.io/linux/2016/04/14/power-manage.html" target="_blank" rel="noopener">VM 电源管理 Xen 和 KVM 比较 | 任思绪在这里飞</a></li>
+<li><a href="https://jeremy-xu.oschina.io/2016/09/快速创建kvm虚拟机/" target="_blank" rel="noopener">快速创建 KVM 虚拟机 | jeremy 的技术点滴</a></li>
+<li><a href="https://jeremy-xu.oschina.io/2016/08/试用webvirtmgr/" target="_blank" rel="noopener">试用 WebVirtMgr | jeremy 的技术点滴</a></li>
+<li><a href="http://www.ishenping.com/ArtInfo/4426736.html" target="_blank" rel="noopener">云平台核心架构设计要点 | 神评网</a></li>
+</ol>
+</blockquote>
+<h4 id="virtio"><a href="#virtio" class="headerlink" title="virtio"></a>virtio</h4><blockquote>
+<ol>
+<li><a href="http://ssdxiao.github.io/%E8%99%9A%E6%8B%9F%E5%8C%96/2016/07/14/virtio-gpu-introduction.html" target="_blank" rel="noopener">virtio-gpu 介绍 | 任思绪在这里飞</a></li>
+<li><a href="http://ssdxiao.github.io/linux/2017/03/20/Virtio-Balloon.html" target="_blank" rel="noopener">Virtio-Balloon 超详细分析 | 任思绪在这里飞</a></li>
+<li><a href="http://ssdxiao.github.io/linux/2016/03/28/virtio-work-flow-1.html" target="_blank" rel="noopener">virtio 的工作流程 —— qemu 中 virtio-backend 初始化(1) | 任思绪在这里飞</a></li>
+<li><a href="http://ssdxiao.github.io/linux/2016/04/13/virtio-work-flow-2.html" target="_blank" rel="noopener">virtio 的工作流程 —— kernel 中 virtio-pci 初始化(2) | 任思绪在这里飞</a></li>
+</ol>
+</blockquote>
+<h4 id="QEMU"><a href="#QEMU" class="headerlink" title="QEMU"></a>QEMU</h4><blockquote>
+<ol>
+<li><a href="http://ssdxiao.github.io/%E8%99%9A%E6%8B%9F%E5%8C%96/2015/10/22/qemu-vnc-init.html" target="_blank" rel="noopener">QEMU 中 VNC 流程详解+代码分析 | 任思绪在这里飞</a></li>
+</ol>
+</blockquote>
+<h4 id="NFV"><a href="#NFV" class="headerlink" title="NFV"></a>NFV</h4><blockquote>
+<ol>
+<li><a href="http://ssdxiao.github.io/linux/2017/08/23/Docker-Pktgen.html" target="_blank" rel="noopener">NFV 场景：DPDK-PKtgen 进行网络测试 | 任思绪在这里飞</a></li>
+</ol>
+</blockquote>
+<h4 id="内核"><a href="#内核" class="headerlink" title="内核"></a>内核</h4><blockquote>
+<ol>
+<li><a href="http://ssdxiao.github.io/linux/2015/12/10/kprobe-example.html" target="_blank" rel="noopener">kprobe 使用实例 | 任思绪在这里飞</a></li>
+</ol>
+</blockquote>
+<h4 id="Github"><a href="#Github" class="headerlink" title="Github"></a>Github</h4><blockquote>
+<ol>
+<li><a href="https://github.com/retspen/webvirtcloud" target="_blank" rel="noopener">webvirtcloud - retspen | Github</a></li>
+<li><a href="https://github.com/retspen/webvirtmgr" target="_blank" rel="noopener">webvirtmgr - retspen (停止维护) | Github</a></li>
+</ol>
+</blockquote>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><blockquote>
+<ol>
+<li><a href="http://harlon.org/2018/05/22/operatorpool/" target="_blank" rel="noopener">线程池、进程池与内存池 | Harlon’s Blog</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/09/02/virtio-in-kvm/">半虚拟化 I/O 框架 virtio</a></li></ul></div>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-11-19T15:12:13.720Z" itemprop="dateUpdated">2019-11-19 23:12:13</time>
+</span><br>
+
+
+        
+        文章发布地址：<a href="/2019/11/19/recent-virt-notes/" target="_blank" rel="external">https://abelsu7.top/2019/11/19/recent-virt-notes/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://abelsu7.top">
+            <img src="/img/fong.jpg" alt="Abel Su">
+            Abel Su
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Open-vSwitch/">Open vSwitch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Sheepdog/">Sheepdog</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/virtio/">virtio</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/11/19/recent-virt-notes/&title=《虚拟化相关资料收集》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/11/19/recent-virt-notes/&title=《虚拟化相关资料收集》 — Keep Coding&source=
+近期整理备忘，待更新…
+
+
+                
+                    
+                    
+   ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/11/19/recent-virt-notes/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《虚拟化相关资料收集》 — Keep Coding&url=https://abelsu7.top/2019/11/19/recent-virt-notes/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/11/19/recent-virt-notes/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/11/10/gops-intro/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">gops：Go 程序查看和诊断分析工具简介</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment v" id="vcomments"></div>
+    <!-- <div class="comment" id="comment"></div> -->
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script>
+    <!-- <script src="//t1.aixinxi.net/o_1c3n4pim01nl3jg91b6l1kjtkvsa.js"></script> -->
+    <!-- <script src="/js/Valine.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cat.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            av: AV,
+            // el: '#comments',
+            el: '#vcomments',
+            emoticon_url: 'https://abelsu7.top/alu', //表情图片网址
+            emoticon_list: ["赞一个.png","坐等.png","长草.png","阴暗.png","邪恶.png","小眼睛.png","想一想.png","献黄瓜.png","献花.png","喜极而泣.png","无语.png","无所谓.png","无奈.png","投降.png","深思.png","期待.png","狂汗.png","蜡烛.png","看不见.png","惊喜.png","击掌.png","欢呼.png","得意.png","不出所料.png","观察.png"],//表情图片文件名
+            // notify: 'false' == 'false',
+            // verify: 'false' == 'false',
+            // notify: 'false',
+            // verify: 'false',
+            notify: false,
+            verify: false,
+            appId: "aP2YQo0mfrRpTLrLb1bchILb-gzGzoHsz",
+            appKey: "Cp82umQdGScRRFUYLmob6yyK",
+            avatar: "mp",
+            placeholder: "Write a comment",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持！
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.png" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-item switch">切换</span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+            <p>
+                
+                    <span>
+                        <a href="/atom.xml" target="_blank" class="rss" title="rss">
+                            <i class="icon icon-lg icon-rss"></i>
+                        </a>
+                    </span>
+                    
+                        <span>
+                            博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a>
+                        </span>
+            </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>
+                Abel Su &copy;
+                    
+                        2018 -
+                            
+                                2019
+            </span>
+            <span>
+                
+                    <a href="http://beian.miit.gov.cn/" target="_blank">
+                        粤ICP备16068788号-2
+                    </a>
+                    <br>
+                    
+                        Power by
+                        <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+                        <a href="https://github.com/abelsu7/hexo-theme-indigo-plus" target="_blank">indigo plus</a>
+                        <p>Hosted by <a href="https://pages.github.com" target="_blank" style="font-weight: bold">Github Pages</a></p>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<a href="javascript:;" id="gobottom" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-comments"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/11/19/recent-virt-notes/&title=《虚拟化相关资料收集》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/11/19/recent-virt-notes/&title=《虚拟化相关资料收集》 — Keep Coding&source=
+近期整理备忘，待更新…
+
+
+                
+                    
+                    
+   ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://abelsu7.top/2019/11/19/recent-virt-notes/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《虚拟化相关资料收集》 — Keep Coding&url=https://abelsu7.top/2019/11/19/recent-virt-notes/&via=https://abelsu7.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://abelsu7.top/2019/11/19/recent-virt-notes/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLElEQVR42u3aQY7CMAwFUO5/aUaaLQL+d8poSF5WqFSlLwtjx77d4nX/Xfmdj/c/Xr+/XLdPLAwMjK9lJI979ujkevJar383omJgYBzAaF8lD47tBg23DwMDA+NlsHv9cu12YGBgYFwVcGchMtkIDAwMjJUi9nPJYh7oL6jFMTAwvpDRNgb+8vMH+xsYGBhfwrgvryRpmxXDxTtgYGBszWhTuvUErm0JFIEYAwNjU0YSOldGLpJAnGzHm3fDwMDYmpGEufbgPk/42rA+/AfAwMD4csYsUM5K1lkITq5jYGCcyWhHtZIDtfzgrC6PMTAwtmYkgTVJ/tpxinazkuEPDAyMExh5sZoncDmjLZIxMDBOZlwQ7JaTxTYZxcDAOIGRz2XkQ1158jdrFUQtTAwMjC0YK8f6Ky2EJPgmZe0F3QkMDIx/z8gP2mbjF22L9LLUEAMDYyPGrHE4GyNbaXy+2QIMDIwjGbPg246O5Vvz5jMGBsbWjNmhWDtsMQup7aAGBgbGCYx2OKwdvGif2T4NAwPjHEYSNGeHdElCuXI/BgbG3ow2+Cbl6GwUbL1RioGBsR/jXq6rWo+zcbGnR3IYGBhbM2ZhLg+Xs3ZCvkEYGBjnMPKUbpYOJgll/u2bWhwDA2NrRhv42ig+PO6Pj/8wMDAw8iRvVqDmGxc1AzAwMA5m5Clde3C2MoqBgYFxDqNtPbbX21K5XhgYGFszZo2BvExNtmxl0zEwMLZm/AASriy6W9YrWgAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/node-waves@0.7.6/src/js/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/prism.min.js?v=1.7.2"></script>
+<script src="/js/prism-vim.min.js?v=1.7.2"></script>
+</body>
+</html>
