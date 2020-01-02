@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://abelsu7.top/"/>
-  <updated>2020-01-02T09:20:36.680Z</updated>
+  <updated>2020-01-02T09:53:28.606Z</updated>
   <id>https://abelsu7.top/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://abelsu7.top/2020/01/02/configure-qemu-to-support-ceph-rbd/"/>
     <id>https://abelsu7.top/2020/01/02/configure-qemu-to-support-ceph-rbd/</id>
     <published>2020-01-02T03:25:05.000Z</published>
-    <updated>2020-01-02T09:20:36.680Z</updated>
+    <updated>2020-01-02T09:53:28.606Z</updated>
     
-    <content type="html"><![CDATA[<blockquote><p><strong><em>手动编译 QEMU 源码，开启对 Ceph RBD 的支持。QEMU 版本 4.0.50</em></strong></p></blockquote><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="/2020/01/02/configure-qemu-to-support-ceph-rbd/cover.png" alt title>                </div>                <div class="image-caption"></div>            </figure><a id="more"></a><h3 id="1-问题描述"><a href="#1-问题描述" class="headerlink" title="1. 问题描述"></a>1. 问题描述</h3><p>最近尝试使用 <a href="https://ceph.io/" target="_blank" rel="noopener">Ceph</a> 作为 KVM 虚拟机的镜像存储方案，已经搭建好了三节点的 Ceph 集群。</p><p>先是在本地使用<code>virsh</code>定义了名为<code>rbd</code>的 Ceph 存储池：</p><blockquote><p><strong>注意</strong>：为了简便起见，暂时关闭了<code>cephx</code>认证。生产环境请务必启用</p></blockquote><pre><code class="lang-bash">&gt; virsh pool-dumpxml rbd&lt;pool type=&#39;rbd&#39;&gt;  &lt;name&gt;rbd&lt;/name&gt;  &lt;uuid&gt;908261b9-942e-4d7d-9fb5-66a170a27afb&lt;/uuid&gt;  &lt;capacity unit=&#39;bytes&#39;&gt;1607391510528&lt;/capacity&gt;  &lt;allocation unit=&#39;bytes&#39;&gt;9669956428&lt;/allocation&gt;  &lt;available unit=&#39;bytes&#39;&gt;1575195836416&lt;/available&gt;  &lt;source&gt;    &lt;host name=&#39;ceph-master&#39; port=&#39;6789&#39;/&gt;    &lt;name&gt;rbd&lt;/name&gt;  &lt;/source&gt;&lt;/pool&gt;&gt; virsh vol-list rbd Name                 Path                                    ------------------------------------------------------------------------------ centos7              rbd/centos7                              win10-base           rbd/win10-base                           win7                 rbd/win7</code></pre><p>使用<code>virt-install</code>生成虚拟机的 XML 配置文件：</p><pre><code class="lang-bash">&gt; virt-install --name ceph-test \    --machine pc --cpu host-model,disable=vmx \    --vcpus 2 --memory 2048 \    --disk vol=rbd/win10-base \    --disk device=cdrom,bus=ide,path=/mnt/kvm-idv/iso/win10-1809-x64.iso \    --boot cdrom --print-xml &gt; ceph-test.xml</code></pre><p><code>ceph-test.xml</code>内容如下：</p><pre><code class="lang-xml">&lt;domain type=&quot;kvm&quot;&gt;  &lt;name&gt;ceph-test&lt;/name&gt;  &lt;uuid&gt;238bd909-04da-42cc-9e0c-11841b58d470&lt;/uuid&gt;  &lt;memory&gt;2097152&lt;/memory&gt;  &lt;currentMemory&gt;2097152&lt;/currentMemory&gt;  &lt;vcpu&gt;2&lt;/vcpu&gt;  &lt;os&gt;    &lt;type arch=&quot;x86_64&quot; machine=&quot;pc&quot;&gt;hvm&lt;/type&gt;    &lt;boot dev=&quot;cdrom&quot;/&gt;  &lt;/os&gt;  &lt;features&gt;    &lt;acpi/&gt;    &lt;apic/&gt;    &lt;vmport state=&quot;off&quot;/&gt;  &lt;/features&gt;  &lt;cpu mode=&quot;host-model&quot;&gt;    &lt;feature policy=&quot;disable&quot; name=&quot;vmx&quot;/&gt;  &lt;/cpu&gt;  &lt;clock offset=&quot;utc&quot;&gt;    &lt;timer name=&quot;rtc&quot; tickpolicy=&quot;catchup&quot;/&gt;    &lt;timer name=&quot;pit&quot; tickpolicy=&quot;delay&quot;/&gt;    &lt;timer name=&quot;hpet&quot; present=&quot;no&quot;/&gt;  &lt;/clock&gt;  &lt;pm&gt;    &lt;suspend-to-mem enabled=&quot;no&quot;/&gt;    &lt;suspend-to-disk enabled=&quot;no&quot;/&gt;  &lt;/pm&gt;  &lt;devices&gt;    &lt;emulator&gt;/usr/bin/kvm-spice&lt;/emulator&gt;    &lt;disk type=&quot;network&quot; device=&quot;disk&quot;&gt;      &lt;driver name=&quot;qemu&quot; type=&quot;raw&quot;/&gt;      &lt;source protocol=&quot;rbd&quot; name=&quot;rbd/win10-base&quot;&gt;        &lt;host name=&quot;ceph-master&quot; port=&quot;6789&quot;/&gt;      &lt;/source&gt;      &lt;target dev=&quot;hda&quot; bus=&quot;ide&quot;/&gt;    &lt;/disk&gt;    &lt;disk type=&quot;file&quot; device=&quot;cdrom&quot;&gt;      &lt;driver name=&quot;qemu&quot; type=&quot;raw&quot;/&gt;      &lt;source file=&quot;/mnt/kvm-idv/iso/win10-1809-x64.iso&quot;/&gt;      &lt;target dev=&quot;hdb&quot; bus=&quot;ide&quot;/&gt;      &lt;readonly/&gt;    &lt;/disk&gt;    &lt;controller type=&quot;usb&quot; index=&quot;0&quot; model=&quot;ich9-ehci1&quot;/&gt;    &lt;controller type=&quot;usb&quot; index=&quot;0&quot; model=&quot;ich9-uhci1&quot;&gt;      &lt;master startport=&quot;0&quot;/&gt;    &lt;/controller&gt;    &lt;controller type=&quot;usb&quot; index=&quot;0&quot; model=&quot;ich9-uhci2&quot;&gt;      &lt;master startport=&quot;2&quot;/&gt;    &lt;/controller&gt;    &lt;controller type=&quot;usb&quot; index=&quot;0&quot; model=&quot;ich9-uhci3&quot;&gt;      &lt;master startport=&quot;4&quot;/&gt;    &lt;/controller&gt;    &lt;interface type=&quot;network&quot;&gt;      &lt;source network=&quot;default&quot;/&gt;      &lt;mac address=&quot;52:54:00:c0:63:ee&quot;/&gt;    &lt;/interface&gt;    &lt;graphics type=&quot;spice&quot; port=&quot;-1&quot; tlsPort=&quot;-1&quot; autoport=&quot;yes&quot;&gt;      &lt;image compression=&quot;off&quot;/&gt;    &lt;/graphics&gt;    &lt;console type=&quot;pty&quot;/&gt;    &lt;channel type=&quot;spicevmc&quot;&gt;      &lt;target type=&quot;virtio&quot; name=&quot;com.redhat.spice.0&quot;/&gt;    &lt;/channel&gt;    &lt;sound model=&quot;ich6&quot;/&gt;    &lt;video&gt;      &lt;model type=&quot;qxl&quot;/&gt;    &lt;/video&gt;    &lt;redirdev bus=&quot;usb&quot; type=&quot;spicevmc&quot;/&gt;    &lt;redirdev bus=&quot;usb&quot; type=&quot;spicevmc&quot;/&gt;  &lt;/devices&gt;&lt;/domain&gt;</code></pre><p>然而在启动虚拟机时出现了问题：</p><pre><code class="lang-bash">&gt; virsh define ./ceph-test.xmlDomain ceph-test defined from ./ceph-test.xml&gt; virsh start ceph-testerror: Failed to start domain ceph-testerror: internal error: process exited while connecting to monitor: 2020-01-02T06:58:54.789212Z qemu-system-x86_64: -drive file=rbd:rbd/win10-base:auth_supported=none:mon_host=ceph-master\:6789,format=raw,if=none,id=drive-ide0-0-0: Unknown protocol &#39;rbd&#39;</code></pre><p>报错信息提示 QEMU 不支持<code>rbd</code>协议，突然想起来这台机器上的 QEMU 是自己手动编译的，推测是<strong>编译的时候并未开启对 Ceph RBD 的支持</strong>。检查一下果然：</p><pre><code class="lang-bash">&gt; qemu-system-x86_64 --versionQEMU emulator version 4.0.50 (v4.0.0-142-ge0fb2c3d89-dirty)Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers&gt; qemu-img -h | grep &#39;Supported formats&#39;Supported formats: blkdebug blklogwrites blkreplay blkverify bochs cloop copy-on-read dmg file ftp ftps host_cdrom host_device http https luks nbd null-aio null-co nvme parallels qcow qcow2 qed quorum raw replication sheepdog throttle vdi vhdx vmdk vpc vvfat</code></pre><p>并没有<code>rbd</code>的身影。没办法，只好重新编译一下了。</p><h3 id="2-配置时启用-RBD"><a href="#2-配置时启用-RBD" class="headerlink" title="2. 配置时启用 RBD"></a>2. 配置时启用 RBD</h3><blockquote><p><strong>注意</strong>：</p><ol><li>关于如何<strong>从源码编译安装 QEMU</strong>，请参考之前的文章：<a href="https://abelsu7.top/2019/04/16/kvm-in-action-1/#4-%E7%BC%96%E8%AF%91%E5%92%8C%E5%AE%89%E8%A3%85-QEMU">编译和安装 QEMU</a></li><li>本文仅<strong>添加对 Ceph RBD 的支持</strong></li></ol></blockquote><p>进入 QEMU 源码目录（此处版本为<code>4.0.50</code>）：</p><pre><code class="lang-bash">&gt; ./configure --help | grep rbd  rbd             rados block device (rbd)</code></pre><p>上次配置时使用的参数如下：</p><pre><code class="lang-bash">&gt; ./configure --prefix=/usr \    --enable-kvm          \    --enable-libusb       \    --enable-usb-redir    \    --enable-debug        \    --enable-debug-info   \    --enable-curl         \    --enable-sdl          \    --enable-vhost-net    \    --enable-spice        \    --enable-vnc          \    --enable-opengl       \    --enable-gtk          \    --target-list=x86_64-softmmu</code></pre><p>只需添加<code>--enable-rbd</code>，即：</p><pre><code class="lang-bash">&gt; ./configure --prefix=/usr \    --enable-kvm          \    --enable-libusb       \    --enable-usb-redir    \    --enable-debug        \    --enable-debug-info   \    --enable-curl         \    --enable-sdl          \    --enable-vhost-net    \    --enable-spice        \    --enable-vnc          \    --enable-opengl       \    --enable-gtk          \    --enable-rbd          \    --target-list=x86_64-softmmu</code></pre><p><strong>配置前还需安装一些依赖包，可根据错误提示自行搜索安装</strong>。例如 Ubuntu 需要安装下面三个包：</p><pre><code class="lang-bash">&gt; apt install libcephfs-dev librados-dev librbd-dev</code></pre><p>配置完成后检查一下：</p><pre><code class="lang-bash">&gt; cat ./config-host.mak | grep -i rbdCONFIG_RBD=mRBD_CFLAGS=RBD_LIBS=-lrbd -lrados</code></pre><p>可以看到已经开启了对 Ceph RBD 的支持。</p><h3 id="3-编译安装-QEMU"><a href="#3-编译安装-QEMU" class="headerlink" title="3. 编译安装 QEMU"></a>3. 编译安装 QEMU</h3><pre><code class="lang-bash"># 编译 QEMU# 本机共 8 核，故开启 16 线程&gt; make -j 16# 验证此时 qemu-img 是否支持 rbd&gt; ./qemu-img -h | grep rbd# 安装 QEMU&gt; make install</code></pre><p>之后即可正常启动使用 Ceph RBD 的虚拟机，问题解决。</p><h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote><ol><li><a href="http://docs.ceph.org.cn/rbd/libvirt/" target="_blank" rel="noopener">通过 libvirt 使用 Ceph RBD | Ceph Documentation</a></li><li><a href="https://amito.me/2018/Using-Ceph-RBD-as-A-Backend-for-QEMU-KVM-Instances/" target="_blank" rel="noopener">使用 Ceph 作为 QEMU KVM 虚拟机的存储 - 冬日の草原</a></li><li><a href="https://int32bit.me/2016/10/25/OpenStack使用Ceph存储后端创建虚拟机快照原理剖析/" target="_blank" rel="noopener">OpenStack 使用 Ceph 存储后端创建虚拟机快照原理剖析 | int32bit’s Blog</a></li><li><a href="https://int32bit.me/2017/11/23/OpenStack使用Ceph存储-Ceph到底做了什么/" target="_blank" rel="noopener">OpenStack 使用 Ceph 存储，Ceph 到底做了什么? | int32bit’s Blog</a></li><li><a href="https://www.li-rui.top/2018/09/20/ceph/libvirt%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AAceph%E9%9B%86%E7%BE%A4/" target="_blank" rel="noopener">libvirt 使用多个 Ceph 集群 | 李睿的博客</a></li><li><a href="https://www.xiaobo.li/?p=1063" target="_blank" rel="noopener">CentOS KVM + Ceph | 李小波</a></li><li><a href="https://jeremy-xu.oschina.io/2016/08/初识ceph/" target="_blank" rel="noopener">初始 Ceph | jeremy 的技术点滴</a></li><li><a href="https://opengers.github.io/ceph/virt-install-create-vm-use-rbd-pool/" target="_blank" rel="noopener">virt-install 工具安装基于 rbd 磁盘的虚拟机 | opengers</a></li><li><a href="https://wangsen.site/?tag=qemu" target="_blank" rel="noopener">使用 Ceph 来存储 QEMU 镜像 | 三木的博客</a></li><li><a href="https://blog.csdn.net/zzq900503/article/details/80722375" target="_blank" rel="noopener">Ceph 常用命令 | CSDN</a></li><li><a href="https://blog.51cto.com/zhanguo1110/1543032" target="_blank" rel="noopener">Ceph 运维常用指令 | 51CTO</a></li></ol></blockquote><div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/11/19/recent-virt-notes/">虚拟化相关资料收集</a></li><li><a href="https://abelsu7.top/2019/09/02/virtio-in-kvm/">半虚拟化 I/O 框架 virtio</a></li><li><a href="https://abelsu7.top/2019/08/26/compile-kvm-module/">单独编译 KVM 内核模块</a></li><li><a href="https://abelsu7.top/2019/08/11/kvm-api-overview/">Kernel 2.6.32 中的 KVM API 概述</a></li><li><a href="http://www.borgor.cn/2017-10-23/16f315c1.html">迁移 VMware 虚拟机到 KVM</a></li><li><a href="https://zsnmwy.net/47278.html">微星B350M 虚拟化开启 AMD-V</a></li></ul></div>]]></content>
+    <content type="html"><![CDATA[<blockquote><p><strong><em>手动编译 QEMU 源码，开启对 Ceph RBD 的支持。QEMU 版本 4.0.50</em></strong></p></blockquote><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="/2020/01/02/configure-qemu-to-support-ceph-rbd/cover.png" alt title>                </div>                <div class="image-caption"></div>            </figure><a id="more"></a><h3 id="1-问题描述"><a href="#1-问题描述" class="headerlink" title="1. 问题描述"></a>1. 问题描述</h3><p>最近尝试使用 <a href="https://ceph.io/" target="_blank" rel="noopener">Ceph</a> 作为 KVM 虚拟机的镜像存储方案，已经搭建好了三节点的 Ceph 集群。</p><p>先是在本地使用<code>virsh</code>定义了名为<code>rbd</code>的 Ceph 存储池：</p><blockquote><p><strong>注意</strong>：为了简便起见，暂时关闭了<code>cephx</code>认证。生产环境请务必启用</p></blockquote><pre><code class="lang-bash">&gt; virsh pool-dumpxml rbd&lt;pool type=&#39;rbd&#39;&gt;  &lt;name&gt;rbd&lt;/name&gt;  &lt;uuid&gt;908261b9-942e-4d7d-9fb5-66a170a27afb&lt;/uuid&gt;  &lt;capacity unit=&#39;bytes&#39;&gt;1607391510528&lt;/capacity&gt;  &lt;allocation unit=&#39;bytes&#39;&gt;9669956428&lt;/allocation&gt;  &lt;available unit=&#39;bytes&#39;&gt;1575195836416&lt;/available&gt;  &lt;source&gt;    &lt;host name=&#39;ceph-master&#39; port=&#39;6789&#39;/&gt;    &lt;name&gt;rbd&lt;/name&gt;  &lt;/source&gt;&lt;/pool&gt;&gt; virsh vol-list rbd Name                 Path                                    ------------------------------------------------------------------------------ centos7              rbd/centos7                              win10-base           rbd/win10-base                           win7                 rbd/win7</code></pre><p>使用<code>virt-install</code>生成虚拟机的 XML 配置文件：</p><pre><code class="lang-bash">&gt; virt-install --name ceph-test \    --machine pc --cpu host-model,disable=vmx \    --vcpus 2 --memory 2048 \    --disk vol=rbd/win10-base \    --disk device=cdrom,bus=ide,path=/mnt/kvm-idv/iso/win10-1809-x64.iso \    --boot cdrom --print-xml &gt; ceph-test.xml</code></pre><p><code>ceph-test.xml</code>内容如下：</p><pre><code class="lang-xml">&lt;domain type=&quot;kvm&quot;&gt;  &lt;name&gt;ceph-test&lt;/name&gt;  &lt;uuid&gt;238bd909-04da-42cc-9e0c-11841b58d470&lt;/uuid&gt;  &lt;memory&gt;2097152&lt;/memory&gt;  &lt;currentMemory&gt;2097152&lt;/currentMemory&gt;  &lt;vcpu&gt;2&lt;/vcpu&gt;  &lt;os&gt;    &lt;type arch=&quot;x86_64&quot; machine=&quot;pc&quot;&gt;hvm&lt;/type&gt;    &lt;boot dev=&quot;cdrom&quot;/&gt;  &lt;/os&gt;  &lt;features&gt;    &lt;acpi/&gt;    &lt;apic/&gt;    &lt;vmport state=&quot;off&quot;/&gt;  &lt;/features&gt;  &lt;cpu mode=&quot;host-model&quot;&gt;    &lt;feature policy=&quot;disable&quot; name=&quot;vmx&quot;/&gt;  &lt;/cpu&gt;  &lt;clock offset=&quot;utc&quot;&gt;    &lt;timer name=&quot;rtc&quot; tickpolicy=&quot;catchup&quot;/&gt;    &lt;timer name=&quot;pit&quot; tickpolicy=&quot;delay&quot;/&gt;    &lt;timer name=&quot;hpet&quot; present=&quot;no&quot;/&gt;  &lt;/clock&gt;  &lt;pm&gt;    &lt;suspend-to-mem enabled=&quot;no&quot;/&gt;    &lt;suspend-to-disk enabled=&quot;no&quot;/&gt;  &lt;/pm&gt;  &lt;devices&gt;    &lt;emulator&gt;/usr/bin/kvm-spice&lt;/emulator&gt;    &lt;disk type=&quot;network&quot; device=&quot;disk&quot;&gt;      &lt;driver name=&quot;qemu&quot; type=&quot;raw&quot;/&gt;      &lt;source protocol=&quot;rbd&quot; name=&quot;rbd/win10-base&quot;&gt;        &lt;host name=&quot;ceph-master&quot; port=&quot;6789&quot;/&gt;      &lt;/source&gt;      &lt;target dev=&quot;hda&quot; bus=&quot;ide&quot;/&gt;    &lt;/disk&gt;    &lt;disk type=&quot;file&quot; device=&quot;cdrom&quot;&gt;      &lt;driver name=&quot;qemu&quot; type=&quot;raw&quot;/&gt;      &lt;source file=&quot;/mnt/kvm-idv/iso/win10-1809-x64.iso&quot;/&gt;      &lt;target dev=&quot;hdb&quot; bus=&quot;ide&quot;/&gt;      &lt;readonly/&gt;    &lt;/disk&gt;    &lt;controller type=&quot;usb&quot; index=&quot;0&quot; model=&quot;ich9-ehci1&quot;/&gt;    &lt;controller type=&quot;usb&quot; index=&quot;0&quot; model=&quot;ich9-uhci1&quot;&gt;      &lt;master startport=&quot;0&quot;/&gt;    &lt;/controller&gt;    &lt;controller type=&quot;usb&quot; index=&quot;0&quot; model=&quot;ich9-uhci2&quot;&gt;      &lt;master startport=&quot;2&quot;/&gt;    &lt;/controller&gt;    &lt;controller type=&quot;usb&quot; index=&quot;0&quot; model=&quot;ich9-uhci3&quot;&gt;      &lt;master startport=&quot;4&quot;/&gt;    &lt;/controller&gt;    &lt;interface type=&quot;network&quot;&gt;      &lt;source network=&quot;default&quot;/&gt;      &lt;mac address=&quot;52:54:00:c0:63:ee&quot;/&gt;    &lt;/interface&gt;    &lt;graphics type=&quot;spice&quot; port=&quot;-1&quot; tlsPort=&quot;-1&quot; autoport=&quot;yes&quot;&gt;      &lt;image compression=&quot;off&quot;/&gt;    &lt;/graphics&gt;    &lt;console type=&quot;pty&quot;/&gt;    &lt;channel type=&quot;spicevmc&quot;&gt;      &lt;target type=&quot;virtio&quot; name=&quot;com.redhat.spice.0&quot;/&gt;    &lt;/channel&gt;    &lt;sound model=&quot;ich6&quot;/&gt;    &lt;video&gt;      &lt;model type=&quot;qxl&quot;/&gt;    &lt;/video&gt;    &lt;redirdev bus=&quot;usb&quot; type=&quot;spicevmc&quot;/&gt;    &lt;redirdev bus=&quot;usb&quot; type=&quot;spicevmc&quot;/&gt;  &lt;/devices&gt;&lt;/domain&gt;</code></pre><p>然而在启动虚拟机时出现了问题：</p><pre><code class="lang-bash">&gt; virsh define ./ceph-test.xmlDomain ceph-test defined from ./ceph-test.xml&gt; virsh start ceph-testerror: Failed to start domain ceph-testerror: internal error: process exited while connecting to monitor: 2020-01-02T06:58:54.789212Z qemu-system-x86_64: -drive file=rbd:rbd/win10-base:auth_supported=none:mon_host=ceph-master\:6789,format=raw,if=none,id=drive-ide0-0-0: Unknown protocol &#39;rbd&#39;</code></pre><p>报错信息提示 QEMU 不支持<code>rbd</code>协议，突然想起来这台机器上的 QEMU 是自己手动编译的，推测是<strong>编译的时候并未开启对 Ceph RBD 的支持</strong>。检查一下果然：</p><pre><code class="lang-bash">&gt; qemu-system-x86_64 --versionQEMU emulator version 4.0.50 (v4.0.0-142-ge0fb2c3d89-dirty)Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers&gt; qemu-img -h | grep &#39;Supported formats&#39;Supported formats: blkdebug blklogwrites blkreplay blkverify bochs cloop copy-on-read dmg file ftp ftps host_cdrom host_device http https luks nbd null-aio null-co nvme parallels qcow qcow2 qed quorum raw replication sheepdog throttle vdi vhdx vmdk vpc vvfat</code></pre><p>并没有<code>rbd</code>的身影。没办法，只好重新编译一下了。</p><h3 id="2-配置时启用-RBD"><a href="#2-配置时启用-RBD" class="headerlink" title="2. 配置时启用 RBD"></a>2. 配置时启用 RBD</h3><blockquote><p><strong>注意</strong>：</p><ol><li>关于如何<strong>从源码编译安装 QEMU</strong>，请参考之前的文章：<a href="https://abelsu7.top/2019/04/16/kvm-in-action-1/#4-%E7%BC%96%E8%AF%91%E5%92%8C%E5%AE%89%E8%A3%85-QEMU">编译和安装 QEMU</a></li><li>本文仅<strong>添加对 Ceph RBD 的支持</strong></li></ol></blockquote><p>进入 QEMU 源码目录（此处版本为<code>4.0.50</code>）：</p><pre><code class="lang-bash">&gt; ./configure --help | grep rbd  rbd             rados block device (rbd)</code></pre><p>上次配置时使用的参数如下：</p><pre><code class="lang-bash">&gt; ./configure --prefix=/usr \    --enable-kvm          \    --enable-libusb       \    --enable-usb-redir    \    --enable-debug        \    --enable-debug-info   \    --enable-curl         \    --enable-sdl          \    --enable-vhost-net    \    --enable-spice        \    --enable-vnc          \    --enable-opengl       \    --enable-gtk          \    --target-list=x86_64-softmmu</code></pre><p>只需添加<code>--enable-rbd</code>，即：</p><pre><code class="lang-bash">&gt; ./configure --prefix=/usr \    --enable-kvm          \    --enable-libusb       \    --enable-usb-redir    \    --enable-debug        \    --enable-debug-info   \    --enable-curl         \    --enable-sdl          \    --enable-vhost-net    \    --enable-spice        \    --enable-vnc          \    --enable-opengl       \    --enable-gtk          \    --enable-rbd          \    --target-list=x86_64-softmmu</code></pre><p><strong>配置前还需安装一些依赖包，可根据错误提示自行搜索安装</strong>。例如 Ubuntu 需要安装下面三个包：</p><pre><code class="lang-bash">&gt; apt install libcephfs-dev librados-dev librbd-dev</code></pre><p>配置完成后检查一下：</p><pre><code class="lang-bash">&gt; cat ./config-host.mak | grep -i rbdCONFIG_RBD=mRBD_CFLAGS=RBD_LIBS=-lrbd -lrados</code></pre><p>可以看到已经开启了对 Ceph RBD 的支持。</p><h3 id="3-编译安装-QEMU"><a href="#3-编译安装-QEMU" class="headerlink" title="3. 编译安装 QEMU"></a>3. 编译安装 QEMU</h3><pre><code class="lang-bash"># 编译 QEMU# 本机共 8 核，故开启 16 线程&gt; make -j 16# 验证此时 qemu-img 是否支持 rbd&gt; ./qemu-img -h | grep rbd# 安装 QEMU&gt; make install</code></pre><p>之后即可正常启动使用 Ceph RBD 的虚拟机，问题解决。</p><h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote><ol><li><a href="http://docs.ceph.org.cn/rbd/libvirt/" target="_blank" rel="noopener">通过 libvirt 使用 Ceph RBD | Ceph Documentation</a></li><li><a href="https://amito.me/2018/Using-Ceph-RBD-as-A-Backend-for-QEMU-KVM-Instances/" target="_blank" rel="noopener">使用 Ceph 作为 QEMU KVM 虚拟机的存储 - 冬日の草原</a></li><li><a href="https://int32bit.me/2016/10/25/OpenStack使用Ceph存储后端创建虚拟机快照原理剖析/" target="_blank" rel="noopener">OpenStack 使用 Ceph 存储后端创建虚拟机快照原理剖析 | int32bit’s Blog</a></li><li><a href="https://int32bit.me/2017/11/23/OpenStack使用Ceph存储-Ceph到底做了什么/" target="_blank" rel="noopener">OpenStack 使用 Ceph 存储，Ceph 到底做了什么? | int32bit’s Blog</a></li><li><a href="https://www.li-rui.top/2018/09/20/ceph/libvirt%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AAceph%E9%9B%86%E7%BE%A4/" target="_blank" rel="noopener">libvirt 使用多个 Ceph 集群 | 李睿的博客</a></li><li><a href="https://www.xiaobo.li/?p=1063" target="_blank" rel="noopener">CentOS KVM + Ceph | 李小波</a></li><li><a href="https://jeremy-xu.oschina.io/2016/08/初识ceph/" target="_blank" rel="noopener">初始 Ceph | jeremy 的技术点滴</a></li><li><a href="https://opengers.github.io/ceph/virt-install-create-vm-use-rbd-pool/" target="_blank" rel="noopener">virt-install 工具安装基于 rbd 磁盘的虚拟机 | opengers</a></li><li><a href="https://wangsen.site/?tag=qemu" target="_blank" rel="noopener">使用 Ceph 来存储 QEMU 镜像 | 三木的博客</a></li><li><a href="https://cloud.tencent.com/developer/article/1039368" target="_blank" rel="noopener">使用 Ceph 来存储 QEMU 镜像 | 腾讯云+社区</a></li><li><a href="https://blog.csdn.net/zzq900503/article/details/80722375" target="_blank" rel="noopener">Ceph 常用命令 | CSDN</a></li><li><a href="https://blog.51cto.com/zhanguo1110/1543032" target="_blank" rel="noopener">Ceph 运维常用指令 | 51CTO</a></li><li><a href="https://www.linuxidc.com/Linux/2017-08/146127.htm" target="_blank" rel="noopener">OpenStack 对接 Ceph 时的错误 | Linux 公社</a></li><li><a href="https://blog.51cto.com/driver2ice/2121678" target="_blank" rel="noopener">KVM + Ceph RBD 快照创建问题 | 51CTO</a></li></ol></blockquote><div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/11/19/recent-virt-notes/">虚拟化相关资料收集</a></li><li><a href="https://abelsu7.top/2019/09/02/virtio-in-kvm/">半虚拟化 I/O 框架 virtio</a></li><li><a href="https://abelsu7.top/2019/08/26/compile-kvm-module/">单独编译 KVM 内核模块</a></li><li><a href="https://abelsu7.top/2019/08/11/kvm-api-overview/">Kernel 2.6.32 中的 KVM API 概述</a></li><li><a href="http://www.borgor.cn/2017-10-23/16f315c1.html">迁移 VMware 虚拟机到 KVM</a></li><li><a href="https://zsnmwy.net/47278.html">微星B350M 虚拟化开启 AMD-V</a></li></ul></div>]]></content>
     
     <summary type="html">
     
@@ -43,13 +43,13 @@
       <category term="KVM" scheme="https://abelsu7.top/categories/KVM/"/>
     
     
-      <category term="KVM" scheme="https://abelsu7.top/tags/KVM/"/>
-    
-      <category term="虚拟化" scheme="https://abelsu7.top/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
       <category term="QEMU" scheme="https://abelsu7.top/tags/QEMU/"/>
     
+      <category term="KVM" scheme="https://abelsu7.top/tags/KVM/"/>
+    
       <category term="Ceph" scheme="https://abelsu7.top/tags/Ceph/"/>
+    
+      <category term="虚拟化" scheme="https://abelsu7.top/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
     
   </entry>
   
@@ -469,9 +469,9 @@
       <category term="微服务" scheme="https://abelsu7.top/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
     
     
-      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
-    
       <category term="Docker" scheme="https://abelsu7.top/tags/Docker/"/>
+    
+      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
     
       <category term="Kubernetes" scheme="https://abelsu7.top/tags/Kubernetes/"/>
     
@@ -539,9 +539,9 @@
       <category term="微服务" scheme="https://abelsu7.top/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
     
     
-      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
-    
       <category term="Docker" scheme="https://abelsu7.top/tags/Docker/"/>
+    
+      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
     
       <category term="Kubernetes" scheme="https://abelsu7.top/tags/Kubernetes/"/>
     
@@ -611,11 +611,11 @@
       <category term="KVM" scheme="https://abelsu7.top/categories/KVM/"/>
     
     
+      <category term="QEMU" scheme="https://abelsu7.top/tags/QEMU/"/>
+    
       <category term="KVM" scheme="https://abelsu7.top/tags/KVM/"/>
     
       <category term="虚拟化" scheme="https://abelsu7.top/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-      <category term="QEMU" scheme="https://abelsu7.top/tags/QEMU/"/>
     
       <category term="virtio" scheme="https://abelsu7.top/tags/virtio/"/>
     
@@ -819,11 +819,11 @@
       <category term="KVM" scheme="https://abelsu7.top/categories/KVM/"/>
     
     
+      <category term="QEMU" scheme="https://abelsu7.top/tags/QEMU/"/>
+    
       <category term="KVM" scheme="https://abelsu7.top/tags/KVM/"/>
     
       <category term="虚拟化" scheme="https://abelsu7.top/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-      <category term="QEMU" scheme="https://abelsu7.top/tags/QEMU/"/>
     
   </entry>
   
@@ -854,9 +854,9 @@
       <category term="代码之外" scheme="https://abelsu7.top/categories/%E4%BB%A3%E7%A0%81%E4%B9%8B%E5%A4%96/"/>
     
     
-      <category term="面试" scheme="https://abelsu7.top/tags/%E9%9D%A2%E8%AF%95/"/>
-    
       <category term="秋招" scheme="https://abelsu7.top/tags/%E7%A7%8B%E6%8B%9B/"/>
+    
+      <category term="面试" scheme="https://abelsu7.top/tags/%E9%9D%A2%E8%AF%95/"/>
     
   </entry>
   
@@ -988,9 +988,9 @@
       <category term="KVM" scheme="https://abelsu7.top/categories/KVM/"/>
     
     
-      <category term="KVM" scheme="https://abelsu7.top/tags/KVM/"/>
-    
       <category term="QEMU" scheme="https://abelsu7.top/tags/QEMU/"/>
+    
+      <category term="KVM" scheme="https://abelsu7.top/tags/KVM/"/>
     
       <category term="NBD" scheme="https://abelsu7.top/tags/NBD/"/>
     
@@ -1023,11 +1023,11 @@
       <category term="KVM" scheme="https://abelsu7.top/categories/KVM/"/>
     
     
+      <category term="QEMU" scheme="https://abelsu7.top/tags/QEMU/"/>
+    
       <category term="KVM" scheme="https://abelsu7.top/tags/KVM/"/>
     
       <category term="虚拟化" scheme="https://abelsu7.top/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-      <category term="QEMU" scheme="https://abelsu7.top/tags/QEMU/"/>
     
   </entry>
   
@@ -1126,11 +1126,11 @@
       <category term="KVM" scheme="https://abelsu7.top/categories/KVM/"/>
     
     
+      <category term="QEMU" scheme="https://abelsu7.top/tags/QEMU/"/>
+    
       <category term="KVM" scheme="https://abelsu7.top/tags/KVM/"/>
     
       <category term="虚拟化" scheme="https://abelsu7.top/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-      <category term="QEMU" scheme="https://abelsu7.top/tags/QEMU/"/>
     
       <category term="热迁移" scheme="https://abelsu7.top/tags/%E7%83%AD%E8%BF%81%E7%A7%BB/"/>
     
@@ -1163,9 +1163,9 @@
       <category term="工具软件" scheme="https://abelsu7.top/categories/%E5%B7%A5%E5%85%B7%E8%BD%AF%E4%BB%B6/"/>
     
     
-      <category term="Windows" scheme="https://abelsu7.top/tags/Windows/"/>
-    
       <category term="终端" scheme="https://abelsu7.top/tags/%E7%BB%88%E7%AB%AF/"/>
+    
+      <category term="Windows" scheme="https://abelsu7.top/tags/Windows/"/>
     
       <category term="PowerShell" scheme="https://abelsu7.top/tags/PowerShell/"/>
     
@@ -1235,9 +1235,9 @@
       <category term="工具软件" scheme="https://abelsu7.top/categories/%E5%B7%A5%E5%85%B7%E8%BD%AF%E4%BB%B6/"/>
     
     
-      <category term="Windows" scheme="https://abelsu7.top/tags/Windows/"/>
-    
       <category term="终端" scheme="https://abelsu7.top/tags/%E7%BB%88%E7%AB%AF/"/>
+    
+      <category term="Windows" scheme="https://abelsu7.top/tags/Windows/"/>
     
       <category term="PowerShell" scheme="https://abelsu7.top/tags/PowerShell/"/>
     
@@ -1441,11 +1441,11 @@
       <category term="KVM" scheme="https://abelsu7.top/categories/KVM/"/>
     
     
+      <category term="QEMU" scheme="https://abelsu7.top/tags/QEMU/"/>
+    
       <category term="KVM" scheme="https://abelsu7.top/tags/KVM/"/>
     
       <category term="虚拟化" scheme="https://abelsu7.top/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-      <category term="QEMU" scheme="https://abelsu7.top/tags/QEMU/"/>
     
       <category term="云计算" scheme="https://abelsu7.top/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
     
@@ -1731,9 +1731,9 @@
     
       <category term="Vim" scheme="https://abelsu7.top/tags/Vim/"/>
     
-      <category term="NeoVim" scheme="https://abelsu7.top/tags/NeoVim/"/>
-    
       <category term="tmux" scheme="https://abelsu7.top/tags/tmux/"/>
+    
+      <category term="NeoVim" scheme="https://abelsu7.top/tags/NeoVim/"/>
     
   </entry>
   
@@ -2374,11 +2374,11 @@
       <category term="KVM" scheme="https://abelsu7.top/categories/KVM/"/>
     
     
+      <category term="QEMU" scheme="https://abelsu7.top/tags/QEMU/"/>
+    
       <category term="KVM" scheme="https://abelsu7.top/tags/KVM/"/>
     
       <category term="虚拟化" scheme="https://abelsu7.top/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-      <category term="QEMU" scheme="https://abelsu7.top/tags/QEMU/"/>
     
       <category term="云计算" scheme="https://abelsu7.top/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
     
@@ -2522,11 +2522,11 @@
     
       <category term="Linux" scheme="https://abelsu7.top/tags/Linux/"/>
     
+      <category term="QEMU" scheme="https://abelsu7.top/tags/QEMU/"/>
+    
       <category term="KVM" scheme="https://abelsu7.top/tags/KVM/"/>
     
       <category term="虚拟化" scheme="https://abelsu7.top/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-      <category term="QEMU" scheme="https://abelsu7.top/tags/QEMU/"/>
     
   </entry>
   
@@ -2623,9 +2623,9 @@
       <category term="代码之外" scheme="https://abelsu7.top/categories/%E4%BB%A3%E7%A0%81%E4%B9%8B%E5%A4%96/"/>
     
     
-      <category term="春招" scheme="https://abelsu7.top/tags/%E6%98%A5%E6%8B%9B/"/>
-    
       <category term="面试" scheme="https://abelsu7.top/tags/%E9%9D%A2%E8%AF%95/"/>
+    
+      <category term="春招" scheme="https://abelsu7.top/tags/%E6%98%A5%E6%8B%9B/"/>
     
       <category term="Go" scheme="https://abelsu7.top/tags/Go/"/>
     
@@ -2697,9 +2697,9 @@
       <category term="Kubernetes" scheme="https://abelsu7.top/categories/Kubernetes/"/>
     
     
-      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
-    
       <category term="Docker" scheme="https://abelsu7.top/tags/Docker/"/>
+    
+      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
     
       <category term="Kubernetes" scheme="https://abelsu7.top/tags/Kubernetes/"/>
     
@@ -2732,9 +2732,9 @@
       <category term="Docker" scheme="https://abelsu7.top/categories/Docker/"/>
     
     
-      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
-    
       <category term="Docker" scheme="https://abelsu7.top/tags/Docker/"/>
+    
+      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
     
   </entry>
   
@@ -3577,9 +3577,9 @@
       <category term="代码之外" scheme="https://abelsu7.top/categories/%E4%BB%A3%E7%A0%81%E4%B9%8B%E5%A4%96/"/>
     
     
-      <category term="春招" scheme="https://abelsu7.top/tags/%E6%98%A5%E6%8B%9B/"/>
-    
       <category term="面试" scheme="https://abelsu7.top/tags/%E9%9D%A2%E8%AF%95/"/>
+    
+      <category term="春招" scheme="https://abelsu7.top/tags/%E6%98%A5%E6%8B%9B/"/>
     
   </entry>
   
@@ -3645,9 +3645,9 @@
     
       <category term="读书" scheme="https://abelsu7.top/tags/%E8%AF%BB%E4%B9%A6/"/>
     
-      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
-    
       <category term="Docker" scheme="https://abelsu7.top/tags/Docker/"/>
+    
+      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
     
   </entry>
   
@@ -3680,9 +3680,9 @@
     
       <category term="读书" scheme="https://abelsu7.top/tags/%E8%AF%BB%E4%B9%A6/"/>
     
-      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
-    
       <category term="Docker" scheme="https://abelsu7.top/tags/Docker/"/>
+    
+      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
     
   </entry>
   
@@ -3715,9 +3715,9 @@
     
       <category term="读书" scheme="https://abelsu7.top/tags/%E8%AF%BB%E4%B9%A6/"/>
     
-      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
-    
       <category term="Docker" scheme="https://abelsu7.top/tags/Docker/"/>
+    
+      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
     
   </entry>
   
@@ -3987,9 +3987,9 @@
     
       <category term="读书" scheme="https://abelsu7.top/tags/%E8%AF%BB%E4%B9%A6/"/>
     
-      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
-    
       <category term="Docker" scheme="https://abelsu7.top/tags/Docker/"/>
+    
+      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
     
       <category term="Redis" scheme="https://abelsu7.top/tags/Redis/"/>
     
@@ -4028,11 +4028,11 @@
     
       <category term="读书" scheme="https://abelsu7.top/tags/%E8%AF%BB%E4%B9%A6/"/>
     
+      <category term="QEMU" scheme="https://abelsu7.top/tags/QEMU/"/>
+    
       <category term="KVM" scheme="https://abelsu7.top/tags/KVM/"/>
     
       <category term="虚拟化" scheme="https://abelsu7.top/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-      <category term="QEMU" scheme="https://abelsu7.top/tags/QEMU/"/>
     
   </entry>
   
@@ -4748,9 +4748,9 @@ uname -a # comment&lt;/code&gt;
     
       <category term="读书" scheme="https://abelsu7.top/tags/%E8%AF%BB%E4%B9%A6/"/>
     
-      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
-    
       <category term="Docker" scheme="https://abelsu7.top/tags/Docker/"/>
+    
+      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
     
   </entry>
   
@@ -5503,9 +5503,9 @@ tar -xvJf ***.tar.xz
     
       <category term="读书" scheme="https://abelsu7.top/tags/%E8%AF%BB%E4%B9%A6/"/>
     
-      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
-    
       <category term="Docker" scheme="https://abelsu7.top/tags/Docker/"/>
+    
+      <category term="容器" scheme="https://abelsu7.top/tags/%E5%AE%B9%E5%99%A8/"/>
     
       <category term="Kubernetes" scheme="https://abelsu7.top/tags/Kubernetes/"/>
     
