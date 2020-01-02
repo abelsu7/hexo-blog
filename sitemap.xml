@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://abelsu7.top/2020/01/02/configure-qemu-to-support-ceph-rbd/</loc>
+    
+    <lastmod>2020-01-02T09:20:36.680Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://abelsu7.top/about/index.html</loc>
+    
+    <lastmod>2020-01-02T03:47:18.162Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://abelsu7.top/2019/11/19/recent-virt-notes/</loc>
+    
+    <lastmod>2020-01-02T03:42:20.326Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/</loc>
+    
+    <lastmod>2020-01-02T03:23:09.211Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://abelsu7.top/404/index.html</loc>
     
     <lastmod>2019-12-30T03:18:34.363Z</lastmod>
@@ -19,13 +47,6 @@
     <loc>https://abelsu7.top/2019/03/19/recent-review/</loc>
     
     <lastmod>2019-11-26T07:35:14.711Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://abelsu7.top/2019/11/19/recent-virt-notes/</loc>
-    
-    <lastmod>2019-11-26T07:30:05.033Z</lastmod>
     
   </url>
   
@@ -590,13 +611,6 @@
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/</loc>
-    
-    <lastmod>2019-09-01T13:04:11.535Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://abelsu7.top/2019/03/01/mi-oj-1902-carryon/</loc>
     
     <lastmod>2019-09-01T13:04:11.531Z</lastmod>
@@ -912,14 +926,14 @@
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2018/10/29/hexo-mathjax/</loc>
+    <loc>https://abelsu7.top/2018/02/14/hexo-cheatsheet/</loc>
     
     <lastmod>2019-09-01T13:04:11.285Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2018/02/14/hexo-cheatsheet/</loc>
+    <loc>https://abelsu7.top/2018/10/29/hexo-mathjax/</loc>
     
     <lastmod>2019-09-01T13:04:11.285Z</lastmod>
     
@@ -1300,13 +1314,6 @@
     <loc>https://abelsu7.top/tags/index.html</loc>
     
     <lastmod>2019-09-01T12:48:45.020Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://abelsu7.top/about/index.html</loc>
-    
-    <lastmod>2019-07-21T08:33:41.802Z</lastmod>
     
   </url>
   

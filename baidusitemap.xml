@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://abelsu7.top/2020/01/02/configure-qemu-to-support-ceph-rbd/</loc>
+    <lastmod>2020-01-02</lastmod>
+  </url>  <url>
+    <loc>https://abelsu7.top/2019/11/19/recent-virt-notes/</loc>
+    <lastmod>2020-01-02</lastmod>
+  </url>  <url>
+    <loc>https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/</loc>
+    <lastmod>2020-01-02</lastmod>
+  </url>  <url>
     <loc>https://abelsu7.top/2019/11/20/vue-notes/</loc>
     <lastmod>2019-11-26</lastmod>
   </url>  <url>
     <loc>https://abelsu7.top/2019/03/19/recent-review/</loc>
-    <lastmod>2019-11-26</lastmod>
-  </url>  <url>
-    <loc>https://abelsu7.top/2019/11/19/recent-virt-notes/</loc>
     <lastmod>2019-11-26</lastmod>
   </url>  <url>
     <loc>https://abelsu7.top/2019/02/13/tmux-quick-start/</loc>
@@ -247,9 +253,6 @@
     <loc>https://abelsu7.top/2019/03/05/network-protocol-1-intro/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
-    <loc>https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/</loc>
-    <lastmod>2019-09-01</lastmod>
-  </url>  <url>
     <loc>https://abelsu7.top/2019/03/01/mi-oj-1902-carryon/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
@@ -385,10 +388,10 @@
     <loc>https://abelsu7.top/2019/02/28/hexo-pin-top/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
-    <loc>https://abelsu7.top/2018/10/29/hexo-mathjax/</loc>
+    <loc>https://abelsu7.top/2018/02/14/hexo-cheatsheet/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
-    <loc>https://abelsu7.top/2018/02/14/hexo-cheatsheet/</loc>
+    <loc>https://abelsu7.top/2018/10/29/hexo-mathjax/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
     <loc>https://abelsu7.top/2018/12/28/go-vscode-plugin/</loc>
