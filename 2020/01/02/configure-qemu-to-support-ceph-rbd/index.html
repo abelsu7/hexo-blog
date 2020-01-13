@@ -29,9 +29,9 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="QEMU,KVM,Ceph,虚拟化">
+    <meta name="keywords" content="KVM,虚拟化,QEMU,Ceph">
     <meta name="description" content="手动编译 QEMU 源码，开启对 Ceph RBD 的支持。QEMU 版本 4.0.50">
-<meta name="keywords" content="QEMU,KVM,Ceph,虚拟化">
+<meta name="keywords" content="KVM,虚拟化,QEMU,Ceph">
 <meta property="og:type" content="article">
 <meta property="og:title" content="编译 QEMU 开启对 Ceph RBD 的支持">
 <meta property="og:url" content="https://abelsu7.top/2020/01/02/configure-qemu-to-support-ceph-rbd/index.html">
@@ -39,7 +39,7 @@
 <meta property="og:description" content="手动编译 QEMU 源码，开启对 Ceph RBD 的支持。QEMU 版本 4.0.50">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://abelsu7.top/2020/01/02/configure-qemu-to-support-ceph-rbd/cover.png">
-<meta property="og:updated_time" content="2020-01-02T09:53:28.606Z">
+<meta property="og:updated_time" content="2020-01-13T13:43:45.588Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="编译 QEMU 开启对 Ceph RBD 的支持">
 <meta name="twitter:description" content="手动编译 QEMU 源码，开启对 Ceph RBD 的支持。QEMU 版本 4.0.50">
@@ -479,12 +479,14 @@ RBD_LIBS=-lrbd -lrados
 <li><a href="https://www.xiaobo.li/?p=1063" target="_blank" rel="noopener">CentOS KVM + Ceph | 李小波</a></li>
 <li><a href="https://jeremy-xu.oschina.io/2016/08/初识ceph/" target="_blank" rel="noopener">初始 Ceph | jeremy 的技术点滴</a></li>
 <li><a href="https://opengers.github.io/ceph/virt-install-create-vm-use-rbd-pool/" target="_blank" rel="noopener">virt-install 工具安装基于 rbd 磁盘的虚拟机 | opengers</a></li>
-<li><a href="https://wangsen.site/?tag=qemu" target="_blank" rel="noopener">使用 Ceph 来存储 QEMU 镜像 | 三木的博客</a></li>
+<li><a href="https://wangsen.site/post/qemu3-e4-bd-bf-e7-94-a8ceph-e6-9d-a5-e5-ad-98-e5-82-a8qemu-e9-95-9c-e5-83-8f/" target="_blank" rel="noopener">QEMU3 - 使用 Ceph 来存储 QEMU 镜像 | 三木的博客</a></li>
 <li><a href="https://cloud.tencent.com/developer/article/1039368" target="_blank" rel="noopener">使用 Ceph 来存储 QEMU 镜像 | 腾讯云+社区</a></li>
 <li><a href="https://blog.csdn.net/zzq900503/article/details/80722375" target="_blank" rel="noopener">Ceph 常用命令 | CSDN</a></li>
 <li><a href="https://blog.51cto.com/zhanguo1110/1543032" target="_blank" rel="noopener">Ceph 运维常用指令 | 51CTO</a></li>
 <li><a href="https://www.linuxidc.com/Linux/2017-08/146127.htm" target="_blank" rel="noopener">OpenStack 对接 Ceph 时的错误 | Linux 公社</a></li>
 <li><a href="https://blog.51cto.com/driver2ice/2121678" target="_blank" rel="noopener">KVM + Ceph RBD 快照创建问题 | 51CTO</a></li>
+<li><a href="https://mp.weixin.qq.com/s/cgPrpUo05LFU2Q3bQWSxOw" target="_blank" rel="noopener">SOSP19’ Ceph 的十年经验总结：文件系统是否适合做分布式文件系统的后端 | Ceph 开源社区</a></li>
+<li><a href="https://blog.51cto.com/3646344/2146240" target="_blank" rel="noopener">通过 libvirt 使用 Ceph 块设备 | 51CTO</a></li>
 </ol>
 </blockquote>
 <div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/11/19/recent-virt-notes/">虚拟化相关资料收集</a></li><li><a href="https://abelsu7.top/2019/09/02/virtio-in-kvm/">半虚拟化 I/O 框架 virtio</a></li><li><a href="https://abelsu7.top/2019/08/26/compile-kvm-module/">单独编译 KVM 内核模块</a></li><li><a href="https://abelsu7.top/2019/08/11/kvm-api-overview/">Kernel 2.6.32 中的 KVM API 概述</a></li><li><a href="http://www.borgor.cn/2017-10-23/16f315c1.html">迁移 VMware 虚拟机到 KVM</a></li><li><a href="https://zsnmwy.net/47278.html">微星B350M 虚拟化开启 AMD-V</a></li></ul></div>
@@ -495,7 +497,7 @@ RBD_LIBS=-lrbd -lrados
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2020-01-02T09:53:28.606Z" itemprop="dateUpdated">2020-01-02 17:53:28</time>
+    最后更新时间：<time datetime="2020-01-13T13:43:45.588Z" itemprop="dateUpdated">2020-01-13 21:43:45</time>
 </span><br>
 
 
@@ -581,7 +583,14 @@ RBD_LIBS=-lrbd -lrados
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/01/13/hexo-deploy-on-cos/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Hexo 博客迁移至腾讯云 COS</h4>
+      </a>
+    </div>
   
 
   

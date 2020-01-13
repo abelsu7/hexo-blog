@@ -2,9 +2,72 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://abelsu7.top/2019/11/20/vue-notes/</loc>
+    
+    <lastmod>2020-01-13T14:38:52.532Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://abelsu7.top/2019/11/19/recent-virt-notes/</loc>
+    
+    <lastmod>2020-01-13T14:29:08.936Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://abelsu7.top/2020/01/02/configure-qemu-to-support-ceph-rbd/</loc>
     
-    <lastmod>2020-01-02T09:53:28.606Z</lastmod>
+    <lastmod>2020-01-13T13:43:45.588Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/</loc>
+    
+    <lastmod>2020-01-13T13:36:44.482Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://abelsu7.top/2019/07/03/windows-fluent-terminal/</loc>
+    
+    <lastmod>2020-01-13T13:17:49.286Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://abelsu7.top/2020/01/13/hexo-deploy-on-cos/</loc>
+    
+    <lastmod>2020-01-13T13:12:26.388Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://abelsu7.top/2019/03/19/recent-review/</loc>
+    
+    <lastmod>2020-01-13T09:14:14.462Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://abelsu7.top/2019/09/20/go-standard-library/</loc>
+    
+    <lastmod>2020-01-13T07:48:08.471Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://abelsu7.top/2019/07/16/reading-kernel-src-in-vscode-with-gnu-global/</loc>
+    
+    <lastmod>2020-01-13T03:43:05.534Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://abelsu7.top/2019/03/18/understanding-linux-kernel/</loc>
+    
+    <lastmod>2020-01-13T03:40:45.737Z</lastmod>
     
   </url>
   
@@ -12,13 +75,6 @@
     <loc>https://abelsu7.top/about/index.html</loc>
     
     <lastmod>2020-01-02T03:47:18.162Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://abelsu7.top/2019/11/19/recent-virt-notes/</loc>
-    
-    <lastmod>2020-01-02T03:42:20.326Z</lastmod>
     
   </url>
   
@@ -33,20 +89,6 @@
     <loc>https://abelsu7.top/404/index.html</loc>
     
     <lastmod>2019-12-30T03:18:34.363Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://abelsu7.top/2019/11/20/vue-notes/</loc>
-    
-    <lastmod>2019-11-26T14:45:04.689Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://abelsu7.top/2019/03/19/recent-review/</loc>
-    
-    <lastmod>2019-11-26T07:35:14.711Z</lastmod>
     
   </url>
   
@@ -110,13 +152,6 @@
     <loc>https://abelsu7.top/2019/11/01/using-gogs-as-git-server/</loc>
     
     <lastmod>2019-11-10T08:30:43.529Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/</loc>
-    
-    <lastmod>2019-11-05T03:30:37.652Z</lastmod>
     
   </url>
   
@@ -233,13 +268,6 @@
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2019/09/20/go-standard-library/</loc>
-    
-    <lastmod>2019-10-15T12:11:42.636Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://abelsu7.top/2019/04/02/leetcode-solution-golang/</loc>
     
     <lastmod>2019-10-15T09:55:45.940Z</lastmod>
@@ -317,13 +345,6 @@
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2019/07/03/windows-fluent-terminal/</loc>
-    
-    <lastmod>2019-09-01T13:04:11.778Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://abelsu7.top/2019/04/30/win10-completely-remove-bluetooth-device/</loc>
     
     <lastmod>2019-09-01T13:04:11.773Z</lastmod>
@@ -366,13 +387,6 @@
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2019/03/18/understanding-linux-kernel/</loc>
-    
-    <lastmod>2019-09-01T13:04:11.755Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://abelsu7.top/2018/02/05/ubuntu-nautilus-no-response/</loc>
     
     <lastmod>2019-09-01T13:04:11.754Z</lastmod>
@@ -380,14 +394,14 @@
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2018/10/29/ubuntu-1804-netplan/</loc>
+    <loc>https://abelsu7.top/2019/05/21/ubuntu-aptitude/</loc>
     
     <lastmod>2019-09-01T13:04:11.752Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2019/05/21/ubuntu-aptitude/</loc>
+    <loc>https://abelsu7.top/2018/10/29/ubuntu-1804-netplan/</loc>
     
     <lastmod>2019-09-01T13:04:11.752Z</lastmod>
     
@@ -471,14 +485,14 @@
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2018/08/23/rsync-and-borg/</loc>
+    <loc>https://abelsu7.top/2019/04/28/setup-remote-ssh-login/</loc>
     
     <lastmod>2019-09-01T13:04:11.668Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2019/04/28/setup-remote-ssh-login/</loc>
+    <loc>https://abelsu7.top/2018/08/23/rsync-and-borg/</loc>
     
     <lastmod>2019-09-01T13:04:11.668Z</lastmod>
     
@@ -502,13 +516,6 @@
     <loc>https://abelsu7.top/2018/09/14/remote-desktop-using-apache-guacamole-on-docker/</loc>
     
     <lastmod>2019-09-01T13:04:11.657Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://abelsu7.top/2019/07/16/reading-kernel-src-in-vscode-with-gnu-global/</loc>
-    
-    <lastmod>2019-09-01T13:04:11.652Z</lastmod>
     
   </url>
   
