@@ -39,7 +39,7 @@
 <meta property="og:description" content="参考 CentOS 7 下 yum 安装和配置 NFS | Zhanming’s blog，补充整理部分内容">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://abelsu7.top/2019/10/17/centos7-install-nfs/cover.jpg">
-<meta property="og:updated_time" content="2019-11-19T12:48:03.977Z">
+<meta property="og:updated_time" content="2020-01-14T08:37:06.317Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CentOS 7 安装配置 NFS">
 <meta name="twitter:description" content="参考 CentOS 7 下 yum 安装和配置 NFS | Zhanming’s blog，补充整理部分内容">
@@ -308,7 +308,7 @@
 <p><strong>注</strong>：为简略起见，以下命令均以<code>root</code>身份运行，省略<code>sudo</code></p>
 </blockquote>
 <h3 id="2-NFS-服务端"><a href="#2-NFS-服务端" class="headerlink" title="2. NFS 服务端"></a>2. NFS 服务端</h3><h4 id="2-1-安装-nfs-utils"><a href="#2-1-安装-nfs-utils" class="headerlink" title="2.1 安装 nfs-utils"></a>2.1 安装 nfs-utils</h4><blockquote>
-<p><strong>注</strong>：对应的 <strong>Apt</strong> 包为<code>nfs-common</code></p>
+<p><strong>注</strong>：对应的 <strong>Apt</strong> 包为<code>nfs-kernel-server</code>和<code>nfs-common</code></p>
 </blockquote>
 <pre><code class="lang-bash">&gt; yum info nfs-utils
 
@@ -504,7 +504,7 @@ centos-2:/mnt/kvm on /mnt/kvm type nfs4 (rw,relatime,vers=4.2,rsize=1048576,wsiz
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2019-11-19T12:48:03.977Z" itemprop="dateUpdated">2019-11-19 20:48:03</time>
+    最后更新时间：<time datetime="2020-01-14T08:37:06.317Z" itemprop="dateUpdated">2020-01-14 16:37:06</time>
 </span><br>
 
 
