@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/</loc>
+    <lastmod>2020-02-03</lastmod>
+  </url>  <url>
+    <loc>https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/</loc>
+    <lastmod>2020-02-03</lastmod>
+  </url>  <url>
+    <loc>https://abelsu7.top/2019/05/29/python-quick-reference/</loc>
+    <lastmod>2020-01-20</lastmod>
+  </url>  <url>
     <loc>https://abelsu7.top/2020/01/15/vue-deploy-on-nginx/</loc>
     <lastmod>2020-01-15</lastmod>
   </url>  <url>
@@ -115,9 +124,6 @@
     <loc>https://abelsu7.top/2019/04/02/leetcode-solution-golang/</loc>
     <lastmod>2019-10-15</lastmod>
   </url>  <url>
-    <loc>https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/</loc>
-    <lastmod>2019-10-15</lastmod>
-  </url>  <url>
     <loc>https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/</loc>
     <lastmod>2019-10-14</lastmod>
   </url>  <url>
@@ -227,9 +233,6 @@
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
     <loc>https://abelsu7.top/2018/09/28/python-sort/</loc>
-    <lastmod>2019-09-01</lastmod>
-  </url>  <url>
-    <loc>https://abelsu7.top/2019/05/29/python-quick-reference/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
     <loc>https://abelsu7.top/2019/05/07/ping-multiple-server-using-pingtop/</loc>
@@ -521,9 +524,6 @@
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
     <loc>https://abelsu7.top/2019/01/08/centos7-notes/</loc>
-    <lastmod>2019-09-01</lastmod>
-  </url>  <url>
-    <loc>https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
     <loc>https://abelsu7.top/2019/04/11/centos7-install-ohmyzsh/</loc>

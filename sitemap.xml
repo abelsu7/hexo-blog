@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/</loc>
+    
+    <lastmod>2020-02-03T04:43:42.486Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/</loc>
+    
+    <lastmod>2020-02-03T04:02:01.814Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://abelsu7.top/2019/05/29/python-quick-reference/</loc>
+    
+    <lastmod>2020-01-20T15:26:55.961Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://abelsu7.top/2020/01/15/vue-deploy-on-nginx/</loc>
     
     <lastmod>2020-01-15T10:34:28.358Z</lastmod>
@@ -282,13 +303,6 @@
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/</loc>
-    
-    <lastmod>2019-10-15T09:21:16.037Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://abelsu7.top/2019/02/25/using-kubeadm-to-create-a-k8s-cluster/</loc>
     
     <lastmod>2019-10-14T13:49:31.929Z</lastmod>
@@ -551,13 +565,6 @@
     <loc>https://abelsu7.top/2018/09/28/python-sort/</loc>
     
     <lastmod>2019-09-01T13:04:11.614Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://abelsu7.top/2019/05/29/python-quick-reference/</loc>
-    
-    <lastmod>2019-09-01T13:04:11.612Z</lastmod>
     
   </url>
   
@@ -1237,13 +1244,6 @@
     <loc>https://abelsu7.top/2019/01/08/centos7-notes/</loc>
     
     <lastmod>2019-09-01T13:04:11.022Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/</loc>
-    
-    <lastmod>2019-09-01T13:04:11.020Z</lastmod>
     
   </url>
   

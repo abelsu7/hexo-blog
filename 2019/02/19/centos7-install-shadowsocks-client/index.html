@@ -23,25 +23,25 @@
     
     
     
-    <title>CentOS 7 安装 Shadowsocks 客户端 | Keep Coding | 苏易北</title>
+    <title>Linux 安装 Shadowsocks 客户端 | Keep Coding | 苏易北</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="Linux,CentOS,Shadowsocks">
+    <meta name="keywords" content="Linux,Shadowsocks,代理">
     <meta name="description" content="Across the Great Wall we can reach every corner in the world.">
-<meta name="keywords" content="Linux,CentOS,Shadowsocks">
+<meta name="keywords" content="Linux,Shadowsocks,代理">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CentOS 7 安装 Shadowsocks 客户端">
+<meta property="og:title" content="Linux 安装 Shadowsocks 客户端">
 <meta property="og:url" content="https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/index.html">
 <meta property="og:site_name" content="Keep Coding">
 <meta property="og:description" content="Across the Great Wall we can reach every corner in the world.">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/cover.jpg">
-<meta property="og:updated_time" content="2019-09-01T13:04:11.020Z">
+<meta property="og:updated_time" content="2020-02-03T04:43:42.486Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CentOS 7 安装 Shadowsocks 客户端">
+<meta name="twitter:title" content="Linux 安装 Shadowsocks 客户端">
 <meta name="twitter:description" content="Across the Great Wall we can reach every corner in the world.">
 <meta name="twitter:image" content="https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/cover.jpg">
     
@@ -195,7 +195,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">CentOS 7 安装 Shadowsocks 客户端</div>
+        <div class="flex-col header-title ellipsis">Linux 安装 Shadowsocks 客户端</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -217,7 +217,7 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">CentOS 7 安装 Shadowsocks 客户端</h1>
+        <h1 class="title">Linux 安装 Shadowsocks 客户端</h1>
         <h5 class="subtitle">
             
                 <time datetime="2019-02-18T16:47:42.000Z" itemprop="datePublished" class="page-time">
@@ -225,7 +225,7 @@
 </time>
 
 
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/CentOS/">CentOS</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Linux/">Linux</a></li></ul>
 
             
         </h5>
@@ -242,7 +242,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-安装-shadowsocks"><span class="post-toc-text">1. 安装 shadowsocks</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-修改配置文件"><span class="post-toc-text">2. 修改配置文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-配置服务"><span class="post-toc-text">3. 配置服务</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-启动-shadowsocks-并配置自启动"><span class="post-toc-text">4. 启动 shadowsocks 并配置自启动</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-使用-ProxyChains-代理终端流量"><span class="post-toc-text">5. 使用 ProxyChains 代理终端流量</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-测试连接"><span class="post-toc-text">6. 测试连接</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
         </nav>
     </aside>
 
@@ -251,12 +251,12 @@
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">CentOS 7 安装 Shadowsocks 客户端</h1>
+        <h1 class="post-card-title">Linux 安装 Shadowsocks 客户端</h1>
         <div class="post-meta">
             <time class="post-time" title="2019-02-19 00:47:42" datetime="2019-02-18T16:47:42.000Z"  itemprop="datePublished">2019-02-19</time>
 
             
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/CentOS/">CentOS</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Linux/">Linux</a></li></ul>
 
 
 
@@ -280,16 +280,92 @@
                 <div class="image-caption"></div>
             </figure>
 <a id="more"></a>
+<h3 id="1-安装-shadowsocks"><a href="#1-安装-shadowsocks" class="headerlink" title="1. 安装 shadowsocks"></a>1. 安装 shadowsocks</h3><blockquote>
+<p><strong>注</strong>：为了支持<code>chacha20-ietf-poly1305</code>加密方式，请勿直接使用<code>pip install shadowsocks</code>，而是要通过<code>zip</code>包安装，如下所示</p>
+</blockquote>
+<pre><code class="lang-bash"># 安装依赖
+&gt; yum install epel-release python-pip libsodium
+
+# 也可将 zip 包先下载到本地再安装
+&gt; pip install https://github.com/shadowsocks/shadowsocks/archive/master.zip -U 
+
+&gt; sslocal --version
+Shadowsocks 3.0.0
+</code></pre>
+<h3 id="2-修改配置文件"><a href="#2-修改配置文件" class="headerlink" title="2. 修改配置文件"></a>2. 修改配置文件</h3><pre><code class="lang-bash">&gt; mkdir -p /etc/shadowsocks
+&gt; vim /etc/shadowsocks/config.json
+</code></pre>
+<p>添加如下内容：</p>
+<pre><code class="lang-json">{
+    &quot;server&quot;: &quot;x.x.x.x&quot;,          # Server IP
+    &quot;server_port&quot;: 14131,         # Server Port
+    &quot;local_address&quot;: &quot;127.0.0.1&quot;, # Local IP
+    &quot;local_port&quot;: 1080,           # Local Port
+    &quot;password&quot;: &quot;password&quot;,       # Your Password
+    &quot;timeout&quot;: 600,               # Connection timeout
+    &quot;method&quot;: &quot;aes-256-cfb&quot;,      # Encryption method
+    &quot;fast_open&quot;: false,           # Use TCP_FASTOPEN, requires Linux 3.7+
+    &quot;workers&quot;: 1                  # Number of worker threads
+}
+</code></pre>
+<h3 id="3-配置服务"><a href="#3-配置服务" class="headerlink" title="3. 配置服务"></a>3. 配置服务</h3><pre><code class="lang-bash">&gt; vim /etc/systemd/system/shadowsocks.service
+</code></pre>
+<p>添加如下内容：</p>
+<pre><code class="lang-bash">[Unit]
+Description=Shadowsocks
+
+[Service]
+TimeoutStartSec=0
+ExecStart=/usr/bin/sslocal -c /etc/shadowsocks/config.json
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<h3 id="4-启动-shadowsocks-并配置自启动"><a href="#4-启动-shadowsocks-并配置自启动" class="headerlink" title="4. 启动 shadowsocks 并配置自启动"></a>4. 启动 shadowsocks 并配置自启动</h3><p><strong>启动</strong><code>shadowsocks</code>：</p>
+<pre><code class="lang-bash">&gt; systemctl start shadowsocks.service
+
+&gt; systemctl status shadowsocks.service
+● shadowsocks.service - Shadowsocks
+   Loaded: loaded (/etc/systemd/system/shadowsocks.service; disabled; vendor preset: disabled)
+   Active: active (running) since Mon 2020-02-03 12:08:31 CST; 18min ago
+ Main PID: 28122 (sslocal)
+    Tasks: 1
+   Memory: 7.1M
+   CGroup: /system.slice/shadowsocks.service
+           └─28122 /usr/bin/python2 /usr/bin/sslocal -c /etc/shadowsocks/config.json
+</code></pre>
+<p>根据实际需要<strong>配置服务自启动</strong>：</p>
+<pre><code class="lang-bash">&gt; systemctl is-enabled shadowsocks.service 
+disabled
+
+&gt; systemctl enable shadowsocks.service
+</code></pre>
+<h3 id="5-使用-ProxyChains-代理终端流量"><a href="#5-使用-ProxyChains-代理终端流量" class="headerlink" title="5. 使用 ProxyChains 代理终端流量"></a>5. 使用 ProxyChains 代理终端流量</h3><blockquote>
+<p>参见 <a href="https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/#4-%E5%AE%89%E8%A3%85-proxychains-ng">Linux 下使用 SSR + ProxyChains 代理终端流量</a></p>
+</blockquote>
+<h3 id="6-测试连接"><a href="#6-测试连接" class="headerlink" title="6. 测试连接"></a>6. 测试连接</h3><pre><code class="lang-bash">&gt; curl --socks5 127.0.0.1:1080 http://httpbin.org/ip
+{
+  &quot;origin&quot;: &quot;xxx.xxx.xxx.xxx&quot;
+}
+
+&gt; pc curl myip.ipip.net
+[proxychains] config file found: /etc/proxychains.conf
+[proxychains] preloading /usr/lib/libproxychains4.so
+[proxychains] DLL init: proxychains-ng 4.14-git-8-gb8fa2a7
+[proxychains] Strict chain  ...  127.0.0.1:1080  ...  myip.ipip.net:80  ...  OK
+当前 IP：xxx.xxx.xxx.xxx  来自于：日本 东京都 东京  xx.net
+</code></pre>
 <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
 <ol>
+<li><a href="https://dylanyang.top/post/2019/05/15/centos7%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEshadowsocks%E5%AE%A2%E6%88%B7%E7%AB%AF/" target="_blank" rel="noopener">CentOS 7 安装配置 Shadowsocks 客户端 | Dylan</a></li>
 <li><a href="https://www.barretlee.com/blog/2016/08/03/shadowsocks/" target="_blank" rel="noopener">Shadowsocks 原理简介及安装指南 | 小胡子哥</a></li>
 <li><a href="https://brickyang.github.io/2017/01/14/CentOS-7-安装-Shadowsocks-客户端/" target="_blank" rel="noopener">CentOS 7 安装 shadowsocks 客户端 | 全栈渐进之路</a></li>
 <li><a href="https://morning.work/page/2015-12/install-shadowsocks-on-centos-7.html" target="_blank" rel="noopener">在 CentOS 7 下安装配置 shadowsocks | 早起搬砖 morning.work</a></li>
-<li><a href="https://www.jianshu.com/p/f50d69c7e044" target="_blank" rel="noopener">Centos 7 作为 Client 连接 SSR | 简书</a> </li>
-<li><a href="https://www.zybuluo.com/ncepuwanghui/note/954160" target="_blank" rel="noopener">CentOS 7 安装配置 Shadowsocks 客户端 | 作业部落</a><br><a href="https://github.com/rofl0r/proxychains-ng" target="_blank" rel="noopener">proxychains-ng | Github</a></li>
+<li><a href="https://abelsu7.top/2019/02/24/ssr-proxychains4-on-linux/">Linux 下使用 SSR + ProxyChains 代理终端流量 | 苏易北</a></li>
+<li><a href="https://github.com/rofl0r/proxychains-ng" target="_blank" rel="noopener">proxychains-ng | Github</a></li>
 </ol>
 </blockquote>
-<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7 安装配置 NFS</a></li><li><a href="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/">Linux 系统常用监控命令</a></li><li><a href="https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/">Linux 终端修改 ls 命令目录显示颜色</a></li><li><a href="https://abelsu7.top/2019/07/07/perf-quick-guides/">Linux 下使用 Perf 分析系统性能</a></li><li><a href="https://thelighter.github.io/2020/01/05/linux-1/">4岁萝莉给Linux内核贡献提交</a></li><li><a href="https://chen-shang.github.io/2019/11/16/ji-zhu-zong-jie/linux/shen-ru-fen-xi-io-mo-xing/">深入分析IO模型</a></li></ul></div>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7 安装配置 NFS</a></li><li><a href="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/">Linux 系统常用监控命令</a></li><li><a href="https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/">Linux 终端修改 ls 命令目录显示颜色</a></li><li><a href="https://abelsu7.top/2019/07/07/perf-quick-guides/">Linux 下使用 Perf 分析系统性能</a></li><li><a href="https://lyonger.cn/article/websocket的几种测试方式/">websocket的几种测试方式</a></li><li><a href="https://lyonger.cn/article/KSM应用实践/">KSM应用实践</a></li></ul></div>
         </div>
 
         <blockquote class="post-copyright">
@@ -297,7 +373,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2019-09-01T13:04:11.020Z" itemprop="dateUpdated">2019-09-01 21:04:11</time>
+    最后更新时间：<time datetime="2020-02-03T04:43:42.486Z" itemprop="dateUpdated">2020-02-03 12:43:42</time>
 </span><br>
 
 
@@ -323,7 +399,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shadowsocks/">Shadowsocks</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shadowsocks/">Shadowsocks</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/代理/">代理</a></li></ul>
 
 
             
@@ -333,7 +409,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/&title=《CentOS 7 安装 Shadowsocks 客户端》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/&title=《Linux 安装 Shadowsocks 客户端》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -343,7 +419,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/&title=《CentOS 7 安装 Shadowsocks 客户端》 — Keep Coding&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/&title=《Linux 安装 Shadowsocks 客户端》 — Keep Coding&source=
 Across the Great Wall we can reach every corner in the world.
 
 
@@ -357,7 +433,7 @@ Across the Great Wall we can reach every corner in the world.
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《CentOS 7 安装 Shadowsocks 客户端》 — Keep Coding&url=https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/&via=https://abelsu7.top" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux 安装 Shadowsocks 客户端》 — Keep Coding&url=https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/&via=https://abelsu7.top" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
@@ -556,7 +632,7 @@ Across the Great Wall we can reach every corner in the world.
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/&title=《CentOS 7 安装 Shadowsocks 客户端》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/&title=《Linux 安装 Shadowsocks 客户端》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -566,7 +642,7 @@ Across the Great Wall we can reach every corner in the world.
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/&title=《CentOS 7 安装 Shadowsocks 客户端》 — Keep Coding&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/&title=《Linux 安装 Shadowsocks 客户端》 — Keep Coding&source=
 Across the Great Wall we can reach every corner in the world.
 
 
@@ -580,7 +656,7 @@ Across the Great Wall we can reach every corner in the world.
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《CentOS 7 安装 Shadowsocks 客户端》 — Keep Coding&url=https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/&via=https://abelsu7.top" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux 安装 Shadowsocks 客户端》 — Keep Coding&url=https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/&via=https://abelsu7.top" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
