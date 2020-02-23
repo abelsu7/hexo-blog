@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://abelsu7.top/2020/02/23/centos7-disable-yum-autoupdate/</loc>
+    
+    <lastmod>2020-02-23T07:26:02.031Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://abelsu7.top/2019/02/19/centos7-install-shadowsocks-client/</loc>
     
     <lastmod>2020-02-03T04:43:42.486Z</lastmod>
@@ -415,14 +422,14 @@
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2018/10/29/ubuntu-1804-netplan/</loc>
+    <loc>https://abelsu7.top/2019/05/21/ubuntu-aptitude/</loc>
     
     <lastmod>2019-09-01T13:04:11.752Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2019/05/21/ubuntu-aptitude/</loc>
+    <loc>https://abelsu7.top/2018/10/29/ubuntu-1804-netplan/</loc>
     
     <lastmod>2019-09-01T13:04:11.752Z</lastmod>
     
@@ -506,14 +513,14 @@
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2019/04/28/setup-remote-ssh-login/</loc>
+    <loc>https://abelsu7.top/2018/08/23/rsync-and-borg/</loc>
     
     <lastmod>2019-09-01T13:04:11.668Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2018/08/23/rsync-and-borg/</loc>
+    <loc>https://abelsu7.top/2019/04/28/setup-remote-ssh-login/</loc>
     
     <lastmod>2019-09-01T13:04:11.668Z</lastmod>
     
