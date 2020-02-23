@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://abelsu7.top/2020/02/23/linux-lvm-tutorial/</loc>
+    
+    <lastmod>2020-02-23T15:38:37.983Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://abelsu7.top/2019/11/19/recent-virt-notes/</loc>
+    
+    <lastmod>2020-02-23T15:30:32.211Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://abelsu7.top/2018/05/11/aria2/</loc>
+    
+    <lastmod>2020-02-23T13:16:20.394Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://abelsu7.top/2020/02/23/deploy-ceph-jewel-on-3-vms/</loc>
+    
+    <lastmod>2020-02-23T08:19:31.696Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://abelsu7.top/2020/02/23/centos7-disable-yum-autoupdate/</loc>
     
     <lastmod>2020-02-23T07:26:02.031Z</lastmod>
@@ -33,13 +61,6 @@
     <loc>https://abelsu7.top/2020/01/15/vue-deploy-on-nginx/</loc>
     
     <lastmod>2020-01-15T10:34:28.358Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://abelsu7.top/2019/11/19/recent-virt-notes/</loc>
-    
-    <lastmod>2020-01-14T13:45:03.184Z</lastmod>
     
   </url>
   
@@ -331,13 +352,6 @@
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2018/05/11/aria2/</loc>
-    
-    <lastmod>2019-10-12T04:05:17.858Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://abelsu7.top/2019/10/10/mock-api-intro/</loc>
     
     <lastmod>2019-10-10T14:08:04.771Z</lastmod>
@@ -422,14 +436,14 @@
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2019/05/21/ubuntu-aptitude/</loc>
+    <loc>https://abelsu7.top/2018/10/29/ubuntu-1804-netplan/</loc>
     
     <lastmod>2019-09-01T13:04:11.752Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2018/10/29/ubuntu-1804-netplan/</loc>
+    <loc>https://abelsu7.top/2019/05/21/ubuntu-aptitude/</loc>
     
     <lastmod>2019-09-01T13:04:11.752Z</lastmod>
     
@@ -513,14 +527,14 @@
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2018/08/23/rsync-and-borg/</loc>
+    <loc>https://abelsu7.top/2019/04/28/setup-remote-ssh-login/</loc>
     
     <lastmod>2019-09-01T13:04:11.668Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://abelsu7.top/2019/04/28/setup-remote-ssh-login/</loc>
+    <loc>https://abelsu7.top/2018/08/23/rsync-and-borg/</loc>
     
     <lastmod>2019-09-01T13:04:11.668Z</lastmod>
     

@@ -232,6 +232,118 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-java-string-builder-buffer"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-07-12 14:55:08" datetime="2018-07-12T06:55:08.000Z"  itemprop="datePublished">2018-07-12</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+
+
+        
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/07/12/java-string-builder-buffer/">Java 中 String，StringBuilder，StringBuffer 三者的区别</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        <blockquote>
+<p>Java中关于字符串有三个相关的类：<strong>String</strong>,<strong>StringBuilder</strong>和<strong>StringBuffer</strong>，那么这三个类之间有什么区别呢？cnblogs博主<a href="https://www.cnblogs.com/su-feng/p/6659064.html" target="_blank" rel="noopener">酥风</a>对此做了整理记录，摘抄过来仅供参考。</p>
+</blockquote>
+<p>简单来说，这三个类之间的区别主要是在两个方面：<strong>运行速度</strong>和<strong>线程安全</strong>。</p>
+<h3 id="运行速度"><a href="#运行速度" class="headerlink" title="运行速度"></a>运行速度</h3><p>首先来看运行速度，<strong>StringBuilder</strong> &gt; <strong>StringBuffer</strong> &gt; <strong>String</strong> 。</p>
+<p>String最慢的原因在于：<strong>String为字符串常量</strong>，即String对象一旦创建之后是不可以更改的，但<strong>后两者的对象是变量</strong>，是可以更改的。以下面的一段代码为例，</p>
+<pre><code class="lang-java">String str = &quot;abc&quot;;
+System.out.println(str);
+str = str + &quot;de&quot;;
+System.out.println(str);
+</code></pre>
+<p>如果运行这段代码会发现先输出<code>abc</code>，然后又输出<code>abcde</code>，好像是<code>str</code>这个对象被更改了。但其实，这只是一种假象罢了。</p>
+    
+
+        <a href="/2018/07/12/java-string-builder-buffer/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/字符串/">字符串</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-java-check-null-string"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-07-11 17:06:19" datetime="2018-07-11T09:06:19.000Z"  itemprop="datePublished">2018-07-11</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Java/">Java</a></li></ul>
+
+
+
+        
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/07/11/java-check-null-string/">Java 判断字符串是否为空</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        <p>判断<strong>String</strong>类型字符串<code>str</code>是否为空有以下几种方法，</p>
+<pre><code class="lang-java">str == null;     // 1. 判断字符串对象是否实例化
+&quot;&quot;.equals(str);  // 2. 判断空字符串是否与被检验字符串相等
+str.length &lt;= 0; // 3. 判断字符串长度是否大于0
+str.isEmpty(;)   // 4. 调用String类型的isEmpty()方法
+</code></pre>
+    
+
+        <a href="/2018/07/11/java-check-null-string/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/字符串/">字符串</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-android-finish-activity"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -313,7 +425,7 @@ TaskHomeActivity.instance.finish(); // 在其他Activity里调用
 
     
         <blockquote>
-<p><a href="http://aria2.github.io" target="_blank" rel="noopener">aria2.github.io</a> 是一款<strong>开源下载工具</strong></p>
+<p><strong><em>开源下载工具 <a href="http://aria2.github.io" target="_blank" rel="noopener">Aria2</a> 相关资料整理</em></strong></p>
 </blockquote>
     
 
@@ -932,118 +1044,6 @@ chsh abelsu7 -s /bin/sh
     <div class="post-footer">
         
 	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Windows/">Windows</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/迅雷/">迅雷</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-rss-encoding-error"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-03-15 21:03:09" datetime="2018-03-15T13:03:09.000Z"  itemprop="datePublished">2018-03-15</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/前端/">前端</a></li></ul>
-
-
-
-        
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/03/15/rss-encoding-error/">解决 RSS 报错：Input is not proper UTF-8, indicate encoding</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <p>最近在<a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>上写文章时，部署后发现在Android版Firefox浏览器、Opera浏览器查看<code>atom.xml</code>文件均会报错：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/2018/03/15/rss-encoding-error/rsserror.png" alt="RSS encoding error" title>
-                </div>
-                <div class="image-caption">RSS encoding error</div>
-            </figure>
-    
-
-        <a href="/2018/03/15/rss-encoding-error/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-vscode-guide"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-03-15 14:51:51" datetime="2018-03-15T06:51:51.000Z"  itemprop="datePublished">2018-03-15</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/工具软件/">工具软件</a></li></ul>
-
-
-
-        
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/03/15/vscode-guide/">VS Code 使用指南</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <blockquote>
-<p>这里是<strong>VS Code</strong>的相关介绍，<a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf" target="_blank" rel="noopener">VS Code快捷键文档</a></p>
-</blockquote>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/2018/03/15/vscode-guide/vscode.png" alt="Visual Studio Code" title>
-                </div>
-                <div class="image-caption">Visual Studio Code</div>
-            </figure>
-    
-
-        <a href="/2018/03/15/vscode-guide/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VS-Code/">VS Code</a></li></ul>
 
     </div>
     

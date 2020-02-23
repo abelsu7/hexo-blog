@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://abelsu7.top/2020/02/23/linux-lvm-tutorial/</loc>
+    <lastmod>2020-02-23</lastmod>
+  </url>  <url>
+    <loc>https://abelsu7.top/2019/11/19/recent-virt-notes/</loc>
+    <lastmod>2020-02-23</lastmod>
+  </url>  <url>
+    <loc>https://abelsu7.top/2018/05/11/aria2/</loc>
+    <lastmod>2020-02-23</lastmod>
+  </url>  <url>
+    <loc>https://abelsu7.top/2020/02/23/deploy-ceph-jewel-on-3-vms/</loc>
+    <lastmod>2020-02-23</lastmod>
+  </url>  <url>
     <loc>https://abelsu7.top/2020/02/23/centos7-disable-yum-autoupdate/</loc>
     <lastmod>2020-02-23</lastmod>
   </url>  <url>
@@ -15,9 +27,6 @@
   </url>  <url>
     <loc>https://abelsu7.top/2020/01/15/vue-deploy-on-nginx/</loc>
     <lastmod>2020-01-15</lastmod>
-  </url>  <url>
-    <loc>https://abelsu7.top/2019/11/19/recent-virt-notes/</loc>
-    <lastmod>2020-01-14</lastmod>
   </url>  <url>
     <loc>https://abelsu7.top/2020/01/02/configure-qemu-to-support-ceph-rbd/</loc>
     <lastmod>2020-01-14</lastmod>
@@ -133,9 +142,6 @@
     <loc>https://abelsu7.top/2019/07/07/qemu-nbd/</loc>
     <lastmod>2019-10-13</lastmod>
   </url>  <url>
-    <loc>https://abelsu7.top/2018/05/11/aria2/</loc>
-    <lastmod>2019-10-12</lastmod>
-  </url>  <url>
     <loc>https://abelsu7.top/2019/10/10/mock-api-intro/</loc>
     <lastmod>2019-10-10</lastmod>
   </url>  <url>
@@ -172,10 +178,10 @@
     <loc>https://abelsu7.top/2018/02/05/ubuntu-nautilus-no-response/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
-    <loc>https://abelsu7.top/2019/05/21/ubuntu-aptitude/</loc>
+    <loc>https://abelsu7.top/2018/10/29/ubuntu-1804-netplan/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
-    <loc>https://abelsu7.top/2018/10/29/ubuntu-1804-netplan/</loc>
+    <loc>https://abelsu7.top/2019/05/21/ubuntu-aptitude/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
     <loc>https://abelsu7.top/2019/04/29/ubuntu-1804-install-nvidia-driver/</loc>
@@ -211,10 +217,10 @@
     <loc>https://abelsu7.top/2019/07/07/shell-io-redirection/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
-    <loc>https://abelsu7.top/2018/08/23/rsync-and-borg/</loc>
+    <loc>https://abelsu7.top/2019/04/28/setup-remote-ssh-login/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
-    <loc>https://abelsu7.top/2019/04/28/setup-remote-ssh-login/</loc>
+    <loc>https://abelsu7.top/2018/08/23/rsync-and-borg/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
     <loc>https://abelsu7.top/2019/05/21/rsshub-and-ttrss/</loc>
