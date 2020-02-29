@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://abelsu7.top/2020/02/29/how-to-use-vgrename/</loc>
+    <lastmod>2020-02-29</lastmod>
+  </url>  <url>
     <loc>https://abelsu7.top/2020/02/23/linux-lvm-tutorial/</loc>
     <lastmod>2020-02-23</lastmod>
   </url>  <url>
@@ -217,10 +220,10 @@
     <loc>https://abelsu7.top/2019/07/07/shell-io-redirection/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
-    <loc>https://abelsu7.top/2019/04/28/setup-remote-ssh-login/</loc>
+    <loc>https://abelsu7.top/2018/08/23/rsync-and-borg/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
-    <loc>https://abelsu7.top/2018/08/23/rsync-and-borg/</loc>
+    <loc>https://abelsu7.top/2019/04/28/setup-remote-ssh-login/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
     <loc>https://abelsu7.top/2019/05/21/rsshub-and-ttrss/</loc>
