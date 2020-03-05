@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://abelsu7.top/2020/02/23/linux-lvm-tutorial/</loc>
+    <lastmod>2020-03-05</lastmod>
+  </url>  <url>
+    <loc>https://abelsu7.top/2020/02/23/deploy-ceph-jewel-on-3-vms/</loc>
+    <lastmod>2020-03-05</lastmod>
+  </url>  <url>
+    <loc>https://abelsu7.top/2020/03/05/centos7-update-git-version/</loc>
+    <lastmod>2020-03-05</lastmod>
+  </url>  <url>
+    <loc>https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/</loc>
+    <lastmod>2020-03-05</lastmod>
+  </url>  <url>
     <loc>https://abelsu7.top/2020/02/29/how-to-use-vgrename/</loc>
     <lastmod>2020-02-29</lastmod>
-  </url>  <url>
-    <loc>https://abelsu7.top/2020/02/23/linux-lvm-tutorial/</loc>
-    <lastmod>2020-02-23</lastmod>
   </url>  <url>
     <loc>https://abelsu7.top/2019/11/19/recent-virt-notes/</loc>
     <lastmod>2020-02-23</lastmod>
   </url>  <url>
     <loc>https://abelsu7.top/2018/05/11/aria2/</loc>
-    <lastmod>2020-02-23</lastmod>
-  </url>  <url>
-    <loc>https://abelsu7.top/2020/02/23/deploy-ceph-jewel-on-3-vms/</loc>
     <lastmod>2020-02-23</lastmod>
   </url>  <url>
     <loc>https://abelsu7.top/2020/02/23/centos7-disable-yum-autoupdate/</loc>
@@ -38,9 +44,6 @@
     <lastmod>2020-01-14</lastmod>
   </url>  <url>
     <loc>https://abelsu7.top/2019/11/20/vue-notes/</loc>
-    <lastmod>2020-01-13</lastmod>
-  </url>  <url>
-    <loc>https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/</loc>
     <lastmod>2020-01-13</lastmod>
   </url>  <url>
     <loc>https://abelsu7.top/2019/07/03/windows-fluent-terminal/</loc>
@@ -409,10 +412,10 @@
     <loc>https://abelsu7.top/2019/02/28/hexo-pin-top/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
-    <loc>https://abelsu7.top/2018/02/14/hexo-cheatsheet/</loc>
+    <loc>https://abelsu7.top/2018/10/29/hexo-mathjax/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
-    <loc>https://abelsu7.top/2018/10/29/hexo-mathjax/</loc>
+    <loc>https://abelsu7.top/2018/02/14/hexo-cheatsheet/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
     <loc>https://abelsu7.top/2018/12/28/go-vscode-plugin/</loc>

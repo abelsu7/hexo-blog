@@ -23,26 +23,36 @@
     
     
     
-    <title>使用虚拟机快速搭建 Ceph 集群 | Keep Coding | 苏易北</title>
+    <title>Linux 下使用 virt-manager 基于虚拟机快速搭建 Ceph 集群 | Keep Coding | 苏易北</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="Ceph">
-    <meta name="description" content="快速搭建 Ceph Jewel(v10.2.11)虚拟机集群">
-<meta name="keywords" content="Ceph">
+    <meta name="keywords" content="Ceph,virt-manager">
+    <meta name="description" content="快速搭建 Ceph Jewel(v10.x)虚拟机集群">
+<meta name="keywords" content="Ceph,virt-manager">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用虚拟机快速搭建 Ceph 集群">
+<meta property="og:title" content="Linux 下使用 virt-manager 基于虚拟机快速搭建 Ceph 集群">
 <meta property="og:url" content="https://abelsu7.top/2020/02/23/deploy-ceph-jewel-on-3-vms/index.html">
 <meta property="og:site_name" content="Keep Coding">
-<meta property="og:description" content="快速搭建 Ceph Jewel(v10.2.11)虚拟机集群">
+<meta property="og:description" content="快速搭建 Ceph Jewel(v10.x)虚拟机集群">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://abelsu7.top/2020/02/23/deploy-ceph-jewel-on-3-vms/cover.jpg">
-<meta property="og:updated_time" content="2020-02-23T08:19:31.696Z">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/ceph-net.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/ceph-install-OS-1.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/ceph-install-OS-2.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/ceph-install-OS-3.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/ceph-install-OS-4.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/ceph-install-OS-5.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/ceph-install-OS-6.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/ceph-install-OS-7.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/ceph-install-OS-8.png">
+<meta property="og:image" content="https://qiniu.abelsu7.cn/ceph-install-OS-9.png">
+<meta property="og:updated_time" content="2020-03-05T08:25:30.559Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用虚拟机快速搭建 Ceph 集群">
-<meta name="twitter:description" content="快速搭建 Ceph Jewel(v10.2.11)虚拟机集群">
+<meta name="twitter:title" content="Linux 下使用 virt-manager 基于虚拟机快速搭建 Ceph 集群">
+<meta name="twitter:description" content="快速搭建 Ceph Jewel(v10.x)虚拟机集群">
 <meta name="twitter:image" content="https://abelsu7.top/2020/02/23/deploy-ceph-jewel-on-3-vms/cover.jpg">
     
         <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
@@ -195,7 +205,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">使用虚拟机快速搭建 Ceph 集群</div>
+        <div class="flex-col header-title ellipsis">Linux 下使用 virt-manager 基于虚拟机快速搭建 Ceph 集群</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -217,7 +227,7 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">使用虚拟机快速搭建 Ceph 集群</h1>
+        <h1 class="title">Linux 下使用 virt-manager 基于虚拟机快速搭建 Ceph 集群</h1>
         <h5 class="subtitle">
             
                 <time datetime="2020-02-23T07:49:19.000Z" itemprop="datePublished" class="page-time">
@@ -242,7 +252,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#徐小胖’blog"><span class="post-toc-text">徐小胖’blog</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#蚂蚁金服左杨"><span class="post-toc-text">蚂蚁金服左杨</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#执假以为真-CSDN"><span class="post-toc-text">执假以为真 - CSDN</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目录"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-资源准备"><span class="post-toc-text">1. 资源准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-虚拟机环境搭建"><span class="post-toc-text">2. 虚拟机环境搭建</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-创建磁盘镜像"><span class="post-toc-text">2.1 创建磁盘镜像</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-2-创建虚拟网络"><span class="post-toc-text">2.2 创建虚拟网络</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-3-安装操作系统"><span class="post-toc-text">2.3 安装操作系统</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-4-克隆前的准备"><span class="post-toc-text">2.4 克隆前的准备</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-5-克隆虚拟机"><span class="post-toc-text">2.5 克隆虚拟机</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-安装-Ceph-集群"><span class="post-toc-text">3. 安装 Ceph 集群</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-1-安装-ceph-deploy"><span class="post-toc-text">3.1 安装 ceph-deploy</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-2-开始部署"><span class="post-toc-text">3.2 开始部署</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-3-关闭-cephx-认证-可选"><span class="post-toc-text">3.3 关闭 cephx 认证 (可选)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-4-在宿主机上通过-libvirt-连接-Ceph-集群"><span class="post-toc-text">3.4 在宿主机上通过 libvirt 连接 Ceph 集群</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#徐小胖’blog"><span class="post-toc-text">徐小胖’blog</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#蚂蚁金服左杨"><span class="post-toc-text">蚂蚁金服左杨</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#执假以为真-CSDN"><span class="post-toc-text">执假以为真 - CSDN</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#运维教程"><span class="post-toc-text">运维教程</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -251,7 +261,7 @@
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">使用虚拟机快速搭建 Ceph 集群</h1>
+        <h1 class="post-card-title">Linux 下使用 virt-manager 基于虚拟机快速搭建 Ceph 集群</h1>
         <div class="post-meta">
             <time class="post-time" title="2020-02-23 15:49:19" datetime="2020-02-23T07:49:19.000Z"  itemprop="datePublished">2020-02-23</time>
 
@@ -270,7 +280,7 @@
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
             <blockquote>
-<p><strong><em>快速搭建 Ceph Jewel<code>(v10.2.11)</code>虚拟机集群</em></strong></p>
+<p><strong><em>快速搭建 Ceph Jewel<code>(v10.x)</code>虚拟机集群</em></strong></p>
 </blockquote>
 <figure class="image-bubble">
                 <div class="img-lightbox">
@@ -280,8 +290,722 @@
                 <div class="image-caption"></div>
             </figure>
 <a id="more"></a>
-<p><strong><em>待更新…</em></strong></p>
-<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><h4 id="徐小胖’blog"><a href="#徐小胖’blog" class="headerlink" title="徐小胖’blog"></a>徐小胖’blog</h4><blockquote>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#目录">目录</a></li>
+<li><a href="#1-资源准备">1. 资源准备</a></li>
+<li><a href="#2-虚拟机环境搭建">2. 虚拟机环境搭建</a><ul>
+<li><a href="#2-1-创建磁盘镜像">2.1 创建磁盘镜像</a></li>
+<li><a href="#2-2-创建虚拟网络">2.2 创建虚拟网络</a></li>
+<li><a href="#2-3-安装操作系统">2.3 安装操作系统</a></li>
+<li><a href="#2-4-克隆前的准备">2.4 克隆前的准备</a></li>
+<li><a href="#2-5-克隆虚拟机">2.5 克隆虚拟机</a></li>
+</ul>
+</li>
+<li><a href="#3-安装-Ceph-集群">3. 安装 Ceph 集群</a><ul>
+<li><a href="#3-1-安装-ceph-deploy">3.1 安装 ceph-deploy</a></li>
+<li><a href="#3-2-开始部署">3.2 开始部署</a></li>
+<li><a href="#3-3-关闭-cephx-认证-可选">3.3 关闭 cephx 认证 (可选)</a></li>
+<li><a href="#3-4-在宿主机上通过-libvirt-连接-Ceph-集群">3.4 在宿主机上通过 libvirt 连接 Ceph 集群</a></li>
+</ul>
+</li>
+<li><a href="#参考文章">参考文章</a></li>
+</ul>
+<h2 id="1-资源准备"><a href="#1-资源准备" class="headerlink" title="1. 资源准备"></a>1. 资源准备</h2><ol>
+<li>下载 <a href="https://mirrors.aliyun.com/centos/7.7.1908/isos/x86_64/CentOS-7-x86_64-Minimal-1908.iso" target="_blank" rel="noopener">CentOS-7-x86_64-Minimal-1908.iso</a> 镜像，用于<strong>安装虚拟机的操作系统</strong></li>
+<li><strong>磁盘可用空间</strong><code>&gt;=200G</code>(估计值，非必须，满足实际需求即可。例如我只用来存放一个<code>20G</code>的系统镜像，足够使用了)</li>
+</ol>
+<p>我的<strong>本地宿主机环境</strong>如下：</p>
+<pre><code class="lang-bash">&gt; cat /etc/redhat-release
+Fedora release 31 (Thirty One)
+
+&gt; uname -r
+5.4.8-200.fc31.x86_64
+
+&gt; df -hT /
+Filesystem              Type  Size  Used Avail Use% Mounted on
+/dev/mapper/fedora-root ext4  395G  123G  254G  33% /
+
+&gt; virt-manager --version
+2.2.1
+
+&gt; free -h
+              total        used        free      shared  buff/cache   available
+Mem:           15Gi       2.4Gi        10Gi       434Mi       2.3Gi        12Gi
+Swap:            0B          0B          0B
+
+
+&gt; screenfetch
+           /:-------------:\          root@ins-7590
+        :-------------------::        OS: Fedora 31 ThirtyOne
+      :-----------/shhOHbmp---:\      Kernel: x86_64 Linux 5.4.8-200.fc31.x86_64
+    /-----------omMMMNNNMMD  ---:     Uptime: 40m
+   :-----------sMMMMNMNMP.    ---:    Packages: 2237
+  :-----------:MMMdP-------    ---\   Shell: zsh 5.7.1
+ ,------------:MMMd--------    ---:   Resolution: 3600x1080
+ :------------:MMMd-------    .---:   DE: GNOME 
+ :----    oNMMMMMMMMMNho     .----:   WM: GNOME Shell
+ :--     .+shhhMMMmhhy++   .------/   WM Theme: 
+ :-    -------:MMMd--------------:    GTK Theme: Adwaita-dark [GTK2/3]
+ :-   --------/MMMd-------------;     Icon Theme: Adwaita
+ :-    ------/hMMMy------------:      Font: Cantarell 11
+ :-- :dMNdhhdNMMNo------------;       CPU: Intel Core i7-9750H @ 12x 4.5GHz
+ :---:sdNMMMMNds:------------:        GPU: Mesa DRI Intel(R) UHD Graphics 630 (Coffeelake 3x8 GT2) 
+ :------:://:-------------::          RAM: 2469MiB / 15786MiB
+ :---------------------://
+</code></pre>
+<h2 id="2-虚拟机环境搭建"><a href="#2-虚拟机环境搭建" class="headerlink" title="2. 虚拟机环境搭建"></a>2. 虚拟机环境搭建</h2><p>计划使用<strong>三台虚拟机</strong>搭建<strong>三节点的 Ceph 集群</strong>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">hostname</th>
+<th style="text-align:center">IP</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">ceph-node1</td>
+<td style="text-align:center">192.168.200.101</td>
+<td style="text-align:center">deploy, 1 mon, 2 osd</td>
+</tr>
+<tr>
+<td style="text-align:center">ceph-node2</td>
+<td style="text-align:center">192.168.200.102</td>
+<td style="text-align:center">1 mon, 2 osd</td>
+</tr>
+<tr>
+<td style="text-align:center">ceph-node3</td>
+<td style="text-align:center">192.168.200.103</td>
+<td style="text-align:center">1 mon, 2 osd</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p><strong>注</strong>：<code>ceph-node1</code>同时也作为<code>ceph-deploy</code>的运行节点，为自身及其他节点安装<code>ceph</code></p>
+</blockquote>
+<h3 id="2-1-创建磁盘镜像"><a href="#2-1-创建磁盘镜像" class="headerlink" title="2.1 创建磁盘镜像"></a>2.1 创建磁盘镜像</h3><p>创建一个目录（例如<code>/mnt/ceph/</code>）用来存放三台虚拟机的磁盘镜像：</p>
+<pre><code class="lang-bash">~ &gt; mkdir -p /mnt/ceph
+~ &gt; cd /mnt/ceph/
+/mnt/ceph &gt; mkdir ceph-node1 ceph-node2 ceph-node3
+/mnt/ceph &gt; ls -l
+
+total 12
+drwxr-xr-x 2 root root 4096 Mar  2 15:23 ceph-node1
+drwxr-xr-x 2 root root 4096 Mar  2 15:23 ceph-node2
+drwxr-xr-x 2 root root 4096 Mar  2 15:23 ceph-node3
+</code></pre>
+<blockquote>
+<p><strong>注</strong>：先准备<code>ceph-node1</code>，其余两台之后可通过<code>virt-clone</code>复制</p>
+</blockquote>
+<p>使用<code>qemu-img</code>命令为<code>ceph-node1</code>创建<strong>一块容量为</strong><code>100G</code><strong>的系统盘</strong>，以及<strong>两块容量各为</strong><code>2T</code><strong>的磁盘</strong>，镜像格式均为<code>qcow2</code>：</p>
+<pre><code class="lang-bash">/mnt/ceph &gt; qemu-img create -f qcow2 ceph-node1/ceph-node1.qcow2 100G
+Formatting &#39;ceph-node1/ceph-node1.qcow2&#39;, fmt=qcow2 size=107374182400 cluster_size=65536 lazy_refcounts=off refcount_bits=16
+
+/mnt/ceph &gt; qemu-img create -f qcow2 ceph-node1/disk-1.qcow2 2T
+Formatting &#39;ceph-node1/disk-1.qcow2&#39;, fmt=qcow2 size=2199023255552 cluster_size=65536 lazy_refcounts=off refcount_bits=16
+
+/mnt/ceph &gt; qemu-img create -f qcow2 ceph-node1/disk-2.qcow2 2T
+Formatting &#39;ceph-node1/disk-2.qcow2&#39;, fmt=qcow2 size=2199023255552 cluster_size=65536 lazy_refcounts=off refcount_bits=16
+
+/mnt/ceph &gt; tree -h
+.
+├── [ 4.0K]  ceph-node1
+│   ├── [ 194K]  ceph-node1.qcow2
+│   ├── [ 224K]  disk-1.qcow2
+│   └── [ 224K]  disk-2.qcow2
+├── [ 4.0K]  ceph-node2
+└── [ 4.0K]  ceph-node3
+
+3 directories, 3 files
+</code></pre>
+<h3 id="2-2-创建虚拟网络"><a href="#2-2-创建虚拟网络" class="headerlink" title="2.2 创建虚拟网络"></a>2.2 创建虚拟网络</h3><p>在<code>virt-manager</code>里<strong>创建虚拟网络</strong><code>ceph-net</code>，模式<code>NAT</code>，转发至本机的上网接口。规划的网段为<code>192.168.200.0/24</code>，DHCP 范围<code>192.168.200.101~254</code>，可自己修改调整：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/ceph-net.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p><code>ceph-net</code>自动生成的 XML 定义如下：</p>
+<pre><code class="lang-xml">&lt;network&gt;
+  &lt;name&gt;ceph-net&lt;/name&gt;
+  &lt;uuid&gt;cc046613-11c4-4db7-a478-ac6d568e69ec&lt;/uuid&gt;
+  &lt;forward dev=&quot;wlo1&quot; mode=&quot;nat&quot;&gt;
+    &lt;nat&gt;
+      &lt;port start=&quot;1024&quot; end=&quot;65535&quot;/&gt;
+    &lt;/nat&gt;
+    &lt;interface dev=&quot;wlo1&quot;/&gt;
+  &lt;/forward&gt;
+  &lt;bridge name=&quot;virbr1&quot; stp=&quot;on&quot; delay=&quot;0&quot;/&gt;
+  &lt;mac address=&quot;52:54:00:86:86:e8&quot;/&gt;
+  &lt;domain name=&quot;ceph-net&quot;/&gt;
+  &lt;ip address=&quot;192.168.200.1&quot; netmask=&quot;255.255.255.0&quot;&gt;
+    &lt;dhcp&gt;
+      &lt;range start=&quot;192.168.200.101&quot; end=&quot;192.168.200.254&quot;/&gt;
+    &lt;/dhcp&gt;
+  &lt;/ip&gt;
+&lt;/network&gt;
+</code></pre>
+<h3 id="2-3-安装操作系统"><a href="#2-3-安装操作系统" class="headerlink" title="2.3 安装操作系统"></a>2.3 安装操作系统</h3><p>在<code>virt-manager</code>中新建虚拟机：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/ceph-install-OS-1.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>选择下载好的<code>CentOS-7-x86_64-Minimal-1908.iso</code>作为系统安装镜像：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/ceph-install-OS-2.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>2 核 1G，默认即可：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/ceph-install-OS-3.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>选择之前创建好的<code>ceph-node1.qcow2</code>作为系统镜像：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/ceph-install-OS-4.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>设置虚拟机名为<code>ceph-node1</code>，网络选择<code>ceph-net</code>，并勾选<code>Customize configuration before install</code>，添加两块 2T 磁盘：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/ceph-install-OS-5.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>将<code>disk-1.qcow2</code>和<code>disk-2.qcow2</code>添加为<code>VirtIO Disk</code>：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/ceph-install-OS-6.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>最后确认<code>Boot Option</code>中<code>CDROM</code>为第一启动项，即可开始安装：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/ceph-install-OS-7.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>之后就进入了熟悉的<code>CentOS</code>安装界面，选择<code>100G</code>的盘作为系统盘，顺便观察两块<code>2T</code>的磁盘是否识别：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/ceph-install-OS-8.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>打开网络开关，确认是否已获得动态分配的<code>192.168.200.0/24</code>网段内的 IP 地址，具体的地址之后进入系统可以修改。另外，左下角将主机名修改为<code>ceph-node1</code>并<code>Apply</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiniu.abelsu7.cn/ceph-install-OS-9.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>现在即可开始安装，记得设置<code>root</code>密码。安装完重启进入系统：</p>
+<pre><code class="lang-bash">[root@ceph-node1 ~]$ lsblk
+NAME                        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sr0                          11:0    1 1024M  0 rom  
+vda                         252:0    0  100G  0 disk 
+├─vda1                      252:1    0    1G  0 part /boot
+└─vda2                      252:2    0   99G  0 part 
+  ├─centos_ceph--node1-root 253:0    0   50G  0 lvm  /
+  ├─centos_ceph--node1-swap 253:1    0    2G  0 lvm  [SWAP]
+  └─centos_ceph--node1-home 253:2    0   47G  0 lvm  /home
+vdb                         252:16   0    2T  0 disk 
+vdc                         252:32   0    2T  0 disk
+</code></pre>
+<h3 id="2-4-克隆前的准备"><a href="#2-4-克隆前的准备" class="headerlink" title="2.4 克隆前的准备"></a>2.4 克隆前的准备</h3><p>之前在安装过程中看到，<code>eth0</code>自动获取了分配的 IP 地址，现在我们需要将<code>eth0</code>的 IP 地址修改为我们计划的<strong>静态 IP 地址</strong>，即<code>192.168.200.101</code>。</p>
+<p><strong>修改网卡的配置文件</strong>：</p>
+<pre><code class="lang-bash">vi /etc/sysconfig/network-scripts/ifcfg-eth0
+
+# 修改以下几个配置项
+BOOTPROTO=&quot;static&quot;
+IPADDR=192.168.200.101
+NETMASK=255.255.255.0
+GATEWAY=192.168.200.1
+DNS1=192.168.200.1
+ONBOOT=&quot;yes&quot;
+</code></pre>
+<p><strong>重启网络</strong>，之后检查一下内网和外网的连通性：</p>
+<pre><code class="lang-bash">[root@ceph-node1 ~]$ systemctl restart network # 重启网络
+
+[root@ceph-node1 ~]$ ip addr list eth0
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 52:54:00:32:af:61 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.200.101/24 brd 192.168.200.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::5054:ff:fe32:af61/64 scope link 
+       valid_lft forever preferred_lft forever
+
+[root@ceph-node1 ~]$ nmcli
+eth0: connected to eth0
+        &quot;Red Hat Virtio&quot;
+        ethernet (virtio_net), 52:54:00:32:AF:61, hw, mtu 1500
+        ip4 default
+        inet4 192.168.200.101/24
+        route4 192.168.200.0/24
+        route4 0.0.0.0/0
+        inet6 fe80::916d:cd1f:bb97:ca22/64
+        route6 fe80::/64
+        route6 ff00::/8
+
+lo: unmanaged
+        &quot;lo&quot;
+        loopback (unknown), 00:00:00:00:00:00, sw, mtu 65536
+
+DNS configuration:
+        servers: 192.168.200.1
+        interface: eth0
+
+[root@ceph-node1 ~]$ ping 192.168.200.1 # ping 网关
+
+[root@ceph-node1 ~]$ ping baidu.com     # ping 外网
+</code></pre>
+<p>简便起见，关闭<code>firewalld</code>和<code>selinux</code>：</p>
+<pre><code class="lang-bash"># 关闭 firewalld 并禁用
+[root@ceph-node1 ~]$ systemctl stop firewalld
+[root@ceph-node1 ~]$ systemctl disable firewalld
+
+# 临时关闭 selinux
+[root@ceph-node1 ~]$ getenforce
+Enforcing
+[root@ceph-node1 ~]$ setenforce 0
+[root@ceph-node1 ~]$ getenforce
+Permissive
+
+# 永久关闭 selinux，重启后生效
+[root@ceph-node1 ~]$ sed -i &#39;s/SELINUX=.*/SELINUX=disabled/&#39; /etc/selinux/config
+</code></pre>
+<p>将<code>yum</code>源修改为<a href="https://developer.aliyun.com/mirror/centos" target="_blank" rel="noopener">阿里云</a>的源，并添加<code>ceph</code>的源：</p>
+<pre><code class="lang-bash">[root@ceph-node1 ~]$ yum clean all
+
+[root@ceph-node1 ~]$ curl http://mirrors.aliyun.com/repo/Centos-7.repo &gt;/etc/yum.repos.d/CentOS-Base.repo
+[root@ceph-node1 ~]$ curl http://mirrors.aliyun.com/repo/epel-7.repo &gt;/etc/yum.repos.d/epel.repo
+[root@ceph-node1 ~]$ sed -i &#39;/aliyuncs/d&#39; /etc/yum.repos.d/CentOS-Base.repo
+[root@ceph-node1 ~]$ sed -i &#39;/aliyuncs/d&#39; /etc/yum.repos.d/epel.repo
+
+[root@ceph-node1 ~]$ vim /etc/yum.repos.d/ceph.repo
+# 添加以下内容
+[ceph]
+name=ceph
+baseurl=http://mirrors.163.com/ceph/rpm-jewel/el7/x86_64/
+gpgcheck=0
+[ceph-noarch]
+name=cephnoarch
+baseurl=http://mirrors.163.com/ceph/rpm-jewel/el7/noarch/
+gpgcheck=0
+
+[root@ceph-node1 ~]$ yum makecache
+
+[root@ceph-node1 ~]$ yum repolist
+Loaded plugins: fastestmirror, priorities
+Loading mirror speeds from cached hostfile
+repo id                                                repo name                                                                            status
+base/7/x86_64                                          CentOS-7 - Base - mirrors.aliyun.com                                                 10,097
+ceph                                                   ceph                                                                                    499
+ceph-noarch                                            cephnoarch                                                                               16
+epel/x86_64                                            Extra Packages for Enterprise Linux 7 - x86_64                                       13,196
+extras/7/x86_64                                        CentOS-7 - Extras - mirrors.aliyun.com                                                  323
+updates/7/x86_64                                       CentOS-7 - Updates - mirrors.aliyun.com                                               1,478
+repolist: 25,609
+</code></pre>
+<p>安装<code>ceph</code>客户端、<code>ntpdate</code>以及其他软件：</p>
+<pre><code class="lang-bash"># 安装 ceph 客户端
+[root@ceph-node1 ~]$ yum install ceph ceph-radosgw
+[root@ceph-node1 ~]$ ceph --version
+ceph version 10.2.11 (e4b061b47f07f583c92a050d9e84b1813a35671e)
+
+# 必须安装，借助 ntpdate 同步时间
+[root@ceph-node1 ~]$ yum install ntp ntpdate ntp-doc 
+# 非必须，方便监控性能数据
+[root@ceph-node1 ~]$ yum install wget vim htop dstat iftop tmux
+</code></pre>
+<p>设置开机运行<code>ntpdate</code>自动同步时间：</p>
+<pre><code class="lang-bash">[root@ceph-node1 ~]$ ntpdate ntp.sjtu.edu.cn
+ 2 Mar 09:49:39 ntpdate[1915]: adjust time server 84.16.73.33 offset 0.051449 sec
+[root@ceph-node1 ~]$ echo ntpdate ntp.sjtu.edu.cn &gt;&gt; /etc/rc.d/rc.local
+[root@ceph-node1 ~]$ chmod +x /etc/rc.d/rc.local
+</code></pre>
+<p>添加各节点主机名，生成 SSH 密钥并配置免密登录：</p>
+<pre><code class="lang-bash">[root@ceph-node1 ~]$ echo ceph-node1 &gt;/etc/hostname
+
+[root@ceph-node1 ~]$ vim /etc/hosts
+# 添加以下主机名
+192.168.200.101 ceph-node1
+192.168.200.102 ceph-node2
+192.168.200.103 ceph-node3
+
+# 三次回车，生成密钥
+[root@ceph-node1 ~]$ ssh-keygen
+# 设置本机免密登录
+# 由于虚拟机克隆后密钥是同一份
+# 因此只需执行这一次 ssh-copy-id
+# 三台虚拟机相互之间均可以免密登录
+[root@ceph-node1 ~]$ ssh-copy-id root@ceph-node1
+</code></pre>
+<p>在宿主机上同样添加以上三个节点的主机名，并<code>ssh-copy-id</code>到虚拟机配置免密登录：</p>
+<pre><code class="lang-bash">[root@ceph-host ~]$ vim /etc/hosts
+# 添加以下主机名
+192.168.200.101 ceph-node1
+192.168.200.102 ceph-node2
+192.168.200.103 ceph-node3
+
+[root@ceph-host ~]$ ssh-copy-id root@ceph-node1
+</code></pre>
+<p>至此虚拟机环境已准备完毕，可以执行<code>shutdown -h now</code>关机，记得在<code>virt-manager</code>里将<code>CDROM</code>移除掉，并确保<code>VirtIO Disk 1</code>为第一启动项。</p>
+<h3 id="2-5-克隆虚拟机"><a href="#2-5-克隆虚拟机" class="headerlink" title="2.5 克隆虚拟机"></a>2.5 克隆虚拟机</h3><p>使用<code>virt-clone</code>命令基于<code>ceph-node1</code>克隆出<code>ceph-node2</code>、<code>ceph-node3</code>另外两台虚拟机，它将<strong>为网卡生成新的 MAC 地址</strong>，并<strong>将镜像复制到指定路径</strong>：</p>
+<pre><code class="lang-bash">&gt; virsh domblklist ceph-node1
+ Target   Source
+-------------------------------------------------
+ vda      /mnt/ceph/ceph-node1/ceph-node1.qcow2
+ vdb      /mnt/ceph/ceph-node1/disk-1.qcow2
+ vdc      /mnt/ceph/ceph-node1/disk-2.qcow2
+
+&gt; virt-clone --original ceph-node1 --name ceph-node2 \
+--file /mnt/ceph/ceph-node2/ceph-node2.qcow2 \
+--file /mnt/ceph/ceph-node2/disk-1.qcow2 \
+--file /mnt/ceph/ceph-node2/disk-2.qcow2
+
+&gt; virt-clone --original ceph-node1 --name ceph-node3 \
+--file /mnt/ceph/ceph-node3/ceph-node3.qcow2 \
+--file /mnt/ceph/ceph-node3/disk-1.qcow2 \
+--file /mnt/ceph/ceph-node3/disk-2.qcow2
+
+&gt; tree -h /mnt/ceph/
+/mnt/ceph
+├── [ 4.0K]  ceph-node1
+│   ├── [ 1.8G]  ceph-node1.qcow2
+│   ├── [ 224K]  disk-1.qcow2
+│   └── [ 224K]  disk-2.qcow2
+├── [ 4.0K]  ceph-node2
+│   ├── [ 1.8G]  ceph-node2.qcow2
+│   ├── [ 224K]  disk-1.qcow2
+│   └── [ 224K]  disk-2.qcow2
+└── [ 4.0K]  ceph-node3
+    ├── [ 1.8G]  ceph-node3.qcow2
+    ├── [ 224K]  disk-1.qcow2
+    └── [ 224K]  disk-2.qcow2
+
+3 directories, 9 files
+
+&gt; virsh list --all
+ Id   Name                State
+------------------------------------
+ -    ceph-node1          shut off
+ -    ceph-node2          shut off
+ -    ceph-node3          shut off
+</code></pre>
+<p>登录<code>ceph-node2</code>，修改<strong>主机名</strong>及 <strong>IP 地址</strong>：</p>
+<pre><code class="lang-bash"># 修改主机名，下次登录生效
+[root@ceph-node2 ~]$ hostname ceph-node2
+[root@ceph-node2 ~]$ echo ceph-node2 &gt; /etc/hostname
+# 注销重新登录，使新的主机名生效
+[root@ceph-node2 ~]$ exit 
+
+# 修改为对应的 IP 地址
+[root@ceph-node2 ~]$ vim /etc/sysconfig/network-scripts/ifcfg-eth0
+IPADDR=192.168.200.102
+
+# 重启网络
+[root@ceph-node2 ~]$ systemctl restart network
+</code></pre>
+<p>登录<code>ceph-node3</code>，进行同样的操作，至此三台虚拟机已经准备完毕。</p>
+<h2 id="3-安装-Ceph-集群"><a href="#3-安装-Ceph-集群" class="headerlink" title="3. 安装 Ceph 集群"></a>3. 安装 Ceph 集群</h2><p>计划使用<strong>三台虚拟机</strong>搭建<strong>三节点的 Ceph 集群</strong>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">hostname</th>
+<th style="text-align:center">IP</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">ceph-node1</td>
+<td style="text-align:center">192.168.200.101</td>
+<td style="text-align:center">deploy, 1 mon, 2 osd</td>
+</tr>
+<tr>
+<td style="text-align:center">ceph-node2</td>
+<td style="text-align:center">192.168.200.102</td>
+<td style="text-align:center">1 mon, 2 osd</td>
+</tr>
+<tr>
+<td style="text-align:center">ceph-node3</td>
+<td style="text-align:center">192.168.200.103</td>
+<td style="text-align:center">1 mon, 2 osd</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>通过<code>ceph-deploy</code>工具即可很方便的从一个节点（此例中为<code>ceph-node1</code>）部署<code>ceph</code>集群，因此在<code>ceph-node1</code>上执行以下操作：</p>
+<h3 id="3-1-安装-ceph-deploy"><a href="#3-1-安装-ceph-deploy" class="headerlink" title="3.1 安装 ceph-deploy"></a>3.1 安装 ceph-deploy</h3><blockquote>
+<p><strong>注</strong>：以下命令在<code>ceph-node1</code>上执行</p>
+</blockquote>
+<p>安装<code>ceph-deploy</code>：</p>
+<pre><code class="lang-bash">[root@ceph-node1 ~]$ yum info ceph-deploy
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+Available Packages
+Name        : ceph-deploy
+Arch        : noarch
+Version     : 1.5.39
+Release     : 0
+Size        : 284 k
+Repo        : ceph-noarch
+Summary     : Admin and deploy tool for Ceph
+URL         : http://ceph.com/
+License     : MIT
+Description : An easy to use admin tool for deploy ceph storage clusters.
+
+[root@ceph-node1 ~]$ yum install ceph-deploy -y
+
+[root@ceph-node1 ~]$ ceph-deploy --version
+1.5.39
+</code></pre>
+<h3 id="3-2-开始部署"><a href="#3-2-开始部署" class="headerlink" title="3.2 开始部署"></a>3.2 开始部署</h3><blockquote>
+<p><strong>注</strong>：以下命令在<code>ceph-node1</code>上执行</p>
+</blockquote>
+<p>创建部署目录<code>my-cluster</code>：</p>
+<pre><code class="lang-bash">[root@ceph-node1 ~]$ mkdir my-cluster
+[root@ceph-node1 ~]$ cd my-cluster/
+
+# 生成初始配置文件
+[root@ceph-node1 my-cluster]$ ceph-deploy new ceph-node1 ceph-node2 ceph-node3
+[root@ceph-node1 my-cluster]$ ls -hl
+total 12K
+-rw-r--r-- 1 root root  203 Mar  2 09:18 ceph.conf
+-rw-r--r-- 1 root root 3.0K Mar  2 09:18 ceph-deploy-ceph.log
+-rw------- 1 root root   73 Mar  2 09:18 ceph.mon.keyring
+
+[root@ceph-node1 my-cluster]$ cat ceph.conf
+[global]
+fsid = 86537cd8-270c-480d-b549-1f352de6c907
+mon_initial_members = ceph-node1, ceph-node2, ceph-node3
+mon_host = 192.168.200.101,192.168.200.102,192.168.200.103
+auth_cluster_required = cephx
+auth_service_required = cephx
+auth_client_required = cephx
+</code></pre>
+<blockquote>
+<p><strong>注</strong>：在任何时候当你<strong>陷入困境</strong>并希望<strong>从头开始</strong>部署时，就执行以下命令以<strong>清空</strong><code>ceph</code><strong>的</strong><code>package</code>，并<strong>擦除各节点的数据和配置</strong>：</p>
+</blockquote>
+<pre><code class="lang-bash">[root@ceph-node1 my-cluster]$ ceph-deploy purge ceph-node1 ceph-node2 ceph-node3
+[root@ceph-node1 my-cluster]$ ceph-deploy purgedata ceph-node1 ceph-node2 ceph-node3
+[root@ceph-node1 my-cluster]$ ceph-deploy forgetkeys
+[root@ceph-node1 my-cluster]$ rm ceph.*
+</code></pre>
+<p>根据此前的 IP 配置向<code>ceph.conf</code>中添加<code>public_network</code>，并稍微增大<code>mon</code>之间的时差允许范围(默认为<code>0.05s</code>，现改为<code>2s</code>)：</p>
+<pre><code class="lang-bash">[root@ceph-node1 my-cluster]$ echo public_network=192.168.200.0/24 &gt;&gt; ceph.conf
+[root@ceph-node1 my-cluster]$ echo mon_clock_drift_allowed = 2 &gt;&gt; ceph.conf
+[root@ceph-node1 my-cluster]$ cat ceph.conf 
+[global]
+fsid = 86537cd8-270c-480d-b549-1f352de6c907
+mon_initial_members = ceph-node1, ceph-node2, ceph-node3
+mon_host = 192.168.200.101,192.168.200.102,192.168.200.103
+auth_cluster_required = cephx
+auth_service_required = cephx
+auth_client_required = cephx
+
+public_network=192.168.200.0/24
+mon_clock_drift_allowed = 2
+</code></pre>
+<p>开始部署<code>monitor</code>：</p>
+<pre><code class="lang-bash">[root@ceph-node1 my-cluster]$ ceph-deploy mon create-initial
+</code></pre>
+<p>查看集群状态，此时<code>health</code>为<code>HEALTH_ERR</code>是因为还没有部署<code>osd</code>：</p>
+<pre><code class="lang-bash">[root@ceph-node1 my-cluster]$ ceph -s
+    cluster 86537cd8-270c-480d-b549-1f352de6c907
+     health HEALTH_ERR
+            no osds
+     monmap e2: 3 mons at {ceph-node1=192.168.200.101:6789/0,ceph-node2=192.168.200.102:6789/0,ceph-node3=192.168.200.103:6789/0}
+            election epoch 6, quorum 0,1,2 ceph-node1,ceph-node2,ceph-node3
+     osdmap e1: 0 osds: 0 up, 0 in
+            flags sortbitwise,require_jewel_osds
+      pgmap v2: 64 pgs, 1 pools, 0 bytes data, 0 objects
+            0 kB used, 0 kB / 0 kB avail
+                  64 creating
+</code></pre>
+<p>开始部署<code>osd</code>：</p>
+<pre><code class="lang-bash">[root@ceph-node1 my-cluster]$ ceph-deploy --overwrite-conf osd prepare \
+ceph-node1:/dev/vdb ceph-node1:/dev/vdc \
+ceph-node2:/dev/vdb ceph-node2:/dev/vdc \
+ceph-node3:/dev/vdb ceph-node3:/dev/vdc --zap-disk
+
+[root@ceph-node1 my-cluster]$ ceph-deploy --overwrite-conf osd activate \
+ceph-node1:/dev/vdb1 ceph-node1:/dev/vdc1 \
+ceph-node2:/dev/vdb1 ceph-node2:/dev/vdc1 \
+ceph-node3:/dev/vdb1 ceph-node3:/dev/vdc1
+</code></pre>
+<p>查看集群状态：</p>
+<pre><code class="lang-bash">[root@ceph-node1 my-cluster]$ ceph -s
+   cluster 86537cd8-270c-480d-b549-1f352de6c907
+     health HEALTH_OK
+     monmap e2: 3 mons at {ceph-node1=192.168.200.101:6789/0,ceph-node2=192.168.200.102:6789/0,ceph-node3=192.168.200.103:6789/0}
+            election epoch 6, quorum 0,1,2 ceph-node1,ceph-node2,ceph-node3
+     osdmap e30: 6 osds: 6 up, 6 in
+            flags sortbitwise,require_jewel_osds
+      pgmap v72: 64 pgs, 1 pools, 0 bytes data, 0 objects
+            646 MB used, 12251 GB / 12252 GB avail
+                  64 active+clean
+</code></pre>
+<p>至此，集群部署完成。</p>
+<h3 id="3-3-关闭-cephx-认证-可选"><a href="#3-3-关闭-cephx-认证-可选" class="headerlink" title="3.3 关闭 cephx 认证 (可选)"></a>3.3 关闭 cephx 认证 (可选)</h3><p>首先在<code>ceph-node1</code>上修改<code>my-cluster</code>目录下的<code>ceph.conf</code>：</p>
+<pre><code class="lang-bash">[root@ceph-node1 my-cluster]$ vim ceph.conf
+# 将 cephx 全部改为 none
+auth_cluster_required = none
+auth_service_required = none
+auth_client_required = none
+</code></pre>
+<p>之后通过<code>ceph-deploy</code>将该配置文件推送到三个节点上：</p>
+<pre><code class="lang-bash">[root@ceph-node1 my-cluster]$ ceph-deploy --overwrite-conf config push ceph-node1 ceph-node2 ceph-node3
+</code></pre>
+<p>最后分别在三个节点上重启<code>mon</code>和<code>osd</code>：</p>
+<pre><code class="lang-bash"># ceph-node1
+[root@ceph-node1 ~]$ systemctl restart ceph-mon.target
+[root@ceph-node1 ~]$ systemctl restart ceph-osd.target
+
+# ceph-node2
+[root@ceph-node2 ~]$ systemctl restart ceph-mon.target
+[root@ceph-node2 ~]$ systemctl restart ceph-osd.target
+
+# ceph-node3
+[root@ceph-node3 ~]$ systemctl restart ceph-mon.target
+[root@ceph-node3 ~]$ systemctl restart ceph-osd.target
+</code></pre>
+<p>稍后可观察到集群恢复：</p>
+<pre><code class="lang-bash">[root@ceph-node1 ~]$ ceph -s
+   cluster 86537cd8-270c-480d-b549-1f352de6c907
+     health HEALTH_OK
+     monmap e2: 3 mons at {ceph-node1=192.168.200.101:6789/0,ceph-node2=192.168.200.102:6789/0,ceph-node3=192.168.200.103:6789/0}
+            election epoch 12, quorum 0,1,2 ceph-node1,ceph-node2,ceph-node3
+     osdmap e42: 6 osds: 6 up, 6 in
+            flags sortbitwise,require_jewel_osds
+      pgmap v98: 64 pgs, 1 pools, 0 bytes data, 0 objects
+            647 MB used, 12251 GB / 12252 GB avail
+                  64 active+clean
+
+[root@ceph-node1 ~]$ ceph osd tree
+ID WEIGHT   TYPE NAME           UP/DOWN REWEIGHT PRIMARY-AFFINITY 
+-1 11.96457 root default                                          
+-2  3.98819     host ceph-node1                                   
+ 0  1.99409         osd.0            up  1.00000          1.00000 
+ 5  1.99409         osd.5            up  1.00000          1.00000 
+-3  3.98819     host ceph-node2                                   
+ 1  1.99409         osd.1            up  1.00000          1.00000 
+ 2  1.99409         osd.2            up  1.00000          1.00000 
+-4  3.98819     host ceph-node3                                   
+ 3  1.99409         osd.3            up  1.00000          1.00000 
+ 4  1.99409         osd.4            up  1.00000          1.00000
+</code></pre>
+<h3 id="3-4-在宿主机上通过-libvirt-连接-Ceph-集群"><a href="#3-4-在宿主机上通过-libvirt-连接-Ceph-集群" class="headerlink" title="3.4 在宿主机上通过 libvirt 连接 Ceph 集群"></a>3.4 在宿主机上通过 libvirt 连接 Ceph 集群</h3><p>首先回到宿主机，安装<code>ceph</code>客户端：</p>
+<pre><code class="lang-bash">[root@ceph-host ~]$ yum install ceph ceph-radosgw
+</code></pre>
+<p>之后创建<code>/mnt/ceph/rbd-pool.xml</code>：</p>
+<pre><code class="lang-xml">&lt;pool type=&#39;rbd&#39;&gt;
+  &lt;name&gt;rbd&lt;/name&gt;
+  &lt;source&gt;
+    &lt;host name=&#39;ceph-node1&#39; port=&#39;6789&#39;/&gt;
+    &lt;name&gt;rbd&lt;/name&gt;
+  &lt;/source&gt;
+&lt;/pool&gt;
+</code></pre>
+<p>定义<code>rbd</code>存储池并启动：</p>
+<pre><code class="lang-bash">[root@ceph-host ~]$ virsh pool-create /mnt/ceph/rbd-pool.xml
+Pool rbd defined from /mnt/ceph/rbd-pool.xml
+
+[root@ceph-host ~]$ virsh pool-start rbd
+Pool rbd started
+
+[root@ceph-host ~]$ virsh pool-info rbd
+Name:           rbd
+UUID:           0e3115e5-87c8-41c6-979b-3b8277deef78
+State:          running
+Persistent:     yes
+Autostart:      no
+Capacity:       11.96 TiB
+Allocation:     1.32 KiB
+Available:      11.96 TiB
+
+[root@ceph-host ~]$ virsh pool-dumpxml rbd
+&lt;pool type=&#39;rbd&#39;&gt;
+  &lt;name&gt;rbd&lt;/name&gt;
+  &lt;uuid&gt;0e3115e5-87c8-41c6-979b-3b8277deef78&lt;/uuid&gt;
+  &lt;capacity unit=&#39;bytes&#39;&gt;13155494166528&lt;/capacity&gt;
+  &lt;allocation unit=&#39;bytes&#39;&gt;1349&lt;/allocation&gt;
+  &lt;available unit=&#39;bytes&#39;&gt;13154814738432&lt;/available&gt;
+  &lt;source&gt;
+    &lt;host name=&#39;ceph-node1&#39; port=&#39;6789&#39;/&gt;
+    &lt;name&gt;rbd&lt;/name&gt;
+  &lt;/source&gt;
+&lt;/pool&gt;
+</code></pre>
+<p>使用<code>qemu-img</code>尝试创建一个<code>rbd</code>镜像：</p>
+<pre><code class="lang-bash">[root@ceph-host ~]$ qemu-img create -f rbd rbd:rbd/test-from-host 10G
+Formatting &#39;rbd:rbd/test-from-host&#39;, fmt=rbd size=10737418240
+
+[root@ceph-host ~]$ qemu-img info rbd:rbd/test-from-host
+image: json:{&quot;driver&quot;: &quot;raw&quot;, &quot;file&quot;: {&quot;pool&quot;: &quot;rbd&quot;, &quot;image&quot;: &quot;test-from-host&quot;, &quot;driver&quot;: &quot;rbd&quot;}}
+file format: raw
+virtual size: 10 GiB (10737418240 bytes)
+disk size: unavailable
+cluster_size: 4194304
+</code></pre>
+<p>使用<code>rbd</code>命令与<code>virsh</code>查看该镜像：</p>
+<pre><code class="lang-bash">[root@ceph-host ~]$ rbd ls
+test-from-host
+
+[root@ceph-host ~]$ rbd du
+NAME           PROVISIONED USED
+test-from-host      10 GiB  0 B
+
+[root@ceph-host ~]$ virsh vol-list rbd
+ Name             Path
+--------------------------------------
+ test-from-host   rbd/test-from-host
+
+[root@ceph-host ~]$ virsh vol-info rbd/test-from-host
+Name:           test-from-host
+Type:           network
+Capacity:       10.00 GiB
+Allocation:     10.00 GiB
+
+[root@ceph-host ~]$ virsh vol-dumpxml rbd/test-from-host
+&lt;volume type=&#39;network&#39;&gt;
+  &lt;name&gt;test-from-host&lt;/name&gt;
+  &lt;key&gt;rbd/test-from-host&lt;/key&gt;
+  &lt;source&gt;
+  &lt;/source&gt;
+  &lt;capacity unit=&#39;bytes&#39;&gt;10737418240&lt;/capacity&gt;
+  &lt;allocation unit=&#39;bytes&#39;&gt;10737418240&lt;/allocation&gt;
+  &lt;target&gt;
+    &lt;path&gt;rbd/test-from-host&lt;/path&gt;
+    &lt;format type=&#39;raw&#39;/&gt;
+  &lt;/target&gt;
+&lt;/volume&gt;
+</code></pre>
+<p>宿主机若要关机，关闭三台虚拟机即可。宿主机开机后，再重新启动三台虚拟机，集群会自动恢复至<code>HEALTH_OK</code>状态。</p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><h3 id="徐小胖’blog"><a href="#徐小胖’blog" class="headerlink" title="徐小胖’blog"></a>徐小胖’blog</h3><blockquote>
 <ol>
 <li><a href="http://www.xuxiaopang.com/2020/10/09/list/" target="_blank" rel="noopener">Ceph 文章清单 | 徐小胖’blog</a></li>
 <li><a href="http://xuxiaopang.com/2016/09/29/build-vm/" target="_blank" rel="noopener">Ceph 环境准备 - 虚拟机搭建 | 徐小胖’blog</a></li>
@@ -290,7 +1014,7 @@
 <li><a href="http://xuxiaopang.com/2016/10/11/ceph-single-node-installation-el7-hammer/" target="_blank" rel="noopener">一分钟部署单节点 Ceph (el7+hammer) | 徐小胖’blog</a></li>
 </ol>
 </blockquote>
-<h4 id="蚂蚁金服左杨"><a href="#蚂蚁金服左杨" class="headerlink" title="蚂蚁金服左杨"></a>蚂蚁金服左杨</h4><blockquote>
+<h3 id="蚂蚁金服左杨"><a href="#蚂蚁金服左杨" class="headerlink" title="蚂蚁金服左杨"></a>蚂蚁金服左杨</h3><blockquote>
 <ol>
 <li><a href="https://www.zuoyangblog.com/post/Ceph_introduction.html" target="_blank" rel="noopener">第一篇：Ceph 简介 | zuoyang’s blog</a></li>
 <li><a href="https://www.zuoyangblog.com/post/ceph-enviroment-set.html" target="_blank" rel="noopener">第二篇：Ceph 集群环境准备 | zuoyang’s blog</a></li>
@@ -298,7 +1022,7 @@
 <li><a href="https://www.zuoyangblog.com/post/create-cephfs.html" target="_blank" rel="noopener">第四篇：创建 cephfs 服务 | zuoyang’s blog</a></li>
 </ol>
 </blockquote>
-<h4 id="执假以为真-CSDN"><a href="#执假以为真-CSDN" class="headerlink" title="执假以为真 - CSDN"></a>执假以为真 - CSDN</h4><blockquote>
+<h3 id="执假以为真-CSDN"><a href="#执假以为真-CSDN" class="headerlink" title="执假以为真 - CSDN"></a>执假以为真 - CSDN</h3><blockquote>
 <ol>
 <li><a href="https://blog.csdn.net/nirendao/article/details/79357549" target="_blank" rel="noopener">使用 ceph-deploy 安装 Ceph 12.x（序言）| CSDN</a></li>
 <li><a href="https://blog.csdn.net/nirendao/article/details/79357823" target="_blank" rel="noopener">使用 ceph-deploy 安装 Ceph 12.x（一） 创建虚拟机环境 | CSDN</a></li>
@@ -307,7 +1031,12 @@
 <li><a href="https://blog.csdn.net/nirendao/article/details/79360177" target="_blank" rel="noopener">使用 ceph-deploy 安装 Ceph 12.x（四） 块设备和对象存储 | CSDN</a></li>
 </ol>
 </blockquote>
-<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2020/01/02/configure-qemu-to-support-ceph-rbd/">编译 QEMU 开启对 Ceph RBD 的支持</a></li><li><a href="https://abelsu7.top/2019/11/19/recent-virt-notes/">虚拟化相关资料收集</a></li></ul></div>
+<h3 id="运维教程"><a href="#运维教程" class="headerlink" title="运维教程"></a>运维教程</h3><blockquote>
+<ol>
+<li><a href="https://lihaijing.gitbooks.io/ceph-handbook/content/" target="_blank" rel="noopener">Ceph 运维手册 - 李海静 | GitBook</a></li>
+</ol>
+</blockquote>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2020/01/02/configure-qemu-to-support-ceph-rbd/">编译 QEMU 开启对 Ceph RBD 的支持</a></li><li><a href="https://abelsu7.top/2019/11/19/recent-virt-notes/">虚拟化相关资料收集</a></li><li><a href="https://abelsu7.top/2019/05/30/kvm-in-action-2/">《KVM 实战》笔记 2：KVM 管理工具</a></li></ul></div>
         </div>
 
         <blockquote class="post-copyright">
@@ -315,7 +1044,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2020-02-23T08:19:31.696Z" itemprop="dateUpdated">2020-02-23 16:19:31</time>
+    最后更新时间：<time datetime="2020-03-05T08:25:30.559Z" itemprop="dateUpdated">2020-03-05 16:25:30</time>
 </span><br>
 
 
@@ -341,7 +1070,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/virt-manager/">virt-manager</a></li></ul>
 
 
             
@@ -351,7 +1080,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2020/02/23/deploy-ceph-jewel-on-3-vms/&title=《使用虚拟机快速搭建 Ceph 集群》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2020/02/23/deploy-ceph-jewel-on-3-vms/&title=《Linux 下使用 virt-manager 基于虚拟机快速搭建 Ceph 集群》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -361,13 +1090,13 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2020/02/23/deploy-ceph-jewel-on-3-vms/&title=《使用虚拟机快速搭建 Ceph 集群》 — Keep Coding&source=
-快速搭建 Ceph Jewel(v10.2.11)虚拟机集群
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2020/02/23/deploy-ceph-jewel-on-3-vms/&title=《Linux 下使用 virt-manager 基于虚拟机快速搭建 Ceph 集群》 — Keep Coding&source=
+快速搭建 Ceph Jewel(v10.x)虚拟机集群
 
 
                 
                     
-     ..." data-title=" QQ">
+        ..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -377,7 +1106,7 @@
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用虚拟机快速搭建 Ceph 集群》 — Keep Coding&url=https://abelsu7.top/2020/02/23/deploy-ceph-jewel-on-3-vms/&via=https://abelsu7.top" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux 下使用 virt-manager 基于虚拟机快速搭建 Ceph 集群》 — Keep Coding&url=https://abelsu7.top/2020/02/23/deploy-ceph-jewel-on-3-vms/&via=https://abelsu7.top" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
@@ -576,7 +1305,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2020/02/23/deploy-ceph-jewel-on-3-vms/&title=《使用虚拟机快速搭建 Ceph 集群》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://abelsu7.top/2020/02/23/deploy-ceph-jewel-on-3-vms/&title=《Linux 下使用 virt-manager 基于虚拟机快速搭建 Ceph 集群》 — Keep Coding&pic=https://abelsu7.top/img/fong.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -586,13 +1315,13 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2020/02/23/deploy-ceph-jewel-on-3-vms/&title=《使用虚拟机快速搭建 Ceph 集群》 — Keep Coding&source=
-快速搭建 Ceph Jewel(v10.2.11)虚拟机集群
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2020/02/23/deploy-ceph-jewel-on-3-vms/&title=《Linux 下使用 virt-manager 基于虚拟机快速搭建 Ceph 集群》 — Keep Coding&source=
+快速搭建 Ceph Jewel(v10.x)虚拟机集群
 
 
                 
                     
-     ..." data-title=" QQ">
+        ..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -602,7 +1331,7 @@
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用虚拟机快速搭建 Ceph 集群》 — Keep Coding&url=https://abelsu7.top/2020/02/23/deploy-ceph-jewel-on-3-vms/&via=https://abelsu7.top" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux 下使用 virt-manager 基于虚拟机快速搭建 Ceph 集群》 — Keep Coding&url=https://abelsu7.top/2020/02/23/deploy-ceph-jewel-on-3-vms/&via=https://abelsu7.top" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>

@@ -29,20 +29,20 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="Linux,LVM">
-    <meta name="description" content="Logical Volume Manager">
-<meta name="keywords" content="Linux,LVM">
+    <meta name="keywords" content="LVM">
+    <meta name="description" content="LVM (Logical Volume Manager) 使用示例">
+<meta name="keywords" content="LVM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux 使用 LVM 管理磁盘分区">
 <meta property="og:url" content="https://abelsu7.top/2020/02/23/linux-lvm-tutorial/index.html">
 <meta property="og:site_name" content="Keep Coding">
-<meta property="og:description" content="Logical Volume Manager">
+<meta property="og:description" content="LVM (Logical Volume Manager) 使用示例">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://abelsu7.top/2020/02/23/linux-lvm-tutorial/cover.png">
-<meta property="og:updated_time" content="2020-02-23T15:38:37.983Z">
+<meta property="og:updated_time" content="2020-03-05T09:01:17.047Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux 使用 LVM 管理磁盘分区">
-<meta name="twitter:description" content="Logical Volume Manager">
+<meta name="twitter:description" content="LVM (Logical Volume Manager) 使用示例">
 <meta name="twitter:image" content="https://abelsu7.top/2020/02/23/linux-lvm-tutorial/cover.png">
     
         <link rel="alternate" type="application/atom+xml" title="Keep Coding" href="/atom.xml">
@@ -242,7 +242,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-VG-扩容"><span class="post-toc-text">1. VG 扩容</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-LV-扩容"><span class="post-toc-text">2. LV 扩容</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-VG-扩容"><span class="post-toc-text">1. VG 扩容</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-LV-扩容"><span class="post-toc-text">2. LV 扩容</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-调整-home-可用空间至根分区"><span class="post-toc-text">3. 调整 /home 可用空间至根分区</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考文章"><span class="post-toc-text">参考文章</span></a></li></ol>
         </nav>
     </aside>
 
@@ -270,7 +270,7 @@
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
             <blockquote>
-<p><strong><em>Logical Volume Manager</em></strong></p>
+<p><strong><em>LVM (Logical Volume Manager) 使用示例</em></strong></p>
 </blockquote>
 <figure class="image-bubble">
                 <div class="img-lightbox">
@@ -319,7 +319,10 @@
   Free  PE / Size       5266 / 20.57 GiB
   VG UUID               O2IM4T-7sbU-ONuI-maTG-Zrkq-paGl-5f054x
 </code></pre>
-<h3 id="2-LV-扩容"><a href="#2-LV-扩容" class="headerlink" title="2. LV 扩容"></a>2. LV 扩容</h3><pre><code class="lang-bash"># 当前有三个 LV, 计划为 root 扩容
+<h3 id="2-LV-扩容"><a href="#2-LV-扩容" class="headerlink" title="2. LV 扩容"></a>2. LV 扩容</h3><blockquote>
+<p><strong>注</strong>：CentOS 7 <strong>默认文件系统</strong>为 <strong>XFS</strong>, 须使用<code>xfs_growfs</code>替代<code>resize2fs</code></p>
+</blockquote>
+<pre><code class="lang-bash"># 当前有三个 LV, 计划为 root 扩容
 &gt; lvs centos
   LV   VG     Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
   home centos -wi-ao---- &lt;34.81g                                                    
@@ -332,6 +335,56 @@
 # CentOS 7 默认文件系统为 XFS, 须使用 xfs_growfs 替代 resize2fs 
 &gt; resize2fs /dev/centos/root
 </code></pre>
+<h3 id="3-调整-home-可用空间至根分区"><a href="#3-调整-home-可用空间至根分区" class="headerlink" title="3. 调整 /home 可用空间至根分区"></a>3. 调整 /home 可用空间至根分区</h3><blockquote>
+<p>参考 <a href="https://www.cnblogs.com/fefjay/p/6049168.html" target="_blank" rel="noopener">CentOS 6.5 重新调整 /home 和根目录 / 大小 - FEFJay | 博客园</a></p>
+</blockquote>
+<p>查看各分区使用情况：</p>
+<pre><code class="lang-bash">&gt; df -hT -t xfs
+Filesystem              Type  Size  Used Avail Use% Mounted on
+/dev/mapper/centos-root xfs   283G  144G  140G  51% /
+/dev/sda6               xfs  1014M  167M  848M  17% /boot
+/dev/mapper/centos-home xfs    35G  360M   35G   2% /home
+</code></pre>
+<p>卸载<code>/home</code>目录：</p>
+<pre><code class="lang-bash">&gt; umount /home
+</code></pre>
+<p>如果提示无法卸载，则是有进程占用<code>/home</code>目录，可使用<code>fuser</code>命令查看并终止占用的进程：</p>
+<pre><code class="lang-bash"># 查看占用 /home 目录的进程
+&gt; fuser -m /home
+
+# 查看占用 /home 目录的进程
+&gt; fuser -k /home
+</code></pre>
+<p>调整<code>/home</code>分区大小至<code>30G</code>：</p>
+<pre><code class="lang-bash">&gt; resize2fs -p /dev/mapper/centos-home 30G
+</code></pre>
+<blockquote>
+<p><strong>注</strong>：<code>xfs</code>是<code>CentOS 7</code>默认的文件系统，只能扩大不能缩小，所以在必须缩小文件系统时，需要利用<code>xfsdump</code>和<code>xfsrestore</code>工具来备份和还原资料。具体参见：<a href="https://blog.csdn.net/ycl146/article/details/78906298" target="_blank" rel="noopener">CentOS 7 调整 XFS 格式的 LVM 大小 | CSDN</a></p>
+</blockquote>
+<p>可能会提示要先运行<code>e2fsck</code>对文件系统进行检查：</p>
+<pre><code class="lang-bash">&gt; e2fsck -f /dev/mapper/centos-home
+</code></pre>
+<p>之后再重新执行命令：</p>
+<pre><code class="lang-bash">&gt; resize2fs -p /dev/mapper/centos-home 30G
+</code></pre>
+<p>挂载上<code>/home</code>，查看该目录的空间是否变为<code>30G</code>：</p>
+<pre><code class="lang-bash">&gt; mount /home
+&gt; df -hT /home
+</code></pre>
+<p>此时文件系统已经缩减到<code>30G</code>，但<code>centos-home</code>这个<code>Logical Volume</code>的大小还没有进行调整。使用<code>lvreduce</code>命令减少<code>centos-home</code>的空间大小：</p>
+<pre><code class="lang-bash"># 将 centos-home 这个 LV 调整至 30G
+&gt; lvreduce -L 30G /dev/mapper/centos-home
+
+# 以下的语法是相对加减的语法，仅作示例
+&gt; lvreduce -L +5G /dev/mapper/centos-home
+&gt; lvreduce -L -5G /dev/mapper/centos-home
+</code></pre>
+<p>最后把闲置空间增加给<code>centos-root</code>，并生效至文件系统：</p>
+<pre><code class="lang-bash">&gt; lvextend -L +5G /dev/mapper/centos-root
+
+&gt; resize2fs -p /dev/mapper/centos-root
+# 或者 xfs_growfs /dev/centos/root
+</code></pre>
 <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><blockquote>
 <ol>
 <li><a href="https://www.cnblogs.com/liwenlongBlog/p/9252540.html" target="_blank" rel="noopener">CentOS 7 中使用 LVM 管理磁盘和挂载磁盘 | 博客园</a></li>
@@ -343,9 +396,11 @@
 <li><a href="https://zhuanlan.zhihu.com/p/38226123" target="_blank" rel="noopener">3 分钟看懂 Linux 磁盘划分 | 知乎</a></li>
 <li><a href="https://blog.csdn.net/believe36/article/details/44133889" target="_blank" rel="noopener">Linux 系统 /dev/mapper 目录浅谈 | CSDN</a></li>
 <li><a href="http://xiaqunfeng.cc/2017/07/06/XFS-vs-EXT4/" target="_blank" rel="noopener">XFS vs EXT4 | 夏天的风</a></li>
+<li><a href="https://www.cnblogs.com/fefjay/p/6049168.html" target="_blank" rel="noopener">CentOS 6.5 重新调整 /home 和根目录 / 大小 - FEFJay | 博客园</a></li>
+<li><a href="https://blog.csdn.net/ycl146/article/details/78906298" target="_blank" rel="noopener">CentOS 7 调整 XFS 格式的 LVM 大小 | CSDN</a></li>
 </ol>
 </blockquote>
-<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2020/02/29/how-to-use-vgrename/">使用 vgrename 修改根目录所在 VG 名称的正确姿势</a></li><li><a href="https://abelsu7.top/2019/10/17/centos7-install-nfs/">CentOS 7 安装配置 NFS</a></li><li><a href="https://abelsu7.top/2019/08/26/most-used-commands-to-diagnose-linux/">Linux 系统常用监控命令</a></li><li><a href="https://abelsu7.top/2019/07/07/modify-ls-command-dir-color/">Linux 终端修改 ls 命令目录显示颜色</a></li><li><a href="https://lyonger.cn/article/websocket的几种测试方式/">websocket的几种测试方式</a></li><li><a href="https://lyonger.cn/article/KSM应用实践/">KSM应用实践</a></li></ul></div>
+<div><strong>🚩推荐阅读</strong>（由<a href="https://github.com/huiwang/hexo-recommended-posts">hexo文章推荐插件</a>驱动）<ul><li><a href="https://abelsu7.top/2020/02/29/how-to-use-vgrename/">使用 vgrename 修改根目录所在 VG 名称的正确姿势</a></li><li><a href="https://abelsu7.top/2018/04/20/linux-LVM/">Linux LVM 配置</a></li></ul></div>
         </div>
 
         <blockquote class="post-copyright">
@@ -353,7 +408,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2020-02-23T15:38:37.983Z" itemprop="dateUpdated">2020-02-23 23:38:37</time>
+    最后更新时间：<time datetime="2020-03-05T09:01:17.047Z" itemprop="dateUpdated">2020-03-05 17:01:17</time>
 </span><br>
 
 
@@ -379,7 +434,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LVM/">LVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LVM/">LVM</a></li></ul>
 
 
             
@@ -400,12 +455,12 @@
       </li>
       <li>
         <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2020/02/23/linux-lvm-tutorial/&title=《Linux 使用 LVM 管理磁盘分区》 — Keep Coding&source=
-Logical Volume Manager
+LVM (Logical Volume Manager) 使用示例
 
 
                 
                     
-             ..." data-title=" QQ">
+  ..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -454,7 +509,7 @@ Logical Volume Manager
     <div class="waves-block waves-effect next">
       <a href="/2020/02/23/deploy-ceph-jewel-on-3-vms/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">使用虚拟机快速搭建 Ceph 集群</h4>
+        <h4 class="title">Linux 下使用 virt-manager 基于虚拟机快速搭建 Ceph 集群</h4>
       </a>
     </div>
   
@@ -625,12 +680,12 @@ Logical Volume Manager
       </li>
       <li>
         <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://abelsu7.top/2020/02/23/linux-lvm-tutorial/&title=《Linux 使用 LVM 管理磁盘分区》 — Keep Coding&source=
-Logical Volume Manager
+LVM (Logical Volume Manager) 使用示例
 
 
                 
                     
-             ..." data-title=" QQ">
+  ..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
